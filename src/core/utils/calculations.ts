@@ -125,3 +125,35 @@ const getGrowthRank = (value: number): GrowthRank => {
   if (value < GROWTH_RANKS.S) return 'A'
   return 'S'
 }
+
+export const calculateHitChance = (
+  accuracy: number,
+  evasion: number,
+  hitRate: number,
+  flyingModifier: number
+) => {
+  return Math.round((accuracy - evasion) * hitRate * flyingModifier)
+}
+
+// export const calculateDamage = (attacker, defender, ability) => {
+//   // physical damage + magical damage + additional damage
+//   const physicalDamage = calculatePhysicalDamage(attack, potency, defense, guardModifier)
+//   return 0
+// }
+
+const calculatePhysicalDamage = (
+  attack: number,
+  potency: number,
+  defense: number,
+  guardModifier: number
+) => {
+  return Math.round((attack - defense) * potency * guardModifier)
+}
+
+const calculateMagicalDamage = (
+  attack: number,
+  potency: number,
+  defense: number
+) => {
+  return Math.round((attack - defense) * potency)
+}
