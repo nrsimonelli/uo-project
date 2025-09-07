@@ -1,5 +1,3 @@
-// level 1-50, classType is either advanced or base, growthA and B are both growth types
-
 import { BASE_STAT_TABLE } from '../../data/base-stat-table'
 import { COMBINED_CLASS_GROWTH_TABLE } from '../../data/class-growth-table'
 import { GROWTH_RANKS } from '../../data/constants'
@@ -9,6 +7,7 @@ import {
 } from '../../data/growth-correction-table'
 import type { ClassType, GrowthRank, GrowthType } from '../types'
 
+type ValidLevel = keyof typeof BASE_STAT_TABLE
 const initialStatData = {
   HP: 0,
   PATK: 0,
@@ -21,7 +20,6 @@ const initialStatData = {
   GRD: 0,
   INIT: 0,
 }
-type ValidLevel = keyof typeof BASE_STAT_TABLE
 
 export const calculateBaseStats = (
   level: ValidLevel,
@@ -124,36 +122,4 @@ const getGrowthRank = (value: number): GrowthRank => {
   if (value < GROWTH_RANKS.A) return 'B'
   if (value < GROWTH_RANKS.S) return 'A'
   return 'S'
-}
-
-export const calculateHitChance = (
-  accuracy: number,
-  evasion: number,
-  hitRate: number,
-  flyingModifier: number
-) => {
-  return Math.round((accuracy - evasion) * hitRate * flyingModifier)
-}
-
-// export const calculateDamage = (attacker, defender, ability) => {
-//   // physical damage + magical damage + additional damage
-//   const physicalDamage = calculatePhysicalDamage(attack, potency, defense, guardModifier)
-//   return 0
-// }
-
-const calculatePhysicalDamage = (
-  attack: number,
-  potency: number,
-  defense: number,
-  guardModifier: number
-) => {
-  return Math.round((attack - defense) * potency * guardModifier)
-}
-
-const calculateMagicalDamage = (
-  attack: number,
-  potency: number,
-  defense: number
-) => {
-  return Math.round((attack - defense) * potency)
 }

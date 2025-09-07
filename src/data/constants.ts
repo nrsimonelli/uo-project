@@ -26,6 +26,18 @@ export const STATS = {
   MOV: 'Movement Speed',
 } as const
 
+export const AFFLICTIONS = [
+  'Stun',
+  'Poison',
+  'Burn',
+  'Freeze',
+  'Blind',
+  'Guard Seal',
+  'Passive Seal',
+  'Crit Seal',
+  'Deathblow',
+] as const
+
 export const GROWTH_RANKS = {
   F: 0,
   E: 50,
