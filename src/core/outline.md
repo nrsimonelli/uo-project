@@ -4,7 +4,7 @@
 
 Damage in combat is determined by the following formula:
 
-**Damage = (Total Attack – Total Defense) × (Potency / 100) × Critical Multiplier × Guard Multiplier × Effectiveness**
+`Damage = (Total Attack – Total Defense) × (Potency / 100) × Critical Multiplier × Guard Multiplier × Effectiveness`
 
 - Minimum damage is always **1**.
 - All randomness is resolved via a **global seeded RNG stream** for determinism and reproducibility (e.g., replays).
