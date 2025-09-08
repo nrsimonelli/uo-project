@@ -5,7 +5,7 @@ import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
 } from '../../data/growth-correction-table'
-import type { ClassType, GrowthRank, GrowthType } from '../types'
+import type { GrowthType, GrowthRank, ClassType } from '../../types/core'
 
 type ValidLevel = keyof typeof BASE_STAT_TABLE
 const initialStatData = {
