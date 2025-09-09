@@ -1,24 +1,14 @@
-import type { Condition } from './conditions'
-import type { AttackType, DamageType, Targeting, Trait } from './core'
+import type { StatKey } from './base-stats'
+import type {
+  AttackType,
+  Condition,
+  DamageType,
+  TargetGroup,
+  Targeting,
+  Trait,
+} from './core'
 
-// --- Base Skill ---
-export interface Skill {
-  id: string // consider branding this later -> type SkillId = string & { __brand: 'SkillId' }
-  name: string
-  description: string
-  cost: number
-  physicalPotency?: number
-  magicalPotency?: number
-  hitCount?: number
-  hitRate?: number | true
-  attackType?: AttackType
-  damageType?: DamageType
-  targeting: Targeting
-  traits: Trait[]
-  bonusModifiers: BonusModifier[]
-}
-
-// --- Active vs Passive ---
+// Passive Skills
 type ActivationWindow =
   | 'BeforeAllyAttacks'
   | 'BeforeAllyIsAttacked'
@@ -28,16 +18,6 @@ type ActivationWindow =
   | 'EndOfRound'
   | 'EndOfBattle'
 
-export interface PassiveSkill extends Skill {
-  type: 'passive'
-  activationWindow: ActivationWindow
-}
-
-export interface ActiveSkill extends Skill {
-  type: 'active'
-}
-
-// --- Bonus Modifiers ---
 export type BonusModifier =
   | {
       type: 'PotencyBoost'
@@ -70,3 +50,41 @@ export type BonusModifier =
       amount: number
       conditions?: Condition[]
     }
+
+interface SkillBase {
+  id: string
+  name: string
+  description: string
+  targeting: Targeting
+  traits: Trait[]
+  effects: SkillEffect[]
+  bonusModifiers: BonusModifier[]
+  attackTypes?: AttackType[]
+  damageType?: DamageType
+}
+
+export type SkillEffect =
+  | {
+      kind: 'Damage'
+      potency: { physical?: number; magical?: number }
+      hitRate: number
+      hitCount: number
+    }
+  | { kind: 'Heal'; potency: number; scaling: 'physical' | 'magical' | 'maxHP' }
+  | { kind: 'Buff'; stat: StatKey; amount: number; duration?: number }
+  | { kind: 'Debuff'; stat: StatKey; amount: number; duration?: number }
+  | { kind: 'GrantTrait'; trait: Trait; duration?: number }
+  | { kind: 'ResourceGain'; resource: 'AP' | 'PP'; amount: number }
+  | { kind: 'Cover'; target: TargetGroup } // TODO: how will cover/guard skills work?
+  | { kind: 'Defend'; damageType?: DamageType; amount?: number } // TODO: how will cover/guard skills work?
+
+export interface ActiveSkill extends SkillBase {
+  type: 'active'
+  apCost: number
+}
+
+export interface PassiveSkill extends SkillBase {
+  type: 'passive'
+  ppCost: number
+  activationWindow: ActivationWindow
+}

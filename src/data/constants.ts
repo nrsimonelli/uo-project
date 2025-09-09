@@ -120,3 +120,16 @@ export const ADVANCED_CLASSES = {
   DARK_MARQUESS_LANCE: 'Dark Marquess (Lance)',
   DARK_MARQUESS_STAFF: 'Dark Marquess (Staff)',
 } as const
+
+export const COMBATANT_TYPES = [
+  'Infantry',
+  'Calvary',
+  'Flying',
+  'Armored',
+  'Scout',
+  'Archer',
+  'Caster',
+  'Elven',
+  'Bestral',
+  'Angel',
+] as const

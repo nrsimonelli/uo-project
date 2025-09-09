@@ -1,31 +1,5 @@
-import type {
-  GROWTHS,
-  GROWTH_RANKS,
-  STATS,
-  BASE_CLASSES,
-  ADVANCED_CLASSES,
-  AFFLICTIONS,
-} from '../data/constants'
+import type { AFFLICTIONS } from '../data/constants'
 
-// --- Growths & Stats ---
-export type GrowthKey = keyof typeof GROWTHS
-export type GrowthType = (typeof GROWTHS)[GrowthKey]
-
-export type GrowthRank = keyof typeof GROWTH_RANKS
-
-export type StatKey = keyof typeof STATS
-export type StatValue = (typeof STATS)[StatKey]
-
-// --- Classes ---
-type BaseClassKey = keyof typeof BASE_CLASSES
-export type BaseClassType = (typeof BASE_CLASSES)[BaseClassKey]
-
-type AdvancedClassKey = keyof typeof ADVANCED_CLASSES
-export type AdvancedClassType = (typeof ADVANCED_CLASSES)[AdvancedClassKey]
-
-export type ClassType = BaseClassType | AdvancedClassType
-
-// --- Afflictions & Traits ---
 export type AfflictionType = (typeof AFFLICTIONS)[number]
 
 export const Traits = [
@@ -39,7 +13,6 @@ export const Traits = [
 ] as const
 export type Trait = (typeof Traits)[number]
 
-// --- Targeting ---
 export const TargetGroups = ['Enemy', 'Ally'] as const
 export type TargetGroup = (typeof TargetGroups)[number]
 
@@ -57,13 +30,51 @@ export interface Targeting {
   pattern: TargetPattern
 }
 
-// --- Damage / Attack ---
 export const AttackTypes = ['Melee', 'Ranged'] as const
 export type AttackType = (typeof AttackTypes)[number]
 
 export const DamageTypes = ['Physical', 'Magical', 'Hybrid'] as const
 export type DamageType = (typeof DamageTypes)[number]
 
-// --- Utility Types ---
 export type Target = 'Self' | 'Ally' | 'Enemy'
-export type Comparator = '>=' | '<=' | '==' | '!=' | '>' | '<'
+
+import type { COMBATANT_TYPES } from '../data/constants'
+import type { StatKey } from './base-stats'
+
+export type CombatantType = (typeof COMBATANT_TYPES)[number]
+
+export type EqualityComparator = 'EqualTo' | 'NotEqualTo'
+export type NumericComparator =
+  | EqualityComparator
+  | 'GreaterThan'
+  | 'LessThan'
+  | 'GreaterOrEqual'
+  | 'LessOrEqual'
+
+// --- Boolean-based conditions (must be true to apply) ---
+export type Condition =
+  | {
+      kind: 'Stat'
+      target: Target
+      stat: StatKey | 'AP' | 'PP' | 'MaxHP'
+      comparator: NumericComparator
+      value: number
+    }
+  | {
+      kind: 'Trait'
+      target: Target
+      trait: Trait
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'Affliction'
+      target: Target
+      affliction: AfflictionType
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'Flag'
+      target: Target
+      flag: 'Stunned' | 'Frozen' | 'Blinded'
+      comparator: EqualityComparator
+    }
