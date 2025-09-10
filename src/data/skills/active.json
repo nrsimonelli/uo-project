@@ -1,0 +1,142 @@
+[
+  {
+    "id": "iron_crusher",
+    "type": "active",
+    "name": "Iron Crusher",
+    "description": "Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Unguardable"],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "IgnoreDefense",
+        "fraction": 0.5,
+        "conditions": [
+          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Armored" }
+        ]
+      },
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Armored" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "long_thrust",
+    "type": "active",
+    "name": "Long Thrust",
+    "description": "Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee", "Piercing"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Calvary" }
+        ]
+      },
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Calvary" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "javelin",
+    "type": "active",
+    "name": "Javelin",
+    "description": "Attack a single enemy. +50 potency vs flying targets.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Flying" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "brandish",
+    "type": "active",
+    "name": "Brandish",
+    "description": "Attack a single enemy. Ignores 50% of the target's defense. Grants the user +1 PP if the attack hits.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Unguardable"],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "IgnoreDefense",
+        "fraction": 0.5
+      }
+    ]
+  }
+]

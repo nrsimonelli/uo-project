@@ -4,7 +4,6 @@ import type {
   AttackType,
   Condition,
   DamageType,
-  TargetGroup,
   Targeting,
   Trait,
 } from './core'
@@ -48,10 +47,21 @@ interface SkillBase {
   description: string
   targeting: Targeting
   traits: Trait[]
-  effects: SkillEffect[]
+  effects: SkillEffect[] // unified system, both actives and passives use this
   bonusModifiers: BonusModifier[]
   attackTypes?: AttackType[]
   damageType?: DamageType
+}
+
+export interface ActiveSkill extends SkillBase {
+  type: 'active'
+  apCost: number
+}
+
+export interface PassiveSkill extends SkillBase {
+  type: 'passive'
+  ppCost: number
+  activationWindow: ActivationWindowId
 }
 
 export type SkillEffect =
@@ -66,16 +76,6 @@ export type SkillEffect =
   | { kind: 'Debuff'; stat: StatKey; amount: number; duration?: number }
   | { kind: 'GrantTrait'; trait: Trait; duration?: number }
   | { kind: 'ResourceGain'; resource: 'AP' | 'PP'; amount: number }
-  | { kind: 'Cover'; target: TargetGroup } // TODO: how will cover/guard skills work?
-  | { kind: 'Defend'; damageType?: DamageType; amount?: number } // TODO: how will cover/guard skills work?
-
-export interface ActiveSkill extends SkillBase {
-  type: 'active'
-  apCost: number
-}
-
-export interface PassiveSkill extends SkillBase {
-  type: 'passive'
-  ppCost: number
-  activationWindow: ActivationWindowId
-}
+  | { kind: 'HealPercent'; value: number }
+  | { kind: 'CritBoost'; value: number; duration: 'NextAction' | number }
+  | { kind: 'Cover'; style: 'heavyGuard' | 'mediumGuard' } // TODO: how will cover/guard skills work?
