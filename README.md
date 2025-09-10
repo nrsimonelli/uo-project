@@ -1,69 +1,81 @@
-# React + TypeScript + Vite
+# UO Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+UO Project is a web-based **auto-battler tournament system** inspired by _Unicorn Overlord_.  
+It combines tactical depth, automated battles, and community-driven events into one platform.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 What It Is
 
-## Expanding the ESLint configuration
+- A place to **build and customize teams** of units with unique classes, skills, and formations.
+- A system for **automated battles** where strategy and preparation matter more than quick reflexes.
+- A platform for **competitive and experimental play**, supporting both structured tournaments and casual mock battles.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🎯 Why It Exists
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- To capture the excitement of tactical RPG combat in a **hands-off, spectator-friendly format**.
+- To provide a **competitive environment** where strategy and team-building shine.
+- To create a foundation for new players and experienced _Unicorn Overlord_ fans alike to share, enjoy, and build upon.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧩 Core Concepts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Units** — The characters that make up a team. Each unit has stats, classes, traits, and abilities.
+- **Teams** — Squads of one to five units arranged in a 2x3 grid formation.
+- **Skills** — Active and passive abilities that drive combat. Skills may deal damage, heal, or apply buff/debuffs.
+- **Tactics** — Rules that influence both how and when skills are applied.
+- **Battles** — Fully automated combat resolved by initiative order actions, skills, and RNG that is both deterministic and repeatable.
+- **Replays** — Logs of every action taken in a battle, allowing matches to be reviewed or shared later on.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🛣️ Roadmap
+
+### Phase 0.5 — Core Framework ✅
+
+- View a unit’s stats, classes, and abilities.
+- Modify levels, growths, and equipment.
+
+---
+
+### Phase 1 — Auto-Battler Framework ✅
+
+- Core battle engine with deterministic outcomes and repeatable simulations.
+- Unit viewer and team builder for creating, editing, and experimenting with squads.
+- Ability to simulate battles between any two opposing units or teams.
+
+**Phase 1 is complete when:**  
+A user can simulate matches between teams with deterministic certainty.
+
+---
+
+### Phase 2 — Automated Tournaments
+
+- Players submit teams to asynchronous tournaments.
+- Brackets resolve automatically, with results viewable live or through a replay/log format.
+- Designed for fully automated events that anyone can enter or spectate.
+
+---
+
+### Phase 3+ — New Game Modes and Custom Content
+
+- Custom classes and equipment allowing for more customized gameplay.
+- Rogue-like game mode that challenges team building, strategy, and realtime descision making skills.
+- Live PvP mode combining progressive team building through multiple rounds of comabat.
+- Global Leaderboards, achievements, and seasonal events.
+
+---
+
+## 🤝 Contributing
+
+This project is in active development, with Phase 1 as the current focus.  
+Contributions are welcome — whether that’s coding, balance ideas, or feature suggestions.
+
+---
+
+## 📜 License
+
+MIT License — open for community contributions.
