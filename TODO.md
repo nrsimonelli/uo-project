@@ -5,6 +5,8 @@
 - [x] Enter **base stats**, **classes**, and **growths** into `data/`
 - [x] Define **core types** in `types/` (skills, conditions, combat flow)
 - [x] Create **codegen script** for skills (`scripts/generate-typess.ts`)
+- [-] Finalize **activation window** types
+- [ ] Build out **condition** types and variations
 
 ---
 

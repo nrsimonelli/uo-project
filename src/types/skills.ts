@@ -1,3 +1,4 @@
+import type { ACTIVATION_WINDOWS } from '../data/constants'
 import type { StatKey } from './base-stats'
 import type {
   AttackType,
@@ -9,14 +10,7 @@ import type {
 } from './core'
 
 // Passive Skills
-type ActivationWindow =
-  | 'BeforeAllyAttacks'
-  | 'BeforeAllyIsAttacked'
-  | 'AfterAllyAttacks'
-  | 'AfterAllyDamaged'
-  | 'OnAllyUseActiveAbility'
-  | 'EndOfRound'
-  | 'EndOfBattle'
+export type ActivationWindow = keyof typeof ACTIVATION_WINDOWS
 
 export type BonusModifier =
   | {

@@ -1,4 +1,4 @@
-import type { StatKey } from '../core/types'
+import type { StatKey } from '../types/base-stats'
 
 export const BASE_STAT_TABLE: Record<
   number,
