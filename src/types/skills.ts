@@ -1,4 +1,4 @@
-import type { ACTIVATION_WINDOWS } from '../data/constants'
+import type { ActivationWindowId } from '../data/combat/activation-windows'
 import type { StatKey } from './base-stats'
 import type {
   AttackType,
@@ -8,9 +8,6 @@ import type {
   Targeting,
   Trait,
 } from './core'
-
-// Passive Skills
-export type ActivationWindow = keyof typeof ACTIVATION_WINDOWS
 
 export type BonusModifier =
   | {
@@ -80,5 +77,5 @@ export interface ActiveSkill extends SkillBase {
 export interface PassiveSkill extends SkillBase {
   type: 'passive'
   ppCost: number
-  activationWindow: ActivationWindow
+  activationWindow: ActivationWindowId
 }

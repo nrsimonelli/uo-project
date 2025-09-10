@@ -1,139 +1,3 @@
-export const GROWTHS = {
-  HARDY: 'Hardy',
-  OFFENSIVE: 'Offensive',
-  DEFENSIVE: 'Defensive',
-  PRECISE: 'Precise',
-  LUCKY: 'Lucky',
-  KEEN: 'Keen',
-  GUARDIAN: 'Guardian',
-  GOGETTER: 'Go-Getter',
-  ALLROUNDER: 'All-Rounder',
-} as const
-
-export const STATS = {
-  LV: 'Level',
-  EXP: 'Exp.',
-  HP: 'HP',
-  PATK: 'Phys. ATK',
-  PDEF: 'Phys. DEF',
-  MATK: 'Mag. ATK',
-  MDEF: 'Mag. DEF',
-  ACC: 'Accuracy',
-  EVA: 'Evasion',
-  CRT: 'Crit. Rate',
-  GRD: 'Guard Rate',
-  INIT: 'Initiative',
-  MOV: 'Movement Speed',
-} as const
-
-export const AFFLICTIONS = [
-  'Stun',
-  'Poison',
-  'Burn',
-  'Freeze',
-  'Blind',
-  'Guard Seal',
-  'Passive Seal',
-  'Crit Seal',
-  'Deathblow',
-] as const
-
-export const GROWTH_RANKS = {
-  F: 0,
-  E: 50,
-  D: 70,
-  C: 90,
-  B: 110,
-  A: 130,
-  S: 150,
-} as const
-
-export const BASE_CLASSES = {
-  LORD: 'Lord',
-  FIGHTER: 'Fighter',
-  SOLDIER: 'Soldier',
-  HOUSECARL: 'Housecarl',
-  SWORDFIGHTER: 'Swordfighter',
-  SELLSWORD: 'Sellsword',
-  HOPLITE: 'Hoplite',
-  GLADIATOR: 'Gladiator',
-  WARRIOR: 'Warrior',
-  HUNTER: 'Hunter',
-  ARBALIST: 'Arbalist',
-  THIEF: 'Thief',
-  KNIGHT: 'Knight',
-  RADIANT_KNIGHT: 'Radiant Knight',
-  DARK_KNIGHT: 'Dark Knight',
-  CLERIC: 'Cleric',
-  WIZARD: 'Wizard',
-  WITCH: 'Witch',
-  SHAMAN: 'Shaman',
-  WYVERN_KNIGHT: 'Wyvern Knight',
-  GRYPHON_KNIGHT: 'Gryphon Knight',
-  CRUSADER: 'Crusader',
-  PRIESTESS: 'Priestess',
-} as const
-
-export const ADVANCED_CLASSES = {
-  HIGH_LORD: 'High Lord',
-  VANGUARD: 'Vanguard',
-  SERGEANT: 'Sergeant',
-  VIKING: 'Viking',
-  SWORDMASTER: 'Swordmaster',
-  LANDSKNECHT: 'Landsknecht',
-  LEGIONNAIRE: 'Legionnaire',
-  GLADIATOR: 'Gladiator',
-  BREAKER: 'Breaker',
-  SNIPER: 'Sniper',
-  SHIELDSHOOTER: 'Shieldshooter',
-  ROGUE: 'Rogue',
-  GREAT_KNIGHT: 'Great Knight',
-  SAINTED_KNIGHT: 'Sainted Knight',
-  DOOM_KNIGHT: 'Doom Knight',
-  BISHOP: 'Bishop',
-  WARLOCK: 'Warlock',
-  SORCERESS: 'Sorceress',
-  DRUID: 'Druid',
-  WYVERN_MASTER: 'Wyvern Master',
-  GRYPHON_MASTER: 'Gryphon Master',
-  ELVEN_FENCER: 'Elven Fencer',
-  ELVEN_ARCHER: 'Elven Archer',
-  WEREWOLF: 'Werewolf',
-  WEREFOX: 'Werefox',
-  WEREBEAR: 'Werebear',
-  WEREOWL: 'Wereowl',
-  FEATHERSWORD: 'Feathersword',
-  FEATHERBOW: 'Featherbow',
-  FEATHERSTAFF: 'Featherstaff',
-  FEATHERSHIELD: 'Feathershield',
-  HIGH_PRIESTESS: 'High Priestess',
-  VALKYRIA: 'Valkyria',
-  ELVEN_SIBYL: 'Elven Sibyl',
-  ELVEN_AUGUR: 'Elven Augur',
-  SNOW_RANGER: 'Snow Ranger',
-  WERELION: 'Werelion',
-  PALADIN: 'Paladin',
-  PRINCE: 'Prince',
-  DREADNOUGHT: 'Dreadnought',
-  DARK_MARQUESS_SWORD: 'Dark Marquess (Sword)',
-  DARK_MARQUESS_AXE: 'Dark Marquess (Axe)',
-  DARK_MARQUESS_LANCE: 'Dark Marquess (Lance)',
-  DARK_MARQUESS_STAFF: 'Dark Marquess (Staff)',
-} as const
-
-export const COMBATANT_TYPES = [
-  'Infantry',
-  'Calvary',
-  'Flying',
-  'Armored',
-  'Scout',
-  'Archer',
-  'Caster',
-  'Elven',
-  'Bestral',
-  'Angel',
-] as const
-
 export const ACTIVATION_WINDOWS = {
   START_OF_BATTLE: {
     id: 'StartOfBattle',
@@ -317,4 +181,18 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates at the end of a battle',
     limited: false,
   },
-}
+} as const
+
+export const ACTIVATION_WINDOW_BY_ID: Record<
+  ActivationWindowId,
+  ActivationWindowMeta
+> = Object.values(ACTIVATION_WINDOWS).reduce((acc, meta) => {
+  acc[meta.id] = meta
+  return acc
+}, {} as Record<ActivationWindowId, ActivationWindowMeta>)
+
+export type ActivationWindowKey = keyof typeof ACTIVATION_WINDOWS
+export type ActivationWindowId =
+  (typeof ACTIVATION_WINDOWS)[ActivationWindowKey]['id']
+export type ActivationWindowMeta =
+  (typeof ACTIVATION_WINDOWS)[ActivationWindowKey]

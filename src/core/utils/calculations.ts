@@ -1,11 +1,11 @@
-import { BASE_STAT_TABLE } from '../../data/base-stat-table'
-import { COMBINED_CLASS_GROWTH_TABLE } from '../../data/class-growth-table'
-import { GROWTH_RANKS } from '../../data/constants'
+import { BASE_STAT_TABLE } from '../../data/units/base-stat-table'
+import { COMBINED_CLASS_GROWTH_TABLE } from '../../data/units/class-growth-table'
+import { GROWTH_RANKS } from '../../data/units/constants'
 import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
-} from '../../data/growth-correction-table'
-import type { GrowthType, GrowthRank, ClassType } from '../../types/core'
+} from '../../data/units/growth-correction-table'
+import type { GrowthType, GrowthRank, ClassType } from '../../types/base-stats'
 
 type ValidLevel = keyof typeof BASE_STAT_TABLE
 const initialStatData = {

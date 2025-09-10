@@ -1,4 +1,5 @@
-import type { AFFLICTIONS } from '../data/constants'
+import type { AFFLICTIONS } from '../data/status'
+import type { COMBATANT_TYPES } from '../data/units/constants'
 
 export type AfflictionType = (typeof AFFLICTIONS)[number]
 
@@ -38,7 +39,6 @@ export type DamageType = (typeof DamageTypes)[number]
 
 export type Target = 'Self' | 'Ally' | 'Enemy'
 
-import type { COMBATANT_TYPES } from '../data/constants'
 import type { StatKey } from './base-stats'
 
 export type CombatantType = (typeof COMBATANT_TYPES)[number]
