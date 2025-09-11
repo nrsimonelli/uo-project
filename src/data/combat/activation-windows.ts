@@ -1,193 +1,193 @@
 export const ACTIVATION_WINDOWS = {
-  startOfBattle: {
-    id: 'start_of_battle',
+  START_OF_BATTLE: {
+    id: 'startOfBattle',
     description: 'Activates at the start of a battle',
     limited: true,
   },
-  afterAllyActiveSkill: {
-    id: 'after_ally_active_skill',
+  AFTER_ALLY_ACTIVE_SKILL: {
+    id: 'afterAllyActiveSkill',
     description: 'Activates after an ally uses an active skill',
     limited: false,
   },
-  afterUsingActiveSkill: {
-    id: 'after_using_active_skill',
+  AFTER_USING_ACTIVE_SKILL: {
+    id: 'afterUsingActiveSkill',
     description: 'Activates after using an active skill',
     limited: false,
   },
-  afterAllyHit: {
-    id: 'after_ally_hit',
+  AFTER_ALLY_HIT: {
+    id: 'afterAllyHit',
     description: 'Activates after an ally is hit by an attack',
     limited: false,
   },
-  afterAllyPassiveSkill: {
-    id: 'after_ally_passive_skill',
+  AFTER_ALLY_PASSIVE_SKILL: {
+    id: 'afterAllyPassiveSkill',
     description: 'Activates after an ally uses a passive skill',
     limited: false,
   },
-  afterAllyDebuff: {
-    id: 'after_ally_debuff',
+  AFTER_ALLY_DEBUFF: {
+    id: 'afterAllyDebuff',
     description: 'Activates after an ally is debuffed',
     limited: false,
   },
-  afterAllyAttacksActive: {
-    id: 'after_ally_attacks_active',
+  AFTER_ALLY_ATTACKS_ACTIVE: {
+    id: 'afterAllyAttacksActive',
     description: 'Activates after an ally attacks with an active skill',
     limited: false,
   },
-  afterAllyMagicAttacksActive: {
-    id: 'after_ally_magic_attacks_active',
+  AFTER_ALLY_MAGIC_ATTACKS_ACTIVE: {
+    id: 'afterAllyMagicAttacksActive',
     description: 'Activates after an ally attacks with a magic active skill',
     limited: false,
   },
-  afterCavalryAllyAttacksActive: {
-    id: 'after_cavalry_ally_attacks_active',
+  AFTER_CAVALRY_ALLY_ATTACKS_ACTIVE: {
+    id: 'afterCavalryAllyAttacksActive',
     description: 'Activates after a cavalry ally attacks with an active skill',
     limited: false,
   },
-  afterFlyingAllyAttacksActive: {
-    id: 'after_flying_ally_attacks_active',
+  AFTER_FLYING_ALLY_ATTACKS_ACTIVE: {
+    id: 'afterFlyingAllyAttacksActive',
     description: 'Activates after a flying ally attacks with an active skill',
     limited: false,
   },
-  afterEnemyAttacksActive: {
-    id: 'after_enemy_attacks_active',
+  AFTER_ENEMY_ATTACKS_ACTIVE: {
+    id: 'afterEnemyAttacksActive',
     description: 'Activates after an enemy attacks with an active skill',
     limited: false,
   },
-  afterEnemyDebuff: {
-    id: 'after_enemy_debuff',
+  AFTER_ENEMY_DEBUFF: {
+    id: 'afterEnemyDebuff',
     description: 'Activates after an enemy is debuffed',
     limited: false,
   },
-  afterEnemyBuff: {
-    id: 'after_enemy_buff',
+  AFTER_ENEMY_BUFF: {
+    id: 'afterEnemyBuff',
     description: 'Activates after an enemy is buffed',
     limited: false,
   },
-  afterBeingHit: {
-    id: 'after_being_hit',
+  AFTER_BEING_HIT: {
+    id: 'afterBeingHit',
     description: 'Activates after being hit by an attack',
     limited: false,
   },
-  afterBeingHitPhys: {
-    id: 'after_being_hit_phys',
+  AFTER_BEING_HIT_PHYS: {
+    id: 'afterBeingHitPhys',
     description: 'Activates after being hit by a physical attack',
     limited: false,
   },
-  afterBeingAttacked: {
-    id: 'after_being_attacked',
+  AFTER_BEING_ATTACKED: {
+    id: 'afterBeingAttacked',
     description: 'Activates after being attacked',
     limited: false,
   },
-  afterAttacking: {
-    id: 'after_attacking',
+  AFTER_ATTACKING: {
+    id: 'afterAttacking',
     description: 'Activates after attacking',
     limited: false,
   },
-  afterUserDebuff: {
-    id: 'after_user_debuff',
+  AFTER_USER_DEBUFF: {
+    id: 'afterUserDebuff',
     description: 'Activates after the user is debuffed',
     limited: false,
   },
-  afterEvade: {
-    id: 'after_evade',
+  AFTER_EVADE: {
+    id: 'afterEvade',
     description: 'Activates after the evading an attack',
     limited: false,
   },
-  afterReceivingAllyPassive: {
-    id: 'after_receiving_ally_passive',
+  AFTER_RECEIVING_ALLY_PASSIVE: {
+    id: 'afterReceivingAllyPassive',
     description: "Activates after receiving an ally's passive skill",
     limited: false,
   },
-  afterHealed: {
-    id: 'after_healed',
+  AFTER_HEALED: {
+    id: 'afterHealed',
     description: 'Activates after being healed',
     limited: false,
   },
-  afterAllyHealed: {
-    id: 'after_ally_healed',
+  AFTER_ALLY_HEALED: {
+    id: 'afterAllyHealed',
     description: 'Activates after an ally is healed',
     limited: false,
   },
-  afterEnemyHeals: {
-    id: 'after_enemy_heals',
+  AFTER_ENEMY_HEALS: {
+    id: 'afterEnemyHeals',
     description: 'Activates after an enemy uses healing magic',
     limited: false,
   },
-  afterEnemyGuards: {
-    id: 'after_enemy_guards',
+  AFTER_ENEMY_GUARDS: {
+    id: 'afterEnemyGuards',
     description: "Activates after an enemy guards an allly's attack",
     limited: false,
   },
-  beforeAttackingActive: {
-    id: 'before_attacking_active',
+  BEFORE_ATTACKING_ACTIVE: {
+    id: 'beforeAttackingActive',
     description: 'Activates before attacking with an active skill',
     limited: false,
   },
-  beforeAllyAttacksActive: {
-    id: 'before_ally_attacks_active',
+  BEFORE_ALLY_ATTACKS_ACTIVE: {
+    id: 'beforeAllyAttacksActive',
     description: 'Activates before an ally attacks with an active skill',
     limited: true,
   },
-  beforeAllyAttacksPhysicalActive: {
-    id: 'before_ally_attacks_physical_active',
+  BEFORE_ALLY_ATTACKS_PHYSICAL_ACTIVE: {
+    id: 'beforeAllyAttacksPhysicalActive',
     description:
       'Activates before an ally attacks with a physical active skill',
     limited: true,
   },
-  beforeAttacked: {
-    id: 'before_attacked',
+  BEFORE_ATTACKED: {
+    id: 'beforeAttacked',
     description: 'Activates before being attacked',
     limited: false,
   },
-  beforeBeingHitPhys: {
-    id: 'before_being_hit_phys',
+  BEFORE_BEING_HIT_PHYS: {
+    id: 'beforeBeingHitPhys',
     description: 'Activates before being hit by a physical attack',
     limited: false,
   },
-  beforeBeingHitRanged: {
-    id: 'before_being_hit_ranged',
+  BEFORE_BEING_HIT_RANGED: {
+    id: 'beforeBeingHitRanged',
     description: 'Activates before being hit by a ranged attack',
     limited: false,
   },
-  beforeBeingHitMelee: {
-    id: 'before_being_hit_melee',
+  BEFORE_BEING_HIT_MELEE: {
+    id: 'beforeBeingHitMelee',
     description: 'Activates before being hit by a melee attack',
     limited: false,
   },
-  beforeAllyAttacked: {
-    id: 'before_ally_attacked',
+  BEFORE_ALLY_ATTACKED: {
+    id: 'beforeAllyAttacked',
     description: 'Activates before an ally is attacked',
     limited: true,
   },
-  beforeAllyAttackedRangedPhys: {
-    id: 'before_ally_attacked_ranged_phys',
+  BEFORE_ALLY_ATTACKED_RANGED_PHYS: {
+    id: 'beforeAllyAttackedRangedPhys',
     description:
       'Activates before an ally is attacked by a ranged physical attack',
     limited: true,
   },
-  beforeAllyHitRangedPhys: {
-    id: 'before_ally_hit_ranged_phys',
+  BEFORE_ALLY_HIT_RANGED_PHYS: {
+    id: 'beforeAllyHitRangedPhys',
     description: 'Activates before an ally is hit by a ranged physical attack',
     limited: true,
   },
-  beforeAllyHitMagic: {
-    id: 'before_ally_hit_magic',
+  BEFORE_ALLY_HIT_MAGIC: {
+    id: 'beforeAllyHitMagic',
     description: 'Activates before an ally is hit by a magical attack',
     limited: true,
   },
-  beforeEnemyAttacks: {
-    id: 'before_enemy_attacks',
+  BEFORE_ENEMY_ATTACKS: {
+    id: 'beforeEnemyAttacks',
     description: 'Activates before an enemy attacks',
     limited: true,
   },
-  beforeEnemyAttacksMagicActive: {
-    id: 'before_enemy_attacks_magic',
+  BEFORE_ENEMY_ATTACKS_MAGIC_ACTIVE: {
+    id: 'beforeEnemyAttacksMagic',
     description: 'Activates before an enemy uses an active magic attack',
     limited: true,
   },
-  endOfBattle: {
-    id: 'end_of_battle',
+  END_OF_BATTLE: {
+    id: 'endOfBattle',
     description: 'Activates at the end of a battle',
     limited: false,
   },

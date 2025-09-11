@@ -8,47 +8,13 @@ import type {
   Trait,
 } from './core'
 
-export type BonusModifier =
-  | {
-      type: 'PotencyBoost'
-      amount: { physical?: number; magical?: number }
-      conditions?: Condition[]
-    }
-  | {
-      type: 'IgnoreDefense'
-      fraction: number // e.g. 0.5 = ignore 50%
-      conditions?: Condition[]
-    }
-  | {
-      type: 'ExtraHit'
-      count: number
-      conditions?: Condition[]
-    }
-  | {
-      type: 'GrantTrait'
-      trait: Trait
-      conditions?: Condition[]
-    }
-  | {
-      type: 'GrantFlag'
-      flag: 'TrueStrike' | 'Unblockable' | 'Unguardable'
-      conditions?: Condition[]
-    }
-  | {
-      type: 'ResourceGain'
-      resource: 'AP' | 'PP'
-      amount: number
-      conditions?: Condition[]
-    }
-
 interface SkillBase {
   id: string
   name: string
   description: string
   targeting: Targeting
   traits: Trait[]
-  effects: SkillEffect[] // unified system, both actives and passives use this
-  bonusModifiers: BonusModifier[]
+  effects: Effect[]
   attackTypes?: AttackType[]
   damageType?: DamageType
 }
@@ -64,18 +30,73 @@ export interface PassiveSkill extends SkillBase {
   activationWindow: ActivationWindowId
 }
 
-export type SkillEffect =
+export type Effect =
   | {
       kind: 'Damage'
       potency: { physical?: number; magical?: number }
       hitRate: number
       hitCount: number
+      conditions?: Condition[]
     }
-  | { kind: 'Heal'; potency: number; scaling: 'physical' | 'magical' | 'maxHP' }
-  | { kind: 'Buff'; stat: StatKey; amount: number; duration?: number }
-  | { kind: 'Debuff'; stat: StatKey; amount: number; duration?: number }
-  | { kind: 'GrantTrait'; trait: Trait; duration?: number }
-  | { kind: 'ResourceGain'; resource: 'AP' | 'PP'; amount: number }
-  | { kind: 'HealPercent'; value: number }
-  | { kind: 'CritBoost'; value: number; duration: 'NextAction' | number }
-  | { kind: 'Cover'; style: 'heavyGuard' | 'mediumGuard' } // TODO: how will cover/guard skills work?
+  | {
+      kind: 'Heal'
+      potency: number
+      scaling: 'physical' | 'magical' | 'maxHP'
+      conditions?: Condition[]
+    }
+  | { kind: 'HealPercent'; value: number; conditions?: Condition[] }
+  | {
+      kind: 'Buff'
+      stat: StatKey
+      amount: number
+      duration?: number
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'Debuff'
+      stat: StatKey
+      amount: number
+      duration?: number
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'GrantTrait'
+      trait: Trait
+      duration?: number
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'GrantFlag'
+      flag: 'TrueStrike' | 'Unblockable' | 'Unguardable'
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'ResourceGain'
+      resource: 'AP' | 'PP'
+      amount: number
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'PotencyBoost'
+      amount: { physical?: number; magical?: number }
+      conditions?: Condition[]
+    }
+  | { kind: 'IgnoreDefense'; fraction: number; conditions?: Condition[] }
+  | { kind: 'ExtraHit'; count: number; conditions?: Condition[] }
+  | {
+      kind: 'CritBoost'
+      value: number
+      duration: 'NextAction' | number
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'Cover'
+      style: 'heavyGuard' | 'mediumGuard'
+      conditions?: Condition[]
+    }
+  | {
+      kind: 'Defend'
+      damageType?: DamageType
+      amount?: number
+      conditions?: Condition[]
+    }

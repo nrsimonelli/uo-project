@@ -3,7 +3,7 @@
 
 export const ActiveSkills = [
   {
-    "id": "iron_crusher",
+    "id": "ironCrusher",
     "type": "active",
     "name": "Iron Crusher",
     "description": "Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.",
@@ -59,7 +59,7 @@ export const ActiveSkills = [
     ]
   },
   {
-    "id": "long_thrust",
+    "id": "longThrust",
     "type": "active",
     "name": "Long Thrust",
     "description": "Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.",

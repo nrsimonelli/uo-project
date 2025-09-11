@@ -1,54 +1,59 @@
 [
   {
-    "id": "first_aid",
+    "id": "firstAid",
+    "type": "passive",
     "name": "First Aid",
     "description": "At the end of battle, restore 25% HP to an ally.",
-    "activationWindow": "end_of_battle",
+    "ppCost": 1,
+    "activationWindow": "EndOfBattle",
     "targeting": {
-      "type": "Ally",
-      "includeSelf": false
+      "group": "Ally",
+      "pattern": "Single"
     },
-    "cost": 1,
+    "traits": [],
     "effects": [
       {
-        "type": "HealPercent",
+        "kind": "HealPercent",
         "value": 25
       }
     ]
   },
   {
-    "id": "keen_call",
+    "id": "keenCall",
+    "type": "passive",
     "name": "Keen Call",
     "description": "Before an ally attacks, grant 100% critical rate for their next attack.",
-    "activationWindow": "before_ally_attacks_active",
+    "ppCost": 1,
+    "activationWindow": "BeforeAllyAttacksActive",
     "targeting": {
-      "type": "Ally",
-      "includeSelf": false
+      "group": "Ally",
+      "pattern": "Single"
     },
-    "cost": 1,
+    "traits": [],
     "effects": [
       {
-        "type": "CritBoost",
+        "kind": "CritBoost",
         "value": 100,
         "duration": "NextAction"
       }
     ]
   },
   {
-    "id": "heavy_cover",
+    "id": "heavyCover",
+    "type": "passive",
     "name": "Heavy Cover",
-    "description": "Before an ally is attacked, cover an ally with a heavy guard.",
-    "activationWindow": "before_ally_attacked",
+    "description": "Before an ally is attacked, cover them with a heavy guard.",
+    "ppCost": 1,
+    "activationWindow": "BeforeAllyAttacked",
     "targeting": {
-      "type": "Ally",
-      "includeSelf": false
+      "group": "Ally",
+      "pattern": "Single"
     },
-    "cost": 1,
-    "limited": true,
+    "traits": [],
     "effects": [
       {
-        "type": "Cover",
-        "style": "HeavyGuard"
+        "kind": "Cover",
+        "style": "heavyGuard"
       }
     ]
   }
