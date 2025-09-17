@@ -5,7 +5,11 @@ import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
 } from '../../data/units/growth-correction-table'
-import type { GrowthType, GrowthRank, ClassType } from '../../types/base-stats'
+import type {
+  GrowthType,
+  GrowthRank,
+  AllClassType,
+} from '../../types/base-stats'
 
 type ValidLevel = keyof typeof BASE_STAT_TABLE
 const initialStatData = {
@@ -23,7 +27,7 @@ const initialStatData = {
 
 export const calculateBaseStats = (
   level: ValidLevel,
-  classType: ClassType,
+  classType: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   const baseStats = { ...initialStatData }
@@ -43,7 +47,7 @@ export const calculateBaseStats = (
 }
 
 const calculateGrowthCorrectionA = (
-  classType: ClassType,
+  classType: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   const finalGrowthCorrectionA = {
@@ -82,7 +86,7 @@ const calculateGrowthCorrectionB = (growthType: [GrowthType, GrowthType]) => {
 
 export const calculateFinalStats = (
   level: ValidLevel,
-  classType: ClassType,
+  classType: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   // base + equipment + dews + rapports
@@ -90,7 +94,7 @@ export const calculateFinalStats = (
   return result
 }
 
-export const calculateGrowthRanks = (classType: ClassType) => {
+export const calculateGrowthRanks = (classType: AllClassType) => {
   const result = {
     HP: '',
     PATK: '',
