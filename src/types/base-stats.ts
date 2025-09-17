@@ -20,4 +20,4 @@ export type BaseClassType = (typeof BASE_CLASSES)[BaseClassKey]
 type AdvancedClassKey = keyof typeof ADVANCED_CLASSES
 export type AdvancedClassType = (typeof ADVANCED_CLASSES)[AdvancedClassKey]
 
-export type ClassType = BaseClassType | AdvancedClassType
+export type AllClassType = BaseClassType | AdvancedClassType

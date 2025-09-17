@@ -1,4 +1,6 @@
+import { ALL_CLASSES } from '@/data/units/constants'
 import type { EqualityComparator, NumericComparator } from '../../types/core'
+import type { AllClassType } from '@/types/base-stats'
 
 export const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
@@ -21,4 +23,8 @@ export const equalityComparators: Record<
 > = {
   EqualTo: (a, b) => a === b,
   NotEqualTo: (a, b) => a !== b,
+}
+
+export const isValidClass = (className: string): className is AllClassType => {
+  return Object.values(ALL_CLASSES).includes(className as AllClassType)
 }

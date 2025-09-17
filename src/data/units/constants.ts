@@ -71,6 +71,32 @@ export const ADVANCED_CLASSES = {
   DARK_MARQUESS_STAFF: 'Dark Marquess (Staff)',
 } as const
 
+export const ALL_CLASSES = { ...BASE_CLASSES, ...ADVANCED_CLASSES } as const
+
+export const UNIQUE_CLASSES = {
+  DREADNOUGHT: 'Dreadnought',
+  DARK_MARQUESS_SWORD: 'Dark Marquess (Sword)',
+  DARK_MARQUESS_AXE: 'Dark Marquess (Axe)',
+  DARK_MARQUESS_LANCE: 'Dark Marquess (Lance)',
+  DARK_MARQUESS_STAFF: 'Dark Marquess (Staff)',
+  PRINCE: 'Prince',
+  ELVEN_SIBYL: 'Elven Sibyl',
+  ELVEN_AUGUR: 'Elven Augur',
+  SNOW_RANGER: 'Snow Ranger',
+  WERELION: 'Werelion',
+  VALKYRIA: 'Valkyria',
+  HIGH_PRIESTESS: 'High Priestess',
+  HIGH_LORD: 'High Lord',
+  LORD: 'Lord',
+  CRUSADER: 'Crusader',
+  PRIESTESS: 'Priestess',
+} as const
+
+export const EXCLUSIVE_GROUPS = [
+  ['Lord', 'High Lord'],
+  ['Priestess', 'High Priestess'],
+]
+
 export const GROWTHS = {
   HARDY: 'Hardy',
   OFFENSIVE: 'Offensive',
