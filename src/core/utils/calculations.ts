@@ -127,3 +127,26 @@ const getGrowthRank = (value: number): GrowthRank => {
   if (value < GROWTH_RANKS.S) return 'A'
   return 'S'
 }
+
+// TODO: implement actual equipment logic
+export const calculateEquipmentBonus = (equipment: string[]) => {
+  console.log('Equipment:', equipment)
+
+  const result = {
+    ...initialStatData,
+  }
+  for (const stat in result) {
+    // random number between 2 and 30
+    result[stat as keyof typeof result] += Math.floor(Math.random() * 30)
+  }
+  // for (const item of equipment) {
+  //   const stat = item.stat
+  //   const value = item.value
+  //   if (stat in result) {
+  //     result[stat] += value
+  //   } else {
+  //     result[stat] = value
+  //   }
+  // }
+  return result
+}

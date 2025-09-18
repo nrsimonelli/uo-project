@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
-import type { GrowthType } from '@/types/base-stats'
+import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { TeamContext } from '@/hooks/use-team'
+
 export type FormationSlots = Array<Unit | null>
 
 export interface Team {
@@ -18,10 +19,9 @@ export type GrowthTuple = [GrowthType, GrowthType]
 export interface Unit {
   id: string // unique per instance (e.g. "unit-123")
   name: string // display name
-  class: string // references a class definition in ALL_CLASSES
+  class: AllClassType // references a class definition in ALL_CLASSES
   level: number
   growths: GrowthTuple
-  // stats: Record<StatKey, number> // calculated stats at current level
   equipment: string[] // ids of equipped items
   activeSkills: string[] // skill ids
   passiveSkills: string[] // skill ids
@@ -37,10 +37,10 @@ export interface TeamContextValue {
   addTeam: (team: Team) => void
   removeTeam: (id: string) => void
 
-  addUnit: (unit: Unit, position: Position, teamId?: string) => void
-  updateUnit: (id: string, updates: Partial<Unit>, teamId?: string) => void
-  removeUnit: (id: string, teamId?: string) => void
-  moveUnit: (id: string, newPosition: Position, teamId?: string) => void
+  addUnit: (unit: Unit, position: Position) => void
+  updateUnit: (id: string, updates: Partial<Unit>) => void
+  removeUnit: (id: string) => void
+  moveUnit: (id: string, newPosition: Position) => void
 }
 
 export const TeamProvider = ({ children }: { children: ReactNode }) => {
@@ -76,39 +76,31 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
     })
   }
 
-  const addUnit = (unit: Unit, position: Position, teamId = currentTeamId) =>
-    modifyTeam(teamId, (team) => {
+  const addUnit = (unit: Unit, position: Position) =>
+    modifyTeam(currentTeamId, (team) => {
       const idx = getIndex(position)
       if (team.formation[idx]) throw new Error('Position occupied')
       const formation = [...team.formation]
-      formation[idx] = unit
+      formation[idx] = { ...unit, position }
       return { ...team, formation }
     })
 
-  const updateUnit = (
-    id: string,
-    updates: Partial<Unit>,
-    teamId = currentTeamId
-  ) =>
-    modifyTeam(teamId, (team) => {
+  const updateUnit = (id: string, updates: Partial<Unit>) =>
+    modifyTeam(currentTeamId, (team) => {
       const formation = team.formation.map((u) =>
         u && u.id === id ? { ...u, ...updates } : u
       )
       return { ...team, formation }
     })
 
-  const removeUnit = (id: string, teamId = currentTeamId) =>
-    modifyTeam(teamId, (team) => {
+  const removeUnit = (id: string) =>
+    modifyTeam(currentTeamId, (team) => {
       const formation = team.formation.map((u) => (u?.id === id ? null : u))
       return { ...team, formation }
     })
 
-  const moveUnit = (
-    id: string,
-    newPosition: Position,
-    teamId = currentTeamId
-  ) =>
-    modifyTeam(teamId, (team) => {
+  const moveUnit = (id: string, newPosition: Position) =>
+    modifyTeam(currentTeamId, (team) => {
       const idx = getIndex(newPosition)
       if (team.formation[idx]) throw new Error('New position occupied')
 
