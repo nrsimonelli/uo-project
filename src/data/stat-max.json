@@ -1,0 +1,42 @@
+{
+  "HP": {
+    "max": 173,
+    "classes": ["Werebear"]
+  },
+  "PATK": {
+    "max": 83,
+    "classes": ["Landsknecht"]
+  },
+  "PDEF": {
+    "max": 63,
+    "classes": ["Legionnaire"]
+  },
+  "MATK": {
+    "max": 67,
+    "classes": ["Warlock"]
+  },
+  "MDEF": {
+    "max": 76,
+    "classes": ["Druid"]
+  },
+  "ACC": {
+    "max": 91,
+    "classes": ["Sniper"]
+  },
+  "EVA": {
+    "max": 112,
+    "classes": ["Rogue"]
+  },
+  "CRT": {
+    "max": 46,
+    "classes": ["Swordmaster"]
+  },
+  "GRD": {
+    "max": 46,
+    "classes": ["Legionnaire"]
+  },
+  "INIT": {
+    "max": 60,
+    "classes": ["Swordmaster"]
+  }
+}

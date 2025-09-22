@@ -9,18 +9,32 @@ import { STATS } from '@/data/units/constants'
 import type { StatKey } from '@/types/base-stats'
 import { useMemo } from 'react'
 
-export const useChartData = (
-  unit: Unit | null
-): {
-  // all stat keys except for LV, EXP, MOV
+export type ChartDatum = {
   stat: string
   growth: number
   total: number
   base: number
   rank: string
-}[] => {
+}
+
+// type CombatStat = StatKey without Exp, Lv, and Move
+type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
+
+export const useChartData = (
+  unit: Unit | null
+): {
+  chartData: ChartDatum[]
+  baseStats: Record<CombatStat, number>
+  totalStats: Record<CombatStat, number>
+} => {
   return useMemo(() => {
-    if (!unit) return []
+    if (!unit) {
+      return {
+        chartData: [],
+        baseStats: {} as Record<CombatStat, number>,
+        totalStats: {} as Record<CombatStat, number>,
+      }
+    }
 
     const { class: classType, level, growths, equipment } = unit
 
@@ -29,12 +43,23 @@ export const useChartData = (
     const growthRanks = calculateGrowthRanks(classType)
     const equipmentBonus = calculateEquipmentBonus(equipment)
 
-    return Object.entries(baseStats).map(([stat, value]) => ({
-      stat: STATS[stat as StatKey] || stat,
-      growth: growthValues[stat as keyof typeof growthValues],
-      total: value + equipmentBonus[stat as keyof typeof equipmentBonus],
-      base: value,
-      rank: growthRanks[stat as keyof typeof growthRanks],
-    }))
+    const totalStats = Object.keys(baseStats).reduce((acc, stat) => {
+      acc[stat as CombatStat] =
+        baseStats[stat as keyof typeof baseStats] +
+        (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0)
+      return acc
+    }, {} as Record<CombatStat, number>)
+
+    const chartData: ChartDatum[] = Object.entries(baseStats).map(
+      ([stat, value]) => ({
+        stat: STATS[stat as StatKey] || stat,
+        growth: growthValues[stat as keyof typeof growthValues],
+        total: totalStats[stat as CombatStat],
+        base: value,
+        rank: growthRanks[stat as keyof typeof growthRanks],
+      })
+    )
+
+    return { chartData, baseStats, totalStats }
   }, [unit])
 }
