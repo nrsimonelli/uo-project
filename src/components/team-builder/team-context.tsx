@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { TeamContext } from '@/hooks/use-team'
+import { useLocalStorage } from '@/hooks/use-local-storage'
 
 export type FormationSlots = Array<Unit | null>
 
@@ -44,9 +45,9 @@ export interface TeamContextValue {
 }
 
 export const TeamProvider = ({ children }: { children: ReactNode }) => {
-  const [teams, setTeams] = useState<Record<string, Team>>({
+  const [teams, setTeams] = useLocalStorage<Record<string, Team>>('team-data', {
     default: {
-      id: 'default',
+      id: 'default-team',
       name: 'Default Team',
       formation: Array(6).fill(null),
     },
