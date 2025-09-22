@@ -9,15 +9,15 @@ import {
 const chartConfig = {
   growth: {
     label: 'Rating',
-    color: 'var(--chart-1)',
+    color: 'var(--chart-4)',
   },
   total: {
     label: 'Total value',
-    color: 'var(--chart-2)',
+    color: 'var(--chart-5)',
   },
   base: {
     label: 'Base value',
-    color: 'var(--chart-3)',
+    color: 'var(--chart-1)',
   },
 } satisfies ChartConfig
 
@@ -43,9 +43,9 @@ export const RadarGraph = ({ chartData }: RadarGraphProps) => {
         />
         <PolarAngleAxis dataKey='stat' />
         <PolarGrid />
-        <Radar dataKey='growth' fill='var(--color-growth)' fillOpacity={0.4} />
-        <Radar dataKey='total' fill='var(--color-total)' fillOpacity={0.6} />
-        <Radar dataKey='base' fill='var(--color-base)' fillOpacity={1} />
+        <Radar dataKey='growth' fill='var(--color-growth)' fillOpacity={0.6} />
+        <Radar dataKey='total' fill='var(--color-total)' fillOpacity={1} />
+        {/* <Radar dataKey='base' fill='var(--color-base)' fillOpacity={1} /> */}
       </RadarChart>
     </ChartContainer>
   )
