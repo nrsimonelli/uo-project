@@ -42,6 +42,7 @@ export interface TeamContextValue {
   updateUnit: (id: string, updates: Partial<Unit>) => void
   removeUnit: (id: string) => void
   moveUnit: (id: string, newPosition: Position) => void
+  swapUnits: (from: Position, to: Position) => void
 }
 
 export const TeamProvider = ({ children }: { children: ReactNode }) => {
@@ -113,6 +114,25 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
       return { ...team, formation }
     })
 
+  const swapUnits = (from: Position, to: Position) =>
+    modifyTeam(currentTeamId, (team) => {
+      const fromIdx = getIndex(from)
+      const toIdx = getIndex(to)
+
+      const formation = [...team.formation]
+      const fromUnit = formation[fromIdx]
+      const toUnit = formation[toIdx]
+
+      // both empty → no-op
+      if (!fromUnit && !toUnit) return team
+
+      // ✅ update positions consistently
+      formation[fromIdx] = toUnit ? { ...toUnit, position: from } : null
+      formation[toIdx] = fromUnit ? { ...fromUnit, position: to } : null
+
+      return { ...team, formation }
+    })
+
   return (
     <TeamContext.Provider
       value={{
@@ -125,6 +145,7 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
         updateUnit,
         removeUnit,
         moveUnit,
+        swapUnits,
       }}
     >
       {children}
