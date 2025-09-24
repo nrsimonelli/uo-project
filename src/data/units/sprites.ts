@@ -1,6 +1,7 @@
 import type { AllClassType } from '@/types/base-stats'
 // import each sprite from src/assets/sprites
 import Arbalist from '@/assets/sprites/Arbalist.png'
+import Berserker from '@/assets/sprites/Berserker.png'
 import Bishop from '@/assets/sprites/Bishop.png'
 import Breaker from '@/assets/sprites/Breaker.png'
 import Cleric from '@/assets/sprites/Cleric.png'
@@ -69,6 +70,7 @@ import WyvernMaster from '@/assets/sprites/Wyvern Master.png'
 
 export const SPRITES: Record<AllClassType, string> = {
   Arbalist,
+  Berserker,
   Bishop,
   Breaker,
   Cleric,

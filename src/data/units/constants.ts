@@ -32,7 +32,7 @@ export const ADVANCED_CLASSES = {
   SWORDMASTER: 'Swordmaster',
   LANDSKNECHT: 'Landsknecht',
   LEGIONNAIRE: 'Legionnaire',
-  GLADIATOR: 'Gladiator',
+  BERSERKER: 'Berserker',
   BREAKER: 'Breaker',
   SNIPER: 'Sniper',
   SHIELDSHOOTER: 'Shieldshooter',
