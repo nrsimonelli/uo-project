@@ -11,16 +11,16 @@ import { Input } from '../ui/input'
 import { Search } from 'lucide-react'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'
 import { ScrollArea } from '../ui/scroll-area'
-import type { Position, Team } from './team-context'
+import type { Position, Team, Unit } from './team-context'
 import { createUnit } from '@/core/utils/create-unit'
 import { useTeam } from '@/hooks/use-team'
 
 export const UnitSearchModal = ({
   team,
-  slotNumber,
+  onUnitAdded,
 }: {
   team: Team
-  slotNumber: number
+  onUnitAdded?: (unit: Unit) => void
 }) => {
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -28,21 +28,40 @@ export const UnitSearchModal = ({
   const unitId = useId()
   const { addUnit } = useTeam()
 
+  const getNextOpenPosition = (formation: (Unit | null)[]): Position | null => {
+    for (let row = 0; row < 2; row++) {
+      for (let col = 0; col < 3; col++) {
+        const index = row * 3 + col
+        if (!formation[index]) {
+          return { row: row as 0 | 1, col: col as 0 | 1 | 2 }
+        }
+      }
+    }
+    return null
+  }
+
   const onClick = (unitName: string) => {
-    const position = {
-      row: Math.floor(slotNumber / 3),
-      col: slotNumber % 3,
-    } as Position
+    const position = getNextOpenPosition(team.formation)
+    if (!position) {
+      console.warn('Team is full, cannot add unit')
+      return
+    }
+
     const newUnit = createUnit(unitId, unitName, position)
-    console.log(newUnit)
     addUnit(newUnit, position)
+
+    // tell TeamBuilder which unit was added
+    if (onUnitAdded) {
+      onUnitAdded(newUnit)
+    }
+
     setOpen(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='default'>Add unit</Button>
+        <Button variant='default'>+</Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby='modal-description'
@@ -66,7 +85,7 @@ export const UnitSearchModal = ({
             {filteredUnits.map((unitName) => (
               <Button
                 key={unitName}
-                variant={'ghost'}
+                variant='ghost'
                 className='inline-flex justify-start w-full py-8'
                 onClick={() => onClick(unitName)}
               >
