@@ -9,15 +9,15 @@ import {
 const chartConfig = {
   growth: {
     label: 'Rating',
-    color: 'var(--chart-4)',
+    color: 'var(--chart-1)',
   },
   total: {
     label: 'Total value',
-    color: 'var(--chart-5)',
+    color: 'var(--chart-2)',
   },
   base: {
     label: 'Base value',
-    color: 'var(--chart-1)',
+    color: 'var(--chart-3)',
   },
 } satisfies ChartConfig
 

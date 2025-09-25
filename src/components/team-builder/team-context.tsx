@@ -3,16 +3,23 @@ import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { TeamContext } from '@/hooks/use-team'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 
+export const Rows = [0, 1] as const
+export const Cols = [0, 1, 2] as const
+
+export type Row = (typeof Rows)[number]
+export type Col = (typeof Cols)[number]
+
+export interface Position {
+  row: Row
+  col: Col
+}
+
 export type FormationSlots = Array<Unit | null>
 
 export interface Team {
   id: string
   name: string
   formation: FormationSlots
-}
-export interface Position {
-  row: 0 | 1 // 2 rows
-  col: 0 | 1 | 2 // 3 cols
 }
 
 export type GrowthTuple = [GrowthType, GrowthType]
@@ -56,7 +63,7 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
 
   const [currentTeamId, setCurrentTeamId] = useState('default')
 
-  const getIndex = ({ row, col }: Position) => row * 3 + col
+  const getIndex = ({ row, col }: Position) => row * Cols.length + col
 
   const modifyTeam = (teamId: string, updater: (team: Team) => Team) => {
     setTeams((prev) => {

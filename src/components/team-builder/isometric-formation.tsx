@@ -53,7 +53,6 @@ export const IsometricFormation = ({
         const slot = formation[idx]
         const isHighlighted = slot && slot.id === selectedUnitId
 
-        // projection formulas
         const xScreen =
           origin === 'right'
             ? (x - y) * (TILE_WIDTH / 2) + 150
@@ -61,7 +60,6 @@ export const IsometricFormation = ({
 
         const yScreen = (x + y) * (TILE_HEIGHT / 2)
 
-        // base diamond gradient
         const tileBg =
           origin === 'right'
             ? 'bg-gradient-to-br from-gray-300 to-gray-400'
@@ -83,9 +81,7 @@ export const IsometricFormation = ({
             <div
               className={cn(
                 'absolute w-full h-full border transition-colors',
-                tileBg,
-                isHighlighted &&
-                  'bg-[radial-gradient(circle,rgba(250,204,21,0.4)_0%,transparent_70%)]'
+                tileBg
               )}
               style={{
                 clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',

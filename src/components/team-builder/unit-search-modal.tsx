@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -11,9 +11,10 @@ import { Input } from '../ui/input'
 import { Search } from 'lucide-react'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'
 import { ScrollArea } from '../ui/scroll-area'
-import type { Position, Team, Unit } from './team-context'
+import type { Col, Position, Row, Team, Unit } from './team-context'
 import { createUnit } from '@/core/utils/create-unit'
 import { useTeam } from '@/hooks/use-team'
+import { generateRandomId } from '@/core/utils/utils'
 
 export const UnitSearchModal = ({
   team,
@@ -25,7 +26,7 @@ export const UnitSearchModal = ({
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const filteredUnits = useFilteredUnits(searchTerm, team)
-  const unitId = useId()
+  const unitId = generateRandomId()
   const { addUnit } = useTeam()
 
   const getNextOpenPosition = (formation: (Unit | null)[]): Position | null => {
@@ -33,7 +34,7 @@ export const UnitSearchModal = ({
       for (let col = 0; col < 3; col++) {
         const index = row * 3 + col
         if (!formation[index]) {
-          return { row: row as 0 | 1, col: col as 0 | 1 | 2 }
+          return { row: row as Row, col: col as Col }
         }
       }
     }
@@ -50,7 +51,6 @@ export const UnitSearchModal = ({
     const newUnit = createUnit(unitId, unitName, position)
     addUnit(newUnit, position)
 
-    // tell TeamBuilder which unit was added
     if (onUnitAdded) {
       onUnitAdded(newUnit)
     }
@@ -61,7 +61,7 @@ export const UnitSearchModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='default'>+</Button>
+        <Button variant='ghost'>+</Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby='modal-description'

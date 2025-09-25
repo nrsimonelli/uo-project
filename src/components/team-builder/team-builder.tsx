@@ -5,7 +5,7 @@ import { UnitSearchModal } from './unit-search-modal'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
-import type { Position, Unit } from './team-context'
+import { Cols, Rows, type Position } from './team-context'
 import { IsometricFormation } from './isometric-formation'
 
 export const TeamBuilder = () => {
@@ -15,36 +15,28 @@ export const TeamBuilder = () => {
   // Selected unit id drives both tabs + grid
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
 
-  // Derived: ordered units by row/col
-  const orderedTeamFormation = currentTeam.formation
-    .filter((entry): entry is Unit => entry !== null)
-    .sort((a, b) => {
-      if (!a.position || !b.position) return 0
-      return a.position.row - b.position.row || a.position.col - b.position.col
-    })
+  const filteredTeamFormation = currentTeam.formation.filter(
+    (unit) => unit !== null
+  )
 
   const handleSwap = (fromIdx: number, toIdx: number) => {
-    const from: Position = { row: Math.floor(fromIdx / 3), col: fromIdx % 3 }
-    const to: Position = { row: Math.floor(toIdx / 3), col: toIdx % 3 }
+    const rowFrom = Math.floor(fromIdx / Cols.length) as (typeof Rows)[number]
+    const colFrom = (fromIdx % Cols.length) as (typeof Cols)[number]
+    const from: Position = { row: rowFrom, col: colFrom }
+
+    const rowTo = Math.floor(toIdx / Cols.length) as (typeof Rows)[number]
+    const colTo = (toIdx % Cols.length) as (typeof Cols)[number]
+    const to: Position = { row: rowTo, col: colTo }
+
     swapUnits(from, to)
 
-    // keep focus on the originally selected unit (if it still exists)
     const fromUnit = currentTeam.formation[fromIdx]
     if (fromUnit) {
       setSelectedUnitId(fromUnit.id)
     }
   }
 
-  const shouldShowAddUnit = orderedTeamFormation.length < 5
-
-  // Map slot index -> unit id string
-  const getSlotValue = (unit: Unit) =>
-    `slot-${unit.position?.row}-${unit.position?.col}`
-
-  // For highlighting grid based on selected tab
-  const selectedIdx = currentTeam.formation.findIndex(
-    (u) => u && u.id === selectedUnitId
-  )
+  const shouldShowAddUnit = filteredTeamFormation.length < 5
 
   return (
     <div className='max-w-6xl mx-auto space-y-6 p-6'>
@@ -54,14 +46,14 @@ export const TeamBuilder = () => {
       <div className='flex gap-4'>
         <IsometricFormation
           formation={currentTeam.formation}
-          origin='left'
+          origin={'left'}
           selectedUnitId={selectedUnitId}
           onSelect={setSelectedUnitId}
           onSwap={handleSwap}
         />
         <IsometricFormation
           formation={currentTeam.formation}
-          origin='right'
+          origin={'right'}
           selectedUnitId={selectedUnitId}
           onSelect={setSelectedUnitId}
           onSwap={handleSwap}
@@ -73,7 +65,7 @@ export const TeamBuilder = () => {
         onValueChange={setSelectedUnitId}
       >
         <TabsList>
-          {orderedTeamFormation.map((unit) => (
+          {filteredTeamFormation.map((unit) => (
             <TabsTrigger key={unit.id} value={unit.id}>
               {unit.name ?? unit.class}
             </TabsTrigger>
@@ -86,7 +78,7 @@ export const TeamBuilder = () => {
           )}
         </TabsList>
 
-        {orderedTeamFormation.map((unit) => (
+        {filteredTeamFormation.map((unit) => (
           <TabsContent key={unit.id} value={unit.id}>
             <TeamSlot unit={unit}>
               <Button

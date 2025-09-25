@@ -28,3 +28,7 @@ export const equalityComparators: Record<
 export const isValidClass = (className: string): className is AllClassType => {
   return Object.values(ALL_CLASSES).includes(className as AllClassType)
 }
+
+export const generateRandomId = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2)
+}

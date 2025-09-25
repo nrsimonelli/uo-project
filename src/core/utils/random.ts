@@ -3,7 +3,7 @@ export type RandomNumberGeneratorType = {
   random: () => number
 }
 
-export const Rng = (
+export const rng = (
   seed: string,
   ...extraSeed: Array<string>
 ): RandomNumberGeneratorType => {
