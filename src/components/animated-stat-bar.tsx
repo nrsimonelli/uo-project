@@ -49,7 +49,8 @@ export function StatIcon({
 }
 
 export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
-  const { displayValue: animatedValue } = useAnimatedNumber(data.base, {
+  const baseValue = data.stat === 'Accuracy' ? data.base + 100 : data.base
+  const { displayValue: animatedValue } = useAnimatedNumber(baseValue, {
     duration: 600,
   })
 
@@ -63,7 +64,7 @@ export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
     return Math.min((base / 100) * 100, 100)
   }, [])
 
-  const percentage = getPercentMax(data.stat, data.base)
+  const percentage = getPercentMax(data.stat, baseValue)
 
   const { displayValue: animatedPercentage } = useAnimatedNumber(percentage, {
     duration: 800,

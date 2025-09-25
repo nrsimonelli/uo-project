@@ -6,13 +6,22 @@ import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
 import { Cols, Rows, type Position } from './team-context'
-import { IsometricFormation } from './isometric-formation'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
+import { generateRandomId } from '@/core/utils/utils'
+import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
+import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
 
 export const TeamBuilder = () => {
+  const { teams, currentTeamId, setCurrentTeam, addTeam } = useTeam()
   const currentTeam = useCurrentTeam()
   const { removeUnit, swapUnits } = useTeam()
 
-  // Selected unit id drives both tabs + grid
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
 
   const filteredTeamFormation = currentTeam.formation.filter(
@@ -42,22 +51,49 @@ export const TeamBuilder = () => {
     <div className='max-w-6xl mx-auto space-y-6 p-6'>
       {/* <pre>{JSON.stringify(currentTeam, null, 2)}</pre> */}
       <p>Team Builder</p>
+      <div className='flex  gap-4'>
+        <IsometricFormationBuilder
+          formation={currentTeam.formation}
+          orientation={'right-facing'}
+          onSwap={handleSwap}
+        />
+        <div className='flex flex-col gap-4'>
+          {Object.entries(teams).map(([id, team]) => (
+            <IsometricFormationDisplay
+              key={team.id}
+              formation={team.formation}
+              orientation={'left-facing'}
+              onSelectTeam={() => setCurrentTeam(id)}
+            />
+          ))}
+        </div>
+      </div>
 
-      <div className='flex gap-4'>
-        <IsometricFormation
-          formation={currentTeam.formation}
-          origin={'left'}
-          selectedUnitId={selectedUnitId}
-          onSelect={setSelectedUnitId}
-          onSwap={handleSwap}
-        />
-        <IsometricFormation
-          formation={currentTeam.formation}
-          origin={'right'}
-          selectedUnitId={selectedUnitId}
-          onSelect={setSelectedUnitId}
-          onSwap={handleSwap}
-        />
+      <div>Select team</div>
+      <div>
+        <Select value={currentTeamId} onValueChange={setCurrentTeam}>
+          <SelectTrigger className='h-8 w-full'>
+            <SelectValue id={currentTeamId} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(teams).map(([id, team]) => (
+              <SelectItem key={id} value={id}>
+                {team.name}
+              </SelectItem>
+            ))}
+            <Button
+              onClick={() =>
+                addTeam({
+                  id: generateRandomId(),
+                  name: 'New team',
+                  formation: [],
+                })
+              }
+            >
+              Create new team
+            </Button>
+          </SelectContent>
+        </Select>
       </div>
 
       <Tabs
