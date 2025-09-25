@@ -16,7 +16,9 @@ export const useAnimatedNumber = (
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    if (displayValue === targetValue) return
+    if (displayValue === targetValue) {
+      return
+    }
 
     setIsAnimating(true)
     const startValue = displayValue
