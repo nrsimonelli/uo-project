@@ -46,7 +46,7 @@ export const IsometricFormationBase = ({
 
         const xScreen =
           orientation === 'left-facing'
-            ? (x - y) * (SCALED_WIDTH / 2) + SCALED_WIDTH
+            ? (x - y) * (SCALED_WIDTH / 2) + SCALED_WIDTH / 2
             : (y - x) * (SCALED_WIDTH / 2) + SCALED_WIDTH
 
         const yScreen = (x + y) * (SCALED_HEIGHT / 2)
@@ -61,14 +61,16 @@ export const IsometricFormationBase = ({
               width: SCALED_WIDTH,
               height: SCALED_HEIGHT,
             }}
-            onClick={() => onTileClick?.(idx)}
+            onClick={() => {
+              onTileClick?.(idx)
+            }}
           >
             <div
               className={cn(
                 'absolute w-full h-full border transition-colors',
                 'bg-gray-300',
                 isSelected &&
-                  'bg-[radial-gradient(circle,rgba(250,204,21,0.4)_0%,transparent_70%)]'
+                  'bg-[radial-gradient(circle,rgba(250,204,21,0.8)_0%,transparent_70%)]'
               )}
               style={{
                 clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',

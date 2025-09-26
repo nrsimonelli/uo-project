@@ -27,10 +27,7 @@ export const IsometricFormationBuilder = ({
   }
 
   return (
-    <div
-      className='relative'
-      onClick={() => setSelectedIdx(null)} // clicking outside
-    >
+    <div className='relative'>
       <IsometricFormationBase
         formation={formation}
         orientation={orientation}
