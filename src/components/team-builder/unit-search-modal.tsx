@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog'
 import { Input } from '../ui/input'
-import { Search } from 'lucide-react'
+import { PlusIcon, Search } from 'lucide-react'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'
 import { ScrollArea } from '../ui/scroll-area'
 import type { Col, Position, Row, Team, Unit } from './team-context'
@@ -61,7 +61,9 @@ export const UnitSearchModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='ghost'>+</Button>
+        <Button variant='ghost'>
+          <PlusIcon className='w-4 h-4' />
+        </Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby='modal-description'

@@ -32,7 +32,7 @@ export function UnitSelect<T extends string | number>({
 }: UnitSelectProps<T>) {
   return (
     <div>
-      <Label htmlFor={label} className='block text-xs font-medium mb-0.5'>
+      <Label htmlFor={label} className='block text-xs font-medium mb-1'>
         {label}
       </Label>
       <Select value={String(value)} onValueChange={(val) => onChange(val as T)}>
