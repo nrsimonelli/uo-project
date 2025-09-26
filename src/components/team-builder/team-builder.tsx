@@ -6,23 +6,26 @@ import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
 import { Cols, Rows, type Position } from './team-context'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select'
-import { generateRandomId } from '@/core/utils/utils'
+
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
 
 export const TeamBuilder = () => {
-  const { teams, currentTeamId, setCurrentTeam, addTeam } = useTeam()
   const currentTeam = useCurrentTeam()
-  const { removeUnit, swapUnits } = useTeam()
+  const {
+    teams,
+    currentTeamId,
+    setCurrentTeam,
+    addTeam,
+    removeUnit,
+    swapUnits,
+  } = useTeam()
 
-  const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
+  // find first unit in formation and set it as selected
+  const firstUnit = currentTeam.formation.find((unit) => unit !== null)
+  const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>(
+    firstUnit?.id
+  )
 
   const filteredTeamFormation = currentTeam.formation.filter(
     (unit) => unit !== null
@@ -38,68 +41,39 @@ export const TeamBuilder = () => {
     const to: Position = { row: rowTo, col: colTo }
 
     swapUnits(from, to)
-
-    const fromUnit = currentTeam.formation[fromIdx]
-    if (fromUnit) {
-      setSelectedUnitId(fromUnit.id)
-    }
   }
 
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
   return (
     <div className='max-w-6xl mx-auto space-y-6 p-6'>
+      <p className='text-xl'>Team Builder</p>
       {/* <pre>{JSON.stringify(currentTeam, null, 2)}</pre> */}
-      <p>Team Builder</p>
-      <div className='flex  gap-4'>
-        <IsometricFormationBuilder
-          formation={currentTeam.formation}
-          orientation={'right-facing'}
-          onSwap={handleSwap}
-        />
-        <div className='flex flex-col gap-4'>
-          {Object.entries(teams).map(([id, team]) => (
+      <div className='flex flex-row justify-between'>
+        <div className='flex flex-col space-y-3'>
+          <p>{currentTeam.name}</p>
+          <IsometricFormationBuilder
+            formation={currentTeam.formation}
+            orientation={'right-facing'}
+            onSwap={handleSwap}
+          />
+        </div>
+        <div className='flex flex-col space-y-3'>
+          <p>Your Teams</p>
+          {Object.entries(teams).map(([key, team]) => (
             <IsometricFormationDisplay
-              key={team.id}
+              key={`${key}-${team.id}`}
               formation={team.formation}
               orientation={'left-facing'}
-              onSelectTeam={() => setCurrentTeam(id)}
+              onSelectTeam={() => {
+                setCurrentTeam(key)
+              }}
             />
           ))}
         </div>
       </div>
 
-      <div>Select team</div>
-      <div>
-        <Select value={currentTeamId} onValueChange={setCurrentTeam}>
-          <SelectTrigger className='h-8 w-full'>
-            <SelectValue id={currentTeamId} />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(teams).map(([id, team]) => (
-              <SelectItem key={id} value={id}>
-                {team.name}
-              </SelectItem>
-            ))}
-            <Button
-              onClick={() =>
-                addTeam({
-                  id: generateRandomId(),
-                  name: 'New team',
-                  formation: [],
-                })
-              }
-            >
-              Create new team
-            </Button>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <Tabs
-        value={selectedUnitId ?? undefined}
-        onValueChange={setSelectedUnitId}
-      >
+      <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
         <TabsList>
           {filteredTeamFormation.map((unit) => (
             <TabsTrigger key={unit.id} value={unit.id}>
@@ -120,7 +94,7 @@ export const TeamBuilder = () => {
               <Button
                 onClick={() => removeUnit(unit.id)}
                 variant='destructive'
-                className='absolute top-2 right-2 rounded-lg flex items-center justify-center md:opacity-0 group-hover:opacity-100 transition-opacity z-20'
+                className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20'
               >
                 <Trash className='w-4 h-4' />
               </Button>

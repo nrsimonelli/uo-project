@@ -135,10 +135,11 @@ export const calculateEquipmentBonus = (equipment: string[]) => {
   const result = {
     ...initialStatData,
   }
-  for (const stat in result) {
-    // random number between 2 and 30
-    result[stat as keyof typeof result] += Math.floor(Math.random() * 30)
-  }
+  // for (const item of equipment) {
+  // if (!item){
+
+  // }
+  // }
   // for (const item of equipment) {
   //   const stat = item.stat
   //   const value = item.value

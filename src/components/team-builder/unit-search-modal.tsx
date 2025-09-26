@@ -81,7 +81,7 @@ export const UnitSearchModal = ({
             />
           </div>
 
-          <ScrollArea className='flex flex-col overflow-y-auto'>
+          <ScrollArea className='flex flex-col w-full overflow-y-auto'>
             {filteredUnits.map((unitName) => (
               <Button
                 key={unitName}
