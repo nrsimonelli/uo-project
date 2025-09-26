@@ -9,6 +9,8 @@ import { Cols, Rows, type Position } from './team-context'
 
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
+import { generateRandomId } from '@/core/utils/utils'
+import { AddTeamModal } from './add-team-modal'
 
 export const TeamBuilder = () => {
   const currentTeam = useCurrentTeam()
@@ -21,10 +23,10 @@ export const TeamBuilder = () => {
     swapUnits,
   } = useTeam()
 
-  // find first unit in formation and set it as selected
   const firstUnit = currentTeam.formation.find((unit) => unit !== null)
+
   const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>(
-    firstUnit?.id
+    () => firstUnit?.id
   )
 
   const filteredTeamFormation = currentTeam.formation.filter(
@@ -41,6 +43,30 @@ export const TeamBuilder = () => {
     const to: Position = { row: rowTo, col: colTo }
 
     swapUnits(from, to)
+  }
+
+  const handleNewTeam = (name: string) => {
+    // TODO: allow more details beyond name later...
+    const teamKey = generateRandomId()
+    addTeam({
+      id: teamKey,
+      name,
+      formation: Array(6).fill(null),
+    })
+  }
+
+  const handleRemoveUnit = (unitId: string) => {
+    const nextUnitId = filteredTeamFormation.filter(
+      (unit) => unit.id !== unitId
+    )[0]?.id
+    removeUnit(unitId)
+    setSelectedUnitId(nextUnitId)
+  }
+
+  const handleSelectTeam = (key: string) => {
+    const nextUnitId = teams[key]?.formation.find((unit) => unit !== null)?.id
+    setCurrentTeam(key)
+    setSelectedUnitId(nextUnitId)
   }
 
   const shouldShowAddUnit = filteredTeamFormation.length < 5
@@ -66,10 +92,11 @@ export const TeamBuilder = () => {
               formation={team.formation}
               orientation={'left-facing'}
               onSelectTeam={() => {
-                setCurrentTeam(key)
+                handleSelectTeam(key)
               }}
             />
           ))}
+          <AddTeamModal handleNewTeam={handleNewTeam} />
         </div>
       </div>
 
@@ -92,7 +119,7 @@ export const TeamBuilder = () => {
           <TabsContent key={unit.id} value={unit.id}>
             <TeamSlot unit={unit}>
               <Button
-                onClick={() => removeUnit(unit.id)}
+                onClick={() => handleRemoveUnit(unit.id)}
                 variant='destructive'
                 className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20'
               >
