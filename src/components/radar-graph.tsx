@@ -1,4 +1,10 @@
-import { Radar, RadarChart, PolarAngleAxis, PolarGrid } from 'recharts'
+import {
+  Radar,
+  RadarChart,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+} from 'recharts'
 import {
   ChartContainer,
   ChartTooltip,
@@ -42,10 +48,10 @@ export const RadarGraph = ({ chartData }: RadarGraphProps) => {
           content={<ChartTooltipContent indicator='line' />}
         />
         <PolarAngleAxis dataKey='stat' />
+        <PolarRadiusAxis domain={[0, 200]} stroke='rgba(0,0,0,0)' />
         <PolarGrid />
         <Radar dataKey='growth' fill='var(--color-growth)' fillOpacity={0.6} />
         <Radar dataKey='total' fill='var(--color-total)' fillOpacity={1} />
-        {/* <Radar dataKey='base' fill='var(--color-base)' fillOpacity={1} /> */}
       </RadarChart>
     </ChartContainer>
   )
