@@ -14,12 +14,16 @@ export const IsometricFormationBuilder = ({
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
 
   const handleTileClick = (idx: number) => {
-    if (selectedIdx === null) setSelectedIdx(idx)
-    else if (selectedIdx === idx) setSelectedIdx(null)
-    else {
-      onSwap(selectedIdx, idx)
-      setSelectedIdx(null)
+    if (selectedIdx === null) {
+      setSelectedIdx(idx)
+      return
     }
+
+    if (selectedIdx !== idx) {
+      onSwap(selectedIdx, idx)
+    }
+
+    setSelectedIdx(null)
   }
 
   return (
@@ -30,9 +34,7 @@ export const IsometricFormationBuilder = ({
       <IsometricFormationBase
         formation={formation}
         orientation={orientation}
-        onTileClick={(idx) => {
-          handleTileClick(idx)
-        }}
+        onTileClick={handleTileClick}
         selectedIdx={selectedIdx}
         scale={1}
       />

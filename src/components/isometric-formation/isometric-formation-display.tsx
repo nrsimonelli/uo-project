@@ -11,7 +11,7 @@ export const IsometricFormationDisplay = ({
   onSelectTeam: () => void
 }) => {
   return (
-    <div onClick={onSelectTeam} className='cursor-pointer'>
+    <div className='cursor-pointer' onClick={onSelectTeam}>
       <IsometricFormationBase
         formation={formation}
         orientation={orientation}
