@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Unit } from '../team-builder/team-context'
+import type { Unit } from '@/types/team'
 import { IsometricFormationBase } from './isometric-formation-base'
 
 export const IsometricFormationBuilder = ({

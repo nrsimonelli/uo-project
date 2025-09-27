@@ -1,4 +1,4 @@
-import type { Unit } from '@/components/team-builder/team-context'
+import type { Unit } from '@/types/team'
 import {
   calculateBaseStats,
   calculateEquipmentBonus,

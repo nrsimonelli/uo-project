@@ -1,5 +1,5 @@
 import { UnitBuilder } from '../unit-builder/unit-builder'
-import type { Unit } from './team-context'
+import type { Unit } from '@/types/team'
 
 interface TeamSlotProps {
   unit: Unit

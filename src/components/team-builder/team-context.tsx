@@ -1,42 +1,7 @@
 import { useState, type ReactNode } from 'react'
-import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { TeamContext } from '@/hooks/use-team'
 import { useLocalStorage } from '@/hooks/use-local-storage'
-
-export const Rows = [0, 1] as const
-export const Cols = [0, 1, 2] as const
-
-export type Row = (typeof Rows)[number]
-export type Col = (typeof Cols)[number]
-
-export interface Position {
-  row: Row
-  col: Col
-}
-
-export type FormationSlots = Array<Unit | null>
-
-export interface Team {
-  id: string
-  name: string
-  formation: FormationSlots
-}
-
-export type GrowthTuple = [GrowthType, GrowthType]
-
-export interface Unit {
-  id: string // unique per instance (e.g. "unit-123")
-  name: string // display name
-  class: AllClassType // references a class definition in ALL_CLASSES
-  level: number
-  growths: GrowthTuple
-  equipment: string[] // ids of equipped items
-  activeSkills: string[] // skill ids
-  passiveSkills: string[] // skill ids
-
-  // Used for team building/editor convenience
-  position?: Position
-}
+import { COLS, type Position, type Team, type Unit } from '@/types/team'
 
 export interface TeamContextValue {
   teams: Record<string, Team>
@@ -63,7 +28,7 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
 
   const [currentTeamId, setCurrentTeamId] = useState('default')
 
-  const getIndex = ({ row, col }: Position) => row * Cols.length + col
+  const getIndex = ({ row, col }: Position) => row * COLS.length + col
 
   const modifyTeam = (teamId: string, updater: (team: Team) => Team) => {
     setTeams((prev) => {

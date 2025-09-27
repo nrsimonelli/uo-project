@@ -1,7 +1,7 @@
 import { Card } from '../ui/card'
 
 import { RadarGraph } from '../radar-graph'
-import type { Unit } from '../team-builder/team-context'
+import type { Unit } from '@/types/team'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'

@@ -5,7 +5,7 @@ import { UnitSearchModal } from './unit-search-modal'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
-import { Cols, Rows, type Position } from './team-context'
+import { COLS, type Position, type Col, type Row } from '@/types/team'
 
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
@@ -34,12 +34,12 @@ export const TeamBuilder = () => {
   )
 
   const handleSwap = (fromIdx: number, toIdx: number) => {
-    const rowFrom = Math.floor(fromIdx / Cols.length) as (typeof Rows)[number]
-    const colFrom = (fromIdx % Cols.length) as (typeof Cols)[number]
+    const rowFrom = Math.floor(fromIdx / COLS.length) as Row
+    const colFrom = (fromIdx % COLS.length) as Col
     const from: Position = { row: rowFrom, col: colFrom }
 
-    const rowTo = Math.floor(toIdx / Cols.length) as (typeof Rows)[number]
-    const colTo = (toIdx % Cols.length) as (typeof Cols)[number]
+    const rowTo = Math.floor(toIdx / COLS.length) as Row
+    const colTo = (toIdx % COLS.length) as Col
     const to: Position = { row: rowTo, col: colTo }
 
     swapUnits(from, to)

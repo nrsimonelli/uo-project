@@ -1,10 +1,6 @@
 import { createContext, useContext } from 'react'
-import type {
-  Team,
-  TeamContextValue,
-  Position,
-  Unit,
-} from '@/components/team-builder/team-context'
+import type { Team, Position, Unit } from '@/types/team'
+import type { TeamContextValue } from '@/components/team-builder/team-context'
 
 export const TeamContext = createContext<TeamContextValue | undefined>(
   undefined

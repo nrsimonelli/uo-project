@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { Team } from '@/components/team-builder/team-context'
+import type { Team } from '@/types/team'
 import { filterUnits } from '@/core/unit-filter'
 
 export const useFilteredUnits = (searchTerm: string, team: Team) => {

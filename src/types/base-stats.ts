@@ -3,6 +3,7 @@ import { ADVANCED_CLASSES, BASE_CLASSES } from '../data/class-types'
 
 export type GrowthKey = keyof typeof GROWTHS
 export type GrowthType = (typeof GROWTHS)[GrowthKey]
+export type GrowthTuple = [GrowthType, GrowthType]
 
 export type GrowthRank = keyof typeof GROWTH_RANKS
 

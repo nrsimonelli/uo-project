@@ -6,6 +6,7 @@ import {
   GROWTH_CORRECTION_TABLE_B,
 } from '../data/growth-correction-table'
 import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
+import type { EquippedItem } from '@/types/equipment'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
 const initialStatData = {
@@ -125,7 +126,7 @@ const getGrowthRank = (value: number): GrowthRank => {
 }
 
 // TODO: implement actual equipment logic
-export const calculateEquipmentBonus = (equipment: string[]) => {
+export const calculateEquipmentBonus = (equipment: EquippedItem[]) => {
   console.log('Equipment:', equipment)
 
   const result = {

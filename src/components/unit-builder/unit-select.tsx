@@ -9,7 +9,7 @@ import {
 import { GROWTHS } from '@/data/constants'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { filterUnits } from '@/core/unit-filter'
-import type { Team } from '../team-builder/team-context'
+import type { Team } from '@/types/team'
 import { Label } from '../ui/label'
 
 interface Option<T extends string | number> {

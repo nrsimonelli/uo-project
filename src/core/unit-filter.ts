@@ -1,4 +1,4 @@
-import type { Team } from '@/components/team-builder/team-context'
+import type { Team } from '@/types/team'
 import {
   UNIQUE_CLASSES,
   EXCLUSIVE_GROUPS,
