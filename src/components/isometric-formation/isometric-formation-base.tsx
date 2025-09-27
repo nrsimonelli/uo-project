@@ -68,7 +68,7 @@ export const IsometricFormationBase = ({
             <div
               className={cn(
                 'absolute w-full h-full border transition-colors',
-                'bg-gray-300',
+                'bg-primary',
                 isSelected &&
                   'bg-[radial-gradient(circle,rgba(250,204,21,0.8)_0%,transparent_70%)]'
               )}

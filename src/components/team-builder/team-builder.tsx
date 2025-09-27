@@ -9,14 +9,14 @@ import { Cols, Rows, type Position } from './team-context'
 
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
-import { generateRandomId } from '@/core/utils/utils'
+import { generateRandomId } from '@/core/utils'
 import { AddTeamModal } from './add-team-modal'
 
 export const TeamBuilder = () => {
   const currentTeam = useCurrentTeam()
   const {
     teams,
-    currentTeamId,
+    // currentTeamId,
     setCurrentTeam,
     addTeam,
     removeUnit,
@@ -101,7 +101,7 @@ export const TeamBuilder = () => {
       </div>
 
       <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
-        <TabsList>
+        <TabsList className='w-full flex-wrap h-auto'>
           {filteredTeamFormation.map((unit) => (
             <TabsTrigger key={unit.id} value={unit.id}>
               {unit.name ?? unit.class}

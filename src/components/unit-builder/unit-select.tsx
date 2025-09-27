@@ -8,7 +8,7 @@ import {
 
 import { GROWTHS } from '@/data/units/constants'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
-import { filterUnits } from '@/core/utils/unit-filter'
+import { filterUnits } from '@/core/unit-filter'
 import type { Team } from '../team-builder/team-context'
 import { Label } from '../ui/label'
 

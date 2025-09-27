@@ -30,9 +30,9 @@ const STAT_ICONS = {
 const rankColors: Record<string, string> = {
   S: 'text-blue-500',
   A: 'text-blue-500',
-  B: 'text-gray-500',
-  C: 'text-gray-500',
-  D: 'text-gray-500',
+  B: 'text-muted-foreground',
+  C: 'text-muted-foreground',
+  D: 'text-muted-foreground',
   E: 'text-red-500',
   F: 'text-red-500',
 }

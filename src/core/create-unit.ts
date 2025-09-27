@@ -3,7 +3,7 @@ import type {
   Position,
   Unit,
 } from '@/components/team-builder/team-context'
-import { isValidClass } from '@/core/utils/utils'
+import { isValidClass } from '@/core/utils'
 
 export const createUnit = (
   id: string,

@@ -12,9 +12,9 @@ import { PlusIcon, Search } from 'lucide-react'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'
 import { ScrollArea } from '../ui/scroll-area'
 import type { Col, Position, Row, Team, Unit } from './team-context'
-import { createUnit } from '@/core/utils/create-unit'
+import { createUnit } from '@/core/create-unit'
 import { useTeam } from '@/hooks/use-team'
-import { generateRandomId } from '@/core/utils/utils'
+import { generateRandomId } from '@/core/utils'
 
 export const UnitSearchModal = ({
   team,
@@ -61,8 +61,8 @@ export const UnitSearchModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='ghost'>
-          <PlusIcon className='w-4 h-4' />
+        <Button variant='ghost' className='flex flex-1'>
+          Add Unit <PlusIcon className='w-4 h-4' />
         </Button>
       </DialogTrigger>
       <DialogContent

@@ -1,5 +1,5 @@
 import { ALL_CLASSES } from '@/data/units/constants'
-import type { EqualityComparator, NumericComparator } from '../../types/core'
+import type { EqualityComparator, NumericComparator } from '../types/core'
 import type { AllClassType } from '@/types/base-stats'
 
 export const clamp = (value: number, min: number, max: number) =>
