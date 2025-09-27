@@ -1,13 +1,13 @@
-import { BASE_STAT_TABLE } from '../data/units/base-stat-table'
-import { COMBINED_CLASS_GROWTH_TABLE } from '../data/units/class-growth-table'
-import { GROWTH_RANKS } from '../data/units/constants'
+import { UNIVERSAL_STAT_TABLE } from '../data/universal-stat-table'
+import { COMBINED_CLASS_GROWTH_TABLE } from '../data/class-growth-table'
+import { GROWTH_RANKS } from '../data/constants'
 import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
-} from '../data/units/growth-correction-table'
+} from '../data/growth-correction-table'
 import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
 
-type ValidLevel = keyof typeof BASE_STAT_TABLE
+type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
 const initialStatData = {
   HP: 0,
   PATK: 0,
@@ -27,7 +27,7 @@ export const calculateBaseStats = (
   growthType: [GrowthType, GrowthType]
 ) => {
   const baseStats = { ...initialStatData }
-  const universalBaseStats = BASE_STAT_TABLE[level]
+  const universalBaseStats = UNIVERSAL_STAT_TABLE[level]
   const growthCorrectionA = calculateGrowthCorrectionA(classType, growthType)
   const growthCorrectionB = calculateGrowthCorrectionB(growthType)
 

@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import type { Unit } from '../team-builder/team-context'
-import { SPRITES } from '@/data/units/sprites'
+import { SPRITES } from '@/data/sprites'
 
 const TILE_WIDTH = 120
 const TILE_HEIGHT = 60

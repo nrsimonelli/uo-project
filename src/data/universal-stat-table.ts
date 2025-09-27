@@ -1,6 +1,6 @@
-import type { StatKey } from '../../types/base-stats'
+import type { StatKey } from '../types/base-stats'
 
-export const BASE_STAT_TABLE: Record<
+export const UNIVERSAL_STAT_TABLE: Record<
   number,
   Record<Exclude<StatKey, 'LV'>, number>
 > = {

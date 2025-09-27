@@ -6,7 +6,7 @@ import {
   SelectItem,
 } from '@/components/ui/select'
 
-import { GROWTHS } from '@/data/units/constants'
+import { GROWTHS } from '@/data/constants'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
 import { filterUnits } from '@/core/unit-filter'
 import type { Team } from '../team-builder/team-context'

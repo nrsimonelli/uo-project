@@ -14,7 +14,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import type { Col, Position, Row, Team, Unit } from './team-context'
 import { createUnit } from '@/core/create-unit'
 import { useTeam } from '@/hooks/use-team'
-import { generateRandomId } from '@/core/utils'
+import { generateRandomId } from '@/core/helpers'
 
 export const UnitSearchModal = ({
   team,

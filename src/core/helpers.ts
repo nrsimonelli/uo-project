@@ -1,9 +1,14 @@
-import { ALL_CLASSES } from '@/data/units/constants'
-import type { EqualityComparator, NumericComparator } from '../types/core'
+import { ALL_CLASSES } from '@/data/class-types'
 import type { AllClassType } from '@/types/base-stats'
+import type { NumericComparator, EqualityComparator } from '@/types/core'
 
-export const clamp = (value: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, value))
+export function isValidClass(className: string): className is AllClassType {
+  return Object.values(ALL_CLASSES).includes(className as AllClassType)
+}
+
+export function generateRandomId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2)
+}
 
 export const numericComparators: Record<
   NumericComparator,
@@ -23,12 +28,4 @@ export const equalityComparators: Record<
 > = {
   EqualTo: (a, b) => a === b,
   NotEqualTo: (a, b) => a !== b,
-}
-
-export const isValidClass = (className: string): className is AllClassType => {
-  return Object.values(ALL_CLASSES).includes(className as AllClassType)
-}
-
-export const generateRandomId = () => {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2)
 }

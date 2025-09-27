@@ -3,7 +3,7 @@ import {
   UNIQUE_CLASSES,
   EXCLUSIVE_GROUPS,
   ALL_CLASSES,
-} from '@/data/units/constants'
+} from '@/data/class-types'
 
 const CRITERIA_UNIQUES = [
   'Lord',

@@ -4,8 +4,8 @@ import {
   calculateEquipmentBonus,
   calculateGrowthRanks,
 } from '@/core/calculations'
-import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
-import { STATS } from '@/data/units/constants'
+import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/class-growth-table'
+import { STATS } from '@/data/constants'
 import type { StatKey } from '@/types/base-stats'
 import { useMemo } from 'react'
 

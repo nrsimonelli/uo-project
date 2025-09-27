@@ -1,5 +1,5 @@
 import type { RandomNumberGeneratorType } from './random'
-import { clamp } from './utils'
+import { clamp } from '@/lib/utils'
 
 export const calculateDamage = (
   attack: number,

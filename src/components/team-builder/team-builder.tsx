@@ -9,7 +9,7 @@ import { Cols, Rows, type Position } from './team-context'
 
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
-import { generateRandomId } from '@/core/utils'
+import { generateRandomId } from '@/core/helpers'
 import { AddTeamModal } from './add-team-modal'
 
 export const TeamBuilder = () => {

@@ -3,13 +3,13 @@ import { Card } from '../ui/card'
 import { RadarGraph } from '../radar-graph'
 import type { Unit } from '../team-builder/team-context'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
-import { SPRITES } from '@/data/units/sprites'
+import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'
 import { AnimatedStatBar } from '../animated-stat-bar'
 import { ClassSelect, GrowthSelect, LevelSelect } from './unit-select'
 // import { UnitNameEditor } from './unit-name-editor'
 import type { AllClassType } from '@/types/base-stats'
-import { ALL_CLASSES } from '@/data/units/constants'
+import { ALL_CLASSES } from '@/data/class-types'
 
 const UnitImage = ({
   imagePath,

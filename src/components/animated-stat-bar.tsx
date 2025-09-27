@@ -10,7 +10,7 @@ import {
   Star,
   Heart,
 } from 'lucide-react'
-import { STATS } from '@/data/units/constants'
+import { STATS } from '@/data/constants'
 import { cn } from '@/lib/utils'
 import { useCallback } from 'react'
 

@@ -1,5 +1,5 @@
 import type { AFFLICTIONS } from '../data/status'
-import type { COMBATANT_TYPES } from '../data/units/constants'
+import type { COMBATANT_TYPES } from '../data/constants'
 
 export type AfflictionType = (typeof AFFLICTIONS)[number]
 
