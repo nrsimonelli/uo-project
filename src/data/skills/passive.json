@@ -1521,14 +1521,17 @@
         "potency": { "physical": 50 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 100 },
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Cavalry" }
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
         ]
       }
     ]
@@ -1650,6 +1653,1116 @@
         "kind": "Buff",
         "stat": "initiative",
         "amount": 10
+      }
+    ]
+  },
+  {
+    "id": "scornfulDead",
+    "type": "passive",
+    "name": "Scornful Dead",
+    "description": "Force all enemies to focus attacks on user, user evades the next 2 hits. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "evilCover",
+    "type": "passive",
+    "name": "Evil Cover",
+    "description": "Cover one ally with Medium Guard, steals 1 PP from that ally.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "darkStep",
+    "type": "passive",
+    "name": "Dark Step",
+    "description": "Before being attacked, evade a hit and grant user +25 Evasion.",
+    "pp": 1,
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100
+      },
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "id": "darkConferral",
+    "type": "passive",
+    "name": "Dark Conferral",
+    "description": "Add magic damage (50 potency) and blindness to an ally's next attack.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacksActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "PotencyBoost",
+        "amount": { "magical": 50 }
+      }
+    ]
+  },
+  {
+    "id": "cursedGaol",
+    "type": "passive",
+    "name": "Cursed Gaol",
+    "description": "When an enemy uses an attack, inflicts -50% attack and Critical Seal.",
+    "pp": 1,
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "ominousWall",
+    "type": "passive",
+    "name": "Ominous Wall",
+    "description": "Grants a buff that negates one attack to all allies. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Defend",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "advanceCover",
+    "type": "passive",
+    "name": "Advance Cover",
+    "description": "Cover an ally with Medium Guard, grants user +1 AP.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "phantomCounter",
+    "type": "passive",
+    "name": "Phantom Counter",
+    "description": "Counterattack with true strike, inflicts burn and removes all buffs.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "partingDeath",
+    "type": "passive",
+    "name": "Parting Death",
+    "description": "At end of battle, attack a single enemy, inflicts Deathblow if target has 50% HP or less.",
+    "pp": 1,
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "heavyGuard",
+    "type": "passive",
+    "name": "Heavy Guard",
+    "description": "Block an enemy attack with Heavy Guard.",
+    "pp": 1,
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "heavyGuard"
+      }
+    ]
+  },
+  {
+    "id": "wildKick",
+    "type": "passive",
+    "name": "Wild Kick",
+    "description": "Follow up attack, inflicts Stun and Guard Seal.",
+    "pp": 1,
+    "activationWindow": "afterAttacking",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "hawkEye",
+    "type": "passive",
+    "name": "Hawk Eye",
+    "description": "Before attacking, grant self Truestrike and Guaranteed Critical.",
+    "pp": 2,
+    "activationWindow": "beforeAttackingActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      },
+      {
+        "kind": "CritBoost",
+        "value": 100,
+        "duration": "NextAction"
+      }
+    ]
+  },
+  {
+    "id": "curingHeal",
+    "type": "passive",
+    "name": "Curing Heal",
+    "description": "After ally is hit, restore minor HP and remove all debuffs. MISSING: Hit rate info.",
+    "pp": 1,
+    "activationWindow": "afterAllyHit",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "rageOfTheFaeries",
+    "type": "passive",
+    "name": "Rage of the Faeries",
+    "description": "Attacks at start of battle, inflicts stun and grants +1 Faerie. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "elementalImpetus",
+    "type": "passive",
+    "name": "Elemental Impetus",
+    "description": "After using an active skill, gain +1 AP and +1 Faerie.",
+    "pp": 2,
+    "activationWindow": "afterUsingActiveSkill",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "boonOfTheFaeries",
+    "type": "passive",
+    "name": "Boon of the Faeries",
+    "description": "Restore moderate HP, grant a buff that negates a single debuff and gain +1 Faerie. Limited use. MISSING: Hit rate info.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 100,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "nobleGuard",
+    "type": "passive",
+    "name": "Noble Guard",
+    "description": "Block enemy attack with medium guard, grants 20% Defense and grants +1 PP if you have 50% Health or less.",
+    "pp": 1,
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "luminousCover",
+    "type": "passive",
+    "name": "Luminous Cover",
+    "description": "Cover an ally with medium Guard, grants ally 20% Defense.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "rapidOrder",
+    "type": "passive",
+    "name": "Rapid Order",
+    "description": "Grant +20 Initiative to all allies. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "passiveMiracle",
+    "type": "passive",
+    "name": "Passive Miracle",
+    "description": "After receiving an ally's passive skill, restore minor HP and give +1 PP to that ally. MISSING: Hit rate info.",
+    "pp": 1,
+    "activationWindow": "afterReceivingAllyPassive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "magical"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "saintsBarrier",
+    "type": "passive",
+    "name": "Saint's Barrier",
+    "description": "Before an ally is attacked, reduce damage taken by 50% and prevent debuffs.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Defend",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": "divineBlessing",
+    "type": "passive",
+    "name": "Divine Blessing",
+    "description": "Grants all allies HP Regeneration and +10% Defense. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 10
+      }
+    ]
+  },
+  {
+    "id": "holyBarrier",
+    "type": "passive",
+    "name": "Holy Barrier",
+    "description": "Cover one ally and reduce damage taken by 50%, also prevents afflictions.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      },
+      {
+        "kind": "Defend",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": "holyGuard",
+    "type": "passive",
+    "name": "Holy Guard",
+    "description": "Block an enemy attack with Medium Guard, prevent debuffs.",
+    "pp": 1,
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      }
+    ]
+  },
+  {
+    "id": "pursuit",
+    "type": "passive",
+    "name": "Pursuit",
+    "description": "Follow up attack.",
+    "pp": 1,
+    "activationWindow": "afterAttacking",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "guardOrder",
+    "type": "passive",
+    "name": "Guard Order",
+    "description": "Before ally attacked, grant +100% Guard Rate for one attack.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "guardRate",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "snipingOrder",
+    "type": "passive",
+    "name": "Sniping Order",
+    "description": "Before an ally attacks, makes next attack Truestrike.",
+    "pp": 2,
+    "activationWindow": "beforeAllyAttacksActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "eagleEye",
+    "type": "passive",
+    "name": "Eagle Eye",
+    "description": "User's next attack is Truestrike.",
+    "pp": 1,
+    "activationWindow": "beforeAttackingActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "tripleCounter",
+    "type": "passive",
+    "name": "Triple Counter",
+    "description": "Counterattack after enemy attacks you with an active skill.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "snowWhiteStrike",
+    "type": "passive",
+    "name": "Snow-White Strike",
+    "description": "Follow up attack, inflicts Freeze, +100 potency vs frozen targets.",
+    "pp": 1,
+    "activationWindow": "afterAttacking",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 100 },
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Freeze",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "maidensHammer",
+    "type": "passive",
+    "name": "Maiden's Hammer",
+    "description": "Counterattack with true strike, potency increases the less HP the user has up to +100.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "ironVeil",
+    "type": "passive",
+    "name": "Iron Veil",
+    "description": "Grants +50% Guard rate and +30% Phys Def at start of battle. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "guardRate",
+        "amount": 50
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 30
+      }
+    ]
+  },
+  {
+    "id": "undyingWill",
+    "type": "passive",
+    "name": "Undying Will",
+    "description": "Before using an attacking skill, boost attack potency based on HP lost (up to +100). Gain ability to survive one fatal blow.",
+    "pp": 1,
+    "activationWindow": "beforeAttackingActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 100 }
+      }
+    ]
+  },
+  {
+    "id": "bulkUp",
+    "type": "passive",
+    "name": "Bulk Up",
+    "description": "Recover 40% HP after being hit.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "HealPercent",
+        "value": 40
+      }
+    ]
+  },
+  {
+    "id": "wideCounter",
+    "type": "passive",
+    "name": "Wide Counter",
+    "description": "Counterattacks a row of enemies when hit. MISSING: Potency info.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 75,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "berserk",
+    "type": "passive",
+    "name": "Berserk",
+    "description": "Consume all PP to gain 1 AP and survive one fatal blow.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "vengeance",
+    "type": "passive",
+    "name": "Vengeance",
+    "description": "When attacked, gain 20% Attack and 20% Defense (stacks). Grant +1 PP if you are below 50% HP.",
+    "pp": 1,
+    "activationWindow": "afterBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "sanguineArts",
+    "type": "passive",
+    "name": "Sanguine Arts",
+    "description": "When you use an active skill, recover HP equal to 50% of the damage dealt.",
+    "pp": 1,
+    "activationWindow": "afterUsingActiveSkill",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "physical"
+      }
+    ]
+  },
+  {
+    "id": "demonicPact",
+    "type": "passive",
+    "name": "Demonic Pact",
+    "description": "After using a skill sacrifice 25% HP to regain +1 AP.",
+    "pp": 1,
+    "activationWindow": "afterUsingActiveSkill",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "quickGuard",
+    "type": "passive",
+    "name": "Quick Guard",
+    "description": "Block an attack with Medium Guard.",
+    "pp": 1,
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      }
+    ]
+  },
+  {
+    "id": "cavalierCall",
+    "type": "passive",
+    "name": "Cavalier Call",
+    "description": "Grants Cavalry allies in user's row +20% Attack (effect stacks).",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "knightsPursuit",
+    "type": "passive",
+    "name": "Knight's Pursuit",
+    "description": "Follow up attack after a cavalier ally attacks.",
+    "pp": 1,
+    "activationWindow": "afterCavalryAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "wingRest",
+    "type": "passive",
+    "name": "Wing Rest",
+    "description": "Recover 25% HP at the end of combat, double recovery if afflicted. MISSING: Hit rate info.",
+    "pp": 1,
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "HealPercent",
+        "value": 25
+      }
+    ]
+  },
+  {
+    "id": "feathering",
+    "type": "passive",
+    "name": "Feathering",
+    "description": "Grant allies in your row +15 Initiative when attacking.",
+    "pp": 1,
+    "activationWindow": "beforeAllyAttacksActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 15
+      }
+    ]
+  },
+  {
+    "id": "gryphonGlide",
+    "type": "passive",
+    "name": "Gryphon Glide",
+    "description": "Evade 1 ranged attack, grants self +1 AP.",
+    "pp": 2,
+    "activationWindow": "beforeBeingHitRanged",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "magicBarrier",
+    "type": "passive",
+    "name": "Magic Barrier",
+    "description": "Negate the next Magic damage dealt to an ally and prevents afflictions.",
+    "pp": 1,
+    "activationWindow": "beforeAllyHitMagic",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Defend",
+        "damageType": "Magical",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "holyGuardRadiant",
+    "type": "passive",
+    "name": "Holy Guard",
+    "description": "Block a physical attack with Medium Guard, prevents debuffs.",
+    "pp": 1,
+    "activationWindow": "beforeBeingHitPhys",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "style": "mediumGuard"
+      }
+    ]
+  },
+  {
+    "id": "rowBarrier",
+    "type": "passive",
+    "name": "Row Barrier",
+    "description": "Negate the next Magic damage dealt to a row of allies and prevents afflictions.",
+    "pp": 2,
+    "activationWindow": "beforeAllyHitMagic",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Defend",
+        "damageType": "Magical",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "groundCounterWyvern",
+    "type": "passive",
+    "name": "Ground Counter",
+    "description": "Counterattack, +100 potency vs. Cavalry.",
+    "pp": 1,
+    "activationWindow": "afterBeingHit",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 100 },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "deflect",
+    "type": "passive",
+    "name": "Deflect",
+    "description": "Negate Melee damage for one hit, grants user +20 Evasion.",
+    "pp": 1,
+    "activationWindow": "beforeBeingHitMelee",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Defend",
+        "amount": 100
+      },
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "dragonsRoar",
+    "type": "passive",
+    "name": "Dragon's Roar",
+    "description": "Reduce Initiative by 20 for all enemies. Limited use.",
+    "pp": 2,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -20
       }
     ]
   }

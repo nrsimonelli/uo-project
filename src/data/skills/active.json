@@ -17,30 +17,28 @@
         "potency": { "physical": 100 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "IgnoreDefense",
+        "kind": "IgnoreDefense",
         "fraction": 0.5,
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Armored"
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
           }
         ]
       },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Armored"
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
           }
         ]
       }
@@ -64,30 +62,28 @@
         "potency": { "physical": 100 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "GrantFlag",
+        "kind": "GrantFlag",
         "flag": "Unguardable",
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Calvary"
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
           }
         ]
       },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Calvary"
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
           }
         ]
       }
@@ -111,18 +107,16 @@
         "potency": { "physical": 100 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Flying"
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
           }
         ]
       }
@@ -151,11 +145,9 @@
         "kind": "ResourceGain",
         "resource": "PP",
         "amount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "IgnoreDefense",
+        "kind": "IgnoreDefense",
         "fraction": 0.5
       }
     ]
@@ -463,18 +455,16 @@
         "potency": { "physical": 100 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Ground"
+            "combatantType": "Ground",
+            "comparator": "EqualTo"
           }
         ]
       }
@@ -498,18 +488,16 @@
         "potency": { "physical": 150 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
           {
-            "kind": "Targeting",
+            "kind": "CombatantType",
             "target": "Enemy",
-            "by": "CombatantType",
-            "value": "Flying"
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
           }
         ]
       }
@@ -639,14 +627,12 @@
         "potency": { "physical": 75 },
         "hitRate": 100,
         "hitCount": 1
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 75 },
         "conditions": [
-          { "kind": "Affliction", "target": "Enemy", "affliction": "Any", "comparator": "EqualTo" }
+          { "kind": "AnyAffliction", "target": "Enemy", "comparator": "EqualTo" }
         ]
       }
     ]
@@ -669,15 +655,1885 @@
         "potency": { "physical": 75 },
         "hitRate": 100,
         "hitCount": 2
-      }
-    ],
-    "bonusModifiers": [
+      },
       {
-        "type": "PotencyBoost",
+        "kind": "PotencyBoost",
         "amount": { "physical": 75 },
         "conditions": [
-          { "kind": "Affliction", "target": "Enemy", "affliction": "Any", "comparator": "EqualTo" }
+          { "kind": "AnyAffliction", "target": "Enemy", "comparator": "EqualTo" }
         ]
+      }
+    ]
+  },
+  {
+    "id": "flameThrust",
+    "type": "active",
+    "name": "Flame Thrust",
+    "description": "Attack a column of enemies. Inflicts burn.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "deadlyRush",
+    "type": "active",
+    "name": "Deadly Rush",
+    "description": "Attack a single enemy four times. Inflicts stun and burn.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 40 },
+        "hitRate": 100,
+        "hitCount": 4
+      }
+    ]
+  },
+  {
+    "id": "darkMist",
+    "type": "active",
+    "name": "Dark Mist",
+    "description": "Grants +50 Evasion and +2 PP to self.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 50
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "passiveCurse",
+    "type": "active",
+    "name": "Passive Curse",
+    "description": "Attack a row of enemies with true strike. Inflicts -1 PP and -10 Initiative.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": -1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      }
+    ]
+  },
+  {
+    "id": "aquaVenom",
+    "type": "active",
+    "name": "Aqua Venom",
+    "description": "Attack a row of enemies with magical damage. Inflicts poison.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "maelstrom",
+    "type": "active",
+    "name": "Maelstrom",
+    "description": "Attack all enemies with magical damage three times. +25 Potency vs. poisoned targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 25 },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "magical": 25 },
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "burningEdge",
+    "type": "active",
+    "name": "Burning Edge",
+    "description": "Attack a single enemy twice. Inflicts burn, grants user +1 PP if target is already burned.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Burn",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "inferno",
+    "type": "active",
+    "name": "Inferno",
+    "description": "Attack a row of enemies. Ignores 50% Defense and inflicts burn, grants user +1 PP.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.5
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "heavySlash",
+    "type": "active",
+    "name": "Heavy Slash",
+    "description": "Attack a single enemy with high potency.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "penetrate",
+    "type": "active",
+    "name": "Penetrate",
+    "description": "Attack a column of enemies. Inflicts Physical Defense -30%.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "defense",
+        "amount": -30
+      }
+    ]
+  },
+  {
+    "id": "omegaShatter",
+    "type": "active",
+    "name": "Omega Shatter",
+    "description": "Attack a single enemy twice with high potency.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 2
+      }
+    ]
+  },
+  {
+    "id": "primusEdge",
+    "type": "active",
+    "name": "Primus Edge",
+    "description": "Attack a single enemy with hybrid damage. If user is at 100% HP, grant +1 PP and +1 Faerie.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50, "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "sylphicWind",
+    "type": "active",
+    "name": "Sylphic Wind",
+    "description": "Attack a row of enemies with magical damage three times. +20 potency vs flying, grants user +1 Faerie.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 40 },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "magical": 20 },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "elementalRoar",
+    "type": "active",
+    "name": "Elemental Roar",
+    "description": "Attack all enemies with hybrid damage. Potency increases with Faerie count (+30 per Faerie), dismisses all Faeries.",
+    "ap": 3,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70, "magical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "faerieHeal",
+    "type": "active",
+    "name": "Faerie Heal",
+    "description": "Restore HP to a row of allies. Grants immunity to damage for one attack and +1 Faerie. MISSING: Hit rate info.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": ["Healing"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 100,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "leanEdge",
+    "type": "active",
+    "name": "Lean Edge",
+    "description": "Attack a single enemy. Recover 25% HP if attack hits and another 25% HP if target is defeated.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "cavalrySlayer",
+    "type": "active",
+    "name": "Cavalry Slayer",
+    "description": "Attack a single enemy. Inflicts -1 AP, -1 PP and Guard Seal if target is cavalry.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": -1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": -1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spinningEdge",
+    "type": "active",
+    "name": "Spinning Edge",
+    "description": "Attack a row of enemies twice. Ignores 50% of Defense, grants 1 PP if enemy is defeated.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 60 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.5
+      }
+    ]
+  },
+  {
+    "id": "holyLight",
+    "type": "active",
+    "name": "Holy Light",
+    "description": "Attack a single enemy with magical damage. Removes all of target's buffs.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "curingCall",
+    "type": "active",
+    "name": "Curing Call",
+    "description": "Restore minor HP to ally row and remove all debuffs. MISSING: Hit rate info.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": ["Healing"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "innocentRay",
+    "type": "active",
+    "name": "Innocent Ray",
+    "description": "Attack a row of enemies with magical damage. Removes all of targets' buffs.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "slice",
+    "type": "active",
+    "name": "Slice",
+    "description": "Attack a single enemy. Grants user +1 PP if target is defeated.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "heal",
+    "type": "active",
+    "name": "Heal",
+    "description": "Restore moderate HP to a single ally. MISSING: Hit rate info.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": ["Healing"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 100,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "divineCross",
+    "type": "active",
+    "name": "Divine Cross",
+    "description": "Attack a single enemy twice with hybrid damage and true strike. Remove all buffs, grants user +1 PP if target is defeated.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50, "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "banishingStab",
+    "type": "active",
+    "name": "Banishing Stab",
+    "description": "Attack a single enemy. Remove all of the target's buffs.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "defensiveOrder",
+    "type": "active",
+    "name": "Defensive Order",
+    "description": "Grant +20% Defense to all allies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "offensiveOrder",
+    "type": "active",
+    "name": "Offensive Order",
+    "description": "Grant +20% Attack to all allies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "mysticArrow",
+    "type": "active",
+    "name": "Mystic Arrow",
+    "description": "Attack a single enemy. Deals 100 potency magic damage to armored targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sonicShaft",
+    "type": "active",
+    "name": "Sonic Shaft",
+    "description": "Attack a single enemy. Deal 100% of target's initiative as extra damage.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "glacialRain",
+    "type": "active",
+    "name": "Glacial Rain",
+    "description": "Attack all enemies three times with charge. Inflicts freeze.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["Charge"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 60 },
+        "hitRate": 80,
+        "hitCount": 3
+      }
+    ]
+  },
+  {
+    "id": "verticalEdge",
+    "type": "active",
+    "name": "Vertical Edge",
+    "description": "Attack a single enemy. Against flying targets, becomes Truestrike, +50 Potency and ignores 50% of Defense.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.5,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wideSmash",
+    "type": "active",
+    "name": "Wide Smash",
+    "description": "Attack a row of enemies. +50 Potency if user has 100% HP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 80,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "mountingCharge",
+    "type": "active",
+    "name": "Mounting Charge",
+    "description": "Restore 30% Health and grant +30% Physical Attack to self.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "HealPercent",
+        "value": 30
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 30
+      }
+    ]
+  },
+  {
+    "id": "grandSmash",
+    "type": "active",
+    "name": "Grand Smash",
+    "description": "Attack all enemies. +50% Potency if user has 100% HP.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 80,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "vengefulAxe",
+    "type": "active",
+    "name": "Vengeful Axe",
+    "description": "Attack a single enemy. Damage increases the less HP that target has (Maximum Boost +100 Potency).",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "venomAxe",
+    "type": "active",
+    "name": "Venom Axe",
+    "description": "Attack a single enemy. Inflicts poison.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "darkFlame",
+    "type": "active",
+    "name": "Dark Flame",
+    "description": "Attack a row of enemies with hybrid damage. Consume 30% of your Health to damage enemies. +50 Potency against debuffed targets. Inflicts burn.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50, "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50, "magical": 50 },
+        "conditions": [
+          {
+            "kind": "AnyAffliction",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "assaultingLance",
+    "type": "active",
+    "name": "Assaulting Lance",
+    "description": "Attack a single enemy. Grants user +1 AP if target is defeated.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "wildRush",
+    "type": "active",
+    "name": "Wild Rush",
+    "description": "Attack a column of enemies. Inflicts stun.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "pileThrust",
+    "type": "active",
+    "name": "Pile Thrust",
+    "description": "Attack a single enemy three times. Grants user +1 AP if target is defeated.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 3
+      }
+    ]
+  },
+  {
+    "id": "highSwing",
+    "type": "active",
+    "name": "High Swing",
+    "description": "Attack a row of enemies. Cavalry targets cannot guard against this attack, +50 potency vs. Cavalry.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fatalDive",
+    "type": "active",
+    "name": "Fatal Dive",
+    "description": "Attack a column of enemies. Deals damage equal to 50% of your HP. MISSING: Hit rate info.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "aerialSmite",
+    "type": "active",
+    "name": "Aerial Smite",
+    "description": "Attack a row of enemies. Cavalry targets cannot guard against this attack, grants user -1 AP if a target is at 100% HP.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hache",
+    "type": "active",
+    "name": "Hache",
+    "description": "Attack a single enemy. Grants user +1 PP if attack hits.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "rowHeal",
+    "type": "active",
+    "name": "Row Heal",
+    "description": "Restore moderate HP to a row of allies. MISSING: Hit rate info.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": ["Healing"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 100,
+        "scaling": "magical"
+      }
+    ]
+  },
+  {
+    "id": "saintsBladeActive",
+    "type": "active",
+    "name": "Saint's Blade",
+    "description": "Attack a single enemy twice. +25 Potency if user is at 100% HP, Grants user +1 PP if attack hits.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 2
+      }
+    ]
+  },
+  {
+    "id": "divingThrust",
+    "type": "active",
+    "name": "Diving Thrust",
+    "description": "Attack a single enemy. Cavalry targets cannot guard against this attack, +50 potency vs. cavalry.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fireBreath",
+    "type": "active",
+    "name": "Fire Breath",
+    "description": "Attack a row of enemies. Inflicts burn.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "tempestDrive",
+    "type": "active",
+    "name": "Tempest Drive",
+    "description": "Attack a column of enemies. Cavalry cannot guard against this attack, gains Truestrike and Critical if you are below 50% HP.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reflectMagic",
+    "type": "active",
+    "name": "Reflect Magic",
+    "description": "Reflects a magic attack.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Special",
+      "pattern": "Special"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Special",
+        "description": "Reflects a magic attack"
+      }
+    ]
+  },
+  {
+    "id": "sacrifice",
+    "type": "active",
+    "name": "Sacrifice",
+    "description": "Covers an ally from an attack, grants user +2 PP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "description": "Covers an ally from an attack"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "mirrorWeakness",
+    "type": "active",
+    "name": "Mirror Weakness",
+    "description": "If user is debuffed, remove debuff and place removed debuff on target.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Special",
+        "description": "If user is debuffed, remove debuff and place removed debuff on target"
+      }
+    ]
+  },
+  {
+    "id": "accelerate",
+    "type": "active",
+    "name": "Accelerate",
+    "description": "After being attacked, gain +20 initiative and +30 Accuracy.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "AfterBeingAttacked"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 30,
+        "conditions": [
+          {
+            "kind": "AfterBeingAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diurnalGuard",
+    "type": "active",
+    "name": "Diurnal Guard",
+    "description": "Block an attack with Medium Guard, gain +1 PP if during the day.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Guard",
+        "guardType": "Medium"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Day"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "discharge",
+    "type": "active",
+    "name": "Discharge",
+    "description": "Before attacking, consume all buffs to power of that attack (Boost is 25% per consumed buff).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Special",
+        "description": "Before attacking, consume all buffs to power of that attack (Boost is 25% per consumed buff)"
+      }
+    ]
+  },
+  {
+    "id": "sting",
+    "type": "active",
+    "name": "Sting",
+    "description": "Attack a single enemy. +50 Potency if user is below 50% HP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HPThreshold",
+            "threshold": 50,
+            "comparator": "LessThan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavyCover",
+    "type": "active",
+    "name": "Heavy Cover",
+    "description": "Cover an ally with a Heavy Guard.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "guardType": "Heavy"
+      }
+    ]
+  },
+  {
+    "id": "guardian",
+    "type": "active",
+    "name": "Guardian",
+    "description": "Grant +20% Phys Def and +20% Guard Rate when hit by a physical attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "physicalDefense",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "WhenHitBy",
+            "damageType": "Physical"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "guardRate",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "WhenHitBy",
+            "damageType": "Physical"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rowProtection",
+    "type": "active",
+    "name": "Row Protection",
+    "description": "Grants allies in user's row +50% Phys. Def.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "physicalDefense",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": "greatshield",
+    "type": "active",
+    "name": "Greatshield",
+    "description": "Grants user +50% Phys Def and +2 PP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "physicalDefense",
+        "amount": 50
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "rowCover",
+    "type": "active",
+    "name": "Row Cover",
+    "description": "Cover a row of allies with a Medium Guard.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "guardType": "Medium"
+      }
+    ]
+  },
+  {
+    "id": "wardingSlash",
+    "type": "active",
+    "name": "Warding Slash",
+    "description": "Attack a single enemy. Grants user 20% Defense.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "shieldBash",
+    "type": "active",
+    "name": "Shield Bash",
+    "description": "Attack a single enemy. Inflicts Stun.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun"
+      }
+    ]
+  },
+  {
+    "id": "arrowCover",
+    "type": "active",
+    "name": "Arrow Cover",
+    "description": "Cover an ally from one ranged attack and nullify all damage.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "description": "Cover an ally from one ranged attack and nullify all damage"
+      }
+    ]
+  },
+  {
+    "id": "quickGuard",
+    "type": "active",
+    "name": "Quick Guard",
+    "description": "Block a physical attack with a medium guard.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Guard",
+        "guardType": "Medium",
+        "conditions": [
+          {
+            "kind": "WhenHitBy",
+            "damageType": "Physical"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "defender",
+    "type": "active",
+    "name": "Defender",
+    "description": "Attack a single enemy twice. Grants the user 50% Defense, Grants the user +1 PP if the attack hits.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Buff",
+        "stat": "defense",
+        "amount": 50
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnHit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "provoke",
+    "type": "active",
+    "name": "Provoke",
+    "description": "Force a row of enemies to attack user, grants user 50% Guard Rate.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Taunt",
+        "description": "Force a row of enemies to attack user"
+      },
+      {
+        "kind": "Buff",
+        "stat": "guardRate",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": "bearCrush",
+    "type": "active",
+    "name": "Bear Crush",
+    "description": "Attack a single enemy. Inflicts Stun.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun"
+      }
+    ]
+  },
+  {
+    "id": "roundSwing",
+    "type": "active",
+    "name": "Round Swing",
+    "description": "Attack a row of enemies three times. Damage increase the more HP the user has (Maximum increase +50 potency).",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 75,
+        "hitCount": 3
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 75,
+        "hitCount": 3,
+        "conditions": [
+          {
+            "kind": "HPThreshold",
+            "threshold": 100,
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "earthshaker",
+    "type": "active",
+    "name": "Earthshaker",
+    "description": "Attack all enemies. Damage increases the less HP the user has (Maximum increase +75 potency).",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HPThreshold",
+            "threshold": 1,
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavyGuard",
+    "type": "active",
+    "name": "Heavy Guard",
+    "description": "Block an enemy attack with Heavy Guard.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Guard",
+        "guardType": "Heavy"
+      }
+    ]
+  },
+  {
+    "id": "nocturnalRest",
+    "type": "active",
+    "name": "Nocturnal Rest",
+    "description": "After attacking, recover 30% HP (amount recovered doubles at night).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 30,
+        "conditions": [
+          {
+            "kind": "AfterAttacking"
+          }
+        ]
+      },
+      {
+        "kind": "Heal",
+        "amount": 30,
+        "conditions": [
+          {
+            "kind": "AfterAttacking"
+          },
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Night"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lifeBlow",
+    "type": "active",
+    "name": "Life Blow",
+    "description": "Deal damage equal to 80% of your HP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 0 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "description": "Deal damage equal to 80% of your HP"
       }
     ]
   }

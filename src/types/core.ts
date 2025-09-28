@@ -75,6 +75,17 @@ export type Condition =
   | {
       kind: 'Flag'
       target: Target
-      flag: 'Stunned' | 'Frozen' | 'Blinded'
+      flag: AfflictionType
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'CombatantType'
+      target: Target
+      combatantType: CombatantType
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'AnyAffliction'
+      target: Target
       comparator: EqualityComparator
     }

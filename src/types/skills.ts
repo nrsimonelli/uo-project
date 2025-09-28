@@ -1,7 +1,6 @@
 import type { ActivationWindowId } from '../data/activation-windows'
 import type { StatKey } from './base-stats'
 import type {
-  AttackType,
   Condition,
   DamageType,
   Targeting,
