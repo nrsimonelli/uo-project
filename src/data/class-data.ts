@@ -36,6 +36,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: 'Armored',
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'wardingSlash', level: 1, skillType: 'active' },
+      { skillId: 'shieldBash', level: 15, skillType: 'active' },
+      { skillId: 'arrowCover', level: 1, skillType: 'active' },
+      { skillId: 'quickGuard', level: 10, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.SOLDIER]: {
     id: ALL_CLASSES.SOLDIER,
@@ -71,6 +77,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: 'Armored',
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'sting', level: 1, skillType: 'active' },
+      { skillId: 'heavyCover', level: 1, skillType: 'active' },
+      { skillId: 'guardian', level: 15, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.GLADIATOR]: {
     id: ALL_CLASSES.GLADIATOR,
@@ -246,6 +257,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: 'Armored',
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.FIGHTER,
+    skills: [
+      { skillId: 'defender', level: 20, skillType: 'active' },
+      { skillId: 'provoke', level: 25, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.SERGEANT]: {
     id: ALL_CLASSES.SERGEANT,
@@ -281,6 +297,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: 'Armored',
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.HOPLITE,
+    skills: [
+      { skillId: 'rowProtection', level: 25, skillType: 'active' },
+      { skillId: 'greatshield', level: 30, skillType: 'active' },
+      { skillId: 'rowCover', level: 20, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.BERSERKER]: {
     id: ALL_CLASSES.BERSERKER,
@@ -441,6 +463,14 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: 'Bestral',
     trait: 'Armored',
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'bearCrush', level: 1, skillType: 'active' },
+      { skillId: 'roundSwing', level: 10, skillType: 'active' },
+      { skillId: 'earthshaker', level: 30, skillType: 'active' },
+      { skillId: 'heavyGuard', level: 1, skillType: 'active' },
+      { skillId: 'nocturnalRest', level: 15, skillType: 'active' },
+      { skillId: 'lifeBlow', level: 25, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.WEREOWL]: {
     id: ALL_CLASSES.WEREOWL,
@@ -455,6 +485,14 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: 'Angel',
     trait: null,
     movementType: 'Flying',
+    skills: [
+      { skillId: 'spiralSword', level: 1, skillType: 'active' },
+      { skillId: 'shieldSmite', level: 10, skillType: 'active' },
+      { skillId: 'honedSlash', level: 30, skillType: 'active' },
+      { skillId: 'accelerate', level: 1, skillType: 'active' },
+      { skillId: 'diurnalGuard', level: 15, skillType: 'active' },
+      { skillId: 'discharge', level: 25, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.FEATHERBOW]: {
     id: ALL_CLASSES.FEATHERBOW,
@@ -476,6 +514,14 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: 'Angel',
     trait: 'Armored',
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'impulse', level: 1, skillType: 'active' },
+      { skillId: 'rowResistance', level: 2, skillType: 'active' },
+      { skillId: 'mysticShield', level: 3, skillType: 'active' },
+      { skillId: 'reflectMagic', level: 1, skillType: 'active' },
+      { skillId: 'sacrifice', level: 15, skillType: 'active' },
+      { skillId: 'mirrorWeakness', level: 25, skillType: 'active' }
+    ]
   },
   [ALL_CLASSES.HIGH_PRIESTESS]: {
     id: ALL_CLASSES.HIGH_PRIESTESS,
