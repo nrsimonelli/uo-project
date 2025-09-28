@@ -1,0 +1,371 @@
+[
+  {
+    "id": "azureCrestGreatshield",
+    "name": "Azure Crest Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50, "pp": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "baroqueGreatshield",
+    "name": "Baroque Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 8, "guardRate": 28, "guardEfficiency": 50, "accuracy": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "beastslayerGreatshield",
+    "name": "Beastslayer Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "bestralGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronGreatshield",
+    "name": "Black Iron Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 11, "guardRate": 32, "guardEfficiency": 50, "critRate": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blacksilverPavise",
+    "name": "Blacksilver Pavise",
+    "type": "Greatshield",
+    "stats": { "physDef": 14, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "bunkerStance",
+    "nullifications": ["Stun"],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeGreatshield",
+    "name": "Bronze Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 6, "guardRate": 25, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bulwarkTowershield",
+    "name": "Bulwark Towershield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 35, "guardEfficiency": 50 },
+    "skillId": "bulwark",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnatGreatshield",
+    "name": "Carnat Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 12, "guardRate": 33, "guardEfficiency": 50, "initiative": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "championsTowershield",
+    "name": "Champion's Towershield",
+    "type": "Greatshield",
+    "stats": { "physDef": 16, "guardRate": 40, "guardEfficiency": 50 },
+    "skillId": "provokingWall",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "citadelGuardsGreatshield",
+    "name": "Citadel Guard's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 14, "guardRate": 30, "guardEfficiency": 50, "maxHp": 10 },
+    "skillId": "heavyGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "converyableGreatshield",
+    "name": "Converyable Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 5, "guardRate": 10, "guardEfficiency": 50, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragonboneGreatshield",
+    "name": "Dragonbone Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 11, "guardRate": 25, "guardEfficiency": 50, "pp": 1, "initiative": -10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "drakestoneIceshield",
+    "name": "Drakestone Iceshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 16, "guardRate": 40, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Freeze", "Stun"],
+    "classRestrictions": []
+  },
+  {
+    "id": "granBaris",
+    "name": "Gran Baris",
+    "type": "Greatshield",
+    "stats": { "physDef": 16, "guardRate": 40, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Debuff"],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatwoodGreatshield",
+    "name": "Greatwood Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 11, "guardRate": 30, "guardEfficiency": 50, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "herosGreatshield",
+    "name": "Hero's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 16, "guardRate": 40, "guardEfficiency": 50, "pp": 1 },
+    "skillId": "invincible",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "hoarfrostGreatshield",
+    "name": "Hoarfrost Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "horsekillerGreatshield",
+    "name": "Horsekiller Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "cavalryGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icefallGreatshield",
+    "name": "Icefall Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 14, "guardRate": [30, -20], "guardEfficiency": 50, "pp": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironGreatshield",
+    "name": "Iron Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironcladTowershield",
+    "name": "Ironclad Towershield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "wall",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "luminousGreatshield",
+    "name": "Luminous Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 35, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Poison", "Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "mirageGreatshield",
+    "name": "Mirage Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 3, "guardRate": 20, "guardEfficiency": 50, "evasion": 50 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "panopliedGreatshield",
+    "name": "Panoplied Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 35, "guardEfficiency": 50 },
+    "skillId": "heavyCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phantomKnightsGreatshield",
+    "name": "Phantom Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 0, "guardRate": 0, "guardEfficiency": 50, "magDef": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "recruitsGreatshield",
+    "name": "Recruit's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 6, "guardRate": 27, "guardEfficiency": 50, "maxHp": 3, "expGainPercent": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "searingGreatshield",
+    "name": "Searing Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "skironsGreatshield",
+    "name": "Skiron's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 16, "guardRate": 40, "guardEfficiency": 50, "initiative": 5 },
+    "skillId": "hastenedCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsteelGreatshield",
+    "name": "Spellsteel Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 30, "guardEfficiency": 50, "magDef": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "squiresGreatshield",
+    "name": "Squire's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "quickCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "steelGreatshield",
+    "name": "Steel Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 14, "guardRate": 35, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "templarsGreatshield",
+    "name": "Templar's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50, "hpRecoveryPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thornGreatshield",
+    "name": "Thorn Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 12, "guardRate": 30, "guardEfficiency": 50, "pp": 1, "maxHp": -15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "unyieldingGreatshield",
+    "name": "Unyielding Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 14, "guardRate": 40, "guardEfficiency": 50 },
+    "skillId": "enduringGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "viperGreatshield",
+    "name": "Viper Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": null,
+    "nullifications": ["Poison"],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalGreatshield",
+    "name": "Vorpal Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 15, "guardRate": 35, "guardEfficiency": 50, "maxHp": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "whiteKnightsGreatshield",
+    "name": "White Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 9, "guardRate": 25, "guardEfficiency": 50, "maxHp": 15 },
+    "skillId": "lifeshare",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingclipperGreatshield",
+    "name": "Wingclipper Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 10, "guardRate": 30, "guardEfficiency": 50 },
+    "skillId": "aerialGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingcrestGreatshield",
+    "name": "Wingcrest Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 15, "guardRate": 35, "guardEfficiency": 50, "pp": 1, "critRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranGreatshield",
+    "name": "Zenoiran Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 8, "guardRate": 25, "guardEfficiency": 50, "maxHp": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsGreatshield",
+    "name": "Zenoiran Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": { "physDef": 13, "guardRate": 35, "guardEfficiency": 50, "maxHp": 15 },
+    "skillId": "enduringCover",
+    "nullifications": [],
+    "classRestrictions": []
+  }
+]

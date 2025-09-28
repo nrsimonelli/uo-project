@@ -1,0 +1,434 @@
+[
+  {
+    "id": "alminster",
+    "name": "Alminster",
+    "type": "Bow",
+    "stats": { "physAtk": 25, "accuracy": 30 },
+    "skillId": "checkmate",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "apeliotiesBow",
+    "name": "Apeliotes' Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 25, "ap": 1, "initiative": 10, "evasion": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "baroqueBow",
+    "name": "Baroque Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 13, "accuracy": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronBow",
+    "name": "Black Iron Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 17, "critRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bowOfSwiftness",
+    "name": "Bow of Swiftness",
+    "type": "Bow",
+    "stats": { "physAtk": 16 },
+    "skillId": "rapidShot",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeBow",
+    "name": "Bronze Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnatBow",
+    "name": "Carnat Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 19, "initiative": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianBow",
+    "name": "Carnelian Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "ap": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "craneBow",
+    "name": "Crane Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 22, "initiative": 5 },
+    "skillId": "tripleShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "desertBow",
+    "name": "Desert Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 15, "critRate": 10, "accuracy": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragonboneBow",
+    "name": "Dragonbone Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 15, "pp": 1, "initiative": -10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "flameBow",
+    "name": "Flame Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 11 },
+    "skillId": "flameArrow",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "frostbloomBow",
+    "name": "Frostbloom Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "critRate": 15, "evasion": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "gallianCrossbow",
+    "name": "Gallian Crossbow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "accuracy": 10, "critDamage": 30 },
+    "skillId": "harpoonBolt",
+    "nullifications": [],
+    "classRestrictions": ["Arbalist", "Shieldshooter"]
+  },
+  {
+    "id": "greatwoodBow",
+    "name": "Greatwood Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 8, "magAtk": 16, "magDef": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icefallBow",
+    "name": "Icefall Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 19, "pp": 1, "guardRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "infamousBow",
+    "name": "Infamous Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 18, "accuracy": 50, "critRate": -30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "interrogatorsBow",
+    "name": "Interrogator's Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 15, "pp": 1, "magDef": 3 },
+    "skillId": "healingHunter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironBow",
+    "name": "Iron Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "kingsbowBastorik",
+    "name": "Kingsbow Bastorik",
+    "type": "Bow",
+    "stats": { "physAtk": 25, "allStats": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "meteoriteBow",
+    "name": "Meteorite Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 24, "maxHp": 20, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "namelessGuardsBow",
+    "name": "Nameless Guard's Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "accuracy": 20 },
+    "skillId": "eagleEye",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "piercingBow",
+    "name": "Piercing Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 14 },
+    "skillId": "armorShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "piercingStrongbow",
+    "name": "Piercing Strongbow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "accuracy": 5, "critRate": 20 },
+    "skillId": "armorShatterII",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phantomKnightsBow",
+    "name": "Phantom Knight's Bow",
+    "type": "Bow",
+    "stats": { "magAtk": 16, "magDef": 5 },
+    "skillId": "phantomAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "pheasantBow",
+    "name": "Pheasant Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 13 },
+    "skillId": "passiveShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "recruitsShortbow",
+    "name": "Recruit's Shortbow",
+    "type": "Bow",
+    "stats": { "physAtk": 11, "maxHp": 3, "expGainPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sacralBow",
+    "name": "Sacral Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 25, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": ["Affliction"],
+    "classRestrictions": []
+  },
+  {
+    "id": "salamandersGreatbow",
+    "name": "Salamander's Greatbow",
+    "type": "Bow",
+    "stats": { "physAtk": 21 },
+    "skillId": "flameArrow",
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "sanguineBlow",
+    "name": "Sanguine Blow",
+    "type": "Bow",
+    "stats": { "physAtk": 16 },
+    "skillId": "sanguineAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "silvermoonBow",
+    "name": "Silvermoon Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 19 },
+    "skillId": "beastslayer",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsealBow",
+    "name": "Spellseal Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 18 },
+    "skillId": "magickShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsteelBow",
+    "name": "Spellsteel Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 9, "magAtk": 18 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "starlessBow",
+    "name": "Starless Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 11 },
+    "skillId": "shadowArrow",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "steelBow",
+    "name": "Steel Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 22 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "templarsBow",
+    "name": "Templar's Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 15, "physDef": 1, "guardRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "theInquisitor",
+    "name": "The Inquisitor",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "pp": 1, "magDef": 5 },
+    "skillId": "healingHunter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thornBow",
+    "name": "Thorn Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 17, "pp": 1, "maxHp": -15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thunderingBow",
+    "name": "Thundering Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 14 },
+    "skillId": "strengthShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thunderingStrongbow",
+    "name": "Thundering Strongbow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "accuracy": 5, "critRate": 20 },
+    "skillId": "strengthShatterII",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "trappersWarbow",
+    "name": "Trapper's Warbow",
+    "type": "Bow",
+    "stats": { "physAtk": 20, "maxHp": 15, "initiative": 5 },
+    "skillId": "arrowRain",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "viperBow",
+    "name": "Viper Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 11 },
+    "skillId": "poisonArrow",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalBow",
+    "name": "Vorpal Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 23, "maxHp": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "watchmansLongbow",
+    "name": "Watchman's Longbow",
+    "type": "Bow",
+    "stats": { "physAtk": 14, "accuracy": 10 },
+    "skillId": "eagleEye",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingcrestBow",
+    "name": "Wingcrest Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 21, "pp": 1, "critRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "woodpecker",
+    "name": "Woodpecker",
+    "type": "Bow",
+    "stats": { "physAtk": 23, "critDamage": 30 },
+    "skillId": "spikedBolt",
+    "nullifications": ["Stun"],
+    "classRestrictions": ["Arbalist", "Shieldshooter"]
+  },
+  {
+    "id": "zenoiranBow",
+    "name": "Zenoiran Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 14, "maxHp": 10, "physDef": 2, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsBow",
+    "name": "Zenoiran Knight's Bow",
+    "type": "Bow",
+    "stats": { "physAtk": 20, "maxHp": 15, "physDef": 4, "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  }
+]

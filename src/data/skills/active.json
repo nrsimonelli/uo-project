@@ -25,14 +25,24 @@
         "type": "IgnoreDefense",
         "fraction": 0.5,
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Armored" }
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Armored"
+          }
         ]
       },
       {
         "type": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Armored" }
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Armored"
+          }
         ]
       }
     ]
@@ -63,14 +73,24 @@
         "type": "GrantFlag",
         "flag": "Unguardable",
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Calvary" }
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Calvary"
+          }
         ]
       },
       {
         "type": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Calvary" }
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Calvary"
+          }
         ]
       }
     ]
@@ -101,7 +121,12 @@
         "type": "PotencyBoost",
         "amount": { "physical": 50 },
         "conditions": [
-          { "kind": "Targeting", "target": "Enemy", "by": "CombatantType", "value": "Flying" }
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Flying"
+          }
         ]
       }
     ]
@@ -136,6 +161,457 @@
       {
         "type": "IgnoreDefense",
         "fraction": 0.5
+      }
+    ]
+  },
+  {
+    "id": "sanguineAttack",
+    "type": "active",
+    "name": "Sanguine Attack",
+    "description": "Attack a single enemy. Recover HP equal to 50% of damage dealt.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "physical"
+      }
+    ]
+  },
+  {
+    "id": "shadowThrust",
+    "type": "active",
+    "name": "Shadow Thrust",
+    "description": "Attack a column of enemies. Inflicts blindness.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "elfslayer",
+    "type": "active",
+    "name": "Elfslayer",
+    "description": "Attack a column of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Elven targets.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "phantomAttack",
+    "type": "active",
+    "name": "Phantom Attack",
+    "description": "Attack a single enemy with magical damage. Inflicts -1 PP.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 120 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "magicAttack",
+    "type": "active",
+    "name": "Magic Attack",
+    "description": "Attack a single enemy with magical damage.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "lightningShaker",
+    "type": "active",
+    "name": "Lightning Shaker",
+    "description": "Attack a row of enemies with hybrid damage. Inflicts stun.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100, "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "icicleDart",
+    "type": "active",
+    "name": "Icicle Dart",
+    "description": "Attack a single enemy with hybrid damage. This attack always hits. Inflicts freeze.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100, "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "rampage",
+    "type": "active",
+    "name": "Rampage",
+    "description": "Attack a single enemy. Inflicts -1 AP on target and grants user -50% Defense.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": -1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "defense",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "thunderousThrust",
+    "type": "active",
+    "name": "Thunderous Thrust",
+    "description": "Attack a single enemy with hybrid damage. Inflicts stun. +25 potency if user has Faeries.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100, "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "trueThrust",
+    "type": "active",
+    "name": "True Thrust",
+    "description": "Attack a column of enemies. This attack always hits.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike"
+      }
+    ]
+  },
+  {
+    "id": "passiveShatter",
+    "type": "active",
+    "name": "Passive Shatter",
+    "description": "Attack a column of enemies. Inflicts -1 PP.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "lethalVenom",
+    "type": "active",
+    "name": "Lethal Venom",
+    "description": "Attack a column of enemies. Inflicts poison. Inflicts deathblow vs. poisoned foes.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "dragoonDive",
+    "type": "active",
+    "name": "Dragoon Dive",
+    "description": "Attack all enemies. Requires charging. +50 potency vs ground targets.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["Charge"],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Ground"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flameJavelin",
+    "type": "active",
+    "name": "Flame Javelin",
+    "description": "Attack a single enemy. +50 potency vs. flying targets. Inflicts burn.",
+    "apCost": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Ranged"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Targeting",
+            "target": "Enemy",
+            "by": "CombatantType",
+            "value": "Flying"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reincarnation",
+    "type": "active",
+    "name": "Reincarnation",
+    "description": "Revive an ally to 1 HP and grant target immunity to damage for one attack.",
+    "apCost": 3,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 1,
+        "scaling": "maxHP"
+      }
+    ]
+  },
+  {
+    "id": "sorcerousBlow",
+    "type": "active",
+    "name": "Sorcerous Blow",
+    "description": "Attack a single enemy with hybrid damage. Inflicts stun.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150, "magical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "healingWind",
+    "type": "active",
+    "name": "Healing Wind",
+    "description": "Restore HP to a row of allies, healing equal to user's HP.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": ["Healing"],
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": 100,
+        "scaling": "maxHP"
+      }
+    ]
+  },
+  {
+    "id": "astralBlade",
+    "type": "active",
+    "name": "Astral Blade",
+    "description": "Attack a single enemy. Unleash its true power amidst a sea of miasma.",
+    "apCost": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "attackTypes": ["Melee"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
       }
     ]
   }

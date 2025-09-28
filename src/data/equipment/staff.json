@@ -1,0 +1,515 @@
+[
+  {
+    "id": "baroqueRod",
+    "name": "Baroque Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 13, "accuracy": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronStaff",
+    "name": "Black Iron Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 17, "critRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bloodmoonRod",
+    "name": "Bloodmoon Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 18 },
+    "skillId": "sanguineDarts",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "bronzeStaff",
+    "name": "Bronze Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "cardinalsMace",
+    "name": "Cardinal's Mace",
+    "type": "Staff",
+    "stats": { "magAtk": 20 },
+    "skillId": "holyCradle",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "carnatRod",
+    "name": "Carnat Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 19 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianStaff",
+    "name": "Carnelian Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 21, "ap": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "chiropteranStaff",
+    "name": "Chiropteran Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 12, "evasion": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "chlorotic",
+    "name": "Chlorotic",
+    "type": "Staff",
+    "stats": { "magAtk": 13 },
+    "skillId": "fireBurst",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "clericsCane",
+    "name": "Cleric's Cane",
+    "type": "Staff",
+    "stats": { "magAtk": 18, "pp": 1 },
+    "skillId": "protection",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "defendersMace",
+    "name": "Defender's Mace",
+    "type": "Staff",
+    "stats": { "magAtk": 13, "pp": 1 },
+    "skillId": "quickBarrier",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "dragonboneStaff",
+    "name": "Dragonbone Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 15, "pp": 1, "initiative": -10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dustboundStaff",
+    "name": "Dustbound Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16 },
+    "skillId": "sandstorm",
+    "nullifications": [],
+    "classRestrictions": ["Shaman", "Druid"]
+  },
+  {
+    "id": "einSeeker",
+    "name": "Ein Seeker",
+    "type": "Staff",
+    "stats": { "magAtk": 21 },
+    "skillId": "magicShell",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "eurosStaff",
+    "name": "Euros' Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 25, "ap": 1, "initiative": 10, "evasion": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "flameHexStaff",
+    "name": "Flame-Hex Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16 },
+    "skillId": "fireCurse",
+    "nullifications": [],
+    "classRestrictions": ["Shaman", "Druid"]
+  },
+  {
+    "id": "gleamingMace",
+    "name": "Gleaming Mace",
+    "type": "Staff",
+    "stats": { "magAtk": 18 },
+    "skillId": "holySmite",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop"]
+  },
+  {
+    "id": "grandMagusStaff",
+    "name": "Grand Magus Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 20 },
+    "skillId": "magicBurst",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "greatwoodStaff",
+    "name": "Greatwood Staff",
+    "type": "Staff",
+    "stats": { "physAtk": 8, "magAtk": 16 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "hallowedMace",
+    "name": "Hallowed Mace",
+    "type": "Staff",
+    "stats": { "magAtk": 13, "maxHp": 5, "onActiveHealPercent": 10 },
+    "skillId": "reheal",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "icefallStaff",
+    "name": "Icefall Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 19, "pp": 1, "guardRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icestormStaff",
+    "name": "Icestorm Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 22, "evasion": 10 },
+    "skillId": "blizzard",
+    "nullifications": ["Freeze"],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "ironStaff",
+    "name": "Iron Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "kingstaffAlbiore",
+    "name": "Kingstaff Albiore",
+    "type": "Staff",
+    "stats": { "magAtk": 25, "allStats": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "libera",
+    "name": "Libera",
+    "type": "Staff",
+    "stats": { "magAtk": 20 },
+    "skillId": "reincarnation",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "liberatorsStaff",
+    "name": "Liberator's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 14 },
+    "skillId": "dispelAll",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lifebloodStaff",
+    "name": "Lifeblood Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 13, "maxHp": 10 },
+    "skillId": "resurrection",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "lyricalWand",
+    "name": "Lyrical Wand",
+    "type": "Staff",
+    "stats": { "magAtk": 13, "ap": 1 },
+    "skillId": "activeHeal",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "meteoriteRod",
+    "name": "Meteorite Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 24, "maxHp": 20, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "milleniumScepter",
+    "name": "Millenium Scepter",
+    "type": "Staff",
+    "stats": { "magAtk": 24 },
+    "skillId": "trinityRain",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "motherLaeliasStaff",
+    "name": "Mother Laelia's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 15, "pp": 1 },
+    "skillId": "partingResurrection",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "papalCrosier",
+    "name": "Papal Crosier",
+    "type": "Staff",
+    "stats": { "magAtk": 25, "ap": 1, "pp": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "pestilentStaff",
+    "name": "Pestilent Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 15 },
+    "skillId": "poisonBurst",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "phantomKnightsStaff",
+    "name": "Phantom Knight's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16, "magDef": 5 },
+    "skillId": "phantomVeil",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phosphorescentStaff",
+    "name": "Phosphorescent Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 20, "initiative": 5 },
+    "skillId": "radiantHeal",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "poisonHexStaff",
+    "name": "Poison-Hex Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16 },
+    "skillId": "poisonCurse",
+    "nullifications": [],
+    "classRestrictions": ["Shaman", "Druid"]
+  },
+  {
+    "id": "purifier",
+    "name": "Purifier",
+    "type": "Staff",
+    "stats": { "magAtk": 20 },
+    "skillId": "sacredCure",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "quartzRod",
+    "name": "Quartz Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 15 },
+    "skillId": "gravity",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "recruitsStaff",
+    "name": "Recruit's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 11, "maxHp": 3, "expGainPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "redBarkStaff",
+    "name": "Red-Bark Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 21 },
+    "skillId": null,
+    "nullifications": ["PassiveSeal"],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "ringedStaff",
+    "name": "Ringed Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 20, "initiative": 5 },
+    "skillId": "circleHeal",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "sacralRod",
+    "name": "Sacral Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 25, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": ["Affliction"],
+    "classRestrictions": []
+  },
+  {
+    "id": "shamansBonestaff",
+    "name": "Shaman's Bonestaff",
+    "type": "Staff",
+    "stats": { "physAtk": 18 },
+    "skillId": "curseStrike",
+    "nullifications": [],
+    "classRestrictions": ["Shaman", "Druid"]
+  },
+  {
+    "id": "speedhexStaff",
+    "name": "Speedhex Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16 },
+    "skillId": "hastenedCurse",
+    "nullifications": [],
+    "classRestrictions": ["Shaman", "Druid"]
+  },
+  {
+    "id": "spellsteelStaff",
+    "name": "Spellsteel Staff",
+    "type": "Staff",
+    "stats": { "physAtk": 9, "magAtk": 18 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "staffOfSuccor",
+    "name": "Staff of Succor",
+    "type": "Staff",
+    "stats": { "magAtk": 16 },
+    "skillId": "doubleHeal",
+    "nullifications": [],
+    "classRestrictions": ["Cleric", "Bishop", "Wereowl", "Featherstaff", "Priestess", "High Priestess"]
+  },
+  {
+    "id": "steelStaff",
+    "name": "Steel Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 22 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "telluricStaff",
+    "name": "Telluric Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 19 },
+    "skillId": "earthquake",
+    "nullifications": [],
+    "classRestrictions": ["Witch", "Sorceress", "Wizard", "Warlock", "Staff Dark Marquess"]
+  },
+  {
+    "id": "templarsStaff",
+    "name": "Templar's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 15, "physDef": 1, "guardRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thawingScepter",
+    "name": "Thawing Scepter",
+    "type": "Staff",
+    "stats": { "magAtk": 13 },
+    "skillId": "guardHunter",
+    "nullifications": [],
+    "classRestrictions": ["Wizard", "Warlock", "Witch", "Sorceress", "Staff Dark Marquess"]
+  },
+  {
+    "id": "thornStaff",
+    "name": "Thorn Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 17, "pp": 1, "maxHp": -15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalRod",
+    "name": "Vorpal Rod",
+    "type": "Staff",
+    "stats": { "magAtk": 23, "maxHp": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wardingStaff",
+    "name": "Warding Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 16, "physDef": 15, "magDef": -15, "guardEfficiency": 25 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "windScepter",
+    "name": "Wind Scepter",
+    "type": "Staff",
+    "stats": { "magAtk": 20, "evasion": 20 },
+    "skillId": "skywardThrust",
+    "nullifications": [],
+    "classRestrictions": ["Witch", "Sorceress", "Wizard", "Warlock", "Staff Dark Marquess"]
+  },
+  {
+    "id": "wingcrestStaff",
+    "name": "Wingcrest Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 21, "pp": 1, "critRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranStaff",
+    "name": "Zenoiran Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 14, "maxHp": 10, "physDef": 2, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsStaff",
+    "name": "Zenoiran Knight's Staff",
+    "type": "Staff",
+    "stats": { "magAtk": 20, "maxHp": 15, "physDef": 4, "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  }
+]

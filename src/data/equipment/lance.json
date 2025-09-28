@@ -1,0 +1,407 @@
+[
+  {
+    "id": "adeptsShortspear",
+    "name": "Adept's Shortspear",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "critRate": 15 },
+    "skillId": null,
+    "nullifications": ["PassiveSeal"],
+    "classRestrictions": []
+  },
+  {
+    "id": "baroqueSpear",
+    "name": "Baroque Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 13, "accuracy": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronSpear",
+    "name": "Black Iron Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 17, "critRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bloodySpear",
+    "name": "Bloody Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 16 },
+    "skillId": "sanguineAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeSpear",
+    "name": "Bronze Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "canyonLance",
+    "name": "Canyon Lance",
+    "type": "Lance",
+    "stats": { "physAtk": 21 },
+    "skillId": "shatteringPursuit",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnatSpear",
+    "name": "Carnat Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 19, "initiative": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianSpear",
+    "name": "Carnelian Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "ap": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "corrodedSpear",
+    "name": "Corroded Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 17 },
+    "skillId": "shadowThrust",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "crimsonSarissa",
+    "name": "Crimson Sarissa",
+    "type": "Lance",
+    "stats": { "physAtk": 13, "maxHp": 15, "guardRate": 5 },
+    "skillId": "sanguineAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "deathPillar",
+    "name": "Death Pillar",
+    "type": "Lance",
+    "stats": { "physAtk": 20, "ap": -1, "maxHp": -50 },
+    "skillId": "lethalVenom",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragonboneSpear",
+    "name": "Dragonbone Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 15, "pp": 1, "initiative": -10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragoonsWarspear",
+    "name": "Dragoon's Warspear",
+    "type": "Lance",
+    "stats": { "physAtk": 20, "maxHp": 15, "initiative": 5 },
+    "skillId": "dragoonDive",
+    "nullifications": [],
+    "classRestrictions": ["Wyvern Knight", "Wyvern Master"]
+  },
+  {
+    "id": "elfeater",
+    "name": "Elfeater",
+    "type": "Lance",
+    "stats": { "physAtk": 20, "magDef": 5 },
+    "skillId": "elfslayer",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "flameJavelin",
+    "name": "Flame Javelin",
+    "type": "Lance",
+    "stats": { "physAtk": 18 },
+    "skillId": "flameJavelin",
+    "nullifications": ["Burn"],
+    "classRestrictions": ["Soldier", "Sergeant"]
+  },
+  {
+    "id": "generalsPike",
+    "name": "General's Pike",
+    "type": "Lance",
+    "stats": { "physAtk": 17, "pp": 1 },
+    "skillId": "phalanxShift",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "glaive",
+    "name": "Glaive",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "followUpDamage": 20, "critRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatwoodSpear",
+    "name": "Greatwood Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 8, "magAtk": 16, "magDef": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "helixSpear",
+    "name": "Helix Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 23, "guardRate": 10 },
+    "skillId": "penetrate",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "huntersHalberd",
+    "name": "Hunter's Halberd",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "followUpDamage": 20, "critRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icefallSpear",
+    "name": "Icefall Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 19, "pp": 1, "guardRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironSpear",
+    "name": "Iron Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "kingslanceElhal",
+    "name": "Kingslance Elhal",
+    "type": "Lance",
+    "stats": { "physAtk": 9, "magAtk": 18, "allStats": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "meteoriteLance",
+    "name": "Meteorite Lance",
+    "type": "Lance",
+    "stats": { "physAtk": 24, "maxHp": 20, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "namelessGuardsSpear",
+    "name": "Nameless Guard's Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "accuracy": 20 },
+    "skillId": "eagleEye",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "phantomKnightsSpear",
+    "name": "Phantom Knight's Spear",
+    "type": "Lance",
+    "stats": { "magAtk": 16, "magDef": 5 },
+    "skillId": "phantomAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "recruitsShortspear",
+    "name": "Recruit's Shortspear",
+    "type": "Lance",
+    "stats": { "physAtk": 11, "maxHp": 3, "expGainPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "runicSpear",
+    "name": "Runic Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 8, "magAtk": 14, "magDef": 3 },
+    "skillId": "magicAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sacralSpear",
+    "name": "Sacral Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 25, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": ["Affliction"],
+    "classRestrictions": []
+  },
+  {
+    "id": "silverTrident",
+    "name": "Silver Trident",
+    "type": "Lance",
+    "stats": { "physAtk": 16, "magAtk": 8, "accuracy": 10 },
+    "skillId": "lightningShaker",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsteelSpear",
+    "name": "Spellsteel Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 9, "magAtk": 18 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "steelSpear",
+    "name": "Steel Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 22 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "stormOfHail",
+    "name": "Storm of Hail",
+    "type": "Lance",
+    "stats": { "physAtk": 20, "accuracy": 20 },
+    "skillId": "icicleDart",
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "surgingShortspear",
+    "name": "Surging Shortspear",
+    "type": "Lance",
+    "stats": { "physAtk": 13 },
+    "skillId": "rampage",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "templarsSpear",
+    "name": "Templar's Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 15, "physDef": 1, "guardRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thornSpear",
+    "name": "Thorn Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 17, "pp": 1, "maxHp": -15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "twinnedBough",
+    "name": "Twinned Bough",
+    "type": "Lance",
+    "stats": { "physAtk": 8, "magAtk": 16, "magDef": 5, "initiative": 5 },
+    "skillId": "thunderousThrust",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "unwaveringSpear",
+    "name": "Unwavering Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 12 },
+    "skillId": "trueThrust",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "valkyriesPartisan",
+    "name": "Valkyrie's Partisan",
+    "type": "Lance",
+    "stats": { "physAtk": 14, "initiative": 5 },
+    "skillId": "passiveShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalSpear",
+    "name": "Vorpal Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 23, "maxHp": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "watchmansLongspear",
+    "name": "Watchman's Longspear",
+    "type": "Lance",
+    "stats": { "physAtk": 14, "accuracy": 10 },
+    "skillId": "eagleEye",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingcrestSpear",
+    "name": "Wingcrest Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 21, "pp": 1, "critRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranSpear",
+    "name": "Zenoiran Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 14, "maxHp": 10, "physDef": 2, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsSpear",
+    "name": "Zenoiran Knight's Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 20, "maxHp": 15, "physDef": 4, "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zephyrosSpear",
+    "name": "Zephyros' Spear",
+    "type": "Lance",
+    "stats": { "physAtk": 25, "ap": 1, "initiative": 10, "evasion": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  }
+]

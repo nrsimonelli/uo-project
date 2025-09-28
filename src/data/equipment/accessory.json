@@ -1,0 +1,1446 @@
+[
+  {
+    "id": "acrobatsShoes",
+    "name": "Acrobat's Shoes",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "impetusStance",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "amethystPendant",
+    "name": "Amethyst Pendant",
+    "type": "Accessory",
+    "stats": { "ap": 1, "pp": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "angelPlume",
+    "name": "Angel Plume",
+    "type": "Accessory",
+    "stats": { "initiative": 20 },
+    "skillId": "tailwind",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "archbishopsMitre",
+    "name": "Archbishop's Mitre",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "magAtk": 5 },
+    "skillId": "relicHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Elven Archer",
+      "Werewolf",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl"
+    ]
+  },
+  {
+    "id": "armoredGauntlets",
+    "name": "Armored Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "physAtk": 3 },
+    "skillId": "bindingGuard",
+    "nullifications": [],
+    "classRestrictions": ["All Melee classes"]
+  },
+  {
+    "id": "auroraRing",
+    "name": "Aurora Ring",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "mightyShield",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "awakeningAmulet",
+    "name": "Awakening Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "stunCure",
+    "nullifications": ["Stun"],
+    "classRestrictions": []
+  },
+  {
+    "id": "badgerGauntlets",
+    "name": "Badger Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 2 },
+    "skillId": "bearsDen",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "barbedRibbon",
+    "name": "Barbed Ribbon",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Stun"],
+    "classRestrictions": []
+  },
+  {
+    "id": "battlelineStandard",
+    "name": "Battleline Standard",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "heavyAlignment",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackCatEarHood",
+    "name": "Black Cat-Ear Hood",
+    "type": "Accessory",
+    "stats": { "magDef": 5, "pp": 1, "initiative": 10 },
+    "skillId": "quickImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bloodbrandTome",
+    "name": "Bloodbrand Tome",
+    "type": "Accessory",
+    "stats": { "magAtk": 2 },
+    "skillId": "sanguineConferral",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "bloodmoonEarrings",
+    "name": "Bloodmoon Earrings",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "drainEfficiency": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blueSpectacles",
+    "name": "Blue Spectacles",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "accuracy": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeBangle",
+    "name": "Bronze Bangle",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeCirclet",
+    "name": "Bronze Circlet",
+    "type": "Accessory",
+    "stats": { "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "brownBeret",
+    "name": "Brown Beret",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "physAtkPercent": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianPendant",
+    "name": "Carnelian Pendant",
+    "type": "Accessory",
+    "stats": { "ap": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "celestialTalisman",
+    "name": "Celestial Talisman",
+    "type": "Accessory",
+    "stats": { "ap": -1 },
+    "skillId": "hastenedCharge",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "charmOfLandAndSea",
+    "name": "Charm of Land and Sea",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "magDef": 2, "maxHp": 10, "physAtk": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "charmOfSunAndMoon",
+    "name": "Charm of Sun and Moon",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "magDef": 2, "maxHp": 10, "magAtk": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "charmOfWarding",
+    "name": "Charm of Warding",
+    "type": "Accessory",
+    "stats": { "magDef": 3 },
+    "skillId": "magicBarrier",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "citadelGuardsSabatons",
+    "name": "Citadel Guard's Sabatons",
+    "type": "Accessory",
+    "stats": { "physDef": 2 },
+    "skillId": "guardingImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "chloesCharm",
+    "name": "Chloe's Charm",
+    "type": "Accessory",
+    "stats": { "expGainPercent": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "clearsightAmulet",
+    "name": "Clearsight Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "blindCure",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "clericsBracelet",
+    "name": "Cleric's Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "healingPursuit",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Elven Archer",
+      "Werewolf",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl"
+    ]
+  },
+  {
+    "id": "clericsMedallion",
+    "name": "Cleric's Medallion",
+    "type": "Accessory",
+    "stats": { "magDef": 2, "magDefPercent": 10, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "clothGauntlets",
+    "name": "Cloth Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "guardRate": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "coolingBandana",
+    "name": "Cooling Bandana",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "counterBelt",
+    "name": "Counter Belt",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "counter",
+    "nullifications": [],
+    "classRestrictions": ["All melee classes"]
+  },
+  {
+    "id": "coursersReigns",
+    "name": "Courser's Reigns",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "initiative": 3 },
+    "skillId": "dynamicGlide",
+    "nullifications": [],
+    "classRestrictions": ["Cavalry classes"]
+  },
+  {
+    "id": "crudeTasket",
+    "name": "Crude Tasset",
+    "type": "Accessory",
+    "stats": { "physDef": 2 },
+    "skillId": "warCry",
+    "nullifications": [],
+    "classRestrictions": ["All melee classes"]
+  },
+  {
+    "id": "dancersBracelet",
+    "name": "Dancer's Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "powerfulCall",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dawnRobes",
+    "name": "Dawn Robes",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "diurnalImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "defensiveGauntlets",
+    "name": "Defensive Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 3 },
+    "skillId": "quickGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "defensiveRing",
+    "name": "Defensive Ring",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "quickBarrier",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "defrostingAmulet",
+    "name": "Defrosting Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "freezeCure",
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "demonsShackles",
+    "name": "Demon's Shackles",
+    "type": "Accessory",
+    "stats": { "initiative": -20, "damageReductionPercent": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "detoxifyingAmulet",
+    "name": "Detoxifying Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "poisonCure",
+    "nullifications": ["Poison"],
+    "classRestrictions": []
+  },
+  {
+    "id": "dovePlume",
+    "name": "Dove Plume",
+    "type": "Accessory",
+    "stats": { "initiative": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "druidsRobes",
+    "name": "Druid's Robes",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "cursedImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "duskRobes",
+    "name": "Dusk Robes",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "nocturnalImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "earringsOfPursuit",
+    "name": "Earrings of Pursuit",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "followUpDamage": 40 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "eliteBeret",
+    "name": "Elite Beret",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "physAtkPercent": 12 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "eliteStandard",
+    "name": "Elite Standard",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "unitedFront",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "familiarsChoker",
+    "name": "Familiar's Choker",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "sorcerousConnection",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "firebrandTome",
+    "name": "Firebrand Tome",
+    "type": "Accessory",
+    "stats": { "magAtk": 2 },
+    "skillId": "flameConferral",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "firstAidKit",
+    "name": "First Aid Kit",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "firstAid",
+    "nullifications": [],
+    "classRestrictions": ["All caster classes"]
+  },
+  {
+    "id": "fluffyCape",
+    "name": "Fluffy Cape",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Poison", "Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "frostbrandTome",
+    "name": "Frostbrand Tome",
+    "type": "Accessory",
+    "stats": { "magAtk": 2 },
+    "skillId": "frostConferral",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "gamblersCoin",
+    "name": "Gambler's Coin",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "inspiration",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "gauntlets",
+    "name": "Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "guardRate": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "glacialRing",
+    "name": "Glacial Ring",
+    "type": "Accessory",
+    "stats": { "magDef": 8, "maxHp": 5 },
+    "skillId": null,
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "glorySash",
+    "name": "Glory Sash",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "reinforce",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "goldBangle",
+    "name": "Gold Bangle",
+    "type": "Accessory",
+    "stats": { "magDef": 6 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "goldCirclet",
+    "name": "Gold Circlet",
+    "type": "Accessory",
+    "stats": { "magDef": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "goldenEgg",
+    "name": "Golden Egg",
+    "type": "Accessory",
+    "stats": { "goldGainPercent": 100 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "gravekeeperBoots",
+    "name": "Gravekeeper Boots",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "graveImpetus",
+    "nullifications": ["Poison", "Deathblow"],
+    "classRestrictions": []
+  },
+  {
+    "id": "gravekeeperLantern",
+    "name": "Gravekeeper Lantern",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Poison", "Deathblow"],
+    "classRestrictions": []
+  },
+  {
+    "id": "greenBeret",
+    "name": "Green Beret",
+    "type": "Accessory",
+    "stats": { "magDef": 2, "physAtkPercent": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "guardianGloves",
+    "name": "Guardian Gloves",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "guardRate": 10 },
+    "skillId": "guardingFighter",
+    "nullifications": [],
+    "classRestrictions": ["All non-caster classes"]
+  },
+  {
+    "id": "heavensteedReins",
+    "name": "Heavensteed Reins",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "magDef": 3, "initiative": 6, "maxHp": 10 },
+    "skillId": "dynamicGlide",
+    "nullifications": [],
+    "classRestrictions": ["Cavalry classes"]
+  },
+  {
+    "id": "heavenwyvernReins",
+    "name": "Heavenwyvern Reins",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "magDef": 3, "initiative": 6, "maxHp": 10 },
+    "skillId": "aerialWing",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wyvern Knight",
+      "Wyvern Master",
+      "Gryphon Knight",
+      "Gryphon Master"
+    ]
+  },
+  {
+    "id": "herosMedallion",
+    "name": "Hero's Medallion",
+    "type": "Accessory",
+    "stats": {
+      "physDef": 1,
+      "magDef": 1,
+      "ap": 1,
+      "pp": 1,
+      "physAtkPercent": 20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "holyBroach",
+    "name": "Holy Broach",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "magDef": 2, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "holyUnicornSignet",
+    "name": "Holy Unicorn Signet",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "magDef": 3 },
+    "skillId": null,
+    "nullifications": ["Debuff"],
+    "classRestrictions": []
+  },
+  {
+    "id": "illusoryCloak",
+    "name": "Illusory Cloak",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "phantomStep",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironShackles",
+    "name": "Iron Shackles",
+    "type": "Accessory",
+    "stats": { "initiative": -10, "damageReductionPercent": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "knightsMedallion",
+    "name": "Knight's Medallion",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "physDefPercent": 10, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lapisBell",
+    "name": "Lapis Bell",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "passiveGift",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lapisPendant",
+    "name": "Lapis Pendant",
+    "type": "Accessory",
+    "stats": { "pp": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "largeAidKit",
+    "name": "Large Aid Kit",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "partyAid",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "leafBrooch",
+    "name": "Leaf Brooch",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "onActiveHealPercent": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "leatherHood",
+    "name": "Leather Hood",
+    "type": "Accessory",
+    "stats": { "magDef": 1, "magAtkPercent": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "liberatorsBracelet",
+    "name": "Liberator's Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "banishingPursuit",
+    "nullifications": [],
+    "classRestrictions": ["All melee classes"]
+  },
+  {
+    "id": "lifebloodTalisman",
+    "name": "Lifeblood Talisman",
+    "type": "Accessory",
+    "stats": { "maxHp": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lionheart",
+    "name": "Lionheart",
+    "type": "Accessory",
+    "stats": {
+      "physDef": 3,
+      "magDef": 3,
+      "physAtkPercent": 10,
+      "critRate": 10,
+      "accuracy": 20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lipsRing",
+    "name": "Lips' Ring",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "hastenedAction",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "luckyCoin",
+    "name": "Lucky Coin",
+    "type": "Accessory",
+    "stats": { "critRate": 20, "evasion": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "magiaHeart",
+    "name": "Magia Heart",
+    "type": "Accessory",
+    "stats": { "maxHp": -20 },
+    "skillId": "hastenedCast",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "magiaSoul",
+    "name": "Magia Soul",
+    "type": "Accessory",
+    "stats": { "maxHp": -20 },
+    "skillId": "recast",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "magesGloves",
+    "name": "Mage's Gloves",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "magicCounter",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "mastersGauntlets",
+    "name": "Master's Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "evasion": 10 },
+    "skillId": "nimbleFighter",
+    "nullifications": [],
+    "classRestrictions": ["All non-caster classes"]
+  },
+  {
+    "id": "mercenaryEyepatch",
+    "name": "Mercenary's Eyepatch",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "critRate": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "mirroredSpectacles",
+    "name": "Mirrored Spectacles",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "accuracy": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "misersBracelet",
+    "name": "Miser's Bracelet",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "pp": -1, "goldGainPercent": 200 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "mistletoeCharm",
+    "name": "Mistletoe Charm",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "evasion": 20 },
+    "skillId": null,
+    "nullifications": ["GuardSeal", "PassiveSeal"],
+    "classRestrictions": []
+  },
+  {
+    "id": "monksMitre",
+    "name": "Monk's Mitre",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "quickHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl"
+    ]
+  },
+  {
+    "id": "necromancersLantern",
+    "name": "Necromancer's Lantern",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "vanitas",
+    "nullifications": ["Poison", "Deathblow"],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "outlawsBracelet",
+    "name": "Outlaw's Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "widePursuit",
+    "nullifications": [],
+    "classRestrictions": ["All Melee classes"]
+  },
+  {
+    "id": "parryingAmulet",
+    "name": "Parrying Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "guardCure",
+    "nullifications": ["GuardSeal"],
+    "classRestrictions": []
+  },
+  {
+    "id": "phoenixPlume",
+    "name": "Phoenix Plume",
+    "type": "Accessory",
+    "stats": { "initiative": 5 },
+    "skillId": "reincarnation",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl"
+    ]
+  },
+  {
+    "id": "powerBelt",
+    "name": "Power Belt",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "maxHp": 10 },
+    "skillId": "toughness",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "prisonersShackles",
+    "name": "Prisoner's Shackles",
+    "type": "Accessory",
+    "stats": { "initiative": -15, "damageReductionPercent": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "pursuantsBracelet",
+    "name": "Pursuan't's Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "pursuit",
+    "nullifications": [],
+    "classRestrictions": ["All Melee classes"]
+  },
+  {
+    "id": "quenchingAmulet",
+    "name": "Quenching Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "fireCure",
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "ravenPlume",
+    "name": "Raven Plume",
+    "type": "Accessory",
+    "stats": { "initiative": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "retaliationEarrings",
+    "name": "Retaliation Earrings",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "counterattackPotency": 40 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ringOfTheMaiden",
+    "name": "Ring of the Maiden",
+    "type": "Accessory",
+    "stats": { "pp": 1, "allStats": 5 },
+    "skillId": "celestialLight",
+    "nullifications": [],
+    "classRestrictions": ["*Bonded Character*"]
+  },
+  {
+    "id": "ringOfTheUnicorn",
+    "name": "Ring of the Unicorn",
+    "type": "Accessory",
+    "stats": { "ap": 1, "allStats": 5 },
+    "skillId": "astralBlade",
+    "nullifications": [],
+    "classRestrictions": ["Alain"]
+  },
+  {
+    "id": "rookieEgg",
+    "name": "Rookie Egg",
+    "type": "Accessory",
+    "stats": { "expGainPercent": 100 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "roseBroach",
+    "name": "Rose Broach",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "onActiveHealPercent": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "royalScarf",
+    "name": "Royal Scarf",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "evasion": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "rubyPendant",
+    "name": "Ruby Pendant",
+    "type": "Accessory",
+    "stats": { "ap": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sacralBroach",
+    "name": "Sacral Broach",
+    "type": "Accessory",
+    "stats": { "physDef": 3, "magDef": 3, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": ["Affliction"],
+    "classRestrictions": []
+  },
+  {
+    "id": "sagesHood",
+    "name": "Sage's Hood",
+    "type": "Accessory",
+    "stats": { "magDef": 3, "magAtkPercent": 12 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sapphirePendant",
+    "name": "Sapphire Pendant",
+    "type": "Accessory",
+    "stats": { "pp": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "scarlettsRibbon",
+    "name": "Scarlett's Ribbon",
+    "type": "Accessory",
+    "stats": { "magDef": 1, "maxHp": 3, "evasion": 10 },
+    "skillId": "quickHeal",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "selfAidKit",
+    "name": "Self Aid Kit",
+    "type": "Accessory",
+    "stats": { "maxHp": 3 },
+    "skillId": "selfCare",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "shawlOfRepose",
+    "name": "Shawl of Repose",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "wingRest",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wyvern Knight",
+      "Wyvern Master",
+      "Gryphon Knight",
+      "Gryphon Master",
+      "Wereowl",
+      "Feathersword",
+      "Featherbow",
+      "Featherstaff",
+      "Feathershield"
+    ]
+  },
+  {
+    "id": "silkHood",
+    "name": "Silk Hood",
+    "type": "Accessory",
+    "stats": { "magDef": 2, "magAtkPercent": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "silkenScarf",
+    "name": "Silken Scarf",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "evasion": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "silverBangle",
+    "name": "Silver Bangle",
+    "type": "Accessory",
+    "stats": { "physDef": 4, "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "silverCirclet",
+    "name": "Silver Circlet",
+    "type": "Accessory",
+    "stats": { "magDef": 6 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "silverGoblet",
+    "name": "Silver Goblet",
+    "type": "Accessory",
+    "stats": { "expGainPercent": 200 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "skillfulAmulet",
+    "name": "Skillful Amulet",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "passiveCure",
+    "nullifications": ["PassiveSeal"],
+    "classRestrictions": []
+  },
+  {
+    "id": "snipersLens",
+    "name": "Sniper's Lens",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "accuracy": 10 },
+    "skillId": "eagleEye",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "snipersAmberLens",
+    "name": "Sniper's Amber Lens",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "accuracy": 20 },
+    "skillId": "hawkEye",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "soothingPlume",
+    "name": "Soothing Plume",
+    "type": "Accessory",
+    "stats": { "initiative": 5 },
+    "skillId": "healingWind",
+    "nullifications": [],
+    "classRestrictions": ["Flying units"]
+  },
+  {
+    "id": "sorcerersGauntlets",
+    "name": "Sorcerer's Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 3 },
+    "skillId": "sorcerousBlow",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sorcerersMedallion",
+    "name": "Sorcerer's Medallion",
+    "type": "Accessory",
+    "stats": { "magAtk": 2, "magAtkPercent": 10, "critRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spiritsNecklace",
+    "name": "Spirit's Necklace",
+    "type": "Accessory",
+    "stats": { "physDef": 1 },
+    "skillId": "quickCure",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "squallBracelet",
+    "name": "Squall Bracelet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "hastenedShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "tailwindCape",
+    "name": "Tailwind Cape",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "quickAction",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thievesBell",
+    "name": "Thief's Bell",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "grantEvade",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thievesMantle",
+    "name": "Thief's Mantle",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "evade",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thunderbrandTome",
+    "name": "Thunderbrand Tome",
+    "type": "Accessory",
+    "stats": { "magAtk": 2 },
+    "skillId": "thunderousConferral",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Elven Fencer",
+      "Priestess",
+      "High Priestess",
+      "Elven Augur",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "twilightCloak",
+    "name": "Twilight Cloak",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": "nocturnalEvade",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "undeadRing",
+    "name": "Undead Ring",
+    "type": "Accessory",
+    "stats": { "magDef": 1, "pp": 1 },
+    "skillId": null,
+    "nullifications": ["Deathblow", "Poison"],
+    "classRestrictions": []
+  },
+  {
+    "id": "vengefulCaligae",
+    "name": "Vengeful Caligae",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "physAtk": 2 },
+    "skillId": "vengefulImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "veteransEyepatch",
+    "name": "Veteran's Eyepatch",
+    "type": "Accessory",
+    "stats": { "physDef": 2, "critRate": 30 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vitalityTalisman",
+    "name": "Vitality Talisman",
+    "type": "Accessory",
+    "stats": { "maxHp": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "warriorsMedallion",
+    "name": "Warrior's Medallion",
+    "type": "Accessory",
+    "stats": { "physAtk": 2, "physAtkPercent": 10, "critRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "watchmansHorn",
+    "name": "Watchman's Horn",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": "dawnHorn",
+    "nullifications": ["Blind", "Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "watchmansLantern",
+    "name": "Watchman's Lantern",
+    "type": "Accessory",
+    "stats": { "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Blind", "Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "whiteCatEarHood",
+    "name": "White Cat-Ear Hood",
+    "type": "Accessory",
+    "stats": { "magDef": 5, "pp": 1, "initiative": 10 },
+    "skillId": "quickImpetus",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "winglineStandard",
+    "name": "Wingline Standard",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "aerialAlignment",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wolfpackGauntlets",
+    "name": "Wolfpack Gauntlets",
+    "type": "Accessory",
+    "stats": { "physDef": 2 },
+    "skillId": "wolfPack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "woolyMittens",
+    "name": "Wooly Mittens",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1 },
+    "skillId": null,
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "wyvernClaw",
+    "name": "Wyvern Claw",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "groundCounter",
+    "nullifications": [],
+    "classRestrictions": ["Flying units"]
+  },
+  {
+    "id": "wyvernReins",
+    "name": "Wyvern Reins",
+    "type": "Accessory",
+    "stats": { "physDef": 1, "magDef": 1, "initiative": 3 },
+    "skillId": "aerialWing",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wyvern Knight",
+      "Wyvern Master",
+      "Gryphon Knight",
+      "Gryphon Master"
+    ]
+  }
+]
