@@ -46,7 +46,7 @@ export const UnitBuilder = ({ unit }: { unit: Unit }) => {
   }
 
   return (
-    <Card className='p-3 max-w-6xl mx-auto flex-row flex-wrap gap-6'>
+    <Card className='p-4 flex-row flex-wrap gap-6'>
       <div className='flex-col flex-1 space-y-6 basis-xs'>
         <div className='flex w-auto justify-start items-start gap-3 flex-col'>
           {/* <UnitNameEditor
@@ -54,16 +54,17 @@ export const UnitBuilder = ({ unit }: { unit: Unit }) => {
             className={unit.class}
             onChange={(name) => updateUnit(unit.id, { name })}
           /> */}
+
           <p className='text-lg font-medium'>{unit.name}</p>
           <UnitImage imagePath={SPRITES[unit.class]} label={unit.class} />
         </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-          <ClassSelect
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+          {/* <ClassSelect
             unitId={unit.id}
             classType={unit.class}
             onChange={(cls) => handleUpdateUnit(cls)}
             team={currentTeam}
-          />
+          /> */}
           <LevelSelect
             level={unit.level}
             onChange={(level) => updateUnit(unit.id, { level })}
@@ -83,7 +84,10 @@ export const UnitBuilder = ({ unit }: { unit: Unit }) => {
             }
           />
         </div>
-        {/* <EquipmentSelect /> */}
+        <div>
+          <p>Equipment</p>
+          <div>{/* <EquipmentSelect /> */}</div>
+        </div>
       </div>
       {/* column 2 */}
       <div className='flex-col flex-1 basis-xs space-y-3'>

@@ -1,16 +1,13 @@
+import { Layout } from './components/layout'
 import { TeamBuilder } from './components/team-builder/team-builder'
-import { Button } from './components/ui/button'
-import { useTheme } from './hooks/use-theme'
+import { TopNav } from './components/top-nav'
 
 export const App = () => {
-  const { theme, setTheme } = useTheme()
-
   return (
-    <div>
-      <Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-        Theme
-      </Button>
+    <Layout>
+      <TopNav />
+      {/* TODO: Routing */}
       <TeamBuilder />
-    </div>
+    </Layout>
   )
 }

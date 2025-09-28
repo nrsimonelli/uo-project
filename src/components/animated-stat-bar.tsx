@@ -80,7 +80,7 @@ export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
 
       <div className='flex-1 h-2 bg-muted rounded-full overflow-hidden transition-colors duration-200'>
         <div
-          className='h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-700 ease-out'
+          className='h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-300 ease-out'
           style={{
             width: `${Math.max(0, Math.min(100, animatedPercentage))}%`,
             transformOrigin: 'left center',
@@ -88,7 +88,7 @@ export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
         />
       </div>
 
-      <div className='w-8 text-xs font-mono font-semibold text-right flex-shrink-0 transition-colors duration-200'>
+      <div className='w-8 text-xs font-mono font-semibold text-right flex-shrink-0 transition-colors duration-300'>
         {Math.round(animatedValue)}
       </div>
 

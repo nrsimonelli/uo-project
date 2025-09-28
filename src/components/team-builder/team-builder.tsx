@@ -72,7 +72,7 @@ export const TeamBuilder = () => {
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
   return (
-    <div className='max-w-6xl mx-auto space-y-6 p-6'>
+    <div className='w-full space-y-6 p-6'>
       <p className='text-xl'>Team Builder</p>
       {/* <pre>{JSON.stringify(currentTeam, null, 2)}</pre> */}
       <div className='flex flex-row justify-between'>
@@ -104,7 +104,7 @@ export const TeamBuilder = () => {
         <TabsList className='w-full flex-wrap h-auto'>
           {filteredTeamFormation.map((unit) => (
             <TabsTrigger key={unit.id} value={unit.id}>
-              {unit.name ?? unit.class}
+              {unit.class}
             </TabsTrigger>
           ))}
           {shouldShowAddUnit && (
@@ -121,7 +121,7 @@ export const TeamBuilder = () => {
               <Button
                 onClick={() => handleRemoveUnit(unit.id)}
                 variant='destructive'
-                className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20'
+                className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10'
               >
                 <Trash className='w-4 h-4' />
               </Button>
