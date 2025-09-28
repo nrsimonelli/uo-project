@@ -15,19 +15,33 @@ interface SkillBase {
   targeting: Targeting
   traits: Trait[]
   effects: Effect[]
-  attackTypes?: AttackType[]
+  // attackType removed - will be derived from unit class during battle
   damageType?: DamageType
 }
 
 export interface ActiveSkill extends SkillBase {
   type: 'active'
-  apCost: number
+  ap: number
 }
 
 export interface PassiveSkill extends SkillBase {
   type: 'passive'
-  ppCost: number
+  pp: number
   activationWindow: ActivationWindowId
+}
+
+// Class skill learning system types
+export interface ClassSkillEntry {
+  skillId: string
+  level: number
+  skillType: 'active' | 'passive'
+}
+
+export interface ClassSkills {
+  classId: string
+  className: string
+  weaponType?: string
+  skills: ClassSkillEntry[]
 }
 
 export type Effect =

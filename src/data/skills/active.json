@@ -4,13 +4,12 @@
     "type": "active",
     "name": "Iron Crusher",
     "description": "Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": ["Unguardable"],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -52,13 +51,12 @@
     "type": "active",
     "name": "Long Thrust",
     "description": "Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
-    "traits": [],
-    "attackTypes": ["Melee", "Piercing"],
+    "traits": ["Piercing"],
     "damageType": "Physical",
     "effects": [
       {
@@ -100,13 +98,12 @@
     "type": "active",
     "name": "Javelin",
     "description": "Attack a single enemy. +50 potency vs flying targets.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Physical",
     "effects": [
       {
@@ -136,13 +133,12 @@
     "type": "active",
     "name": "Brandish",
     "description": "Attack a single enemy. Ignores 50% of the target's defense. Grants the user +1 PP if the attack hits.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": ["Unguardable"],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -169,13 +165,12 @@
     "type": "active",
     "name": "Sanguine Attack",
     "description": "Attack a single enemy. Recover HP equal to 50% of damage dealt.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -196,13 +191,12 @@
     "type": "active",
     "name": "Shadow Thrust",
     "description": "Attack a column of enemies. Inflicts blindness.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -218,13 +212,12 @@
     "type": "active",
     "name": "Elfslayer",
     "description": "Attack a column of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Elven targets.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -240,13 +233,12 @@
     "type": "active",
     "name": "Phantom Attack",
     "description": "Attack a single enemy with magical damage. Inflicts -1 PP.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Magical",
     "effects": [
       {
@@ -267,13 +259,12 @@
     "type": "active",
     "name": "Magic Attack",
     "description": "Attack a single enemy with magical damage.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Magical",
     "effects": [
       {
@@ -289,13 +280,12 @@
     "type": "active",
     "name": "Lightning Shaker",
     "description": "Attack a row of enemies with hybrid damage. Inflicts stun.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Row"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Hybrid",
     "effects": [
       {
@@ -311,13 +301,12 @@
     "type": "active",
     "name": "Icicle Dart",
     "description": "Attack a single enemy with hybrid damage. This attack always hits. Inflicts freeze.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Hybrid",
     "effects": [
       {
@@ -337,13 +326,12 @@
     "type": "active",
     "name": "Rampage",
     "description": "Attack a single enemy. Inflicts -1 AP on target and grants user -50% Defense.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -369,13 +357,12 @@
     "type": "active",
     "name": "Thunderous Thrust",
     "description": "Attack a single enemy with hybrid damage. Inflicts stun. +25 potency if user has Faeries.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Hybrid",
     "effects": [
       {
@@ -391,13 +378,12 @@
     "type": "active",
     "name": "True Thrust",
     "description": "Attack a column of enemies. This attack always hits.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -417,13 +403,12 @@
     "type": "active",
     "name": "Passive Shatter",
     "description": "Attack a column of enemies. Inflicts -1 PP.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -444,13 +429,12 @@
     "type": "active",
     "name": "Lethal Venom",
     "description": "Attack a column of enemies. Inflicts poison. Inflicts deathblow vs. poisoned foes.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -466,13 +450,12 @@
     "type": "active",
     "name": "Dragoon Dive",
     "description": "Attack all enemies. Requires charging. +50 potency vs ground targets.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "All"
     },
     "traits": ["Charge"],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -502,13 +485,12 @@
     "type": "active",
     "name": "Flame Javelin",
     "description": "Attack a single enemy. +50 potency vs. flying targets. Inflicts burn.",
-    "apCost": 1,
+    "ap": 1,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Ranged"],
     "damageType": "Physical",
     "effects": [
       {
@@ -538,7 +520,7 @@
     "type": "active",
     "name": "Reincarnation",
     "description": "Revive an ally to 1 HP and grant target immunity to damage for one attack.",
-    "apCost": 3,
+    "ap": 3,
     "targeting": {
       "group": "Ally",
       "pattern": "Single"
@@ -557,13 +539,12 @@
     "type": "active",
     "name": "Sorcerous Blow",
     "description": "Attack a single enemy with hybrid damage. Inflicts stun.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Hybrid",
     "effects": [
       {
@@ -579,7 +560,7 @@
     "type": "active",
     "name": "Healing Wind",
     "description": "Restore HP to a row of allies, healing equal to user's HP.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Ally",
       "pattern": "Row"
@@ -598,13 +579,12 @@
     "type": "active",
     "name": "Astral Blade",
     "description": "Attack a single enemy. Unleash its true power amidst a sea of miasma.",
-    "apCost": 2,
+    "ap": 2,
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
     "traits": [],
-    "attackTypes": ["Melee"],
     "damageType": "Physical",
     "effects": [
       {
@@ -612,6 +592,92 @@
         "potency": { "physical": 150 },
         "hitRate": 100,
         "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "carnage",
+    "type": "active",
+    "name": "Carnage",
+    "description": "Attack a single enemy. Inflicts -1 AP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": -1
+      }
+    ]
+  },
+  {
+    "id": "deathSpin",
+    "type": "active",
+    "name": "Death Spin",
+    "description": "Attack a row of enemies. Inflicts stun. +75 potency vs. afflicted targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 75 },
+        "conditions": [
+          { "kind": "Affliction", "target": "Enemy", "affliction": "Any", "comparator": "EqualTo" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "viciousTorment",
+    "type": "active",
+    "name": "Vicious Torment",
+    "description": "Attack a single enemy twice. +75 Potency vs. afflicted targets, also grants user +1 PP if target is afflicted.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 2
+      }
+    ],
+    "bonusModifiers": [
+      {
+        "type": "PotencyBoost",
+        "amount": { "physical": 75 },
+        "conditions": [
+          { "kind": "Affliction", "target": "Enemy", "affliction": "Any", "comparator": "EqualTo" }
+        ]
       }
     ]
   }

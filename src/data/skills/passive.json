@@ -4,7 +4,7 @@
     "type": "passive",
     "name": "First Aid",
     "description": "At the end of battle, restore 25% HP to an ally.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "EndOfBattle",
     "targeting": {
       "group": "Ally",
@@ -23,7 +23,7 @@
     "type": "passive",
     "name": "Keen Call",
     "description": "Before an ally attacks, grant 100% critical rate for their next attack.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "BeforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -43,7 +43,7 @@
     "type": "passive",
     "name": "Heavy Cover",
     "description": "Before an ally is attacked, cover them with a heavy guard.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "BeforeAllyAttacked",
     "targeting": {
       "group": "Ally",
@@ -62,7 +62,7 @@
     "type": "passive",
     "name": "Shattering Pursuit",
     "description": "After attacking, inflict physical defense -25% on the target.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterAttacking",
     "targeting": {
       "group": "Enemy",
@@ -88,7 +88,7 @@
     "type": "passive",
     "name": "Phalanx Shift",
     "description": "When an ally is attacked, grant row of Cavalry allies +20% Attack and +40% Crit rate.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyAttacked",
     "targeting": {
       "group": "Ally",
@@ -113,7 +113,7 @@
     "type": "passive",
     "name": "Penetrate",
     "description": "After attacking, inflict Physical Defense -30% on the target.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterAttacking",
     "targeting": {
       "group": "Enemy",
@@ -139,7 +139,7 @@
     "type": "passive",
     "name": "Eagle Eye",
     "description": "Before attacking, grant the user's next attack True Strike.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAttackingActive",
     "targeting": {
       "group": "Ally",
@@ -158,7 +158,7 @@
     "type": "passive",
     "name": "Impetus Stance",
     "description": "At start of battle, gain +1 AP and -50% Attack. Limited use.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -183,7 +183,7 @@
     "type": "passive",
     "name": "Tailwind",
     "description": "After using a skill, grant a row of allies +10 Initiative, doubled for flying targets.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterUsingActiveSkill",
     "targeting": {
       "group": "Ally",
@@ -203,7 +203,7 @@
     "type": "passive",
     "name": "Relic Heal",
     "description": "Restore HP to an ally and grant HP regeneration.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterAllyHit",
     "targeting": {
       "group": "Ally",
@@ -223,7 +223,7 @@
     "type": "passive",
     "name": "Binding Guard",
     "description": "User's next attack will inflict Guard Seal.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAttackingActive",
     "targeting": {
       "group": "Ally",
@@ -242,7 +242,7 @@
     "type": "passive",
     "name": "Mighty Shield",
     "description": "Negate the next damage dealt to an ally.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacked",
     "targeting": {
       "group": "Ally",
@@ -261,7 +261,7 @@
     "type": "passive",
     "name": "Stun Cure",
     "description": "Remove Stun from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -280,7 +280,7 @@
     "type": "passive",
     "name": "Bear's Den",
     "description": "At start of battle, grant +20% Phys Def to all allies, and +50% Guard Rate to all bestial allies. Limited use.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -300,7 +300,7 @@
     "type": "passive",
     "name": "Heavy Alignment",
     "description": "At start of battle, grants a row of allies buffs based on the number of armored targets. Limited use.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -320,7 +320,7 @@
     "type": "passive",
     "name": "Quick Impetus",
     "description": "Allow an ally to act again and grants +1 AP.",
-    "ppCost": 4,
+    "pp": 4,
     "activationWindow": "afterAllyActiveSkill",
     "targeting": {
       "group": "Ally",
@@ -340,7 +340,7 @@
     "type": "passive",
     "name": "Sanguine Conferral",
     "description": "Add 50 magic potency to ally's next attack, ally regains HP equal to 50% of damage dealt by attack.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -359,7 +359,7 @@
     "type": "passive",
     "name": "Magic Barrier",
     "description": "Negate next magic damage dealt to an ally and negates afflictions.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAllyHitMagic",
     "targeting": {
       "group": "Ally",
@@ -379,7 +379,7 @@
     "type": "passive",
     "name": "Guarding Impetus",
     "description": "After guarding an attack, gain +1 AP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -399,7 +399,7 @@
     "type": "passive",
     "name": "Blind Cure",
     "description": "Remove Blindness from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -418,7 +418,7 @@
     "type": "passive",
     "name": "Healing Pursuit",
     "description": "After an ally is healed, restore minor HP, can heal 150% above max HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyHealed",
     "targeting": {
       "group": "Ally",
@@ -438,7 +438,7 @@
     "type": "passive",
     "name": "Counter",
     "description": "Counterattack a single enemy.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingHit",
     "targeting": {
       "group": "Enemy",
@@ -459,7 +459,7 @@
     "type": "passive",
     "name": "Dynamic Glide",
     "description": "Evade a single hit and gain +20% Phys Atk.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterEvade",
     "targeting": {
       "group": "Ally",
@@ -479,7 +479,7 @@
     "type": "passive",
     "name": "War Cry",
     "description": "At start of battle, gain +20% Phys Atk. Limited use.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -499,7 +499,7 @@
     "type": "passive",
     "name": "Powerful Call",
     "description": "Grants +30% Phys Atk to ally's next attack.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAllyAttacksPhysicalActive",
     "targeting": {
       "group": "Ally",
@@ -518,7 +518,7 @@
     "type": "passive",
     "name": "Diurnal Impetus",
     "description": "After using an active skill, gain +20% Mag. Atk. and an additional +1 AP during the day.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterUsingActiveSkill",
     "targeting": {
       "group": "Ally",
@@ -543,7 +543,7 @@
     "type": "passive",
     "name": "Quick Guard",
     "description": "Block an attack with a Medium Guard.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -562,7 +562,7 @@
     "type": "passive",
     "name": "Quick Barrier",
     "description": "Reduce damage taken by an ally by 50%.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAllyAttacked",
     "targeting": {
       "group": "Ally",
@@ -581,7 +581,7 @@
     "type": "passive",
     "name": "Freeze Cure",
     "description": "Remove Freeze from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -600,7 +600,7 @@
     "type": "passive",
     "name": "Poison Cure",
     "description": "Remove Poison from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -619,7 +619,7 @@
     "type": "passive",
     "name": "Cursed Impetus",
     "description": "When debuffed, gain +1 AP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterUserDebuff",
     "targeting": {
       "group": "Ally",
@@ -639,7 +639,7 @@
     "type": "passive",
     "name": "Nocturnal Impetus",
     "description": "After using an active skill, gain +20% Mag Atk and an additional +1 AP at night.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterUsingActiveSkill",
     "targeting": {
       "group": "Ally",
@@ -664,7 +664,7 @@
     "type": "passive",
     "name": "United Front",
     "description": "Grant buff based on number of enemies minus number of allies.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -684,7 +684,7 @@
     "type": "passive",
     "name": "Sorcerous Connection",
     "description": "Lower your Mag Attack by -50% to raise an ally's Mag Attack by +50%.",
-    "ppCost": 0,
+    "pp": 0,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -709,7 +709,7 @@
     "type": "passive",
     "name": "Flame Conferral",
     "description": "Add a 50 potency magic attack and burn to ally's next attack.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -728,7 +728,7 @@
     "type": "passive",
     "name": "Frost Conferral",
     "description": "Add a 50 potency magic attack and freeze to ally's next attack.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -747,7 +747,7 @@
     "type": "passive",
     "name": "Inspiration",
     "description": "Ally's next attack gains +30% Atk, +50% Crit Dmg and -50 Accuracy.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -777,7 +777,7 @@
     "type": "passive",
     "name": "Reinforce",
     "description": "Allow an ally to act without consuming AP.",
-    "ppCost": 4,
+    "pp": 4,
     "activationWindow": "afterAllyActiveSkill",
     "targeting": {
       "group": "Ally",
@@ -797,7 +797,7 @@
     "type": "passive",
     "name": "Grave Impetus",
     "description": "Grants user +1 AP when ally dies.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyHit",
     "targeting": {
       "group": "Ally",
@@ -817,7 +817,7 @@
     "type": "passive",
     "name": "Guarding Fighter",
     "description": "When you guard an attack, gain +20% Phys Attack and +30% Crit Damage.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -842,7 +842,7 @@
     "type": "passive",
     "name": "Aerial Wing",
     "description": "Make next attack a Truestrike and grant +20% Attack if at max Health.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeAttackingActive",
     "targeting": {
       "group": "Ally",
@@ -866,7 +866,7 @@
     "type": "passive",
     "name": "Phantom Step",
     "description": "Evade the next attack received.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -886,7 +886,7 @@
     "type": "passive",
     "name": "Passive Gift",
     "description": "When ally uses a passive, grant +1 PP.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterAllyPassiveSkill",
     "targeting": {
       "group": "Ally",
@@ -906,7 +906,7 @@
     "type": "passive",
     "name": "Party Aid",
     "description": "At end of battle, restore 25% HP to all allies.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "endOfBattle",
     "targeting": {
       "group": "Ally",
@@ -925,7 +925,7 @@
     "type": "passive",
     "name": "Banishing Pursuit",
     "description": "Follow up attack that removes all of target's buffs.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAttacking",
     "targeting": {
       "group": "Enemy",
@@ -946,7 +946,7 @@
     "type": "passive",
     "name": "Hastened Action",
     "description": "At start of battle, grant ally max initiative, cannot target self. Limited use.",
-    "ppCost": 3,
+    "pp": 3,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -966,7 +966,7 @@
     "type": "passive",
     "name": "Hastened Cast",
     "description": "At start of battle, grants an ally max initiative. Limited use.",
-    "ppCost": 3,
+    "pp": 3,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -986,7 +986,7 @@
     "type": "passive",
     "name": "Recast",
     "description": "After using a magic attack, use same magic attack again.",
-    "ppCost": 4,
+    "pp": 4,
     "activationWindow": "afterAllyMagicAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -1005,7 +1005,7 @@
     "type": "passive",
     "name": "Magic Counter",
     "description": "Counterattack with magical damage.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingHit",
     "targeting": {
       "group": "Enemy",
@@ -1026,7 +1026,7 @@
     "type": "passive",
     "name": "Nimble Fighter",
     "description": "When you evade an attack, gain +20% Phys Atk and +30% Crit Damage.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterEvade",
     "targeting": {
       "group": "Ally",
@@ -1051,7 +1051,7 @@
     "type": "passive",
     "name": "Quick Heal",
     "description": "Restore HP to one ally.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyHit",
     "targeting": {
       "group": "Ally",
@@ -1071,7 +1071,7 @@
     "type": "passive",
     "name": "Vanitas",
     "description": "Magical counterattack that inflicts Blind and Poison.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingHit",
     "targeting": {
       "group": "Enemy",
@@ -1092,7 +1092,7 @@
     "type": "passive",
     "name": "Wide Pursuit",
     "description": "Follow up attack on a row of enemies.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "afterAttacking",
     "targeting": {
       "group": "Enemy",
@@ -1113,7 +1113,7 @@
     "type": "passive",
     "name": "Guard Cure",
     "description": "Remove Guard Seal from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -1132,7 +1132,7 @@
     "type": "passive",
     "name": "Toughness",
     "description": "When attacked, gain a buff that lets you endure one fatal blow.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -1152,7 +1152,7 @@
     "type": "passive",
     "name": "Pursuit",
     "description": "Follow up attack.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAttacking",
     "targeting": {
       "group": "Enemy",
@@ -1173,7 +1173,7 @@
     "type": "passive",
     "name": "Fire Cure",
     "description": "Remove Burn from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -1192,7 +1192,7 @@
     "type": "passive",
     "name": "Celestial Light",
     "description": "Unleash its true power amidst a sea of miasma.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1212,7 +1212,7 @@
     "type": "passive",
     "name": "Wing Rest",
     "description": "At end of battle, recover 25% HP, double recovery if afflicted.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "endOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1231,7 +1231,7 @@
     "type": "passive",
     "name": "Passive Cure",
     "description": "Remove Passive Seal from an ally and restore 10% of target's HP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -1250,7 +1250,7 @@
     "type": "passive",
     "name": "Hawk Eye",
     "description": "Make next attack Truestrike and Critical.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAttackingActive",
     "targeting": {
       "group": "Ally",
@@ -1274,7 +1274,7 @@
     "type": "passive",
     "name": "Quick Cure",
     "description": "Remove all debuffs from an ally, grants immunity to one debuff.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterAllyDebuff",
     "targeting": {
       "group": "Ally",
@@ -1293,7 +1293,7 @@
     "type": "passive",
     "name": "Hastened Shatter",
     "description": "At start of battle, attack and inflict Phys Def -50%. Limited use.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Enemy",
@@ -1319,7 +1319,7 @@
     "type": "passive",
     "name": "Quick Action",
     "description": "At start of battle, grants an ally +15 initiative, cannot target self. Limited use.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1339,7 +1339,7 @@
     "type": "passive",
     "name": "Grant Evade",
     "description": "Allow an ally to evade one hit.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacked",
     "targeting": {
       "group": "Ally",
@@ -1359,7 +1359,7 @@
     "type": "passive",
     "name": "Evade",
     "description": "Evade a single hit.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -1379,7 +1379,7 @@
     "type": "passive",
     "name": "Thunderous Conferral",
     "description": "Add a 50 potency magic attack and stun to ally's next attack.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
@@ -1398,7 +1398,7 @@
     "type": "passive",
     "name": "Nocturnal Evade",
     "description": "Evade a single hit, gain +1 PP at night.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "beforeBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -1423,7 +1423,7 @@
     "type": "passive",
     "name": "Vengeful Impetus",
     "description": "After being attacked, grant +1 AP.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingAttacked",
     "targeting": {
       "group": "Ally",
@@ -1443,7 +1443,7 @@
     "type": "passive",
     "name": "Dawn Horn",
     "description": "At start of battle, grant all allies immunity to stun and +20% Guard Rate. Limited use.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1463,7 +1463,7 @@
     "type": "passive",
     "name": "Aerial Alignment",
     "description": "Grants a row of allies buffs based on the number of flying targets. Limited use.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1483,7 +1483,7 @@
     "type": "passive",
     "name": "Wolf Pack",
     "description": "At start of battle, grant +20% Phys Atk to all allies and +50% Crit Rate to all bestial allies. Limited use.",
-    "ppCost": 2,
+    "pp": 2,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1508,7 +1508,7 @@
     "type": "passive",
     "name": "Ground Counter",
     "description": "Counterattack with +100 potency vs. cavalry.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterBeingHit",
     "targeting": {
       "group": "Enemy",
@@ -1538,7 +1538,7 @@
     "type": "passive",
     "name": "Self-Care",
     "description": "Remove debuffs from self.",
-    "ppCost": 1,
+    "pp": 1,
     "activationWindow": "afterUserDebuff",
     "targeting": {
       "group": "Ally",
@@ -1557,7 +1557,7 @@
     "type": "passive",
     "name": "Hastened Charge",
     "description": "Immediately activate one charge attack.",
-    "ppCost": 4,
+    "pp": 4,
     "activationWindow": "startOfBattle",
     "targeting": {
       "group": "Ally",
@@ -1569,6 +1569,87 @@
         "kind": "ResourceGain",
         "resource": "AP",
         "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "sanguinePursuit",
+    "type": "passive",
+    "name": "Sanguine Pursuit",
+    "description": "Follow up after an ally attacks, recovers HP equal to 50% of damage dealt, +1 PP vs afflicted targets.",
+    "pp": 1,
+    "activationWindow": "afterAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Heal",
+        "potency": 50,
+        "scaling": "physical"
+      }
+    ]
+  },
+  {
+    "id": "eyeOfTheWarriorPrincess",
+    "type": "passive",
+    "name": "Eye of the Warrior Princess",
+    "description": "At start of battle, inflicts Attack -20% and Initiative -10 on all enemies. Limited use.",
+    "pp": 1,
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["Limited"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -20
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      }
+    ]
+  },
+  {
+    "id": "painbringer",
+    "type": "passive",
+    "name": "Painbringer",
+    "description": "When attacked, grants user +1 AP, +20% Attack and +10 Initiative.",
+    "pp": 1,
+    "activationWindow": "afterBeingAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20
+      },
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 10
       }
     ]
   }
