@@ -1,0 +1,430 @@
+[
+  {
+    "id": "banditLongsword",
+    "name": "Bandit Longsword",
+    "type": "Sword",
+    "stats": {
+      "physAtk": 18,
+      "initiative": 3,
+      "evasion": 10,
+      "goldGainPercent": 100
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "barbariansMight",
+    "name": "Barbarian's Might",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "maxHp": 5 },
+    "skillId": "provokingSlash",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "baroqueSword",
+    "name": "Baroque Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 13, "accuracy": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronSword",
+    "name": "Black iron Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 17, "critRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeSword",
+    "name": "Bronze Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 8 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnatSword",
+    "name": "Carnat Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 19, "initiative": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianBlade",
+    "name": "Carnelian Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 21, "ap": 1 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "crimsonEpee",
+    "name": "Crimson Epee",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "initiative": 3 },
+    "skillId": "activeShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "cutthroatsBoon",
+    "name": "Cutthroat's Boon",
+    "type": "Sword",
+    "stats": { "physAtk": 21, "evasion": 10 },
+    "skillId": "assassinsNail",
+    "nullifications": ["Blindness"],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragonboneBlade",
+    "name": "Dragonbone Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 15, "pp": 1, "initiative": -10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "flamberge",
+    "name": "Flamberge",
+    "type": "Sword",
+    "stats": { "physAtk": 21 },
+    "skillId": "grislyFire",
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "galecutter",
+    "name": "Galecutter",
+    "type": "Sword",
+    "stats": { "physAtk": 22, "evasion": 20 },
+    "skillId": "doubleBlast",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatsword",
+    "name": "Greatsword",
+    "type": "Sword",
+    "stats": { "physAtk": 25 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatwoodSword",
+    "name": "Greatwood Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 8, "magAtk": 16, "magDef": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "hailstormEdge",
+    "name": "Hailstorm Edge",
+    "type": "Sword",
+    "stats": { "physAtk": 20, "accuracy": 20 },
+    "skillId": "icicleDark",
+    "nullifications": ["Freeze"],
+    "classRestrictions": []
+  },
+  {
+    "id": "hallowedBlade",
+    "name": "Hallowed Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "onActiveHealPercent": 10, "maxHp": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "heavenswingSword",
+    "name": "Heavenswing Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 16, "accuracy": 10, "evasion": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "holyUnicornBlade",
+    "name": "Holy Unicorn Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 28, "ap": 1, "pp": 1 },
+    "skillId": null,
+    "nullifications": ["Debuff"],
+    "classRestrictions": ["Lord", "HighLord"]
+  },
+  {
+    "id": "huntersClaymore",
+    "name": "Hunter's Claymore",
+    "type": "Sword",
+    "stats": { "physAtk": 22, "followUpPotency": 20, "critRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icefallBlade",
+    "name": "Icefall Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 19, "pp": 1, "guardRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironSword",
+    "name": "Iron Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "kingsbladeCornix",
+    "name": "Kingsblade Cornix",
+    "type": "Sword",
+    "stats": { "physAtk": 15, "allStats": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "meteoriteSword",
+    "name": "Meteorite Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 24, "maxHp": 20, "guardRate": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "moonlightRapier",
+    "name": "Moonlight Rapier",
+    "type": "Sword",
+    "stats": { "physAtk": 21 },
+    "skillId": "nocturnalStrike",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "notosSword",
+    "name": "Notos' Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 25, "ap": 1, "initiative": 10, "evasion": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phantomKnightsSword",
+    "name": "Phantom Knight's Sword",
+    "type": "Sword",
+    "stats": { "magAtk": 16, "magDef": 5 },
+    "skillId": "phantomAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "pursuantsBlade",
+    "name": "Pursuant's Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 20 },
+    "skillId": "pursuit",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "recruitsShortsword",
+    "name": "Recruit's Shortsword",
+    "type": "Sword",
+    "stats": { "physAtk": 11, "maxHp": 3, "expGainPercent": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "roseKnightSword",
+    "name": "Rose Knight Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "initiative": 3, "accuracy": 10 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "royalSaber",
+    "name": "Royal Saber",
+    "type": "Sword",
+    "stats": { "physAtk": 18, "initiative": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "runicSword",
+    "name": "Runic Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 8, "magAtk": 14, "magDef": 3 },
+    "skillId": "magicAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "sacralSword",
+    "name": "Sacral Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 25, "onActiveHealPercent": 20 },
+    "skillId": null,
+    "nullifications": ["Affliction"],
+    "classRestrictions": []
+  },
+  {
+    "id": "sanguineBlade",
+    "name": "Sanguine Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 16 },
+    "skillId": "sanguineAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "scorpionsSting",
+    "name": "Scorpion's Sting",
+    "type": "Sword",
+    "stats": { "physAtk": 21 },
+    "skillId": "grislyPoison",
+    "nullifications": ["Poison"],
+    "classRestrictions": []
+  },
+  {
+    "id": "searingRapier",
+    "name": "Searing Rapier",
+    "type": "Sword",
+    "stats": { "physAtk": 15 },
+    "skillId": "fireSlash",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsteelSword",
+    "name": "Spellsteel Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 9, "magAtk": 18 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "steelSword",
+    "name": "Steel Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 22 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "stingray",
+    "name": "Stingray",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "critRate": 15 },
+    "skillId": "artenieStrike",
+    "nullifications": ["Poison"],
+    "classRestrictions": ["Swordfighter", "Swordmaster"]
+  },
+  {
+    "id": "sylphsBane",
+    "name": "Sylph's Bane",
+    "type": "Sword",
+    "stats": { "physAtk": 16, "evasion": 10 },
+    "skillId": "sonicBlast",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "templarsSword",
+    "name": "Templar's Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 15, "physDef": 1, "guardRate": 5 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thornBlade",
+    "name": "Thorn Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 17, "pp": 1, "maxHp": -15 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "viperfang",
+    "name": "Viperfang",
+    "type": "Sword",
+    "stats": { "physAtk": 12 },
+    "skillId": "poisonSlash",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalSword",
+    "name": "Vorpal Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 23, "maxHp": 5, "initiative": 3 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingcrestBlade",
+    "name": "Wingcrest Blade",
+    "type": "Sword",
+    "stats": { "physAtk": 21, "pp": 1, "critRate": -20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wyvernRazor",
+    "name": "Wyvern Razor",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "critRate": 10, "critDamage": 20 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoriranSword",
+    "name": "Zenoriran Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 14, "maxHp": 10, "physDef": 2, "magDef": 2 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenorianKnightsSword",
+    "name": "Zenorian Knight's Sword",
+    "type": "Sword",
+    "stats": { "physAtk": 20, "maxHp": 15, "physDef": 4, "magDef": 4 },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  }
+]
