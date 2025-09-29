@@ -1,11 +1,6 @@
 import type { ActivationWindowId } from '../data/activation-windows'
 import type { StatKey } from './base-stats'
-import type {
-  Condition,
-  DamageType,
-  Targeting,
-  Trait,
-} from './core'
+import type { Condition, DamageType, Targeting, Trait } from './core'
 
 interface SkillBase {
   id: string

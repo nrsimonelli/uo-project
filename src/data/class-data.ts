@@ -28,6 +28,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'leanEdge', level: 1, skillType: 'active' },
       { skillId: 'cavalrySlayer', level: 10, skillType: 'active' },
+      { skillId: 'nobleGuard', level: 1, skillType: 'passive' },
+      { skillId: 'luminousCover', level: 5, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.FIGHTER]: {
@@ -191,7 +193,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'hache', level: 1, skillType: 'active' },
       { skillId: 'rowHeal', level: 10, skillType: 'active' },
       { skillId: 'magicBarrier', level: 1, skillType: 'passive' },
-      { skillId: 'holyGuardRadiant', level: 15, skillType: 'passive' },
+      { skillId: 'holyGuard', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.DARK_KNIGHT]: {
@@ -217,6 +219,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'heal', level: 1, skillType: 'active' },
       { skillId: 'quickHeal', level: 1, skillType: 'passive' },
       { skillId: 'refresh', level: 10, skillType: 'passive' },
+      { skillId: 'lifesaver', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WIZARD]: {
@@ -289,6 +292,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'verticalEdge', level: 1, skillType: 'active' },
       { skillId: 'ironCrusher', level: 10, skillType: 'active' },
+      { skillId: 'maidensHammer', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.PRIESTESS]: {
@@ -300,12 +304,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'holyLight', level: 1, skillType: 'active' },
       { skillId: 'curingCall', level: 10, skillType: 'active' },
-      { skillId: 'slice', level: 1, skillType: 'active' },
-      { skillId: 'heal', level: 5, skillType: 'active' },
-      { skillId: 'divineCross', level: 30, skillType: 'active' },
-      { skillId: 'holyBarrier', level: 1, skillType: 'passive' },
-      { skillId: 'holyGuard', level: 10, skillType: 'passive' },
-      { skillId: 'pursuit', level: 20, skillType: 'passive' },
+      { skillId: 'passiveMiracle', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.HIGH_LORD]: {
@@ -317,8 +316,6 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.LORD,
     skills: [
       { skillId: 'spinningEdge', level: 30, skillType: 'active' },
-      { skillId: 'nobleGuard', level: 1, skillType: 'passive' },
-      { skillId: 'luminousCover', level: 5, skillType: 'passive' },
       { skillId: 'rapidOrder', level: 25, skillType: 'passive' },
     ],
   },
@@ -479,7 +476,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Cavalry',
     baseClass: ALL_CLASSES.RADIANT_KNIGHT,
     skills: [
-      { skillId: 'saintsBladeActive', level: 25, skillType: 'active' },
+      { skillId: 'saintsBlade', level: 25, skillType: 'active' },
       { skillId: 'rowBarrier', level: 20, skillType: 'passive' },
     ],
   },
@@ -504,7 +501,6 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.CLERIC,
     skills: [
       { skillId: 'sacredHeal', level: 25, skillType: 'active' },
-      { skillId: 'lifesaver', level: 15, skillType: 'passive' },
       { skillId: 'partingResurrection', level: 20, skillType: 'passive' },
     ],
   },
@@ -731,7 +727,6 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.PRIESTESS,
     skills: [
       { skillId: 'innocentRay', level: 30, skillType: 'active' },
-      { skillId: 'passiveMiracle', level: 15, skillType: 'passive' },
       { skillId: 'saintsBarrier', level: 25, skillType: 'passive' },
       { skillId: 'divineBlessing', level: 35, skillType: 'passive' },
     ],
@@ -745,7 +740,6 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.CRUSADER,
     skills: [
       { skillId: 'brandish', level: 30, skillType: 'active' },
-      { skillId: 'maidensHammer', level: 15, skillType: 'passive' },
       { skillId: 'ironVeil', level: 25, skillType: 'passive' },
       { skillId: 'undyingWill', level: 35, skillType: 'passive' },
     ],
@@ -816,6 +810,14 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Cavalry',
+    skills: [
+      { skillId: 'slice', level: 1, skillType: 'active' },
+      { skillId: 'heal', level: 5, skillType: 'active' },
+      { skillId: 'divineCross', level: 30, skillType: 'active' },
+      { skillId: 'holyBarrier', level: 1, skillType: 'passive' },
+      { skillId: 'holyGuard', level: 10, skillType: 'passive' },
+      { skillId: 'pursuit', level: 20, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.PRINCE]: {
     id: ALL_CLASSES.PRINCE,

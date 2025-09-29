@@ -34,6 +34,11 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates after an ally attacks with an active skill',
     limited: false,
   },
+  AFTER_ALLY_ATTACKED_ACTIVE: {
+    id: 'afterAllyAttackedActive',
+    description: 'Activates after an ally is attacked with an active skill',
+    limited: false,
+  },
   AFTER_ALLY_MAGIC_ATTACKS_ACTIVE: {
     id: 'afterAllyMagicAttacksActive',
     description: 'Activates after an ally attacks with a magic active skill',
