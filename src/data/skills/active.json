@@ -2536,5 +2536,3603 @@
         "description": "Deal damage equal to 80% of your HP"
       }
     ]
+  },
+  {
+    "id": "lightningBlade",
+    "type": "active",
+    "name": "Lightning Blade",
+    "description": "Attack a single enemy with physical and magical damage. Inflicts Stun.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun"
+      }
+    ]
+  },
+  {
+    "id": "naturesWrath",
+    "type": "active",
+    "name": "Nature's Wrath",
+    "description": "Attack a column of enemies with magical damage. Inflicts -1 PP to cavalry targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mirageStab",
+    "type": "active",
+    "name": "Mirage Stab",
+    "description": "Attack a row of enemies with hybrid damage. Grants user ability to evade 1 attack.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100,
+        "duration": 1,
+        "description": "Grants ability to evade 1 attack"
+      }
+    ]
+  },
+  {
+    "id": "sylphicBarrier",
+    "type": "active",
+    "name": "Sylphic Barrier",
+    "description": "Allows ally to evade one ranged attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100,
+        "duration": 1,
+        "conditions": [
+          {
+            "kind": "WhenHitBy",
+            "damageType": "Ranged"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "removeWeakness",
+    "type": "active",
+    "name": "Remove Weakness",
+    "description": "Removes debuffs and lets user evade one attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "description": "Removes all debuffs"
+      },
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "evasiveImpetus",
+    "type": "active",
+    "name": "Evasive Impetus",
+    "description": "When you evade an attack gain 1 AP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnEvade"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "passiveSteal",
+    "type": "active",
+    "name": "Passive Steal",
+    "description": "Attack a single enemy twice. Steal all of a target's PP if they don't guard the first hit.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "ResourceSteal",
+        "resource": "PP",
+        "amount": "All",
+        "conditions": [
+          {
+            "kind": "NotGuarded"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "toxicThrow",
+    "type": "active",
+    "name": "Toxic Throw",
+    "description": "Attack a single enemy twice. Inflicts Poison.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison"
+      }
+    ]
+  },
+  {
+    "id": "evade",
+    "type": "active",
+    "name": "Evade",
+    "description": "Evade an incoming attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "shadowbite",
+    "type": "active",
+    "name": "Shadowbite",
+    "description": "Attack a row of enemies twice. Inflicts Blindness as well as Initiative -20 and Evasion -20.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 15 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Blindness"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -20
+      },
+      {
+        "kind": "Debuff",
+        "stat": "evasion",
+        "amount": -20
+      }
+    ]
+  },
+  {
+    "id": "activeSteal",
+    "type": "active",
+    "name": "Active Steal",
+    "description": "Attack a single enemy four times. Steal all of a target's AP if they don't guard the first hit.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 4
+      },
+      {
+        "kind": "ResourceSteal",
+        "resource": "AP",
+        "amount": "All",
+        "conditions": [
+          {
+            "kind": "NotGuarded"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sneakingEdge",
+    "type": "active",
+    "name": "Sneaking Edge",
+    "description": "Attacks a single foe at the start of battle. Inflicts Guard Seal and Passive Seal.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["LIMITED"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 2,
+        "conditions": [
+          {
+            "kind": "StartOfBattle"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal"
+      }
+    ]
+  },
+  {
+    "id": "keenEdge",
+    "type": "active",
+    "name": "Keen Edge",
+    "description": "Attack a single enemy. Critical Rate +50%.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Truestrike"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "criticalRate": 50
+      }
+    ]
+  },
+  {
+    "id": "impale",
+    "type": "active",
+    "name": "Impale",
+    "description": "Attack a single enemy. Grants the user +1 PP if this attack defeats the target.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnDefeat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hastenedStrike",
+    "type": "active",
+    "name": "Hastened Strike",
+    "description": "Attack at the start of combat.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["LIMITED", "Truestrike"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "StartOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "parry",
+    "type": "active",
+    "name": "Parry",
+    "description": "Negate a single melee attack and gain 1 AP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Guard",
+        "guardType": "Perfect",
+        "conditions": [
+          {
+            "kind": "WhenHitBy",
+            "damageType": "Melee"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnParry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "meteorSlash",
+    "type": "active",
+    "name": "Meteor Slash",
+    "description": "Attack a single enemy nine times. Critical Rate +30%.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 20 },
+        "hitRate": 100,
+        "hitCount": 9,
+        "criticalRate": 30
+      }
+    ]
+  },
+  {
+    "id": "chargedImpetus",
+    "type": "active",
+    "name": "Charged Impetus",
+    "description": "After using a skill, gain 1 AP and 50% Critical Damage.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "criticalDamage",
+        "amount": 50,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "piercingLance",
+    "type": "active",
+    "name": "Piercing Lance",
+    "description": "Attack a single enemy. Inflicts Guard Seal.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal"
+      }
+    ]
+  },
+  {
+    "id": "passiveHold",
+    "type": "active",
+    "name": "Passive Hold",
+    "description": "Attack a single enemy. Inflicts Passive Seal.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal"
+      }
+    ]
+  },
+  {
+    "id": "venomThrust",
+    "type": "active",
+    "name": "Venom Thrust",
+    "description": "Attack a column of enemies. Inflicts Poison and debuffs HP recovery by -50%. +50 potency vs poisoned targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasAffliction",
+            "affliction": "Poison"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "hpRecovery",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "nocturnalEvade",
+    "type": "active",
+    "name": "Nocturnal Evade",
+    "description": "Evade a single hit, grants +1 PP at night.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "evasion",
+        "amount": 100,
+        "duration": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Night"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shadowPursuit",
+    "type": "active",
+    "name": "Shadow Pursuit",
+    "description": "Follow up attack. Inflicts Blindness.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "FollowUp"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Blindness"
+      }
+    ]
+  },
+  {
+    "id": "weaknessHunter",
+    "type": "active",
+    "name": "Weakness Hunter",
+    "description": "Attacks when a target is debuffed, ignores 50% of the target's defense.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "defenseIgnore": 50,
+        "conditions": [
+          {
+            "kind": "HasDebuff"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heal",
+    "type": "active",
+    "name": "Heal",
+    "description": "Restore moderate HP for an ally.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "quickHeal",
+    "type": "active",
+    "name": "Quick Heal",
+    "description": "When an ally is damaged restore minor HP to that ally.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenDamaged"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "refresh",
+    "type": "active",
+    "name": "Refresh",
+    "description": "Remove all debuffs from a row of allies.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs"
+      }
+    ]
+  },
+  {
+    "id": "sacredHeal",
+    "type": "active",
+    "name": "Sacred Heal",
+    "description": "Restore moderate HP to allies, removes debuffs from targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs"
+      }
+    ]
+  },
+  {
+    "id": "lifesaver",
+    "type": "active",
+    "name": "Lifesaver",
+    "description": "When attacked, Heal self for minor HP and grant a buff to resurrect self once.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenAttacked"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "resurrection",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "WhenAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "partingResurrection",
+    "type": "active",
+    "name": "Parting Resurrection",
+    "description": "Revives a fallen ally with 1 HP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Resurrect",
+        "amount": 1,
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "passiveCurse",
+    "type": "active",
+    "name": "Passive Curse",
+    "description": "Inflicts -1 PP and -10 Initiative.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      }
+    ]
+  },
+  {
+    "id": "offensiveCurse",
+    "type": "active",
+    "name": "Offensive Curse",
+    "description": "Inflicts -50% Phys and Mag Atk.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -50
+      },
+      {
+        "kind": "Debuff",
+        "stat": "magicAttack",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "quickCurse",
+    "type": "active",
+    "name": "Quick Curse",
+    "description": "When a foe attacks, inflict Attack -20% and Critical Seal.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -20,
+        "conditions": [
+          {
+            "kind": "WhenAttacking"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "CriticalSeal",
+        "conditions": [
+          {
+            "kind": "WhenAttacking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "defensiveCurse",
+    "type": "active",
+    "name": "Defensive Curse",
+    "description": "Inflicts -50% Phys and Mag Defense and inflicts Guard Seal.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "defense",
+        "amount": -50
+      },
+      {
+        "kind": "Debuff",
+        "stat": "magicDefense",
+        "amount": -50
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal"
+      }
+    ]
+  },
+  {
+    "id": "compoundingCurse",
+    "type": "active",
+    "name": "Compounding Curse",
+    "description": "Increase the potency of a debuff by 1.5.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Special",
+        "description": "Increase the potency of a debuff by 1.5"
+      }
+    ]
+  },
+  {
+    "id": "cursedSwamp",
+    "type": "active",
+    "name": "Cursed Swamp",
+    "description": "Inflicts -10 Initiative, -30 Evasion and -1 PP to all enemies.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED", "Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      },
+      {
+        "kind": "Debuff",
+        "stat": "evasion",
+        "amount": -30
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "windArrow",
+    "type": "active",
+    "name": "Wind Arrow",
+    "description": "Attack a single enemy with hybrid damage. Inflicts Evasion -50.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "evasion",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "mysticConferral",
+    "type": "active",
+    "name": "Mystic Conferral",
+    "description": "Add magic damage to ally attacks (50 Potency).",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "magicAttack",
+        "amount": 50,
+        "description": "Adds magic damage to attacks"
+      }
+    ]
+  },
+  {
+    "id": "icicleArrow",
+    "type": "active",
+    "name": "Icicle Arrow",
+    "description": "Attack two enemies with hybrid damage. Inflicts Freeze.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "quickCure",
+    "type": "active",
+    "name": "Quick Cure",
+    "description": "When an ally is debuffed, remove the debuff and grant immunity to one debuff.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "description": "Remove debuff",
+        "conditions": [
+          {
+            "kind": "WhenDebuffed"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "debuffImmunity",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "WhenDebuffed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "selflessHeal",
+    "type": "active",
+    "name": "Selfless Heal",
+    "description": "When healed, restore minor HP to all allies and remove all debuffs.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenHealed"
+          }
+        ]
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs",
+        "conditions": [
+          {
+            "kind": "WhenHealed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pureField",
+    "type": "active",
+    "name": "Pure Field",
+    "description": "Negates a single debuff.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "debuffImmunity",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "delayingShot",
+    "type": "active",
+    "name": "Delaying Shot",
+    "description": "Attack a single enemy four times. Inflicts Initiative -20.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 4
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -20
+      }
+    ]
+  },
+  {
+    "id": "saintsShot",
+    "type": "active",
+    "name": "Saint's Shot",
+    "description": "Attack a single enemy. Inflicts -1 PP, lowers an additional PP on ground based targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Ground",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "photonArrow",
+    "type": "active",
+    "name": "Photon Arrow",
+    "description": "Attack two enemies. Inflicts -50% Phys Def, Inflicts Passive Seal during the day.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -50
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal",
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Day"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aerialPursuit",
+    "type": "active",
+    "name": "Aerial Pursuit",
+    "description": "Follow attack when a flying ally attacks.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AllyAttacks",
+            "combatantType": "Flying"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tailwind",
+    "type": "active",
+    "name": "Tailwind",
+    "description": "After using a skill, grant a row of allies +10 Initiative (effect doubled for flying allies).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 10,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 10,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          },
+          {
+            "kind": "CombatantType",
+            "target": "Ally",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shiningLight",
+    "type": "active",
+    "name": "Shining Light",
+    "description": "Before an enemy attacks, inflict blind on that enemy's row.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Affliction",
+        "affliction": "Blindness",
+        "conditions": [
+          {
+            "kind": "BeforeEnemyAttacks"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "overheal",
+    "type": "active",
+    "name": "Overheal",
+    "description": "Restore minor HP to a row of allies, can restore up to 150% of their max HP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "description": "Can restore up to 150% of max HP"
+      }
+    ]
+  },
+  {
+    "id": "honedHealing",
+    "type": "active",
+    "name": "Honed Healing",
+    "description": "Grants double healing to a row.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "healingReceived",
+        "amount": 100,
+        "description": "Double healing received"
+      }
+    ]
+  },
+  {
+    "id": "holyCradle",
+    "type": "active",
+    "name": "Holy Cradle",
+    "description": "Grants allies the ability to withstand one fatal blow.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "fatalBlow",
+        "amount": 1,
+        "description": "Withstand one fatal blow"
+      }
+    ]
+  },
+  {
+    "id": "hastenedHeal",
+    "type": "active",
+    "name": "Hastened Heal",
+    "description": "Restore minor HP to all allies, grants HP regen during the day.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED"],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "hpRegeneration",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Day"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "preemptiveHeal",
+    "type": "active",
+    "name": "Preemptive Heal",
+    "description": "Restore moderate HP to an ally before they are attacked.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "BeforeBeingAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "holyBreath",
+    "type": "active",
+    "name": "Holy Breath",
+    "description": "Before an ally attacks, restore minor HP to that ally. If afflicted, remove the affliction and grant user +1 PP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "BeforeAllyAttacks"
+          }
+        ]
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove affliction",
+        "conditions": [
+          {
+            "kind": "HasAffliction"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "HasAffliction"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "powerBolt",
+    "type": "active",
+    "name": "Power Bolt",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 120 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "toxicBolt",
+    "type": "active",
+    "name": "Toxic Bolt",
+    "description": "Attack a single enemy. Inflicts Poison.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison"
+      }
+    ]
+  },
+  {
+    "id": "heavyBolt",
+    "type": "active",
+    "name": "Heavy Bolt",
+    "description": "Attack a single enemy. +100 potency if user is in the front row.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "InFrontRow"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medicalAid",
+    "type": "active",
+    "name": "Medical Aid",
+    "description": "At the end of battle, restore 15% HP to a row of allies. Healing doubles on targets with less than 50% HP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 15,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "kind": "Heal",
+        "amount": 15,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          },
+          {
+            "kind": "HPThreshold",
+            "threshold": 50,
+            "comparator": "LessThan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quickReload",
+    "type": "active",
+    "name": "Quick Reload",
+    "description": "Follow up attack after performing an attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AfterAttacking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aidCover",
+    "type": "active",
+    "name": "Aid Cover",
+    "description": "Cover an ally with medium guard and restore 25% HP to that ally.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "guardType": "Medium"
+      },
+      {
+        "kind": "Heal",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "id": "singleShot",
+    "type": "active",
+    "name": "Single Shot",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "dualShot",
+    "type": "active",
+    "name": "Dual Shot",
+    "description": "Attack two enemies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "rowShot",
+    "type": "active",
+    "name": "Row Shot",
+    "description": "Attack a row of enemies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "eagleEye",
+    "type": "active",
+    "name": "Eagle Eye",
+    "description": "Makes your attack Truestrike.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 100,
+        "description": "Next attack has Truestrike"
+      }
+    ]
+  },
+  {
+    "id": "pursuit",
+    "type": "active",
+    "name": "Pursuit",
+    "description": "Follow up attack on a single enemy.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "FollowUp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aerialSnipe",
+    "type": "active",
+    "name": "Aerial Snipe",
+    "description": "Counterattack a single enemy, +100 potency vs. Flying targets.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          }
+        ]
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          },
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "icebolt",
+    "type": "active",
+    "name": "Icebolt",
+    "description": "Attack a single enemy with magical damage. Inflicts Freeze.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "magicMissile",
+    "type": "active",
+    "name": "Magic Missile",
+    "description": "Attack two enemies with magical damage.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "iceCoffin",
+    "type": "active",
+    "name": "Ice Coffin",
+    "description": "Attack a row of enemies with magical damage. Inflicts Freeze, +50 Potency vs. Frozen targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasAffliction",
+            "affliction": "Freeze"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "magicConferral",
+    "type": "active",
+    "name": "Magic Conferral",
+    "description": "Adds magic damage to an ally's attack (50 potency).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "magicAttack",
+        "amount": 50,
+        "description": "Adds magic damage to next attack"
+      }
+    ]
+  },
+  {
+    "id": "focusSight",
+    "type": "active",
+    "name": "Focus Sight",
+    "description": "Allies next attack has Truestrike.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 100,
+        "description": "Next attack has Truestrike"
+      }
+    ]
+  },
+  {
+    "id": "heal",
+    "type": "active",
+    "name": "Heal",
+    "description": "Restore moderate HP for an ally.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "quickHeal",
+    "type": "active",
+    "name": "Quick Heal",
+    "description": "When an ally is damaged restore minor HP to that ally.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenDamaged"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "refresh",
+    "type": "active",
+    "name": "Refresh",
+    "description": "Remove all debuffs from a row of allies.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs"
+      }
+    ]
+  },
+  {
+    "id": "sacredHeal",
+    "type": "active",
+    "name": "Sacred Heal",
+    "description": "Restore moderate HP to allies, removes debuffs from targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs"
+      }
+    ]
+  },
+  {
+    "id": "lifesaver",
+    "type": "active",
+    "name": "Lifesaver",
+    "description": "When attacked, Heal self for minor HP and grant a buff to resurrect self once.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenAttacked"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "resurrection",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "WhenAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "partingResurrection",
+    "type": "active",
+    "name": "Parting Resurrection",
+    "description": "Revives a fallen ally with 1 HP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Resurrect",
+        "amount": 1,
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "passiveCurse",
+    "type": "active",
+    "name": "Passive Curse",
+    "description": "Inflicts -1 PP and -10 Initiative.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      }
+    ]
+  },
+  {
+    "id": "offensiveCurse",
+    "type": "active",
+    "name": "Offensive Curse",
+    "description": "Inflicts -50% Phys and Mag Atk.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -50
+      },
+      {
+        "kind": "Debuff",
+        "stat": "magicAttack",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "quickCurse",
+    "type": "active",
+    "name": "Quick Curse",
+    "description": "When a foe attacks, inflict Attack -20% and Critical Seal.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "attack",
+        "amount": -20,
+        "conditions": [
+          {
+            "kind": "WhenAttacking"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "CriticalSeal",
+        "conditions": [
+          {
+            "kind": "WhenAttacking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "defensiveCurse",
+    "type": "active",
+    "name": "Defensive Curse",
+    "description": "Inflicts -50% Phys and Mag Defense and inflicts Guard Seal.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "defense",
+        "amount": -50
+      },
+      {
+        "kind": "Debuff",
+        "stat": "magicDefense",
+        "amount": -50
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal"
+      }
+    ]
+  },
+  {
+    "id": "compoundingCurse",
+    "type": "active",
+    "name": "Compounding Curse",
+    "description": "Increase the potency of a debuff by 1.5.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Special",
+        "description": "Increase the potency of a debuff by 1.5"
+      }
+    ]
+  },
+  {
+    "id": "cursedSwamp",
+    "type": "active",
+    "name": "Cursed Swamp",
+    "description": "Inflicts -10 Initiative, -30 Evasion and -1 PP to all enemies.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED", "Truestrike"],
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -10
+      },
+      {
+        "kind": "Debuff",
+        "stat": "evasion",
+        "amount": -30
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "windArrow",
+    "type": "active",
+    "name": "Wind Arrow",
+    "description": "Attack a single enemy with hybrid damage. Inflicts Evasion -50.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "evasion",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "mysticConferralArcher",
+    "type": "active",
+    "name": "Mystic Conferral",
+    "description": "Add magic damage to ally attacks (50 Potency).",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "magicAttack",
+        "amount": 50,
+        "description": "Adds magic damage to attacks"
+      }
+    ]
+  },
+  {
+    "id": "icicleArrow",
+    "type": "active",
+    "name": "Icicle Arrow",
+    "description": "Attack two enemies with hybrid damage. Inflicts Freeze.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Hybrid",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75, "magical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "quickCure",
+    "type": "active",
+    "name": "Quick Cure",
+    "description": "When an ally is debuffed, remove the debuff and grant immunity to one debuff.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "description": "Remove debuff",
+        "conditions": [
+          {
+            "kind": "WhenDebuffed"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "debuffImmunity",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "WhenDebuffed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "selflessHeal",
+    "type": "active",
+    "name": "Selfless Heal",
+    "description": "When healed, restore minor HP to all allies and remove all debuffs.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "WhenHealed"
+          }
+        ]
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove all debuffs",
+        "conditions": [
+          {
+            "kind": "WhenHealed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pureField",
+    "type": "active",
+    "name": "Pure Field",
+    "description": "Negates a single debuff.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "debuffImmunity",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "delayingShot",
+    "type": "active",
+    "name": "Delaying Shot",
+    "description": "Attack a single enemy four times. Inflicts Initiative -20.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 4
+      },
+      {
+        "kind": "Debuff",
+        "stat": "initiative",
+        "amount": -20
+      }
+    ]
+  },
+  {
+    "id": "saintsShot",
+    "type": "active",
+    "name": "Saint's Shot",
+    "description": "Attack a single enemy. Inflicts -1 PP, lowers an additional PP on ground based targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1
+      },
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Ground",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "photonArrow",
+    "type": "active",
+    "name": "Photon Arrow",
+    "description": "Attack two enemies. Inflicts -50% Phys Def, Inflicts Passive Seal during the day.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -50
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal",
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Day"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aerialPursuit",
+    "type": "active",
+    "name": "Aerial Pursuit",
+    "description": "Follow attack when a flying ally attacks.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AllyAttacks",
+            "combatantType": "Flying"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tailwind",
+    "type": "active",
+    "name": "Tailwind",
+    "description": "After using a skill, grant a row of allies +10 Initiative (effect doubled for flying allies).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 10,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 10,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          },
+          {
+            "kind": "CombatantType",
+            "target": "Ally",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shiningLight",
+    "type": "active",
+    "name": "Shining Light",
+    "description": "Before an enemy attacks, inflict blind on that enemy's row.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Affliction",
+        "affliction": "Blindness",
+        "conditions": [
+          {
+            "kind": "BeforeEnemyAttacks"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "overheal",
+    "type": "active",
+    "name": "Overheal",
+    "description": "Restore minor HP to a row of allies, can restore up to 150% of their max HP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "description": "Can restore up to 150% of max HP"
+      }
+    ]
+  },
+  {
+    "id": "honedHealing",
+    "type": "active",
+    "name": "Honed Healing",
+    "description": "Grants double healing to a row.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "healingReceived",
+        "amount": 100,
+        "description": "Double healing received"
+      }
+    ]
+  },
+  {
+    "id": "holyCradle",
+    "type": "active",
+    "name": "Holy Cradle",
+    "description": "Grants allies the ability to withstand one fatal blow.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "fatalBlow",
+        "amount": 1,
+        "description": "Withstand one fatal blow"
+      }
+    ]
+  },
+  {
+    "id": "hastenedHeal",
+    "type": "active",
+    "name": "Hastened Heal",
+    "description": "Restore minor HP to all allies, grants HP regen during the day.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED"],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "hpRegeneration",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Day"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "preemptiveHeal",
+    "type": "active",
+    "name": "Preemptive Heal",
+    "description": "Restore moderate HP to an ally before they are attacked.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "BeforeBeingAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "holyBreath",
+    "type": "active",
+    "name": "Holy Breath",
+    "description": "Before an ally attacks, restore minor HP to that ally. If afflicted, remove the affliction and grant user +1 PP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "BeforeAllyAttacks"
+          }
+        ]
+      },
+      {
+        "kind": "Cleanse",
+        "description": "Remove affliction",
+        "conditions": [
+          {
+            "kind": "HasAffliction"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "HasAffliction"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "powerBolt",
+    "type": "active",
+    "name": "Power Bolt",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 120 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "toxicBolt",
+    "type": "active",
+    "name": "Toxic Bolt",
+    "description": "Attack a single enemy. Inflicts Poison.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison"
+      }
+    ]
+  },
+  {
+    "id": "medicalAid",
+    "type": "active",
+    "name": "Medical Aid",
+    "description": "At the end of battle, restore 15% HP to a row of allies. Healing doubles on targets with less than 50% HP.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 15,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "kind": "Heal",
+        "amount": 15,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          },
+          {
+            "kind": "HPThreshold",
+            "threshold": 50,
+            "comparator": "LessThan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quickReload",
+    "type": "active",
+    "name": "Quick Reload",
+    "description": "Follow up attack after performing an attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AfterAttacking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavyBolt",
+    "type": "active",
+    "name": "Heavy Bolt",
+    "description": "Attack a single enemy. +100 potency if user is in the front row.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "InFrontRow"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aidCover",
+    "type": "active",
+    "name": "Aid Cover",
+    "description": "Cover an ally with medium guard and restore 25% HP to that ally.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Cover",
+        "guardType": "Medium"
+      },
+      {
+        "kind": "Heal",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "id": "singleShot",
+    "type": "active",
+    "name": "Single Shot",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "dualShot",
+    "type": "active",
+    "name": "Dual Shot",
+    "description": "Attack two enemies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "eagleEye",
+    "type": "active",
+    "name": "Eagle Eye",
+    "description": "Makes your attack Truestrike.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 100,
+        "description": "Next attack has Truestrike"
+      }
+    ]
+  },
+  {
+    "id": "pursuit",
+    "type": "active",
+    "name": "Pursuit",
+    "description": "Follow up attack on a single enemy.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "FollowUp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rowShot",
+    "type": "active",
+    "name": "Row Shot",
+    "description": "Attack a row of enemies.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "aerialSnipe",
+    "type": "active",
+    "name": "Aerial Snipe",
+    "description": "Counterattack a single enemy, +100 potency vs. Flying targets.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          }
+        ]
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          },
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "icebolt",
+    "type": "active",
+    "name": "Icebolt",
+    "description": "Attack a single enemy with magical damage. Inflicts Freeze.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "magicMissile",
+    "type": "active",
+    "name": "Magic Missile",
+    "description": "Attack two enemies with magical damage.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "magicConferral",
+    "type": "active",
+    "name": "Magic Conferral",
+    "description": "Adds magic damage to an ally's attack (50 potency).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "magicAttack",
+        "amount": 50,
+        "description": "Adds magic damage to next attack"
+      }
+    ]
+  },
+  {
+    "id": "focusSight",
+    "type": "active",
+    "name": "Focus Sight",
+    "description": "Allies next attack has Truestrike.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 100,
+        "description": "Next attack has Truestrike"
+      }
+    ]
+  },
+  {
+    "id": "iceCoffin",
+    "type": "active",
+    "name": "Ice Coffin",
+    "description": "Attack a row of enemies with magical damage. Inflicts Freeze, +50 Potency vs. Frozen targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "magical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasAffliction",
+            "affliction": "Freeze"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze"
+      }
+    ]
+  },
+  {
+    "id": "quickCast",
+    "type": "active",
+    "name": "Quick Cast",
+    "description": "Grants user max Initiative and -50% Critical Rate.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 100,
+        "description": "Max Initiative"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "criticalRate",
+        "amount": -50
+      }
+    ]
+  },
+  {
+    "id": "fireball",
+    "type": "active",
+    "name": "Fireball",
+    "description": "Attack a single enemy three times with magical damage. Inflicts burn.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 40 },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Burn"
+      }
+    ]
+  },
+  {
+    "id": "magicCounter",
+    "type": "active",
+    "name": "Magic Counter",
+    "description": "Counters an attack with magic damage (doesn't nullify attack).",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 150 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "magicPursuit",
+    "type": "active",
+    "name": "Magic Pursuit",
+    "description": "Follows up a magical attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "FollowUp",
+            "damageType": "Magical"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "thunderousStrike",
+    "type": "active",
+    "name": "Thunderous Strike",
+    "description": "Attack a row of enemies with magical damage. Inflicts stun.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 100 },
+        "hitRate": 90,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun"
+      }
+    ]
+  },
+  {
+    "id": "volcano",
+    "type": "active",
+    "name": "Volcano",
+    "description": "Attack a column of enemies with magical damage. Inflicts burn.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "magical": 150 },
+        "hitRate": 90,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Burn"
+      }
+    ]
+  },
+  {
+    "id": "concentrate",
+    "type": "active",
+    "name": "Concentrate",
+    "description": "After using an active skill grant yourself +1 AP and +40 Accuracy.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 40,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "auroraVeil",
+    "type": "active",
+    "name": "Aurora Veil",
+    "description": "Grant +50% Mag Def and HP regeneration.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "magicDefense",
+        "amount": 50
+      },
+      {
+        "kind": "Buff",
+        "stat": "hpRegeneration",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "nightVision",
+    "type": "active",
+    "name": "Night Vision",
+    "description": "Grant +50 accuracy, at night also grant Truestrike to next attack.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 50
+      },
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 50,
+        "description": "Truestrike at night",
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Night"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "extraHeal",
+    "type": "active",
+    "name": "Extra Heal",
+    "description": "Restore moderate HP. Also grant +30 Initiative and HP regeneration.",
+    "ap": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Magical",
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": { "magical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 30
+      },
+      {
+        "kind": "Buff",
+        "stat": "hpRegeneration",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "restore",
+    "type": "active",
+    "name": "Restore",
+    "description": "Grant ally +1 PP after using a passive skill.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "AfterUsingPassiveSkill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quickDispel",
+    "type": "active",
+    "name": "Quick Dispel",
+    "description": "Remove all buffs from a target.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Truestrike"],
+    "effects": [
+      {
+        "kind": "Dispel",
+        "description": "Remove all buffs"
+      }
+    ]
+  },
+  {
+    "id": "circleBarrier",
+    "type": "active",
+    "name": "Circle Barrier",
+    "description": "When attacked, reduce damage taken by 25% for one attack.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "damageReduction",
+        "amount": 25,
+        "duration": 1,
+        "conditions": [
+          {
+            "kind": "WhenAttacked"
+          }
+        ]
+      }
+    ]
   }
 ]
