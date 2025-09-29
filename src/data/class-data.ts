@@ -39,8 +39,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'wardingSlash', level: 1, skillType: 'active' },
       { skillId: 'shieldBash', level: 15, skillType: 'active' },
-      { skillId: 'arrowCover', level: 1, skillType: 'active' },
-      { skillId: 'quickGuard', level: 10, skillType: 'active' },
+      { skillId: 'arrowCover', level: 1, skillType: 'passive' },
+      { skillId: 'quickGuard', level: 10, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SOLDIER]: {
@@ -49,6 +49,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'longThrust', level: 1, skillType: 'active' },
+      { skillId: 'javelin', level: 10, skillType: 'active' },
+      { skillId: 'firstAid', level: 1, skillType: 'passive' },
+      { skillId: 'keenCall', level: 15, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.HOUSECARL]: {
     id: ALL_CLASSES.HOUSECARL,
@@ -56,6 +62,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'smash', level: 1, skillType: 'active' },
+      { skillId: 'rollingAxe', level: 10, skillType: 'active' },
+      { skillId: 'partingBlow', level: 1, skillType: 'passive' },
+      { skillId: 'frenziedStrike', level: 15, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.SWORDFIGHTER]: {
     id: ALL_CLASSES.SWORDFIGHTER,
@@ -66,8 +78,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'keenEdge', level: 1, skillType: 'active' },
       { skillId: 'impale', level: 15, skillType: 'active' },
-      { skillId: 'hastenedStrike', level: 1, skillType: 'active' },
-      { skillId: 'parry', level: 10, skillType: 'active' },
+      { skillId: 'hastenedStrike', level: 1, skillType: 'passive' },
+      { skillId: 'parry', level: 10, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SELLSWORD]: {
@@ -76,6 +88,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'heavySlash', level: 1, skillType: 'active' },
+      { skillId: 'killingChain', level: 10, skillType: 'active' },
+      { skillId: 'followingSlash', level: 1, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.HOPLITE]: {
     id: ALL_CLASSES.HOPLITE,
@@ -85,8 +102,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Infantry',
     skills: [
       { skillId: 'sting', level: 1, skillType: 'active' },
-      { skillId: 'heavyCover', level: 1, skillType: 'active' },
-      { skillId: 'guardian', level: 15, skillType: 'active' },
+      { skillId: 'heavyCover', level: 1, skillType: 'passive' },
+      { skillId: 'guardian', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.GLADIATOR]: {
@@ -95,6 +112,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'wideSmash', level: 1, skillType: 'active' },
+      { skillId: 'bulkUp', level: 1, skillType: 'passive' },
+      { skillId: 'wideCounter', level: 15, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.WARRIOR]: {
     id: ALL_CLASSES.WARRIOR,
@@ -102,6 +124,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'heavySmash', level: 1, skillType: 'active' },
+      { skillId: 'assaultingBlow', level: 10, skillType: 'active' },
+      { skillId: 'bindingGuard', level: 1, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.HUNTER]: {
     id: ALL_CLASSES.HUNTER,
@@ -112,8 +139,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'singleShot', level: 1, skillType: 'active' },
       { skillId: 'dualShot', level: 10, skillType: 'active' },
-      { skillId: 'eagleEye', level: 1, skillType: 'active' },
-      { skillId: 'pursuit', level: 15, skillType: 'active' },
+      { skillId: 'eagleEye', level: 1, skillType: 'passive' },
+      { skillId: 'pursuit', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.ARBALIST]: {
@@ -125,8 +152,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'powerBolt', level: 1, skillType: 'active' },
       { skillId: 'toxicBolt', level: 10, skillType: 'active' },
-      { skillId: 'medicalAid', level: 1, skillType: 'active' },
-      { skillId: 'quickReload', level: 15, skillType: 'active' },
+      { skillId: 'medicalAid', level: 1, skillType: 'passive' },
+      { skillId: 'quickReload', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.THIEF]: {
@@ -138,7 +165,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'passiveSteal', level: 1, skillType: 'active' },
       { skillId: 'toxicThrow', level: 10, skillType: 'active' },
-      { skillId: 'evade', level: 1, skillType: 'active' },
+      { skillId: 'evade', level: 1, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.KNIGHT]: {
@@ -188,8 +215,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Infantry',
     skills: [
       { skillId: 'heal', level: 1, skillType: 'active' },
-      { skillId: 'quickHeal', level: 1, skillType: 'active' },
-      { skillId: 'refresh', level: 10, skillType: 'active' },
+      { skillId: 'quickHeal', level: 1, skillType: 'passive' },
+      { skillId: 'refresh', level: 10, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WIZARD]: {
@@ -200,8 +227,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Infantry',
     skills: [
       { skillId: 'fireball', level: 1, skillType: 'active' },
-      { skillId: 'magicCounter', level: 1, skillType: 'active' },
-      { skillId: 'magicPursuit', level: 15, skillType: 'active' },
+      { skillId: 'magicCounter', level: 1, skillType: 'passive' },
+      { skillId: 'magicPursuit', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WITCH]: {
@@ -213,8 +240,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'icebolt', level: 1, skillType: 'active' },
       { skillId: 'magicMissile', level: 10, skillType: 'active' },
-      { skillId: 'magicConferral', level: 1, skillType: 'active' },
-      { skillId: 'focusSight', level: 15, skillType: 'active' },
+      { skillId: 'magicConferral', level: 1, skillType: 'passive' },
+      { skillId: 'focusSight', level: 15, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SHAMAN]: {
@@ -226,7 +253,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'passiveCurse', level: 1, skillType: 'active' },
       { skillId: 'offensiveCurse', level: 10, skillType: 'active' },
-      { skillId: 'quickCurse', level: 1, skillType: 'active' },
+      { skillId: 'quickCurse', level: 1, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WYVERN_KNIGHT]: {
@@ -304,7 +331,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.FIGHTER,
     skills: [
       { skillId: 'defender', level: 20, skillType: 'active' },
-      { skillId: 'provoke', level: 25, skillType: 'active' },
+      { skillId: 'provoke', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SERGEANT]: {
@@ -313,6 +340,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.SOLDIER,
+    skills: [
+      { skillId: 'hornedSpear', level: 20, skillType: 'active' },
+      { skillId: 'activeGift', level: 25, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.VIKING]: {
     id: ALL_CLASSES.VIKING,
@@ -320,6 +352,11 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.HOUSECARL,
+    skills: [
+      { skillId: 'wideBreaker', level: 20, skillType: 'active' },
+      { skillId: 'warHorn', level: 25, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.SWORDMASTER]: {
     id: ALL_CLASSES.SWORDMASTER,
@@ -330,7 +367,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.SWORDFIGHTER,
     skills: [
       { skillId: 'meteorSlash', level: 20, skillType: 'active' },
-      { skillId: 'chargedImpetus', level: 25, skillType: 'active' },
+      { skillId: 'chargedImpetus', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.LANDSKNECHT]: {
@@ -339,6 +376,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.SELLSWORD,
+    skills: [
+      { skillId: 'bastardsCross', level: 20, skillType: 'active' },
+      { skillId: 'vengefulGuard', level: 25, skillType: 'passive' },
+      { skillId: 'bullForce', level: 30, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.LEGIONNAIRE]: {
     id: ALL_CLASSES.LEGIONNAIRE,
@@ -350,7 +393,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'rowProtection', level: 25, skillType: 'active' },
       { skillId: 'greatshield', level: 30, skillType: 'active' },
-      { skillId: 'rowCover', level: 20, skillType: 'active' },
+      { skillId: 'rowCover', level: 20, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.BERSERKER]: {
@@ -359,6 +402,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.GLADIATOR,
+    skills: [
+      { skillId: 'mountingCharge', level: 20, skillType: 'active' },
+      { skillId: 'grandSmash', level: 30, skillType: 'active' },
+      { skillId: 'berserk', level: 25, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.BREAKER]: {
     id: ALL_CLASSES.BREAKER,
@@ -366,6 +415,12 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: null,
     trait: null,
     movementType: 'Infantry',
+    baseClass: ALL_CLASSES.WARRIOR,
+    skills: [
+      { skillId: 'rowSmash', level: 30, skillType: 'active' },
+      { skillId: 'enrage', level: 20, skillType: 'passive' },
+      { skillId: 'heavyCounter', level: 25, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.SNIPER]: {
     id: ALL_CLASSES.SNIPER,
@@ -376,7 +431,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.HUNTER,
     skills: [
       { skillId: 'rowShot', level: 20, skillType: 'active' },
-      { skillId: 'aerialSnipe', level: 25, skillType: 'active' },
+      { skillId: 'aerialSnipe', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SHIELDSHOOTER]: {
@@ -388,7 +443,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.ARBALIST,
     skills: [
       { skillId: 'heavyBolt', level: 20, skillType: 'active' },
-      { skillId: 'aidCover', level: 25, skillType: 'active' },
+      { skillId: 'aidCover', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.ROGUE]: {
@@ -401,7 +456,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'shadowbite', level: 20, skillType: 'active' },
       { skillId: 'activeSteal', level: 30, skillType: 'active' },
-      { skillId: 'sneakingEdge', level: 25, skillType: 'active' },
+      { skillId: 'sneakingEdge', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.GREAT_KNIGHT]: {
@@ -449,8 +504,8 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.CLERIC,
     skills: [
       { skillId: 'sacredHeal', level: 25, skillType: 'active' },
-      { skillId: 'lifesaver', level: 15, skillType: 'active' },
-      { skillId: 'partingResurrection', level: 20, skillType: 'active' },
+      { skillId: 'lifesaver', level: 15, skillType: 'passive' },
+      { skillId: 'partingResurrection', level: 20, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WARLOCK]: {
@@ -463,7 +518,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'thunderousStrike', level: 20, skillType: 'active' },
       { skillId: 'volcano', level: 30, skillType: 'active' },
-      { skillId: 'concentrate', level: 25, skillType: 'active' },
+      { skillId: 'concentrate', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.SORCERESS]: {
@@ -475,7 +530,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.WITCH,
     skills: [
       { skillId: 'iceCoffin', level: 30, skillType: 'active' },
-      { skillId: 'quickCast', level: 25, skillType: 'active' },
+      { skillId: 'quickCast', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.DRUID]: {
@@ -488,7 +543,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     skills: [
       { skillId: 'defensiveCurse', level: 20, skillType: 'active' },
       { skillId: 'compoundingCurse', level: 30, skillType: 'active' },
-      { skillId: 'cursedSwamp', level: 25, skillType: 'active' },
+      { skillId: 'cursedSwamp', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WYVERN_MASTER]: {
@@ -527,9 +582,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'lightningBlade', level: 1, skillType: 'active' },
       { skillId: 'naturesWrath', level: 20, skillType: 'active' },
       { skillId: 'mirageStab', level: 30, skillType: 'active' },
-      { skillId: 'sylphicBarrier', level: 1, skillType: 'active' },
-      { skillId: 'removeWeakness', level: 15, skillType: 'active' },
-      { skillId: 'evasiveImpetus', level: 25, skillType: 'active' },
+      { skillId: 'sylphicBarrier', level: 1, skillType: 'passive' },
+      { skillId: 'removeWeakness', level: 15, skillType: 'passive' },
+      { skillId: 'evasiveImpetus', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.ELVEN_ARCHER]: {
@@ -542,9 +597,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'windArrow', level: 1, skillType: 'active' },
       { skillId: 'mysticConferralArcher', level: 20, skillType: 'active' },
       { skillId: 'icicleArrow', level: 30, skillType: 'active' },
-      { skillId: 'quickCure', level: 1, skillType: 'active' },
-      { skillId: 'selflessHeal', level: 15, skillType: 'active' },
-      { skillId: 'pureField', level: 25, skillType: 'active' },
+      { skillId: 'quickCure', level: 1, skillType: 'passive' },
+      { skillId: 'selflessHeal', level: 15, skillType: 'passive' },
+      { skillId: 'pureField', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WEREWOLF]: {
@@ -553,6 +608,14 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     race: 'Bestral',
     trait: null,
     movementType: 'Infantry',
+    skills: [
+      { skillId: 'finishingStab', level: 1, skillType: 'active' },
+      { skillId: 'decimate', level: 10, skillType: 'active' },
+      { skillId: 'wildFang', level: 30, skillType: 'active' },
+      { skillId: 'nocturnalStrike', level: 1, skillType: 'passive' },
+      { skillId: 'bestralHowl', level: 15, skillType: 'passive' },
+      { skillId: 'killingPursuit', level: 25, skillType: 'passive' },
+    ],
   },
   [ALL_CLASSES.WEREFOX]: {
     id: ALL_CLASSES.WEREFOX,
@@ -564,9 +627,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'piercingLance', level: 1, skillType: 'active' },
       { skillId: 'passiveHold', level: 10, skillType: 'active' },
       { skillId: 'venomThrust', level: 30, skillType: 'active' },
-      { skillId: 'nocturnalEvade', level: 1, skillType: 'active' },
-      { skillId: 'shadowPursuit', level: 15, skillType: 'active' },
-      { skillId: 'weaknessHunter', level: 25, skillType: 'active' },
+      { skillId: 'nocturnalEvade', level: 1, skillType: 'passive' },
+      { skillId: 'shadowPursuit', level: 15, skillType: 'passive' },
+      { skillId: 'weaknessHunter', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WEREBEAR]: {
@@ -579,9 +642,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'bearCrush', level: 1, skillType: 'active' },
       { skillId: 'roundSwing', level: 10, skillType: 'active' },
       { skillId: 'earthshaker', level: 30, skillType: 'active' },
-      { skillId: 'heavyGuard', level: 1, skillType: 'active' },
-      { skillId: 'nocturnalRest', level: 15, skillType: 'active' },
-      { skillId: 'lifeBlow', level: 25, skillType: 'active' },
+      { skillId: 'heavyGuard', level: 1, skillType: 'passive' },
+      { skillId: 'nocturnalRest', level: 15, skillType: 'passive' },
+      { skillId: 'lifeBlow', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.WEREOWL]: {
@@ -594,9 +657,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'auroraVeil', level: 1, skillType: 'active' },
       { skillId: 'nightVision', level: 10, skillType: 'active' },
       { skillId: 'extraHeal', level: 30, skillType: 'active' },
-      { skillId: 'restore', level: 1, skillType: 'active' },
-      { skillId: 'quickDispel', level: 15, skillType: 'active' },
-      { skillId: 'circleBarrier', level: 25, skillType: 'active' },
+      { skillId: 'restore', level: 1, skillType: 'passive' },
+      { skillId: 'quickDispel', level: 15, skillType: 'passive' },
+      { skillId: 'circleBarrier', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.FEATHERSWORD]: {
@@ -609,9 +672,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'spiralSword', level: 1, skillType: 'active' },
       { skillId: 'shieldSmite', level: 10, skillType: 'active' },
       { skillId: 'honedSlash', level: 30, skillType: 'active' },
-      { skillId: 'accelerate', level: 1, skillType: 'active' },
-      { skillId: 'diurnalGuard', level: 15, skillType: 'active' },
-      { skillId: 'discharge', level: 25, skillType: 'active' },
+      { skillId: 'accelerate', level: 1, skillType: 'passive' },
+      { skillId: 'diurnalGuard', level: 15, skillType: 'passive' },
+      { skillId: 'discharge', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.FEATHERBOW]: {
@@ -624,9 +687,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'delayingShot', level: 1, skillType: 'active' },
       { skillId: 'saintsShot', level: 10, skillType: 'active' },
       { skillId: 'photonArrow', level: 30, skillType: 'active' },
-      { skillId: 'aerialPursuit', level: 1, skillType: 'active' },
-      { skillId: 'tailwind', level: 15, skillType: 'active' },
-      { skillId: 'shiningLight', level: 25, skillType: 'active' },
+      { skillId: 'aerialPursuit', level: 1, skillType: 'passive' },
+      { skillId: 'tailwind', level: 15, skillType: 'passive' },
+      { skillId: 'shiningLight', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.FEATHERSTAFF]: {
@@ -639,9 +702,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'overheal', level: 1, skillType: 'active' },
       { skillId: 'honedHealing', level: 10, skillType: 'active' },
       { skillId: 'holyCradle', level: 30, skillType: 'active' },
-      { skillId: 'hastenedHeal', level: 1, skillType: 'active' },
-      { skillId: 'preemptiveHeal', level: 15, skillType: 'active' },
-      { skillId: 'holyBreath', level: 25, skillType: 'active' },
+      { skillId: 'hastenedHeal', level: 1, skillType: 'passive' },
+      { skillId: 'preemptiveHeal', level: 15, skillType: 'passive' },
+      { skillId: 'holyBreath', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.FEATHERSHIELD]: {
@@ -654,9 +717,9 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
       { skillId: 'impulse', level: 1, skillType: 'active' },
       { skillId: 'rowResistance', level: 2, skillType: 'active' },
       { skillId: 'mysticShield', level: 3, skillType: 'active' },
-      { skillId: 'reflectMagic', level: 1, skillType: 'active' },
-      { skillId: 'sacrifice', level: 15, skillType: 'active' },
-      { skillId: 'mirrorWeakness', level: 25, skillType: 'active' },
+      { skillId: 'reflectMagic', level: 1, skillType: 'passive' },
+      { skillId: 'sacrifice', level: 15, skillType: 'passive' },
+      { skillId: 'mirrorWeakness', level: 25, skillType: 'passive' },
     ],
   },
   [ALL_CLASSES.HIGH_PRIESTESS]: {

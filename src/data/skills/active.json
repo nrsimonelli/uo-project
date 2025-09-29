@@ -632,7 +632,11 @@
         "kind": "PotencyBoost",
         "amount": { "physical": 75 },
         "conditions": [
-          { "kind": "AnyAffliction", "target": "Enemy", "comparator": "EqualTo" }
+          {
+            "kind": "AnyAffliction",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
         ]
       }
     ]
@@ -660,7 +664,11 @@
         "kind": "PotencyBoost",
         "amount": { "physical": 75 },
         "conditions": [
-          { "kind": "AnyAffliction", "target": "Enemy", "comparator": "EqualTo" }
+          {
+            "kind": "AnyAffliction",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
         ]
       }
     ]
@@ -6130,6 +6138,1097 @@
         "conditions": [
           {
             "kind": "WhenAttacked"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wideSmash",
+    "type": "active",
+    "name": "Wide Smash",
+    "description": "Attack a row of enemies. +50 Potency if user has 100% HP.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 80,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 80,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HPThreshold",
+            "threshold": 100,
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bulkUp",
+    "type": "active",
+    "name": "Bulk Up",
+    "description": "Recover 40% HP after being hit.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 40,
+        "conditions": [
+          {
+            "kind": "WhenHit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wideCounter",
+    "type": "active",
+    "name": "Wide Counter",
+    "description": "Counterattacks a row of enemies when hit.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 75,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountingCharge",
+    "type": "active",
+    "name": "Mounting Charge",
+    "description": "Restore 30% Health and grant +30% Physical Attack.",
+    "ap": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 30
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 30
+      }
+    ]
+  },
+  {
+    "id": "grandSmash",
+    "type": "active",
+    "name": "Grand Smash",
+    "description": "Attack all enemies. +50% Potency if user has 100% HP.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 80,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 80,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HPThreshold",
+            "threshold": 100,
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "berserk",
+    "type": "active",
+    "name": "Berserk",
+    "description": "Consume all PP to gain 1 AP and survive one fatal blow.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceDrain",
+        "resource": "PP",
+        "amount": "All",
+        "target": "Self"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "fatalBlow",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "heavySmash",
+    "type": "active",
+    "name": "Heavy Smash",
+    "description": "Attack a single enemy. Ignores 100% Defense of Armored targets.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "defenseIgnore": 100,
+        "conditions": [
+          {
+            "kind": "HasTrait",
+            "trait": "Armored"
+          }
+        ]
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasTrait",
+            "trait": "Armored",
+            "negate": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "assaultingBlow",
+    "type": "active",
+    "name": "Assaulting Blow",
+    "description": "Attack a single enemy. Grants user 1 AP if target is defeated.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnDefeat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bindingGuard",
+    "type": "active",
+    "name": "Binding Guard",
+    "description": "Users next attack inflicts Guard Seal.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "nextAttackEffect",
+        "amount": 1,
+        "description": "Next attack inflicts Guard Seal"
+      }
+    ]
+  },
+  {
+    "id": "rowSmash",
+    "type": "active",
+    "name": "Row Smash",
+    "description": "Attack a row of enemies. Ignores 100% Defense vs. Armored targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "defenseIgnore": 100,
+        "conditions": [
+          {
+            "kind": "HasTrait",
+            "trait": "Armored"
+          }
+        ]
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasTrait",
+            "trait": "Armored",
+            "negate": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "enrage",
+    "type": "active",
+    "name": "Enrage",
+    "description": "After an ally is hit by attack, it grants the user +20% Attack and +20 Accuracy.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "AllyHit"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "accuracy",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "AllyHit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavyCounter",
+    "type": "active",
+    "name": "Heavy Counter",
+    "description": "Counterattacks a single enemy, Ignores 100% Defense of Armored targets.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "defenseIgnore": 100,
+        "conditions": [
+          {
+            "kind": "Counter"
+          },
+          {
+            "kind": "HasTrait",
+            "trait": "Armored"
+          }
+        ]
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "Counter"
+          },
+          {
+            "kind": "HasTrait",
+            "trait": "Armored",
+            "negate": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavySlash",
+    "type": "active",
+    "name": "Heavy Slash",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "killingChain",
+    "type": "active",
+    "name": "Killing Chain",
+    "description": "Attack a single enemy. Grants a user 1 AP if this attack defeats the target.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnDefeat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "followingSlash",
+    "type": "active",
+    "name": "Following Slash",
+    "description": "Counterattacks after an attack hits an ally, grants 1 PP if attack hits.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 90,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AllyHit"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnHit"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bastardsCross",
+    "type": "active",
+    "name": "Bastard's Cross",
+    "description": "Attack a single enemy twice. Potency increases based on target's HP (+50 maximum increase).",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 2,
+        "description": "Potency increases based on target's HP (+50 maximum)"
+      }
+    ]
+  },
+  {
+    "id": "vengefulGuard",
+    "type": "active",
+    "name": "Vengeful Guard",
+    "description": "Block an attack with medium guard, Grants the user +20% Phys Attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Guard",
+        "guardType": "Medium"
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "OnGuard"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bullForce",
+    "type": "active",
+    "name": "Bull Force",
+    "description": "Gain 1 AP, +20% Phys Attack, and +20 Initiative after using a skill.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Self"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "initiative",
+        "amount": 20,
+        "conditions": [
+          {
+            "kind": "AfterUsingSkill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "longThrust",
+    "type": "active",
+    "name": "Long Thrust",
+    "description": "Attack a column of enemies. Cavalry targets cannot guard against this attack. +50 potency vs. Cavalry.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "javelin",
+    "type": "active",
+    "name": "Javelin",
+    "description": "Ranged attack. +50 potency vs Flying.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["Ranged"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "firstAid",
+    "type": "active",
+    "name": "First Aid",
+    "description": "Restore 25% HP to an ally at the end of combat.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Heal",
+        "amount": 25,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "keenCall",
+    "type": "active",
+    "name": "Keen Call",
+    "description": "Guaranteed a Critical hit for the triggering attack.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "criticalRate",
+        "amount": 100,
+        "duration": 1,
+        "description": "Next attack is guaranteed critical"
+      }
+    ]
+  },
+  {
+    "id": "hornedSpear",
+    "type": "active",
+    "name": "Horned Spear",
+    "description": "Attack a column of enemies. +50 potency if you have a buff, Cavalry cannot guard against this attack.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 130 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasBuff"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "activeGift",
+    "type": "active",
+    "name": "Active Gift",
+    "description": "When an ally uses a skill, grant that ally 1 AP.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "AllyUsesSkill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "smash",
+    "type": "active",
+    "name": "Smash",
+    "description": "Attack a single enemy. Inflicts Phys Defense -20%.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -20
+      }
+    ]
+  },
+  {
+    "id": "rollingAxe",
+    "type": "active",
+    "name": "Rolling Axe",
+    "description": "Attack a row of enemies three times. Inflicts Phys Defense -15%.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 40 },
+        "hitRate": 75,
+        "hitCount": 3
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -15
+      }
+    ]
+  },
+  {
+    "id": "partingBlow",
+    "type": "active",
+    "name": "Parting Blow",
+    "description": "Attacks a single enemy at the end of combat.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "frenziedStrike",
+    "type": "active",
+    "name": "Frenzied Strike",
+    "description": "Attacks a target when they hit an ally and inflicts Phys Defense -15%.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "AllyHit"
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -15
+      }
+    ]
+  },
+  {
+    "id": "wideBreaker",
+    "type": "active",
+    "name": "Wide Breaker",
+    "description": "Attack a row of enemies. Inflicts Phys Defense -30%, +50 Potency against debuffed targets.",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "HasDebuff"
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "physicalDefense",
+        "amount": -30
+      }
+    ]
+  },
+  {
+    "id": "warHorn",
+    "type": "active",
+    "name": "War Horn",
+    "description": "All allies attacks become unblockable, triggers at start of battle.",
+    "ap": 0,
+    "pp": 2,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "traits": ["LIMITED"],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "unblockable",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "StartOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "finishingStab",
+    "type": "active",
+    "name": "Finishing Stab",
+    "description": "Attack a single enemy. Grants user +50% Phys Attack if target is defeated.",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 50,
+        "conditions": [
+          {
+            "kind": "OnDefeat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "decimate",
+    "type": "active",
+    "name": "Decimate",
+    "description": "Attack a single enemy. Increases potency the fewer enemies are present (Maximum increase +100).",
+    "ap": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "description": "Potency increases the fewer enemies are present (Maximum increase +100)"
+      }
+    ]
+  },
+  {
+    "id": "wildFang",
+    "type": "active",
+    "name": "Wild Fang",
+    "description": "Attack a row of enemies three times. Potency increases the less HP the target has (Max increase +50).",
+    "ap": 2,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 20 },
+        "hitRate": 100,
+        "hitCount": 3,
+        "description": "Potency increases the less HP the target has (Max increase +50)"
+      }
+    ]
+  },
+  {
+    "id": "nocturnalStrike",
+    "type": "active",
+    "name": "Nocturnal Strike",
+    "description": "Attack a single enemy. Grants +1 PP at night.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": ["LIMITED"],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TimeOfDay",
+            "timeOfDay": "Night"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestralHowl",
+    "type": "active",
+    "name": "Bestral Howl",
+    "description": "Before attacking grants user's row +15% Phys Atk.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "traits": [],
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "attack",
+        "amount": 15,
+        "conditions": [
+          {
+            "kind": "BeforeAttacking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "killingPursuit",
+    "type": "active",
+    "name": "Killing Pursuit",
+    "description": "Follow up attack that grants +1 AP if target is defeated by this skill.",
+    "ap": 0,
+    "pp": 1,
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "traits": [],
+    "damageType": "Physical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "FollowUp"
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "OnDefeat"
           }
         ]
       }
