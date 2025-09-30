@@ -1,0 +1,875 @@
+// AUTO-GENERATED FILE. DO NOT EDIT.
+// Source: staff.json
+
+export const EquipmentStaff = [
+  {
+    "id": "baroqueRod",
+    "name": "Baroque Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13,
+      "ACC": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronStaff",
+    "name": "Black Iron Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 17,
+      "CRT": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bloodmoonRod",
+    "name": "Bloodmoon Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 18
+    },
+    "skillId": "sanguineDarts",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "bronzeStaff",
+    "name": "Bronze Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 8
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "cardinalsMace",
+    "name": "Cardinal's Mace",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20
+    },
+    "skillId": "holyCradle",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "carnatRod",
+    "name": "Carnat Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 19
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnelianStaff",
+    "name": "Carnelian Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 21,
+      "AP": 1
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "chiropteranStaff",
+    "name": "Chiropteran Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 12,
+      "EVA": 5,
+      "INIT": 3
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "chlorotic",
+    "name": "Chlorotic",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13
+    },
+    "skillId": "fireBurst",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "clericsCane",
+    "name": "Cleric's Cane",
+    "type": "Staff",
+    "stats": {
+      "MATK": 18,
+      "PP": 1
+    },
+    "skillId": "protection",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "defendersMace",
+    "name": "Defender's Mace",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13,
+      "PP": 1
+    },
+    "skillId": "quickBarrier",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "dragonboneStaff",
+    "name": "Dragonbone Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15,
+      "PP": 1,
+      "INIT": -10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dustboundStaff",
+    "name": "Dustbound Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16
+    },
+    "skillId": "sandstorm",
+    "nullifications": [],
+    "classRestrictions": [
+      "Shaman",
+      "Druid"
+    ]
+  },
+  {
+    "id": "einSeeker",
+    "name": "Ein Seeker",
+    "type": "Staff",
+    "stats": {
+      "MATK": 21
+    },
+    "skillId": "magicShell",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "eurosStaff",
+    "name": "Euros' Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 25,
+      "AP": 1,
+      "INIT": 10,
+      "EVA": 10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "flameHexStaff",
+    "name": "Flame-Hex Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16
+    },
+    "skillId": "fireCurse",
+    "nullifications": [],
+    "classRestrictions": [
+      "Shaman",
+      "Druid"
+    ]
+  },
+  {
+    "id": "gleamingMace",
+    "name": "Gleaming Mace",
+    "type": "Staff",
+    "stats": {
+      "MATK": 18
+    },
+    "skillId": "holySmite",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop"
+    ]
+  },
+  {
+    "id": "grandMagusStaff",
+    "name": "Grand Magus Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20
+    },
+    "skillId": "magicBurst",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "greatwoodStaff",
+    "name": "Greatwood Staff",
+    "type": "Staff",
+    "stats": {
+      "PATK": 8,
+      "MATK": 16
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "hallowedMace",
+    "name": "Hallowed Mace",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13,
+      "MaxHP": 5,
+      "OnActiveHealPercent": 10
+    },
+    "skillId": "reheal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "icefallStaff",
+    "name": "Icefall Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 19,
+      "PP": 1,
+      "GRD": -20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icestormStaff",
+    "name": "Icestorm Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 22,
+      "EVA": 10
+    },
+    "skillId": "blizzard",
+    "nullifications": [
+      "Freeze"
+    ],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "ironStaff",
+    "name": "Iron Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "kingstaffAlbiore",
+    "name": "Kingstaff Albiore",
+    "type": "Staff",
+    "stats": {
+      "MATK": 25,
+      "AllStats": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "libera",
+    "name": "Libera",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20
+    },
+    "skillId": "reincarnation",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "liberatorsStaff",
+    "name": "Liberator's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 14
+    },
+    "skillId": "dispelAll",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "lifebloodStaff",
+    "name": "Lifeblood Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13,
+      "MaxHP": 10
+    },
+    "skillId": "resurrection",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "lyricalWand",
+    "name": "Lyrical Wand",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13,
+      "AP": 1
+    },
+    "skillId": "activeHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "meteoriteRod",
+    "name": "Meteorite Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 24,
+      "MaxHP": 20,
+      "GRD": 10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "milleniumScepter",
+    "name": "Millenium Scepter",
+    "type": "Staff",
+    "stats": {
+      "MATK": 24
+    },
+    "skillId": "trinityRain",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "motherLaeliasStaff",
+    "name": "Mother Laelia's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15,
+      "PP": 1
+    },
+    "skillId": "partingResurrection",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "papalCrosier",
+    "name": "Papal Crosier",
+    "type": "Staff",
+    "stats": {
+      "MATK": 25,
+      "AP": 1,
+      "PP": 1
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "pestilentStaff",
+    "name": "Pestilent Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15
+    },
+    "skillId": "poisonBurst",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "phantomKnightsStaff",
+    "name": "Phantom Knight's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16,
+      "MDEF": 5
+    },
+    "skillId": "phantomVeil",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phosphorescentStaff",
+    "name": "Phosphorescent Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20,
+      "INIT": 5
+    },
+    "skillId": "radiantHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "poisonHexStaff",
+    "name": "Poison-Hex Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16
+    },
+    "skillId": "poisonCurse",
+    "nullifications": [],
+    "classRestrictions": [
+      "Shaman",
+      "Druid"
+    ]
+  },
+  {
+    "id": "purifier",
+    "name": "Purifier",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20
+    },
+    "skillId": "sacredCure",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "quartzRod",
+    "name": "Quartz Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15
+    },
+    "skillId": "gravity",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "recruitsStaff",
+    "name": "Recruit's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 11,
+      "MaxHP": 3,
+      "ExpGainPercent": 20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "redBarkStaff",
+    "name": "Red-Bark Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 21
+    },
+    "skillId": null,
+    "nullifications": [
+      "PassiveSeal"
+    ],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "ringedStaff",
+    "name": "Ringed Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20,
+      "INIT": 5
+    },
+    "skillId": "circleHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "sacralRod",
+    "name": "Sacral Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 25,
+      "OnActiveHealPercent": 20
+    },
+    "skillId": null,
+    "nullifications": [
+      "Affliction"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "shamansBonestaff",
+    "name": "Shaman's Bonestaff",
+    "type": "Staff",
+    "stats": {
+      "PATK": 18
+    },
+    "skillId": "curseStrike",
+    "nullifications": [],
+    "classRestrictions": [
+      "Shaman",
+      "Druid"
+    ]
+  },
+  {
+    "id": "speedhexStaff",
+    "name": "Speedhex Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16
+    },
+    "skillId": "hastenedCurse",
+    "nullifications": [],
+    "classRestrictions": [
+      "Shaman",
+      "Druid"
+    ]
+  },
+  {
+    "id": "spellsteelStaff",
+    "name": "Spellsteel Staff",
+    "type": "Staff",
+    "stats": {
+      "PATK": 9,
+      "MATK": 18
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "staffOfSuccor",
+    "name": "Staff of Succor",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16
+    },
+    "skillId": "doubleHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess"
+    ]
+  },
+  {
+    "id": "steelStaff",
+    "name": "Steel Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 22
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "telluricStaff",
+    "name": "Telluric Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 19
+    },
+    "skillId": "earthquake",
+    "nullifications": [],
+    "classRestrictions": [
+      "Witch",
+      "Sorceress",
+      "Wizard",
+      "Warlock",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "templarsStaff",
+    "name": "Templar's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 15,
+      "PDEF": 1,
+      "GRD": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thawingScepter",
+    "name": "Thawing Scepter",
+    "type": "Staff",
+    "stats": {
+      "MATK": 13
+    },
+    "skillId": "guardHunter",
+    "nullifications": [],
+    "classRestrictions": [
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "thornStaff",
+    "name": "Thorn Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 17,
+      "PP": 1,
+      "MaxHP": -15
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalRod",
+    "name": "Vorpal Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 23,
+      "MaxHP": 5,
+      "INIT": 3
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wardingStaff",
+    "name": "Warding Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 16,
+      "PDEF": 15,
+      "MDEF": -15,
+      "GuardEff": 25
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "windScepter",
+    "name": "Wind Scepter",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20,
+      "EVA": 20
+    },
+    "skillId": "skywardThrust",
+    "nullifications": [],
+    "classRestrictions": [
+      "Witch",
+      "Sorceress",
+      "Wizard",
+      "Warlock",
+      "Staff Dark Marquess"
+    ]
+  },
+  {
+    "id": "wingcrestStaff",
+    "name": "Wingcrest Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 21,
+      "PP": 1,
+      "CRT": -20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranStaff",
+    "name": "Zenoiran Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 14,
+      "MaxHP": 10,
+      "PDEF": 2,
+      "MDEF": 2
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsStaff",
+    "name": "Zenoiran Knight's Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20,
+      "MaxHP": 15,
+      "PDEF": 4,
+      "MDEF": 4
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  }
+] as const;
+
+export type EquipmentStaffId = (typeof EquipmentStaff)[number]["id"];
+
+export type EquipmentStaffMap = {
+  [K in EquipmentStaffId]: Extract<(typeof EquipmentStaff)[number], { id: K }>;
+};
+
+export const EquipmentStaffMap: EquipmentStaffMap = Object.fromEntries(
+  EquipmentStaff.map(item => [item.id, item])
+) as EquipmentStaffMap;

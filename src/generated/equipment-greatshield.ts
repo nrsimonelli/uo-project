@@ -1,0 +1,594 @@
+// AUTO-GENERATED FILE. DO NOT EDIT.
+// Source: greatshield.json
+
+export const EquipmentGreatshield = [
+  {
+    "id": "azureCrestGreatshield",
+    "name": "Azure Crest Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50,
+      "PP": 1
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "baroqueGreatshield",
+    "name": "Baroque Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 8,
+      "GRD": 28,
+      "GuardEff": 50,
+      "ACC": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "beastslayerGreatshield",
+    "name": "Beastslayer Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "bestralGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronGreatshield",
+    "name": "Black Iron Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 11,
+      "GRD": 32,
+      "GuardEff": 50,
+      "CRT": 4
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blacksilverPavise",
+    "name": "Blacksilver Pavise",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 14,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "bunkerStance",
+    "nullifications": [
+      "Stun"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "bronzeGreatshield",
+    "name": "Bronze Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "bulwarkTowershield",
+    "name": "Bulwark Towershield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
+    "skillId": "bulwark",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "carnatGreatshield",
+    "name": "Carnat Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 12,
+      "GRD": 33,
+      "GuardEff": 50,
+      "INIT": 1
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "championsTowershield",
+    "name": "Champion's Towershield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
+    "skillId": "provokingWall",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "citadelGuardsGreatshield",
+    "name": "Citadel Guard's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 14,
+      "GRD": 30,
+      "GuardEff": 50,
+      "MaxHP": 10
+    },
+    "skillId": "heavyGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "converyableGreatshield",
+    "name": "Converyable Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 5,
+      "GRD": 10,
+      "GuardEff": 50,
+      "INIT": 3
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "dragonboneGreatshield",
+    "name": "Dragonbone Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 11,
+      "GRD": 25,
+      "GuardEff": 50,
+      "PP": 1,
+      "INIT": -10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "drakestoneIceshield",
+    "name": "Drakestone Iceshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Freeze",
+      "Stun"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "granBaris",
+    "name": "Gran Baris",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Debuff"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatwoodGreatshield",
+    "name": "Greatwood Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 11,
+      "GRD": 30,
+      "GuardEff": 50,
+      "MDEF": 2
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "herosGreatshield",
+    "name": "Hero's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50,
+      "PP": 1
+    },
+    "skillId": "invincible",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "hoarfrostGreatshield",
+    "name": "Hoarfrost Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Freeze"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "horsekillerGreatshield",
+    "name": "Horsekiller Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "cavalryGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "icefallGreatshield",
+    "name": "Icefall Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 14,
+      "GRD": [
+        30,
+        -20
+      ],
+      "GuardEff": 50,
+      "PP": 1
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironGreatshield",
+    "name": "Iron Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ironcladTowershield",
+    "name": "Ironclad Towershield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "wall",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "luminousGreatshield",
+    "name": "Luminous Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Poison",
+      "Blind"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "mirageGreatshield",
+    "name": "Mirage Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 3,
+      "GRD": 20,
+      "GuardEff": 50,
+      "EVA": 50
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "panopliedGreatshield",
+    "name": "Panoplied Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
+    "skillId": "heavyCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "phantomKnightsGreatshield",
+    "name": "Phantom Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 0,
+      "GRD": 0,
+      "GuardEff": 50,
+      "MDEF": 30
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "recruitsGreatshield",
+    "name": "Recruit's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 6,
+      "GRD": 27,
+      "GuardEff": 50,
+      "MaxHP": 3,
+      "ExpGainPercent": 10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "searingGreatshield",
+    "name": "Searing Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Burn"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "skironsGreatshield",
+    "name": "Skiron's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50,
+      "INIT": 5
+    },
+    "skillId": "hastenedCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "spellsteelGreatshield",
+    "name": "Spellsteel Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 30,
+      "GuardEff": 50,
+      "MDEF": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "squiresGreatshield",
+    "name": "Squire's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "quickCover",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "steelGreatshield",
+    "name": "Steel Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 14,
+      "GRD": 35,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "templarsGreatshield",
+    "name": "Templar's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50,
+      "hpRecoveryPercent": 20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "thornGreatshield",
+    "name": "Thorn Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 12,
+      "GRD": 30,
+      "GuardEff": 50,
+      "PP": 1,
+      "MaxHP": -15
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "unyieldingGreatshield",
+    "name": "Unyielding Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 14,
+      "GRD": 40,
+      "GuardEff": 50
+    },
+    "skillId": "enduringGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "viperGreatshield",
+    "name": "Viper Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": null,
+    "nullifications": [
+      "Poison"
+    ],
+    "classRestrictions": []
+  },
+  {
+    "id": "vorpalGreatshield",
+    "name": "Vorpal Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 15,
+      "GRD": 35,
+      "GuardEff": 50,
+      "MaxHP": 5,
+      "INIT": 3
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "whiteKnightsGreatshield",
+    "name": "White Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 9,
+      "GRD": 25,
+      "GuardEff": 50,
+      "MaxHP": 15
+    },
+    "skillId": "lifeshare",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingclipperGreatshield",
+    "name": "Wingclipper Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
+    "skillId": "aerialGuard",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "wingcrestGreatshield",
+    "name": "Wingcrest Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 15,
+      "GRD": 35,
+      "GuardEff": 50,
+      "PP": 1,
+      "CRT": -20
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranGreatshield",
+    "name": "Zenoiran Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 8,
+      "GRD": 25,
+      "GuardEff": 50,
+      "MaxHP": 10
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "zenoiranKnightsGreatshield",
+    "name": "Zenoiran Knight's Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50,
+      "MaxHP": 15
+    },
+    "skillId": "enduringCover",
+    "nullifications": [],
+    "classRestrictions": []
+  }
+] as const;
+
+export type EquipmentGreatshieldId = (typeof EquipmentGreatshield)[number]["id"];
+
+export type EquipmentGreatshieldMap = {
+  [K in EquipmentGreatshieldId]: Extract<(typeof EquipmentGreatshield)[number], { id: K }>;
+};
+
+export const EquipmentGreatshieldMap: EquipmentGreatshieldMap = Object.fromEntries(
+  EquipmentGreatshield.map(item => [item.id, item])
+) as EquipmentGreatshieldMap;
