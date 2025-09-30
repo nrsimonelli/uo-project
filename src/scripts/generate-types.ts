@@ -24,7 +24,7 @@ export type ${exportName}Map = {
 };
 
 export const ${exportName}Map: ${exportName}Map = Object.fromEntries(
-  ${exportName}.map(skill => [skill.id, skill])
+  ${exportName}.map(item => [item.id, item])
 ) as ${exportName}Map;
 `
 
@@ -34,11 +34,12 @@ export const ${exportName}Map: ${exportName}Map = Object.fromEntries(
 
 // === Directories ===
 const skillsDir = path.resolve(__dirname, '../data/skills')
+const equipmentDir = path.resolve(__dirname, '../data/equipment')
 const outDir = path.resolve(__dirname, '../generated')
 
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
 
-// === Generate ===
+// === Skills ===
 generateTsFile(
   path.join(skillsDir, 'active.json'),
   path.join(outDir, 'skills-active.ts'),
@@ -50,3 +51,16 @@ generateTsFile(
   path.join(outDir, 'skills-passive.ts'),
   'PassiveSkills'
 )
+
+// === Equipment ===
+const equipmentFiles = fs
+  .readdirSync(equipmentDir)
+  .filter((f) => f.endsWith('.json'))
+
+for (const file of equipmentFiles) {
+  const baseName = path.basename(file, '.json')
+  const exportName = `Equipment${baseName[0].toUpperCase()}${baseName.slice(1)}`
+  const outPath = path.join(outDir, `equipment-${baseName}.ts`)
+
+  generateTsFile(path.join(equipmentDir, file), outPath, exportName)
+}
