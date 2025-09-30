@@ -12,7 +12,7 @@ export type EquipmentSlotType =
   | (typeof EQUIPMENT_SLOTS)[number]
 
 // Work in progress...
-type ExtraStats =
+export type ExtraStats =
   | 'MaxHP'
   | 'AP'
   | 'PP'
@@ -31,7 +31,9 @@ type ExtraStats =
   | 'DrainEff'
   | 'PursuitPotency'
   | 'CounterAttackPotency'
-type EquipmentStatKey = StatKey | ExtraStats
+  | 'Defense'
+  | 'Attack'
+export type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string
   name: string

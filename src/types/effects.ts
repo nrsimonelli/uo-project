@@ -1,5 +1,6 @@
 import type { StatKey } from './base-stats'
 import type { Condition } from './conditions'
+import type { ExtraStats } from './equipment'
 
 export const FLAGS = [
   'TrueStrike',
@@ -45,7 +46,7 @@ export interface HealPotencyEffect {
   conditions?: Condition[]
 }
 interface BaseEffect {
-  stat: StatKey
+  stat: StatKey | ExtraStats
   value: number
   scaling: 'flat' | 'percent'
   applyTo?: 'User' | 'Target'

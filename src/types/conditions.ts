@@ -2,6 +2,7 @@ import type { AFFLICTIONS } from '../data/status'
 import type { StatKey } from './base-stats'
 import type { Target, CombatantType } from './core'
 import type { Flag } from './effects'
+import type { ExtraStats } from './equipment'
 
 export type AfflictionType = (typeof AFFLICTIONS)[number]
 export type EqualityComparator = 'EqualTo' | 'NotEqualTo'
@@ -16,7 +17,7 @@ export type Condition =
   | {
       kind: 'Stat'
       target: Target
-      stat: StatKey | 'AP' | 'PP' | 'MaxHP' | 'DEF' | 'ATK'
+      stat: StatKey | ExtraStats
       comparator: NumericComparator
       value: number
       percent?: boolean
