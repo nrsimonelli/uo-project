@@ -1,4 +1,7 @@
-import type { StatKey } from './base-stats'
+import type { ActiveSkillsId } from '@/generated/skills-active'
+import type { AllClassType, StatKey } from './base-stats'
+import type { PassiveSkillsId } from '@/generated/skills-passive'
+import type { AfflictionType } from './conditions'
 
 export const WEAPONS = ['Sword', 'Axe', 'Lance', 'Bow', 'Staff'] as const
 export const EQUIPMENT_SLOTS = ['Shield', 'Greatshield', 'Accessory'] as const
@@ -9,18 +12,34 @@ export type EquipmentSlotType =
   | (typeof EQUIPMENT_SLOTS)[number]
 
 // Work in progress...
+type ExtraStats =
+  | 'MaxHP'
+  | 'AP'
+  | 'PP'
+  | 'CritDmg'
+  | 'AllStats'
+  | 'GoldGainPercent'
+  | 'ExpGainPercent'
+  | 'PATKPercent'
+  | 'PDEFPercent'
+  | 'MATKPercent'
+  | 'MDEFPercent'
+  | 'MaxHPPercent'
+  | 'OnActiveHealPercent'
+  | 'DmgReductionPercent'
+  | 'GuardEff'
+  | 'DrainEff'
+  | 'PursuitPotency'
+  | 'CounterAttackPotency'
+type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string
   name: string
   type: EquipmentSlotType
-  stats: Partial<Record<StatKey, number>> // attack, defense, etc.
-  ability?: string // references an ability id if it grants one
-  bonuses?: {
-    ap?: number
-    pp?: number
-    nullify?: string[]
-  }
-  restrictedToClasses?: string[] // optional list of class ids
+  stats: Partial<Record<EquipmentStatKey, number>> // attack, defense, etc.
+  skillId: ActiveSkillsId | PassiveSkillsId | null
+  nullifications: ('Debuff' | 'Affliction' | AfflictionType)[]
+  classRestrictions: AllClassType[]
 }
 
 export interface EquippedItem {
