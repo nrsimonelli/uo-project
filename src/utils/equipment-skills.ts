@@ -20,7 +20,7 @@ export function findMissingSkills(
     .filter((skillId): skillId is string => skillId !== null)
 
   // Remove duplicates
-  const uniqueSkillIds = Array.from(new Set(allSkillIds))
+  const uniqueSkillIds = allSkillIds.filter((id, index, arr) => arr.indexOf(id) === index)
 
   // For now, return all non-null skills as potentially missing
   // This could be refined when you have the complete skills list

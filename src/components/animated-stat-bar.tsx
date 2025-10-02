@@ -1,41 +1,8 @@
 import type { ChartDatum } from '@/hooks/use-chart-data'
 import { useAnimatedNumber } from '../hooks/use-animated-number'
-import {
-  Sword,
-  Shield,
-  Zap,
-  Target,
-  Eye,
-  Shield as ShieldIcon,
-  Star,
-  Heart,
-} from 'lucide-react'
-import { STATS } from '@/data/constants'
 import { cn } from '@/lib/utils'
-import { useCallback } from 'react'
-
-const STAT_ICONS = {
-  [STATS.HP]: Heart,
-  [STATS.PATK]: Sword,
-  [STATS.PDEF]: Shield,
-  [STATS.MATK]: Zap,
-  [STATS.MDEF]: ShieldIcon,
-  [STATS.ACC]: Target,
-  [STATS.EVA]: Eye,
-  [STATS.CRT]: Star,
-  [STATS.GRD]: Shield,
-  [STATS.INIT]: Zap,
-} as const
-
-const rankColors: Record<string, string> = {
-  S: 'text-blue-500',
-  A: 'text-blue-500',
-  B: 'text-muted-foreground',
-  C: 'text-muted-foreground',
-  D: 'text-muted-foreground',
-  E: 'text-red-500',
-  F: 'text-red-500',
-}
+import { useStatCalculations } from '@/hooks/use-stat-calculations'
+import { STAT_ICONS, RANK_COLORS } from '@/data/stat-display'
 
 export function StatIcon({
   iconKey,
@@ -48,23 +15,12 @@ export function StatIcon({
   return <Icon className={className} />
 }
 
-export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
-  const baseValue = data.stat === 'Accuracy' ? data.base + 100 : data.base
-  const { displayValue: animatedValue } = useAnimatedNumber(baseValue, {
+export function AnimatedStatBar({ data }: { data: ChartDatum }) {
+  const { adjustedValue, percentage } = useStatCalculations(data.stat, data.base)
+  
+  const { displayValue: animatedValue } = useAnimatedNumber(adjustedValue, {
     duration: 600,
   })
-
-  const getPercentMax = useCallback((stat: string, base: number) => {
-    if (stat === 'HP') {
-      return Math.min((base / 200) * 100, 100)
-    }
-    if (stat === 'Accuracy') {
-      return Math.min((base / 300) * 100, 100)
-    }
-    return Math.min((base / 100) * 100, 100)
-  }, [])
-
-  const percentage = getPercentMax(data.stat, baseValue)
 
   const { displayValue: animatedPercentage } = useAnimatedNumber(percentage, {
     duration: 800,
@@ -82,7 +38,7 @@ export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
         <div
           className='h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-300 ease-out'
           style={{
-            width: `${Math.max(0, Math.min(100, animatedPercentage))}%`,
+            width: `${animatedPercentage}%`,
             transformOrigin: 'left center',
           }}
         />
@@ -95,8 +51,8 @@ export const AnimatedStatBar = ({ data }: { data: ChartDatum }) => {
       <div className='w-4 flex-shrink-0 leading-none text-lg'>
         <span
           className={cn(
-            `font-bold transition-colors duration-300`,
-            rankColors[data.rank]
+            'font-bold transition-colors duration-300',
+            RANK_COLORS[data.rank]
           )}
         >
           {data.rank}
