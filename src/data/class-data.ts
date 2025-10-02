@@ -693,7 +693,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     allowedSlots: ['Staff', 'Accessory', 'Accessory', 'Accessory'],
     race: 'Angel',
     trait: 'Caster',
-    movementType: 'Infantry',
+    movementType: 'Flying',
     skills: [
       { skillId: 'overheal', level: 1, skillType: 'active' },
       { skillId: 'honedHealing', level: 10, skillType: 'active' },
@@ -708,7 +708,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     allowedSlots: ['Sword', 'Greatshield', 'Accessory', 'Accessory'],
     race: 'Angel',
     trait: 'Armored',
-    movementType: 'Infantry',
+    movementType: 'Flying',
     skills: [
       { skillId: 'impulse', level: 1, skillType: 'active' },
       { skillId: 'rowResistance', level: 2, skillType: 'active' },

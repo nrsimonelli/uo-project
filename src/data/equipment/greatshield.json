@@ -3,7 +3,12 @@
     "id": "azureCrestGreatshield",
     "name": "Azure Crest Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50, "PP": 1 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50,
+      "PP": 1
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -26,7 +31,11 @@
     "id": "beastslayerGreatshield",
     "name": "Beastslayer Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 13, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 13,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "bestralGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -49,16 +58,26 @@
     "id": "blacksilverPavise",
     "name": "Blacksilver Pavise",
     "type": "Greatshield",
-    "stats": { "PDEF": 14, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 14,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "bunkerStance",
-    "nullifications": ["Stun"],
+    "nullifications": [
+      "Stun"
+    ],
     "classRestrictions": []
   },
   {
     "id": "bronzeGreatshield",
     "name": "Bronze Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 50
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -67,7 +86,11 @@
     "id": "bulwarkTowershield",
     "name": "Bulwark Towershield",
     "type": "Greatshield",
-    "stats": { "PDEF": 13, "GRD": 35, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
     "skillId": "bulwark",
     "nullifications": [],
     "classRestrictions": []
@@ -90,7 +113,11 @@
     "id": "championsTowershield",
     "name": "Champion's Towershield",
     "type": "Greatshield",
-    "stats": { "PDEF": 16, "GRD": 40, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
     "skillId": "provokingWall",
     "nullifications": [],
     "classRestrictions": []
@@ -142,18 +169,31 @@
     "id": "drakestoneIceshield",
     "name": "Drakestone Iceshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 16, "GRD": 40, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Freeze", "Stun"],
+    "nullifications": [
+      "Freeze",
+      "Stun"
+    ],
     "classRestrictions": []
   },
   {
     "id": "granBaris",
     "name": "Gran Baris",
     "type": "Greatshield",
-    "stats": { "PDEF": 16, "GRD": 40, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Debuff"],
+    "nullifications": [
+      "Debuff"
+    ],
     "classRestrictions": []
   },
   {
@@ -174,7 +214,12 @@
     "id": "herosGreatshield",
     "name": "Hero's Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 16, "GRD": 40, "GuardEff": 50, "PP": 1 },
+    "stats": {
+      "PDEF": 16,
+      "GRD": 40,
+      "GuardEff": 50,
+      "PP": 1
+    },
     "skillId": "invincible",
     "nullifications": [],
     "classRestrictions": []
@@ -183,16 +228,26 @@
     "id": "hoarfrostGreatshield",
     "name": "Hoarfrost Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Freeze"],
+    "nullifications": [
+      "Freeze"
+    ],
     "classRestrictions": []
   },
   {
     "id": "horsekillerGreatshield",
     "name": "Horsekiller Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "cavalryGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -203,7 +258,10 @@
     "type": "Greatshield",
     "stats": {
       "PDEF": 14,
-      "GRD": [30, -20],
+      "GRD": [
+        30,
+        -20
+      ],
       "GuardEff": 50,
       "PP": 1
     },
@@ -215,7 +273,11 @@
     "id": "ironGreatshield",
     "name": "Iron Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -224,7 +286,11 @@
     "id": "ironcladTowershield",
     "name": "Ironclad Towershield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "wall",
     "nullifications": [],
     "classRestrictions": []
@@ -233,9 +299,16 @@
     "id": "luminousGreatshield",
     "name": "Luminous Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 13, "GRD": 35, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Poison", "Blind"],
+    "nullifications": [
+      "Poison",
+      "Blind"
+    ],
     "classRestrictions": []
   },
   {
@@ -256,7 +329,11 @@
     "id": "panopliedGreatshield",
     "name": "Panoplied Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 13, "GRD": 35, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
     "skillId": "heavyCover",
     "nullifications": [],
     "classRestrictions": []
@@ -294,9 +371,15 @@
     "id": "searingGreatshield",
     "name": "Searing Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Burn"],
+    "nullifications": [
+      "Burn"
+    ],
     "classRestrictions": []
   },
   {
@@ -331,7 +414,11 @@
     "id": "squiresGreatshield",
     "name": "Squire's Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "quickCover",
     "nullifications": [],
     "classRestrictions": []
@@ -340,7 +427,11 @@
     "id": "steelGreatshield",
     "name": "Steel Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 14, "GRD": 35, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 14,
+      "GRD": 35,
+      "GuardEff": 50
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -378,7 +469,11 @@
     "id": "unyieldingGreatshield",
     "name": "Unyielding Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 14, "GRD": 40, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 14,
+      "GRD": 40,
+      "GuardEff": 50
+    },
     "skillId": "enduringGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -387,9 +482,15 @@
     "id": "viperGreatshield",
     "name": "Viper Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": null,
-    "nullifications": ["Poison"],
+    "nullifications": [
+      "Poison"
+    ],
     "classRestrictions": []
   },
   {
@@ -425,7 +526,11 @@
     "id": "wingclipperGreatshield",
     "name": "Wingclipper Greatshield",
     "type": "Greatshield",
-    "stats": { "PDEF": 10, "GRD": 30, "GuardEff": 50 },
+    "stats": {
+      "PDEF": 10,
+      "GRD": 30,
+      "GuardEff": 50
+    },
     "skillId": "aerialGuard",
     "nullifications": [],
     "classRestrictions": []

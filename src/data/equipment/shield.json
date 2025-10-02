@@ -3,7 +3,11 @@
     "id": "angelHuntersBuckler",
     "name": "Angel Hunter's Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "aerialGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -12,7 +16,12 @@
     "id": "azureCrestShield",
     "name": "Azure Crest Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25, "PP": 1 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25,
+      "PP": 1
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -49,7 +58,11 @@
     "id": "beastHuntersBuckler",
     "name": "Beast Hunter's Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "bestralGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -87,7 +100,12 @@
     "id": "blueRoseShield",
     "name": "Blue Rose Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 20, "GuardEff": 25, "PP": 1 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 20,
+      "GuardEff": 25,
+      "PP": 1
+    },
     "skillId": "royalGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -96,7 +114,11 @@
     "id": "bronzeShield",
     "name": "Bronze Shield",
     "type": "Shield",
-    "stats": { "PDEF": 3, "GRD": 15, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 3,
+      "GRD": 15,
+      "GuardEff": 25
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -119,7 +141,11 @@
     "id": "cavalryHuntersBuckler",
     "name": "Cavalry Hunter's Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "cavalryGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -128,10 +154,26 @@
     "id": "chivalricShield",
     "name": "Chivalric Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Stun", "GuardSeal"],
-    "classRestrictions": ["Cavalry Units Only"]
+    "nullifications": [
+      "Stun",
+      "GuardSeal"
+    ],
+    "classRestrictions": [
+      "Dark Knight",
+      "Doom Knight",
+      "Great Knight",
+      "High Lord",
+      "Knight",
+      "Paladin",
+      "Radiant Knight",
+      "Sainted Knight"
+    ]
   },
   {
     "id": "dragonboneShield",
@@ -159,7 +201,9 @@
       "MaxHP": 10
     },
     "skillId": null,
-    "nullifications": ["Stun"],
+    "nullifications": [
+      "Stun"
+    ],
     "classRestrictions": []
   },
   {
@@ -180,7 +224,11 @@
     "id": "guardsShield",
     "name": "Guard's Shield",
     "type": "Shield",
-    "stats": { "PDEF": 4, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 4,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "quickGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -204,9 +252,15 @@
     "id": "hoarfrostShield",
     "name": "Hoarfrost Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Freeze"],
+    "nullifications": [
+      "Freeze"
+    ],
     "classRestrictions": []
   },
   {
@@ -227,9 +281,15 @@
     "id": "holyUnicornShield",
     "name": "Holy Unicorn Shield",
     "type": "Shield",
-    "stats": { "PDEF": 8, "GRD": 30, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 8,
+      "GRD": 30,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Debuff"],
+    "nullifications": [
+      "Debuff"
+    ],
     "classRestrictions": []
   },
   {
@@ -253,7 +313,10 @@
     "type": "Shield",
     "stats": {
       "PDEF": 7,
-      "GRD": [20, -20],
+      "GRD": [
+        20,
+        -20
+      ],
       "GuardEff": 25,
       "PP": 1
     },
@@ -265,7 +328,11 @@
     "id": "ironShield",
     "name": "Iron Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -274,7 +341,11 @@
     "id": "ironcladBuckler",
     "name": "Ironclad Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "wall",
     "nullifications": [],
     "classRestrictions": []
@@ -297,16 +368,27 @@
     "id": "luminousShield",
     "name": "Luminous Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Poison", "Blind"],
+    "nullifications": [
+      "Poison",
+      "Blind"
+    ],
     "classRestrictions": []
   },
   {
     "id": "manalithBuckler",
     "name": "Manalith Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "magicWall",
     "nullifications": [],
     "classRestrictions": []
@@ -329,7 +411,11 @@
     "id": "moonlightShield",
     "name": "Moonlight Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": "nocturnalGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -338,9 +424,15 @@
     "id": "namelessGuardsShield",
     "name": "Nameless Guard's Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": "radiantCover",
-    "nullifications": ["Blind"],
+    "nullifications": [
+      "Blind"
+    ],
     "classRestrictions": []
   },
   {
@@ -390,7 +482,12 @@
     "id": "scarletCrestShield",
     "name": "Scarlet Crest Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25, "AP": 1 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25,
+      "AP": 1
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -399,9 +496,15 @@
     "id": "searingShield",
     "name": "Searing Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Burn"],
+    "nullifications": [
+      "Burn"
+    ],
     "classRestrictions": []
   },
   {
@@ -422,7 +525,11 @@
     "id": "squiresShield",
     "name": "Squire's Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": "quickCover",
     "nullifications": [],
     "classRestrictions": []
@@ -431,7 +538,11 @@
     "id": "steelShield",
     "name": "Steel Shield",
     "type": "Shield",
-    "stats": { "PDEF": 7, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 7,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": null,
     "nullifications": [],
     "classRestrictions": []
@@ -469,16 +580,27 @@
     "id": "unfetteredShield",
     "name": "Unfettered Shield",
     "type": "Shield",
-    "stats": { "PDEF": 6, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 6,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["GuardSeal", "PassiveSeal"],
+    "nullifications": [
+      "GuardSeal",
+      "PassiveSeal"
+    ],
     "classRestrictions": []
   },
   {
     "id": "unyieldingShield",
     "name": "Unyielding Shield",
     "type": "Shield",
-    "stats": { "PDEF": 7, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 7,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": "enduringGuard",
     "nullifications": [],
     "classRestrictions": []
@@ -487,9 +609,15 @@
     "id": "viperShield",
     "name": "Viper Shield",
     "type": "Shield",
-    "stats": { "PDEF": 5, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 5,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Poison"],
+    "nullifications": [
+      "Poison"
+    ],
     "classRestrictions": []
   },
   {
@@ -511,9 +639,15 @@
     "id": "watchmansBuckler",
     "name": "Watchman's Buckler",
     "type": "Shield",
-    "stats": { "PDEF": 4, "GRD": 20, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 4,
+      "GRD": 20,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Blind"],
+    "nullifications": [
+      "Blind"
+    ],
     "classRestrictions": []
   },
   {
@@ -534,9 +668,16 @@
     "id": "whiteRidersShield",
     "name": "White Rider's Shield",
     "type": "Shield",
-    "stats": { "PDEF": 7, "GRD": 25, "GuardEff": 25 },
+    "stats": {
+      "PDEF": 7,
+      "GRD": 25,
+      "GuardEff": 25
+    },
     "skillId": null,
-    "nullifications": ["Stun", "GuardSeal"],
+    "nullifications": [
+      "Stun",
+      "GuardSeal"
+    ],
     "classRestrictions": []
   },
   {
