@@ -20,14 +20,13 @@ const allEquipment = [
   ...EquipmentAccessory,
 ] as unknown as Equipment[]
 
-// Create a lookup map for O(1) access
-const equipmentLookup = new Map<string, Equipment>()
+const equipmentLookup: Record<string, Equipment> = {}
 allEquipment.forEach(item => {
-  equipmentLookup.set(item.id, item)
+  equipmentLookup[item.id] = item
 })
 
 export const getEquipmentById = (id: string): Equipment | null => {
-  return equipmentLookup.get(id) || null
+  return equipmentLookup[id] || null
 }
 
 export const getAllEquipment = (): Equipment[] => {

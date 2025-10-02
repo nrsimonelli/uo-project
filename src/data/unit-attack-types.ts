@@ -38,6 +38,6 @@ export type UnitClass = keyof typeof UNIT_ATTACK_TYPE_MAP
 export type AttackType = typeof UNIT_ATTACK_TYPE_MAP[UnitClass]
 
 // Helper function to get attack type for a unit class
-export function getAttackTypeForUnit(unitClass: string): 'Melee' | 'Ranged' {
+export const getAttackTypeForUnit = (unitClass: string): 'Melee' | 'Ranged' => {
   return UNIT_ATTACK_TYPE_MAP[unitClass as UnitClass] || 'Melee' // Default to Melee
 }

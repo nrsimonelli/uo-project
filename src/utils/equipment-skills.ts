@@ -28,7 +28,7 @@ export function findMissingSkills(
 }
 
 // Helper function to safely display skill names
-export function getSkillDisplayName(skillId: EquipmentSkillId | null): string {
+export const getSkillDisplayName = (skillId: EquipmentSkillId | null): string => {
   if (!skillId) return ''
 
   // For now, just return the ID as the display name

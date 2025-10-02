@@ -9,7 +9,7 @@ import { useTheme } from '@/hooks/use-theme'
 import { ContrastIcon, TrophyIcon } from 'lucide-react'
 import { Button } from './ui/button'
 
-export const TopNav = () => {
+export function TopNav() {
   const { theme, setTheme } = useTheme()
 
   return (

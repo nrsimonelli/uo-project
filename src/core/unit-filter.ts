@@ -23,7 +23,7 @@ const CRUSADER_VALKYRIA_LIMITS = {
   Valkyria: 2,
 }
 
-export function filterUnits(team: Team, searchTerm = ''): string[] {
+export const filterUnits = (team: Team, searchTerm = ''): string[] => {
   const allUnits = Object.values(ALL_CLASSES)
   const teamClasses = team.formation
     .filter((u) => u !== null)

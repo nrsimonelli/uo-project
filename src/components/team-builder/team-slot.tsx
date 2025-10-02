@@ -5,7 +5,7 @@ interface TeamSlotProps {
   unit: Unit
   children?: React.ReactNode
 }
-export const TeamSlot = ({ unit, children }: TeamSlotProps) => {
+export function TeamSlot({ unit, children }: TeamSlotProps) {
   return (
     <div className='relative group'>
       {children}

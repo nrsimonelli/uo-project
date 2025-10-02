@@ -32,7 +32,7 @@ const createDefaultTeams = (): Record<string, Team> => {
   return teams
 }
 
-export const TeamProvider = ({ children }: { children: ReactNode }) => {
+export function TeamProvider({ children }: { children: ReactNode }) {
   const [teams, setTeams] = useLocalStorage<Record<string, Team>>('team-data', createDefaultTeams())
 
   const [currentTeamId, setCurrentTeamId] = useState('team-1')

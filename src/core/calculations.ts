@@ -200,7 +200,7 @@ const percentageStatProcessors: Record<string, StatProcessor> = {
   },
 }
 
-const ignoredStats = new Set([
+const ignoredStats = [
   'GoldGainPercent',
   'ExpGainPercent',
   'OnActiveHealPercent',
@@ -212,7 +212,7 @@ const ignoredStats = new Set([
   'AP',
   'PP',
   'CritDmg',
-])
+]
 
 export const calculateEquipmentBonus = (
   equipment: EquippedItem[],
@@ -259,7 +259,7 @@ export const calculateEquipmentBonus = (
       }
 
       // Check if it's an ignored stat
-      if (ignoredStats.has(statKey)) {
+      if (ignoredStats.includes(statKey)) {
         continue
       }
 

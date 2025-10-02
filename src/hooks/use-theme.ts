@@ -9,7 +9,7 @@ const initialState: ThemeProviderState = {
 export const ThemeProviderContext =
   createContext<ThemeProviderState>(initialState)
 
-export const useTheme = () => {
+export function useTheme() {
   const context = useContext(ThemeProviderContext)
 
   if (context === undefined)

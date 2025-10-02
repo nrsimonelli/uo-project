@@ -9,7 +9,7 @@ interface EditableTeamNameProps {
   className?: string
 }
 
-export const EditableTeamName = ({ teamName, onSave, className }: EditableTeamNameProps) => {
+export function EditableTeamName({ teamName, onSave, className }: EditableTeamNameProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(teamName)
   const [isHovered, setIsHovered] = useState(false)

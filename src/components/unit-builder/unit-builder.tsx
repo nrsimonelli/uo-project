@@ -27,7 +27,7 @@ const UnitImage = ({
   )
 }
 
-export const UnitBuilder = ({ unit }: { unit: Unit }) => {
+export function UnitBuilder({ unit }: { unit: Unit }) {
   const { updateUnit } = useTeam()
   const { chartData } = useChartData(unit)
 

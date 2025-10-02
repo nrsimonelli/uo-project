@@ -36,7 +36,7 @@ interface RadarGraphProps {
   }[]
 }
 
-export const RadarGraph = ({ chartData }: RadarGraphProps) => {
+export function RadarGraph({ chartData }: RadarGraphProps) {
   return (
     <ChartContainer
       config={chartConfig}

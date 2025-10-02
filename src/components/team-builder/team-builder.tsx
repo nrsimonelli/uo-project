@@ -11,7 +11,7 @@ import { IsometricFormationBuilder } from '../isometric-formation/isometric-form
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
 import { EditableTeamName } from './editable-team-name'
 
-export const TeamBuilder = () => {
+export function TeamBuilder() {
   const currentTeam = useCurrentTeam()
   const {
     teams,
