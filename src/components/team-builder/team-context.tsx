@@ -7,8 +7,7 @@ export interface TeamContextValue {
   teams: Record<string, Team>
   currentTeamId: string
   setCurrentTeam: (id: string) => void
-  addTeam: (team: Team) => void
-  removeTeam: (id: string) => void
+  updateTeamName: (id: string, name: string) => void
 
   addUnit: (unit: Unit, position: Position) => void
   updateUnit: (id: string, updates: Partial<Unit>) => void
@@ -20,16 +19,23 @@ export interface TeamContextValue {
   swapUnits: (from: Position, to: Position) => void
 }
 
-export const TeamProvider = ({ children }: { children: ReactNode }) => {
-  const [teams, setTeams] = useLocalStorage<Record<string, Team>>('team-data', {
-    default: {
-      id: 'default-team',
-      name: 'Default Team',
+// Initialize 6 default teams
+const createDefaultTeams = (): Record<string, Team> => {
+  const teams: Record<string, Team> = {}
+  for (let i = 1; i <= 6; i++) {
+    teams[`team-${i}`] = {
+      id: `team-${i}`,
+      name: `Team ${i}`,
       formation: Array(6).fill(null),
-    },
-  })
+    }
+  }
+  return teams
+}
 
-  const [currentTeamId, setCurrentTeamId] = useState('default')
+export const TeamProvider = ({ children }: { children: ReactNode }) => {
+  const [teams, setTeams] = useLocalStorage<Record<string, Team>>('team-data', createDefaultTeams())
+
+  const [currentTeamId, setCurrentTeamId] = useState('team-1')
 
   const getIndex = ({ row, col }: Position) => row * COLS.length + col
 
@@ -41,15 +47,11 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
     })
   }
 
-  const addTeam = (team: Team) => {
-    setTeams((prev) => ({ ...prev, [team.id]: team }))
-  }
-
-  const removeTeam = (id: string) => {
+  const updateTeamName = (id: string, name: string) => {
     setTeams((prev) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [id]: _, ...rest } = prev
-      return rest
+      const team = prev[id]
+      if (!team) return prev
+      return { ...prev, [id]: { ...team, name } }
     })
   }
 
@@ -132,8 +134,7 @@ export const TeamProvider = ({ children }: { children: ReactNode }) => {
         teams,
         currentTeamId,
         setCurrentTeam: setCurrentTeamId,
-        addTeam,
-        removeTeam,
+        updateTeamName,
         addUnit,
         updateUnit,
         updateMultipleUnits,

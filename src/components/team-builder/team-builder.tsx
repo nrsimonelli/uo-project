@@ -6,19 +6,18 @@ import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
 import { COLS, type Position, type Col, type Row } from '@/types/team'
-
+import { ScrollArea } from '../ui/scroll-area'
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
-import { generateRandomId } from '@/core/helpers'
-import { AddTeamModal } from './add-team-modal'
+import { EditableTeamName } from './editable-team-name'
 
 export const TeamBuilder = () => {
   const currentTeam = useCurrentTeam()
   const {
     teams,
-    // currentTeamId,
+    currentTeamId,
     setCurrentTeam,
-    addTeam,
+    updateTeamName,
     removeUnit,
     swapUnits,
   } = useTeam()
@@ -45,14 +44,8 @@ export const TeamBuilder = () => {
     swapUnits(from, to)
   }
 
-  const handleNewTeam = (name: string) => {
-    // TODO: allow more details beyond name later...
-    const teamKey = generateRandomId()
-    addTeam({
-      id: teamKey,
-      name,
-      formation: Array(6).fill(null),
-    })
+  const handleUpdateTeamName = (newName: string) => {
+    updateTeamName(currentTeamId, newName)
   }
 
   const handleRemoveUnit = (unitId: string) => {
@@ -71,32 +64,60 @@ export const TeamBuilder = () => {
 
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
+  // Get teams in order (team-1 through team-6)
+  const orderedTeams = Object.entries(teams).sort(([a], [b]) => {
+    const numA = parseInt(a.split('-')[1])
+    const numB = parseInt(b.split('-')[1])
+    return numA - numB
+  })
+
   return (
     <div className='w-full space-y-6 p-6'>
       <p className='text-xl'>Team Builder</p>
-      {/* <pre>{JSON.stringify(currentTeam, null, 2)}</pre> */}
-      <div className='flex flex-row justify-between'>
-        <div className='flex flex-col space-y-3'>
-          <p>{currentTeam.name}</p>
+      <div className='flex flex-row justify-between gap-8'>
+        <div className='flex flex-col space-y-4 flex-1'>
+          <EditableTeamName 
+            teamName={currentTeam.name} 
+            onSave={handleUpdateTeamName}
+          />
           <IsometricFormationBuilder
             formation={currentTeam.formation}
             orientation={'right-facing'}
             onSwap={handleSwap}
           />
         </div>
-        <div className='flex flex-col space-y-3'>
-          <p>Your Teams</p>
-          {Object.entries(teams).map(([key, team]) => (
-            <IsometricFormationDisplay
-              key={`${key}-${team.id}`}
-              formation={team.formation}
-              orientation={'left-facing'}
-              onSelectTeam={() => {
-                handleSelectTeam(key)
-              }}
-            />
-          ))}
-          <AddTeamModal handleNewTeam={handleNewTeam} />
+        <div className='flex flex-col space-y-3 w-64'>
+          <p className='text-lg font-semibold text-center'>Your Teams</p>
+          <ScrollArea className='h-[400px] pr-2'>
+            <div className='space-y-4 pt-2'>
+              {orderedTeams.map(([key, team]) => {
+                const isEmpty = team.formation.every(unit => unit === null)
+                const isSelected = key === currentTeamId
+                
+                return (
+                  <div
+                    key={`${key}-${team.id}`}
+                    className={`relative cursor-pointer transition-all duration-200 rounded-lg p-2 mx-auto max-w-fit ${
+                      isEmpty ? 'opacity-60' : 'opacity-100'
+                    } ${
+                      isSelected 
+                        ? 'ring-2 ring-blue-500 shadow-lg shadow-blue-500/25' 
+                        : 'hover:ring-1 hover:ring-gray-300'
+                    }`}
+                    onClick={() => handleSelectTeam(key)}
+                  >
+                    <div className='flex justify-center'>
+                      <IsometricFormationDisplay
+                        formation={team.formation}
+                        orientation={'left-facing'}
+                        onSelectTeam={() => handleSelectTeam(key)}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </ScrollArea>
         </div>
       </div>
 

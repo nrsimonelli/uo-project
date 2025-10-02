@@ -18,6 +18,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip'
 import { SPRITES } from '@/data/sprites'
 import { EquipmentSlotIcon } from './equipment-icons'
 import { useEquipmentManager } from '@/hooks/use-equipment-manager'
+import { cn } from '@/lib/utils'
 
 export const EquipmentSearchModal = ({
   slotType,
@@ -74,8 +75,13 @@ export const EquipmentSearchModal = ({
             </div>
             <div className='flex flex-col items-start gap-1 flex-1'>
               <div className='text-xs text-muted-foreground'>{slotType}</div>
-              <div className='text-sm font-medium text-left'>
-                {currentItem ? currentItem.name : 'No item equipped'}
+              <div
+                className={cn(
+                  'text-sm font-medium text-left',
+                  !currentItem && 'text-muted-foreground'
+                )}
+              >
+                {currentItem ? currentItem.name : '-'}
               </div>
             </div>
           </div>

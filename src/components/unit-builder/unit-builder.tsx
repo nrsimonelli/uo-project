@@ -28,36 +28,25 @@ const UnitImage = ({
 }
 
 export const UnitBuilder = ({ unit }: { unit: Unit }) => {
-  const [growthA, growthB] = unit.growths
   const { updateUnit } = useTeam()
   const { chartData } = useChartData(unit)
+
+  const [growthA, growthB] = unit.growths
   
-
-
-  if (!chartData) return null
-
   const unitEquipmentSlotTypes = getEquipmentSlots(unit.class)
+
+  if (!chartData) {
+    return null
+  }
 
   return (
     <Card className='p-4 flex-row flex-wrap gap-6'>
       <div className='flex-col flex-1 space-y-6 basis-xs'>
         <div className='flex w-auto justify-start items-start gap-3 flex-col'>
-          {/* <UnitNameEditor
-            name={unit.name}
-            className={unit.class}
-            onChange={(name) => updateUnit(unit.id, { name })}
-          /> */}
-
           <p className='text-lg font-medium'>{unit.name}</p>
           <UnitImage imagePath={SPRITES[unit.class]} label={unit.class} />
         </div>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
-          {/* <ClassSelect
-            unitId={unit.id}
-            classType={unit.class}
-            onChange={(cls) => handleUpdateUnit(cls)}
-            team={currentTeam}
-          /> */}
           <LevelSelect
             level={unit.level}
             onChange={(level) => updateUnit(unit.id, { level })}
