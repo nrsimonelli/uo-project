@@ -38,6 +38,7 @@ export const EquipmentAxe = [
       "PATK": 13
     },
     "skillId": "provokingCrush",
+    "classRestrictions": [],
     "nullifications": []
   },
   {

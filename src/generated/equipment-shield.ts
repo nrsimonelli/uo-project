@@ -168,7 +168,14 @@ export const EquipmentShield = [
       "GuardSeal"
     ],
     "classRestrictions": [
-      "Cavalry Units Only"
+      "Dark Knight",
+      "Doom Knight",
+      "Great Knight",
+      "High Lord",
+      "Knight",
+      "Paladin",
+      "Radiant Knight",
+      "Sainted Knight"
     ]
   },
   {

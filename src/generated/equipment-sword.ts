@@ -183,7 +183,7 @@ export const EquipmentSword = [
       "PATK": 20,
       "ACC": 20
     },
-    "skillId": "icicleDark",
+    "skillId": "icicleDart",
     "nullifications": [
       "Freeze"
     ],
@@ -229,8 +229,8 @@ export const EquipmentSword = [
       "Debuff"
     ],
     "classRestrictions": [
-      "Lord",
-      "HighLord"
+      "High Lord",
+      "Lord"
     ]
   },
   {

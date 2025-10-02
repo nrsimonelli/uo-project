@@ -158,10 +158,7 @@ export const EquipmentLance = [
     },
     "skillId": "dragoonDive",
     "nullifications": [],
-    "classRestrictions": [
-      "Wyvern Knight",
-      "Wyvern Master"
-    ]
+    "classRestrictions": []
   },
   {
     "id": "elfeater",

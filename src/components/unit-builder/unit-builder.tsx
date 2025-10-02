@@ -1,15 +1,13 @@
 import { Card } from '../ui/card'
-
 import { RadarGraph } from '../radar-graph'
 import type { Unit } from '@/types/team'
-import { useCurrentTeam, useTeam } from '@/hooks/use-team'
+import { useTeam } from '@/hooks/use-team'
 import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'
 import { AnimatedStatBar } from '../animated-stat-bar'
-import { ClassSelect, GrowthSelect, LevelSelect } from './unit-select'
-// import { UnitNameEditor } from './unit-name-editor'
-import type { AllClassType } from '@/types/base-stats'
-import { ALL_CLASSES } from '@/data/class-types'
+import { GrowthSelect, LevelSelect } from './unit-select'
+import { getEquipmentSlots } from '@/core/helpers'
+import { EquipmentSearchModal } from '../equipment-builder/equipment-search-modal'
 
 const UnitImage = ({
   imagePath,
@@ -32,18 +30,13 @@ const UnitImage = ({
 export const UnitBuilder = ({ unit }: { unit: Unit }) => {
   const [growthA, growthB] = unit.growths
   const { updateUnit } = useTeam()
-  const currentTeam = useCurrentTeam()
   const { chartData } = useChartData(unit)
+  
+
 
   if (!chartData) return null
 
-  const handleUpdateUnit = (cls: AllClassType) => {
-    if (Object.values(ALL_CLASSES).some((x) => x === unit.name)) {
-      updateUnit(unit.id, { name: cls, class: cls })
-    } else {
-      updateUnit(unit.id, { class: cls })
-    }
-  }
+  const unitEquipmentSlotTypes = getEquipmentSlots(unit.class)
 
   return (
     <Card className='p-4 flex-row flex-wrap gap-6'>
@@ -85,8 +78,19 @@ export const UnitBuilder = ({ unit }: { unit: Unit }) => {
           />
         </div>
         <div>
-          <p>Equipment</p>
-          <div>{/* <EquipmentSelect /> */}</div>
+          <p className='text-lg font-medium mb-3'>Equipment</p>
+          <div className='grid grid-cols-1 gap-2'>
+            {unitEquipmentSlotTypes.map((slot, index) => (
+              <EquipmentSearchModal
+                key={`${slot}-${index}`}
+                slotType={slot}
+                itemId={unit.equipment?.[index]?.itemId ?? null}
+                idx={index}
+                unitClass={unit.class}
+                unitId={unit.id}
+              />
+            ))}
+          </div>
         </div>
       </div>
       {/* column 2 */}

@@ -64,12 +64,10 @@ export const EquipmentStaff = [
     "skillId": "holyCradle",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -136,12 +134,10 @@ export const EquipmentStaff = [
     "skillId": "protection",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -155,12 +151,10 @@ export const EquipmentStaff = [
     "skillId": "quickBarrier",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -284,12 +278,10 @@ export const EquipmentStaff = [
     "skillId": "reheal",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -358,12 +350,10 @@ export const EquipmentStaff = [
     "skillId": "reincarnation",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -388,12 +378,10 @@ export const EquipmentStaff = [
     "skillId": "resurrection",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -407,12 +395,10 @@ export const EquipmentStaff = [
     "skillId": "activeHeal",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -456,12 +442,10 @@ export const EquipmentStaff = [
     "skillId": "partingResurrection",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -476,12 +460,10 @@ export const EquipmentStaff = [
     "skillId": null,
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -524,12 +506,10 @@ export const EquipmentStaff = [
     "skillId": "radiantHeal",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -556,12 +536,10 @@ export const EquipmentStaff = [
     "skillId": "sacredCure",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -606,12 +584,10 @@ export const EquipmentStaff = [
       "PassiveSeal"
     ],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -625,12 +601,10 @@ export const EquipmentStaff = [
     "skillId": "circleHeal",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {
@@ -697,12 +671,10 @@ export const EquipmentStaff = [
     "skillId": "doubleHeal",
     "nullifications": [],
     "classRestrictions": [
-      "Cleric",
       "Bishop",
-      "Wereowl",
-      "Featherstaff",
-      "Priestess",
-      "High Priestess"
+      "Cleric",
+      "High Priestess",
+      "Priestess"
     ]
   },
   {

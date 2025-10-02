@@ -3,6 +3,9 @@ import type { AllClassType, StatKey } from './base-stats'
 import type { PassiveSkillsId } from '@/generated/skills-passive'
 import type { AfflictionType } from './conditions'
 
+// Temporary type to handle equipment skills that may not exist in skills files yet
+export type EquipmentSkillId = ActiveSkillsId | PassiveSkillsId | string
+
 export const WEAPONS = ['Sword', 'Axe', 'Lance', 'Bow', 'Staff'] as const
 export const EQUIPMENT_SLOTS = ['Shield', 'Greatshield', 'Accessory'] as const
 
@@ -39,12 +42,12 @@ export interface Equipment {
   name: string
   type: EquipmentSlotType
   stats: Partial<Record<EquipmentStatKey, number>> // attack, defense, etc.
-  skillId: ActiveSkillsId | PassiveSkillsId | null
+  skillId: EquipmentSkillId | null
   nullifications: ('Debuff' | 'Affliction' | AfflictionType)[]
   classRestrictions: AllClassType[]
 }
 
 export interface EquippedItem {
   slot: EquipmentSlotType
-  itemId: string
+  itemId: string | null
 }
