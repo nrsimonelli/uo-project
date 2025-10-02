@@ -9,6 +9,7 @@ import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
 import type { EquippedItem } from '@/types/equipment'
 import type { RandomNumberGeneratorType } from './random'
 import { clamp } from '@/lib/utils'
+import { getEquipmentById } from './equipment-lookup'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
 const initialStatData = {
@@ -127,27 +128,146 @@ const getGrowthRank = (value: number): GrowthRank => {
   return 'S'
 }
 
-// TODO: implement actual equipment logic
-export const calculateEquipmentBonus = (equipment: EquippedItem[]) => {
-  console.log('Equipment:', equipment)
+// Equipment stat processing functions
+type StatProcessor = (
+  result: typeof initialStatData,
+  value: number,
+  baseStats?: Record<string, number>
+) => void
 
+const directStatMappings: Record<string, keyof typeof initialStatData> = {
+  HP: 'HP',
+  MaxHP: 'HP',
+  PATK: 'PATK',
+  PDEF: 'PDEF',
+  MATK: 'MATK',
+  MDEF: 'MDEF',
+  ACC: 'ACC',
+  EVA: 'EVA',
+  CRT: 'CRT',
+  GRD: 'GRD',
+  INIT: 'INIT',
+}
+
+const specialStatProcessors: Record<string, StatProcessor> = {
+  Attack: (result, value) => {
+    result.PATK += value
+    result.MATK += value
+  },
+  Defense: (result, value) => {
+    result.PDEF += value
+    result.MDEF += value
+  },
+  AllStats: (result, value) => {
+    result.HP += value
+    result.PATK += value
+    result.PDEF += value
+    result.MATK += value
+    result.MDEF += value
+    result.ACC += value
+    result.EVA += value
+    result.CRT += value
+    result.GRD += value
+    result.INIT += value
+  },
+}
+
+const percentageStatProcessors: Record<string, StatProcessor> = {
+  PATKPercent: (result, value, baseStats) => {
+    if (baseStats?.PATK) {
+      result.PATK += Math.round((baseStats.PATK * value) / 100)
+    }
+  },
+  PDEFPercent: (result, value, baseStats) => {
+    if (baseStats?.PDEF) {
+      result.PDEF += Math.round((baseStats.PDEF * value) / 100)
+    }
+  },
+  MATKPercent: (result, value, baseStats) => {
+    if (baseStats?.MATK) {
+      result.MATK += Math.round((baseStats.MATK * value) / 100)
+    }
+  },
+  MDEFPercent: (result, value, baseStats) => {
+    if (baseStats?.MDEF) {
+      result.MDEF += Math.round((baseStats.MDEF * value) / 100)
+    }
+  },
+  MaxHPPercent: (result, value, baseStats) => {
+    if (baseStats?.HP) {
+      result.HP += Math.round((baseStats.HP * value) / 100)
+    }
+  },
+}
+
+const ignoredStats = new Set([
+  'GoldGainPercent',
+  'ExpGainPercent',
+  'OnActiveHealPercent',
+  'DmgReductionPercent',
+  'GuardEff',
+  'DrainEff',
+  'PursuitPotency',
+  'CounterAttackPotency',
+  'AP',
+  'PP',
+  'CritDmg',
+])
+
+export const calculateEquipmentBonus = (
+  equipment: EquippedItem[],
+  baseStats?: Record<string, number>
+) => {
   const result = {
     ...initialStatData,
   }
-  // for (const item of equipment) {
-  // if (!item){
 
-  // }
-  // }
-  // for (const item of equipment) {
-  //   const stat = item.stat
-  //   const value = item.value
-  //   if (stat in result) {
-  //     result[stat] += value
-  //   } else {
-  //     result[stat] = value
-  //   }
-  // }
+  for (const equippedItem of equipment) {
+    if (!equippedItem?.itemId) continue
+
+    const item = getEquipmentById(equippedItem.itemId)
+    if (!item) {
+      console.warn(`Equipment item not found: ${equippedItem.itemId}`)
+      continue
+    }
+
+    console.log(`Processing equipment: ${item.name}`, item.stats)
+
+    // Process each stat on the equipment
+    for (const [statKey, value] of Object.entries(item.stats)) {
+      if (typeof value !== 'number') continue
+
+      // Check direct stat mappings first
+      const directStat = directStatMappings[statKey]
+      if (directStat) {
+        result[directStat] += value
+        continue
+      }
+
+      // Check special stat processors
+      const specialProcessor = specialStatProcessors[statKey]
+      if (specialProcessor) {
+        specialProcessor(result, value, baseStats)
+        continue
+      }
+
+      // Check percentage stat processors
+      const percentageProcessor = percentageStatProcessors[statKey]
+      if (percentageProcessor) {
+        percentageProcessor(result, value, baseStats)
+        continue
+      }
+
+      // Check if it's an ignored stat
+      if (ignoredStats.has(statKey)) {
+        continue
+      }
+
+      // Log unknown stats for debugging
+      console.warn(`Unknown equipment stat: ${statKey}`)
+    }
+  }
+
   return result
 }
 

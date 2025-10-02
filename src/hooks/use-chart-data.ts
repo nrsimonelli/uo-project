@@ -41,7 +41,7 @@ export const useChartData = (
     const growthValues = COMBINED_CLASS_GROWTH_TABLE[classType]
     const baseStats = calculateBaseStats(level, classType, growths)
     const growthRanks = calculateGrowthRanks(classType)
-    const equipmentBonus = calculateEquipmentBonus(equipment)
+    const equipmentBonus = calculateEquipmentBonus(equipment, baseStats)
 
     const totalStats = Object.keys(baseStats).reduce((acc, stat) => {
       acc[stat as CombatStat] =
