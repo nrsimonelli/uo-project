@@ -12,17 +12,18 @@ import {
 
 export function LandingPage() {
   return (
-    <div className="space-y-16">
+    // Filler content for landing page... ignore
+    <div className="space-y-16 pt-16">
       {/* Hero Section */}
       <section className="px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-            Master Your <span className="text-primary">Unicorn Overlord</span>{' '}
-            Strategy
+            Welcome to the{' '}
+            <span className="text-primary">Unicorn Overlord</span> Project
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            Build optimal teams, manage equipment, and dominate the battlefield
-            with our comprehensive planning tools for Unicorn Overlord.
+            Enjoy comprehensive tools to help you build, manage, and test your
+            teams against one another in battle.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button size="lg" asChild>
@@ -53,7 +54,7 @@ export function LandingPage() {
                 <UsersIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Team Builder</CardTitle>
                 <CardDescription>
-                  Create and manage up to 6 teams with optimal unit compositions
+                  Create and manage up to 6 teams of any unit compositions
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -114,11 +115,9 @@ export function LandingPage() {
       {/* CTA Section */}
       <section className="px-4 sm:px-6 lg:px-8 pb-16">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Ready to Dominate?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight">Ready to Play?</h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Start building your ultimate teams and equipment setups today
+            Start team building and theory crafting today
           </p>
           <div className="mt-8">
             <Button size="lg" asChild>
