@@ -126,11 +126,7 @@ interface EquipmentSkillProps {
 function EquipmentSkill({ skillId }: EquipmentSkillProps) {
   if (!skillId) return null
 
-  return (
-    <div className='text-xs text-blue-600 dark:text-blue-400'>
-      Skill: {skillId}
-    </div>
-  )
+  return <div className='text-xs text-primary'>Skill: {skillId}</div>
 }
 
 interface EquipmentRestrictionsProps {
@@ -152,7 +148,7 @@ function EquipmentRestrictions({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className='text-xs text-orange-600 dark:text-orange-400 cursor-help'>
+        <div className='text-xs text-warning cursor-help'>
           Restricted to: {displayText}
         </div>
       </TooltipTrigger>

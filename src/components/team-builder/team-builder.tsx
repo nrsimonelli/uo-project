@@ -10,6 +10,10 @@ import { ScrollArea } from '../ui/scroll-area'
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
 import { EditableTeamName } from './editable-team-name'
+import { PageLayout } from '../page-layout'
+import { PageHeader } from '../page-header'
+import { cn } from '@/lib/utils'
+import { Card } from '../ui/card'
 
 export function TeamBuilder() {
   const currentTeam = useCurrentTeam()
@@ -64,6 +68,7 @@ export function TeamBuilder() {
 
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
+  // Will teams ever not be in order?
   // Get teams in order (team-1 through team-6)
   const orderedTeams = Object.entries(teams).sort(([a], [b]) => {
     const numA = parseInt(a.split('-')[1])
@@ -72,84 +77,96 @@ export function TeamBuilder() {
   })
 
   return (
-    <div className='w-full space-y-6 p-6'>
-      <p className='text-xl'>Team Builder</p>
-      <div className='flex flex-row justify-between gap-8'>
-        <div className='flex flex-col space-y-4 flex-1'>
-          <EditableTeamName 
-            teamName={currentTeam.name} 
-            onSave={handleUpdateTeamName}
-          />
-          <IsometricFormationBuilder
-            formation={currentTeam.formation}
-            orientation={'right-facing'}
-            onSwap={handleSwap}
-          />
-        </div>
-        <div className='flex flex-col space-y-3 w-64'>
-          <p className='text-lg font-semibold text-center'>Your Teams</p>
-          <ScrollArea className='h-[400px] pr-2'>
-            <div className='space-y-4 pt-2'>
-              {orderedTeams.map(([key, team]) => {
-                const isEmpty = team.formation.every(unit => unit === null)
-                const isSelected = key === currentTeamId
-                
-                return (
-                  <div
-                    key={`${key}-${team.id}`}
-                    className={`relative cursor-pointer transition-all duration-200 rounded-lg p-2 mx-auto max-w-fit ${
-                      isEmpty ? 'opacity-60' : 'opacity-100'
-                    } ${
-                      isSelected 
-                        ? 'ring-2 ring-blue-500 shadow-lg shadow-blue-500/25' 
-                        : 'hover:ring-1 hover:ring-gray-300'
-                    }`}
-                    onClick={() => handleSelectTeam(key)}
-                  >
-                    <div className='flex justify-center'>
-                      <IsometricFormationDisplay
-                        formation={team.formation}
-                        orientation={'left-facing'}
-                        onSelectTeam={() => handleSelectTeam(key)}
-                      />
-                    </div>
+    <PageLayout>
+      <div className='space-y-8'>
+        <PageHeader
+          title='Team Builder'
+          description='Create and manage your battle formations with powerful unit combinations.'
+        />
+
+        <Card>
+          <div className='px-6'>
+            <div className='flex flex-row justify-between gap-8'>
+              <div className='flex flex-col space-y-4 flex-1'>
+                <EditableTeamName
+                  teamName={currentTeam.name}
+                  onSave={handleUpdateTeamName}
+                />
+                <IsometricFormationBuilder
+                  formation={currentTeam.formation}
+                  orientation={'right-facing'}
+                  onSwap={handleSwap}
+                />
+              </div>
+              <div className='flex flex-col space-y-3'>
+                <p className='text-lg font-semibold text-center'>Your Teams</p>
+                <ScrollArea className='max-h-[300px] pr-1'>
+                  <div className='space-y-4 pt-2 px-2 '>
+                    {orderedTeams.map(([key, team]) => {
+                      const isEmpty = team.formation.every(
+                        (unit) => unit === null
+                      )
+                      const isSelected = key === currentTeamId
+
+                      return (
+                        <div
+                          key={`${key}-${team.id}`}
+                          className={cn(
+                            'relative cursor-pointer transition-all duration-200 rounded-lg p-2 mx-auto max-w-fit',
+                            isEmpty ? 'opacity-60' : 'opacity-100',
+                            isSelected
+                              ? 'ring-2 ring-primary shadow-lg shadow-primary/25'
+                              : 'hover:ring-1 hover:ring-muted'
+                          )}
+                          onClick={() => handleSelectTeam(key)}
+                        >
+                          <div className='flex justify-center'>
+                            <IsometricFormationDisplay
+                              formation={team.formation}
+                              orientation={'left-facing'}
+                              onSelectTeam={() => handleSelectTeam(key)}
+                            />
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
-                )
-              })}
+                </ScrollArea>
+              </div>
             </div>
-          </ScrollArea>
-        </div>
+
+            <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
+              <TabsList className='w-full flex-wrap h-auto'>
+                {filteredTeamFormation.map((unit) => (
+                  <TabsTrigger key={unit.id} value={unit.id}>
+                    {unit.class}
+                  </TabsTrigger>
+                ))}
+                {shouldShowAddUnit && (
+                  <UnitSearchModal
+                    team={currentTeam}
+                    onUnitAdded={(unit) => setSelectedUnitId(unit.id)}
+                  />
+                )}
+              </TabsList>
+
+              {filteredTeamFormation.map((unit) => (
+                <TabsContent key={unit.id} value={unit.id}>
+                  <TeamSlot unit={unit}>
+                    <Button
+                      onClick={() => handleRemoveUnit(unit.id)}
+                      variant='destructive'
+                      className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10'
+                    >
+                      <Trash className='w-4 h-4' />
+                    </Button>
+                  </TeamSlot>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
+        </Card>
       </div>
-
-      <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
-        <TabsList className='w-full flex-wrap h-auto'>
-          {filteredTeamFormation.map((unit) => (
-            <TabsTrigger key={unit.id} value={unit.id}>
-              {unit.class}
-            </TabsTrigger>
-          ))}
-          {shouldShowAddUnit && (
-            <UnitSearchModal
-              team={currentTeam}
-              onUnitAdded={(unit) => setSelectedUnitId(unit.id)}
-            />
-          )}
-        </TabsList>
-
-        {filteredTeamFormation.map((unit) => (
-          <TabsContent key={unit.id} value={unit.id}>
-            <TeamSlot unit={unit}>
-              <Button
-                onClick={() => handleRemoveUnit(unit.id)}
-                variant='destructive'
-                className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10'
-              >
-                <Trash className='w-4 h-4' />
-              </Button>
-            </TeamSlot>
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
+    </PageLayout>
   )
 }
