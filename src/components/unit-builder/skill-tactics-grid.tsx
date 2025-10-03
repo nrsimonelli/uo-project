@@ -1,14 +1,18 @@
 import type { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
-import { Button } from '@/components/ui/button'
+import type { Unit } from '@/types/team'
 import { SkillTacticsRow } from './skill-tactics-row'
-import { Plus } from 'lucide-react'
+import { SkillSelectionModal } from './skill-selection-modal'
 
 interface SkillTacticsGridProps {
   skillSlotManager: ReturnType<typeof useSkillSlotManager>
+  unit: Unit
 }
 
-export function SkillTacticsGrid({ skillSlotManager }: SkillTacticsGridProps) {
-  const { skillSlots, canAddMoreSkills } = skillSlotManager
+export function SkillTacticsGrid({
+  skillSlotManager,
+  unit,
+}: SkillTacticsGridProps) {
+  const { skillSlots, canAddMoreSkills, addSkill } = skillSlotManager
 
   return (
     <div className='space-y-2'>
@@ -23,18 +27,7 @@ export function SkillTacticsGrid({ skillSlotManager }: SkillTacticsGridProps) {
 
       {canAddMoreSkills && (
         <div className='grid grid-cols-3 gap-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            className='justify-start'
-            onClick={() => {
-              // TODO: Open skill selection modal
-              console.log('Open skill selection modal')
-            }}
-          >
-            <Plus className='size-4' />
-            Add Skill
-          </Button>
+          <SkillSelectionModal unit={unit} onSkillSelect={addSkill} />
           <div className='text-sm text-muted-foreground flex items-center justify-center'>
             -
           </div>

@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react'
+import { Plus, Search } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -12,21 +12,20 @@ import type { Unit } from '@/types/team'
 import type { AvailableSkill } from '@/utils/skill-availability'
 import { SkillTypeFilterComponent } from './skill-type-filter'
 import { SkillList } from './skill-list'
+import { DialogTrigger } from '@radix-ui/react-dialog'
+import { Button } from '../ui/button'
 
 interface SkillSelectionModalProps {
   unit: Unit
-  open: boolean
-  onOpenChange: (open: boolean) => void
   onSkillSelect: (skill: AvailableSkill) => void
 }
 
 export function SkillSelectionModal({
   unit,
-  open,
-  onOpenChange,
   onSkillSelect,
 }: SkillSelectionModalProps) {
-  const { searchTerm, updateSearchTerm } = useModalState()
+  const { searchTerm, updateSearchTerm, open, setOpen, closeModal, openModal } =
+    useModalState()
 
   const { filteredSkills, skillTypeFilter, setSkillTypeFilter, setSearchTerm } =
     useSkillSelection({ unit })
@@ -38,11 +37,22 @@ export function SkillSelectionModal({
 
   const handleSkillSelect = (skill: AvailableSkill) => {
     onSkillSelect(skill)
-    onOpenChange(false)
+    closeModal()
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant='outline'
+          size='sm'
+          className='justify-start'
+          onClick={openModal}
+        >
+          <Plus className='size-4' />
+          Add Skill
+        </Button>
+      </DialogTrigger>
       <DialogContent className='max-w-2xl max-h-[80vh] flex flex-col'>
         <DialogHeader>
           <DialogTitle>Select Skill</DialogTitle>

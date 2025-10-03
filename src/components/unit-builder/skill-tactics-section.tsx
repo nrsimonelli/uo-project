@@ -25,7 +25,7 @@ export function SkillTacticsSection({
       </div>
 
       {/* Skills and tactics grid */}
-      <SkillTacticsGrid skillSlotManager={skillSlotManager} />
+      <SkillTacticsGrid skillSlotManager={skillSlotManager} unit={unit} />
     </div>
   )
 }
