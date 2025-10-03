@@ -5,11 +5,18 @@ import { UnitSearchModal } from './unit-search-modal'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
-import { COLS, type Position, type Col, type Row } from '@/types/team'
+import {
+  COLS,
+  type Position,
+  type Col,
+  type Row,
+  type Team,
+} from '@/types/team'
 import { ScrollArea } from '../ui/scroll-area'
 import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
 import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
 import { EditableTeamName } from './editable-team-name'
+import { TeamImportExport } from './team-import-export'
 import { PageLayout } from '../page-layout'
 import { PageHeader } from '../page-header'
 import { cn } from '@/lib/utils'
@@ -22,6 +29,7 @@ export function TeamBuilder() {
     currentTeamId,
     setCurrentTeam,
     updateTeamName,
+    importTeam,
     removeUnit,
     swapUnits,
   } = useTeam()
@@ -66,6 +74,13 @@ export function TeamBuilder() {
     setSelectedUnitId(nextUnitId)
   }
 
+  const handleImportTeam = (team: Team) => {
+    importTeam(currentTeamId, team)
+    // Update selected unit to first unit in imported team
+    const firstUnit = team.formation.find((unit) => unit !== null)
+    setSelectedUnitId(firstUnit?.id)
+  }
+
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
   // Will teams ever not be in order?
@@ -92,6 +107,7 @@ export function TeamBuilder() {
                   teamName={currentTeam.name}
                   onSave={handleUpdateTeamName}
                 />
+
                 <IsometricFormationBuilder
                   formation={currentTeam.formation}
                   orientation={'right-facing'}
@@ -99,7 +115,10 @@ export function TeamBuilder() {
                 />
               </div>
               <div className='flex flex-col space-y-3'>
-                <p className='text-lg font-semibold text-center'>Your Teams</p>
+                <TeamImportExport
+                  team={currentTeam}
+                  onImportTeam={handleImportTeam}
+                />
                 <ScrollArea className='max-h-[300px] pr-1'>
                   <div className='space-y-4 pt-2 px-2 '>
                     {orderedTeams.map(([key, team]) => {

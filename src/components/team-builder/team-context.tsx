@@ -8,6 +8,7 @@ export interface TeamContextValue {
   currentTeamId: string
   setCurrentTeam: (id: string) => void
   updateTeamName: (id: string, name: string) => void
+  importTeam: (teamId: string, team: Team) => void
 
   addUnit: (unit: Unit, position: Position) => void
   updateUnit: (id: string, updates: Partial<Unit>) => void
@@ -33,7 +34,10 @@ const createDefaultTeams = (): Record<string, Team> => {
 }
 
 export function TeamProvider({ children }: { children: ReactNode }) {
-  const [teams, setTeams] = useLocalStorage<Record<string, Team>>('team-data', createDefaultTeams())
+  const [teams, setTeams] = useLocalStorage<Record<string, Team>>(
+    'team-data',
+    createDefaultTeams()
+  )
 
   const [currentTeamId, setCurrentTeamId] = useState('team-1')
 
@@ -52,6 +56,17 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       const team = prev[id]
       if (!team) return prev
       return { ...prev, [id]: { ...team, name } }
+    })
+  }
+
+  const importTeam = (teamId: string, importedTeam: Team) => {
+    setTeams((prev) => {
+      // Keep the original team ID but use imported data
+      const team = {
+        ...importedTeam,
+        id: teamId, // Preserve the slot ID (team-1, team-2, etc.)
+      }
+      return { ...prev, [teamId]: team }
     })
   }
 
@@ -135,6 +150,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
         currentTeamId,
         setCurrentTeam: setCurrentTeamId,
         updateTeamName,
+        importTeam,
         addUnit,
         updateUnit,
         updateMultipleUnits,
