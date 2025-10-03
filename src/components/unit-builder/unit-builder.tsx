@@ -8,6 +8,7 @@ import { AnimatedStatBar } from '../animated-stat-bar'
 import { GrowthSelect, LevelSelect } from './unit-select'
 import { getEquipmentSlots } from '@/core/helpers'
 import { EquipmentSearchModal } from '../equipment-builder/equipment-search-modal'
+import { SkillTacticsSection } from './skill-tactics-section'
 
 const UnitImage = ({
   imagePath,
@@ -32,7 +33,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
   const { chartData } = useChartData(unit)
 
   const [growthA, growthB] = unit.growths
-  
+
   const unitEquipmentSlotTypes = getEquipmentSlots(unit.class)
 
   if (!chartData) {
@@ -81,6 +82,10 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
             ))}
           </div>
         </div>
+        <SkillTacticsSection
+          unit={unit}
+          onUpdateUnit={(updates) => updateUnit(unit.id, updates)}
+        />
       </div>
       {/* column 2 */}
       <div className='flex-col flex-1 basis-xs space-y-3'>

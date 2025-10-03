@@ -7,10 +7,6 @@ interface SkillTacticsSectionProps {
   onUpdateUnit: (updates: Partial<Unit>) => void
 }
 
-/**
- * Main container component for skill and tactics configuration
- * Provides three-column layout: Skills | Tactics 1 | Tactics 2
- */
 export function SkillTacticsSection({
   unit,
   onUpdateUnit,

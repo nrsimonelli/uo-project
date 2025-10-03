@@ -7,16 +7,11 @@ interface SkillTacticsGridProps {
   skillSlotManager: ReturnType<typeof useSkillSlotManager>
 }
 
-/**
- * Grid component that manages skill slot rendering and ordering
- * Renders up to 10 skill rows with proper active-above-passive ordering
- */
 export function SkillTacticsGrid({ skillSlotManager }: SkillTacticsGridProps) {
   const { skillSlots, canAddMoreSkills } = skillSlotManager
 
   return (
     <div className='space-y-2'>
-      {/* Render existing skill slots */}
       {skillSlots.map((skillSlot, index) => (
         <SkillTacticsRow
           key={skillSlot.id}
@@ -26,7 +21,6 @@ export function SkillTacticsGrid({ skillSlotManager }: SkillTacticsGridProps) {
         />
       ))}
 
-      {/* Add Skill button - only show when slots are available */}
       {canAddMoreSkills && (
         <div className='grid grid-cols-3 gap-2'>
           <Button

@@ -8,10 +8,6 @@ interface UseSkillSelectionProps {
   unit: Unit
 }
 
-/**
- * Custom hook for managing skill selection and filtering logic
- * Handles skill filtering by type and search, and manages available skills calculation
- */
 export function useSkillSelection({ unit }: UseSkillSelectionProps) {
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')

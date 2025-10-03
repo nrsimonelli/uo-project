@@ -145,44 +145,34 @@ export function reorderSkill(
     return slots
   }
 
-  // Find the boundary between active and passive skills
   const passiveBoundary = slots.findIndex(
     (slot) => slot.skillType === 'passive'
   )
   const hasPassiveSkills = passiveBoundary !== -1
 
-  // Validate the move doesn't violate type boundaries
   if (movingSlot.skillType === 'active') {
-    // Active skills cannot be moved below passive skills
     if (hasPassiveSkills && toIndex >= passiveBoundary) {
       return slots
     }
   } else if (movingSlot.skillType === 'passive') {
-    // Passive skills cannot be moved above active skills
     if (hasPassiveSkills && toIndex < passiveBoundary) {
       return slots
     }
   }
 
-  // Perform the reorder
   const newSlots = [...slots]
   const [movedSlot] = newSlots.splice(fromIndex, 1)
   newSlots.splice(toIndex, 0, movedSlot)
 
-  // Update order values
   return newSlots.map((slot, index) => ({
     ...slot,
     order: index,
   }))
 }
 
-/**
- * Remove a skill slot from the array
- */
 export function removeSkill(slots: SkillSlot[], skillSlotId: string) {
   const newSlots = slots.filter((slot) => slot.id !== skillSlotId)
 
-  // Update order values
   return newSlots.map((slot, index) => ({
     ...slot,
     order: index,

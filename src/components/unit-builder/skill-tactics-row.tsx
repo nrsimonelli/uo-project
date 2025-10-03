@@ -12,10 +12,6 @@ interface SkillTacticsRowProps {
   skillSlotManager: ReturnType<typeof useSkillSlotManager>
 }
 
-/**
- * Individual row component for each skill slot
- * Displays skill information and provides controls for clear/reorder operations
- */
 export function SkillTacticsRow({
   skillSlot,
   index,
@@ -23,7 +19,6 @@ export function SkillTacticsRow({
 }: SkillTacticsRowProps) {
   const { removeSkillSlot, reorderSkillSlot, skillSlots } = skillSlotManager
 
-  // Find the skill data
   const skill = skillSlot.skillId
     ? [...ActiveSkills, ...PassiveSkills].find(
         (s) => s.id === skillSlot.skillId
@@ -53,23 +48,41 @@ export function SkillTacticsRow({
     <div className='grid grid-cols-3 gap-2 items-center'>
       {/* Skill Column */}
       <div className='flex items-center gap-2 p-2 border rounded-md bg-background'>
-        {skill ? (
-          <div className='flex-1 min-w-0'>
-            <div className='flex items-center gap-2'>
-              <span className='font-medium text-sm truncate'>{skill.name}</span>
-              <Badge
-                variant={skill.type === 'active' ? 'default' : 'secondary'}
-                className='text-xs'
-              >
-                {skill.type === 'active'
-                  ? `${skill?.ap ?? 'Unknown'} AP`
-                  : `${skill?.pp ?? 'Unknown'} PP`}
-              </Badge>
+        {skillSlot.skillId ? (
+          skill ? (
+            <div className='flex-1 min-w-0'>
+              <div className='flex items-center gap-2'>
+                <span className='font-medium text-sm truncate'>
+                  {skill.name}
+                </span>
+                <Badge
+                  variant={skill.type === 'active' ? 'default' : 'secondary'}
+                  className='text-xs'
+                >
+                  {skill.type === 'active'
+                    ? `${skill?.ap ?? 'Unknown'} AP`
+                    : `${skill?.pp ?? 'Unknown'} PP`}
+                </Badge>
+              </div>
+              <p className='text-xs text-muted-foreground truncate'>
+                {skill.description}
+              </p>
             </div>
-            <p className='text-xs text-muted-foreground truncate'>
-              {skill.description}
-            </p>
-          </div>
+          ) : (
+            <div className='flex-1 min-w-0'>
+              <div className='flex items-center gap-2'>
+                <span className='font-medium text-sm text-warning'>
+                  Skill data coming soon
+                </span>
+                <Badge variant='outline' className='text-xs'>
+                  {skillSlot.skillId}
+                </Badge>
+              </div>
+              <p className='text-xs text-muted-foreground'>
+                Skill ID: {skillSlot.skillId} - Data not yet available
+              </p>
+            </div>
+          )
         ) : (
           <div className='flex-1 text-sm text-muted-foreground'>Empty Slot</div>
         )}
