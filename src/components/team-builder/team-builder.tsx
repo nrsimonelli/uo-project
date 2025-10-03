@@ -76,7 +76,6 @@ export function TeamBuilder() {
 
   const handleImportTeam = (team: Team) => {
     importTeam(currentTeamId, team)
-    // Update selected unit to first unit in imported team
     const firstUnit = team.formation.find((unit) => unit !== null)
     setSelectedUnitId(firstUnit?.id)
   }
@@ -84,7 +83,6 @@ export function TeamBuilder() {
   const shouldShowAddUnit = filteredTeamFormation.length < 5
 
   // Will teams ever not be in order?
-  // Get teams in order (team-1 through team-6)
   const orderedTeams = Object.entries(teams).sort(([a], [b]) => {
     const numA = parseInt(a.split('-')[1])
     const numB = parseInt(b.split('-')[1])

@@ -19,12 +19,10 @@ const validateSkillReference = (skillId: string): boolean => {
 }
 
 const validateSkillSlot = (slot: SkillSlot): SkillSlot | null => {
-  // If no skill is assigned, the slot is valid
   if (!slot.skillId) {
     return slot
   }
 
-  // Validate that the skill exists
   if (!validateSkillReference(slot.skillId)) {
     console.warn(
       `Invalid skill reference: ${slot.skillId}. Removing from slot.`
@@ -45,7 +43,6 @@ const validateAndCleanUnit = (unit: Unit): Unit => {
     return { ...unit, skillSlots: [] }
   }
 
-  // Validate and clean skill slots
   const validatedSkillSlots = unit.skillSlots
     .map(validateSkillSlot)
     .filter((slot): slot is SkillSlot => slot !== null)
@@ -58,7 +55,6 @@ const validateAndCleanUnit = (unit: Unit): Unit => {
 
 // Schema migration functions for future compatibility
 const migrateTeamData = (data: unknown): TeamExportData => {
-  // Type guard to ensure data is an object
   if (!data || typeof data !== 'object') {
     throw new Error('Invalid data format')
   }
@@ -66,9 +62,7 @@ const migrateTeamData = (data: unknown): TeamExportData => {
   const dataObj = data as Record<string, unknown>
   let team: Team
 
-  // Handle different versions gracefully
   if (!dataObj.version) {
-    // Assume legacy format, try to migrate
     if (dataObj.team || dataObj.formation) {
       const legacyTeam = dataObj.team as Team | undefined
       team = legacyTeam || {
@@ -81,7 +75,6 @@ const migrateTeamData = (data: unknown): TeamExportData => {
       throw new Error('No valid team data found')
     }
   } else {
-    // Current version - use provided team data
     const teamData = dataObj.team as Team | undefined
     team = {
       id: teamData?.id || 'imported',
@@ -92,7 +85,6 @@ const migrateTeamData = (data: unknown): TeamExportData => {
     }
   }
 
-  // Validate and clean units in formation, ensuring skillSlots are handled
   const cleanedFormation = team.formation.map((unit: Unit | null) => {
     if (!unit) return null
     return validateAndCleanUnit(unit)
@@ -117,17 +109,14 @@ export function useTeamImportExport() {
       teamName: team.name,
       team: {
         ...team,
-        // Deep clone to avoid mutations and ensure clean export including skillSlots
         formation: team.formation.map((unit) => {
           if (!unit) return null
 
           return {
             ...unit,
-            // Ensure skillSlots are properly cloned
             skillSlots: unit.skillSlots
               ? unit.skillSlots.map((slot) => ({
                   ...slot,
-                  // Deep clone tactics array
                   tactics: [...slot.tactics] as [
                     (typeof slot.tactics)[0],
                     (typeof slot.tactics)[1]
@@ -151,7 +140,6 @@ export function useTeamImportExport() {
           const rawData = JSON.parse(jsonString)
           const migratedData = migrateTeamData(rawData)
 
-          // Basic validation - be lenient for future compatibility
           if (!migratedData.team) {
             throw new Error('No team data found in import')
           }
@@ -160,12 +148,10 @@ export function useTeamImportExport() {
             throw new Error('Invalid formation data')
           }
 
-          // Ensure formation has correct length, pad or truncate as needed
           const formation = [...migratedData.team.formation]
           while (formation.length < 6) formation.push(null)
           if (formation.length > 6) formation.splice(6)
 
-          // Validate units and their skill slots
           const validatedFormation = formation.map((unit: Unit | null) => {
             if (!unit) return null
 
@@ -173,7 +159,6 @@ export function useTeamImportExport() {
               return validateAndCleanUnit(unit)
             } catch (error) {
               console.warn(`Error validating unit ${unit.id}:`, error)
-              // Return unit with empty skillSlots if validation fails
               return { ...unit, skillSlots: [] }
             }
           })

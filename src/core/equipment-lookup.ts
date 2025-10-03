@@ -8,7 +8,6 @@ import { EquipmentGreatshield } from '@/generated/equipment-greatshield'
 import { EquipmentAccessory } from '@/generated/equipment-accessory'
 import type { Equipment } from '@/types/equipment'
 
-// Combine all equipment into a single lookup map
 const allEquipment = [
   ...EquipmentSword,
   ...EquipmentAxe,

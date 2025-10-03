@@ -17,12 +17,9 @@ export type ChartDatum = {
   rank: string
 }
 
-// type CombatStat = StatKey without Exp, Lv, and Move
 type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
 
-export function useChartData(
-  unit: Unit | null
-): {
+export function useChartData(unit: Unit | null): {
   chartData: ChartDatum[]
   baseStats: Record<CombatStat, number>
   totalStats: Record<CombatStat, number>

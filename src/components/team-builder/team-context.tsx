@@ -41,6 +41,13 @@ export function TeamProvider({ children }: { children: ReactNode }) {
 
   const [currentTeamId, setCurrentTeamId] = useState('team-1')
 
+  const ensureSkillSlots = (unit: Unit): Unit => {
+    if (!unit.skillSlots) {
+      return { ...unit, skillSlots: [] }
+    }
+    return unit
+  }
+
   const getIndex = ({ row, col }: Position) => row * COLS.length + col
 
   const modifyTeam = (teamId: string, updater: (team: Team) => Team) => {
@@ -61,10 +68,12 @@ export function TeamProvider({ children }: { children: ReactNode }) {
 
   const importTeam = (teamId: string, importedTeam: Team) => {
     setTeams((prev) => {
-      // Keep the original team ID but use imported data
       const team = {
         ...importedTeam,
-        id: teamId, // Preserve the slot ID (team-1, team-2, etc.)
+        id: teamId,
+        formation: importedTeam.formation.map((unit) =>
+          unit ? ensureSkillSlots(unit) : null
+        ),
       }
       return { ...prev, [teamId]: team }
     })
@@ -75,16 +84,26 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       const idx = getIndex(position)
       if (team.formation[idx]) throw new Error('Position occupied')
       const formation = [...team.formation]
-      formation[idx] = { ...unit, position }
+
+      const unitWithSkills = {
+        ...unit,
+        position,
+        skillSlots: unit.skillSlots || [],
+      }
+
+      formation[idx] = unitWithSkills
       return { ...team, formation }
     })
   }
 
   const updateUnit = (id: string, updates: Partial<Unit>) => {
     modifyTeam(currentTeamId, (team) => {
-      const formation = team.formation.map((u) =>
-        u && u.id === id ? { ...u, ...updates } : u
-      )
+      const formation = team.formation.map((u) => {
+        if (!u || u.id !== id) return u
+
+        const unitWithSkills = ensureSkillSlots(u)
+        return { ...unitWithSkills, ...updates }
+      })
       return { ...team, formation }
     })
   }
@@ -96,7 +115,10 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       const formation = team.formation.map((u) => {
         if (!u) return u
         const unitUpdate = updates.find((update) => update.id === u.id)
-        return unitUpdate ? { ...u, ...unitUpdate.updates } : u
+        if (!unitUpdate) return u
+
+        const unitWithSkills = ensureSkillSlots(u)
+        return { ...unitWithSkills, ...unitUpdate.updates }
       })
       return { ...team, formation }
     })
@@ -132,10 +154,8 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       const fromUnit = formation[fromIdx]
       const toUnit = formation[toIdx]
 
-      // both empty → no-op
       if (!fromUnit && !toUnit) return team
 
-      // ✅ update positions consistently
       formation[fromIdx] = toUnit ? { ...toUnit, position: from } : null
       formation[toIdx] = fromUnit ? { ...fromUnit, position: to } : null
 

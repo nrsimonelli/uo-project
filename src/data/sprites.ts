@@ -1,5 +1,4 @@
 import type { AllClassType } from '@/types/base-stats'
-// import each sprite from src/assets/sprites
 import Arbalist from '@/assets/sprites/Arbalist.png'
 import Berserker from '@/assets/sprites/Berserker.png'
 import Bishop from '@/assets/sprites/Bishop.png'

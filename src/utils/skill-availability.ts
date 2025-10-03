@@ -13,20 +13,15 @@ import {
 } from '@/generated/skills-passive'
 import { getEquipmentById } from '@/core/equipment-lookup'
 
-// Use the generated skill types directly
 type ActiveSkill = ActiveSkillsMapType[ActiveSkillsId]
 type PassiveSkill = PassiveSkillsMapType[PassiveSkillsId]
 
-// Define AvailableSkill interface here since we're using generated types
 export interface AvailableSkill {
   skill: ActiveSkill | PassiveSkill
   source: 'class' | 'equipment'
   level?: number // For class skills
 }
 
-/**
- * Get available class skills for a unit based on their class and level
- */
 export function getClassSkills(unit: Unit) {
   const classData = CLASS_DATA[unit.class]
 
@@ -37,11 +32,9 @@ export function getClassSkills(unit: Unit) {
   const availableSkills: AvailableSkill[] = []
 
   for (const classSkill of classData.skills) {
-    // Only include skills that the unit's level meets or exceeds
     if (unit.level >= classSkill.level) {
       let skill: ActiveSkill | PassiveSkill | undefined
 
-      // Look up the skill in the appropriate skill map
       if (classSkill.skillType === 'active') {
         skill =
           ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
@@ -63,9 +56,6 @@ export function getClassSkills(unit: Unit) {
   return availableSkills
 }
 
-/**
- * Get all available skills for a unit (combines class and equipment skills)
- */
 export function getAvailableSkills(unit: Unit) {
   const classSkills = getClassSkills(unit)
   const equipmentSkills = getEquipmentSkills(unit)
@@ -73,9 +63,6 @@ export function getAvailableSkills(unit: Unit) {
   return [...classSkills, ...equipmentSkills]
 }
 
-/**
- * Get available equipment skills for a unit based on their equipped items
- */
 export function getEquipmentSkills(unit: Unit) {
   const availableSkills: AvailableSkill[] = []
 
@@ -91,12 +78,9 @@ export function getEquipmentSkills(unit: Unit) {
 
     let skill: ActiveSkill | PassiveSkill | undefined
 
-    // Try to find the skill in active skills first
     if (equipment.skillId in ActiveSkillsMap) {
       skill = ActiveSkillsMap[equipment.skillId as keyof typeof ActiveSkillsMap]
-    }
-    // Then try passive skills
-    else if (equipment.skillId in PassiveSkillsMap) {
+    } else if (equipment.skillId in PassiveSkillsMap) {
       skill =
         PassiveSkillsMap[equipment.skillId as keyof typeof PassiveSkillsMap]
     }
@@ -105,7 +89,6 @@ export function getEquipmentSkills(unit: Unit) {
       availableSkills.push({
         skill,
         source: 'equipment',
-        // No level requirement for equipment skills
       })
     }
   }
@@ -113,26 +96,18 @@ export function getEquipmentSkills(unit: Unit) {
   return availableSkills
 }
 
-/**
- * Insert a skill into the skill slots array maintaining active-above-passive ordering
- */
 export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
-  // Find the insertion position based on skill type
   let insertIndex = 0
 
   if (newSkill.skill.type === 'active') {
-    // Active skills go after the last active skill
     insertIndex = slots.findIndex((slot) => slot.skillType === 'passive')
     if (insertIndex === -1) {
-      // No passive skills found, insert at the end
       insertIndex = slots.length
     }
   } else {
-    // Passive skills go at the end
     insertIndex = slots.length
   }
 
-  // Create new skill slot
   const newSlot: SkillSlot = {
     id: crypto.randomUUID(),
     skillId: newSkill.skill.id,
@@ -141,20 +116,15 @@ export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
     order: insertIndex,
   }
 
-  // Create new array with the skill inserted
   const newSlots = [...slots]
   newSlots.splice(insertIndex, 0, newSlot)
 
-  // Update order values for all slots
   return newSlots.map((slot, index) => ({
     ...slot,
     order: index,
   }))
 }
 
-/**
- * Reorder a skill slot while maintaining type boundary validation
- */
 export function reorderSkill(
   slots: SkillSlot[],
   fromIndex: number,

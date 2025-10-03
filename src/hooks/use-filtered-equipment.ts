@@ -30,7 +30,6 @@ export function useFilteredEquipment(
     const items = equipmentMap[slotType] || []
 
     return items.filter((item) => {
-      // Filter by search term
       if (
         searchTerm &&
         !item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,7 +37,6 @@ export function useFilteredEquipment(
         return false
       }
 
-      // Filter by class restrictions
       if (
         item.classRestrictions.length > 0 &&
         !(item.classRestrictions as readonly AllClassType[]).includes(unitClass)

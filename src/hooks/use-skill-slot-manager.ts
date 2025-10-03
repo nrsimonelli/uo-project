@@ -12,10 +12,6 @@ interface UseSkillSlotManagerProps {
   onUpdateUnit: (updates: Partial<Unit>) => void
 }
 
-/**
- * Custom hook for managing skill slots on a unit
- * Handles skill insertion, reordering, and removal while maintaining ordering constraints
- */
 export function useSkillSlotManager({
   unit,
   onUpdateUnit,
@@ -49,7 +45,6 @@ export function useSkillSlotManager({
     (fromIndex: number, toIndex: number) => {
       const newSkillSlots = reorderSkill(skillSlots, fromIndex, toIndex)
 
-      // Only update if the reorder was successful (array changed)
       if (newSkillSlots !== skillSlots) {
         onUpdateUnit({ skillSlots: newSkillSlots })
       }
