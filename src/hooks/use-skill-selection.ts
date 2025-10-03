@@ -1,0 +1,73 @@
+import { useState, useMemo } from 'react'
+import type { Unit } from '@/types/team'
+import { getAvailableSkills } from '@/utils/skill-availability'
+
+export type SkillTypeFilter = 'all' | 'active' | 'passive'
+
+interface UseSkillSelectionProps {
+  unit: Unit
+}
+
+/**
+ * Custom hook for managing skill selection and filtering logic
+ * Handles skill filtering by type and search, and manages available skills calculation
+ */
+export const useSkillSelection = ({ unit }: UseSkillSelectionProps) => {
+  const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Get all available skills for the unit
+  const availableSkills = useMemo(() => {
+    return getAvailableSkills(unit)
+  }, [unit])
+
+  // Separate skills by type for display purposes
+  const activeSkills = useMemo(() => {
+    return availableSkills.filter((skill) => skill.skill.type === 'active')
+  }, [availableSkills])
+
+  const passiveSkills = useMemo(() => {
+    return availableSkills.filter((skill) => skill.skill.type === 'passive')
+  }, [availableSkills])
+
+  // Filter skills based on type filter and search term
+  const filteredSkills = useMemo(() => {
+    let filtered = availableSkills
+
+    // Apply type filter
+    if (skillTypeFilter === 'active') {
+      filtered = activeSkills
+    } else if (skillTypeFilter === 'passive') {
+      filtered = passiveSkills
+    }
+
+    // Apply search filter
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase().trim()
+      filtered = filtered.filter(
+        (availableSkill) =>
+          availableSkill.skill.name.toLowerCase().includes(searchLower) ||
+          availableSkill.skill.description.toLowerCase().includes(searchLower)
+      )
+    }
+
+    return filtered
+  }, [
+    availableSkills,
+    activeSkills,
+    passiveSkills,
+    skillTypeFilter,
+    searchTerm,
+  ])
+
+  return {
+    availableSkills,
+    filteredSkills,
+    skillTypeFilter,
+    setSkillTypeFilter,
+    searchTerm,
+    setSearchTerm,
+    activeSkills,
+    passiveSkills,
+  }
+}

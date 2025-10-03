@@ -21,14 +21,14 @@ const allEquipment = [
 ] as unknown as Equipment[]
 
 const equipmentLookup: Record<string, Equipment> = {}
-allEquipment.forEach(item => {
+allEquipment.forEach((item) => {
   equipmentLookup[item.id] = item
 })
 
-export const getEquipmentById = (id: string): Equipment | null => {
+export const getEquipmentById = (id: string) => {
   return equipmentLookup[id] || null
 }
 
-export const getAllEquipment = (): Equipment[] => {
+export const getAllEquipment = () => {
   return allEquipment
 }
