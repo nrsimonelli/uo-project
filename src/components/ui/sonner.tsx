@@ -1,5 +1,6 @@
-import { useTheme } from '@/hooks/use-theme'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
+
+import { useTheme } from '@/hooks/use-theme'
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme } = useTheme()
@@ -7,7 +8,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       theme={theme as ToasterProps['theme']}
-      className='toaster group'
+      className="toaster group"
       style={
         {
           '--normal-bg': 'var(--popover)',

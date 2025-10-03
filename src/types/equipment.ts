@@ -1,7 +1,8 @@
-import type { ActiveSkillsId } from '@/generated/skills-active'
 import type { AllClassType, StatKey } from './base-stats'
-import type { PassiveSkillsId } from '@/generated/skills-passive'
 import type { AfflictionType } from './conditions'
+
+import type { ActiveSkillsId } from '@/generated/skills-active'
+import type { PassiveSkillsId } from '@/generated/skills-passive'
 
 // Temporary type to handle equipment skills that may not exist in skills files yet
 export type EquipmentSkillId = ActiveSkillsId | PassiveSkillsId | string

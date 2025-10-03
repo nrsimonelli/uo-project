@@ -1,15 +1,17 @@
-import { UNIVERSAL_STAT_TABLE } from '../data/universal-stat-table'
 import { COMBINED_CLASS_GROWTH_TABLE } from '../data/class-growth-table'
 import { GROWTH_RANKS } from '../data/constants'
 import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
 } from '../data/growth-correction-table'
+import { UNIVERSAL_STAT_TABLE } from '../data/universal-stat-table'
 import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
-import type { EquippedItem } from '@/types/equipment'
-import type { RandomNumberGeneratorType } from './random'
-import { clamp } from '@/lib/utils'
+
 import { getEquipmentById } from './equipment-lookup'
+import type { RandomNumberGeneratorType } from './random'
+
+import { clamp } from '@/lib/utils'
+import type { EquippedItem } from '@/types/equipment'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
 const initialStatData = {

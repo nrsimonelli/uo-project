@@ -1,4 +1,11 @@
+import { DialogTrigger } from '@radix-ui/react-dialog'
 import { Plus, Search } from 'lucide-react'
+
+import { Button } from '../ui/button'
+
+import { SkillList } from './skill-list'
+import { SkillTypeFilterComponent } from './skill-type-filter'
+
 import {
   Dialog,
   DialogContent,
@@ -10,10 +17,6 @@ import { useModalState } from '@/hooks/use-modal-state'
 import { useSkillSelection } from '@/hooks/use-skill-selection'
 import type { Unit } from '@/types/team'
 import type { AvailableSkill } from '@/utils/skill-availability'
-import { SkillTypeFilterComponent } from './skill-type-filter'
-import { SkillList } from './skill-list'
-import { DialogTrigger } from '@radix-ui/react-dialog'
-import { Button } from '../ui/button'
 
 interface SkillSelectionModalProps {
   unit: Unit
@@ -27,8 +30,15 @@ export function SkillSelectionModal({
   const { searchTerm, updateSearchTerm, open, setOpen, closeModal, openModal } =
     useModalState()
 
-  const { filteredSkills, skillTypeFilter, setSkillTypeFilter, setSearchTerm } =
-    useSkillSelection({ unit })
+  const {
+    availableSkills,
+    filteredSkills,
+    skillTypeFilter,
+    setSkillTypeFilter,
+    setSearchTerm,
+  } = useSkillSelection({ unit })
+
+  console.log(availableSkills)
 
   const handleSearchChange = (value: string) => {
     updateSearchTerm(value)
@@ -44,29 +54,29 @@ export function SkillSelectionModal({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant='outline'
-          size='sm'
-          className='justify-start'
+          variant="outline"
+          size="sm"
+          className="justify-start"
           onClick={openModal}
         >
-          <Plus className='size-4' />
+          <Plus className="size-4" />
           Add Skill
         </Button>
       </DialogTrigger>
-      <DialogContent className='max-w-2xl max-h-[80vh] flex flex-col'>
+      <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Select Skill</DialogTitle>
         </DialogHeader>
 
-        <div className='flex flex-col gap-4 flex-1 min-h-0'>
+        <div className="flex flex-col gap-4 flex-1 min-h-0">
           {/* Search Input */}
-          <div className='relative'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4' />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder='Search skills...'
+              placeholder="Search skills..."
               value={searchTerm}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className='pl-10'
+              onChange={e => handleSearchChange(e.target.value)}
+              className="pl-10"
             />
           </div>
 
@@ -77,7 +87,7 @@ export function SkillSelectionModal({
           />
 
           {/* Skills List */}
-          <div className='flex-1 min-h-0'>
+          <div className="flex-1 min-h-0">
             <SkillList
               skills={filteredSkills}
               onSkillSelect={handleSkillSelect}

@@ -6,9 +6,9 @@ interface LandingLayoutProps {
 
 export function LandingLayout({ children }: LandingLayoutProps) {
   return (
-    <div className='min-h-screen bg-background'>
+    <div className="min-h-screen bg-background">
       <TopNav />
-      <main className='pt-24'>{children}</main>
+      <main className="pt-24">{children}</main>
     </div>
   )
 }

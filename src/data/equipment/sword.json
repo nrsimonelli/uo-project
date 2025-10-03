@@ -105,9 +105,7 @@
       "EVA": 10
     },
     "skillId": "assassinsNail",
-    "nullifications": [
-      "Blindness"
-    ],
+    "nullifications": ["Blindness"],
     "classRestrictions": []
   },
   {
@@ -131,9 +129,7 @@
       "PATK": 21
     },
     "skillId": "grislyFire",
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -181,9 +177,7 @@
       "ACC": 20
     },
     "skillId": "icicleDart",
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -222,13 +216,8 @@
       "PP": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Debuff"
-    ],
-    "classRestrictions": [
-      "High Lord",
-      "Lord"
-    ]
+    "nullifications": ["Debuff"],
+    "classRestrictions": ["High Lord", "Lord"]
   },
   {
     "id": "huntersClaymore",
@@ -400,9 +389,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -424,9 +411,7 @@
       "PATK": 21
     },
     "skillId": "grislyPoison",
-    "nullifications": [
-      "Poison"
-    ],
+    "nullifications": ["Poison"],
     "classRestrictions": []
   },
   {
@@ -472,13 +457,8 @@
       "CRT": 15
     },
     "skillId": "artenieStrike",
-    "nullifications": [
-      "Poison"
-    ],
-    "classRestrictions": [
-      "Swordfighter",
-      "Swordmaster"
-    ]
+    "nullifications": ["Poison"],
+    "classRestrictions": ["Swordfighter", "Swordmaster"]
   },
   {
     "id": "sylphsBane",

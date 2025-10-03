@@ -8,9 +8,7 @@
       "CRT": 15
     },
     "skillId": null,
-    "nullifications": [
-      "PassiveSeal"
-    ],
+    "nullifications": ["PassiveSeal"],
     "classRestrictions": []
   },
   {
@@ -177,13 +175,8 @@
       "PATK": 18
     },
     "skillId": "flameJavelin",
-    "nullifications": [
-      "Burn"
-    ],
-    "classRestrictions": [
-      "Soldier",
-      "Sergeant"
-    ]
+    "nullifications": ["Burn"],
+    "classRestrictions": ["Soldier", "Sergeant"]
   },
   {
     "id": "generalsPike",
@@ -307,9 +300,7 @@
       "ACC": 20
     },
     "skillId": "eagleEye",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -359,9 +350,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -409,9 +398,7 @@
       "ACC": 20
     },
     "skillId": "icicleDart",
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -510,9 +497,7 @@
       "ACC": 10
     },
     "skillId": "eagleEye",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {

@@ -55,7 +55,7 @@ generateTsFile(
 // === Equipment ===
 const equipmentFiles = fs
   .readdirSync(equipmentDir)
-  .filter((f) => f.endsWith('.json'))
+  .filter(f => f.endsWith('.json'))
 
 for (const file of equipmentFiles) {
   const baseName = path.basename(file, '.json')

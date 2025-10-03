@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
-import type { EquipmentSlotType, EquippedItem } from '@/types/equipment'
-import type { AllClassType } from '@/types/base-stats'
-import type { Unit } from '@/types/team'
 import { useCallback } from 'react'
+
 import { useFilteredEquipment } from './use-filtered-equipment'
 import { useTeam, useCurrentTeam } from './use-team'
+
+import type { AllClassType } from '@/types/base-stats'
+import type { EquipmentSlotType, EquippedItem } from '@/types/equipment'
+import type { Unit } from '@/types/team'
 
 export interface EquippedByInfo {
   unitId: string
@@ -35,9 +37,9 @@ export function useEquipmentManager({
 
   const equippedItems = useMemo(() => {
     const equipped: Record<string, EquippedByInfo> = {}
-    team.formation.forEach((unit) => {
+    team.formation.forEach(unit => {
       if (unit) {
-        unit.equipment.forEach((equippedItem) => {
+        unit.equipment.forEach(equippedItem => {
           if (equippedItem.itemId) {
             equipped[equippedItem.itemId] = {
               unitId: unit.id,
@@ -52,9 +54,7 @@ export function useEquipmentManager({
   }, [team])
 
   const currentUnitEquippedItems = useMemo(() => {
-    const currentUnit = team.formation.find(
-      (unit) => unit?.id === currentUnitId
-    )
+    const currentUnit = team.formation.find(unit => unit?.id === currentUnitId)
 
     if (!currentUnit) return []
 
@@ -69,11 +69,11 @@ export function useEquipmentManager({
 
   const currentItem = useMemo(() => {
     if (!currentItemId) return null
-    return filteredItems.find((item) => item.id === currentItemId) || null
+    return filteredItems.find(item => item.id === currentItemId) || null
   }, [currentItemId, filteredItems])
 
   const validateAndGetCurrentUnit = useCallback(() => {
-    const currentUnit = team.formation.find((u) => u?.id === currentUnitId)
+    const currentUnit = team.formation.find(u => u?.id === currentUnitId)
     if (!currentUnit) {
       console.error(`Current unit not found: ${currentUnitId}`)
       return null
@@ -96,7 +96,7 @@ export function useEquipmentManager({
 
   const validateAndGetNewItem = useCallback(
     (itemId: string) => {
-      const newItem = filteredItems.find((item) => item.id === itemId)
+      const newItem = filteredItems.find(item => item.id === itemId)
       if (!newItem) {
         console.error(`Item not found: ${itemId}`)
         return null
@@ -120,10 +120,10 @@ export function useEquipmentManager({
   const findConflictingUnit = useCallback(
     (itemId: string) => {
       return team.formation.find(
-        (u) =>
+        u =>
           u &&
           u.id !== currentUnitId &&
-          u.equipment.some((eq) => eq.itemId === itemId)
+          u.equipment.some(eq => eq.itemId === itemId)
       )
     },
     [team, currentUnitId]
@@ -133,7 +133,7 @@ export function useEquipmentManager({
     (unit: Unit, itemId: string | null) => {
       if (!itemId) return true
 
-      const item = filteredItems.find((i) => i.id === itemId)
+      const item = filteredItems.find(i => i.id === itemId)
       return (
         !item ||
         item.classRestrictions.length === 0 ||

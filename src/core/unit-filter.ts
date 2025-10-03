@@ -1,9 +1,9 @@
-import type { Team } from '@/types/team'
 import {
   UNIQUE_CLASSES,
   EXCLUSIVE_GROUPS,
   ALL_CLASSES,
 } from '@/data/class-types'
+import type { Team } from '@/types/team'
 
 const CRITERIA_UNIQUES = [
   'Lord',
@@ -15,7 +15,7 @@ const CRITERIA_UNIQUES = [
 ]
 
 const UNIQUE_ONE_OFS = Object.values(UNIQUE_CLASSES).filter(
-  (x) => !CRITERIA_UNIQUES.includes(x)
+  x => !CRITERIA_UNIQUES.includes(x)
 ) as readonly string[]
 
 const CRUSADER_VALKYRIA_LIMITS = {
@@ -25,25 +25,23 @@ const CRUSADER_VALKYRIA_LIMITS = {
 
 export const filterUnits = (team: Team, searchTerm = ''): string[] => {
   const allUnits = Object.values(ALL_CLASSES)
-  const teamClasses = team.formation
-    .filter((u) => u !== null)
-    .map((u) => u.class)
+  const teamClasses = team.formation.filter(u => u !== null).map(u => u.class)
 
-  return allUnits.filter((unit) => {
+  return allUnits.filter(unit => {
     if (!unit.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false
     }
 
     for (const group of EXCLUSIVE_GROUPS) {
       if (group.includes(unit)) {
-        if (teamClasses.some((c) => group.includes(c))) {
+        if (teamClasses.some(c => group.includes(c))) {
           return false
         }
       }
     }
 
     if (unit in CRUSADER_VALKYRIA_LIMITS) {
-      const count = teamClasses.filter((c) => c === unit).length
+      const count = teamClasses.filter(c => c === unit).length
       if (
         count >=
         CRUSADER_VALKYRIA_LIMITS[unit as keyof typeof CRUSADER_VALKYRIA_LIMITS]
@@ -52,7 +50,7 @@ export const filterUnits = (team: Team, searchTerm = ''): string[] => {
       }
 
       if (unit === 'Valkyria') {
-        const crusaderCount = teamClasses.filter((c) => c === 'Crusader').length
+        const crusaderCount = teamClasses.filter(c => c === 'Crusader').length
         if (crusaderCount > 0 && count >= 1) return false
       }
     }

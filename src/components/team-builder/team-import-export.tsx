@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { Button } from '../ui/button'
 import { Copy, Upload, AlertCircle, CheckCircle, Clipboard } from 'lucide-react'
-import { useTeamImportExport } from '@/hooks/use-team-import-export'
-import type { Team } from '@/types/team'
+import { useState } from 'react'
+import { toast } from 'sonner'
+
+import { Alert, AlertDescription } from '../ui/alert'
+import { Button } from '../ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +11,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog'
-import { Alert, AlertDescription } from '../ui/alert'
-import { toast } from 'sonner'
 import { Textarea } from '../ui/textarea'
+
+import { useTeamImportExport } from '@/hooks/use-team-import-export'
+import type { Team } from '@/types/team'
 
 interface TeamImportExportProps {
   team: Team
@@ -76,7 +78,7 @@ export function TeamImportExport({
   }
 
   const handleImportJsonChange = (value: string) => {
-    setImportDialog((prev) => ({
+    setImportDialog(prev => ({
       ...prev,
       inputJson: value,
       error: undefined,
@@ -85,7 +87,7 @@ export function TeamImportExport({
 
   const handleParseJson = async () => {
     if (!importDialog.inputJson.trim()) {
-      setImportDialog((prev) => ({
+      setImportDialog(prev => ({
         ...prev,
         error: 'Please paste team JSON data',
       }))
@@ -94,14 +96,14 @@ export function TeamImportExport({
 
     try {
       const importData = await importTeam(importDialog.inputJson)
-      setImportDialog((prev) => ({
+      setImportDialog(prev => ({
         ...prev,
         step: 'preview',
         data: importData,
         error: undefined,
       }))
     } catch (error) {
-      setImportDialog((prev) => ({
+      setImportDialog(prev => ({
         ...prev,
         error: error instanceof Error ? error.message : 'Import failed',
       }))
@@ -119,7 +121,7 @@ export function TeamImportExport({
   }
 
   const handleBackToInput = () => {
-    setImportDialog((prev) => ({
+    setImportDialog(prev => ({
       ...prev,
       step: 'input',
       data: undefined,
@@ -131,31 +133,31 @@ export function TeamImportExport({
     setImportDialog({ open: false, step: 'input', inputJson: '' })
   }
 
-  const hasUnits = team.formation.some((unit) => unit !== null)
+  const hasUnits = team.formation.some(unit => unit !== null)
 
   return (
     <>
-      <div className='flex justify-end gap-2'>
+      <div className="flex justify-end gap-2">
         <Button
-          variant='outline'
-          size='sm'
+          variant="outline"
+          size="sm"
           onClick={handleExport}
           disabled={!hasUnits}
           title={hasUnits ? 'Export this team' : 'Add units to export team'}
         >
-          <Copy className='h-4 w-4 mr-1' />
+          <Copy className="h-4 w-4 mr-1" />
           Export JSON
         </Button>
 
-        <Button variant='outline' size='sm' onClick={handleImportClick}>
-          <Clipboard className='h-4 w-4 mr-1' />
+        <Button variant="outline" size="sm" onClick={handleImportClick}>
+          <Clipboard className="h-4 w-4 mr-1" />
           Import JSON
         </Button>
       </div>
 
       {/* Export Dialog */}
       <Dialog open={exportDialog} onOpenChange={setExportDialog}>
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Export Team</DialogTitle>
             <DialogDescription>
@@ -163,25 +165,25 @@ export function TeamImportExport({
             </DialogDescription>
           </DialogHeader>
 
-          <div className='space-y-4'>
-            <div className='space-y-2'>
-              <label htmlFor='export-json' className='text-sm font-medium'>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="export-json" className="text-sm font-medium">
                 Team JSON Data
               </label>
               <Textarea
-                id='export-json'
+                id="export-json"
                 value={exportedJson}
                 readOnly
-                className='min-h-[300px] font-mono text-sm'
+                className="min-h-[300px] font-mono text-sm"
               />
             </div>
 
-            <div className='flex gap-2 justify-end'>
-              <Button variant='outline' onClick={() => setExportDialog(false)}>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" onClick={() => setExportDialog(false)}>
                 Close
               </Button>
               <Button onClick={handleCopyToClipboard}>
-                <Copy className='h-4 w-4 mr-1' />
+                <Copy className="h-4 w-4 mr-1" />
                 Copy & Close
               </Button>
             </div>
@@ -192,9 +194,9 @@ export function TeamImportExport({
       {/* Import Dialog */}
       <Dialog
         open={importDialog.open}
-        onOpenChange={(open) => !open && handleCancelImport()}
+        onOpenChange={open => !open && handleCancelImport()}
       >
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>
               {importDialog.step === 'input' ? 'Import Team' : 'Confirm Import'}
@@ -207,59 +209,59 @@ export function TeamImportExport({
           </DialogHeader>
 
           {importDialog.step === 'input' ? (
-            <div className='space-y-4'>
-              <div className='space-y-2'>
-                <label htmlFor='import-json' className='text-sm font-medium'>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="import-json" className="text-sm font-medium">
                   Team JSON Data
                 </label>
                 <Textarea
-                  id='import-json'
+                  id="import-json"
                   value={importDialog.inputJson}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     handleImportJsonChange(e.target.value)
                   }
-                  placeholder='Paste team JSON data here...'
-                  className='min-h-[300px] font-mono text-sm'
+                  placeholder="Paste team JSON data here..."
+                  className="min-h-[300px] font-mono text-sm"
                 />
               </div>
 
               {importDialog.error && (
-                <Alert variant='destructive'>
-                  <AlertCircle className='h-4 w-4' />
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{importDialog.error}</AlertDescription>
                 </Alert>
               )}
 
-              <div className='flex gap-2 justify-end'>
-                <Button variant='outline' onClick={handleCancelImport}>
+              <div className="flex gap-2 justify-end">
+                <Button variant="outline" onClick={handleCancelImport}>
                   Cancel
                 </Button>
                 <Button
                   onClick={handleParseJson}
                   disabled={!importDialog.inputJson.trim()}
                 >
-                  <Upload className='h-4 w-4 mr-1' />
+                  <Upload className="h-4 w-4 mr-1" />
                   Parse & Preview
                 </Button>
               </div>
             </div>
           ) : importDialog.data ? (
-            <div className='space-y-4'>
+            <div className="space-y-4">
               <Alert>
-                <CheckCircle className='h-4 w-4' />
+                <CheckCircle className="h-4 w-4" />
                 <AlertDescription>
                   Team "{importDialog.data.teamName}" is ready to import.
                 </AlertDescription>
               </Alert>
 
-              <div className='space-y-2'>
-                <p className='text-sm font-medium'>Team Details:</p>
-                <div className='text-sm text-muted-foreground space-y-1'>
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Team Details:</p>
+                <div className="text-sm text-muted-foreground space-y-1">
                   <p>Name: {importDialog.data.team.name}</p>
                   <p>
                     Units:{' '}
                     {
-                      importDialog.data.team.formation.filter((u) => u !== null)
+                      importDialog.data.team.formation.filter(u => u !== null)
                         .length
                     }
                     /5
@@ -274,11 +276,11 @@ export function TeamImportExport({
                 </div>
               </div>
 
-              <div className='flex gap-2 justify-end'>
-                <Button variant='outline' onClick={handleBackToInput}>
+              <div className="flex gap-2 justify-end">
+                <Button variant="outline" onClick={handleBackToInput}>
                   Back
                 </Button>
-                <Button variant='outline' onClick={handleCancelImport}>
+                <Button variant="outline" onClick={handleCancelImport}>
                   Cancel
                 </Button>
                 <Button onClick={handleConfirmImport}>Import Team</Button>

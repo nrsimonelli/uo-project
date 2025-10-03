@@ -21,11 +21,7 @@
     },
     "skillId": "banishingSmite",
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "barbariansAxe",
@@ -132,10 +128,7 @@
     },
     "skillId": "desperation",
     "nullifications": [],
-    "classRestrictions": [
-      "Dark Knight",
-      "Doom Knight"
-    ]
+    "classRestrictions": ["Dark Knight", "Doom Knight"]
   },
   {
     "id": "dragonboneAxe",
@@ -170,9 +163,7 @@
       "PATK": 21
     },
     "skillId": "icyCrush",
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -270,14 +261,8 @@
       "CritDmg": 30
     },
     "skillId": "groundStrike",
-    "nullifications": [
-      "Stun"
-    ],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "nullifications": ["Stun"],
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "kingsAxeDrakenash",
@@ -313,11 +298,7 @@
     },
     "skillId": "powerfulImpact",
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "meteoriteAxe",
@@ -341,11 +322,7 @@
     },
     "skillId": "painfulSmash",
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "phantomKnightsAxe",
@@ -396,11 +373,7 @@
     },
     "skillId": null,
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "sacralAxe",
@@ -411,9 +384,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -459,11 +430,7 @@
     },
     "skillId": "spikedBlow",
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "steelAxe",
@@ -526,11 +493,7 @@
     },
     "skillId": null,
     "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    "classRestrictions": ["Warrior", "Breaker", "Werebear"]
   },
   {
     "id": "wingcrestAxe",

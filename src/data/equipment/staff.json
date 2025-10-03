@@ -60,12 +60,7 @@
     },
     "skillId": "holyCradle",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "carnatRod",
@@ -130,12 +125,7 @@
     },
     "skillId": "protection",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "defendersMace",
@@ -147,12 +137,7 @@
     },
     "skillId": "quickBarrier",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "dragonboneStaff",
@@ -176,10 +161,7 @@
     },
     "skillId": "sandstorm",
     "nullifications": [],
-    "classRestrictions": [
-      "Shaman",
-      "Druid"
-    ]
+    "classRestrictions": ["Shaman", "Druid"]
   },
   {
     "id": "einSeeker",
@@ -215,10 +197,7 @@
     },
     "skillId": "fireCurse",
     "nullifications": [],
-    "classRestrictions": [
-      "Shaman",
-      "Druid"
-    ]
+    "classRestrictions": ["Shaman", "Druid"]
   },
   {
     "id": "gleamingMace",
@@ -229,10 +208,7 @@
     },
     "skillId": "holySmite",
     "nullifications": [],
-    "classRestrictions": [
-      "Cleric",
-      "Bishop"
-    ]
+    "classRestrictions": ["Cleric", "Bishop"]
   },
   {
     "id": "grandMagusStaff",
@@ -274,12 +250,7 @@
     },
     "skillId": "reheal",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "icefallStaff",
@@ -303,9 +274,7 @@
       "EVA": 10
     },
     "skillId": "blizzard",
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": [
       "Wizard",
       "Warlock",
@@ -346,12 +315,7 @@
     },
     "skillId": "reincarnation",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "liberatorsStaff",
@@ -374,12 +338,7 @@
     },
     "skillId": "resurrection",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "lyricalWand",
@@ -391,12 +350,7 @@
     },
     "skillId": "activeHeal",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "meteoriteRod",
@@ -438,12 +392,7 @@
     },
     "skillId": "partingResurrection",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "papalCrosier",
@@ -456,12 +405,7 @@
     },
     "skillId": null,
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "pestilentStaff",
@@ -502,12 +446,7 @@
     },
     "skillId": "radiantHeal",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "poisonHexStaff",
@@ -518,10 +457,7 @@
     },
     "skillId": "poisonCurse",
     "nullifications": [],
-    "classRestrictions": [
-      "Shaman",
-      "Druid"
-    ]
+    "classRestrictions": ["Shaman", "Druid"]
   },
   {
     "id": "purifier",
@@ -532,12 +468,7 @@
     },
     "skillId": "sacredCure",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "quartzRod",
@@ -577,15 +508,8 @@
       "MATK": 21
     },
     "skillId": null,
-    "nullifications": [
-      "PassiveSeal"
-    ],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "nullifications": ["PassiveSeal"],
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "ringedStaff",
@@ -597,12 +521,7 @@
     },
     "skillId": "circleHeal",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "sacralRod",
@@ -613,9 +532,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -627,10 +544,7 @@
     },
     "skillId": "curseStrike",
     "nullifications": [],
-    "classRestrictions": [
-      "Shaman",
-      "Druid"
-    ]
+    "classRestrictions": ["Shaman", "Druid"]
   },
   {
     "id": "speedhexStaff",
@@ -641,10 +555,7 @@
     },
     "skillId": "hastenedCurse",
     "nullifications": [],
-    "classRestrictions": [
-      "Shaman",
-      "Druid"
-    ]
+    "classRestrictions": ["Shaman", "Druid"]
   },
   {
     "id": "spellsteelStaff",
@@ -667,12 +578,7 @@
     },
     "skillId": "doubleHeal",
     "nullifications": [],
-    "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "High Priestess",
-      "Priestess"
-    ]
+    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
   },
   {
     "id": "steelStaff",

@@ -1,4 +1,5 @@
 import { Button } from '../ui/button'
+
 import { SPRITES } from '@/data/sprites'
 
 interface UnitItemProps {
@@ -9,8 +10,8 @@ interface UnitItemProps {
 export function UnitItem({ unitName, onSelect }: UnitItemProps) {
   return (
     <Button
-      variant='ghost'
-      className='inline-flex justify-start w-full py-8'
+      variant="ghost"
+      className="inline-flex justify-start w-full py-8"
       onClick={() => onSelect(unitName)}
     >
       <img

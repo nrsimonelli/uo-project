@@ -1,65 +1,131 @@
 # ✅ TODO Checklist
 
-## 📂 Data & Types
+## 📂 Phase 1 - Core Framework ✅ COMPLETE
+
+### Data & Types ✅
 
 - [x] Enter **base stats**, **classes**, and **growths** into `data/`
-- [x] Define **core types** in `types/` (skills, conditions, combat flow)
-- [x] Create **codegen script** for skills (`scripts/generate-typess.ts`)
-- [-] Finalize **activation window** types
-- [ ] Build out **condition** types and variations
+- [x] Define **core types** in `types/` (skills, conditions, equipment, team)
+- [x] Create **codegen script** for skills and equipment (`scripts/generate-types.ts`)
+- [x] Finalize **activation window** types
+- [x] Build out **condition** types and variations
+- [x] Complete **equipment system** with all weapon/armor types
+- [x] Implement **skill and tactics** type system
+
+### Team Builder ✅
+
+- [x] Define **Team interface** (`types/team.ts`)
+- [x] Implement **team management** with multiple team support
+- [x] Create **team builder** component with drag & drop positioning
+- [x] Add **team import/export** functionality
+- [x] Build **unit search modal** with filtering
+- [x] Implement **editable team names**
+- [x] Add **isometric formation display**
+
+### Unit Builder ✅
+
+- [x] Define **Unit interface** and related types
+- [x] Implement **stat growth calculation** (`core/calculations.ts`)
+- [x] Create **unit factory** (`core/create-unit.ts`)
+- [x] Build **unit customization** interface
+- [x] Add **equipment management** with class restrictions
+- [x] Implement **skill & tactics system** (10 skills per unit, 2 tactics per skill)
+- [x] Create **skill selection modal** with filtering
+- [x] Add **real-time stat calculations** with equipment bonuses
+
+### Equipment System ✅
+
+- [x] Complete **equipment data** (swords, axes, lances, bows, staves, shields, accessories)
+- [x] Implement **equipment lookup** and filtering
+- [x] Add **equipment search modal** with stat filtering
+- [x] Create **equipment slot management**
+- [x] Build **equipment stat calculations**
+
+### Skills & Tactics ✅
+
+- [x] Finalize **ActiveSkill** and **PassiveSkill** models
+- [x] Add support for **hybrid damage** and complex effects
+- [x] Implement **skill availability** based on class and level
+- [x] Create **tactics system** with modifiers
+- [x] Build **skill slot manager** for equipping/unequipping
+- [x] Add **skill type filtering** (Active/Passive)
+
+### Code Quality & Development ✅
+
+- [x] Set up **ESLint** with TypeScript rules
+- [x] Configure **Prettier** for code formatting
+- [x] Implement **automated import sorting** with logical grouping
+- [x] Add **VS Code integration** for format-on-save
+- [x] Update **README** with development workflow
+- [x] Create **comprehensive project documentation**
 
 ---
 
-## 📂 Skills
+## 📂 Phase 1.5 - Battle Engine (IN PROGRESS)
 
-- [ ] Finalize **ActiveSkill** and **PassiveSkill** models in `types/skills.ts`
-- [ ] Add support for **hybrid damage** (physical + magical) in `skills.ts`
-- [ ] Expand **conditions.ts** with new categories (combatant type, prioritize rules)
-- [ ] Write sample **skills.json** entries (attack, heal, buff, conditional effect)
-- [ ] Validate generated `skills.ts` against schema
+### Battle System 🚧
 
----
-
-## 📂 Units
-
-- [ ] Define **Unit interface** (`types/unit.ts`)
-- [ ] Implement **stat growth calculation** (`utils/stats.ts`)
-- [ ] Create `unitFactory.ts` for generating units from base data
-- [ ] Add equipment hooks (empty placeholder for now)
-
----
-
-## 📂 Battle Engine
-
-- [ ] Implement **initiative order** (`engine/initiative.ts`)
-- [ ] Implement **action resolution** (`engine/actions.ts`)
+- [x] Start **battle engine** implementation (`core/battle-engine.ts`)
+- [ ] Complete **initiative order** calculation
+- [ ] Implement **action resolution** system
 - [ ] Add **RNG seed utilities** for deterministic outcomes
-- [ ] Hook up **condition evaluation** (`engine/conditions.ts`)
-- [ ] Create **battle log format** (`types/log.ts`)
-- [ ] Write minimal **simulateBattle.ts** (team vs. team, returns log)
+- [ ] Hook up **condition evaluation** for skills/tactics
+- [ ] Create **battle log format** (`types/battle-log.ts`)
+- [ ] Write **battle simulation** function (team vs. team)
+- [ ] Add **damage calculation** with equipment/skills
+- [ ] Implement **status effects** and **condition tracking**
+
+### Battle UI 🚧
+
+- [ ] Create **battle viewer** component
+- [ ] Add **battle controls** (start, pause, step-through)
+- [ ] Implement **battle log display**
+- [ ] Create **unit health/status** indicators
+- [ ] Add **formation visualization** during battle
 
 ---
 
-## 📂 Viewer & Teams
+## 📂 Phase 2 - Tournament System
 
-- [ ] Define **Team interface** (`types/team.ts`)
-- [ ] Implement `teamFactory.ts` (build team from JSON/config)
-- [ ] Basic **unit viewer** component (stats + skills)
-- [ ] Basic **team builder** component (add/remove/edit units)
+### Tournament Framework
 
----
+- [ ] Design **tournament bracket** system
+- [ ] Implement **asynchronous battle** processing
+- [ ] Create **tournament registration** interface
+- [ ] Add **bracket visualization**
+- [ ] Build **tournament results** display
 
-## 📂 Replays
+### Battle Replays
 
 - [ ] Log **actions & outcomes** into structured JSON
 - [ ] Add **replay parser** (`utils/replays.ts`)
-- [ ] Simple **replay viewer** (step through actions)
+- [ ] Create **replay viewer** (step through actions)
+- [ ] Implement **replay sharing** functionality
 
 ---
 
-## 📂 Phase 1 Completion Criteria
+## 📂 Phase 3+ - Advanced Features
 
-- [ ] User can create/edit two teams
-- [ ] Run `simulateBattle(teamA, teamB)` with deterministic results
-- [ ] Output replay log for match
-- [ ] Replay log can be replayed step-by-step
+### Custom Content
+
+- [ ] Add **custom class** creation
+- [ ] Implement **custom equipment** system
+- [ ] Create **mod support** framework
+
+### Game Modes
+
+- [ ] Design **rogue-like** mode
+- [ ] Implement **live PvP** system
+- [ ] Add **seasonal events**
+- [ ] Create **global leaderboards**
+
+---
+
+## 📂 Current Priority
+
+**Focus:** Complete Phase 1.5 Battle Engine
+
+- Finish battle simulation system
+- Add battle UI components
+- Test deterministic battle outcomes
+- Prepare for Phase 2 tournament system

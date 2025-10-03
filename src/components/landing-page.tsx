@@ -1,5 +1,7 @@
-import { Button } from './ui/button'
+import { UsersIcon, SwordIcon, ShieldIcon, TrendingUpIcon } from 'lucide-react'
 import { Link } from 'react-router'
+
+import { Button } from './ui/button'
 import {
   Card,
   CardContent,
@@ -7,27 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
-import { UsersIcon, SwordIcon, ShieldIcon, TrendingUpIcon } from 'lucide-react'
 
 export function LandingPage() {
   return (
-    <div className='space-y-16'>
+    <div className="space-y-16">
       {/* Hero Section */}
-      <section className='px-4 sm:px-6 lg:px-8'>
-        <div className='mx-auto max-w-4xl text-center'>
-          <h1 className='text-4xl font-bold tracking-tight sm:text-6xl'>
-            Master Your <span className='text-primary'>Unicorn Overlord</span>{' '}
+      <section className="px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+            Master Your <span className="text-primary">Unicorn Overlord</span>{' '}
             Strategy
           </h1>
-          <p className='mt-6 text-lg leading-8 text-muted-foreground'>
+          <p className="mt-6 text-lg leading-8 text-muted-foreground">
             Build optimal teams, manage equipment, and dominate the battlefield
             with our comprehensive planning tools for Unicorn Overlord.
           </p>
-          <div className='mt-10 flex items-center justify-center gap-x-6'>
-            <Button size='lg' asChild>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <Button size="lg" asChild>
               <Link to="/team-builder">Start Building Teams</Link>
             </Button>
-            <Button variant='outline' size='lg' asChild>
+            <Button variant="outline" size="lg" asChild>
               <Link to="/equipment-builder">Manage Equipment</Link>
             </Button>
           </div>
@@ -35,28 +36,28 @@ export function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className='px-4 sm:px-6 lg:px-8'>
-        <div className='mx-auto max-w-6xl'>
-          <div className='text-center'>
-            <h2 className='text-3xl font-bold tracking-tight'>
+      <section className="px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight">
               Everything You Need to Excel
             </h2>
-            <p className='mt-4 text-lg text-muted-foreground'>
+            <p className="mt-4 text-lg text-muted-foreground">
               Comprehensive tools to optimize your Unicorn Overlord experience
             </p>
           </div>
 
-          <div className='mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'>
+          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader>
-                <UsersIcon className='h-8 w-8 text-primary' />
+                <UsersIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Team Builder</CardTitle>
                 <CardDescription>
                   Create and manage up to 6 teams with optimal unit compositions
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant='outline' size='sm' asChild>
+                <Button variant="outline" size="sm" asChild>
                   <Link to="/team-builder">Build Teams</Link>
                 </Button>
               </CardContent>
@@ -64,14 +65,14 @@ export function LandingPage() {
 
             <Card>
               <CardHeader>
-                <SwordIcon className='h-8 w-8 text-primary' />
+                <SwordIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Equipment Manager</CardTitle>
                 <CardDescription>
                   Optimize equipment loadouts and track gear across your teams
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant='outline' size='sm' asChild>
+                <Button variant="outline" size="sm" asChild>
                   <Link to="/equipment-builder">Manage Gear</Link>
                 </Button>
               </CardContent>
@@ -79,14 +80,14 @@ export function LandingPage() {
 
             <Card>
               <CardHeader>
-                <ShieldIcon className='h-8 w-8 text-primary' />
+                <ShieldIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Class Analysis</CardTitle>
                 <CardDescription>
                   Deep dive into class abilities, skills, and optimal builds
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant='outline' size='sm' disabled>
+                <Button variant="outline" size="sm" disabled>
                   Coming Soon
                 </Button>
               </CardContent>
@@ -94,14 +95,14 @@ export function LandingPage() {
 
             <Card>
               <CardHeader>
-                <TrendingUpIcon className='h-8 w-8 text-primary' />
+                <TrendingUpIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Battle Calculator</CardTitle>
                 <CardDescription>
                   Calculate damage, effectiveness, and battle outcomes
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant='outline' size='sm' disabled>
+                <Button variant="outline" size="sm" disabled>
                   Coming Soon
                 </Button>
               </CardContent>
@@ -111,16 +112,16 @@ export function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className='px-4 sm:px-6 lg:px-8 pb-16'>
-        <div className='mx-auto max-w-4xl text-center'>
-          <h2 className='text-3xl font-bold tracking-tight'>
+      <section className="px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight">
             Ready to Dominate?
           </h2>
-          <p className='mt-4 text-lg text-muted-foreground'>
+          <p className="mt-4 text-lg text-muted-foreground">
             Start building your ultimate teams and equipment setups today
           </p>
-          <div className='mt-8'>
-            <Button size='lg' asChild>
+          <div className="mt-8">
+            <Button size="lg" asChild>
               <Link to="/team-builder">Get Started</Link>
             </Button>
           </div>

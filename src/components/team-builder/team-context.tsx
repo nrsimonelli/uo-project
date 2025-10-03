@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
-import { TeamContext } from '@/hooks/use-team'
+
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { TeamContext } from '@/hooks/use-team'
 import { COLS, type Position, type Team, type Unit } from '@/types/team'
 
 export interface TeamContextValue {
@@ -51,7 +52,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   const getIndex = ({ row, col }: Position) => row * COLS.length + col
 
   const modifyTeam = (teamId: string, updater: (team: Team) => Team) => {
-    setTeams((prev) => {
+    setTeams(prev => {
       const team = prev[teamId]
       if (!team) return prev
       return { ...prev, [teamId]: updater(team) }
@@ -59,7 +60,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   }
 
   const updateTeamName = (id: string, name: string) => {
-    setTeams((prev) => {
+    setTeams(prev => {
       const team = prev[id]
       if (!team) return prev
       return { ...prev, [id]: { ...team, name } }
@@ -67,11 +68,11 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   }
 
   const importTeam = (teamId: string, importedTeam: Team) => {
-    setTeams((prev) => {
+    setTeams(prev => {
       const team = {
         ...importedTeam,
         id: teamId,
-        formation: importedTeam.formation.map((unit) =>
+        formation: importedTeam.formation.map(unit =>
           unit ? ensureSkillSlots(unit) : null
         ),
       }
@@ -80,7 +81,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   }
 
   const addUnit = (unit: Unit, position: Position) => {
-    modifyTeam(currentTeamId, (team) => {
+    modifyTeam(currentTeamId, team => {
       const idx = getIndex(position)
       if (team.formation[idx]) throw new Error('Position occupied')
       const formation = [...team.formation]
@@ -97,8 +98,8 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   }
 
   const updateUnit = (id: string, updates: Partial<Unit>) => {
-    modifyTeam(currentTeamId, (team) => {
-      const formation = team.formation.map((u) => {
+    modifyTeam(currentTeamId, team => {
+      const formation = team.formation.map(u => {
         if (!u || u.id !== id) return u
 
         const unitWithSkills = ensureSkillSlots(u)
@@ -111,10 +112,10 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   const updateMultipleUnits = (
     updates: Array<{ id: string; updates: Partial<Unit> }>
   ) => {
-    modifyTeam(currentTeamId, (team) => {
-      const formation = team.formation.map((u) => {
+    modifyTeam(currentTeamId, team => {
+      const formation = team.formation.map(u => {
         if (!u) return u
-        const unitUpdate = updates.find((update) => update.id === u.id)
+        const unitUpdate = updates.find(update => update.id === u.id)
         if (!unitUpdate) return u
 
         const unitWithSkills = ensureSkillSlots(u)
@@ -125,28 +126,28 @@ export function TeamProvider({ children }: { children: ReactNode }) {
   }
 
   const removeUnit = (id: string) => {
-    modifyTeam(currentTeamId, (team) => {
-      const formation = team.formation.map((u) => (u?.id === id ? null : u))
+    modifyTeam(currentTeamId, team => {
+      const formation = team.formation.map(u => (u?.id === id ? null : u))
       return { ...team, formation }
     })
   }
 
   const moveUnit = (id: string, newPosition: Position) => {
-    modifyTeam(currentTeamId, (team) => {
+    modifyTeam(currentTeamId, team => {
       const idx = getIndex(newPosition)
       if (team.formation[idx]) throw new Error('New position occupied')
 
-      const unit = team.formation.find((u) => u?.id === id) ?? null
+      const unit = team.formation.find(u => u?.id === id) ?? null
       if (!unit) return team
 
-      const formation = team.formation.map((u) => (u?.id === id ? null : u))
+      const formation = team.formation.map(u => (u?.id === id ? null : u))
       formation[idx] = { ...unit, position: newPosition }
       return { ...team, formation }
     })
   }
 
   const swapUnits = (from: Position, to: Position) => {
-    modifyTeam(currentTeamId, (team) => {
+    modifyTeam(currentTeamId, team => {
       const fromIdx = getIndex(from)
       const toIdx = getIndex(to)
 

@@ -201,10 +201,13 @@ export const ACTIVATION_WINDOWS = {
 export const ActivationWindowById: Record<
   ActivationWindowId,
   ActivationWindowMeta
-> = Object.values(ACTIVATION_WINDOWS).reduce((accumulator, meta) => {
-  accumulator[meta.id] = meta
-  return accumulator
-}, {} as Record<ActivationWindowId, ActivationWindowMeta>)
+> = Object.values(ACTIVATION_WINDOWS).reduce(
+  (accumulator, meta) => {
+    accumulator[meta.id] = meta
+    return accumulator
+  },
+  {} as Record<ActivationWindowId, ActivationWindowMeta>
+)
 
 export type ActivationWindowKey = keyof typeof ACTIVATION_WINDOWS
 export type ActivationWindowId =

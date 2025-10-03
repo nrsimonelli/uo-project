@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import type { Unit } from '@/types/team'
+
 import { IsometricFormationBase } from './isometric-formation-base'
+
+import type { Unit } from '@/types/team'
 
 export function IsometricFormationBuilder({
   formation,
@@ -27,7 +29,7 @@ export function IsometricFormationBuilder({
   }
 
   return (
-    <div className='relative'>
+    <div className="relative">
       <IsometricFormationBase
         formation={formation}
         orientation={orientation}

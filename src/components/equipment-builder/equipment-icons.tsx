@@ -8,6 +8,7 @@ import {
   ShieldMinus,
   Torus,
 } from 'lucide-react'
+
 import type { EquipmentSlotType } from '@/types/equipment'
 
 // Equipment slot icon mapping

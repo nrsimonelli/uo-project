@@ -1,5 +1,5 @@
-import type { GROWTH_RANKS, GROWTHS, STATS } from '../data/constants'
 import { ADVANCED_CLASSES, BASE_CLASSES } from '../data/class-types'
+import type { GROWTH_RANKS, GROWTHS, STATS } from '../data/constants'
 
 export type GrowthKey = keyof typeof GROWTHS
 export type GrowthType = (typeof GROWTHS)[GrowthKey]

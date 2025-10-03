@@ -1,4 +1,5 @@
 import type { ActivationWindowId } from '../data/activation-windows'
+
 import type { DamageType, Targeting } from './core'
 import type { Effect } from './effects'
 import type { Tactic } from './tactics'

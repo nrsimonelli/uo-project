@@ -5,6 +5,7 @@ import {
   PolarGrid,
   PolarRadiusAxis,
 } from 'recharts'
+
 import {
   ChartContainer,
   ChartTooltip,
@@ -40,18 +41,18 @@ export function RadarGraph({ chartData }: RadarGraphProps) {
   return (
     <ChartContainer
       config={chartConfig}
-      className='mx-auto aspect-square max-h-[250px]'
+      className="mx-auto aspect-square max-h-[250px]"
     >
       <RadarChart data={chartData}>
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent indicator='line' />}
+          content={<ChartTooltipContent indicator="line" />}
         />
-        <PolarAngleAxis dataKey='stat' />
-        <PolarRadiusAxis domain={[0, 200]} stroke='rgba(0,0,0,0)' />
+        <PolarAngleAxis dataKey="stat" />
+        <PolarRadiusAxis domain={[0, 200]} stroke="rgba(0,0,0,0)" />
         <PolarGrid />
-        <Radar dataKey='growth' fill='var(--color-growth)' fillOpacity={0.6} />
-        <Radar dataKey='total' fill='var(--color-total)' fillOpacity={1} />
+        <Radar dataKey="growth" fill="var(--color-growth)" fillOpacity={0.6} />
+        <Radar dataKey="total" fill="var(--color-total)" fillOpacity={1} />
       </RadarChart>
     </ChartContainer>
   )

@@ -1,5 +1,6 @@
-import type { AllClassType, BaseClassType } from '@/types/base-stats'
 import { ALL_CLASSES } from './class-types'
+
+import type { AllClassType, BaseClassType } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'
 
 export interface ClassSkillEntry {

@@ -3,610 +3,590 @@
 
 export const EquipmentSword = [
   {
-    "id": "banditLongsword",
-    "name": "Bandit Longsword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 18,
-      "INIT": 3,
-      "EVA": 10,
-      "GoldGainPercent": 100
+    id: 'banditLongsword',
+    name: 'Bandit Longsword',
+    type: 'Sword',
+    stats: {
+      PATK: 18,
+      INIT: 3,
+      EVA: 10,
+      GoldGainPercent: 100,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "barbariansMight",
-    "name": "Barbarian's Might",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "MaxHP": 5
+    id: 'barbariansMight',
+    name: "Barbarian's Might",
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      MaxHP: 5,
     },
-    "skillId": "provokingSlash",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'provokingSlash',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "baroqueSword",
-    "name": "Baroque Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 13,
-      "ACC": 5
+    id: 'baroqueSword',
+    name: 'Baroque Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 13,
+      ACC: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "blackIronSword",
-    "name": "Black iron Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 17,
-      "CRT": 5
+    id: 'blackIronSword',
+    name: 'Black iron Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 17,
+      CRT: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "bronzeSword",
-    "name": "Bronze Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 8
+    id: 'bronzeSword',
+    name: 'Bronze Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 8,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "carnatSword",
-    "name": "Carnat Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 19,
-      "INIT": 2
+    id: 'carnatSword',
+    name: 'Carnat Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 19,
+      INIT: 2,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "carnelianBlade",
-    "name": "Carnelian Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21,
-      "AP": 1
+    id: 'carnelianBlade',
+    name: 'Carnelian Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 21,
+      AP: 1,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "crimsonEpee",
-    "name": "Crimson Epee",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "INIT": 3
+    id: 'crimsonEpee',
+    name: 'Crimson Epee',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      INIT: 3,
     },
-    "skillId": "activeShatter",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'activeShatter',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "cutthroatsBoon",
-    "name": "Cutthroat's Boon",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21,
-      "EVA": 10
+    id: 'cutthroatsBoon',
+    name: "Cutthroat's Boon",
+    type: 'Sword',
+    stats: {
+      PATK: 21,
+      EVA: 10,
     },
-    "skillId": "assassinsNail",
-    "nullifications": [
-      "Blindness"
-    ],
-    "classRestrictions": []
+    skillId: 'assassinsNail',
+    nullifications: ['Blindness'],
+    classRestrictions: [],
   },
   {
-    "id": "dragonboneBlade",
-    "name": "Dragonbone Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 15,
-      "PP": 1,
-      "INIT": -10
+    id: 'dragonboneBlade',
+    name: 'Dragonbone Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 15,
+      PP: 1,
+      INIT: -10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "flamberge",
-    "name": "Flamberge",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21
+    id: 'flamberge',
+    name: 'Flamberge',
+    type: 'Sword',
+    stats: {
+      PATK: 21,
     },
-    "skillId": "grislyFire",
-    "nullifications": [
-      "Burn"
-    ],
-    "classRestrictions": []
+    skillId: 'grislyFire',
+    nullifications: ['Burn'],
+    classRestrictions: [],
   },
   {
-    "id": "galecutter",
-    "name": "Galecutter",
-    "type": "Sword",
-    "stats": {
-      "PATK": 22,
-      "EVA": 20
+    id: 'galecutter',
+    name: 'Galecutter',
+    type: 'Sword',
+    stats: {
+      PATK: 22,
+      EVA: 20,
     },
-    "skillId": "doubleBlast",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'doubleBlast',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "greatsword",
-    "name": "Greatsword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 25
+    id: 'greatsword',
+    name: 'Greatsword',
+    type: 'Sword',
+    stats: {
+      PATK: 25,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "greatwoodSword",
-    "name": "Greatwood Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 8,
-      "MATK": 16,
-      "MDEF": 3
+    id: 'greatwoodSword',
+    name: 'Greatwood Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 8,
+      MATK: 16,
+      MDEF: 3,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "hailstormEdge",
-    "name": "Hailstorm Edge",
-    "type": "Sword",
-    "stats": {
-      "PATK": 20,
-      "ACC": 20
+    id: 'hailstormEdge',
+    name: 'Hailstorm Edge',
+    type: 'Sword',
+    stats: {
+      PATK: 20,
+      ACC: 20,
     },
-    "skillId": "icicleDart",
-    "nullifications": [
-      "Freeze"
-    ],
-    "classRestrictions": []
+    skillId: 'icicleDart',
+    nullifications: ['Freeze'],
+    classRestrictions: [],
   },
   {
-    "id": "hallowedBlade",
-    "name": "Hallowed Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "OnActiveHealPercent": 10,
-      "MaxHP": 5
+    id: 'hallowedBlade',
+    name: 'Hallowed Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      OnActiveHealPercent: 10,
+      MaxHP: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "heavenswingSword",
-    "name": "Heavenswing Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 16,
-      "ACC": 10,
-      "EVA": 10
+    id: 'heavenswingSword',
+    name: 'Heavenswing Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 16,
+      ACC: 10,
+      EVA: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "holyUnicornBlade",
-    "name": "Holy Unicorn Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 28,
-      "AP": 1,
-      "PP": 1
+    id: 'holyUnicornBlade',
+    name: 'Holy Unicorn Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 28,
+      AP: 1,
+      PP: 1,
     },
-    "skillId": null,
-    "nullifications": [
-      "Debuff"
-    ],
-    "classRestrictions": [
-      "High Lord",
-      "Lord"
-    ]
+    skillId: null,
+    nullifications: ['Debuff'],
+    classRestrictions: ['High Lord', 'Lord'],
   },
   {
-    "id": "huntersClaymore",
-    "name": "Hunter's Claymore",
-    "type": "Sword",
-    "stats": {
-      "PATK": 22,
-      "followUpPotency": 20,
-      "CRT": 10
+    id: 'huntersClaymore',
+    name: "Hunter's Claymore",
+    type: 'Sword',
+    stats: {
+      PATK: 22,
+      followUpPotency: 20,
+      CRT: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "icefallBlade",
-    "name": "Icefall Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 19,
-      "PP": 1,
-      "GRD": -20
+    id: 'icefallBlade',
+    name: 'Icefall Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 19,
+      PP: 1,
+      GRD: -20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "ironSword",
-    "name": "Iron Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 15
+    id: 'ironSword',
+    name: 'Iron Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 15,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "kingsbladeCornix",
-    "name": "Kingsblade Cornix",
-    "type": "Sword",
-    "stats": {
-      "PATK": 15,
-      "AllStats": 5
+    id: 'kingsbladeCornix',
+    name: 'Kingsblade Cornix',
+    type: 'Sword',
+    stats: {
+      PATK: 15,
+      AllStats: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "meteoriteSword",
-    "name": "Meteorite Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 24,
-      "MaxHP": 20,
-      "GRD": 10
+    id: 'meteoriteSword',
+    name: 'Meteorite Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 24,
+      MaxHP: 20,
+      GRD: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "moonlightRapier",
-    "name": "Moonlight Rapier",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21
+    id: 'moonlightRapier',
+    name: 'Moonlight Rapier',
+    type: 'Sword',
+    stats: {
+      PATK: 21,
     },
-    "skillId": "nocturnalStrike",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'nocturnalStrike',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "notosSword",
-    "name": "Notos' Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 25,
-      "AP": 1,
-      "INIT": 10,
-      "EVA": 10
+    id: 'notosSword',
+    name: "Notos' Sword",
+    type: 'Sword',
+    stats: {
+      PATK: 25,
+      AP: 1,
+      INIT: 10,
+      EVA: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "phantomKnightsSword",
-    "name": "Phantom Knight's Sword",
-    "type": "Sword",
-    "stats": {
-      "MATK": 16,
-      "MDEF": 5
+    id: 'phantomKnightsSword',
+    name: "Phantom Knight's Sword",
+    type: 'Sword',
+    stats: {
+      MATK: 16,
+      MDEF: 5,
     },
-    "skillId": "phantomAttack",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'phantomAttack',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "pursuantsBlade",
-    "name": "Pursuant's Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 20
+    id: 'pursuantsBlade',
+    name: "Pursuant's Blade",
+    type: 'Sword',
+    stats: {
+      PATK: 20,
     },
-    "skillId": "pursuit",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'pursuit',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "recruitsShortsword",
-    "name": "Recruit's Shortsword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 11,
-      "MaxHP": 3,
-      "ExpGainPercent": 20
+    id: 'recruitsShortsword',
+    name: "Recruit's Shortsword",
+    type: 'Sword',
+    stats: {
+      PATK: 11,
+      MaxHP: 3,
+      ExpGainPercent: 20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "roseKnightSword",
-    "name": "Rose Knight Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "INIT": 3,
-      "ACC": 10
+    id: 'roseKnightSword',
+    name: 'Rose Knight Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      INIT: 3,
+      ACC: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "royalSaber",
-    "name": "Royal Saber",
-    "type": "Sword",
-    "stats": {
-      "PATK": 18,
-      "INIT": 5
+    id: 'royalSaber',
+    name: 'Royal Saber',
+    type: 'Sword',
+    stats: {
+      PATK: 18,
+      INIT: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "runicSword",
-    "name": "Runic Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 8,
-      "MATK": 14,
-      "MDEF": 3
+    id: 'runicSword',
+    name: 'Runic Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 8,
+      MATK: 14,
+      MDEF: 3,
     },
-    "skillId": "magicAttack",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'magicAttack',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "sacralSword",
-    "name": "Sacral Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 25,
-      "OnActiveHealPercent": 20
+    id: 'sacralSword',
+    name: 'Sacral Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 25,
+      OnActiveHealPercent: 20,
     },
-    "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: ['Affliction'],
+    classRestrictions: [],
   },
   {
-    "id": "sanguineBlade",
-    "name": "Sanguine Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 16
+    id: 'sanguineBlade',
+    name: 'Sanguine Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 16,
     },
-    "skillId": "sanguineAttack",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'sanguineAttack',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "scorpionsSting",
-    "name": "Scorpion's Sting",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21
+    id: 'scorpionsSting',
+    name: "Scorpion's Sting",
+    type: 'Sword',
+    stats: {
+      PATK: 21,
     },
-    "skillId": "grislyPoison",
-    "nullifications": [
-      "Poison"
-    ],
-    "classRestrictions": []
+    skillId: 'grislyPoison',
+    nullifications: ['Poison'],
+    classRestrictions: [],
   },
   {
-    "id": "searingRapier",
-    "name": "Searing Rapier",
-    "type": "Sword",
-    "stats": {
-      "PATK": 15
+    id: 'searingRapier',
+    name: 'Searing Rapier',
+    type: 'Sword',
+    stats: {
+      PATK: 15,
     },
-    "skillId": "fireSlash",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'fireSlash',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "spellsteelSword",
-    "name": "Spellsteel Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 9,
-      "MATK": 18
+    id: 'spellsteelSword',
+    name: 'Spellsteel Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 9,
+      MATK: 18,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "steelSword",
-    "name": "Steel Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 22
+    id: 'steelSword',
+    name: 'Steel Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 22,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "stingray",
-    "name": "Stingray",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "CRT": 15
+    id: 'stingray',
+    name: 'Stingray',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      CRT: 15,
     },
-    "skillId": "artenieStrike",
-    "nullifications": [
-      "Poison"
-    ],
-    "classRestrictions": [
-      "Swordfighter",
-      "Swordmaster"
-    ]
+    skillId: 'artenieStrike',
+    nullifications: ['Poison'],
+    classRestrictions: ['Swordfighter', 'Swordmaster'],
   },
   {
-    "id": "sylphsBane",
-    "name": "Sylph's Bane",
-    "type": "Sword",
-    "stats": {
-      "PATK": 16,
-      "EVA": 10
+    id: 'sylphsBane',
+    name: "Sylph's Bane",
+    type: 'Sword',
+    stats: {
+      PATK: 16,
+      EVA: 10,
     },
-    "skillId": "sonicBlast",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'sonicBlast',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "templarsSword",
-    "name": "Templar's Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 15,
-      "PDEF": 1,
-      "GRD": 5
+    id: 'templarsSword',
+    name: "Templar's Sword",
+    type: 'Sword',
+    stats: {
+      PATK: 15,
+      PDEF: 1,
+      GRD: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "thornBlade",
-    "name": "Thorn Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 17,
-      "PP": 1,
-      "MaxHP": -15
+    id: 'thornBlade',
+    name: 'Thorn Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 17,
+      PP: 1,
+      MaxHP: -15,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "viperfang",
-    "name": "Viperfang",
-    "type": "Sword",
-    "stats": {
-      "PATK": 12
+    id: 'viperfang',
+    name: 'Viperfang',
+    type: 'Sword',
+    stats: {
+      PATK: 12,
     },
-    "skillId": "poisonSlash",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'poisonSlash',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "vorpalSword",
-    "name": "Vorpal Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 23,
-      "MaxHP": 5,
-      "INIT": 3
+    id: 'vorpalSword',
+    name: 'Vorpal Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 23,
+      MaxHP: 5,
+      INIT: 3,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "wingcrestBlade",
-    "name": "Wingcrest Blade",
-    "type": "Sword",
-    "stats": {
-      "PATK": 21,
-      "PP": 1,
-      "CRT": -20
+    id: 'wingcrestBlade',
+    name: 'Wingcrest Blade',
+    type: 'Sword',
+    stats: {
+      PATK: 21,
+      PP: 1,
+      CRT: -20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "wyvernRazor",
-    "name": "Wyvern Razor",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "CRT": 10,
-      "CritDmg": 20
+    id: 'wyvernRazor',
+    name: 'Wyvern Razor',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      CRT: 10,
+      CritDmg: 20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "zenoriranSword",
-    "name": "Zenoriran Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 14,
-      "MaxHP": 10,
-      "PDEF": 2,
-      "MDEF": 2
+    id: 'zenoriranSword',
+    name: 'Zenoriran Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 14,
+      MaxHP: 10,
+      PDEF: 2,
+      MDEF: 2,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "zenorianKnightsSword",
-    "name": "Zenorian Knight's Sword",
-    "type": "Sword",
-    "stats": {
-      "PATK": 20,
-      "MaxHP": 15,
-      "PDEF": 4,
-      "MDEF": 4
+    id: 'zenorianKnightsSword',
+    name: "Zenorian Knight's Sword",
+    type: 'Sword',
+    stats: {
+      PATK: 20,
+      MaxHP: 15,
+      PDEF: 4,
+      MDEF: 4,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
-  }
-] as const;
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
+  },
+] as const
 
-export type EquipmentSwordId = (typeof EquipmentSword)[number]["id"];
+export type EquipmentSwordId = (typeof EquipmentSword)[number]['id']
 
 export type EquipmentSwordMap = {
-  [K in EquipmentSwordId]: Extract<(typeof EquipmentSword)[number], { id: K }>;
-};
+  [K in EquipmentSwordId]: Extract<(typeof EquipmentSword)[number], { id: K }>
+}
 
 export const EquipmentSwordMap: EquipmentSwordMap = Object.fromEntries(
   EquipmentSword.map(item => [item.id, item])
-) as EquipmentSwordMap;
+) as EquipmentSwordMap

@@ -3,192 +3,193 @@
 
 export const ActiveSkills = [
   {
-    "id": "ironCrusher",
-    "type": "active",
-    "name": "Iron Crusher",
-    "description": "Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.",
-    "ap": 1,
-    "targeting": {
-      "group": "Enemy",
-      "pattern": "Single"
+    id: 'ironCrusher',
+    type: 'active',
+    name: 'Iron Crusher',
+    description:
+      'Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.',
+    ap: 1,
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
     },
-    "damageType": "Physical",
-    "effects": [
+    damageType: 'Physical',
+    effects: [
       {
-        "kind": "Damage",
-        "potency": {
-          "physical": 100
+        kind: 'Damage',
+        potency: {
+          physical: 100,
         },
-        "hitRate": 100,
-        "hitCount": 1,
-        "flags": [
-          "Unguardable"
-        ]
+        hitRate: 100,
+        hitCount: 1,
+        flags: ['Unguardable'],
       },
       {
-        "kind": "IgnoreDefense",
-        "fraction": 0.5,
-        "conditions": [
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+        conditions: [
           {
-            "kind": "CombatantType",
-            "target": "Enemy",
-            "combatantType": "Armored",
-            "comparator": "EqualTo"
-          }
-        ]
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Armored',
+            comparator: 'EqualTo',
+          },
+        ],
       },
       {
-        "kind": "PotencyBoost",
-        "amount": {
-          "physical": 50
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
         },
-        "conditions": [
+        conditions: [
           {
-            "kind": "CombatantType",
-            "target": "Enemy",
-            "combatantType": "Armored",
-            "comparator": "EqualTo"
-          }
-        ]
-      }
-    ]
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Armored',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
   },
   {
-    "id": "heavySlash",
-    "type": "active",
-    "name": "Heavy Slash",
-    "description": "Attack a single enemy with high potency.",
-    "ap": 1,
-    "targeting": {
-      "group": "Enemy",
-      "pattern": "Single"
+    id: 'heavySlash',
+    type: 'active',
+    name: 'Heavy Slash',
+    description: 'Attack a single enemy with high potency.',
+    ap: 1,
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
     },
-    "damageType": "Physical",
-    "effects": [
+    damageType: 'Physical',
+    effects: [
       {
-        "kind": "Damage",
-        "potency": {
-          "physical": 150
+        kind: 'Damage',
+        potency: {
+          physical: 150,
         },
-        "hitRate": 100,
-        "hitCount": 1
-      }
-    ]
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
   },
   {
-    "id": "leanEdge",
-    "type": "active",
-    "name": "Lean Edge",
-    "description": "Attack a single enemy. Recover 25% HP if attack hits and another 25% HP if target is defeated.",
-    "ap": 1,
-    "targeting": {
-      "group": "Enemy",
-      "pattern": "Single"
+    id: 'leanEdge',
+    type: 'active',
+    name: 'Lean Edge',
+    description:
+      'Attack a single enemy. Recover 25% HP if attack hits and another 25% HP if target is defeated.',
+    ap: 1,
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
     },
-    "damageType": "Physical",
-    "effects": [
+    damageType: 'Physical',
+    effects: [
       {
-        "kind": "Damage",
-        "potency": {
-          "physical": 100
+        kind: 'Damage',
+        potency: {
+          physical: 100,
         },
-        "hitRate": 100,
-        "hitCount": 1
+        hitRate: 100,
+        hitCount: 1,
       },
       {
-        "kind": "HealPercent",
-        "value": 25,
-        "applyTo": "User",
-        "conditions": [
+        kind: 'HealPercent',
+        value: 25,
+        applyTo: 'User',
+        conditions: [
           {
-            "kind": "HitCheck",
-            "comparator": "EqualTo",
-            "value": true
-          }
-        ]
+            kind: 'HitCheck',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
       },
       {
-        "kind": "HealPercent",
-        "value": 25,
-        "applyTo": "User",
-        "conditions": [
+        kind: 'HealPercent',
+        value: 25,
+        applyTo: 'User',
+        conditions: [
           {
-            "kind": "TargetDefeated",
-            "comparator": "EqualTo",
-            "value": true
-          }
-        ]
-      }
-    ]
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
   },
   {
-    "id": "verticalEdge",
-    "type": "active",
-    "name": "Vertical Edge",
-    "description": "Attack a single enemy. Against flying targets, becomes Truestrike, +50 Potency and ignores 50% of Defense.",
-    "ap": 1,
-    "targeting": {
-      "group": "Enemy",
-      "pattern": "Single"
+    id: 'verticalEdge',
+    type: 'active',
+    name: 'Vertical Edge',
+    description:
+      'Attack a single enemy. Against flying targets, becomes Truestrike, +50 Potency and ignores 50% of Defense.',
+    ap: 1,
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
     },
-    "damageType": "Physical",
-    "effects": [
+    damageType: 'Physical',
+    effects: [
       {
-        "kind": "Damage",
-        "potency": {
-          "physical": 100
+        kind: 'Damage',
+        potency: {
+          physical: 100,
         },
-        "hitRate": 100,
-        "hitCount": 1
+        hitRate: 100,
+        hitCount: 1,
       },
       {
-        "kind": "GrantFlag",
-        "flag": "TrueStrike",
-        "conditions": [
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        conditions: [
           {
-            "kind": "CombatantType",
-            "target": "Enemy",
-            "combatantType": "Flying",
-            "comparator": "EqualTo"
-          }
-        ]
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
       },
       {
-        "kind": "PotencyBoost",
-        "amount": {
-          "physical": 50
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
         },
-        "conditions": [
+        conditions: [
           {
-            "kind": "CombatantType",
-            "target": "Enemy",
-            "combatantType": "Flying",
-            "comparator": "EqualTo"
-          }
-        ]
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
       },
       {
-        "kind": "IgnoreDefense",
-        "fraction": 0.5,
-        "conditions": [
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+        conditions: [
           {
-            "kind": "CombatantType",
-            "target": "Enemy",
-            "combatantType": "Flying",
-            "comparator": "EqualTo"
-          }
-        ]
-      }
-    ]
-  }
-] as const;
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+] as const
 
-export type ActiveSkillsId = (typeof ActiveSkills)[number]["id"];
+export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']
 
 export type ActiveSkillsMap = {
-  [K in ActiveSkillsId]: Extract<(typeof ActiveSkills)[number], { id: K }>;
-};
+  [K in ActiveSkillsId]: Extract<(typeof ActiveSkills)[number], { id: K }>
+}
 
 export const ActiveSkillsMap: ActiveSkillsMap = Object.fromEntries(
   ActiveSkills.map(item => [item.id, item])
-) as ActiveSkillsMap;
+) as ActiveSkillsMap

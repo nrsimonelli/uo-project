@@ -3,587 +3,550 @@
 
 export const EquipmentAxe = [
   {
-    "id": "banditsHandAxe",
-    "name": "Bandit's HandAxe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 16,
-      "EVA": 10,
-      "GoldGainPercent": 100
+    id: 'banditsHandAxe',
+    name: "Bandit's HandAxe",
+    type: 'Axe',
+    stats: {
+      PATK: 16,
+      EVA: 10,
+      GoldGainPercent: 100,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "banishingHammer",
-    "name": "Banishing Hammer",
-    "type": "Axe",
-    "stats": {
-      "PATK": 21
+    id: 'banishingHammer',
+    name: 'Banishing Hammer',
+    type: 'Axe',
+    stats: {
+      PATK: 21,
     },
-    "skillId": "banishingSmite",
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: 'banishingSmite',
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "barbariansAxe",
-    "name": "Barbarian's Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13
+    id: 'barbariansAxe',
+    name: "Barbarian's Axe",
+    type: 'Axe',
+    stats: {
+      PATK: 13,
     },
-    "skillId": "provokingCrush",
-    "classRestrictions": [],
-    "nullifications": []
+    skillId: 'provokingCrush',
+    classRestrictions: [],
+    nullifications: [],
   },
   {
-    "id": "blackIronAxe",
-    "name": "Black Iron Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 17,
-      "CRT": 5
+    id: 'blackIronAxe',
+    name: 'Black Iron Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 17,
+      CRT: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "baroqueAxe",
-    "name": "Baroque Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13,
-      "ACC": 5
+    id: 'baroqueAxe',
+    name: 'Baroque Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 13,
+      ACC: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "boareasAxe",
-    "name": "Boareas' Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 25,
-      "AP": 1,
-      "INIT": 10,
-      "EVA": 10
+    id: 'boareasAxe',
+    name: "Boareas' Axe",
+    type: 'Axe',
+    stats: {
+      PATK: 25,
+      AP: 1,
+      INIT: 10,
+      EVA: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "bronzeAxe",
-    "name": "Bronze Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 8
+    id: 'bronzeAxe',
+    name: 'Bronze Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 8,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "carnatAxe",
-    "name": "Carnat Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 19,
-      "INIT": 2
+    id: 'carnatAxe',
+    name: 'Carnat Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 19,
+      INIT: 2,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "carnelianAxe",
-    "name": "Carnelian Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 21,
-      "AP": 1
+    id: 'carnelianAxe',
+    name: 'Carnelian Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 21,
+      AP: 1,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "crushingAxe",
-    "name": "Crushing Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13
+    id: 'crushingAxe',
+    name: 'Crushing Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 13,
     },
-    "skillId": "crush",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'crush',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "darkKnightCleaver",
-    "name": "Dark Knight Cleaver",
-    "type": "Axe",
-    "stats": {
-      "PATK": 9,
-      "MATK": 18
+    id: 'darkKnightCleaver',
+    name: 'Dark Knight Cleaver',
+    type: 'Axe',
+    stats: {
+      PATK: 9,
+      MATK: 18,
     },
-    "skillId": "desperation",
-    "nullifications": [],
-    "classRestrictions": [
-      "Dark Knight",
-      "Doom Knight"
-    ]
+    skillId: 'desperation',
+    nullifications: [],
+    classRestrictions: ['Dark Knight', 'Doom Knight'],
   },
   {
-    "id": "dragonboneAxe",
-    "name": "Dragonbone Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 15,
-      "PP": 1,
-      "INIT": -10
+    id: 'dragonboneAxe',
+    name: 'Dragonbone Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 15,
+      PP: 1,
+      INIT: -10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "eliminator",
-    "name": "Eliminator",
-    "type": "Axe",
-    "stats": {
-      "PATK": 23,
-      "MDEF": -10
+    id: 'eliminator',
+    name: 'Eliminator',
+    type: 'Axe',
+    stats: {
+      PATK: 23,
+      MDEF: -10,
     },
-    "skillId": "execution",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'execution',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "frozenBattleAxe",
-    "name": "Frozen BattleAxe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 21
+    id: 'frozenBattleAxe',
+    name: 'Frozen BattleAxe',
+    type: 'Axe',
+    stats: {
+      PATK: 21,
     },
-    "skillId": "icyCrush",
-    "nullifications": [
-      "Freeze"
-    ],
-    "classRestrictions": []
+    skillId: 'icyCrush',
+    nullifications: ['Freeze'],
+    classRestrictions: [],
   },
   {
-    "id": "giantsGreatAxe",
-    "name": "Giant's GreatAxe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 18,
-      "MaxHP": 20,
-      "INIT": -10
+    id: 'giantsGreatAxe',
+    name: "Giant's GreatAxe",
+    type: 'Axe',
+    stats: {
+      PATK: 18,
+      MaxHP: 20,
+      INIT: -10,
     },
-    "skillId": "heavySmash",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'heavySmash',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "goldenRamAxe",
-    "name": "Golden Ram Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 17,
-      "ACC": 20,
-      "PDEF": 4
+    id: 'goldenRamAxe',
+    name: 'Golden Ram Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 17,
+      ACC: 20,
+      PDEF: 4,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "greatwoodAxe",
-    "name": "Greatwood Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 8,
-      "MATK": 16,
-      "MDEF": 3
+    id: 'greatwoodAxe',
+    name: 'Greatwood Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 8,
+      MATK: 16,
+      MDEF: 3,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "headsmansAxe",
-    "name": "Headsman's Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 16,
-      "MDEF": -10
+    id: 'headsmansAxe',
+    name: "Headsman's Axe",
+    type: 'Axe',
+    stats: {
+      PATK: 16,
+      MDEF: -10,
     },
-    "skillId": "execution",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'execution',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "hoarfrostAxe",
-    "name": "Hoarfrost Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13
+    id: 'hoarfrostAxe',
+    name: 'Hoarfrost Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 13,
     },
-    "skillId": "icyBlow",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'icyBlow',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "icefallAxe",
-    "name": "Icefall Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 19,
-      "PP": 1,
-      "GRD": -20
+    id: 'icefallAxe',
+    name: 'Icefall Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 19,
+      PP: 1,
+      GRD: -20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "ironAxe",
-    "name": "Iron Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 15
+    id: 'ironAxe',
+    name: 'Iron Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 15,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "juggernaut",
-    "name": "Juggernaut",
-    "type": "Axe",
-    "stats": {
-      "PATK": 24,
-      "CritDmg": 30
+    id: 'juggernaut',
+    name: 'Juggernaut',
+    type: 'Axe',
+    stats: {
+      PATK: 24,
+      CritDmg: 30,
     },
-    "skillId": "groundStrike",
-    "nullifications": [
-      "Stun"
-    ],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: 'groundStrike',
+    nullifications: ['Stun'],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "kingsAxeDrakenash",
-    "name": "KingsAxe Drakenash",
-    "type": "Axe",
-    "stats": {
-      "PATK": 20,
-      "AllStats": 5
+    id: 'kingsAxeDrakenash',
+    name: 'KingsAxe Drakenash',
+    type: 'Axe',
+    stats: {
+      PATK: 20,
+      AllStats: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "labrys",
-    "name": "Labrys",
-    "type": "Axe",
-    "stats": {
-      "PATK": 18,
-      "INIT": 5,
-      "GRD": 20
+    id: 'labrys',
+    name: 'Labrys',
+    type: 'Axe',
+    stats: {
+      PATK: 18,
+      INIT: 5,
+      GRD: 20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "masonsHammer",
-    "name": "Mason's Hammer",
-    "type": "Axe",
-    "stats": {
-      "PATK": 10
+    id: 'masonsHammer',
+    name: "Mason's Hammer",
+    type: 'Axe',
+    stats: {
+      PATK: 10,
     },
-    "skillId": "powerfulImpact",
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: 'powerfulImpact',
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "meteoriteAxe",
-    "name": "Meteorite Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 24,
-      "MaxHP": 20,
-      "GRD": 10
+    id: 'meteoriteAxe',
+    name: 'Meteorite Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 24,
+      MaxHP: 20,
+      GRD: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "morningstar",
-    "name": "Morningstar",
-    "type": "Axe",
-    "stats": {
-      "PATK": 18
+    id: 'morningstar',
+    name: 'Morningstar',
+    type: 'Axe',
+    stats: {
+      PATK: 18,
     },
-    "skillId": "painfulSmash",
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: 'painfulSmash',
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "phantomKnightsAxe",
-    "name": "Phantom Knight's Axe",
-    "type": "Axe",
-    "stats": {
-      "MATK": 16,
-      "MDEF": 5
+    id: 'phantomKnightsAxe',
+    name: "Phantom Knight's Axe",
+    type: 'Axe',
+    stats: {
+      MATK: 16,
+      MDEF: 5,
     },
-    "skillId": "phantomAttack",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'phantomAttack',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "recruitsHandAxe",
-    "name": "Recruit's HandAxe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 11,
-      "MaxHP": 3,
-      "ExpGainPercent": 20
+    id: 'recruitsHandAxe',
+    name: "Recruit's HandAxe",
+    type: 'Axe',
+    stats: {
+      PATK: 11,
+      MaxHP: 3,
+      ExpGainPercent: 20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "roseKnightAxe",
-    "name": "Rose Knight Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 14,
-      "INIT": 3,
-      "ACC": 10
+    id: 'roseKnightAxe',
+    name: 'Rose Knight Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 14,
+      INIT: 3,
+      ACC: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "roseKnightHammer",
-    "name": "Rose Knight Hammer",
-    "type": "Axe",
-    "stats": {
-      "PATK": 15,
-      "INIT": 3,
-      "ACC": 10
+    id: 'roseKnightHammer',
+    name: 'Rose Knight Hammer',
+    type: 'Axe',
+    stats: {
+      PATK: 15,
+      INIT: 3,
+      ACC: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: null,
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "sacralAxe",
-    "name": "Sacral Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 25,
-      "OnActiveHealPercent": 20
+    id: 'sacralAxe',
+    name: 'Sacral Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 25,
+      OnActiveHealPercent: 20,
     },
-    "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: ['Affliction'],
+    classRestrictions: [],
   },
   {
-    "id": "sanguineAxe",
-    "name": "Sanguine Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 16
+    id: 'sanguineAxe',
+    name: 'Sanguine Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 16,
     },
-    "skillId": "sanguineAttack",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'sanguineAttack',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "silvermoonAxe",
-    "name": "Silvermoon Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 20
+    id: 'silvermoonAxe',
+    name: 'Silvermoon Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 20,
     },
-    "skillId": "beastslayer",
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: 'beastslayer',
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "spellsteelAxe",
-    "name": "Spellsteel Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 9,
-      "MATK": 18
+    id: 'spellsteelAxe',
+    name: 'Spellsteel Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 9,
+      MATK: 18,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "spikedHammer",
-    "name": "Spiked Hammer",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13
+    id: 'spikedHammer',
+    name: 'Spiked Hammer',
+    type: 'Axe',
+    stats: {
+      PATK: 13,
     },
-    "skillId": "spikedBlow",
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: 'spikedBlow',
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "steelAxe",
-    "name": "Steel Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 22
+    id: 'steelAxe',
+    name: 'Steel Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 22,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "templarsAxe",
-    "name": "Templar's Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 15,
-      "PDEF": 1,
-      "GRD": 5
+    id: 'templarsAxe',
+    name: "Templar's Axe",
+    type: 'Axe',
+    stats: {
+      PATK: 15,
+      PDEF: 1,
+      GRD: 5,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "thornAxe",
-    "name": "Thorn Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 17,
-      "PP": 1,
-      "MaxHP": -15
+    id: 'thornAxe',
+    name: 'Thorn Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 17,
+      PP: 1,
+      MaxHP: -15,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "vorpalAxe",
-    "name": "Vorpal Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 23,
-      "MaxHP": 5,
-      "INIT": 3
+    id: 'vorpalAxe',
+    name: 'Vorpal Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 23,
+      MaxHP: 5,
+      INIT: 3,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "warhammer",
-    "name": "Warhammer",
-    "type": "Axe",
-    "stats": {
-      "PATK": 13,
-      "MaxHP": 5,
-      "GRD": 10
+    id: 'warhammer',
+    name: 'Warhammer',
+    type: 'Axe',
+    stats: {
+      PATK: 13,
+      MaxHP: 5,
+      GRD: 10,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": [
-      "Warrior",
-      "Breaker",
-      "Werebear"
-    ]
+    skillId: null,
+    nullifications: [],
+    classRestrictions: ['Warrior', 'Breaker', 'Werebear'],
   },
   {
-    "id": "wingcrestAxe",
-    "name": "Wingcrest Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 21,
-      "PP": 1,
-      "CRT": -20
+    id: 'wingcrestAxe',
+    name: 'Wingcrest Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 21,
+      PP: 1,
+      CRT: -20,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "zenoiranAxe",
-    "name": "Zenoiran Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 14,
-      "MaxHP": 10,
-      "PDEF": 2,
-      "MDEF": 2
+    id: 'zenoiranAxe',
+    name: 'Zenoiran Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 14,
+      MaxHP: 10,
+      PDEF: 2,
+      MDEF: 2,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
   },
   {
-    "id": "zenoiranKnightAxe",
-    "name": "Zenoiran Knight Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 20,
-      "MaxHP": 15,
-      "PDEF": 4,
-      "MDEF": 4
+    id: 'zenoiranKnightAxe',
+    name: 'Zenoiran Knight Axe',
+    type: 'Axe',
+    stats: {
+      PATK: 20,
+      MaxHP: 15,
+      PDEF: 4,
+      MDEF: 4,
     },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
-  }
-] as const;
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
+  },
+] as const
 
-export type EquipmentAxeId = (typeof EquipmentAxe)[number]["id"];
+export type EquipmentAxeId = (typeof EquipmentAxe)[number]['id']
 
 export type EquipmentAxeMap = {
-  [K in EquipmentAxeId]: Extract<(typeof EquipmentAxe)[number], { id: K }>;
-};
+  [K in EquipmentAxeId]: Extract<(typeof EquipmentAxe)[number], { id: K }>
+}
 
 export const EquipmentAxeMap: EquipmentAxeMap = Object.fromEntries(
   EquipmentAxe.map(item => [item.id, item])
-) as EquipmentAxeMap;
+) as EquipmentAxeMap

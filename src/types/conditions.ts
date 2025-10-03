@@ -1,4 +1,5 @@
 import type { AFFLICTIONS } from '../data/status'
+
 import type { StatKey } from './base-stats'
 import type { Target, CombatantType } from './core'
 import type { Flag } from './effects'

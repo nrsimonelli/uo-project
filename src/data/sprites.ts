@@ -1,4 +1,3 @@
-import type { AllClassType } from '@/types/base-stats'
 import Arbalist from '@/assets/sprites/Arbalist.png'
 import Berserker from '@/assets/sprites/Berserker.png'
 import Bishop from '@/assets/sprites/Bishop.png'
@@ -66,6 +65,7 @@ import Witch from '@/assets/sprites/Witch.png'
 import Wizard from '@/assets/sprites/Wizard.png'
 import WyvernKnight from '@/assets/sprites/Wyvern Knight.png'
 import WyvernMaster from '@/assets/sprites/Wyvern Master.png'
+import type { AllClassType } from '@/types/base-stats'
 
 export const SPRITES: Record<AllClassType, string> = {
   Arbalist,

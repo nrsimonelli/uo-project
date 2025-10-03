@@ -1,10 +1,22 @@
-import { useState } from 'react'
-import { TeamSlot } from './team-slot'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { UnitSearchModal } from './unit-search-modal'
-import { useCurrentTeam, useTeam } from '@/hooks/use-team'
-import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
+import { useState } from 'react'
+
+import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
+import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
+import { PageHeader } from '../page-header'
+import { PageLayout } from '../page-layout'
+import { Button } from '../ui/button'
+import { Card } from '../ui/card'
+import { ScrollArea } from '../ui/scroll-area'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+
+import { EditableTeamName } from './editable-team-name'
+import { TeamImportExport } from './team-import-export'
+import { TeamSlot } from './team-slot'
+import { UnitSearchModal } from './unit-search-modal'
+
+import { useCurrentTeam, useTeam } from '@/hooks/use-team'
+import { cn } from '@/lib/utils'
 import {
   COLS,
   type Position,
@@ -12,15 +24,6 @@ import {
   type Row,
   type Team,
 } from '@/types/team'
-import { ScrollArea } from '../ui/scroll-area'
-import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
-import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
-import { EditableTeamName } from './editable-team-name'
-import { TeamImportExport } from './team-import-export'
-import { PageLayout } from '../page-layout'
-import { PageHeader } from '../page-header'
-import { cn } from '@/lib/utils'
-import { Card } from '../ui/card'
 
 export function TeamBuilder() {
   const currentTeam = useCurrentTeam()
@@ -34,14 +37,14 @@ export function TeamBuilder() {
     swapUnits,
   } = useTeam()
 
-  const firstUnit = currentTeam.formation.find((unit) => unit !== null)
+  const firstUnit = currentTeam.formation.find(unit => unit !== null)
 
   const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>(
     () => firstUnit?.id
   )
 
   const filteredTeamFormation = currentTeam.formation.filter(
-    (unit) => unit !== null
+    unit => unit !== null
   )
 
   const handleSwap = (fromIdx: number, toIdx: number) => {
@@ -62,21 +65,21 @@ export function TeamBuilder() {
 
   const handleRemoveUnit = (unitId: string) => {
     const nextUnitId = filteredTeamFormation.filter(
-      (unit) => unit.id !== unitId
+      unit => unit.id !== unitId
     )[0]?.id
     removeUnit(unitId)
     setSelectedUnitId(nextUnitId)
   }
 
   const handleSelectTeam = (key: string) => {
-    const nextUnitId = teams[key]?.formation.find((unit) => unit !== null)?.id
+    const nextUnitId = teams[key]?.formation.find(unit => unit !== null)?.id
     setCurrentTeam(key)
     setSelectedUnitId(nextUnitId)
   }
 
   const handleImportTeam = (team: Team) => {
     importTeam(currentTeamId, team)
-    const firstUnit = team.formation.find((unit) => unit !== null)
+    const firstUnit = team.formation.find(unit => unit !== null)
     setSelectedUnitId(firstUnit?.id)
   }
 
@@ -91,16 +94,16 @@ export function TeamBuilder() {
 
   return (
     <PageLayout>
-      <div className='space-y-8'>
+      <div className="space-y-8">
         <PageHeader
-          title='Team Builder'
-          description='Create and manage your battle formations with powerful unit combinations.'
+          title="Team Builder"
+          description="Create and manage your battle formations with powerful unit combinations."
         />
 
         <Card>
-          <div className='px-6'>
-            <div className='flex flex-row justify-between gap-8'>
-              <div className='flex flex-col space-y-4 flex-1'>
+          <div className="px-6">
+            <div className="flex flex-row justify-between gap-8">
+              <div className="flex flex-col space-y-4 flex-1">
                 <EditableTeamName
                   teamName={currentTeam.name}
                   onSave={handleUpdateTeamName}
@@ -112,16 +115,16 @@ export function TeamBuilder() {
                   onSwap={handleSwap}
                 />
               </div>
-              <div className='flex flex-col space-y-3'>
+              <div className="flex flex-col space-y-3">
                 <TeamImportExport
                   team={currentTeam}
                   onImportTeam={handleImportTeam}
                 />
-                <ScrollArea className='max-h-[300px] pr-1'>
-                  <div className='space-y-4 pt-2 px-2 '>
+                <ScrollArea className="max-h-[300px] pr-1">
+                  <div className="space-y-4 pt-2 px-2 ">
                     {orderedTeams.map(([key, team]) => {
                       const isEmpty = team.formation.every(
-                        (unit) => unit === null
+                        unit => unit === null
                       )
                       const isSelected = key === currentTeamId
 
@@ -137,7 +140,7 @@ export function TeamBuilder() {
                           )}
                           onClick={() => handleSelectTeam(key)}
                         >
-                          <div className='flex justify-center'>
+                          <div className="flex justify-center">
                             <IsometricFormationDisplay
                               formation={team.formation}
                               orientation={'left-facing'}
@@ -153,8 +156,8 @@ export function TeamBuilder() {
             </div>
 
             <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
-              <TabsList className='w-full flex-wrap h-auto'>
-                {filteredTeamFormation.map((unit) => (
+              <TabsList className="w-full flex-wrap h-auto">
+                {filteredTeamFormation.map(unit => (
                   <TabsTrigger key={unit.id} value={unit.id}>
                     {unit.class}
                   </TabsTrigger>
@@ -162,20 +165,20 @@ export function TeamBuilder() {
                 {shouldShowAddUnit && (
                   <UnitSearchModal
                     team={currentTeam}
-                    onUnitAdded={(unit) => setSelectedUnitId(unit.id)}
+                    onUnitAdded={unit => setSelectedUnitId(unit.id)}
                   />
                 )}
               </TabsList>
 
-              {filteredTeamFormation.map((unit) => (
+              {filteredTeamFormation.map(unit => (
                 <TabsContent key={unit.id} value={unit.id}>
                   <TeamSlot unit={unit}>
                     <Button
                       onClick={() => handleRemoveUnit(unit.id)}
-                      variant='destructive'
-                      className='absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10'
+                      variant="destructive"
+                      className="absolute top-2 right-2 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
                     >
-                      <Trash className='w-4 h-4' />
+                      <Trash className="w-4 h-4" />
                     </Button>
                   </TeamSlot>
                 </TabsContent>

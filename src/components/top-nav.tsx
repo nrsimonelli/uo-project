@@ -1,3 +1,8 @@
+import { ContrastIcon, TrophyIcon } from 'lucide-react'
+import { Link } from 'react-router'
+
+import { Button } from './ui/button'
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -6,50 +11,47 @@ import {
   // navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { useTheme } from '@/hooks/use-theme'
-import { ContrastIcon, TrophyIcon } from 'lucide-react'
-import { Button } from './ui/button'
-import { Link } from 'react-router'
 
 export function TopNav() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <div className='fixed top-0 w-full -translate-x-1/2 z-20 flex left-1/2 justify-center overscroll-contain pt-4 px-4'>
-      <NavigationMenu className='px-8 py-4 backdrop-blur-sm bg-transparent bg-linear-to-br from-background/75 to-primary-foreground/90 flex justify-between max-w-6xl rounded-xl border'>
-        <div className='inline-flex space-x-1 items-center'>
-          <TrophyIcon className='h-8 w-8' />
-          <p className='sm:block hidden'>Unicorn Overlord</p>
+    <div className="fixed top-0 w-full -translate-x-1/2 z-20 flex left-1/2 justify-center overscroll-contain pt-4 px-4">
+      <NavigationMenu className="px-8 py-4 backdrop-blur-sm bg-transparent bg-linear-to-br from-background/75 to-primary-foreground/90 flex justify-between max-w-6xl rounded-xl border">
+        <div className="inline-flex space-x-1 items-center">
+          <TrophyIcon className="h-8 w-8" />
+          <p className="sm:block hidden">Unicorn Overlord</p>
         </div>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
-              className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
+              className="text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200"
             >
-              <Link to='/'>Home</Link>
+              <Link to="/">Home</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
-              className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
+              className="text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200"
             >
-              <Link to='/team-builder'>Team Builder</Link>
+              <Link to="/team-builder">Team Builder</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
-              className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
+              className="text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200"
             >
-              <Link to='/equipment-builder'>Equipment Builder</Link>
+              <Link to="/equipment-builder">Equipment Builder</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <Button
-            variant='ghost'
+            variant="ghost"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
-            <ContrastIcon className='h-6 w-6' />
+            <ContrastIcon className="h-6 w-6" />
           </Button>
         </NavigationMenuList>
       </NavigationMenu>

@@ -160,10 +160,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Stun",
-      "GuardSeal"
-    ],
+    "nullifications": ["Stun", "GuardSeal"],
     "classRestrictions": [
       "Dark Knight",
       "Doom Knight",
@@ -201,9 +198,7 @@
       "MaxHP": 10
     },
     "skillId": null,
-    "nullifications": [
-      "Stun"
-    ],
+    "nullifications": ["Stun"],
     "classRestrictions": []
   },
   {
@@ -258,9 +253,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -287,9 +280,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Debuff"
-    ],
+    "nullifications": ["Debuff"],
     "classRestrictions": []
   },
   {
@@ -313,10 +304,7 @@
     "type": "Shield",
     "stats": {
       "PDEF": 7,
-      "GRD": [
-        20,
-        -20
-      ],
+      "GRD": [20, -20],
       "GuardEff": 25,
       "PP": 1
     },
@@ -374,10 +362,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Poison",
-      "Blind"
-    ],
+    "nullifications": ["Poison", "Blind"],
     "classRestrictions": []
   },
   {
@@ -430,9 +415,7 @@
       "GuardEff": 25
     },
     "skillId": "radiantCover",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -502,9 +485,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -586,10 +567,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "GuardSeal",
-      "PassiveSeal"
-    ],
+    "nullifications": ["GuardSeal", "PassiveSeal"],
     "classRestrictions": []
   },
   {
@@ -615,9 +593,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Poison"
-    ],
+    "nullifications": ["Poison"],
     "classRestrictions": []
   },
   {
@@ -645,9 +621,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -674,10 +648,7 @@
       "GuardEff": 25
     },
     "skillId": null,
-    "nullifications": [
-      "Stun",
-      "GuardSeal"
-    ],
+    "nullifications": ["Stun", "GuardSeal"],
     "classRestrictions": []
   },
   {

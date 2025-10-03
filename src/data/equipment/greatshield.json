@@ -64,9 +64,7 @@
       "GuardEff": 50
     },
     "skillId": "bunkerStance",
-    "nullifications": [
-      "Stun"
-    ],
+    "nullifications": ["Stun"],
     "classRestrictions": []
   },
   {
@@ -175,10 +173,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Freeze",
-      "Stun"
-    ],
+    "nullifications": ["Freeze", "Stun"],
     "classRestrictions": []
   },
   {
@@ -191,9 +186,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Debuff"
-    ],
+    "nullifications": ["Debuff"],
     "classRestrictions": []
   },
   {
@@ -234,9 +227,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -258,10 +249,7 @@
     "type": "Greatshield",
     "stats": {
       "PDEF": 14,
-      "GRD": [
-        30,
-        -20
-      ],
+      "GRD": [30, -20],
       "GuardEff": 50,
       "PP": 1
     },
@@ -305,10 +293,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Poison",
-      "Blind"
-    ],
+    "nullifications": ["Poison", "Blind"],
     "classRestrictions": []
   },
   {
@@ -377,9 +362,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -488,9 +471,7 @@
       "GuardEff": 50
     },
     "skillId": null,
-    "nullifications": [
-      "Poison"
-    ],
+    "nullifications": ["Poison"],
     "classRestrictions": []
   },
   {

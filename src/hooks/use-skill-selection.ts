@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+
 import type { Unit } from '@/types/team'
 import { getAvailableSkills } from '@/utils/skill-availability'
 
@@ -9,6 +10,7 @@ interface UseSkillSelectionProps {
 }
 
 export function useSkillSelection({ unit }: UseSkillSelectionProps) {
+  console.log('unit', unit)
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -16,12 +18,14 @@ export function useSkillSelection({ unit }: UseSkillSelectionProps) {
     return getAvailableSkills(unit)
   }, [unit])
 
+  console.log('AVAILABLE', availableSkills)
+
   const activeSkills = useMemo(() => {
-    return availableSkills.filter((skill) => skill.skill.type === 'active')
+    return availableSkills.filter(skill => skill.skill.type === 'active')
   }, [availableSkills])
 
   const passiveSkills = useMemo(() => {
-    return availableSkills.filter((skill) => skill.skill.type === 'passive')
+    return availableSkills.filter(skill => skill.skill.type === 'passive')
   }, [availableSkills])
 
   const filteredSkills = useMemo(() => {
@@ -36,7 +40,7 @@ export function useSkillSelection({ unit }: UseSkillSelectionProps) {
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase().trim()
       filtered = filtered.filter(
-        (availableSkill) =>
+        availableSkill =>
           availableSkill.skill.name.toLowerCase().includes(searchLower) ||
           availableSkill.skill.description.toLowerCase().includes(searchLower)
       )
@@ -50,6 +54,17 @@ export function useSkillSelection({ unit }: UseSkillSelectionProps) {
     skillTypeFilter,
     searchTerm,
   ])
+
+  console.log({
+    availableSkills,
+    filteredSkills,
+    skillTypeFilter,
+    setSkillTypeFilter,
+    searchTerm,
+    setSearchTerm,
+    activeSkills,
+    passiveSkills,
+  })
 
   return {
     availableSkills,

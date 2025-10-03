@@ -1,8 +1,9 @@
 import { useCallback } from 'react'
-import type { Team, Unit } from '@/types/team'
-import type { SkillSlot } from '@/types/skills'
+
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
+import type { SkillSlot } from '@/types/skills'
+import type { Team, Unit } from '@/types/team'
 
 interface TeamExportData {
   version: string
@@ -13,8 +14,8 @@ interface TeamExportData {
 
 // Skill validation helpers
 const validateSkillReference = (skillId: string): boolean => {
-  const activeSkillExists = ActiveSkills.some((skill) => skill.id === skillId)
-  const passiveSkillExists = PassiveSkills.some((skill) => skill.id === skillId)
+  const activeSkillExists = ActiveSkills.some(skill => skill.id === skillId)
+  const passiveSkillExists = PassiveSkills.some(skill => skill.id === skillId)
   return activeSkillExists || passiveSkillExists
 }
 
@@ -109,17 +110,17 @@ export function useTeamImportExport() {
       teamName: team.name,
       team: {
         ...team,
-        formation: team.formation.map((unit) => {
+        formation: team.formation.map(unit => {
           if (!unit) return null
 
           return {
             ...unit,
             skillSlots: unit.skillSlots
-              ? unit.skillSlots.map((slot) => ({
+              ? unit.skillSlots.map(slot => ({
                   ...slot,
                   tactics: [...slot.tactics] as [
                     (typeof slot.tactics)[0],
-                    (typeof slot.tactics)[1]
+                    (typeof slot.tactics)[1],
                   ],
                 }))
               : [],

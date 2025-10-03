@@ -1,8 +1,9 @@
-import type { ChartDatum } from '@/hooks/use-chart-data'
 import { useAnimatedNumber } from '../hooks/use-animated-number'
-import { cn } from '@/lib/utils'
-import { useStatCalculations } from '@/hooks/use-stat-calculations'
+
 import { STAT_ICONS, RANK_COLORS } from '@/data/stat-display'
+import type { ChartDatum } from '@/hooks/use-chart-data'
+import { useStatCalculations } from '@/hooks/use-stat-calculations'
+import { cn } from '@/lib/utils'
 
 export function StatIcon({
   iconKey,
@@ -16,8 +17,11 @@ export function StatIcon({
 }
 
 export function AnimatedStatBar({ data }: { data: ChartDatum }) {
-  const { adjustedValue, percentage } = useStatCalculations(data.stat, data.base)
-  
+  const { adjustedValue, percentage } = useStatCalculations(
+    data.stat,
+    data.base
+  )
+
   const { displayValue: animatedValue } = useAnimatedNumber(adjustedValue, {
     duration: 600,
   })
@@ -27,16 +31,16 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
   })
 
   return (
-    <div className='flex items-center gap-2 py-1 px-2 rounded transition-colors duration-200'>
-      <StatIcon iconKey={data.stat} className='h-4 w-4  flex-shrink-0' />
+    <div className="flex items-center gap-2 py-1 px-2 rounded transition-colors duration-200">
+      <StatIcon iconKey={data.stat} className="h-4 w-4  flex-shrink-0" />
 
-      <div className='w-16 text-xs flex-shrink-0 transition-colors duration-200'>
+      <div className="w-16 text-xs flex-shrink-0 transition-colors duration-200">
         {data.stat}
       </div>
 
-      <div className='flex-1 h-2 bg-muted rounded-full overflow-hidden transition-colors duration-200'>
+      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden transition-colors duration-200">
         <div
-          className='h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-300 ease-out'
+          className="h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${animatedPercentage}%`,
             transformOrigin: 'left center',
@@ -44,11 +48,11 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
         />
       </div>
 
-      <div className='w-8 text-xs font-mono font-semibold text-right flex-shrink-0 transition-colors duration-300'>
+      <div className="w-8 text-xs font-mono font-semibold text-right flex-shrink-0 transition-colors duration-300">
         {Math.round(animatedValue)}
       </div>
 
-      <div className='w-4 flex-shrink-0 leading-none text-lg'>
+      <div className="w-4 flex-shrink-0 leading-none text-lg">
         <span
           className={cn(
             'font-bold transition-colors duration-300',

@@ -1,4 +1,5 @@
-import type { Unit } from '@/types/team'
+import { useMemo } from 'react'
+
 import {
   calculateBaseStats,
   calculateEquipmentBonus,
@@ -7,7 +8,7 @@ import {
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/class-growth-table'
 import { STATS } from '@/data/constants'
 import type { StatKey } from '@/types/base-stats'
-import { useMemo } from 'react'
+import type { Unit } from '@/types/team'
 
 export type ChartDatum = {
   stat: string
@@ -40,12 +41,15 @@ export function useChartData(unit: Unit | null): {
     const growthRanks = calculateGrowthRanks(classType)
     const equipmentBonus = calculateEquipmentBonus(equipment, baseStats)
 
-    const totalStats = Object.keys(baseStats).reduce((acc, stat) => {
-      acc[stat as CombatStat] =
-        baseStats[stat as keyof typeof baseStats] +
-        (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0)
-      return acc
-    }, {} as Record<CombatStat, number>)
+    const totalStats = Object.keys(baseStats).reduce(
+      (acc, stat) => {
+        acc[stat as CombatStat] =
+          baseStats[stat as keyof typeof baseStats] +
+          (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0)
+        return acc
+      },
+      {} as Record<CombatStat, number>
+    )
 
     const chartData: ChartDatum[] = Object.entries(baseStats).map(
       ([stat, value]) => ({

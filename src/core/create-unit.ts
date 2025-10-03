@@ -1,6 +1,6 @@
-import type { Position, Unit } from '@/types/team'
-import type { GrowthTuple } from '@/types/base-stats'
 import { isValidClass, getEquipmentSlots } from '@/core/helpers'
+import type { GrowthTuple } from '@/types/base-stats'
+import type { Position, Unit } from '@/types/team'
 
 export const createUnit = (
   id: string,
@@ -13,7 +13,7 @@ export const createUnit = (
 
   // Initialize equipment slots based on class
   const equipmentSlots = getEquipmentSlots(className)
-  const equipment = equipmentSlots.map((slot) => ({ slot, itemId: null }))
+  const equipment = equipmentSlots.map(slot => ({ slot, itemId: null }))
 
   return {
     id: id,

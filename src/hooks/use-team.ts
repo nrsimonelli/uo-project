@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
-import type { Position } from '@/types/team'
+
 import type { TeamContextValue } from '@/components/team-builder/team-context'
+import type { Position } from '@/types/team'
 
 export const TeamContext = createContext<TeamContextValue | undefined>(
   undefined
@@ -21,7 +22,7 @@ export function useCurrentTeam() {
 
 export function useUnitById(unitId: string) {
   const team = useCurrentTeam()
-  return team.formation.find((u) => u?.id === unitId) ?? null
+  return team.formation.find(u => u?.id === unitId) ?? null
 }
 
 export function useUnitAt(position: Position) {

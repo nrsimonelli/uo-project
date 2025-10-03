@@ -34,4 +34,3 @@ export const equalityComparators: Record<
 export const getEquipmentSlots = (classId: AllClassType) => {
   return CLASS_DATA[classId].allowedSlots
 }
-

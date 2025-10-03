@@ -1,6 +1,6 @@
+import { SPRITES } from '@/data/sprites'
 import { cn } from '@/lib/utils'
 import type { Unit } from '@/types/team'
-import { SPRITES } from '@/data/sprites'
 
 const TILE_WIDTH = 120
 const TILE_HEIGHT = 60
@@ -34,7 +34,7 @@ export function IsometricFormationBase({
 
   return (
     <div
-      className='relative'
+      className="relative"
       style={{
         width: containerWidth,
         height: containerHeight,
@@ -54,7 +54,7 @@ export function IsometricFormationBase({
         return (
           <div
             key={idx}
-            className='absolute'
+            className="absolute"
             style={{
               left: xScreen,
               top: yScreen,
@@ -78,7 +78,7 @@ export function IsometricFormationBase({
             />
             {slot && (
               <div
-                className='absolute left-1/2 transform -translate-x-1/2'
+                className="absolute left-1/2 transform -translate-x-1/2"
                 style={{ bottom: SCALED_HEIGHT * 0.3 }}
               >
                 <img

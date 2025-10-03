@@ -8,6 +8,7 @@ import {
   Star,
   Heart,
 } from 'lucide-react'
+
 import { STATS } from './constants'
 
 export const STAT_ICONS = {

@@ -168,10 +168,7 @@
     },
     "skillId": "harpoonBolt",
     "nullifications": [],
-    "classRestrictions": [
-      "Arbalist",
-      "Shieldshooter"
-    ]
+    "classRestrictions": ["Arbalist", "Shieldshooter"]
   },
   {
     "id": "greatwoodBow",
@@ -270,9 +267,7 @@
       "ACC": 20
     },
     "skillId": "eagleEye",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -344,9 +339,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -357,9 +350,7 @@
       "PATK": 21
     },
     "skillId": "flameArrow",
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -538,9 +529,7 @@
       "ACC": 10
     },
     "skillId": "eagleEye",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -565,13 +554,8 @@
       "CritDmg": 30
     },
     "skillId": "spikedBolt",
-    "nullifications": [
-      "Stun"
-    ],
-    "classRestrictions": [
-      "Arbalist",
-      "Shieldshooter"
-    ]
+    "nullifications": ["Stun"],
+    "classRestrictions": ["Arbalist", "Shieldshooter"]
   },
   {
     "id": "zenoiranBow",

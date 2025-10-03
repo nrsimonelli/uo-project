@@ -1,5 +1,4 @@
-import type { Unit } from '@/types/team'
-import type { SkillSlot } from '@/types/skills'
+import { getEquipmentById } from '@/core/equipment-lookup'
 import { CLASS_DATA } from '@/data/class-data'
 import {
   ActiveSkillsMap,
@@ -11,7 +10,8 @@ import {
   type PassiveSkillsId,
   type PassiveSkillsMap as PassiveSkillsMapType,
 } from '@/generated/skills-passive'
-import { getEquipmentById } from '@/core/equipment-lookup'
+import type { SkillSlot } from '@/types/skills'
+import type { Unit } from '@/types/team'
 
 type ActiveSkill = ActiveSkillsMapType[ActiveSkillsId]
 type PassiveSkill = PassiveSkillsMapType[PassiveSkillsId]
@@ -24,6 +24,8 @@ export interface AvailableSkill {
 
 export function getClassSkills(unit: Unit) {
   const classData = CLASS_DATA[unit.class]
+
+  console.log('classData', classData)
 
   if (!classData.skills) {
     return []
@@ -100,7 +102,7 @@ export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
   let insertIndex = 0
 
   if (newSkill.skill.type === 'active') {
-    insertIndex = slots.findIndex((slot) => slot.skillType === 'passive')
+    insertIndex = slots.findIndex(slot => slot.skillType === 'passive')
     if (insertIndex === -1) {
       insertIndex = slots.length
     }
@@ -145,9 +147,7 @@ export function reorderSkill(
     return slots
   }
 
-  const passiveBoundary = slots.findIndex(
-    (slot) => slot.skillType === 'passive'
-  )
+  const passiveBoundary = slots.findIndex(slot => slot.skillType === 'passive')
   const hasPassiveSkills = passiveBoundary !== -1
 
   if (movingSlot.skillType === 'active') {
@@ -171,7 +171,7 @@ export function reorderSkill(
 }
 
 export function removeSkill(slots: SkillSlot[], skillSlotId: string) {
-  const newSlots = slots.filter((slot) => slot.id !== skillSlotId)
+  const newSlots = slots.filter(slot => slot.id !== skillSlotId)
 
   return newSlots.map((slot, index) => ({
     ...slot,

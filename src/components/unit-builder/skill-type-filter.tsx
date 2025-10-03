@@ -16,10 +16,10 @@ export function SkillTypeFilterComponent({
 
   return (
     <Tabs value={value} onValueChange={handleValueChange}>
-      <TabsList className='grid w-full grid-cols-3'>
-        <TabsTrigger value='all'>All</TabsTrigger>
-        <TabsTrigger value='active'>Active</TabsTrigger>
-        <TabsTrigger value='passive'>Passive</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="all">All</TabsTrigger>
+        <TabsTrigger value="active">Active</TabsTrigger>
+        <TabsTrigger value="passive">Passive</TabsTrigger>
       </TabsList>
     </Tabs>
   )

@@ -134,9 +134,7 @@
       "MDEF": 1
     },
     "skillId": "stunCure",
-    "nullifications": [
-      "Stun"
-    ],
+    "nullifications": ["Stun"],
     "classRestrictions": []
   },
   {
@@ -159,9 +157,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Stun"
-    ],
+    "nullifications": ["Stun"],
     "classRestrictions": []
   },
   {
@@ -375,9 +371,7 @@
       "MDEF": 1
     },
     "skillId": "blindCure",
-    "nullifications": [
-      "Blind"
-    ],
+    "nullifications": ["Blind"],
     "classRestrictions": []
   },
   {
@@ -433,9 +427,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -627,9 +619,7 @@
       "MDEF": 1
     },
     "skillId": "freezeCure",
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -652,9 +642,7 @@
       "MDEF": 1
     },
     "skillId": "poisonCure",
-    "nullifications": [
-      "Poison"
-    ],
+    "nullifications": ["Poison"],
     "classRestrictions": []
   },
   {
@@ -800,10 +788,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Poison",
-      "Blind"
-    ],
+    "nullifications": ["Poison", "Blind"],
     "classRestrictions": []
   },
   {
@@ -857,9 +842,7 @@
       "MaxHP": 5
     },
     "skillId": null,
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {
@@ -912,10 +895,7 @@
       "MDEF": 1
     },
     "skillId": "graveImpetus",
-    "nullifications": [
-      "Poison",
-      "Deathblow"
-    ],
+    "nullifications": ["Poison", "Deathblow"],
     "classRestrictions": []
   },
   {
@@ -926,10 +906,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Poison",
-      "Deathblow"
-    ],
+    "nullifications": ["Poison", "Deathblow"],
     "classRestrictions": []
   },
   {
@@ -1091,9 +1068,7 @@
       "MDEF": 3
     },
     "skillId": null,
-    "nullifications": [
-      "Debuff"
-    ],
+    "nullifications": ["Debuff"],
     "classRestrictions": []
   },
   {
@@ -1453,10 +1428,7 @@
       "EVA": 20
     },
     "skillId": null,
-    "nullifications": [
-      "GuardSeal",
-      "PassiveSeal"
-    ],
+    "nullifications": ["GuardSeal", "PassiveSeal"],
     "classRestrictions": []
   },
   {
@@ -1488,10 +1460,7 @@
       "MDEF": 1
     },
     "skillId": "vanitas",
-    "nullifications": [
-      "Poison",
-      "Deathblow"
-    ],
+    "nullifications": ["Poison", "Deathblow"],
     "classRestrictions": [
       "Bishop",
       "Cleric",
@@ -1576,9 +1545,7 @@
       "MDEF": 1
     },
     "skillId": "guardCure",
-    "nullifications": [
-      "GuardSeal"
-    ],
+    "nullifications": ["GuardSeal"],
     "classRestrictions": []
   },
   {
@@ -1689,9 +1656,7 @@
       "MDEF": 1
     },
     "skillId": "fireCure",
-    "nullifications": [
-      "Burn"
-    ],
+    "nullifications": ["Burn"],
     "classRestrictions": []
   },
   {
@@ -1798,9 +1763,7 @@
       "OnActiveHealPercent": 20
     },
     "skillId": null,
-    "nullifications": [
-      "Affliction"
-    ],
+    "nullifications": ["Affliction"],
     "classRestrictions": []
   },
   {
@@ -1937,9 +1900,7 @@
       "MDEF": 1
     },
     "skillId": "passiveCure",
-    "nullifications": [
-      "PassiveSeal"
-    ],
+    "nullifications": ["PassiveSeal"],
     "classRestrictions": []
   },
   {
@@ -2103,10 +2064,7 @@
       "PP": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Deathblow",
-      "Poison"
-    ],
+    "nullifications": ["Deathblow", "Poison"],
     "classRestrictions": []
   },
   {
@@ -2165,10 +2123,7 @@
       "MDEF": 1
     },
     "skillId": "dawnHorn",
-    "nullifications": [
-      "Blind",
-      "Burn"
-    ],
+    "nullifications": ["Blind", "Burn"],
     "classRestrictions": []
   },
   {
@@ -2179,10 +2134,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Blind",
-      "Burn"
-    ],
+    "nullifications": ["Blind", "Burn"],
     "classRestrictions": []
   },
   {
@@ -2227,9 +2179,7 @@
       "MDEF": 1
     },
     "skillId": null,
-    "nullifications": [
-      "Freeze"
-    ],
+    "nullifications": ["Freeze"],
     "classRestrictions": []
   },
   {

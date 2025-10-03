@@ -1,3 +1,5 @@
+import { Label } from '../ui/label'
+
 import {
   Select,
   SelectTrigger,
@@ -5,12 +7,10 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select'
-
+import { filterUnits } from '@/core/unit-filter'
 import { GROWTHS } from '@/data/constants'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
-import { filterUnits } from '@/core/unit-filter'
 import type { Team } from '@/types/team'
-import { Label } from '../ui/label'
 
 interface Option<T extends string | number> {
   label: string
@@ -32,15 +32,15 @@ export function UnitSelect<T extends string | number>({
 }: UnitSelectProps<T>) {
   return (
     <div>
-      <Label htmlFor={label} className='block text-xs font-medium mb-1'>
+      <Label htmlFor={label} className="block text-xs font-medium mb-1">
         {label}
       </Label>
-      <Select value={String(value)} onValueChange={(val) => onChange(val as T)}>
-        <SelectTrigger className='h-8 w-full'>
+      <Select value={String(value)} onValueChange={val => onChange(val as T)}>
+        <SelectTrigger className="h-8 w-full">
           <SelectValue id={label} />
         </SelectTrigger>
         <SelectContent>
-          {options.map((opt) => (
+          {options.map(opt => (
             <SelectItem key={String(opt.value)} value={String(opt.value)}>
               {opt.label}
             </SelectItem>
@@ -64,7 +64,7 @@ export function LevelSelect({ level, onChange }: LevelSelectProps) {
 
   return (
     <UnitSelect<number>
-      label='Level'
+      label="Level"
       value={level}
       options={levelOptions}
       onChange={onChange}
@@ -79,7 +79,7 @@ interface GrowthSelectProps {
 }
 
 export function GrowthSelect({ label, growth, onChange }: GrowthSelectProps) {
-  const growthOptions = Object.values(GROWTHS).map((growth) => ({
+  const growthOptions = Object.values(GROWTHS).map(growth => ({
     label: growth,
     value: growth,
   }))
@@ -110,12 +110,12 @@ export function ClassSelect({
   // team without unitId
   const teamMinusCurrent = {
     ...team,
-    formation: team.formation.filter((unit) => unit?.id !== unitId),
+    formation: team.formation.filter(unit => unit?.id !== unitId),
   }
   const filtered = filterUnits(teamMinusCurrent)
 
   const classOptions = filtered
-    .map((cls) => ({
+    .map(cls => ({
       label: cls,
       value: cls as AllClassType,
     }))
@@ -123,7 +123,7 @@ export function ClassSelect({
 
   return (
     <UnitSelect<AllClassType>
-      label='Class'
+      label="Class"
       value={classType}
       options={classOptions}
       onChange={onChange}
