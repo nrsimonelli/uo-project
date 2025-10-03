@@ -90,6 +90,7 @@ export const PassiveSkills = [
     "type": "passive",
     "name": "Noble Guard",
     "description": "Block enemy attack with medium guard, grants 20% Defense and grants +1 PP if you have 50% Health or less.",
+    "pp": 1,
     "activationWindow": "beforeBeingHitPhys",
     "targeting": {
       "group": "Self",
