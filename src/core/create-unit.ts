@@ -22,8 +22,7 @@ export const createUnit = (
     level: 1,
     growths: ['All-Rounder', 'All-Rounder'] as GrowthTuple,
     equipment,
-    activeSkills: [],
-    passiveSkills: [],
+    skillSlots: [],
     position,
   }
 }

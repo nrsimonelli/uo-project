@@ -1,7 +1,6 @@
 import type { AllClassType, GrowthTuple } from './base-stats'
 import type { EquippedItem } from './equipment'
-// import type { ActiveSkillsMap, PassiveSkillsMap } from '@/generated/skills-active'
-import type { ActiveSkill, PassiveSkill } from './skills'
+import type { SkillSlot } from './skills'
 
 export const COLS = [0, 1, 2] as const
 
@@ -20,8 +19,7 @@ export interface Unit {
   level: number
   growths: GrowthTuple
   equipment: EquippedItem[]
-  activeSkills: ActiveSkill[]
-  passiveSkills: PassiveSkill[]
+  skillSlots: SkillSlot[]
 
   // Used for team building/editor convenience
   position?: Position

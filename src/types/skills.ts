@@ -39,6 +39,15 @@ export interface ClassSkills {
 }
 
 export interface SkillSlot {
-  skillId: string
-  tactics: Tactic[]
+  id: string
+  skillId: string | null
+  skillType: 'active' | 'passive' | null
+  tactics: [Tactic | null, Tactic | null] // Two tactic slots
+  order: number
+}
+
+export interface AvailableSkill {
+  skill: ActiveSkill | PassiveSkill
+  source: 'class' | 'equipment'
+  level?: number // For class skills
 }
