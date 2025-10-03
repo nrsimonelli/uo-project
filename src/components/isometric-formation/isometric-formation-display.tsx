@@ -1,7 +1,7 @@
 import type { Unit } from '@/types/team'
 import { IsometricFormationBase } from './isometric-formation-base'
 
-export const IsometricFormationDisplay = ({
+export function IsometricFormationDisplay({
   formation,
   orientation,
   onSelectTeam,
@@ -9,7 +9,7 @@ export const IsometricFormationDisplay = ({
   formation: (Unit | null)[]
   orientation: 'right-facing' | 'left-facing'
   onSelectTeam: () => void
-}) => {
+}) {
   return (
     <div className='cursor-pointer' onClick={onSelectTeam}>
       <IsometricFormationBase

@@ -16,10 +16,10 @@ interface UseSkillSlotManagerProps {
  * Custom hook for managing skill slots on a unit
  * Handles skill insertion, reordering, and removal while maintaining ordering constraints
  */
-export const useSkillSlotManager = ({
+export function useSkillSlotManager({
   unit,
   onUpdateUnit,
-}: UseSkillSlotManagerProps) => {
+}: UseSkillSlotManagerProps) {
   const maxSkills = 10
   const skillSlots = useMemo(() => unit.skillSlots || [], [unit.skillSlots])
   const canAddMoreSkills = skillSlots.length < maxSkills

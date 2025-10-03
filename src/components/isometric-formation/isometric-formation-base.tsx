@@ -13,7 +13,7 @@ const formationGrid = [
   { x: 2, y: 1 },
 ]
 
-export const IsometricFormationBase = ({
+export function IsometricFormationBase({
   formation,
   orientation,
   onTileClick,
@@ -25,7 +25,7 @@ export const IsometricFormationBase = ({
   onTileClick?: (idx: number) => void
   selectedIdx?: number | null
   scale?: number
-}) => {
+}) {
   const SCALED_WIDTH = TILE_WIDTH * scale
   const SCALED_HEIGHT = TILE_HEIGHT * scale
 

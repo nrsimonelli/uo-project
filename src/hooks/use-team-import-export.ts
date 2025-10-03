@@ -1,5 +1,8 @@
 import { useCallback } from 'react'
-import type { Team } from '@/types/team'
+import type { Team, Unit } from '@/types/team'
+import type { SkillSlot } from '@/types/skills'
+import { ActiveSkills } from '@/generated/skills-active'
+import { PassiveSkills } from '@/generated/skills-passive'
 
 interface TeamExportData {
   version: string
@@ -8,36 +11,100 @@ interface TeamExportData {
   team: Team
 }
 
-// Schema migration functions for future compatibility
-const migrateTeamData = (data: any): TeamExportData => {
-  // Handle different versions gracefully
-  if (!data.version) {
-    // Assume legacy format, try to migrate
-    if (data.team || data.formation) {
-      return {
-        version: '1.0',
-        exportDate: new Date().toISOString(),
-        teamName: data.teamName || data.team?.name || 'Imported Team',
-        team: data.team || {
-          id: 'imported',
-          name: data.teamName || 'Imported Team',
-          formation: data.formation || Array(6).fill(null),
-        },
-      }
+// Skill validation helpers
+const validateSkillReference = (skillId: string): boolean => {
+  const activeSkillExists = ActiveSkills.some((skill) => skill.id === skillId)
+  const passiveSkillExists = PassiveSkills.some((skill) => skill.id === skillId)
+  return activeSkillExists || passiveSkillExists
+}
+
+const validateSkillSlot = (slot: SkillSlot): SkillSlot | null => {
+  // If no skill is assigned, the slot is valid
+  if (!slot.skillId) {
+    return slot
+  }
+
+  // Validate that the skill exists
+  if (!validateSkillReference(slot.skillId)) {
+    console.warn(
+      `Invalid skill reference: ${slot.skillId}. Removing from slot.`
+    )
+    return {
+      ...slot,
+      skillId: null,
+      skillType: null,
+      tactics: [null, null], // Clear tactics when skill is invalid
     }
   }
 
-  // Current version - return as is but ensure required fields
+  return slot
+}
+
+const validateAndCleanUnit = (unit: Unit): Unit => {
+  if (!unit.skillSlots) {
+    return { ...unit, skillSlots: [] }
+  }
+
+  // Validate and clean skill slots
+  const validatedSkillSlots = unit.skillSlots
+    .map(validateSkillSlot)
+    .filter((slot): slot is SkillSlot => slot !== null)
+
   return {
-    version: data.version || '1.0',
-    exportDate: data.exportDate || new Date().toISOString(),
-    teamName: data.teamName || data.team?.name || 'Imported Team',
-    team: {
-      id: data.team?.id || 'imported',
-      name: data.team?.name || data.teamName || 'Imported Team',
-      formation: data.team?.formation || Array(6).fill(null),
+    ...unit,
+    skillSlots: validatedSkillSlots,
+  }
+}
+
+// Schema migration functions for future compatibility
+const migrateTeamData = (data: unknown): TeamExportData => {
+  // Type guard to ensure data is an object
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid data format')
+  }
+
+  const dataObj = data as Record<string, unknown>
+  let team: Team
+
+  // Handle different versions gracefully
+  if (!dataObj.version) {
+    // Assume legacy format, try to migrate
+    if (dataObj.team || dataObj.formation) {
+      const legacyTeam = dataObj.team as Team | undefined
+      team = legacyTeam || {
+        id: 'imported',
+        name: (dataObj.teamName as string) || 'Imported Team',
+        formation:
+          (dataObj.formation as (Unit | null)[]) || Array(6).fill(null),
+      }
+    } else {
+      throw new Error('No valid team data found')
+    }
+  } else {
+    // Current version - use provided team data
+    const teamData = dataObj.team as Team | undefined
+    team = {
+      id: teamData?.id || 'imported',
+      name: teamData?.name || (dataObj.teamName as string) || 'Imported Team',
+      formation: teamData?.formation || Array(6).fill(null),
       // Preserve any additional fields for future compatibility
-      ...data.team,
+      ...teamData,
+    }
+  }
+
+  // Validate and clean units in formation, ensuring skillSlots are handled
+  const cleanedFormation = team.formation.map((unit: Unit | null) => {
+    if (!unit) return null
+    return validateAndCleanUnit(unit)
+  })
+
+  return {
+    version: (dataObj.version as string) || '1.0',
+    exportDate: (dataObj.exportDate as string) || new Date().toISOString(),
+    teamName: (dataObj.teamName as string) || team.name || 'Imported Team',
+    team: {
+      ...team,
+      formation: cleanedFormation,
     },
   }
 }
@@ -50,8 +117,25 @@ export function useTeamImportExport() {
       teamName: team.name,
       team: {
         ...team,
-        // Deep clone to avoid mutations and ensure clean export
-        formation: team.formation.map((unit) => (unit ? { ...unit } : null)),
+        // Deep clone to avoid mutations and ensure clean export including skillSlots
+        formation: team.formation.map((unit) => {
+          if (!unit) return null
+
+          return {
+            ...unit,
+            // Ensure skillSlots are properly cloned
+            skillSlots: unit.skillSlots
+              ? unit.skillSlots.map((slot) => ({
+                  ...slot,
+                  // Deep clone tactics array
+                  tactics: [...slot.tactics] as [
+                    (typeof slot.tactics)[0],
+                    (typeof slot.tactics)[1]
+                  ],
+                }))
+              : [],
+          }
+        }),
       },
     }
 
@@ -81,7 +165,20 @@ export function useTeamImportExport() {
           while (formation.length < 6) formation.push(null)
           if (formation.length > 6) formation.splice(6)
 
-          migratedData.team.formation = formation
+          // Validate units and their skill slots
+          const validatedFormation = formation.map((unit: Unit | null) => {
+            if (!unit) return null
+
+            try {
+              return validateAndCleanUnit(unit)
+            } catch (error) {
+              console.warn(`Error validating unit ${unit.id}:`, error)
+              // Return unit with empty skillSlots if validation fails
+              return { ...unit, skillSlots: [] }
+            }
+          })
+
+          migratedData.team.formation = validatedFormation
 
           resolve(migratedData)
         } catch (error) {

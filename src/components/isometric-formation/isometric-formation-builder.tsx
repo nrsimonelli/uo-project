@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Unit } from '@/types/team'
 import { IsometricFormationBase } from './isometric-formation-base'
 
-export const IsometricFormationBuilder = ({
+export function IsometricFormationBuilder({
   formation,
   orientation,
   onSwap,
@@ -10,7 +10,7 @@ export const IsometricFormationBuilder = ({
   formation: (Unit | null)[]
   orientation: 'right-facing' | 'left-facing'
   onSwap: (fromIdx: number, toIdx: number) => void
-}) => {
+}) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
 
   const handleTileClick = (idx: number) => {

@@ -1,4 +1,5 @@
 import { Button } from '../ui/button'
+import { SPRITES } from '@/data/sprites'
 
 interface UnitItemProps {
   unitName: string
@@ -13,7 +14,7 @@ export function UnitItem({ unitName, onSelect }: UnitItemProps) {
       onClick={() => onSelect(unitName)}
     >
       <img
-        src={`src/assets/sprites/${unitName}.png`}
+        src={SPRITES[unitName as keyof typeof SPRITES]}
         height={32}
         width={32}
         alt={unitName}

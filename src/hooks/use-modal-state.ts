@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 
-export function useModalState(initialOpen = false) {
+export const useModalState = (initialOpen = false) => {
   const [open, setOpen] = useState(initialOpen)
   const [searchTerm, setSearchTerm] = useState('')
 
