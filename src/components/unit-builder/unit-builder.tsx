@@ -43,65 +43,69 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
   }
 
   return (
-    <Card className="p-4 flex-row flex-wrap gap-6">
-      <div className="flex-col flex-1 space-y-6 basis-xs">
-        <div className="flex w-auto justify-start items-start gap-3 flex-col">
-          <p className="text-lg font-medium">{unit.name}</p>
-          <UnitImage imagePath={SPRITES[unit.class]} label={unit.class} />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <LevelSelect
-            level={unit.level}
-            onChange={level => updateUnit(unit.id, { level })}
-          />
-          <GrowthSelect
-            label="Growth A"
-            growth={growthA}
-            onChange={growth =>
-              updateUnit(unit.id, { growths: [growth, growthB] })
-            }
-          />
-          <GrowthSelect
-            label="Growth B"
-            growth={growthB}
-            onChange={growth =>
-              updateUnit(unit.id, { growths: [growthA, growth] })
-            }
-          />
-        </div>
-        <div>
-          <p className="text-lg font-medium mb-3">Equipment</p>
-          <div className="grid grid-cols-1 gap-2">
-            {unitEquipmentSlotTypes.map((slot, index) => (
-              <EquipmentSearchModal
-                key={`${slot}-${index}`}
-                slotType={slot}
-                itemId={unit.equipment?.[index]?.itemId ?? null}
-                idx={index}
-                unitClass={unit.class}
-                unitId={unit.id}
-              />
-            ))}
+    <Card className="p-4 space-y-6">
+      <div className="flex flex-row flex-wrap gap-6">
+        <div className="flex-col flex-1 space-y-6 basis-xs">
+          <div className="flex w-auto justify-start items-start gap-3 flex-col">
+            <p className="text-lg font-medium">{unit.name}</p>
+            <UnitImage imagePath={SPRITES[unit.class]} label={unit.class} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <LevelSelect
+              level={unit.level}
+              onChange={level => updateUnit(unit.id, { level })}
+            />
+            <GrowthSelect
+              label="Growth A"
+              growth={growthA}
+              onChange={growth =>
+                updateUnit(unit.id, { growths: [growth, growthB] })
+              }
+            />
+            <GrowthSelect
+              label="Growth B"
+              growth={growthB}
+              onChange={growth =>
+                updateUnit(unit.id, { growths: [growthA, growth] })
+              }
+            />
+          </div>
+          <div>
+            <p className="text-lg font-medium mb-3">Equipment</p>
+            <div className="grid grid-cols-1 gap-2">
+              {unitEquipmentSlotTypes.map((slot, index) => (
+                <EquipmentSearchModal
+                  key={`${slot}-${index}`}
+                  slotType={slot}
+                  itemId={unit.equipment?.[index]?.itemId ?? null}
+                  idx={index}
+                  unitClass={unit.class}
+                  unitId={unit.id}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <SkillTacticsSection
-          unit={unit}
-          onUpdateUnit={updates => updateUnit(unit.id, updates)}
-        />
-      </div>
-      {/* column 2 */}
-      <div className="flex-col flex-1 basis-xs space-y-3">
-        <RadarGraph chartData={chartData} />
-        {/* Stat List */}
-        <div className="flex flex-col space-y-3">
-          <p className="text-lg">Stats</p>
-          <div className="space-y-1">
-            {chartData.map(stat => (
-              <AnimatedStatBar key={stat.stat} data={stat} />
-            ))}
+        {/* column 2 */}
+        <div className="flex-col flex-1 basis-xs space-y-3">
+          <RadarGraph chartData={chartData} />
+          {/* Stat List */}
+          <div className="flex flex-col space-y-3">
+            <p className="text-lg">Stats</p>
+            <div className="space-y-1">
+              {chartData.map(stat => (
+                <AnimatedStatBar key={stat.stat} data={stat} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Full width Skills & Tactics section */}
+      <SkillTacticsSection
+        unit={unit}
+        onUpdateUnit={updates => updateUnit(unit.id, updates)}
+      />
     </Card>
   )
 }

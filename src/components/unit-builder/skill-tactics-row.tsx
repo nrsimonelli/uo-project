@@ -1,10 +1,10 @@
-import { X, GripVertical, ArrowUp, ArrowDown } from 'lucide-react'
+import { X } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import type { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
+import { cn } from '@/lib/utils'
 import type { SkillSlot } from '@/types/skills'
 
 interface SkillTacticsRowProps {
@@ -18,117 +18,56 @@ export function SkillTacticsRow({
   index,
   skillSlotManager,
 }: SkillTacticsRowProps) {
-  const { removeSkillSlot, reorderSkillSlot, skillSlots } = skillSlotManager
+  const { removeSkillSlot } = skillSlotManager
 
   const skill = skillSlot.skillId
     ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillSlot.skillId)
     : null
 
-  const canMoveUp = index > 0
-  const canMoveDown = index < skillSlots.length - 1
-
-  const handleMoveUp = () => {
-    if (canMoveUp) {
-      reorderSkillSlot(index, index - 1)
-    }
-  }
-
-  const handleMoveDown = () => {
-    if (canMoveDown) {
-      reorderSkillSlot(index, index + 1)
-    }
-  }
-
   const handleRemove = () => {
     removeSkillSlot(skillSlot.id)
   }
 
-  return (
-    <div className="grid grid-cols-3 gap-2 items-center">
-      {/* Skill Column */}
-      <div className="flex items-center gap-2 p-2 border rounded-md bg-background">
-        {skillSlot.skillId ? (
-          skill ? (
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-sm truncate">
-                  {skill.name}
-                </span>
-                <Badge
-                  variant={skill.type === 'active' ? 'default' : 'secondary'}
-                  className="text-xs"
-                >
-                  {skill.type === 'active'
-                    ? `${skill?.ap ?? 'Unknown'} AP`
-                    : `${skill?.pp ?? 'Unknown'} PP`}
-                </Badge>
-              </div>
-              <p className="text-xs text-muted-foreground truncate">
-                {skill.description}
-              </p>
-            </div>
-          ) : (
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-sm text-warning">
-                  Skill data coming soon
-                </span>
-                <Badge variant="outline" className="text-xs">
-                  {skillSlot.skillId}
-                </Badge>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Skill ID: {skillSlot.skillId} - Data not yet available
-              </p>
-            </div>
-          )
-        ) : (
-          <div className="flex-1 text-sm text-muted-foreground">Empty Slot</div>
+  const renderCostSymbols = (cost: number, isActive: boolean) => {
+    return Array.from({ length: cost }, (_, i) => (
+      <span
+        key={i}
+        className={cn(
+          'inline-block w-2 h-2 rounded-full',
+          isActive ? 'bg-red-500' : 'bg-blue-500'
         )}
+      />
+    ))
+  }
 
-        {/* Row Controls */}
-        <div className="flex items-center gap-1">
+  return (
+    <div className="grid grid-cols-3 border-t hover:bg-muted/30">
+      <div className="p-2 flex items-center gap-2 min-h-[40px]">
+        {skill ? (
+          <>
+            <div className="flex items-center gap-1">
+              {skill.type === 'active'
+                ? renderCostSymbols(skill.ap || 0, true)
+                : renderCostSymbols(skill.pp || 0, false)}
+            </div>
+            <span className="text-sm">{skill.name}</span>
+          </>
+        ) : (
+          <span className="text-sm text-muted-foreground">Empty</span>
+        )}
+        {skill && (
           <Button
             variant="ghost"
-            size="icon"
-            className="size-6"
-            onClick={handleMoveUp}
-            disabled={!canMoveUp}
-          >
-            <ArrowUp className="size-3" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-6"
-            onClick={handleMoveDown}
-            disabled={!canMoveDown}
-          >
-            <ArrowDown className="size-3" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-6"
+            size="sm"
             onClick={handleRemove}
+            className="ml-auto size-6 text-muted-foreground hover:text-destructive"
           >
             <X className="size-3" />
           </Button>
-          <GripVertical className="size-4 text-muted-foreground cursor-grab" />
-        </div>
+        )}
       </div>
-
-      {/* Tactics Column 1 - Placeholder */}
-      <div className="p-2 border rounded-md bg-muted/30 text-center">
-        <span className="text-sm text-muted-foreground">Tactics 1</span>
-        <div className="text-xs text-muted-foreground mt-1">(Coming Soon)</div>
-      </div>
-
-      {/* Tactics Column 2 - Placeholder */}
-      <div className="p-2 border rounded-md bg-muted/30 text-center">
-        <span className="text-sm text-muted-foreground">Tactics 2</span>
-        <div className="text-xs text-muted-foreground mt-1">(Coming Soon)</div>
-      </div>
+      <div className="p-2 border-l min-h-[40px]"></div>
+      <div className="p-2 border-l min-h-[40px]"></div>
     </div>
   )
 }

@@ -16,17 +16,21 @@ export function SkillTacticsSection({
 
   return (
     <div className="space-y-3">
-      <p className="text-lg font-medium">Skills & Tactics</p>
-
-      {/* Three-column header */}
-      <div className="grid grid-cols-3 gap-2 text-sm font-medium text-muted-foreground">
-        <div>Skills</div>
-        <div>Tactics 1</div>
-        <div>Tactics 2</div>
+      <div className="flex items-center justify-between">
+        <p className="text-lg font-medium">Skills & Tactics</p>
+        <div className="text-sm text-muted-foreground">
+          {skillSlotManager.skillSlots.length} / {skillSlotManager.maxSkills}
+        </div>
       </div>
 
-      {/* Skills and tactics grid */}
-      <SkillTacticsGrid skillSlotManager={skillSlotManager} unit={unit} />
+      <div className="border rounded-lg overflow-hidden">
+        <div className="grid grid-cols-3 bg-muted/50 border-b text-sm font-medium">
+          <div className="p-3">Skill</div>
+          <div className="p-3 border-l">Tactics</div>
+          <div className="p-3 border-l"></div>
+        </div>
+        <SkillTacticsGrid skillSlotManager={skillSlotManager} unit={unit} />
+      </div>
     </div>
   )
 }

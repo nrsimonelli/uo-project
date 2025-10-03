@@ -16,7 +16,7 @@ export function SkillTacticsGrid({
   const { skillSlots, canAddMoreSkills, addSkill } = skillSlotManager
 
   return (
-    <div className="space-y-2">
+    <div>
       {skillSlots.map((skillSlot, index) => (
         <SkillTacticsRow
           key={skillSlot.id}
@@ -27,21 +27,14 @@ export function SkillTacticsGrid({
       ))}
 
       {canAddMoreSkills && (
-        <div className="grid grid-cols-3 gap-2">
-          <SkillSelectionModal unit={unit} onSkillSelect={addSkill} />
-          <div className="text-sm text-muted-foreground flex items-center justify-center">
-            -
+        <div className="grid grid-cols-3 border-t">
+          <div className="p-2 flex items-center">
+            <SkillSelectionModal unit={unit} onSkillSelect={addSkill} />
           </div>
-          <div className="text-sm text-muted-foreground flex items-center justify-center">
-            -
-          </div>
+          <div className="p-2 border-l"></div>
+          <div className="p-2 border-l"></div>
         </div>
       )}
-
-      {/* Show skill count */}
-      <div className="text-xs text-muted-foreground">
-        {skillSlots.length} / {skillSlotManager.maxSkills} skills
-      </div>
     </div>
   )
 }

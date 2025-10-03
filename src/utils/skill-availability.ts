@@ -1,4 +1,5 @@
 import { getEquipmentById } from '@/core/equipment-lookup'
+import { generateRandomId } from '@/core/helpers'
 import { CLASS_DATA } from '@/data/class-data'
 import {
   ActiveSkillsMap,
@@ -10,6 +11,7 @@ import {
   type PassiveSkillsId,
   type PassiveSkillsMap as PassiveSkillsMapType,
 } from '@/generated/skills-passive'
+import type { AllClassType, BaseClassType } from '@/types/base-stats'
 import type { SkillSlot } from '@/types/skills'
 import type { Unit } from '@/types/team'
 
@@ -19,38 +21,59 @@ type PassiveSkill = PassiveSkillsMapType[PassiveSkillsId]
 export interface AvailableSkill {
   skill: ActiveSkill | PassiveSkill
   source: 'class' | 'equipment'
-  level?: number // For class skills
+  level?: number
+}
+
+const inheritanceCache: Record<string, AllClassType[]> = {}
+
+function getInheritanceChain(className: AllClassType): AllClassType[] {
+  if (inheritanceCache[className]) {
+    return inheritanceCache[className]
+  }
+
+  const chain: AllClassType[] = []
+  let currentClass: AllClassType | BaseClassType | null = className
+
+  while (currentClass) {
+    const typedClass = currentClass as AllClassType
+    chain.push(typedClass)
+    const classDefinition = CLASS_DATA[typedClass]
+    currentClass = classDefinition?.baseClass || null
+  }
+
+  inheritanceCache[className] = chain
+  return chain
 }
 
 export function getClassSkills(unit: Unit) {
-  const classData = CLASS_DATA[unit.class]
-
-  console.log('classData', classData)
-
-  if (!classData.skills) {
-    return []
-  }
-
   const availableSkills: AvailableSkill[] = []
+  const inheritanceChain = getInheritanceChain(unit.class as AllClassType)
 
-  for (const classSkill of classData.skills) {
-    if (unit.level >= classSkill.level) {
-      let skill: ActiveSkill | PassiveSkill | undefined
+  for (const className of inheritanceChain) {
+    const classData = CLASS_DATA[className]
+    if (!classData?.skills) continue
 
-      if (classSkill.skillType === 'active') {
-        skill =
-          ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
-      } else if (classSkill.skillType === 'passive') {
-        skill =
-          PassiveSkillsMap[classSkill.skillId as keyof typeof PassiveSkillsMap]
-      }
+    for (const classSkill of classData.skills) {
+      if (unit.level >= classSkill.level) {
+        let skill: ActiveSkill | PassiveSkill | undefined
 
-      if (skill) {
-        availableSkills.push({
-          skill,
-          source: 'class',
-          level: classSkill.level,
-        })
+        if (classSkill.skillType === 'active') {
+          skill =
+            ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
+        } else if (classSkill.skillType === 'passive') {
+          skill =
+            PassiveSkillsMap[
+              classSkill.skillId as keyof typeof PassiveSkillsMap
+            ]
+        }
+
+        if (skill) {
+          availableSkills.push({
+            skill,
+            source: 'class',
+            level: classSkill.level,
+          })
+        }
       }
     }
   }
@@ -110,8 +133,10 @@ export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
     insertIndex = slots.length
   }
 
+  const skillSlotId = generateRandomId()
+
   const newSlot: SkillSlot = {
-    id: crypto.randomUUID(),
+    id: skillSlotId,
     skillId: newSkill.skill.id,
     skillType: newSkill.skill.type,
     tactics: [null, null],
