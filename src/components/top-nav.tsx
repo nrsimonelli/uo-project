@@ -24,7 +24,6 @@ export function TopNav() {
             <NavigationMenuLink
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
-              // className={navigationMenuTriggerStyle()}
             >
               <a href='/'>Home</a>
             </NavigationMenuLink>
@@ -33,20 +32,16 @@ export function TopNav() {
             <NavigationMenuLink
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
-
-              // className={navigationMenuTriggerStyle()}
             >
-              <a href='/'>Home</a>
+              <a href='/team-builder'>Team Builder</a>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
-
-              // className={navigationMenuTriggerStyle()}
             >
-              <a href='/'>Home</a>
+              <a href='/equipment-builder'>Equipment Builder</a>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <Button
