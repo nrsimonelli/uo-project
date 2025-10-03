@@ -1,13 +1,22 @@
-import { Layout } from './components/layout'
+import { Routes, Route } from 'react-router'
+import { LandingLayout } from './components/landing-layout'
+import { LandingPage } from './components/landing-page'
 import { TeamBuilder } from './components/team-builder/team-builder'
-import { TopNav } from './components/top-nav'
+import { EquipmentBuilder } from './components/equipment-builder/equipment-builder'
 
 export const App = () => {
   return (
-    <Layout>
-      <TopNav />
-      {/* TODO: Routing */}
-      <TeamBuilder />
-    </Layout>
+    <Routes>
+      <Route 
+        path="/" 
+        element={
+          <LandingLayout>
+            <LandingPage />
+          </LandingLayout>
+        } 
+      />
+      <Route path="/team-builder" element={<TeamBuilder />} />
+      <Route path="/equipment-builder" element={<EquipmentBuilder />} />
+    </Routes>
   )
 }

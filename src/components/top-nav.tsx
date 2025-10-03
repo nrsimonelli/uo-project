@@ -8,6 +8,7 @@ import {
 import { useTheme } from '@/hooks/use-theme'
 import { ContrastIcon, TrophyIcon } from 'lucide-react'
 import { Button } from './ui/button'
+import { Link } from 'react-router'
 
 export function TopNav() {
   const { theme, setTheme } = useTheme()
@@ -25,7 +26,7 @@ export function TopNav() {
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
             >
-              <a href='/'>Home</a>
+              <Link to='/'>Home</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
@@ -33,7 +34,7 @@ export function TopNav() {
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
             >
-              <a href='/team-builder'>Team Builder</a>
+              <Link to='/team-builder'>Team Builder</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
@@ -41,7 +42,7 @@ export function TopNav() {
               asChild
               className='text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200'
             >
-              <a href='/equipment-builder'>Equipment Builder</a>
+              <Link to='/equipment-builder'>Equipment Builder</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <Button

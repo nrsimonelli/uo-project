@@ -1,16 +1,19 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
-import './index.css'
 import { TeamProvider } from './components/team-builder/team-context'
 import { ThemeProvider } from './components/theme-provider'
+import { BrowserRouter } from 'react-router'
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-      <TeamProvider>
-        <App />
-      </TeamProvider>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+        <TeamProvider>
+          <App />
+        </TeamProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   </StrictMode>
 )
