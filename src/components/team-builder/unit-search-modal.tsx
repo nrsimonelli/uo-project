@@ -56,7 +56,13 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <AddUnitTrigger disabled={isTeamFull} />
+        <Button
+          variant='ghost'
+          className='flex flex-1'
+          onClick={() => setOpen(true)}
+        >
+          Add Unit <PlusIcon className='w-4 h-4' />
+        </Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby='modal-description'
@@ -81,18 +87,6 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
-
-interface AddUnitTriggerProps {
-  disabled: boolean
-}
-
-function AddUnitTrigger({ disabled }: AddUnitTriggerProps) {
-  return (
-    <Button variant='ghost' className='flex flex-1' disabled={disabled}>
-      Add Unit <PlusIcon className='w-4 h-4' />
-    </Button>
   )
 }
 

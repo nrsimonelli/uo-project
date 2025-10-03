@@ -9,18 +9,20 @@ import {
 } from '../ui/dialog'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { useModalState } from '@/hooks/use-modal-state'
 
-export const AddTeamModal = ({
+export function AddTeamModal({
   handleNewTeam,
 }: {
   handleNewTeam: (name: string) => void
-}) => {
-  const [open, setOpen] = useState(false)
+}) {
+  const { open, closeModal, setOpen } = useModalState()
   const [teamName, setTeamName] = useState('')
 
   const onClick = () => {
     handleNewTeam(teamName)
-    setOpen(false)
+    closeModal()
+    setTeamName('')
   }
 
   return (
