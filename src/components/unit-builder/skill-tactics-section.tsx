@@ -1,3 +1,4 @@
+import { SkillSelectionModal } from './skill-selection-modal'
 import { SkillTacticsGrid } from './skill-tactics-grid'
 
 import { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
@@ -18,8 +19,16 @@ export function SkillTacticsSection({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-lg font-medium">Skills & Tactics</p>
-        <div className="text-sm text-muted-foreground">
-          {skillSlotManager.skillSlots.length} / {skillSlotManager.maxSkills}
+        <div className="flex items-center gap-3">
+          <div className="text-sm text-muted-foreground">
+            {skillSlotManager.skillSlots.length} / {skillSlotManager.maxSkills}
+          </div>
+          {skillSlotManager.canAddMoreSkills && (
+            <SkillSelectionModal
+              unit={unit}
+              onSkillSelect={skillSlotManager.addSkill}
+            />
+          )}
         </div>
       </div>
 

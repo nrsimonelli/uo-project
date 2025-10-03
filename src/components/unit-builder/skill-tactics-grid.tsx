@@ -1,4 +1,3 @@
-import { SkillSelectionModal } from './skill-selection-modal'
 import { SkillTacticsRow } from './skill-tactics-row'
 
 import type { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
@@ -13,7 +12,7 @@ export function SkillTacticsGrid({
   skillSlotManager,
   unit,
 }: SkillTacticsGridProps) {
-  const { skillSlots, canAddMoreSkills, addSkill } = skillSlotManager
+  const { skillSlots } = skillSlotManager
 
   return (
     <div>
@@ -25,16 +24,6 @@ export function SkillTacticsGrid({
           skillSlotManager={skillSlotManager}
         />
       ))}
-
-      {canAddMoreSkills && (
-        <div className="grid grid-cols-3 border-t">
-          <div className="p-2 flex items-center">
-            <SkillSelectionModal unit={unit} onSkillSelect={addSkill} />
-          </div>
-          <div className="p-2 border-l"></div>
-          <div className="p-2 border-l"></div>
-        </div>
-      )}
     </div>
   )
 }

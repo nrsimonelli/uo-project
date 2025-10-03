@@ -1,6 +1,12 @@
 import { X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import type { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
@@ -50,7 +56,19 @@ export function SkillTacticsRow({
                 ? renderCostSymbols(skill.ap || 0, true)
                 : renderCostSymbols(skill.pp || 0, false)}
             </div>
-            <span className="text-sm">{skill.name}</span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="text-sm cursor-help">{skill.name}</span>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <div className="space-y-1">
+                    <p className="font-medium">{skill.name}</p>
+                    <p className="text-sm">{skill.description}</p>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </>
         ) : (
           <span className="text-sm text-muted-foreground">Empty</span>

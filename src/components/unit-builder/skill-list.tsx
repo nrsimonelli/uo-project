@@ -54,7 +54,7 @@ export function SkillList({ skills, onSkillSelect }: SkillListProps) {
                     </Badge>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground text-left">
+                <p className="text-sm text-muted-foreground text-left whitespace-normal break-words">
                   {skill.description}
                 </p>
                 {skill.type === 'active' && (
