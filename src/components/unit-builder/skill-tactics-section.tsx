@@ -18,7 +18,7 @@ export function SkillTacticsSection({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-lg font-medium">Skills & Tactics</p>
+        <p className="text-lg font-medium">Tactics</p>
         <div className="flex items-center gap-3">
           <div className="text-sm text-muted-foreground">
             {skillSlotManager.skillSlots.length} / {skillSlotManager.maxSkills}
@@ -35,8 +35,8 @@ export function SkillTacticsSection({
       <div className="border rounded-lg overflow-hidden">
         <div className="grid grid-cols-3 bg-muted/50 border-b text-sm font-medium">
           <div className="p-3">Skill</div>
-          <div className="p-3 border-l">Tactics</div>
-          <div className="p-3 border-l"></div>
+          <div className="p-3 border-l">Condition 1</div>
+          <div className="p-3 border-l">Condition 2</div>
         </div>
         <SkillTacticsGrid skillSlotManager={skillSlotManager} unit={unit} />
       </div>
