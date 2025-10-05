@@ -38,7 +38,7 @@ export const GROWTH_RANKS = {
 
 export const COMBATANT_TYPES = [
   'Infantry',
-  'Calvary',
+  'Cavalry',
   'Flying',
   'Armored',
   'Scout',

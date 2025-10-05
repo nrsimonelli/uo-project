@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import type { Position, Unit, Row, Col } from '@/types/team'
 
-export function useTeamPositions(formation: (Unit | null)[]) {
+export const useTeamPositions = (formation: (Unit | null)[]) => {
   const getNextOpenPosition = useMemo(() => {
     return (): Position | null => {
       for (let row = 0; row < 2; row++) {
@@ -18,7 +18,8 @@ export function useTeamPositions(formation: (Unit | null)[]) {
   }, [formation])
 
   const isTeamFull = useMemo(() => {
-    return formation.every(slot => slot !== null)
+    const unitCount = formation.filter(slot => slot !== null).length
+    return unitCount >= 5 // Maximum 5 units per team
   }, [formation])
 
   const availableSlots = useMemo(() => {
