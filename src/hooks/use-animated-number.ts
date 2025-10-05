@@ -12,7 +12,7 @@ export const useAnimatedNumber = (
   options: UseAnimatedNumberOptions = {}
 ) => {
   const { duration = 800, easing = easeOutCubic } = options
-  const [displayValue, setDisplayValue] = useState(targetValue)
+  const [displayValue, setDisplayValue] = useState(0) // Always start from 0
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {

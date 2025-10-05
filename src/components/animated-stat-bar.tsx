@@ -22,11 +22,11 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
   )
 
   const { displayValue: animatedValue } = useAnimatedNumber(adjustedValue, {
-    duration: 600,
+    duration: 500,
   })
 
   const { displayValue: animatedPercentage } = useAnimatedNumber(percentage, {
-    duration: 800,
+    duration: 500,
   })
 
   return (
@@ -39,7 +39,7 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
 
       <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden transition-colors duration-200">
         <div
-          className="h-full bg-gradient-to-r from-chart-1 to-chart-2 rounded-full transition-all duration-300 ease-out"
+          className="h-full bg-gradient-to-r from-chart-4 to-chart-5 rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${animatedPercentage}%`,
             transformOrigin: 'left center',

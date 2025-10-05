@@ -16,11 +16,11 @@ import {
 const chartConfig = {
   growth: {
     label: 'Rating',
-    color: 'var(--chart-1)',
+    color: 'var(--chart-4)',
   },
   total: {
     label: 'Total value',
-    color: 'var(--chart-2)',
+    color: 'var(--chart-5)',
   },
   base: {
     label: 'Base value',

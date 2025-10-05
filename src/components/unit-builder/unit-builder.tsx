@@ -96,7 +96,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
             <p className="text-lg">Stats</p>
             <div className="space-y-1">
               {chartData.map(stat => (
-                <AnimatedStatBar key={stat.stat} data={stat} />
+                <AnimatedStatBar key={`${unit.id}-${stat.stat}`} data={stat} />
               ))}
             </div>
           </div>

@@ -46,6 +46,14 @@ export function TopNav() {
               <Link to="/equipment-builder">Equipment Builder</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className="text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200"
+            >
+              <Link to="/mock-battle">Mock Battle</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
           <Button
             variant="ghost"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
