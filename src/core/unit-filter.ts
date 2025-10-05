@@ -1,8 +1,4 @@
-import {
-  UNIQUE_CLASSES,
-  EXCLUSIVE_GROUPS,
-  ALL_CLASSES,
-} from '@/data/class-types'
+import { UNIQUE_CLASSES, ALL_CLASSES, EXCLUSIVE_GROUPS } from '@/data/constants'
 import type { Team } from '@/types/team'
 
 const CRITERIA_UNIQUES = [
@@ -25,7 +21,9 @@ const CRUSADER_VALKYRIA_LIMITS = {
 
 export const filterUnits = (team: Team, searchTerm = ''): string[] => {
   const allUnits = Object.values(ALL_CLASSES)
-  const teamClasses = team.formation.filter(u => u !== null).map(u => u.class)
+  const teamClasses = team.formation
+    .filter(u => u !== null)
+    .map(u => u.classKey)
 
   return allUnits.filter(unit => {
     if (!unit.toLowerCase().includes(searchTerm.toLowerCase())) {

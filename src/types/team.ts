@@ -15,7 +15,7 @@ export interface Position {
 export interface Unit {
   id: string
   name: string
-  class: AllClassType
+  classKey: AllClassType
   level: number
   growths: GrowthTuple
   equipment: EquippedItem[]

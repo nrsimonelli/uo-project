@@ -5,8 +5,8 @@ import {
   calculateEquipmentBonus,
   calculateGrowthRanks,
 } from '@/core/calculations'
-import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/class-growth-table'
 import { STATS } from '@/data/constants'
+import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
 import type { StatKey } from '@/types/base-stats'
 import type { Unit } from '@/types/team'
 
@@ -36,11 +36,11 @@ export const useChartData = (
       }
     }
 
-    const { class: classType, level, growths, equipment } = unit
+    const { classKey, level, growths, equipment } = unit
 
-    const growthValues = COMBINED_CLASS_GROWTH_TABLE[classType]
-    const baseStats = calculateBaseStats(level, classType, growths)
-    const growthRanks = calculateGrowthRanks(classType)
+    const growthValues = COMBINED_CLASS_GROWTH_TABLE[classKey]
+    const baseStats = calculateBaseStats(level, classKey, growths)
+    const growthRanks = calculateGrowthRanks(classKey)
     const equipmentBonus = calculateEquipmentBonus(equipment, baseStats)
 
     const totalStats = Object.keys(baseStats).reduce(

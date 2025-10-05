@@ -1,15 +1,15 @@
-import { COMBINED_CLASS_GROWTH_TABLE } from '../data/class-growth-table'
 import { GROWTH_RANKS } from '../data/constants'
 import {
   GROWTH_CORRECTION_TABLE_A,
   GROWTH_CORRECTION_TABLE_B,
-} from '../data/growth-correction-table'
-import { UNIVERSAL_STAT_TABLE } from '../data/universal-stat-table'
+} from '../data/units/growth-correction-table'
 import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
 
 import { getEquipmentById } from './equipment-lookup'
 import type { RandomNumberGeneratorType } from './random'
 
+import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
+import { UNIVERSAL_STAT_TABLE } from '@/data/units/universal-stat-table'
 import { clamp } from '@/lib/utils'
 import type { EquippedItem } from '@/types/equipment'
 
@@ -29,12 +29,12 @@ const initialStatData = {
 
 export const calculateBaseStats = (
   level: ValidLevel,
-  classType: AllClassType,
+  classKey: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   const baseStats = { ...initialStatData }
   const universalBaseStats = UNIVERSAL_STAT_TABLE[level]
-  const growthCorrectionA = calculateGrowthCorrectionA(classType, growthType)
+  const growthCorrectionA = calculateGrowthCorrectionA(classKey, growthType)
   const growthCorrectionB = calculateGrowthCorrectionB(growthType)
 
   for (const stat in baseStats) {
@@ -49,7 +49,7 @@ export const calculateBaseStats = (
 }
 
 const calculateGrowthCorrectionA = (
-  classType: AllClassType,
+  classKey: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   const finalGrowthCorrectionA = {
@@ -58,7 +58,7 @@ const calculateGrowthCorrectionA = (
   const growthTypeOneCorrection = GROWTH_CORRECTION_TABLE_A[growthType[0]]
   const growthTypeTwoCorrection = GROWTH_CORRECTION_TABLE_A[growthType[1]]
 
-  const baseRates = COMBINED_CLASS_GROWTH_TABLE[classType]
+  const baseRates = COMBINED_CLASS_GROWTH_TABLE[classKey]
 
   for (const stat in finalGrowthCorrectionA) {
     const key = stat as keyof typeof finalGrowthCorrectionA
@@ -88,15 +88,15 @@ const calculateGrowthCorrectionB = (growthType: [GrowthType, GrowthType]) => {
 
 export const calculateFinalStats = (
   level: ValidLevel,
-  classType: AllClassType,
+  classKey: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
   // base + equipment + dews + rapports
-  const result = calculateBaseStats(level, classType, growthType)
+  const result = calculateBaseStats(level, classKey, growthType)
   return result
 }
 
-export const calculateGrowthRanks = (classType: AllClassType) => {
+export const calculateGrowthRanks = (classKey: AllClassType) => {
   const result = {
     HP: '',
     PATK: '',
@@ -110,7 +110,7 @@ export const calculateGrowthRanks = (classType: AllClassType) => {
     INIT: '',
   }
 
-  const classGrowth = COMBINED_CLASS_GROWTH_TABLE[classType]
+  const classGrowth = COMBINED_CLASS_GROWTH_TABLE[classKey]
 
   for (const stat in result) {
     const key = stat as keyof typeof result

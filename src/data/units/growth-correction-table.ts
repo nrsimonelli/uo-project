@@ -1,4 +1,4 @@
-import { GROWTHS } from './constants'
+import { GROWTHS } from '@/data/constants'
 
 export const GROWTH_CORRECTION_TABLE_A = {
   [GROWTHS.HARDY]: {

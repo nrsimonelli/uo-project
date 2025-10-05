@@ -43,7 +43,7 @@ export const useEquipmentManager = ({
           if (equippedItem.itemId) {
             equipped[equippedItem.itemId] = {
               unitId: unit.id,
-              unitClass: unit.class,
+              unitClass: unit.classKey,
               unitName: unit.name,
             }
           }
@@ -85,7 +85,7 @@ export const useEquipmentManager = ({
     (unit: Unit) => {
       if (currentSlotIndex < 0 || currentSlotIndex >= unit.equipment.length) {
         console.error(
-          `Invalid slot index: ${currentSlotIndex} for class ${unit.class}. Equipment array length: ${unit.equipment.length}`
+          `Invalid slot index: ${currentSlotIndex} for class ${unit.classKey}. Equipment array length: ${unit.equipment.length}`
         )
         return false
       }
@@ -137,7 +137,9 @@ export const useEquipmentManager = ({
       return (
         !item ||
         item.classRestrictions.length === 0 ||
-        (item.classRestrictions as readonly AllClassType[]).includes(unit.class)
+        (item.classRestrictions as readonly AllClassType[]).includes(
+          unit.classKey
+        )
       )
     },
     [filteredItems]

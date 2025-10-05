@@ -1,5 +1,5 @@
-import { CLASS_DATA } from '@/data/class-data'
-import { ALL_CLASSES } from '@/data/class-types'
+import { ALL_CLASSES } from '@/data/constants'
+import { CLASS_DATA } from '@/data/units/class-data'
 import type { AllClassType } from '@/types/base-stats'
 import type { NumericComparator, EqualityComparator } from '@/types/conditions'
 

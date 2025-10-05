@@ -1,4 +1,4 @@
-import { BASE_CLASSES, ADVANCED_CLASSES } from './class-types'
+import { BASE_CLASSES, ADVANCED_CLASSES } from '@/data/constants'
 
 export const BASE_CLASS_GROWTH_TABLE = {
   [BASE_CLASSES.LORD]: {

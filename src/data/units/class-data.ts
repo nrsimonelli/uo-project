@@ -1,5 +1,4 @@
-import { ALL_CLASSES } from './class-types'
-
+import { ALL_CLASSES } from '@/data/constants'
 import type { AllClassType, BaseClassType } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'
 
