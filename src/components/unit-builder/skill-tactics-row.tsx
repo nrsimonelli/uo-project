@@ -1,5 +1,8 @@
 import { X } from 'lucide-react'
 
+import { ConditionModal } from '../tactical/condition-modal'
+
+import { CostSymbols } from '@/components/cost-symbols'
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -9,23 +12,24 @@ import {
 } from '@/components/ui/tooltip'
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
-import type { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
-import { cn } from '@/lib/utils'
 import type { SkillSlot } from '@/types/skills'
+import type { TacticalCondition } from '@/types/tactical-evaluation'
 
 interface SkillTacticsRowProps {
   skillSlot: SkillSlot
-  index: number
-  skillSlotManager: ReturnType<typeof useSkillSlotManager>
+  removeSkillSlot: (arg: string) => void
+  handleConditionSelect: (
+    skillSlotId: string,
+    tacticIndex: number,
+    condition: TacticalCondition | null
+  ) => void
 }
 
 export function SkillTacticsRow({
   skillSlot,
-  index,
-  skillSlotManager,
+  removeSkillSlot,
+  handleConditionSelect,
 }: SkillTacticsRowProps) {
-  const { removeSkillSlot } = skillSlotManager
-
   const skill = skillSlot.skillId
     ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillSlot.skillId)
     : null
@@ -34,28 +38,19 @@ export function SkillTacticsRow({
     removeSkillSlot(skillSlot.id)
   }
 
-  const renderCostSymbols = (cost: number, isActive: boolean) => {
-    return Array.from({ length: cost }, (_, i) => (
-      <span
-        key={i}
-        className={cn(
-          'inline-block w-2 h-2 rounded-full',
-          isActive ? 'bg-red-500' : 'bg-blue-500'
-        )}
-      />
-    ))
+  const handleRemoveCondition = (idx: number) => {
+    handleConditionSelect(skillSlot.id, idx, null)
   }
 
   return (
-    <div className="grid grid-cols-3 border-t hover:bg-muted/30">
-      <div className="p-2 flex items-center gap-2 min-h-[40px]">
+    <div className="grid grid-cols-3 border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100">
+      <div className="p-2 flex items-center gap-2 min-h-[40px] relative">
         {skill ? (
           <>
-            <div className="flex items-center gap-1">
-              {skill.type === 'active'
-                ? renderCostSymbols(skill.ap || 0, true)
-                : renderCostSymbols(skill.pp || 0, false)}
-            </div>
+            <CostSymbols
+              cost={skill.type === 'active' ? skill.ap : skill.pp}
+              type={skill.type}
+            />
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -78,14 +73,48 @@ export function SkillTacticsRow({
             variant="ghost"
             size="sm"
             onClick={handleRemove}
-            className="ml-auto size-6 text-muted-foreground hover:text-destructive"
+            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
           >
             <X className="size-3" />
           </Button>
         )}
       </div>
-      <div className="p-2 border-l min-h-[40px]"></div>
-      <div className="p-2 border-l min-h-[40px]"></div>
+      <div className="p-2 border-l min-h-[40px] relative">
+        <ConditionModal
+          onSelectCondition={condition => {
+            handleConditionSelect(skillSlot.id, 0, condition)
+          }}
+          currentCondition={skillSlot.tactics[0]?.condition || null}
+        />
+        {skillSlot.tactics[0]?.condition && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleRemoveCondition(0)}
+            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
+          >
+            <X className="size-3" />
+          </Button>
+        )}
+      </div>
+      <div className="p-2 border-l min-h-[40px] relative">
+        <ConditionModal
+          onSelectCondition={condition => {
+            handleConditionSelect(skillSlot.id, 1, condition)
+          }}
+          currentCondition={skillSlot.tactics[1]?.condition || null}
+        />
+        {skillSlot.tactics[1]?.condition && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleRemoveCondition(1)}
+            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
+          >
+            <X className="size-3" />
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

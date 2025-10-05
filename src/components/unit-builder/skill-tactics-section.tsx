@@ -1,7 +1,9 @@
 import { SkillSelectionModal } from './skill-selection-modal'
-import { SkillTacticsGrid } from './skill-tactics-grid'
+import { SkillTacticsRow } from './skill-tactics-row'
 
 import { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
+import type { TacticalCondition } from '@/types/tactical-evaluation'
+import type { Tactic } from '@/types/tactics'
 import type { Unit } from '@/types/team'
 
 interface SkillTacticsSectionProps {
@@ -13,7 +15,37 @@ export function SkillTacticsSection({
   unit,
   onUpdateUnit,
 }: SkillTacticsSectionProps) {
-  const skillSlotManager = useSkillSlotManager({ unit, onUpdateUnit })
+  const { skillSlots, maxSkills, addSkill, canAddMoreSkills, removeSkillSlot } =
+    useSkillSlotManager({ unit, onUpdateUnit })
+
+  const handleConditionSelect = (
+    skillSlotId: string,
+    tacticIndex: number,
+    condition: TacticalCondition | null
+  ) => {
+    const updatedSkillSlots = skillSlots.map(slot => {
+      if (slot.id === skillSlotId) {
+        const newTactics: [Tactic | null, Tactic | null] = [...slot.tactics]
+
+        if (condition) {
+          newTactics[tacticIndex] = {
+            kind: 'conditional', // Default kind for now
+            condition,
+          }
+        } else {
+          newTactics[tacticIndex] = null
+        }
+
+        return {
+          ...slot,
+          tactics: newTactics,
+        }
+      }
+      return slot
+    })
+
+    onUpdateUnit({ skillSlots: updatedSkillSlots })
+  }
 
   return (
     <div className="space-y-3">
@@ -21,13 +53,10 @@ export function SkillTacticsSection({
         <p className="text-lg font-medium">Tactics</p>
         <div className="flex items-center gap-3">
           <div className="text-sm text-muted-foreground">
-            {skillSlotManager.skillSlots.length} / {skillSlotManager.maxSkills}
+            {skillSlots.length} / {maxSkills}
           </div>
-          {skillSlotManager.canAddMoreSkills && (
-            <SkillSelectionModal
-              unit={unit}
-              onSkillSelect={skillSlotManager.addSkill}
-            />
+          {canAddMoreSkills && (
+            <SkillSelectionModal unit={unit} onSkillSelect={addSkill} />
           )}
         </div>
       </div>
@@ -38,7 +67,16 @@ export function SkillTacticsSection({
           <div className="p-3 border-l">Condition 1</div>
           <div className="p-3 border-l">Condition 2</div>
         </div>
-        <SkillTacticsGrid skillSlotManager={skillSlotManager} unit={unit} />
+        <div>
+          {skillSlots.map(skillSlot => (
+            <SkillTacticsRow
+              key={skillSlot.id}
+              skillSlot={skillSlot}
+              removeSkillSlot={removeSkillSlot}
+              handleConditionSelect={handleConditionSelect}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

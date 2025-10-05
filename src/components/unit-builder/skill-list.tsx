@@ -1,3 +1,4 @@
+import { CostSymbols } from '@/components/cost-symbols'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -57,16 +58,14 @@ export function SkillList({ skills, onSkillSelect }: SkillListProps) {
                 <p className="text-sm text-muted-foreground text-left whitespace-normal break-words">
                   {skill.description}
                 </p>
-                {skill.type === 'active' && (
-                  <div className="text-xs text-muted-foreground">
-                    AP Cost: {skill.ap}
-                  </div>
-                )}
-                {skill.type === 'passive' && (
-                  <div className="text-xs text-muted-foreground">
-                    PP Cost: {skill.pp}
-                  </div>
-                )}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <CostSymbols
+                    cost={skill.type === 'active' ? skill.ap : skill.pp}
+                    type={skill.type}
+                    symbolClassName="w-1.5 h-1.5"
+                  />
+                  <span>{skill.type === 'active' ? 'AP' : 'PP'}</span>
+                </div>
               </div>
             </Button>
           )
