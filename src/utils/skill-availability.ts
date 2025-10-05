@@ -1,6 +1,6 @@
 import { getEquipmentById } from '@/core/equipment-lookup'
 import { generateRandomId } from '@/core/helpers'
-import { CLASS_DATA } from '@/data/class-data'
+import { CLASS_DATA } from '@/data/units/class-data'
 import {
   ActiveSkillsMap,
   type ActiveSkillsId,
@@ -45,9 +45,9 @@ function getInheritanceChain(className: AllClassType): AllClassType[] {
   return chain
 }
 
-export function getClassSkills(unit: Unit) {
+export const getClassSkills = (unit: Unit) => {
   const availableSkills: AvailableSkill[] = []
-  const inheritanceChain = getInheritanceChain(unit.class as AllClassType)
+  const inheritanceChain = getInheritanceChain(unit.classKey as AllClassType)
 
   for (const className of inheritanceChain) {
     const classData = CLASS_DATA[className]
@@ -81,14 +81,14 @@ export function getClassSkills(unit: Unit) {
   return availableSkills
 }
 
-export function getAvailableSkills(unit: Unit) {
+export const getAvailableSkills = (unit: Unit) => {
   const classSkills = getClassSkills(unit)
   const equipmentSkills = getEquipmentSkills(unit)
 
   return [...classSkills, ...equipmentSkills]
 }
 
-export function getEquipmentSkills(unit: Unit) {
+export const getEquipmentSkills = (unit: Unit) => {
   const availableSkills: AvailableSkill[] = []
 
   for (const equippedItem of unit.equipment) {
@@ -121,7 +121,7 @@ export function getEquipmentSkills(unit: Unit) {
   return availableSkills
 }
 
-export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
+export const insertSkill = (slots: SkillSlot[], newSkill: AvailableSkill) => {
   let insertIndex = 0
 
   if (newSkill.skill.type === 'active') {
@@ -152,11 +152,11 @@ export function insertSkill(slots: SkillSlot[], newSkill: AvailableSkill) {
   }))
 }
 
-export function reorderSkill(
+export const reorderSkill = (
   slots: SkillSlot[],
   fromIndex: number,
   toIndex: number
-) {
+) => {
   if (
     fromIndex === toIndex ||
     fromIndex < 0 ||
@@ -195,7 +195,7 @@ export function reorderSkill(
   }))
 }
 
-export function removeSkill(slots: SkillSlot[], skillSlotId: string) {
+export const removeSkill = (slots: SkillSlot[], skillSlotId: string) => {
   const newSlots = slots.filter(slot => slot.id !== skillSlotId)
 
   return newSlots.map((slot, index) => ({

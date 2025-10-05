@@ -1,20 +1,13 @@
 import { useCallback } from 'react'
 
-import { ActiveSkills } from '@/generated/skills-active'
-import { PassiveSkills } from '@/generated/skills-passive'
 import type { Team } from '@/types/team'
+import { cleanUnitData } from '@/utils/unit-validation'
 
 interface TeamExportData {
   version: string
   exportDate: string
   teamName: string
   team: Team
-}
-
-const validateSkillReference = (skillId: string): boolean => {
-  const activeSkillExists = ActiveSkills.some(skill => skill.id === skillId)
-  const passiveSkillExists = PassiveSkills.some(skill => skill.id === skillId)
-  return activeSkillExists || passiveSkillExists
 }
 
 // Simplified validation - just check structure and clean data
@@ -48,28 +41,10 @@ const validateImportData = (data: unknown): TeamExportData => {
     )
   }
 
-  // Clean up invalid skill references
+  // Clean up invalid skill and equipment references
   const cleanedFormation = formation.map(unit => {
     if (!unit) return null
-
-    return {
-      ...unit,
-      skillSlots:
-        unit.skillSlots?.map(slot => {
-          if (slot.skillId && !validateSkillReference(slot.skillId)) {
-            console.warn(
-              `Invalid skill reference: ${slot.skillId}. Removing from slot.`
-            )
-            return {
-              ...slot,
-              skillId: null,
-              skillType: null,
-              tactics: [null, null] as [null, null],
-            }
-          }
-          return slot
-        }) || [],
-    }
+    return cleanUnitData(unit)
   })
 
   return {

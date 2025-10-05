@@ -1,16 +1,16 @@
 import { SwordIcon, ShieldIcon, HardHatIcon, GemIcon } from 'lucide-react'
 
-import { PageContent } from '../page-content'
-import { PageHeader } from '../page-header'
-import { PageLayout } from '../page-layout'
-import { Button } from '../ui/button'
+import { PageContent } from '@/components/page-content'
+import { PageHeader } from '@/components/page-header'
+import { PageLayout } from '@/components/page-layout'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../ui/card'
+} from '@/components/ui/card'
 
 export function EquipmentBuilder() {
   return (

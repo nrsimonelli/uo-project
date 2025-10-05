@@ -1,5 +1,4 @@
-import { Label } from '../ui/label'
-
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectTrigger,
@@ -96,12 +95,12 @@ export function GrowthSelect({ label, growth, onChange }: GrowthSelectProps) {
 
 interface ClassSelectProps {
   unitId: string
-  classType: AllClassType
+  classKey: AllClassType
   onChange: (cls: AllClassType) => void
   team: Team
 }
 export function ClassSelect({
-  classType,
+  classKey,
   onChange,
   team,
   unitId,
@@ -124,7 +123,7 @@ export function ClassSelect({
   return (
     <UnitSelect<AllClassType>
       label="Class"
-      value={classType}
+      value={classKey}
       options={classOptions}
       onChange={onChange}
     />

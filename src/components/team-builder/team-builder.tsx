@@ -1,20 +1,19 @@
 import { Trash } from 'lucide-react'
 import { useState } from 'react'
 
-import { IsometricFormationBuilder } from '../isometric-formation/isometric-formation-builder'
-import { IsometricFormationDisplay } from '../isometric-formation/isometric-formation-display'
-import { PageHeader } from '../page-header'
-import { PageLayout } from '../page-layout'
-import { Button } from '../ui/button'
-import { Card } from '../ui/card'
-import { ScrollArea } from '../ui/scroll-area'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-
 import { EditableTeamName } from './editable-team-name'
 import { TeamImportExport } from './team-import-export'
 import { TeamSlot } from './team-slot'
 import { UnitSearchModal } from './unit-search-modal'
 
+import { IsometricFormationBuilder } from '@/components/isometric-formation/isometric-formation-builder'
+import { IsometricFormationDisplay } from '@/components/isometric-formation/isometric-formation-display'
+import { PageHeader } from '@/components/page-header'
+import { PageLayout } from '@/components/page-layout'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useCurrentTeam, useTeam } from '@/hooks/use-team'
 import { cn } from '@/lib/utils'
 import {
@@ -159,7 +158,7 @@ export function TeamBuilder() {
               <TabsList className="w-full flex-wrap h-auto">
                 {filteredTeamFormation.map(unit => (
                   <TabsTrigger key={unit.id} value={unit.id}>
-                    {unit.class}
+                    {unit.classKey}
                   </TabsTrigger>
                 ))}
                 {shouldShowAddUnit && (

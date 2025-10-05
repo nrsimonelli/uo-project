@@ -1,11 +1,11 @@
 import { DialogTrigger } from '@radix-ui/react-dialog'
 import { Plus, Search } from 'lucide-react'
 
-import { Button } from '../ui/button'
 
 import { SkillList } from './skill-list'
 import { SkillTypeFilterComponent } from './skill-type-filter'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,

@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router'
 
-import { EquipmentBuilder } from './components/equipment-builder/equipment-builder'
-import { LandingLayout } from './components/landing-layout'
-import { LandingPage } from './components/landing-page'
-import { TeamBuilder } from './components/team-builder/team-builder'
+import { EquipmentBuilder } from '@/components/equipment-builder/equipment-builder'
+import { LandingLayout } from '@/components/landing-layout'
+import { LandingPage } from '@/components/landing-page'
+import { TeamBuilder } from '@/components/team-builder/team-builder'
 
 export const App = () => {
   return (

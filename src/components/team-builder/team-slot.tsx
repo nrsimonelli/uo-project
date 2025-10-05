@@ -1,5 +1,4 @@
-import { UnitBuilder } from '../unit-builder/unit-builder'
-
+import { UnitBuilder } from '@/components/unit-builder/unit-builder'
 import type { Unit } from '@/types/team'
 
 interface TeamSlotProps {

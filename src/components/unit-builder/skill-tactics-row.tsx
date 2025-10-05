@@ -1,8 +1,7 @@
 import { X } from 'lucide-react'
 
-import { ConditionModal } from '../tactical/condition-modal'
-
 import { CostSymbols } from '@/components/cost-symbols'
+import { ConditionModal } from '@/components/tactical/condition-modal'
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,

@@ -82,8 +82,8 @@ export function IsometricFormationBase({
                 style={{ bottom: SCALED_HEIGHT * 0.3 }}
               >
                 <img
-                  src={SPRITES[slot.class]}
-                  alt={slot.class}
+                  src={SPRITES[slot.classKey]}
+                  alt={slot.classKey}
                   className={cn(
                     'object-contain drop-shadow-lg',
                     orientation === 'right-facing' && 'scale-x-[-1]',

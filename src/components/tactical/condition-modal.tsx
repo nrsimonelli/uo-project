@@ -1,22 +1,21 @@
 import { useState } from 'react'
 
-import {
-  TACTIC_CATEGORIES,
-  TACTIC_CATEGORY_MAP,
-} from '../../data/tactic-conditions'
-import type { TacticalCondition } from '../../types/tactical-evaluation'
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
-import { ScrollArea } from '../ui/scroll-area'
-
+} from '@/components/ui/dialog'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  TACTIC_CATEGORIES,
+  TACTIC_CATEGORY_MAP,
+} from '@/data/tactics/tactic-conditions'
 import { useModalState } from '@/hooks/use-modal-state'
 import { cn } from '@/lib/utils'
+import type { TacticalCondition } from '@/types/tactical-evaluation'
 
 interface ConditionModalProps {
   onSelectCondition: (condition: TacticalCondition | null) => void

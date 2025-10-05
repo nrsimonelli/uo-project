@@ -1,14 +1,14 @@
 import { UsersIcon, SwordIcon, ShieldIcon, TrendingUpIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from './ui/card'
+} from '@/components/ui/card'
 
 export function LandingPage() {
   return (

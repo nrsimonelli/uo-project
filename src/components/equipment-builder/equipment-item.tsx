@@ -1,9 +1,12 @@
-import { Badge } from '../ui/badge'
-import { Button } from '../ui/button'
-import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip'
-
 import { EquipmentSlotIcon } from './equipment-icons'
 
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip'
 import { SPRITES } from '@/data/sprites'
 import type { EquippedByInfo } from '@/hooks/use-equipment-manager'
 import type { EquipmentSlotType } from '@/types/equipment'

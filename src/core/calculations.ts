@@ -1,16 +1,16 @@
-import { GROWTH_RANKS } from '../data/constants'
-import {
-  GROWTH_CORRECTION_TABLE_A,
-  GROWTH_CORRECTION_TABLE_B,
-} from '../data/units/growth-correction-table'
-import type { GrowthType, GrowthRank, AllClassType } from '../types/base-stats'
 
 import { getEquipmentById } from './equipment-lookup'
 import type { RandomNumberGeneratorType } from './random'
 
+import { GROWTH_RANKS } from '@/data/constants'
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
+import {
+  GROWTH_CORRECTION_TABLE_A,
+  GROWTH_CORRECTION_TABLE_B,
+} from '@/data/units/growth-correction-table'
 import { UNIVERSAL_STAT_TABLE } from '@/data/units/universal-stat-table'
 import { clamp } from '@/lib/utils'
+import type { GrowthType, GrowthRank, AllClassType } from '@/types/base-stats'
 import type { EquippedItem } from '@/types/equipment'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
@@ -32,6 +32,7 @@ export const calculateBaseStats = (
   classKey: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
+  console.log({ level, classKey, growthType })
   const baseStats = { ...initialStatData }
   const universalBaseStats = UNIVERSAL_STAT_TABLE[level]
   const growthCorrectionA = calculateGrowthCorrectionA(classKey, growthType)
@@ -57,7 +58,7 @@ const calculateGrowthCorrectionA = (
   }
   const growthTypeOneCorrection = GROWTH_CORRECTION_TABLE_A[growthType[0]]
   const growthTypeTwoCorrection = GROWTH_CORRECTION_TABLE_A[growthType[1]]
-
+  console.log(classKey)
   const baseRates = COMBINED_CLASS_GROWTH_TABLE[classKey]
 
   for (const stat in finalGrowthCorrectionA) {

@@ -1,6 +1,5 @@
-import { useAnimatedNumber } from '../hooks/use-animated-number'
-
 import { STAT_ICONS, RANK_COLORS } from '@/data/stat-display'
+import { useAnimatedNumber } from '@/hooks/use-animated-number'
 import type { ChartDatum } from '@/hooks/use-chart-data'
 import { useStatCalculations } from '@/hooks/use-stat-calculations'
 import { cn } from '@/lib/utils'

@@ -1,4 +1,4 @@
-import { TopNav } from './top-nav'
+import { TopNav } from '@/components/top-nav'
 
 interface PageLayoutProps {
   children: React.ReactNode

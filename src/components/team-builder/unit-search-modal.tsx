@@ -1,18 +1,17 @@
 import { PlusIcon, Search } from 'lucide-react'
 
-import { Button } from '../ui/button'
+import { UnitItem } from './unit-item'
+
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
-import { Input } from '../ui/input'
-import { ScrollArea } from '../ui/scroll-area'
-
-import { UnitItem } from './unit-item'
-
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { createUnit } from '@/core/create-unit'
 import { generateRandomId } from '@/core/helpers'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'

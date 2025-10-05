@@ -1,4 +1,4 @@
-import type { COMBATANT_TYPES } from '../data/constants'
+import type { COMBATANT_TYPES } from '@/data/constants'
 
 export const TargetGroups = ['Enemy', 'Ally'] as const
 export type TargetGroup = (typeof TargetGroups)[number]

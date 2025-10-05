@@ -20,7 +20,6 @@ export interface Unit {
   growths: GrowthTuple
   equipment: EquippedItem[]
   skillSlots: SkillSlot[]
-
   // Used for team building/editor convenience
   position?: Position
 }

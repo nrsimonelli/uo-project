@@ -1,7 +1,6 @@
-import { Button } from '../ui/button'
-
 import { EquipmentSlotIcon } from './equipment-icons'
 
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { EquipmentSlotType } from '@/types/equipment'
 import type { GeneratedEquipment } from '@/types/generated-equipment'

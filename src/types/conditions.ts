@@ -1,9 +1,9 @@
-import type { AFFLICTIONS } from '../data/status'
-
 import type { StatKey } from './base-stats'
 import type { Target, CombatantType } from './core'
 import type { Flag } from './effects'
 import type { ExtraStats } from './equipment'
+
+import type { AFFLICTIONS } from '@/data/constants'
 
 export type AfflictionType = (typeof AFFLICTIONS)[number]
 export type EqualityComparator = 'EqualTo' | 'NotEqualTo'

@@ -1,11 +1,10 @@
-import { AnimatedStatBar } from '../animated-stat-bar'
-import { EquipmentSearchModal } from '../equipment-builder/equipment-search-modal'
-import { RadarGraph } from '../radar-graph'
-import { Card } from '../ui/card'
-
 import { SkillTacticsSection } from './skill-tactics-section'
 import { GrowthSelect, LevelSelect } from './unit-select'
 
+import { AnimatedStatBar } from '@/components/animated-stat-bar'
+import { EquipmentSearchModal } from '@/components/equipment-builder/equipment-search-modal'
+import { RadarGraph } from '@/components/radar-graph'
+import { Card } from '@/components/ui/card'
 import { getEquipmentSlots } from '@/core/helpers'
 import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'
@@ -36,7 +35,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
 
   const [growthA, growthB] = unit.growths
 
-  const unitEquipmentSlotTypes = getEquipmentSlots(unit.class)
+  const unitEquipmentSlotTypes = getEquipmentSlots(unit.classKey)
 
   if (!chartData) {
     return null
@@ -48,7 +47,10 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
         <div className="flex-col flex-1 space-y-6 basis-xs">
           <div className="flex w-auto justify-start items-start gap-3 flex-col">
             <p className="text-lg font-medium">{unit.name}</p>
-            <UnitImage imagePath={SPRITES[unit.class]} label={unit.class} />
+            <UnitImage
+              imagePath={SPRITES[unit.classKey]}
+              label={unit.classKey}
+            />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <LevelSelect
@@ -79,7 +81,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
                   slotType={slot}
                   itemId={unit.equipment?.[index]?.itemId ?? null}
                   idx={index}
-                  unitClass={unit.class}
+                  unitClass={unit.classKey}
                   unitId={unit.id}
                 />
               ))}

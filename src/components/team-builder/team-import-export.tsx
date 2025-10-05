@@ -2,17 +2,16 @@ import { Copy, Upload, AlertCircle, CheckCircle, Clipboard } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { Alert, AlertDescription } from '../ui/alert'
-import { Button } from '../ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '../ui/dialog'
-import { Textarea } from '../ui/textarea'
-
+} from '@/components/ui/dialog'
+import { Textarea } from '@/components/ui/textarea'
 import { useTeamImportExport } from '@/hooks/use-team-import-export'
 import type { Team } from '@/types/team'
 

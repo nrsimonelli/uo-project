@@ -1,5 +1,4 @@
-import { Button } from '../ui/button'
-
+import { Button } from '@/components/ui/button'
 import { SPRITES } from '@/data/sprites'
 
 interface UnitItemProps {

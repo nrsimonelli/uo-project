@@ -1,12 +1,9 @@
 import { Search, X } from 'lucide-react'
 
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { ScrollArea } from '../ui/scroll-area'
-
 import { EquipmentItem } from './equipment-item'
 import { EquipmentSlotTrigger } from './equipment-slot-trigger'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogTrigger,
@@ -14,6 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useEquipmentManager } from '@/hooks/use-equipment-manager'
 import type { EquippedByInfo } from '@/hooks/use-equipment-manager'
 import { useModalState } from '@/hooks/use-modal-state'

@@ -17,7 +17,7 @@ export const createUnit = (
 
   return {
     id: id,
-    class: className,
+    classKey: className,
     name: className,
     level: 1,
     growths: ['All-Rounder', 'All-Rounder'] as GrowthTuple,
