@@ -54,7 +54,6 @@ export const ConditionModal = ({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          onClick={() => setOpen(true)}
           className={'w-full p-2 justify-start text-left h-full'}
         >
           <div className="w-full">
@@ -70,7 +69,7 @@ export const ConditionModal = ({
         </Button>
       </DialogTrigger>
       <DialogContent
-        aria-describedby="modal-description"
+        aria-describedby={undefined}
         className="sm:max-w-xl max-h-[80vh] h-full w-full overflow-hidden flex flex-col"
       >
         <DialogHeader>

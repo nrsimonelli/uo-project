@@ -58,16 +58,12 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex flex-1"
-          onClick={() => setOpen(true)}
-        >
+        <Button variant="ghost" className="flex flex-1">
           Add Unit <PlusIcon className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent
-        aria-describedby="modal-description"
+        aria-describedby={undefined}
         className="sm:max-w-md max-h-[80vh] h-full w-full overflow-hidden flex flex-col items-start"
       >
         <DialogHeader>
@@ -78,10 +74,8 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
             searchTerm={searchTerm}
             onSearchChange={updateSearchTerm}
           />
-
           <ScrollArea className="flex flex-col w-full overflow-y-auto">
             <UnitList units={filteredUnits} onUnitSelect={handleUnitSelect} />
-
             {filteredUnits.length === 0 && (
               <EmptyState searchTerm={searchTerm} />
             )}

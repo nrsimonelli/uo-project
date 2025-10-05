@@ -1,7 +1,6 @@
 import { DialogTrigger } from '@radix-ui/react-dialog'
 import { Plus, Search } from 'lucide-react'
 
-
 import { SkillList } from './skill-list'
 import { SkillTypeFilterComponent } from './skill-type-filter'
 
@@ -27,7 +26,7 @@ export function SkillSelectionModal({
   unit,
   onSkillSelect,
 }: SkillSelectionModalProps) {
-  const { searchTerm, updateSearchTerm, open, setOpen, closeModal, openModal } =
+  const { searchTerm, updateSearchTerm, open, setOpen, closeModal } =
     useModalState()
 
   const {
@@ -53,17 +52,15 @@ export function SkillSelectionModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="justify-start"
-          onClick={openModal}
-        >
+        <Button variant="outline" size="sm" className="justify-start">
           <Plus className="size-4" />
           Add Skill
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col">
+      <DialogContent
+        className="max-w-2xl max-h-[80vh] flex flex-col"
+        aria-describedby={undefined}
+      >
         <DialogHeader>
           <DialogTitle>Select Skill</DialogTitle>
         </DialogHeader>

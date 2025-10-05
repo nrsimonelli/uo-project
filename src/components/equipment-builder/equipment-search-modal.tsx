@@ -70,7 +70,7 @@ export function EquipmentSearchModal({
         <EquipmentSlotTrigger slotType={slotType} currentItem={currentItem} />
       </DialogTrigger>
       <DialogContent
-        aria-describedby="modal-description"
+        aria-describedby={undefined}
         className="sm:max-w-md max-h-[80vh] h-full w-full overflow-hidden flex flex-col items-start"
       >
         <DialogHeader>
