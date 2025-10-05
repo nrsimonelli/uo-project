@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { Separator } from '../ui/separator'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   TACTIC_CATEGORIES,
   TACTIC_CATEGORY_MAP,
+  type TacticCategoryKey,
 } from '@/data/tactics/tactic-conditions'
 import { useModalState } from '@/hooks/use-modal-state'
 import { cn } from '@/lib/utils'
@@ -21,9 +24,6 @@ interface ConditionModalProps {
   onSelectCondition: (condition: TacticalCondition | null) => void
   currentCondition: TacticalCondition | null
 }
-
-type TacticCategoryKey =
-  (typeof TACTIC_CATEGORIES)[keyof typeof TACTIC_CATEGORIES]
 
 export const ConditionModal = ({
   onSelectCondition,
@@ -59,7 +59,7 @@ export const ConditionModal = ({
           <div className="w-full">
             <div
               className={cn(
-                'text-sm truncate font-light',
+                'text-sm truncate font-normal',
                 isEmpty && 'text-muted-foreground font-medium'
               )}
             >
@@ -75,97 +75,53 @@ export const ConditionModal = ({
         <DialogHeader>
           <DialogTitle>Select a tactic</DialogTitle>
         </DialogHeader>
-
         <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
           <div className="flex flex-1 overflow-hidden w-full">
-            <CategoryList
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategorySelect={setSelectedCategory}
-            />
-
-            <div className="flex-1 p-4 flex flex-col">
-              <h3 className="text-sm font-medium text-foreground mb-3">
-                Conditions
-              </h3>
+            <div className="flex-1 p-3 flex flex-col">
+              <p className="font-medium text-foreground mb-3">Categories</p>
               <ScrollArea className="flex flex-col w-full overflow-y-auto">
-                <ConditionList
-                  conditions={keysForCategory}
-                  currentCondition={currentCondition}
-                  selectedCategory={selectedCategory}
-                  onConditionSelect={handleConditionSelect}
-                />
+                <div className="space-y-1 pr-2">
+                  {categories.map(category => (
+                    <Button
+                      key={category}
+                      variant={
+                        selectedCategory === category ? 'default' : 'ghost'
+                      }
+                      onClick={() => setSelectedCategory(category)}
+                      className="w-full justify-start text-sm h-auto p-2"
+                    >
+                      {category}
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+            <Separator orientation="vertical" />
+            <div className="flex-1 p-3 flex flex-col">
+              <p className="font-medium text-foreground mb-3">Conditions</p>
+              <ScrollArea className="flex flex-col w-full overflow-y-auto">
+                <div className="space-y-1 pr-2">
+                  {keysForCategory.map(key => (
+                    <Button
+                      key={key}
+                      variant={
+                        currentCondition?.key === key &&
+                        currentCondition?.category === selectedCategory
+                          ? 'default'
+                          : 'ghost'
+                      }
+                      onClick={() => handleConditionSelect(key)}
+                      className="w-full justify-start text-sm h-auto p-2"
+                    >
+                      {key}
+                    </Button>
+                  ))}
+                </div>
               </ScrollArea>
             </div>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
-
-interface CategoryListProps {
-  categories: TacticCategoryKey[]
-  selectedCategory: TacticCategoryKey
-  onCategorySelect: (category: TacticCategoryKey) => void
-}
-
-function CategoryList({
-  categories,
-  selectedCategory,
-  onCategorySelect,
-}: CategoryListProps) {
-  return (
-    <div className="w-64 border-r border-border p-4 flex-shrink-0 flex flex-col">
-      <h3 className="text-sm font-medium text-foreground mb-3">Categories</h3>
-      <ScrollArea className="flex flex-col w-full overflow-y-auto">
-        <div className="space-y-1">
-          {categories.map(category => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? 'default' : 'ghost'}
-              onClick={() => onCategorySelect(category)}
-              className="w-full justify-start text-sm h-auto p-2"
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
-  )
-}
-
-interface ConditionListProps {
-  conditions: readonly string[]
-  currentCondition?: TacticalCondition | null
-  selectedCategory: TacticCategoryKey
-  onConditionSelect: (key: string) => void
-}
-
-function ConditionList({
-  conditions,
-  currentCondition,
-  selectedCategory,
-  onConditionSelect,
-}: ConditionListProps) {
-  return (
-    <div className="grid grid-cols-1 gap-2">
-      {conditions.map(key => (
-        <Button
-          key={key}
-          variant={
-            currentCondition?.key === key &&
-            currentCondition?.category === selectedCategory
-              ? 'default'
-              : 'ghost'
-          }
-          onClick={() => onConditionSelect(key)}
-          className="justify-start text-left h-auto p-3 whitespace-normal"
-        >
-          {key}
-        </Button>
-      ))}
-    </div>
   )
 }
