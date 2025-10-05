@@ -9,7 +9,7 @@ interface UseSkillSelectionProps {
   unit: Unit
 }
 
-export function useSkillSelection({ unit }: UseSkillSelectionProps) {
+export const useSkillSelection = ({ unit }: UseSkillSelectionProps) => {
   console.log('unit', unit)
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')
@@ -54,17 +54,6 @@ export function useSkillSelection({ unit }: UseSkillSelectionProps) {
     skillTypeFilter,
     searchTerm,
   ])
-
-  console.log({
-    availableSkills,
-    filteredSkills,
-    skillTypeFilter,
-    setSkillTypeFilter,
-    searchTerm,
-    setSearchTerm,
-    activeSkills,
-    passiveSkills,
-  })
 
   return {
     availableSkills,

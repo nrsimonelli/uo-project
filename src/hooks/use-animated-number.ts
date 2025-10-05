@@ -7,10 +7,10 @@ interface UseAnimatedNumberOptions {
 
 const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3)
 
-export function useAnimatedNumber(
+export const useAnimatedNumber = (
   targetValue: number,
   options: UseAnimatedNumberOptions = {}
-) {
+) => {
   const { duration = 800, easing = easeOutCubic } = options
   const [displayValue, setDisplayValue] = useState(targetValue)
   const [isAnimating, setIsAnimating] = useState(false)

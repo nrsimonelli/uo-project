@@ -22,11 +22,11 @@ const equipmentMap = {
   Accessory: EquipmentAccessory,
 } as const
 
-export function useFilteredEquipment(
+export const useFilteredEquipment = (
   slotType: EquipmentSlotType,
   unitClass: AllClassType,
   searchTerm: string
-) {
+) => {
   return useMemo(() => {
     const items = equipmentMap[slotType] || []
 

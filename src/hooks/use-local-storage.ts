@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 type LocalKey = 'team-data' | 'active-team-id'
-export function useLocalStorage<T>(key: LocalKey, initialValue: T) {
+export const useLocalStorage = <T>(key: LocalKey, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
       return initialValue

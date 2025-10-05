@@ -13,10 +13,10 @@ interface UseSkillSlotManagerProps {
   onUpdateUnit: (updates: Partial<Unit>) => void
 }
 
-export function useSkillSlotManager({
+export const useSkillSlotManager = ({
   unit,
   onUpdateUnit,
-}: UseSkillSlotManagerProps) {
+}: UseSkillSlotManagerProps) => {
   const maxSkills = 10
   const skillSlots = useMemo(() => unit.skillSlots || [], [unit.skillSlots])
   const canAddMoreSkills = skillSlots.length < maxSkills

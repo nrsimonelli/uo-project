@@ -23,14 +23,14 @@ export interface UseEquipmentManagerProps {
   currentUnitId: string
 }
 
-export function useEquipmentManager({
+export const useEquipmentManager = ({
   slotType,
   unitClass,
   searchTerm,
   currentItemId,
   currentSlotIndex,
   currentUnitId,
-}: UseEquipmentManagerProps) {
+}: UseEquipmentManagerProps) => {
   const { updateUnit, updateMultipleUnits } = useTeam()
   const team = useCurrentTeam() // Always use fresh team state
   const filteredItems = useFilteredEquipment(slotType, unitClass, searchTerm)

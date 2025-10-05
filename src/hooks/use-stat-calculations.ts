@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-export function useStatCalculations(stat: string, baseValue: number) {
+export const useStatCalculations = (stat: string, baseValue: number) => {
   const adjustedValue = useMemo(() => {
     return stat === 'Accuracy' ? baseValue + 100 : baseValue
   }, [stat, baseValue])

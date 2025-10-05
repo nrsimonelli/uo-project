@@ -20,11 +20,13 @@ export type ChartDatum = {
 
 type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
 
-export function useChartData(unit: Unit | null): {
+export const useChartData = (
+  unit: Unit | null
+): {
   chartData: ChartDatum[]
   baseStats: Record<CombatStat, number>
   totalStats: Record<CombatStat, number>
-} {
+} => {
   return useMemo(() => {
     if (!unit) {
       return {
