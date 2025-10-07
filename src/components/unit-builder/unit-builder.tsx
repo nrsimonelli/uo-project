@@ -2,9 +2,15 @@ import { SkillTacticsSection } from './skill-tactics-section'
 import { GrowthSelect, LevelSelect } from './unit-select'
 
 import { AnimatedStatBar } from '@/components/animated-stat-bar'
+import { CostSymbols } from '@/components/cost-symbols'
 import { EquipmentSearchModal } from '@/components/equipment-builder/equipment-search-modal'
 import { RadarGraph } from '@/components/radar-graph'
 import { Card } from '@/components/ui/card'
+import {
+  calculateBaseStats,
+  calculateEquipmentBonus,
+  calculateFinalAPPP,
+} from '@/core/calculations'
 import { getEquipmentSlots } from '@/core/helpers'
 import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'
@@ -36,6 +42,11 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
   const [growthA, growthB] = unit.growths
 
   const unitEquipmentSlotTypes = getEquipmentSlots(unit.classKey)
+
+  // Calculate AP/PP for display
+  const baseStats = calculateBaseStats(unit.level, unit.classKey, unit.growths)
+  const equipmentBonus = calculateEquipmentBonus(unit.equipment, baseStats)
+  const { AP, PP } = calculateFinalAPPP(unit.classKey, equipmentBonus)
 
   if (!chartData) {
     return null
@@ -73,7 +84,12 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
             />
           </div>
           <div>
-            <p className="text-lg font-medium mb-3">Equipment</p>
+            <div className="flex items-center gap-2 mb-3">
+              <p className="text-lg font-medium">Equipment</p>
+              <CostSymbols cost={AP} type="active" symbolClassName="w-2 h-2" />
+
+              <CostSymbols cost={PP} type="passive" symbolClassName="w-2 h-2" />
+            </div>
             <div className="grid grid-cols-1 gap-2">
               {unitEquipmentSlotTypes.map((slot, index) => (
                 <EquipmentSearchModal
