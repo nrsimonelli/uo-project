@@ -4,10 +4,11 @@ import {
   calculateFinalAPPP,
 } from './calculations'
 import { getCombatantTypeFromClass } from './helpers'
+import type { RandomNumberGeneratorType } from './random'
 
 import type { StatKey } from '@/types/base-stats'
-import type { BattleContext } from '@/types/battle-engine'
-import type { Unit } from '@/types/team'
+import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
+import type { Team, Unit } from '@/types/team'
 
 /**
  * Convert a Unit into a BattleContext with calculated stats and battle state
@@ -55,5 +56,95 @@ export const createBattleContext = (
     lastPassiveResponse: 0,
     isPassiveResponsive: true,
     immunities: [],
+  }
+}
+
+/**
+ * Create battle contexts for all units in both teams
+ */
+export const createAllBattleContexts = (
+  homeTeam: Team,
+  awayTeam: Team
+): Record<string, BattleContext> => {
+  const allBattleContexts: Record<string, BattleContext> = {}
+
+  // Process home team units
+  homeTeam.formation.forEach(unit => {
+    if (unit && unit.position) {
+      const battleContext = createBattleContext(
+        unit,
+        'home-team',
+        unit.position
+      )
+      allBattleContexts[`home-${unit.id}`] = battleContext
+    }
+  })
+
+  // Process away team units
+  awayTeam.formation.forEach(unit => {
+    if (unit && unit.position) {
+      const battleContext = createBattleContext(
+        unit,
+        'away-team',
+        unit.position
+      )
+      allBattleContexts[`away-${unit.id}`] = battleContext
+    }
+  })
+
+  return allBattleContexts
+}
+
+/**
+ * Create formation arrays from battle contexts for battlefield state
+ */
+export const createFormationArrays = (
+  allBattleContexts: Record<string, BattleContext>
+): { allies: (string | null)[][]; enemies: (string | null)[][] } => {
+  const homeFormation: (string | null)[][] = [[], []]
+  const awayFormation: (string | null)[][] = [[], []]
+
+  Object.entries(allBattleContexts).forEach(([unitId, context]) => {
+    const formation =
+      context.team === 'home-team' ? homeFormation : awayFormation
+    const { row, col } = context.position
+
+    // Ensure the formation array has the correct size
+    while (formation[row].length <= col) formation[row].push(null)
+    formation[row][col] = unitId
+  })
+
+  return {
+    allies: homeFormation,
+    enemies: awayFormation,
+  }
+}
+
+/**
+ * Create the initial battlefield state for battle execution
+ */
+export const createInitialBattlefieldState = (
+  allBattleContexts: Record<string, BattleContext>,
+  turnOrder: string[],
+  rng: RandomNumberGeneratorType
+): BattlefieldState => {
+  const formations = createFormationArrays(allBattleContexts)
+
+  return {
+    units: allBattleContexts,
+    activeUnitId: turnOrder[0] || '',
+    formations,
+    activeSkillQueue: turnOrder,
+    passiveSkillQueue: [],
+    battlePhase: 'setup',
+    isNight: false,
+    turnCount: 0,
+    actionHistory: [],
+    rng,
+    currentRound: 1,
+    activeSkillTurnCounter: 0,
+    passiveResponseTracking: {},
+    inactivityCounter: 0,
+    lastActionRound: 0,
   }
 }
