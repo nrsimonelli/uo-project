@@ -29,12 +29,20 @@ export function UnitSelect<T extends string | number>({
   options,
   onChange,
 }: UnitSelectProps<T>) {
+  const handleValueChange = (val: string) => {
+    // Find the original option to get the proper typed value
+    const option = options.find(opt => String(opt.value) === val)
+    if (option) {
+      onChange(option.value)
+    }
+  }
+
   return (
     <div>
       <Label htmlFor={label} className="block text-xs font-medium mb-1">
         {label}
       </Label>
-      <Select value={String(value)} onValueChange={val => onChange(val as T)}>
+      <Select value={String(value)} onValueChange={handleValueChange}>
         <SelectTrigger className="h-8 w-full">
           <SelectValue id={label} />
         </SelectTrigger>

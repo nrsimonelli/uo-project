@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router'
 
-import { BattlePage } from '@/components/battle'
+import { MockBattle } from '@/components/battle/mock-battle'
 import { EquipmentBuilder } from '@/components/equipment-builder/equipment-builder'
 import { LandingLayout } from '@/components/landing-layout'
 import { LandingPage } from '@/components/landing-page'
@@ -19,7 +19,7 @@ export const App = () => {
       />
       <Route path="/team-builder" element={<TeamBuilder />} />
       <Route path="/equipment-builder" element={<EquipmentBuilder />} />
-      <Route path="/mock-battle" element={<BattlePage />} />
+      <Route path="/mock-battle" element={<MockBattle />} />
     </Routes>
   )
 }

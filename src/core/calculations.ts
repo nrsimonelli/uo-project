@@ -1,4 +1,3 @@
-
 import { getEquipmentById } from './equipment-lookup'
 import type { RandomNumberGeneratorType } from './random'
 
@@ -32,7 +31,6 @@ export const calculateBaseStats = (
   classKey: AllClassType,
   growthType: [GrowthType, GrowthType]
 ) => {
-  console.log({ level, classKey, growthType })
   const baseStats = { ...initialStatData }
   const universalBaseStats = UNIVERSAL_STAT_TABLE[level]
   const growthCorrectionA = calculateGrowthCorrectionA(classKey, growthType)
@@ -58,7 +56,6 @@ const calculateGrowthCorrectionA = (
   }
   const growthTypeOneCorrection = GROWTH_CORRECTION_TABLE_A[growthType[0]]
   const growthTypeTwoCorrection = GROWTH_CORRECTION_TABLE_A[growthType[1]]
-  console.log(classKey)
   const baseRates = COMBINED_CLASS_GROWTH_TABLE[classKey]
 
   for (const stat in finalGrowthCorrectionA) {
@@ -233,8 +230,6 @@ export const calculateEquipmentBonus = (
       console.warn(`Equipment item not found: ${equippedItem.itemId}`)
       continue
     }
-
-    console.log(`Processing equipment: ${item.name}`, item.stats)
 
     // Process each stat on the equipment
     for (const [statKey, value] of Object.entries(item.stats)) {
