@@ -42,8 +42,10 @@ const initialResultSummary: BattleResultSummary = {
  */
 export const useBattleEngine = (): UseBattleEngineReturn => {
   const [battleEvents, setBattleEvents] = useState<BattleEvent[]>([])
-  const [resultSummary, setResultSummary] = useState<BattleResultSummary>(initialResultSummary)
-  const [battlefieldState, setBattlefieldState] = useState<BattlefieldState | null>(null)
+  const [resultSummary, setResultSummary] =
+    useState<BattleResultSummary>(initialResultSummary)
+  const [battlefieldState, setBattlefieldState] =
+    useState<BattlefieldState | null>(null)
   const [isExecuting, setIsExecuting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -76,13 +78,16 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         seed: battleSeed,
         turnOrder,
         unitCount: Object.keys(allBattleContexts).length,
+        initialBattlefieldState,
       })
 
       // TODO: Implement battle execution logic here
       // For now, just finish initialization
       setIsExecuting(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Battle initialization failed')
+      setError(
+        err instanceof Error ? err.message : 'Battle initialization failed'
+      )
       setIsExecuting(false)
     }
   }

@@ -97,21 +97,33 @@ export const createAllBattleContexts = (
 
 /**
  * Create formation arrays from battle contexts for battlefield state
+ * Always creates proper 2x3 grids (2 rows, 3 columns) with null for empty positions
  */
 export const createFormationArrays = (
   allBattleContexts: Record<string, BattleContext>
 ): { allies: (string | null)[][]; enemies: (string | null)[][] } => {
-  const homeFormation: (string | null)[][] = [[], []]
-  const awayFormation: (string | null)[][] = [[], []]
+  // Initialize fixed 2x3 grids filled with null
+  const homeFormation: (string | null)[][] = [
+    [null, null, null], // Back row (row 0)
+    [null, null, null], // Front row (row 1)
+  ]
+  const awayFormation: (string | null)[][] = [
+    [null, null, null], // Back row (row 0)
+    [null, null, null], // Front row (row 1)
+  ]
 
+  // Place units in their correct positions
   Object.entries(allBattleContexts).forEach(([unitId, context]) => {
     const formation =
       context.team === 'home-team' ? homeFormation : awayFormation
     const { row, col } = context.position
 
-    // Ensure the formation array has the correct size
-    while (formation[row].length <= col) formation[row].push(null)
-    formation[row][col] = unitId
+    // Validate position is within grid bounds
+    if (row >= 0 && row <= 1 && col >= 0 && col <= 2) {
+      formation[row][col] = unitId
+    } else {
+      console.warn(`Invalid position for unit ${unitId}: row=${row}, col=${col}`)
+    }
   })
 
   return {
