@@ -1,34 +1,24 @@
 import { useState } from 'react'
 
-import { rng, type RandomNumberGeneratorType } from '@/core/random'
+import { createBattleContext } from '@/core/battlefield-state'
+import { calculateTurnOrder } from '@/core/calculations'
+import { rng } from '@/core/random'
+import type {
+  BattleContext,
+  BattleEvent,
+  BattleResultSummary,
+  BattlefieldState,
+} from '@/types/battle-engine'
 import type { Team } from '@/types/team'
-
-// Battle event type
-export interface BattleEvent {
-  id: string
-  type: string
-  turn: number
-  description: string
-  actingUnit?: string
-  targets?: string[]
-}
-
-// Battle result summary
-export interface BattleResultSummary {
-  winner: string | null
-  endReason: string | null
-  totalTurns: number
-  totalEvents: number
-  teamHpPercentages: { [teamId: string]: number }
-}
 
 // Hook return type
 interface UseBattleEngineReturn {
   battleEvents: BattleEvent[]
   resultSummary: BattleResultSummary
+  battlefieldState: BattlefieldState | null
   isExecuting: boolean
   error: string | null
-  executeBattle: (allyTeam: Team, enemyTeam: Team, seed?: string) => void
+  executeBattle: (homeTeam: Team, awayTeam: Team, seed?: string) => void
   clearResults: () => void
 }
 
@@ -47,10 +37,12 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     totalEvents: 0,
     teamHpPercentages: {},
   })
+  const [battlefieldState, setBattlefieldState] =
+    useState<BattlefieldState | null>(null)
   const [isExecuting, setIsExecuting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const executeBattle = (allyTeam: Team, enemyTeam: Team, seed?: string) => {
+  const executeBattle = (homeTeam: Team, awayTeam: Team, seed?: string) => {
     // Generate seed if not provided
     const battleSeed = seed || `battle-${Date.now()}`
     const randomData = rng(battleSeed)
@@ -58,6 +50,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     setIsExecuting(true)
     setError(null)
     setBattleEvents([])
+    setBattlefieldState(null)
     setResultSummary({
       winner: null,
       endReason: null,
@@ -67,20 +60,61 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     })
 
     try {
-      // TODO: Implement actual battle simulation logic here
-      // For now, just log the execution
+      // Initialize battlefield state by creating battle contexts for all units
+      const allBattleContexts: Record<string, BattleContext> = {}
+
+      // Process home team units
+      homeTeam.formation.forEach((unit, index) => {
+        if (unit) {
+          const position = {
+            row: Math.floor(index / 3), // 0 or 1 (back/front row)
+            col: index % 3, // 0, 1, or 2 (left/center/right)
+          }
+          const battleContext = createBattleContext(unit, 'home-team', position)
+          allBattleContexts[`home-${unit.id}`] = battleContext
+        }
+      })
+
+      // Process away team units
+      awayTeam.formation.forEach((unit, index) => {
+        if (unit) {
+          const position = {
+            row: Math.floor(index / 3), // 0 or 1 (back/front row)
+            col: index % 3, // 0, 1, or 2 (left/center/right)
+          }
+          const battleContext = createBattleContext(unit, 'away-team', position)
+          allBattleContexts[`away-${unit.id}`] = battleContext
+        }
+      })
+
+      // Calculate turn order based on initiative
+      const turnOrder = calculateTurnOrder(allBattleContexts, randomData)
+
+      // Create initial battlefield state
+      const initialBattlefieldState: BattlefieldState = {
+        units: allBattleContexts,
+        turnOrder,
+        currentTurn: 0,
+        currentUnitIndex: 0,
+        phase: 'battle',
+        rng: randomData,
+        events: [],
+      }
+
+      setBattlefieldState(initialBattlefieldState)
+
       console.log(
-        'Battle executing:',
-        allyTeam.name,
+        'Battle initialized:',
+        homeTeam.name,
         'vs',
-        enemyTeam.name,
+        awayTeam.name,
         'with seed:',
-        battleSeed
+        battleSeed,
+        'turn order:',
+        turnOrder
       )
 
-      // TODO: Replace with actual battle engine implementation
-      // The actual battle logic will populate battleEvents and resultSummary
-      // and then call setIsExecuting(false) when complete
+      // TODO: Implement actual battle execution logic
 
       // Temporarily set executing to false since we have no battle logic yet
       setIsExecuting(false)
@@ -92,6 +126,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
 
   const clearResults = () => {
     setBattleEvents([])
+    setBattlefieldState(null)
     setResultSummary({
       winner: null,
       endReason: null,
@@ -106,6 +141,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
   return {
     battleEvents,
     resultSummary,
+    battlefieldState,
     isExecuting,
     error,
     executeBattle,

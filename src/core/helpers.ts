@@ -34,3 +34,8 @@ export const equalityComparators: Record<
 export const getEquipmentSlots = (classId: AllClassType) => {
   return CLASS_DATA[classId].allowedSlots
 }
+
+export const getCombatantTypeFromClass = (classId: AllClassType) => {
+  const { race, trait, movementType } = CLASS_DATA[classId]
+  return [race, trait, movementType].filter(x => x !== null)
+}

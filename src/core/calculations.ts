@@ -1,7 +1,7 @@
 import { getEquipmentById } from './equipment-lookup'
 import type { RandomNumberGeneratorType } from './random'
 
-import { GROWTH_RANKS } from '@/data/constants'
+import { GROWTH_RANKS, ADVANCED_CLASSES } from '@/data/constants'
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
 import {
   GROWTH_CORRECTION_TABLE_A,
@@ -10,6 +10,7 @@ import {
 import { UNIVERSAL_STAT_TABLE } from '@/data/units/universal-stat-table'
 import { clamp } from '@/lib/utils'
 import type { GrowthType, GrowthRank, AllClassType } from '@/types/base-stats'
+import type { BattleContext } from '@/types/battle-engine'
 import type { EquippedItem } from '@/types/equipment'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
@@ -24,6 +25,22 @@ const initialStatData = {
   CRT: 0,
   GRD: 0,
   INIT: 0,
+}
+
+// Separate object for equipment bonuses that includes AP/PP
+const initialEquipmentData = {
+  HP: 0,
+  PATK: 0,
+  PDEF: 0,
+  MATK: 0,
+  MDEF: 0,
+  ACC: 0,
+  EVA: 0,
+  CRT: 0,
+  GRD: 0,
+  INIT: 0,
+  AP: 0,
+  PP: 0,
 }
 
 export const calculateBaseStats = (
@@ -130,12 +147,12 @@ const getGrowthRank = (value: number): GrowthRank => {
 
 // Equipment stat processing functions
 type StatProcessor = (
-  result: typeof initialStatData,
+  result: typeof initialEquipmentData,
   value: number,
   baseStats?: Record<string, number>
 ) => void
 
-const directStatMappings: Record<string, keyof typeof initialStatData> = {
+const directStatMappings: Record<string, keyof typeof initialEquipmentData> = {
   HP: 'HP',
   MaxHP: 'HP',
   PATK: 'PATK',
@@ -147,6 +164,8 @@ const directStatMappings: Record<string, keyof typeof initialStatData> = {
   CRT: 'CRT',
   GRD: 'GRD',
   INIT: 'INIT',
+  AP: 'AP',
+  PP: 'PP',
 }
 
 const specialStatProcessors: Record<string, StatProcessor> = {
@@ -209,8 +228,6 @@ const ignoredStats = [
   'DrainEff',
   'PursuitPotency',
   'CounterAttackPotency',
-  'AP',
-  'PP',
   'CritDmg',
 ]
 
@@ -219,7 +236,7 @@ export const calculateEquipmentBonus = (
   baseStats?: Record<string, number>
 ) => {
   const result = {
-    ...initialStatData,
+    ...initialEquipmentData,
   }
 
   for (const equippedItem of equipment) {
@@ -304,6 +321,39 @@ export const calculateDamage = (
   return finalDamage
 }
 
+/**
+ * Calculate base AP/PP values based on class type
+ * Base classes: AP = 1, PP = 1
+ * Advanced classes: AP = 2, PP = 2
+ * Maximum AP/PP is capped at 4
+ */
+export const calculateBaseAPPP = (classKey: AllClassType) => {
+  // Check if this is an advanced class
+  const isAdvancedClass = (
+    Object.values(ADVANCED_CLASSES) as readonly string[]
+  ).includes(classKey)
+
+  return {
+    AP: isAdvancedClass ? 2 : 1,
+    PP: isAdvancedClass ? 2 : 1,
+  }
+}
+
+/**
+ * Calculate final AP/PP values with equipment bonuses and cap at 4
+ */
+export const calculateFinalAPPP = (
+  classKey: AllClassType,
+  equipmentBonus: { AP?: number; PP?: number }
+) => {
+  const base = calculateBaseAPPP(classKey)
+
+  return {
+    AP: Math.min(4, base.AP + (equipmentBonus.AP ?? 0)),
+    PP: Math.min(4, base.PP + (equipmentBonus.PP ?? 0)),
+  }
+}
+
 // Crit
 export const rollCrit = (r: RandomNumberGeneratorType, critRate: number) => {
   const chance = clamp(critRate, 0, 100)
@@ -349,4 +399,68 @@ export const getGuardMultiplier = (
   const result = didGuard ? multipliers[guardLevel] : 1
   console.debug('Guard Multiplier', { didGuard, guardLevel, result })
   return result
+}
+
+/**
+ * Calculate board position priority for initiative tiebreaking
+ * Lower number = higher priority
+ *
+ * Priority order (0 = highest priority):
+ * Row 1, Col 0 (front left) = 0
+ * Row 1, Col 1 (front center) = 1
+ * Row 1, Col 2 (front right) = 2
+ * Row 0, Col 0 (back left) = 3
+ * Row 0, Col 1 (back center) = 4
+ * Row 0, Col 2 (back right) = 5
+ */
+const getBoardPositionPriority = (position: {
+  row: number
+  col: number
+}): number => {
+  const { row, col } = position
+
+  if (row === 1) {
+    return col // Front row: 0, 1, 2
+  } else {
+    return col + 3 // Back row: 3, 4, 5
+  }
+}
+
+/**
+ * Calculate initiative order for units based on INIT stat with proper tiebreaking
+ * 1. Higher INIT acts first
+ * 2. Board position priority (front left = highest, back right = lowest)
+ * 3. RNG for cross-team identical positions
+ */
+export const calculateTurnOrder = (
+  units: Record<string, BattleContext>,
+  rng: RandomNumberGeneratorType
+): string[] => {
+  return Object.entries(units)
+    .sort(([idA, contextA], [idB, contextB]) => {
+      const initA = contextA.combatStats.INIT
+      const initB = contextB.combatStats.INIT
+
+      // Primary sort: Higher initiative goes first
+      if (initA !== initB) {
+        return initB - initA
+      }
+
+      // Tiebreaker 1: Board position priority
+      const priorityA = getBoardPositionPriority(contextA.position)
+      const priorityB = getBoardPositionPriority(contextB.position)
+
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB // Lower priority value = higher precedence
+      }
+
+      // Tiebreaker 2: Cross-team RNG (if same team, maintain consistent order by ID)
+      if (contextA.team !== contextB.team) {
+        return rng.random() < 0.5 ? -1 : 1
+      }
+
+      // Same team, same position priority - use ID for deterministic order
+      return idA.localeCompare(idB)
+    })
+    .map(([id]) => id)
 }
