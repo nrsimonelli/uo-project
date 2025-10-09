@@ -9,19 +9,17 @@ import {
   Heart,
 } from 'lucide-react'
 
-import { STATS } from './constants'
-
 export const STAT_ICONS = {
-  [STATS.HP]: Heart,
-  [STATS.PATK]: Sword,
-  [STATS.PDEF]: Shield,
-  [STATS.MATK]: Zap,
-  [STATS.MDEF]: ShieldIcon,
-  [STATS.ACC]: Target,
-  [STATS.EVA]: Eye,
-  [STATS.CRT]: Star,
-  [STATS.GRD]: Shield,
-  [STATS.INIT]: Zap,
+  HP: Heart,
+  PATK: Sword,
+  PDEF: Shield,
+  MATK: Zap,
+  MDEF: ShieldIcon,
+  ACC: Target,
+  EVA: Eye,
+  CRT: Star,
+  GRD: Shield,
+  INIT: Zap,
 } as const
 
 export const RANK_COLORS: Record<string, string> = {

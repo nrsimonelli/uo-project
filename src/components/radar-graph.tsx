@@ -11,7 +11,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from './ui/chart'
+} from '@/components/ui/chart'
+import { STATS } from '@/data/constants'
+import type { StatKey } from '@/types/base-stats'
 
 const chartConfig = {
   growth: {
@@ -46,7 +48,12 @@ export function RadarGraph({ chartData }: RadarGraphProps) {
       <RadarChart data={chartData}>
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent indicator="line" />}
+          content={
+            <ChartTooltipContent
+              indicator="line"
+              labelFormatter={label => STATS[label as StatKey] || label}
+            />
+          }
         />
         <PolarAngleAxis dataKey="stat" />
         <PolarRadiusAxis domain={[0, 200]} stroke="rgba(0,0,0,0)" />

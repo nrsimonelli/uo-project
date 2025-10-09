@@ -7,8 +7,6 @@ import { EquipmentSearchModal } from '@/components/equipment-builder/equipment-s
 import { RadarGraph } from '@/components/radar-graph'
 import { Card } from '@/components/ui/card'
 import {
-  calculateBaseStats,
-  calculateEquipmentBonus,
   calculateFinalAPPP,
 } from '@/core/calculations'
 import { getEquipmentSlots } from '@/core/helpers'
@@ -37,15 +35,13 @@ const UnitImage = ({
 
 export function UnitBuilder({ unit }: { unit: Unit }) {
   const { updateUnit } = useTeam()
-  const { chartData } = useChartData(unit)
+  const { chartData, equipmentBonus } = useChartData(unit)
 
   const [growthA, growthB] = unit.growths
 
   const unitEquipmentSlotTypes = getEquipmentSlots(unit.classKey)
 
-  // Calculate AP/PP for display
-  const baseStats = calculateBaseStats(unit.level, unit.classKey, unit.growths)
-  const equipmentBonus = calculateEquipmentBonus(unit.equipment, baseStats)
+  // Calculate final AP/PP for display - no duplicate calculations!
   const { AP, PP } = calculateFinalAPPP(unit.classKey, equipmentBonus)
 
   if (!chartData) {

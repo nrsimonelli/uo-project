@@ -1,8 +1,10 @@
+import { STATS } from '@/data/constants'
 import { STAT_ICONS, RANK_COLORS } from '@/data/stat-display'
 import { useAnimatedNumber } from '@/hooks/use-animated-number'
 import type { ChartDatum } from '@/hooks/use-chart-data'
 import { useStatCalculations } from '@/hooks/use-stat-calculations'
 import { cn } from '@/lib/utils'
+import type { StatKey } from '@/types/base-stats'
 
 export function StatIcon({
   iconKey,
@@ -34,10 +36,10 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
       <StatIcon iconKey={data.stat} className="h-4 w-4  flex-shrink-0" />
 
       <div className="w-16 text-xs flex-shrink-0 transition-colors duration-200">
-        {data.stat}
+        {STATS[data.stat as StatKey] || data.stat}
       </div>
 
-      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden transition-colors duration-200">
+      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
         <div
           className="h-full bg-gradient-to-r from-chart-4 to-chart-5 rounded-full transition-all duration-300 ease-out"
           style={{
