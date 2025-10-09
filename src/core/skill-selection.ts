@@ -21,15 +21,16 @@ export const selectActiveSkill = (unit: BattleContext): ActiveSkill => {
     return STANDBY_SKILL
   }
 
-  // Go through skill slots in order
+  // Go through skill slots and find the first affordable active skill
   for (const skillSlot of unit.unit.skillSlots) {
-    // Skip empty slots or non-active skills
+    // Check if this is a valid active skill slot
     if (!skillSlot.skillId || skillSlot.skillType !== 'active') {
+      // Skip invalid or non-active slots
       continue
     }
 
     // Get the skill data
-    const skill = ActiveSkillsMap[skillSlot.skillId]
+    const skill = ActiveSkillsMap[skillSlot.skillId as keyof typeof ActiveSkillsMap]
     if (!skill) {
       console.warn(`Active skill not found: ${skillSlot.skillId}`)
       continue

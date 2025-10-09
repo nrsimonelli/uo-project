@@ -35,7 +35,7 @@ export const calculateTeamHpPercentages = (state: BattlefieldState) => {
  */
 export const determineBattleWinner = (
   state: BattlefieldState
-): string | null => {
+) => {
   // Get all living units for each team
   const homeTeamUnits = Object.values(state.units).filter(
     unit => unit.team === 'home-team' && unit.currentHP > 0

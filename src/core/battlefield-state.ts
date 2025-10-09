@@ -20,7 +20,7 @@ export const createBattleContext = (
 ): BattleContext => {
   // Calculate combat stats from base stats + equipment
   const baseStats = calculateBaseStats(unit.level, unit.classKey, unit.growths)
-  const equipmentBonus = calculateEquipmentBonus(unit.equipment, baseStats)
+  const equipmentBonus = calculateEquipmentBonus(unit.equipment, baseStats, unit.classKey)
 
   // Combine base stats and equipment bonuses for combat stats
   const combatStats = Object.keys(baseStats).reduce(

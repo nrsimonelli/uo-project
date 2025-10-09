@@ -9,7 +9,7 @@ import {
 } from '@/data/units/growth-correction-table'
 import { UNIVERSAL_STAT_TABLE } from '@/data/units/universal-stat-table'
 import { clamp } from '@/lib/utils'
-import type { GrowthType, GrowthRank, AllClassType } from '@/types/base-stats'
+import type { GrowthType, AllClassType } from '@/types/base-stats'
 import type { BattleContext } from '@/types/battle-engine'
 import type { EquippedItem } from '@/types/equipment'
 
@@ -136,7 +136,7 @@ export const calculateGrowthRanks = (classKey: AllClassType) => {
   return result
 }
 
-const getGrowthRank = (value: number): GrowthRank => {
+const getGrowthRank = (value: number) => {
   if (value < GROWTH_RANKS.E) return 'F'
   if (value < GROWTH_RANKS.D) return 'E'
   if (value < GROWTH_RANKS.C) return 'D'
@@ -234,57 +234,272 @@ const ignoredStats = [
 
 export const calculateEquipmentBonus = (
   equipment: EquippedItem[],
-  baseStats?: Record<string, number>
+  baseStats?: Record<string, number>,
+  classKey?: string
 ) => {
   const result = {
     ...initialEquipmentData,
   }
 
-  for (const equippedItem of equipment) {
-    if (!equippedItem?.itemId) continue
+  // Handle special dual equipment classes
+  if (classKey && ['Swordmaster', 'Crusader', 'Valkyria'].includes(classKey)) {
+    return calculateDualEquipmentBonus(equipment, baseStats, classKey)
+  }
 
+  // Filter valid equipment items and process them
+  const validEquipment = equipment.filter(equippedItem => {
+    if (!equippedItem?.itemId) return false
+    
     const item = getEquipmentById(equippedItem.itemId)
     if (!item) {
       console.warn(`Equipment item not found: ${equippedItem.itemId}`)
-      continue
+      return false
     }
+    return true
+  })
+
+  validEquipment.forEach(equippedItem => {
+    const item = getEquipmentById(equippedItem.itemId!)! // Safe because we filtered
 
     // Process each stat on the equipment
-    for (const [statKey, value] of Object.entries(item.stats)) {
-      if (typeof value !== 'number') continue
+    const validStats = Object.entries(item.stats).filter(([, value]) => typeof value === 'number')
+    
+    validStats.forEach(([statKey, value]) => {
+      processStatValue(statKey, value as number, result, baseStats)
+    })
+  })
 
-      // Check direct stat mappings first
-      const directStat = directStatMappings[statKey]
-      if (directStat) {
-        result[directStat] += value
-        continue
-      }
+  return result
+}
 
-      // Check special stat processors
-      const specialProcessor = specialStatProcessors[statKey]
-      if (specialProcessor) {
-        specialProcessor(result, value, baseStats)
-        continue
-      }
+/**
+ * Calculate equipment bonuses for classes with dual sword or dual shield configurations
+ * Swordmaster: 100% of highest PATK/MATK + 50% of lower, all other stats 100%
+ * Crusader/Valkyria: 100% of highest PDEF/MDEF/GuardEff + 50% of lower, all other stats 100%
+ */
+const calculateDualEquipmentBonus = (
+  equipment: EquippedItem[],
+  baseStats?: Record<string, number>,
+  classKey?: string
+) => {
+  const result = {
+    ...initialEquipmentData,
+  }
 
-      // Check percentage stat processors
-      const percentageProcessor = percentageStatProcessors[statKey]
-      if (percentageProcessor) {
-        percentageProcessor(result, value, baseStats)
-        continue
-      }
+  // Separate equipment by type for dual equipment processing
+  const swords = equipment.filter(item => {
+    if (!item?.itemId) return false
+    const equipItem = getEquipmentById(item.itemId)
+    return equipItem?.type === 'Sword'
+  })
 
-      // Check if it's an ignored stat
-      if (ignoredStats.includes(statKey)) {
-        continue
-      }
+  const shields = equipment.filter(item => {
+    if (!item?.itemId) return false
+    const equipItem = getEquipmentById(item.itemId)
+    return equipItem?.type === 'Shield' || equipItem?.type === 'Greatshield'
+  })
 
-      // Log unknown stats for debugging
-      console.warn(`Unknown equipment stat: ${statKey}`)
+  const otherEquipment = equipment.filter(item => {
+    if (!item?.itemId) return false
+    const equipItem = getEquipmentById(item.itemId)
+    return equipItem?.type !== 'Sword' && equipItem?.type !== 'Shield' && equipItem?.type !== 'Greatshield'
+  })
+
+  // Process dual swords for Swordmaster
+  if (classKey === 'Swordmaster' && swords.length === 2) {
+    processDualSwords(swords, result, baseStats)
+  } else {
+    // Process swords normally if not dual or not Swordmaster
+    for (const sword of swords) {
+      processEquipmentItem(sword, result, baseStats)
     }
   }
 
+  // Process dual shields for Crusader/Valkyria
+  if ((classKey === 'Crusader' || classKey === 'Valkyria') && shields.length === 2) {
+    processDualShields(shields, result, baseStats)
+  } else {
+    // Process shields normally if not dual or not shield-dual class
+    for (const shield of shields) {
+      processEquipmentItem(shield, result, baseStats)
+    }
+  }
+
+  // Process other equipment normally
+  for (const item of otherEquipment) {
+    processEquipmentItem(item, result, baseStats)
+  }
+
   return result
+}
+
+/**
+ * Process dual swords for Swordmaster (100% highest PATK/MATK + 50% lower)
+ */
+const processDualSwords = (
+  swords: EquippedItem[],
+  result: typeof initialEquipmentData,
+  baseStats?: Record<string, number>
+) => {
+  const sword1 = getEquipmentById(swords[0].itemId!)
+  const sword2 = getEquipmentById(swords[1].itemId!)
+  
+  if (!sword1 || !sword2) return
+
+  const sword1PATK = sword1.stats.PATK || 0
+  const sword1MATK = sword1.stats.MATK || 0
+  const sword2PATK = sword2.stats.PATK || 0
+  const sword2MATK = sword2.stats.MATK || 0
+
+  // Determine which sword has higher attack values
+  const sword1Total = sword1PATK + sword1MATK
+  const sword2Total = sword2PATK + sword2MATK
+  
+  const [primarySword, secondarySword] = sword1Total >= sword2Total ? [sword1, sword2] : [sword2, sword1]
+  const [primaryPATK, secondaryPATK] = sword1Total >= sword2Total ? [sword1PATK, sword2PATK] : [sword2PATK, sword1PATK]
+  const [primaryMATK, secondaryMATK] = sword1Total >= sword2Total ? [sword1MATK, sword2MATK] : [sword2MATK, sword1MATK]
+
+  // Apply 100% of primary + 50% of secondary for PATK/MATK
+  result.PATK += primaryPATK + Math.round(secondaryPATK * 0.5)
+  result.MATK += primaryMATK + Math.round(secondaryMATK * 0.5)
+
+  console.debug('Swordmaster dual sword calculation', {
+    primary: { PATK: primaryPATK, MATK: primaryMATK },
+    secondary: { PATK: secondaryPATK, MATK: secondaryMATK },
+    finalPATK: result.PATK,
+    finalMATK: result.MATK
+  })
+
+  // Process all other stats from both swords at 100%
+  const swordsToProcess = [primarySword, secondarySword]
+  swordsToProcess.forEach(sword => {
+    Object.entries(sword.stats).forEach(([statKey, value]) => {
+      const isValidStat = typeof value === 'number' && statKey !== 'PATK' && statKey !== 'MATK'
+      if (isValidStat) {
+        processStatValue(statKey, value, result, baseStats)
+      }
+    })
+  })
+}
+
+/**
+ * Process dual shields for Crusader/Valkyria (100% highest PDEF/MDEF + 50% lower, highest GuardEff only)
+ */
+const processDualShields = (
+  shields: EquippedItem[],
+  result: typeof initialEquipmentData,
+  baseStats?: Record<string, number>
+) => {
+  const shield1 = getEquipmentById(shields[0].itemId!)
+  const shield2 = getEquipmentById(shields[1].itemId!)
+  
+  if (!shield1 || !shield2) return
+
+  const shield1PDEF = shield1.stats.PDEF || 0
+  const shield1MDEF = shield1.stats.MDEF || 0
+  const shield1GuardEff = shield1.stats.GuardEff || 0
+  const shield2PDEF = shield2.stats.PDEF || 0
+  const shield2MDEF = shield2.stats.MDEF || 0
+  const shield2GuardEff = shield2.stats.GuardEff || 0
+
+  // Determine which shield has higher defense values
+  const shield1Total = shield1PDEF + shield1MDEF + shield1GuardEff
+  const shield2Total = shield2PDEF + shield2MDEF + shield2GuardEff
+  
+  const [primaryShield, secondaryShield] = shield1Total >= shield2Total ? [shield1, shield2] : [shield2, shield1]
+  const [primaryPDEF, secondaryPDEF] = shield1Total >= shield2Total ? [shield1PDEF, shield2PDEF] : [shield2PDEF, shield1PDEF]
+  const [primaryMDEF, secondaryMDEF] = shield1Total >= shield2Total ? [shield1MDEF, shield2MDEF] : [shield2MDEF, shield1MDEF]
+  const [primaryGuardEff, secondaryGuardEff] = shield1Total >= shield2Total ? [shield1GuardEff, shield2GuardEff] : [shield2GuardEff, shield1GuardEff]
+
+  // Apply 100% of primary + 50% of secondary for PDEF/MDEF, but only highest GuardEff
+  result.PDEF += primaryPDEF + Math.round(secondaryPDEF * 0.5)
+  result.MDEF += primaryMDEF + Math.round(secondaryMDEF * 0.5)
+  result.GuardEff += primaryGuardEff // Only the highest GuardEff, no 50% bonus
+
+  console.debug('Dual shield calculation', {
+    primary: { PDEF: primaryPDEF, MDEF: primaryMDEF, GuardEff: primaryGuardEff },
+    secondary: { PDEF: secondaryPDEF, MDEF: secondaryMDEF, GuardEff: secondaryGuardEff },
+    finalPDEF: result.PDEF,
+    finalMDEF: result.MDEF,
+    finalGuardEff: result.GuardEff,
+    guardEffNote: 'Only highest GuardEff used, no 50% bonus applied'
+  })
+
+  // Process all other stats from both shields at 100%
+  const shieldsToProcess = [primaryShield, secondaryShield]
+  shieldsToProcess.forEach(shield => {
+    Object.entries(shield.stats).forEach(([statKey, value]) => {
+      const isValidStat = typeof value === 'number' && 
+                          statKey !== 'PDEF' && 
+                          statKey !== 'MDEF' && 
+                          statKey !== 'GuardEff'
+      if (isValidStat) {
+        processStatValue(statKey, value, result, baseStats)
+      }
+    })
+  })
+}
+
+/**
+ * Process a single equipment item with normal logic
+ */
+const processEquipmentItem = (
+  equippedItem: EquippedItem,
+  result: typeof initialEquipmentData,
+  baseStats?: Record<string, number>
+) => {
+  if (!equippedItem?.itemId) return
+
+  const item = getEquipmentById(equippedItem.itemId)
+  if (!item) {
+    console.warn(`Equipment item not found: ${equippedItem.itemId}`)
+    return
+  }
+
+  // Process each stat on the equipment
+  const validStats = Object.entries(item.stats).filter(([, value]) => typeof value === 'number')
+  validStats.forEach(([statKey, value]) => {
+    processStatValue(statKey, value as number, result, baseStats)
+  })
+}
+
+/**
+ * Process a single stat value using the existing stat processors
+ */
+const processStatValue = (
+  statKey: string,
+  value: number,
+  result: typeof initialEquipmentData,
+  baseStats?: Record<string, number>
+) => {
+  // Check direct stat mappings first
+  const directStat = directStatMappings[statKey]
+  if (directStat) {
+    result[directStat] += value
+    return
+  }
+
+  // Check special stat processors
+  const specialProcessor = specialStatProcessors[statKey]
+  if (specialProcessor) {
+    specialProcessor(result, value, baseStats)
+    return
+  }
+
+  // Check percentage stat processors
+  const percentageProcessor = percentageStatProcessors[statKey]
+  if (percentageProcessor) {
+    percentageProcessor(result, value, baseStats)
+    return
+  }
+
+  // Check if it's an ignored stat
+  if (ignoredStats.includes(statKey)) {
+    return
+  }
+
+  // Log unknown stats for debugging
+  console.warn(`Unknown equipment stat: ${statKey}`)
 }
 
 export const calculateDamage = (
@@ -401,7 +616,7 @@ export const getGuardMultiplier = (
 const getBoardPositionPriority = (position: {
   row: number
   col: number
-}): number => {
+}) => {
   const { row, col } = position
 
   if (row === 1) {
@@ -420,7 +635,7 @@ const getBoardPositionPriority = (position: {
 export const calculateTurnOrder = (
   units: Record<string, BattleContext>,
   rng: RandomNumberGeneratorType
-): string[] => {
+) => {
   return Object.entries(units)
     .sort(([idA, contextA], [idB, contextB]) => {
       const initA = contextA.combatStats.INIT

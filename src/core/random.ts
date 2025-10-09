@@ -47,7 +47,7 @@ export const rng = (
 export const shuffleInPlace = <T>(
   r: RandomNumberGeneratorType,
   a: Array<T>
-): void => {
+) => {
   for (let i = a.length - 1; i > 0; --i) {
     const j = Math.floor(r.random() * i)
     const tmp = a[i]!
@@ -56,12 +56,12 @@ export const shuffleInPlace = <T>(
   }
 }
 
-export const select = <T>(r: RandomNumberGeneratorType, a: Array<T>): T =>
+export const select = <T>(r: RandomNumberGeneratorType, a: Array<T>) =>
   a[uint32(r) % a.length]!
 export const selectIndex = <T>(
   r: RandomNumberGeneratorType,
   a: Array<T>
-): number => uint32(r) % a.length
+) => uint32(r) % a.length
 
 export const str = (() => {
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '
@@ -79,10 +79,10 @@ export const range = (
   r: RandomNumberGeneratorType,
   min: number,
   max: number
-): number => min + r.random() * (max - min)
-export const uint32 = (r: RandomNumberGeneratorType): number =>
+) => min + r.random() * (max - min)
+export const uint32 = (r: RandomNumberGeneratorType) =>
   r.random() * 0x100000000 // 2^32
-export const fract53 = (r: RandomNumberGeneratorType): number =>
+export const fract53 = (r: RandomNumberGeneratorType) =>
   r.random() + ((r.random() * 0x200000) | 0) * 1.1102230246251565e-16 // 2^-53
 
 const Mash = (): ((data: string) => number) => {

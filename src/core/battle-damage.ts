@@ -83,7 +83,7 @@ export const calculateHitChance = (
 export const rollHit = (
   rng: RandomNumberGeneratorType,
   hitChance: number
-): boolean => {
+) => {
   const roll = rng.random() * 100
   const hit = roll < hitChance
   console.debug('Hit Roll', { 
@@ -104,7 +104,7 @@ export const calculateBaseDamage = (
   target: BattleContext,
   potency: number,
   isPhysical: boolean
-): number => {
+) => {
   const attack = isPhysical 
     ? attacker.combatStats.PATK 
     : attacker.combatStats.MATK
@@ -140,7 +140,7 @@ export const calculateBaseDamage = (
 export const calculateNaturalGuardMultiplier = (
   didGuard: boolean,
   equipmentGuardEff: number
-): number => {
+) => {
   if (!didGuard) {
     return 1.0
   }
@@ -169,7 +169,7 @@ export const calculateNaturalGuardMultiplier = (
  */
 export const calculateSkillGuardMultiplier = (
   guardLevel: GuardLevel
-): number => {
+) => {
   const fixedMultipliers: Record<GuardLevel, number> = {
     none: 1.0,
     light: 0.75,  // 25% reduction
@@ -192,7 +192,7 @@ export const calculateEffectiveness = (
   target: BattleContext,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _isPhysical: boolean
-): number => {
+) => {
   const attackerClass = attacker.unit.classKey
   const targetClass = target.unit.classKey
   

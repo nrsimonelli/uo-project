@@ -49,34 +49,34 @@ export const getClassSkills = (unit: Unit) => {
   const availableSkills: AvailableSkill[] = []
   const inheritanceChain = getInheritanceChain(unit.classKey as AllClassType)
 
-  for (const className of inheritanceChain) {
+  inheritanceChain.forEach(className => {
     const classData = CLASS_DATA[className]
-    if (!classData?.skills) continue
+    if (classData?.skills) {
+      classData.skills
+        .filter(classSkill => unit.level >= classSkill.level)
+        .forEach(classSkill => {
+          let skill: ActiveSkill | PassiveSkill | undefined
 
-    for (const classSkill of classData.skills) {
-      if (unit.level >= classSkill.level) {
-        let skill: ActiveSkill | PassiveSkill | undefined
+          if (classSkill.skillType === 'active') {
+            skill =
+              ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
+          } else if (classSkill.skillType === 'passive') {
+            skill =
+              PassiveSkillsMap[
+                classSkill.skillId as keyof typeof PassiveSkillsMap
+              ]
+          }
 
-        if (classSkill.skillType === 'active') {
-          skill =
-            ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
-        } else if (classSkill.skillType === 'passive') {
-          skill =
-            PassiveSkillsMap[
-              classSkill.skillId as keyof typeof PassiveSkillsMap
-            ]
-        }
-
-        if (skill) {
-          availableSkills.push({
-            skill,
-            source: 'class',
-            level: classSkill.level,
-          })
-        }
-      }
+          if (skill) {
+            availableSkills.push({
+              skill,
+              source: 'class',
+              level: classSkill.level,
+            })
+          }
+        })
     }
-  }
+  })
 
   return availableSkills
 }
@@ -91,23 +91,26 @@ export const getAvailableSkills = (unit: Unit) => {
 export const getEquipmentSkills = (unit: Unit) => {
   const availableSkills: AvailableSkill[] = []
 
-  for (const equippedItem of unit.equipment) {
-    if (!equippedItem.itemId) {
-      continue
-    }
+  // Filter equipment items that have skills and process them
+  const equipmentWithSkills = unit.equipment
+    .filter(equippedItem => equippedItem.itemId)
+    .map(equippedItem => {
+      const equipment = getEquipmentById(equippedItem.itemId!)
+      return equipment?.skillId ? equipment : null
+    })
+    .filter((equipment): equipment is NonNullable<typeof equipment> => equipment !== null)
 
-    const equipment = getEquipmentById(equippedItem.itemId)
-    if (!equipment || !equipment.skillId) {
-      continue
-    }
-
+  equipmentWithSkills.forEach(equipment => {
     let skill: ActiveSkill | PassiveSkill | undefined
+    
+    // Safe to use ! because we filtered for skillId existence
+    const skillId = equipment.skillId!
 
-    if (equipment.skillId in ActiveSkillsMap) {
-      skill = ActiveSkillsMap[equipment.skillId as keyof typeof ActiveSkillsMap]
-    } else if (equipment.skillId in PassiveSkillsMap) {
+    if (skillId in ActiveSkillsMap) {
+      skill = ActiveSkillsMap[skillId as keyof typeof ActiveSkillsMap]
+    } else if (skillId in PassiveSkillsMap) {
       skill =
-        PassiveSkillsMap[equipment.skillId as keyof typeof PassiveSkillsMap]
+        PassiveSkillsMap[skillId as keyof typeof PassiveSkillsMap]
     }
 
     if (skill) {
@@ -116,7 +119,7 @@ export const getEquipmentSkills = (unit: Unit) => {
         source: 'equipment',
       })
     }
-  }
+  })
 
   return availableSkills
 }
