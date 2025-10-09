@@ -31,7 +31,10 @@ const findClosestTarget = (
 
   // Find closest by distance
   let closestTarget = targetsToConsider[0]
-  let closestDistance = calculateDistance(actingUnit.position, closestTarget.position)
+  let closestDistance = calculateDistance(
+    actingUnit.position,
+    closestTarget.position
+  )
 
   for (const target of targetsToConsider.slice(1)) {
     const distance = calculateDistance(actingUnit.position, target.position)
@@ -48,13 +51,11 @@ const findClosestTarget = (
  * Targeting group handlers
  */
 const targetingGroupHandlers = {
-  Self: (actingUnit: BattleContext) => [actingUnit],
-  
   Ally: (actingUnit: BattleContext, battlefield: BattlefieldState) =>
     Object.values(battlefield.units).filter(
       unit => unit.team === actingUnit.team && unit.currentHP > 0
     ),
-  
+
   Enemy: (actingUnit: BattleContext, battlefield: BattlefieldState) =>
     Object.values(battlefield.units).filter(
       unit => unit.team !== actingUnit.team && unit.currentHP > 0
@@ -63,15 +64,19 @@ const targetingGroupHandlers = {
 
 /**
  * Targeting pattern handlers
+ * All handlers have consistent signature: (targets, actingUnit) => BattleContext[]
  */
 const targetingPatternHandlers = {
-  All: (targets: BattleContext[]) => targets,
-  
+  Self: (_targets: BattleContext[], actingUnit: BattleContext) => [actingUnit],
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  All: (targets: BattleContext[], _actingUnit: BattleContext) => targets,
+
   Single: (targets: BattleContext[], actingUnit: BattleContext) => {
     const closestTarget = findClosestTarget(actingUnit, targets)
     return closestTarget ? [closestTarget] : []
   },
-  
+
   // TODO: Add other patterns like 'Row', 'Column', etc.
 } as const
 
@@ -86,21 +91,29 @@ export const getDefaultTargets = (
   const { targeting } = skill
   const { group, pattern } = targeting
 
+  // Handle Self pattern directly (doesn't use group)
+  if (pattern === 'Self') {
+    const selfHandler = targetingPatternHandlers.Self
+    return selfHandler([], actingUnit)
+  }
+
   // Get potential targets based on group
-  const groupHandler = targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
+  const groupHandler =
+    targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
   if (!groupHandler) {
     console.warn(`Unknown targeting group: ${group}`)
     return []
   }
 
-  const potentialTargets = group === 'Self' 
-    ? groupHandler(actingUnit)
-    : groupHandler(actingUnit, battlefield)
+  const potentialTargets = groupHandler(actingUnit, battlefield)
 
   // Apply pattern-based selection
-  const patternHandler = targetingPatternHandlers[pattern as keyof typeof targetingPatternHandlers]
+  const patternHandler =
+    targetingPatternHandlers[pattern as keyof typeof targetingPatternHandlers]
   if (!patternHandler) {
-    console.warn(`Unsupported targeting pattern: ${pattern}, falling back to Single`)
+    console.warn(
+      `Unsupported targeting pattern: ${pattern}, falling back to Single`
+    )
     const fallbackTarget = findClosestTarget(actingUnit, potentialTargets)
     return fallbackTarget ? [fallbackTarget] : []
   }
@@ -118,8 +131,8 @@ export const STANDBY_SKILL: ActiveSkill = {
   description: 'Pass your turn without taking any action.',
   ap: 0,
   targeting: {
-    group: 'Self',
-    pattern: 'Single'
+    group: 'Ally', // Group doesn't matter for Self pattern
+    pattern: 'Self',
   },
-  effects: [] // No effects - just passes the turn
+  effects: [], // No effects - just passes the turn
 }
