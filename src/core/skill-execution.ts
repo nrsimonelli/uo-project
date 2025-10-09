@@ -26,30 +26,32 @@ export const executeSkill = (
     skillDetails: {
       id: skill.id,
       ap: skill.ap,
-      damageType: skill.damageType,
-      effectCount: skill.effects.length
+      effectCount: skill.effects.length,
     },
     casterStats: {
       PATK: actingUnit.combatStats.PATK,
       MATK: actingUnit.combatStats.MATK,
       ACC: actingUnit.combatStats.ACC,
-      CRT: actingUnit.combatStats.CRT
-    }
+      CRT: actingUnit.combatStats.CRT,
+    },
   })
 
   // Get targets for this skill
   const targets = getDefaultTargets(skill, actingUnit, battlefield)
-  console.log(`🎯 Targeting: ${targets.length} target(s)`, targets.map(t => ({
-    name: t.unit.name,
-    currentHP: t.currentHP,
-    stats: {
-      PDEF: t.combatStats.PDEF,
-      MDEF: t.combatStats.MDEF,
-      EVA: t.combatStats.EVA,
-      GRD: t.combatStats.GRD,
-      GuardEff: t.combatStats.GuardEff || 0
-    }
-  })))
+  console.log(
+    `🎯 Targeting: ${targets.length} target(s)`,
+    targets.map(t => ({
+      name: t.unit.name,
+      currentHP: t.currentHP,
+      stats: {
+        PDEF: t.combatStats.PDEF,
+        MDEF: t.combatStats.MDEF,
+        EVA: t.combatStats.EVA,
+        GRD: t.combatStats.GRD,
+        GuardEff: t.combatStats.GuardEff || 0,
+      },
+    }))
+  )
 
   // Create battle event
   const battleEvent: BattleEvent = {
@@ -70,24 +72,37 @@ export const executeSkill = (
   const updatedUnits = { ...battlefield.units }
 
   console.log(`💫 Processing ${skill.effects.length} effect(s)...`)
-  
+
   for (const effect of skill.effects) {
     console.log(`🔥 Processing ${effect.kind} effect`)
-    
+
     if (effect.kind === 'Damage') {
       const damageEffect = effect as DamageEffect
       console.log(`⚔️ Damage effect:`, {
         potency: damageEffect.potency,
         hitRate: damageEffect.hitRate,
         hitCount: damageEffect.hitCount,
-        flags: damageEffect.flags || []
+        flags: damageEffect.flags || [],
       })
-      
+
       for (const target of targets) {
         // Use comprehensive damage calculation system
-        const damageResults = damageEffect.hitCount > 1 
-          ? calculateMultiHitDamage(actingUnit, target, damageEffect, battlefield.rng)
-          : [calculateSkillDamage(actingUnit, target, damageEffect, battlefield.rng)]
+        const damageResults =
+          damageEffect.hitCount > 1
+            ? calculateMultiHitDamage(
+                actingUnit,
+                target,
+                damageEffect,
+                battlefield.rng
+              )
+            : [
+                calculateSkillDamage(
+                  actingUnit,
+                  target,
+                  damageEffect,
+                  battlefield.rng
+                ),
+              ]
 
         // Apply damage from all hits
         let totalDamageDealt = 0
@@ -110,7 +125,7 @@ export const executeSkill = (
             ...target,
             currentHP: Math.max(0, target.currentHP - totalDamageDealt),
           }
-          
+
           // Find the unit's key in the battlefield state
           const targetKey = Object.keys(battlefield.units).find(
             key => battlefield.units[key] === target
@@ -120,24 +135,26 @@ export const executeSkill = (
           }
 
           // Enhanced logging with hit/crit/guard info
-          const hitInfo = damageEffect.hitCount > 1 
-            ? `${hitCount}/${damageEffect.hitCount} hits`
-            : `${hitCount > 0 ? 'Hit' : 'Miss'}`
-          
+          const hitInfo =
+            damageEffect.hitCount > 1
+              ? `${hitCount}/${damageEffect.hitCount} hits`
+              : `${hitCount > 0 ? 'Hit' : 'Miss'}`
+
           const specialInfo = []
-          if (critCount > 0) specialInfo.push(`${critCount} Crit${critCount > 1 ? 's' : ''}`)
-          if (guardCount > 0) specialInfo.push(`${guardCount} Guard${guardCount > 1 ? 's' : ''}`)
-          
-          const specialText = specialInfo.length > 0 ? ` (${specialInfo.join(', ')})` : ''
-          
+          if (critCount > 0)
+            specialInfo.push(`${critCount} Crit${critCount > 1 ? 's' : ''}`)
+          if (guardCount > 0)
+            specialInfo.push(`${guardCount} Guard${guardCount > 1 ? 's' : ''}`)
+
+          const specialText =
+            specialInfo.length > 0 ? ` (${specialInfo.join(', ')})` : ''
+
           console.log(
             `💥 ${skill.name} [${hitInfo}] deals ${totalDamageDealt} damage to ${target.unit.name}${specialText} (${target.currentHP} → ${updatedTarget.currentHP} HP)`
           )
         } else {
           // All attacks missed
-          console.log(
-            `💨 ${skill.name} misses ${target.unit.name} completely!`
-          )
+          console.log(`💨 ${skill.name} misses ${target.unit.name} completely!`)
         }
       }
     } else {
@@ -145,13 +162,13 @@ export const executeSkill = (
     }
     // TODO: Add other effect types (heal, buff, debuff, etc.)
   }
-  
+
   if (skill.effects.length === 0) {
     console.log('💭 No effects to process (skill has no effects)')
   }
 
   console.log('⚔️ SKILL EXECUTION COMPLETE =====================')
-  
+
   return {
     updatedBattlefield: {
       ...battlefield,

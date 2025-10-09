@@ -3,12 +3,27 @@ import type { Condition } from './conditions'
 import type { ExtraStats } from './equipment'
 
 export const FLAGS = [
+  // Combat modifiers
   'TrueStrike',
   'Unguardable',
-  'Uncoverable',
+  'Uncoverable', 
   'TrueCritical',
+  
+  // Attack types
+  'Ranged',
+  'Magical', // Implies ranged
+  
+  // Skill properties
+  'Charge',      // Executes on following round
+  'GroundBased', // Can only hit Cavalry and Infantry
 ] as const
 export type Flag = (typeof FLAGS)[number]
+
+// Attack type classification for reactions and targeting
+export type AttackType = 'Melee' | 'Ranged' | 'Magical'
+
+// Damage type classification for stat calculations (derived from potency)
+export type DamageType = 'Physical' | 'Magical' | 'Hybrid'
 
 export interface DamageEffect {
   kind: 'Damage'

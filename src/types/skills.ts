@@ -1,6 +1,6 @@
 
-import type { DamageType, Targeting } from './core'
-import type { Effect } from './effects'
+import type { Targeting } from './core'
+import type { Effect, Flag } from './effects'
 import type { Tactic } from './tactics'
 
 import type { ActivationWindowId } from '@/data/activation-windows'
@@ -11,8 +11,8 @@ interface SkillBase {
   description: string
   targeting: Targeting
   effects: Effect[]
-  // attackType removed - will be derived from unit class during battle
-  damageType?: DamageType
+  flags?: Flag[] // Skill-level flags that apply to all effects
+  // damageType removed - will be derived from potency during battle
 }
 
 export interface ActiveSkill extends SkillBase {
