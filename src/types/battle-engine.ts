@@ -12,7 +12,12 @@ export interface BattleEvent {
   type: string
   turn: number
   description: string
-  actingUnit?: string
+  actingUnit?: {
+    id: string
+    name: string
+    classKey: string
+    team: 'home-team' | 'away-team'
+  }
   targets?: string[]
 }
 
@@ -100,6 +105,7 @@ export interface BattleContext {
   lastPassiveResponse: number // activeSkillTurn when last passive was used
   isPassiveResponsive: boolean // false when defeated (currentHP -> 0), frozen, stunned, passive sealed or has already used a passive skill during this active skill turn.
   immunities: (Affliction | 'Affliction' | 'Debuff')[] // Permanent immunities/skill nullifications. Specific Afflictions, all afflictions, all debuffs (everything, afflicitons are also debuffs but not all debuffs are afflictions)
+  hasActedThisRound: boolean // Whether this unit has used an active skill this round
 }
 
 /**
@@ -129,7 +135,7 @@ export interface BattlefieldState {
   activeSkillQueue: string[] // Only modified between active skill turns
   passiveSkillQueue: string[] // Modified frequently during active turns
 
-  battlePhase: 'setup' | 'active' | 'passive' | 'cleanup' // I think this will need rework
+  battlePhase: string // I think this will need rework
   isNight: boolean
   turnCount: number
   actionHistory: ActionRecord[]
@@ -137,10 +143,12 @@ export interface BattlefieldState {
   // Battle engine specific data
   rng: RandomNumberGeneratorType
   currentRound: number
-  activeSkillTurnCounter: number
+  actionCounter: number
   passiveResponseTracking: Record<string, number> // unitId -> activeSkillTurn
   inactivityCounter: number
   lastActionRound: number
+  lastActiveSkillRound: number // Track when last non-standby skill was used
+  consecutiveStandbyRounds: number // Count rounds with only standby actions
 }
 
 /**

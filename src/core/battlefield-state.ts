@@ -56,6 +56,7 @@ export const createBattleContext = (
     lastPassiveResponse: 0,
     isPassiveResponsive: true,
     immunities: [],
+    hasActedThisRound: false, // Initialize as hasn't acted this round
   }
 }
 
@@ -122,7 +123,9 @@ export const createFormationArrays = (
     if (row >= 0 && row <= 1 && col >= 0 && col <= 2) {
       formation[row][col] = unitId
     } else {
-      console.warn(`Invalid position for unit ${unitId}: row=${row}, col=${col}`)
+      console.warn(
+        `Invalid position for unit ${unitId}: row=${row}, col=${col}`
+      )
     }
   })
 
@@ -144,7 +147,7 @@ export const createInitialBattlefieldState = (
 
   return {
     units: allBattleContexts,
-    activeUnitId: turnOrder[0] || '',
+    activeUnitId: '',
     formations,
     activeSkillQueue: turnOrder,
     passiveSkillQueue: [],
@@ -154,9 +157,11 @@ export const createInitialBattlefieldState = (
     actionHistory: [],
     rng,
     currentRound: 1,
-    activeSkillTurnCounter: 0,
+    actionCounter: 0,
     passiveResponseTracking: {},
     inactivityCounter: 0,
     lastActionRound: 0,
+    lastActiveSkillRound: 1, // Initialize to round 1
+    consecutiveStandbyRounds: 0, // Start with 0 consecutive standby rounds
   }
 }

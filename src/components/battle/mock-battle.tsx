@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { BattleEventCard } from '@/components/battle/battle-event-card'
 import { IsometricFormationDisplay } from '@/components/isometric-formation/isometric-formation-display'
 import { PageHeader } from '@/components/page-header'
 import { PageLayout } from '@/components/page-layout'
@@ -24,7 +25,6 @@ export function MockBattle() {
 
   const {
     battleEvents,
-    resultSummary,
     isExecuting,
     error,
     executeBattle,
@@ -182,32 +182,23 @@ export function MockBattle() {
           </CardHeader>
           <CardContent>
             {battleEvents.length > 0 ? (
-              <ScrollArea className="h-[350px] w-full">
-                <div className="space-y-2">
-                  {battleEvents.map((event, index) => (
-                    <div
-                      key={event.id}
-                      className="p-3 bg-muted/30 rounded-md border-l-2 border-primary/20"
-                    >
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                        <span>Turn {event.turn}</span>
-                        <span className="capitalize">
-                          {event.type.replace('_', ' ')}
-                        </span>
-                      </div>
-                      <div className="text-sm">{event.description}</div>
-                      {event.actingUnit && (
-                        <div className="text-xs text-muted-foreground mt-1">
-                          Acting unit: {event.actingUnit}
-                          {event.targets && event.targets.length > 0 && (
-                            <span> → Targets: {event.targets.join(', ')}</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+              <>
+                {/* Temporary debug - remove this */}
+                <div className="mb-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+                  <strong>Debug - Events Array ({battleEvents.length}):</strong>
+                  <pre>{JSON.stringify(battleEvents.map(e => ({ id: e.id, turn: e.turn, type: e.type })), null, 2)}</pre>
                 </div>
-              </ScrollArea>
+                <ScrollArea className="h-[350px] w-full">
+                  <div className="space-y-3">
+                    {battleEvents.map((event) => (
+                      <BattleEventCard 
+                        key={event.id} 
+                        event={event}
+                      />
+                    ))}
+                  </div>
+                </ScrollArea>
+              </>
             ) : canStartBattle ? (
               <div className="text-center space-y-4 py-16">
                 <div className="text-muted-foreground">
