@@ -41,6 +41,7 @@ const initialEquipmentData = {
   INIT: 0,
   AP: 0,
   PP: 0,
+  GuardEff: 0,
 }
 
 export const calculateBaseStats = (
@@ -166,6 +167,7 @@ const directStatMappings: Record<string, keyof typeof initialEquipmentData> = {
   INIT: 'INIT',
   AP: 'AP',
   PP: 'PP',
+  GuardEff: 'GuardEff',
 }
 
 const specialStatProcessors: Record<string, StatProcessor> = {
@@ -224,7 +226,6 @@ const ignoredStats = [
   'ExpGainPercent',
   'OnActiveHealPercent',
   'DmgReductionPercent',
-  'GuardEff',
   'DrainEff',
   'PursuitPotency',
   'CounterAttackPotency',
@@ -301,22 +302,6 @@ export const calculateDamage = (
   const afterGuard = isPhysical ? afterCrit * guardMultiplier : afterCrit
   const afterEffectiveness = afterGuard * effectiveness
   const finalDamage = Math.max(1, Math.round(afterEffectiveness))
-
-  console.debug('Damage Calculation Trace', {
-    attack,
-    defense,
-    potency,
-    critMultiplier,
-    guardMultiplier,
-    effectiveness,
-    isPhysical,
-    afterDefense,
-    afterPotency,
-    afterCrit,
-    afterGuard,
-    afterEffectiveness,
-    finalDamage,
-  })
 
   return finalDamage
 }

@@ -29,8 +29,11 @@ export const createBattleContext = (
       acc[key] = baseStats[key] + (equipmentBonus[key] ?? 0)
       return acc
     },
-    {} as Record<StatKey, number>
+    {} as Record<StatKey | 'GuardEff', number>
   )
+
+  // Add GuardEff from equipment (not in base stats)
+  combatStats['GuardEff'] = equipmentBonus.GuardEff ?? 0
 
   // Calculate final AP/PP with equipment bonuses and cap at 4
   const finalAPPP = calculateFinalAPPP(unit.classKey, equipmentBonus)

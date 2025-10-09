@@ -98,6 +98,7 @@ export interface BattleContext {
     CRT: number
     GRD: number
     INIT: number
+    GuardEff: number // Guard effectiveness from equipment
   }
 
   // Battle-specific tracking

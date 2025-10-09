@@ -23,13 +23,8 @@ export function MockBattle() {
   const [selectedAllyTeam, setSelectedAllyTeam] = useState<Team | null>(null)
   const [selectedEnemyTeam, setSelectedEnemyTeam] = useState<Team | null>(null)
 
-  const {
-    battleEvents,
-    isExecuting,
-    error,
-    executeBattle,
-    clearResults,
-  } = useBattleEngine()
+  const { battleEvents, isExecuting, error, executeBattle, clearResults } =
+    useBattleEngine()
 
   // Filter out empty teams (teams with no units)
   const nonEmptyTeams = Object.values(teams).filter(team =>
@@ -104,7 +99,7 @@ export function MockBattle() {
                 </div>
 
                 {selectedAllyTeam && (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center pt-2">
                     <IsometricFormationDisplay
                       formation={selectedAllyTeam.formation}
                       orientation="right-facing"
@@ -134,7 +129,7 @@ export function MockBattle() {
                 </div>
 
                 {selectedEnemyTeam && (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center pt-2">
                     <IsometricFormationDisplay
                       formation={selectedEnemyTeam.formation}
                       orientation="left-facing"
@@ -182,23 +177,13 @@ export function MockBattle() {
           </CardHeader>
           <CardContent>
             {battleEvents.length > 0 ? (
-              <>
-                {/* Temporary debug - remove this */}
-                <div className="mb-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
-                  <strong>Debug - Events Array ({battleEvents.length}):</strong>
-                  <pre>{JSON.stringify(battleEvents.map(e => ({ id: e.id, turn: e.turn, type: e.type })), null, 2)}</pre>
+              <ScrollArea className="h-[350px] w-full">
+                <div className="space-y-3">
+                  {battleEvents.map(event => (
+                    <BattleEventCard key={event.id} event={event} />
+                  ))}
                 </div>
-                <ScrollArea className="h-[350px] w-full">
-                  <div className="space-y-3">
-                    {battleEvents.map((event) => (
-                      <BattleEventCard 
-                        key={event.id} 
-                        event={event}
-                      />
-                    ))}
-                  </div>
-                </ScrollArea>
-              </>
+              </ScrollArea>
             ) : canStartBattle ? (
               <div className="text-center space-y-4 py-16">
                 <div className="text-muted-foreground">

@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { SPRITES } from '@/data/sprites'
+import { cn } from '@/lib/utils'
 import type { AllClassType } from '@/types/base-stats'
 import type { BattleEvent } from '@/types/battle-engine'
 
@@ -18,13 +19,13 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
   // Team-based styling
   const teamStyles = {
     'home-team': {
-      cardClass: 'border-blue-200 bg-blue-50/50',
-      badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
+      cardClass: 'border-blue-200 bg-blue-50/50 dark:border-blue-700/50 dark:bg-blue-950/30',
+      badgeClass: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-blue-200 dark:border-blue-700/50'
     },
     'away-team': {
-      cardClass: 'border-red-200 bg-red-50/50',
-      badgeClass: 'bg-red-100 text-red-800 border-red-200',
-    },
+      cardClass: 'border-red-200 bg-red-50/50 dark:border-red-700/50 dark:bg-red-950/30', 
+      badgeClass: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/50 dark:text-red-200 dark:border-red-700/50'
+    }
   }
 
   const currentTeamStyles = team
@@ -32,50 +33,57 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
     : { cardClass: '', badgeClass: '' }
 
   return (
-    <Card className={`w-full ${currentTeamStyles.cardClass}`}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          {/* Left side - Turn, sprite, and event type */}
-          <div className="flex flex-col gap-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <Badge
-                variant="outline"
-                className={`text-xs ${currentTeamStyles.badgeClass}`}
-              >
-                Turn {event.turn}
-              </Badge>
-              {unitSprite && (
-                <img
-                  src={unitSprite}
-                  width={20}
-                  height={20}
-                  alt={actingUnit?.name || 'Unit'}
-                  className="rounded-sm"
-                />
-              )}
-              <Badge variant="secondary" className="text-xs capitalize">
-                {event.type.replace('_', ' ')}
-              </Badge>
-            </div>
-
-            {/* Main event description */}
-            <p className="text-sm text-muted-foreground">{event.description}</p>
+    <Card className={cn('w-full', currentTeamStyles.cardClass)}>
+      <CardContent className="p-3">
+        <div className="flex items-start gap-3">
+          {/* Left side - Turn badge and unit sprite */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Badge 
+              variant="outline" 
+              className={cn('text-xs', currentTeamStyles.badgeClass)}
+            >
+              Turn {event.turn}
+            </Badge>
+            {unitSprite && (
+              <img
+                src={unitSprite}
+                width={32}
+                height={32}
+                alt={actingUnit?.name || 'Unit'}
+                className="rounded-sm"
+              />
+            )}
           </div>
 
-          {/* Right side - Unit and skill info */}
-          <div className="flex flex-col items-end gap-1 text-xs text-muted-foreground min-w-0">
-            {actingUnit && (
-              <div className="font-medium text-foreground">
-                {actingUnit.name}
+          {/* Main content area */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2">
+              {/* Event description and details */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground mb-1">
+                  {event.description}
+                </p>
+                
+                {/* Event type and targets */}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Badge variant="secondary" className="text-xs capitalize">
+                    {event.type.replace('_', ' ')}
+                  </Badge>
+                  {event.targets && event.targets.length > 0 && (
+                    <span>
+                      → {event.targets.join(', ')}
+                    </span>
+                  )}
+                </div>
               </div>
-            )}
-
-            {event.targets && event.targets.length > 0 && (
-              <div className="text-right">
-                <span className="text-muted-foreground">→ </span>
-                {event.targets.join(', ')}
-              </div>
-            )}
+              
+              {/* Unit name */}
+              {actingUnit && (
+                <div className="text-xs text-muted-foreground text-right flex-shrink-0">
+                  {actingUnit.name}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
