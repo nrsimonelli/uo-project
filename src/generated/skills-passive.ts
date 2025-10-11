@@ -8,6 +8,7 @@ export const PassiveSkills = [
     name: 'First Aid',
     description: 'At the end of battle, restore 25% HP to an ally.',
     pp: 1,
+    skillCategories: ['Heal'],
     activationWindow: 'endOfBattle',
     targeting: {
       group: 'Ally',
@@ -27,6 +28,7 @@ export const PassiveSkills = [
     description:
       'Before an ally attacks, grant 100% critical rate for their next attack.',
     pp: 1,
+    skillCategories: ['Utility'],
     activationWindow: 'beforeAllyAttacksActive',
     targeting: {
       group: 'Ally',
@@ -46,6 +48,7 @@ export const PassiveSkills = [
     name: 'Luminous Cover',
     description: 'Cover an ally with medium Guard, grants ally 20% Defense.',
     pp: 1,
+    skillCategories: ['Cover'],
     activationWindow: 'beforeAllyAttacked',
     targeting: {
       group: 'Ally',
@@ -71,6 +74,7 @@ export const PassiveSkills = [
     name: 'Rapid Order',
     description: 'Grant +20 Initiative to all allies.',
     pp: 1,
+    skillCategories: ['Utility'],
     activationWindow: 'startOfBattle',
     targeting: {
       group: 'Ally',
@@ -93,6 +97,7 @@ export const PassiveSkills = [
     description:
       'Block enemy attack with medium guard, grants 20% Defense and grants +1 PP if you have 50% Health or less.',
     pp: 1,
+    skillCategories: ['Guard'],
     activationWindow: 'beforeBeingHitPhys',
     targeting: {
       group: 'Self',

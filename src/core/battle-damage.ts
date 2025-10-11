@@ -41,7 +41,6 @@ export interface DamageResult {
  * Formula: ((100 + attacker accuracy) - target evasion) * skill hitRate / 100
  * Special cases:
  * - If hitRate is "True" or TrueStrike flag is present, always hits
- * - Hit chance is clamped between 5% and 95%
  */
 export const calculateHitChance = (
   attacker: BattleContext,
@@ -66,7 +65,7 @@ export const calculateHitChance = (
   const skillHitRate = damageEffect.hitRate as number
 
   const rawHitChance = ((100 + accuracy - evasion) * skillHitRate) / 100
-  const clampedHitChance = clamp(rawHitChance, 5, 95)
+  const clampedHitChance = clamp(rawHitChance, 0, 100)
 
   console.debug('Hit Chance Calculation', {
     attacker: attacker.unit.name,
@@ -268,13 +267,14 @@ export const calculateSkillDamage = (
   damageEffect: DamageEffect,
   rng: RandomNumberGeneratorType,
   skillFlags: Flag[] = [], // Skill-level flags
-  effectFlags: Flag[] = [] // Effect-level flags (from damageEffect.flags)
+  effectFlags: Flag[] = [], // Effect-level flags (from damageEffect.flags)
+  innateAttackType?: 'Magical' | 'Ranged' // Innate attack type from skill
 ): DamageResult => {
   // Combine skill-level and effect-level flags
   const combinedFlags = getCombinedFlags(skillFlags, effectFlags)
 
   // Determine attack type for this skill usage
-  const attackType = getAttackType(combinedFlags, attacker.unit.classKey)
+  const attackType = getAttackType(attacker.unit.classKey, innateAttackType)
 
   // Determine damage type
   const damageType = getDamageType(damageEffect)
@@ -381,10 +381,8 @@ export const calculateSkillDamage = (
     damage: hit ? `${finalDamage} damage` : '0 damage (missed)',
     effectiveness:
       effectiveness > 1
-        ? `SUPER EFFECTIVE ×${effectiveness}!`
-        : effectiveness < 1
-          ? `Not very effective ×${effectiveness}`
-          : 'Normal effectiveness',
+        ? `Effective bonus dmg ×${effectiveness}!`
+        : 'No class effective damage',
     guardInfo: hit
       ? {
           equipmentGuardEff,
@@ -434,7 +432,8 @@ export const calculateMultiHitDamage = (
   damageEffect: DamageEffect,
   rng: RandomNumberGeneratorType,
   skillFlags: Flag[] = [],
-  effectFlags: Flag[] = []
+  effectFlags: Flag[] = [],
+  innateAttackType?: 'Magical' | 'Ranged'
 ): DamageResult[] => {
   const results: DamageResult[] = []
 
@@ -445,7 +444,8 @@ export const calculateMultiHitDamage = (
       damageEffect,
       rng,
       skillFlags,
-      effectFlags
+      effectFlags,
+      innateAttackType
     )
     results.push(result)
 

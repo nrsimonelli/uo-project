@@ -9,11 +9,12 @@ export const ActiveSkills = [
     description:
       'Attack a single enemy. Ignores 50% defense vs armored targets. Grants +50 potency vs armored targets.',
     ap: 1,
+    skillCategories: ['Damage'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
-    damageType: 'Physical',
+    skillFlags: ['Unguardable'],
     effects: [
       {
         kind: 'Damage',
@@ -22,7 +23,6 @@ export const ActiveSkills = [
         },
         hitRate: 100,
         hitCount: 1,
-        flags: ['Unguardable'],
       },
       {
         kind: 'IgnoreDefense',
@@ -58,11 +58,11 @@ export const ActiveSkills = [
     name: 'Heavy Slash',
     description: 'Attack a single enemy with high potency.',
     ap: 1,
+    skillCategories: ['Damage'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
-    damageType: 'Physical',
     effects: [
       {
         kind: 'Damage',
@@ -81,11 +81,11 @@ export const ActiveSkills = [
     description:
       'Attack a single enemy. Recover 25% HP if attack hits and another 25% HP if target is defeated.',
     ap: 1,
+    skillCategories: ['Damage'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
-    damageType: 'Physical',
     effects: [
       {
         kind: 'Damage',
@@ -128,11 +128,11 @@ export const ActiveSkills = [
     description:
       'Attack a single enemy. Against flying targets, becomes Truestrike, +50 Potency and ignores 50% of Defense.',
     ap: 1,
+    skillCategories: ['Damage'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
-    damageType: 'Physical',
     effects: [
       {
         kind: 'Damage',
@@ -176,6 +176,634 @@ export const ActiveSkills = [
             kind: 'CombatantType',
             target: 'Enemy',
             combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'longThrust',
+    type: 'active',
+    name: 'Long Thrust',
+    description:
+      'Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'Unguardable',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'javelin',
+    type: 'active',
+    name: 'Javelin',
+    description: 'Attack a single enemy. +50 potency vs flying targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'brandish',
+    type: 'active',
+    name: 'Brandish',
+    description:
+      "Attack a single enemy. Ignores 50% of the target's defense. Grants the user +1 PP if the attack hits.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    skillFlags: ['Unguardable'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'HitCheck',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'sanguineAttack',
+    type: 'active',
+    name: 'Sanguine Attack',
+    description:
+      'Attack a single enemy. Recover HP equal to 50% of damage dealt.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'LifeSteal',
+        percentage: 50,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'shadowThrust',
+    type: 'active',
+    name: 'Shadow Thrust',
+    description: 'Attack a column of enemies. Inflicts blindness.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 80,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Blind',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'magicAttack',
+    type: 'active',
+    name: 'Magic Attack',
+    description: 'Attack a single enemy with magical damage.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'trueThrust',
+    type: 'active',
+    name: 'True Thrust',
+    description: 'Attack a column of enemies. This attack always hits.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    skillFlags: ['TrueStrike'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 80,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'passiveShatter',
+    type: 'active',
+    name: 'Passive Shatter',
+    description: 'Attack a column of enemies. Inflicts -1 PP.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'phantomAttack',
+    type: 'active',
+    name: 'Phantom Attack',
+    description: 'Attack a single enemy with magical damage. Inflicts -1 PP.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 120,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'lightningShaker',
+    type: 'active',
+    name: 'Lightning Shaker',
+    description: 'Attack a row of enemies. Inflicts stun.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'icicleDart',
+    type: 'active',
+    name: 'Icicle Dart',
+    description: 'Attack a single enemy. Inflicts freeze.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    skillFlags: ['TrueStrike'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+          magical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'rampage',
+    type: 'active',
+    name: 'Rampage',
+    description:
+      'Attack a single enemy. Inflicts -1 AP on target and grants user -50% Defense.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'AP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Debuff',
+        stat: 'Defense',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'lethalVenom',
+    type: 'active',
+    name: 'Lethal Venom',
+    description:
+      'Attack a column of enemies with a piercing strike. Inflicts Poison. Inflicts Deathblow vs. poisoned foes.',
+    ap: 3,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 75,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Poison',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Deathblow',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Affliction',
+            target: 'Enemy',
+            affliction: 'Poison',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'flameJavelin',
+    type: 'active',
+    name: 'Flame Javelin',
+    description:
+      'Attack a single enemy. +50 potency vs. flying targets. Inflicts burn.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'elfslayer',
+    type: 'active',
+    name: 'Elfslayer',
+    description:
+      'Attack a column of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Elven targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'AP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Elven',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Elven',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Debuff',
+        stat: 'Defense',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Elven',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'thunderousThrust',
+    type: 'active',
+    name: 'Thunderous Thrust',
+    description:
+      'Attack a single enemy with hybrid damage. Inflicts stun. +25 potency if user has Faeries.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+          magical: 25,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'Faeries',
+            comparator: 'GreaterThan',
+            value: 0,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'dragoonDive',
+    type: 'active',
+    name: 'Dragoon Dive',
+    description:
+      'Attack all enemies. Requires charging. +50 potency vs ground targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Ranged',
+    skillFlags: ['Charge'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Infantry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
             comparator: 'EqualTo',
           },
         ],
