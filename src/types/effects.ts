@@ -20,35 +20,35 @@ export interface DamageEffect {
   potency: { physical?: number; magical?: number }
   hitRate: number | 'True'
   hitCount: number
-  flags?: Flag[]
-  conditions?: Condition[]
+  flags?: Flag[] | readonly Flag[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface GrantFlagEffect {
   kind: 'GrantFlag'
   flag: Flag
   duration?: 'NextAction'
   applyTo?: 'Target' | 'User'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface IgnoreDefenseEffect {
   kind: 'IgnoreDefense'
   fraction: number
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface PotencyBoostEffect {
   kind: 'PotencyBoost'
   amount: { physical?: number; magical?: number }
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface HealPercentEffect {
   kind: 'HealPercent'
   value: number
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface HealPotencyEffect {
   kind: 'Heal'
   potency: { physical?: number; magical?: number }
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 interface BaseEffect {
   stat: StatKey | ExtraStats
@@ -56,7 +56,7 @@ interface BaseEffect {
   scaling: 'flat' | 'percent'
   applyTo?: 'User' | 'Target'
   duration?: 'NextAction'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 export interface BuffEffect extends BaseEffect {
   kind: 'Buff'
@@ -69,34 +69,34 @@ export interface DebuffEffect extends BaseEffect {
 export interface CoverEffect {
   kind: 'Cover'
   guard: 'none' | 'light' | 'medium' | 'heavy' | 'full'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 
 export interface ResourceGainEffect {
   kind: 'ResourceGain'
   resource: 'AP' | 'PP'
   amount: number
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 
 export interface GuardEffect {
   kind: 'Guard'
   guard: 'light' | 'medium' | 'heavy' | 'full'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 
 export interface AfflictionEffect {
   kind: 'Affliction'
   affliction: AfflictionType
   applyTo?: 'Target' | 'User'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 
 export interface LifeStealEffect {
   kind: 'LifeSteal'
   percentage: number // Percentage of damage dealt to heal (e.g., 50 for 50%)
   applyTo?: 'User'
-  conditions?: Condition[]
+  conditions?: Condition[] | readonly Condition[]
 }
 
 export type Effect =

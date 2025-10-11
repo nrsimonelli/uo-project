@@ -1,25 +1,40 @@
-import { STANDBY_SKILL } from './skill-targeting'
+import { STANDBY_SKILL, getDefaultTargets } from './skill-targeting'
 
 import { ActiveSkillsMap } from '@/generated/skills-active'
-import type { BattleContext } from '@/types/battle-engine'
+import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill } from '@/types/skills'
 
+interface SkillSelection {
+  skill: ActiveSkill
+  targets: BattleContext[] // All targets that should be affected by the skill
+}
+
 /**
- * Find the first affordable active skill from a unit's skill slots
+ * Find the first affordable active skill from a unit's skill slots and its valid targets
  * Skills are checked in slot order priority
+ * Returns both the selected skill and all targets that should be affected based on the skill's targeting pattern
  */
-export const selectActiveSkill = (unit: BattleContext): ActiveSkill => {
+export const selectActiveSkill = (
+  unit: BattleContext,
+  battlefield: BattlefieldState
+): SkillSelection => {
   // Skip if unit has no AP (should not happen due to actionable checks)
   if (unit.currentAP <= 0) {
-    console.warn(`Unit ${unit.unit.name} has no AP but was asked to select skill`)
-    return STANDBY_SKILL
+    console.warn(
+      `Unit ${unit.unit.name} has no AP but was asked to select skill`
+    )
+    const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
+    return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
 
   // Check if unit has any skill slots
   if (!unit.unit.skillSlots || unit.unit.skillSlots.length === 0) {
     console.log(`💭 ${unit.unit.name} has no skill slots - using Standby`)
-    return STANDBY_SKILL
+    const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
+    return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
+
+  // TODO: clean up logic and consider targeting...
 
   // Go through skill slots and find the first affordable active skill
   for (const skillSlot of unit.unit.skillSlots) {
@@ -30,7 +45,9 @@ export const selectActiveSkill = (unit: BattleContext): ActiveSkill => {
     }
 
     // Get the skill data
-    const skill = ActiveSkillsMap[skillSlot.skillId as keyof typeof ActiveSkillsMap]
+    const skill = ActiveSkillsMap[
+      skillSlot.skillId as keyof typeof ActiveSkillsMap
+    ] as ActiveSkill
     if (!skill) {
       console.warn(`Active skill not found: ${skillSlot.skillId}`)
       continue
@@ -38,10 +55,22 @@ export const selectActiveSkill = (unit: BattleContext): ActiveSkill => {
 
     // Check if unit can afford this skill
     if (skill.ap <= unit.currentAP) {
-      console.log(`✅ ${unit.unit.name} selected skill: ${skill.name} (${skill.ap} AP)`)
-      return skill
+      console.log(
+        `✅ ${unit.unit.name} selected skill: ${skill.name} (${skill.ap} AP)`
+      )
+      const targets = getDefaultTargets(skill, unit, battlefield)
+      if (targets.length > 0) {
+        console.log(
+          `💭 ${unit.unit.name} selecting ${skill.name} targeting ${targets.map(t => t.unit.name).join(', ')}`
+        )
+        return { skill, targets }
+      }
+      // If no valid targets, continue to next skill
+      console.log(`⚠️ No valid targets for ${skill.name}, trying next skill`)
     } else {
-      console.log(`⚠️ ${unit.unit.name} cannot afford ${skill.name} (${skill.ap} AP, has ${unit.currentAP} AP)`)
+      console.log(
+        `⚠️ ${unit.unit.name} cannot afford ${skill.name} (${skill.ap} AP, has ${unit.currentAP} AP)`
+      )
     }
   }
 
@@ -49,10 +78,14 @@ export const selectActiveSkill = (unit: BattleContext): ActiveSkill => {
   // Note: Only use Standby if unit has at least 1 AP (per requirements)
   if (unit.currentAP > 0) {
     console.log(`📥 ${unit.unit.name} using Standby - no affordable skills`)
-    return STANDBY_SKILL
+    const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
+    return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
 
   // This should not happen if actionable checks are working correctly
-  console.error(`❌ ${unit.unit.name} has 0 AP and was asked to select skill - this should not happen`)
-  return STANDBY_SKILL
+  console.error(
+    `❌ ${unit.unit.name} has 0 AP and was asked to select skill - this should not happen`
+  )
+  const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
+  return { skill: STANDBY_SKILL, targets: standbyTargets }
 }

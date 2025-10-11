@@ -77,7 +77,29 @@ const targetingPatternHandlers = {
     return closestTarget ? [closestTarget] : []
   },
 
-  // TODO: Add other patterns like 'Row', 'Column', etc.
+  Row: (targets: BattleContext[], actingUnit: BattleContext) => {
+    // If no targets or primary target, return empty
+    if (targets.length === 0) return []
+    
+    // Find closest target first (this will be in the row we want to target)
+    const primaryTarget = findClosestTarget(actingUnit, targets)
+    if (!primaryTarget) return []
+
+    // Return all targets in the same row as the primary target
+    return targets.filter(target => target.position.row === primaryTarget.position.row)
+  },
+
+  Column: (targets: BattleContext[], actingUnit: BattleContext) => {
+    // If no targets or primary target, return empty
+    if (targets.length === 0) return []
+    
+    // Find closest target first (this will be in the column we want to target)
+    const primaryTarget = findClosestTarget(actingUnit, targets)
+    if (!primaryTarget) return []
+
+    // Return all targets in the same column as the primary target
+    return targets.filter(target => target.position.col === primaryTarget.position.col)
+  }
 } as const
 
 /**
@@ -134,5 +156,6 @@ export const STANDBY_SKILL: ActiveSkill = {
     group: 'Ally', // Group doesn't matter for Self pattern
     pattern: 'Self',
   },
+  skillCategories: ['Utility'],
   effects: [], // No effects - just passes the turn
 }

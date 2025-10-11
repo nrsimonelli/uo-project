@@ -68,7 +68,7 @@ export const isMagicalDamage = (damageEffect: DamageEffect) => {
 }
 
 export const canTargetMovementType = (
-  flags: Flag[] = [],
+  flags: readonly Flag[] | Flag[] = [],
   targetMovementType: 'Infantry' | 'Cavalry' | 'Flying'
 ) => {
   // GroundBased attacks can only hit Cavalry and Infantry
@@ -81,8 +81,8 @@ export const canTargetMovementType = (
 }
 
 export const getCombinedFlags = (
-  skillFlags: Flag[] = [],
-  effectFlags: Flag[] = []
+  skillFlags: readonly Flag[] | Flag[] = [],
+  effectFlags: readonly Flag[] | Flag[] = []
 ): Flag[] => {
   const combined = [...skillFlags, ...effectFlags]
 
@@ -97,13 +97,15 @@ export const getCombinedFlags = (
 }
 
 export const hasCategory = (
-  skillCategories: SkillCategory[],
+  skillCategories: readonly SkillCategory[] | SkillCategory[],
   category: SkillCategory
 ) => {
   return skillCategories.includes(category)
 }
 
-export const skillRequiresHitCheck = (skillCategories: SkillCategory[]) => {
+export const skillRequiresHitCheck = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   // Only Damage and Sabotage skills require hit checks
   return (
     hasCategory(skillCategories, 'Damage') ||
@@ -111,11 +113,15 @@ export const skillRequiresHitCheck = (skillCategories: SkillCategory[]) => {
   )
 }
 
-export const isDamageSkill = (skillCategories: SkillCategory[]) => {
+export const isDamageSkill = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   return hasCategory(skillCategories, 'Damage')
 }
 
-export const isHostileSkill = (skillCategories: SkillCategory[]) => {
+export const isHostileSkill = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   // Only Damage and Sabotage skills are hostile
   return (
     hasCategory(skillCategories, 'Damage') ||
@@ -123,15 +129,21 @@ export const isHostileSkill = (skillCategories: SkillCategory[]) => {
   )
 }
 
-export const isAllyOnlySkill = (skillCategories: SkillCategory[]) => {
+export const isAllyOnlySkill = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   // Skills that don't have Damage or Sabotage categories
   return !isHostileSkill(skillCategories)
 }
 
-export const isCounterSkill = (skillCategories: SkillCategory[]) => {
+export const isCounterSkill = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   return hasCategory(skillCategories, 'Counter')
 }
 
-export const isPursuitSkill = (skillCategories: SkillCategory[]) => {
+export const isPursuitSkill = (
+  skillCategories: readonly SkillCategory[] | SkillCategory[]
+) => {
   return hasCategory(skillCategories, 'Pursuit')
 }

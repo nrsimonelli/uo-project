@@ -10,6 +10,7 @@ import type { RandomNumberGeneratorType } from './random'
 import { CLASS_DATA } from '@/data/units/class-data'
 import { clamp } from '@/lib/utils'
 import type { BattleContext } from '@/types/battle-engine'
+import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 
 /**
@@ -262,19 +263,18 @@ export const calculateEffectiveness = (
  * Handles hit chance, damage calculation, crit, guard, and effectiveness
  */
 export const calculateSkillDamage = (
+  damageEffect: DamageEffect,
+  skillFlags: readonly Flag[] | Flag[] = [],
+  skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
   attacker: BattleContext,
   target: BattleContext,
-  damageEffect: DamageEffect,
-  rng: RandomNumberGeneratorType,
-  skillFlags: Flag[] = [], // Skill-level flags
-  effectFlags: Flag[] = [], // Effect-level flags (from damageEffect.flags)
-  innateAttackType?: 'Magical' | 'Ranged' // Innate attack type from skill
+  rng: RandomNumberGeneratorType
 ): DamageResult => {
-  // Combine skill-level and effect-level flags
-  const combinedFlags = getCombinedFlags(skillFlags, effectFlags)
+  // Combine skill-level and damage effect flags
+  const combinedFlags = getCombinedFlags(skillFlags, damageEffect.flags || [])
 
   // Determine attack type for this skill usage
-  const attackType = getAttackType(attacker.unit.classKey, innateAttackType)
+  const attackType = getAttackType(attacker.unit.classKey)
 
   // Determine damage type
   const damageType = getDamageType(damageEffect)
@@ -284,6 +284,27 @@ export const calculateSkillDamage = (
   const hasMagical =
     damageEffect.potency.magical !== undefined &&
     damageEffect.potency.magical > 0
+
+  // Log combat stats for verification
+  console.log('⚔️ Combat Stats:', {
+    attacker: {
+      name: attacker.unit.name,
+      class: attacker.unit.classKey,
+      attackType,
+      stats: attacker.combatStats,
+    },
+    target: {
+      name: target.unit.name,
+      class: target.unit.classKey,
+      hp: target.currentHP,
+      stats: target.combatStats,
+    },
+    skill: {
+      potency: damageEffect.potency,
+      type: damageType,
+      flags: combinedFlags,
+    },
+  })
 
   // Calculate hit chance
   const hitChance = calculateHitChance(
@@ -433,19 +454,21 @@ export const calculateMultiHitDamage = (
   rng: RandomNumberGeneratorType,
   skillFlags: Flag[] = [],
   effectFlags: Flag[] = [],
+  skillCategories: SkillCategory[] = ['Damage'],
   innateAttackType?: 'Magical' | 'Ranged'
 ): DamageResult[] => {
   const results: DamageResult[] = []
 
   for (let i = 0; i < damageEffect.hitCount; i++) {
     const result = calculateSkillDamage(
+      damageEffect,
+      skillFlags,
+      skillCategories,
       attacker,
       target,
-      damageEffect,
-      rng,
-      skillFlags,
-      effectFlags,
-      innateAttackType
+      rng
+      // effectFlags,
+      // innateAttackType
     )
     results.push(result)
 

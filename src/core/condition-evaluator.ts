@@ -23,7 +23,7 @@ export interface ConditionEvaluationContext {
 export const evaluateCondition = (
   condition: Condition,
   context: ConditionEvaluationContext
-): boolean => {
+) => {
   if (condition.kind === 'CombatantType') {
     return evaluateCombatantTypeCondition(condition, context)
   }
@@ -73,6 +73,7 @@ const getTargetContext = (
   target: 'Self' | 'Ally' | 'Enemy',
   context: ConditionEvaluationContext
 ): BattleContext => {
+  console.log('getTargetContext', context)
   if (target === 'Self') {
     return context.attacker
   }
@@ -91,7 +92,7 @@ const getTargetContext = (
 const evaluateCombatantTypeCondition = (
   condition: Extract<Condition, { kind: 'CombatantType' }>,
   context: ConditionEvaluationContext
-): boolean => {
+) => {
   const targetContext = getTargetContext(condition.target, context)
   const classData = CLASS_DATA[targetContext.unit.classKey]
 

@@ -49,7 +49,7 @@ export interface EffectProcessingResult {
  * Process all effects for a skill, evaluating conditions and accumulating results
  */
 export const processEffects = (
-  effects: Effect[],
+  effects: readonly Effect[] | Effect[],
   context: ConditionEvaluationContext
 ): EffectProcessingResult => {
   const result: EffectProcessingResult = {
@@ -198,8 +198,8 @@ export const applyEffectsToDamage = (
 /**
  * Get all damage effects from a skill's effects array
  */
-export const getDamageEffects = (effects: Effect[]): DamageEffect[] => {
-  return effects.filter(
-    (effect): effect is DamageEffect => effect.kind === 'Damage'
-  )
+export const getDamageEffects = (
+  effects: readonly Effect[] | Effect[]
+): DamageEffect[] => {
+  return effects.filter(effect => effect.kind === 'Damage') as DamageEffect[]
 }

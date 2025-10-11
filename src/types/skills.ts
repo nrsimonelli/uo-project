@@ -9,9 +9,9 @@ interface SkillBase {
   name: string
   description: string
   targeting: Targeting
-  effects: Effect[]
-  skillFlags?: Flag[] // Skill-level flags that apply to all effects
-  skillCategories: SkillCategory[] // New field for skill classification
+  effects: Effect[] | readonly Effect[]
+  skillFlags?: Flag[] | readonly Flag[] // Skill-level flags that apply to all effects
+  skillCategories: SkillCategory[] | readonly SkillCategory[] // New field for skill classification
   innateAttackType?: 'Ranged' | 'Magical' // Innate attack type (renamed from attackType)
 }
 
