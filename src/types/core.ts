@@ -18,10 +18,22 @@ export interface Targeting {
   pattern: TargetPattern
 }
 
-export const AttackTypes = ['Melee', 'Ranged'] as const
+export const AttackTypes = ['Melee', 'Ranged', 'Magical'] as const
 export type AttackType = (typeof AttackTypes)[number]
 
 export const DamageTypes = ['Physical', 'Magical', 'Hybrid'] as const
 export type DamageType = (typeof DamageTypes)[number]
+
+export const SkillCategories = [
+  'Damage', // All Damage skills
+  'Counter',
+  'Pursuit',
+  'Heal',
+  'Sabotage', // Debuff/affliction skills
+  'Utility', // Buff/utility skills
+  'Cover',
+  'Guard',
+] as const
+export type SkillCategory = (typeof SkillCategories)[number]
 
 export type CombatantType = (typeof COMBATANT_TYPES)[number]

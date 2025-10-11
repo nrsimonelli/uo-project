@@ -111,13 +111,12 @@ export interface BattleContext {
 
 /**
  * Action record for battle history tracking
+ * All other properties can be derived from skillId lookup
  */
 export interface ActionRecord {
-  unitId: string // don't ever use the term actor
+  unitId: string
   targetIds: string[]
   skillId: string
-  skillType: 'active' | 'passive'
-  attackType: 'Physical' | 'Magical' | 'Hybrid' | 'Heal' | 'None' // Derived from skill.damageType during battle
   turn: number
 }
 
