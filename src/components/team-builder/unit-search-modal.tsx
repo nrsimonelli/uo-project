@@ -59,7 +59,8 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" className="flex flex-1">
-          Add Unit <PlusIcon className="w-4 h-4" />
+          <PlusIcon className="w-4 h-4" />
+          Add Unit
         </Button>
       </DialogTrigger>
       <DialogContent

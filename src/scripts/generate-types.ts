@@ -2,8 +2,226 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+interface EquipmentItem {
+  id: string
+  skillId: string | null
+}
+
+interface SkillItem {
+  id: string
+  type: string
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// Validation functions
+function extractSkillReferencesFromClasses(): Set<string> {
+  const classDataPath = path.resolve(__dirname, '../data/units/class-data.ts')
+  const classDataContent = fs.readFileSync(classDataPath, 'utf-8')
+
+  // Extract skill IDs using regex - looking for skillId: 'skillName' patterns
+  const skillIdMatches = classDataContent.match(/skillId:\s*'([^']+)'/g) || []
+  const skillIds = skillIdMatches
+    .map(match => {
+      const result = match.match(/skillId:\s*'([^']+)'/)
+      return result ? result[1] : ''
+    })
+    .filter(Boolean)
+
+  return new Set(skillIds)
+}
+
+function extractSkillReferencesFromEquipment(): Set<string> {
+  const equipmentDir = path.resolve(__dirname, '../data/equipment')
+  const skillIds = new Set<string>()
+
+  const equipmentFiles = fs
+    .readdirSync(equipmentDir)
+    .filter(f => f.endsWith('.json'))
+
+  for (const file of equipmentFiles) {
+    const filePath = path.join(equipmentDir, file)
+    const raw = fs.readFileSync(filePath, 'utf-8')
+    const equipment: EquipmentItem[] = JSON.parse(raw)
+
+    for (const item of equipment) {
+      if (item.skillId && item.skillId !== null) {
+        skillIds.add(item.skillId)
+      }
+    }
+  }
+
+  return skillIds
+}
+
+function getDefinedSkills(): {
+  activeSkills: Set<string>
+  passiveSkills: Set<string>
+} {
+  const skillsDir = path.resolve(__dirname, '../data/skills')
+
+  // Read active skills
+  const activeSkillsPath = path.join(skillsDir, 'active.json')
+  const activeSkillsRaw = fs.readFileSync(activeSkillsPath, 'utf-8')
+  const activeSkills: SkillItem[] = JSON.parse(activeSkillsRaw)
+  const activeSkillIds = new Set(activeSkills.map(skill => skill.id))
+
+  // Read passive skills
+  const passiveSkillsPath = path.join(skillsDir, 'passive.json')
+  const passiveSkillsRaw = fs.readFileSync(passiveSkillsPath, 'utf-8')
+  const passiveSkills: SkillItem[] = JSON.parse(passiveSkillsRaw)
+  const passiveSkillIds = new Set(passiveSkills.map(skill => skill.id))
+
+  return { activeSkills: activeSkillIds, passiveSkills: passiveSkillIds }
+}
+
+function validateSkillReferences() {
+  console.log('\n🔍 Validating skill references...')
+
+  // Get all referenced skills
+  const classSkills = extractSkillReferencesFromClasses()
+  const equipmentSkills = extractSkillReferencesFromEquipment()
+  const allReferencedSkills = new Set([...classSkills, ...equipmentSkills])
+
+  // Get all defined skills
+  const { activeSkills, passiveSkills } = getDefinedSkills()
+  const allDefinedSkills = new Set([...activeSkills, ...passiveSkills])
+
+  // Find missing skills
+  const missingSkills = new Set<string>()
+  for (const skill of allReferencedSkills) {
+    if (!allDefinedSkills.has(skill)) {
+      missingSkills.add(skill)
+    }
+  }
+
+  // Find unused skills (defined but not referenced)
+  const unusedSkills = new Set<string>()
+  for (const skill of allDefinedSkills) {
+    if (!allReferencedSkills.has(skill)) {
+      unusedSkills.add(skill)
+    }
+  }
+
+  // Generate report
+  const reportPath = path.resolve(
+    __dirname,
+    '../generated/skill-validation-report.md'
+  )
+  const report = generateValidationReport(
+    classSkills,
+    equipmentSkills,
+    activeSkills,
+    passiveSkills,
+    missingSkills,
+    unusedSkills
+  )
+
+  fs.writeFileSync(reportPath, report, 'utf-8')
+
+  // Console output
+  console.log(`📊 Skill References Summary:`)
+  console.log(`   • From Classes: ${classSkills.size} skills`)
+  console.log(`   • From Equipment: ${equipmentSkills.size} skills`)
+  console.log(`   • Total Referenced: ${allReferencedSkills.size} skills`)
+  console.log(`   • Active Skills Defined: ${activeSkills.size} skills`)
+  console.log(`   • Passive Skills Defined: ${passiveSkills.size} skills`)
+  console.log(`   • Total Defined: ${allDefinedSkills.size} skills`)
+
+  if (missingSkills.size > 0) {
+    console.log(
+      `\n❌ MISSING SKILLS (${missingSkills.size}):`,
+      Array.from(missingSkills).sort()
+    )
+  } else {
+    console.log(`\n✅ No missing skills found!`)
+  }
+
+  if (unusedSkills.size > 0) {
+    console.log(
+      `\n⚠️  UNUSED SKILLS (${unusedSkills.size}):`,
+      Array.from(unusedSkills).sort()
+    )
+  }
+
+  console.log(`📝 Full report written to: ${reportPath}`)
+}
+
+function generateValidationReport(
+  classSkills: Set<string>,
+  equipmentSkills: Set<string>,
+  activeSkills: Set<string>,
+  passiveSkills: Set<string>,
+  missingSkills: Set<string>,
+  unusedSkills: Set<string>
+): string {
+  const timestamp = new Date().toISOString()
+
+  return `# Skill Validation Report
+
+*Generated: ${timestamp}*
+
+## Summary
+
+- **Class Skills Referenced**: ${classSkills.size}
+- **Equipment Skills Referenced**: ${equipmentSkills.size}
+- **Total Skills Referenced**: ${new Set([...classSkills, ...equipmentSkills]).size}
+- **Active Skills Defined**: ${activeSkills.size}
+- **Passive Skills Defined**: ${passiveSkills.size}
+- **Total Skills Defined**: ${activeSkills.size + passiveSkills.size}
+
+## Missing Skills (Referenced but Not Defined)
+
+${
+  missingSkills.size === 0
+    ? '✅ **No missing skills found!**'
+    : `❌ **${missingSkills.size} missing skills:**\n\n${Array.from(
+        missingSkills
+      )
+        .sort()
+        .map(skill => `- \`${skill}\``)
+        .join('\n')}`
+}
+
+## Unused Skills (Defined but Not Referenced)
+
+${
+  unusedSkills.size === 0
+    ? '✅ **No unused skills found!**'
+    : `⚠️ **${unusedSkills.size} unused skills:**\n\n${Array.from(unusedSkills)
+        .sort()
+        .map(skill => `- \`${skill}\``)
+        .join('\n')}`
+}
+
+## Skills by Source
+
+### From Class Data (${classSkills.size})
+${Array.from(classSkills)
+  .sort()
+  .map(skill => `- \`${skill}\``)
+  .join('\n')}
+
+### From Equipment Data (${equipmentSkills.size})
+${Array.from(equipmentSkills)
+  .sort()
+  .map(skill => `- \`${skill}\``)
+  .join('\n')}
+
+### Active Skills Defined (${activeSkills.size})
+${Array.from(activeSkills)
+  .sort()
+  .map(skill => `- \`${skill}\``)
+  .join('\n')}
+
+### Passive Skills Defined (${passiveSkills.size})
+${Array.from(passiveSkills)
+  .sort()
+  .map(skill => `- \`${skill}\``)
+  .join('\n')}
+`
+}
 
 function generateTsFile(jsonPath: string, outPath: string, exportName: string) {
   const raw = fs.readFileSync(jsonPath, 'utf-8')
@@ -64,3 +282,6 @@ for (const file of equipmentFiles) {
 
   generateTsFile(path.join(equipmentDir, file), outPath, exportName)
 }
+
+// === Skill Validation ===
+validateSkillReferences()
