@@ -29,15 +29,8 @@ export function SkillSelectionModal({
   const { searchTerm, updateSearchTerm, open, setOpen, closeModal } =
     useModalState()
 
-  const {
-    availableSkills,
-    filteredSkills,
-    skillTypeFilter,
-    setSkillTypeFilter,
-    setSearchTerm,
-  } = useSkillSelection({ unit })
-
-  console.log(availableSkills)
+  const { filteredSkills, skillTypeFilter, setSkillTypeFilter, setSearchTerm } =
+    useSkillSelection({ unit })
 
   const handleSearchChange = (value: string) => {
     updateSearchTerm(value)
@@ -52,7 +45,7 @@ export function SkillSelectionModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="justify-start">
+        <Button variant="default" size="sm" className="justify-start">
           <Plus className="size-4" />
           Add Skill
         </Button>

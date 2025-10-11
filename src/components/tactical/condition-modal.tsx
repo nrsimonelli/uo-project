@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import { Separator } from '../ui/separator'
-
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -11,6 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import {
   TACTIC_CATEGORIES,
   TACTIC_CATEGORY_MAP,
@@ -18,7 +17,7 @@ import {
 } from '@/data/tactics/tactic-conditions'
 import { useModalState } from '@/hooks/use-modal-state'
 import { cn } from '@/lib/utils'
-import type { TacticalCondition } from '@/types/tactical-evaluation'
+import type { TacticalCondition } from '@/types/tactics'
 
 interface ConditionModalProps {
   onSelectCondition: (condition: TacticalCondition | null) => void

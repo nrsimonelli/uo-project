@@ -12,7 +12,7 @@ import {
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import type { SkillSlot } from '@/types/skills'
-import type { TacticalCondition } from '@/types/tactical-evaluation'
+import type { TacticalCondition } from '@/types/tactics'
 
 interface SkillTacticsRowProps {
   skillSlot: SkillSlot
