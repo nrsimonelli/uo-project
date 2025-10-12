@@ -177,7 +177,8 @@ export const calculateEffectiveness = (
 export const calculateSkillDamage = (
   damageEffect: DamageEffect,
   skillFlags: readonly Flag[] | Flag[] = [],
-  skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
   attacker: BattleContext,
   target: BattleContext,
   rng: RandomNumberGeneratorType
@@ -377,9 +378,11 @@ export const calculateMultiHitDamage = (
   damageEffect: DamageEffect,
   rng: RandomNumberGeneratorType,
   skillFlags: Flag[] = [],
-  effectFlags: Flag[] = [],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _effectFlags: Flag[] = [],
   skillCategories: SkillCategory[] = ['Damage'],
-  innateAttackType?: 'Magical' | 'Ranged'
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _innateAttackType?: 'Magical' | 'Ranged'
 ): DamageResult[] => {
   const results: DamageResult[] = []
 

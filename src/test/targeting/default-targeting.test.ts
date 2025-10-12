@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 
 import { getDefaultTargets } from '@/core/skill-targeting'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
+import type { SkillCategory } from '@/types/core'
 import type { ActiveSkill } from '@/types/skills'
 
 // Helper to create a mock battle context
@@ -94,7 +95,7 @@ const createMockSkill = (
   group: 'Ally' | 'Enemy',
   pattern: 'Self' | 'Single' | 'All' | 'Row' | 'Column',
   innateAttackType?: 'Ranged' | 'Magical',
-  skillCategories: string[] = ['Damage']
+  skillCategories: SkillCategory[] = ['Damage']
 ): ActiveSkill => ({
   id,
   type: 'active',
@@ -102,7 +103,7 @@ const createMockSkill = (
   description: `Test skill with ${group}/${pattern} targeting`,
   ap: 1,
   targeting: { group, pattern },
-  skillCategories: skillCategories as any,
+  skillCategories,
   effects: [],
   innateAttackType,
 })
@@ -728,7 +729,7 @@ describe('Default Targeting System', () => {
           'Ally',
           'Single',
           undefined,
-          ['Healing']
+          ['Heal']
         )
         const targets = getDefaultTargets(healSkill, healer, battlefield)
 
@@ -774,16 +775,17 @@ describe('Default Targeting System', () => {
       )
       const battlefield = createMockBattlefieldState([attacker])
 
-      const unknownSkill: ActiveSkill = {
+      // Create skill with unknown targeting group for edge case testing
+      const unknownSkill = {
         id: 'unknown',
         type: 'active',
         name: 'Unknown Skill',
         description: 'Test skill with unknown targeting',
         ap: 1,
-        targeting: { group: 'Unknown' as any, pattern: 'Single' },
+        targeting: { group: 'Unknown', pattern: 'Single' },
         skillCategories: ['Damage'],
         effects: [],
-      }
+      } as unknown as ActiveSkill
 
       const targets = getDefaultTargets(unknownSkill, attacker, battlefield)
 
@@ -803,16 +805,17 @@ describe('Default Targeting System', () => {
       })
       const battlefield = createMockBattlefieldState([attacker, enemy])
 
-      const unknownPatternSkill: ActiveSkill = {
+      // Create skill with unknown targeting pattern for edge case testing
+      const unknownPatternSkill = {
         id: 'unknown-pattern',
         type: 'active',
         name: 'Unknown Pattern Skill',
         description: 'Test skill with unknown pattern',
         ap: 1,
-        targeting: { group: 'Enemy', pattern: 'Unknown' as any },
+        targeting: { group: 'Enemy', pattern: 'Unknown' },
         skillCategories: ['Damage'],
         effects: [],
-      }
+      } as unknown as ActiveSkill
 
       const targets = getDefaultTargets(
         unknownPatternSkill,

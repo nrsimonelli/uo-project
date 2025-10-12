@@ -91,6 +91,7 @@ const targetingGroupHandlers = {
       unit => unit.team !== actingUnit.team && unit.currentHP > 0
     ),
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Self: (actingUnit: BattleContext, _battlefield: BattlefieldState) => [
     actingUnit,
   ],
@@ -104,12 +105,15 @@ const targetingPatternHandlers = {
   Self: (
     _targets: BattleContext[],
     actingUnit: BattleContext,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _skill: ActiveSkill | PassiveSkill
   ) => [actingUnit],
 
   All: (
     targets: BattleContext[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _actingUnit: BattleContext,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _skill: ActiveSkill | PassiveSkill
   ) => targets,
 
