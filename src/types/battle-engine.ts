@@ -20,6 +20,51 @@ export interface BattleEvent {
   }
   targets?: string[]
   skillId?: string // Just store the skill ID, look up details in component
+  // Combat results for displaying detailed hit/crit/guard/damage info
+  skillResults?: {
+    targetResults: Array<{
+      targetId: string
+      targetName: string
+      hits: Array<{
+        hit: boolean
+        damage: number
+        wasCritical: boolean
+        wasGuarded: boolean
+        hitChance: number
+      }>
+      totalDamage: number
+    }>
+    summary?: {
+      totalDamage: number
+      targetsHit: number
+      criticalHits: number
+    }
+  }
+  // Team roster data for battle-end events
+  teamRosters?: {
+    homeTeam: Array<{
+      unitId: string
+      name: string
+      classKey: string
+      currentHP: number
+      maxHP: number
+      position: {
+        row: number
+        col: number
+      }
+    }>
+    awayTeam: Array<{
+      unitId: string
+      name: string
+      classKey: string
+      currentHP: number
+      maxHP: number
+      position: {
+        row: number
+        col: number
+      }
+    }>
+  }
 }
 
 /**
