@@ -5,6 +5,7 @@ import {
   rollGuard,
   type GuardLevel,
 } from './calculations'
+import { findEffectivenessRule } from './effectiveness-rules'
 import type { RandomNumberGeneratorType } from './random'
 
 import { CLASS_DATA } from '@/data/units/class-data'
@@ -51,12 +52,6 @@ export const calculateHitChance = (
 ): number => {
   // Check for always-hit conditions
   if (damageEffect.hitRate === 'True' || flags.includes('TrueStrike')) {
-    console.debug('Hit Chance Calculation: Always hit (True/TrueStrike)', {
-      attacker: attacker.unit.name,
-      target: target.unit.name,
-      hitRate: damageEffect.hitRate,
-      flags,
-    })
     return 100
   }
 
@@ -68,18 +63,6 @@ export const calculateHitChance = (
   const rawHitChance = ((100 + accuracy - evasion) * skillHitRate) / 100
   const clampedHitChance = clamp(rawHitChance, 0, 100)
 
-  console.debug('Hit Chance Calculation', {
-    attacker: attacker.unit.name,
-    target: target.unit.name,
-    accuracy,
-    evasion,
-    skillHitRate,
-    formula: `((100 + ${accuracy} - ${evasion}) * ${skillHitRate}) / 100`,
-    calculation: `((100 + ${accuracy} - ${evasion}) * ${skillHitRate}) / 100 = ${rawHitChance.toFixed(1)}%`,
-    rawHitChance,
-    clampedHitChance,
-  })
-
   return clampedHitChance
 }
 
@@ -89,12 +72,6 @@ export const calculateHitChance = (
 export const rollHit = (rng: RandomNumberGeneratorType, hitChance: number) => {
   const roll = rng.random() * 100
   const hit = roll < hitChance
-  console.debug('Hit Roll', {
-    hitChance: `${hitChance.toFixed(1)}%`,
-    roll: `${roll.toFixed(1)}%`,
-    result: hit ? 'HIT' : 'MISS',
-    comparison: `${roll.toFixed(1)} ${hit ? '<' : '>='} ${hitChance.toFixed(1)}`,
-  })
   return hit
 }
 
@@ -118,19 +95,6 @@ export const calculateBaseDamage = (
   const afterPotency = (baseDamage * potency) / 100
   const finalDamage = Math.max(1, afterPotency)
 
-  console.debug('Base Damage Calculation', {
-    attacker: attacker.unit.name,
-    target: target.unit.name,
-    type: isPhysical ? 'Physical' : 'Magical',
-    attack,
-    defense,
-    potency: `${potency}%`,
-    formula: `max(1, (${attack} - ${defense}) * ${potency}% / 100)`,
-    baseDamage,
-    afterPotency,
-    finalDamage,
-  })
-
   return finalDamage
 }
 
@@ -152,15 +116,6 @@ export const calculateNaturalGuardMultiplier = (
   const reductionPercent = Math.min(totalGuardEff, 75) // Cap at 75% (heavy guard level)
   const multiplier = (100 - reductionPercent) / 100
 
-  console.debug('Natural Guard Multiplier Calculation', {
-    didGuard,
-    baseGuardEff,
-    equipmentGuardEff,
-    totalGuardEff,
-    reductionPercent: `${reductionPercent}%`,
-    multiplier,
-  })
-
   return multiplier
 }
 
@@ -181,10 +136,7 @@ export const calculateSkillGuardMultiplier = (guardLevel: GuardLevel) => {
 
 /**
  * Calculate effectiveness multiplier based on class/movement type matchups
- * Effectiveness Rules (x2 damage):
- * - Gryphon Knight | Wyvern Knight | Gryphon Master | Wyvern Master attacking Cavalry
- * - Cavalry attacking Infantry
- * - Archer attacking Flying
+ * Uses data-driven effectiveness rules for maintainable and extensible combat bonuses
  */
 export const calculateEffectiveness = (
   attacker: BattleContext,
@@ -192,70 +144,30 @@ export const calculateEffectiveness = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _isPhysical: boolean
 ) => {
-  const attackerClass = attacker.unit.classKey
-  const targetClass = target.unit.classKey
-
-  const attackerClassData = CLASS_DATA[attackerClass]
-  const targetClassData = CLASS_DATA[targetClass]
+  const attackerClassData = CLASS_DATA[attacker.unit.classKey]
+  const targetClassData = CLASS_DATA[target.unit.classKey]
 
   if (!attackerClassData || !targetClassData) {
     console.warn(`Missing class data for effectiveness calculation:`, {
-      attackerClass,
-      targetClass,
+      attackerClass: attacker.unit.classKey,
+      targetClass: target.unit.classKey,
       attackerClassData: !!attackerClassData,
       targetClassData: !!targetClassData,
     })
     return 1.0
   }
 
-  let effectiveness = 1.0
-  let effectivenessReason = 'neutral'
+  // Find applicable effectiveness rule
+  const effectivenessRule = findEffectivenessRule(
+    attacker.unit.classKey,
+    attackerClassData.movementType,
+    attackerClassData.trait,
+    target.unit.classKey,
+    targetClassData.movementType,
+    targetClassData.trait
+  )
 
-  // Flying units (Gryphon/Wyvern Knights/Masters) attacking Cavalry
-  const flyingAttackerClasses = [
-    'Gryphon Knight',
-    'Wyvern Knight',
-    'Gryphon Master',
-    'Wyvern Master',
-  ]
-  if (
-    flyingAttackerClasses.includes(attackerClass) &&
-    targetClassData.movementType === 'Cavalry'
-  ) {
-    effectiveness = 2.0
-    effectivenessReason = 'Flying vs Cavalry'
-  }
-  // Cavalry attacking Infantry
-  else if (
-    attackerClassData.movementType === 'Cavalry' &&
-    targetClassData.movementType === 'Infantry'
-  ) {
-    effectiveness = 2.0
-    effectivenessReason = 'Cavalry vs Infantry'
-  }
-  // Archer attacking Flying
-  else if (
-    attackerClassData.trait === 'Archer' &&
-    targetClassData.movementType === 'Flying'
-  ) {
-    effectiveness = 2.0
-    effectivenessReason = 'Archer vs Flying'
-  }
-
-  console.debug('Effectiveness Calculation', {
-    attacker: attacker.unit.name,
-    target: target.unit.name,
-    attackerClass,
-    targetClass,
-    attackerMovement: attackerClassData.movementType,
-    targetMovement: targetClassData.movementType,
-    attackerTrait: attackerClassData.trait,
-    targetTrait: targetClassData.trait,
-    effectiveness,
-    reason: effectivenessReason,
-  })
-
-  return effectiveness
+  return effectivenessRule ? effectivenessRule.multiplier : 1.0
 }
 
 /**
@@ -385,7 +297,20 @@ export const calculateSkillDamage = (
 
   // Calculate effectiveness once and apply to total damage
   // Use physical=true as default, but effectiveness is class-based anyway
-  const effectiveness = calculateEffectiveness(attacker, target, hasPhysical)
+  const attackerClassData = CLASS_DATA[attacker.unit.classKey]
+  const targetClassData = CLASS_DATA[target.unit.classKey]
+  const effectivenessRule =
+    attackerClassData && targetClassData
+      ? findEffectivenessRule(
+          attacker.unit.classKey,
+          attackerClassData.movementType,
+          attackerClassData.trait,
+          target.unit.classKey,
+          targetClassData.movementType,
+          targetClassData.trait
+        )
+      : null
+  const effectiveness = effectivenessRule ? effectivenessRule.multiplier : 1.0
   const finalDamage = Math.max(1, Math.round(totalDamage * effectiveness))
 
   console.log('🎲 Damage Calculation Complete', {
@@ -400,10 +325,9 @@ export const calculateSkillDamage = (
     hitChance: `${hitChance.toFixed(1)}%`,
     result: hit ? 'HIT' : 'MISS',
     damage: hit ? `${finalDamage} damage` : '0 damage (missed)',
-    effectiveness:
-      effectiveness > 1
-        ? `Effective bonus dmg ×${effectiveness}!`
-        : 'No class effective damage',
+    effectiveness: effectivenessRule
+      ? `×${effectiveness} - ${effectivenessRule.description}`
+      : 'No effectiveness bonus',
     guardInfo: hit
       ? {
           equipmentGuardEff,
@@ -471,8 +395,6 @@ export const calculateMultiHitDamage = (
       // innateAttackType
     )
     results.push(result)
-
-    console.debug(`Hit ${i + 1}/${damageEffect.hitCount}`, result)
   }
 
   return results

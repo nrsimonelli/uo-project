@@ -29,7 +29,6 @@ export const selectActiveSkill = (
 
   // Check if unit has any skill slots
   if (!unit.unit.skillSlots || unit.unit.skillSlots.length === 0) {
-    console.log(`💭 ${unit.unit.name} has no skill slots - using Standby`)
     const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
     return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
@@ -55,29 +54,17 @@ export const selectActiveSkill = (
 
     // Check if unit can afford this skill
     if (skill.ap <= unit.currentAP) {
-      console.log(
-        `✅ ${unit.unit.name} selected skill: ${skill.name} (${skill.ap} AP)`
-      )
       const targets = getDefaultTargets(skill, unit, battlefield)
       if (targets.length > 0) {
-        console.log(
-          `💭 ${unit.unit.name} selecting ${skill.name} targeting ${targets.map(t => t.unit.name).join(', ')}`
-        )
         return { skill, targets }
       }
       // If no valid targets, continue to next skill
-      console.log(`⚠️ No valid targets for ${skill.name}, trying next skill`)
-    } else {
-      console.log(
-        `⚠️ ${unit.unit.name} cannot afford ${skill.name} (${skill.ap} AP, has ${unit.currentAP} AP)`
-      )
     }
   }
 
   // No affordable skills found - use Standby
   // Note: Only use Standby if unit has at least 1 AP (per requirements)
   if (unit.currentAP > 0) {
-    console.log(`📥 ${unit.unit.name} using Standby - no affordable skills`)
     const standbyTargets = getDefaultTargets(STANDBY_SKILL, unit, battlefield)
     return { skill: STANDBY_SKILL, targets: standbyTargets }
   }

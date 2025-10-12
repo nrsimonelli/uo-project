@@ -23,7 +23,7 @@ export function MockBattle() {
   const [selectedAllyTeam, setSelectedAllyTeam] = useState<Team | null>(null)
   const [selectedEnemyTeam, setSelectedEnemyTeam] = useState<Team | null>(null)
 
-  const { battleEvents, isExecuting, error, executeBattle, clearResults } =
+  const { battleEvents, resultSummary, isExecuting, error, executeBattle, clearResults } =
     useBattleEngine()
 
   // Filter out empty teams (teams with no units)
@@ -169,6 +169,46 @@ export function MockBattle() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Battle Result Summary */}
+        {resultSummary.winner && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Battle Results</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center">
+                  <div className="text-lg font-semibold">
+                    Winner: {resultSummary.winner}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {resultSummary.endReason}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold">
+                    Home Team HP
+                  </div>
+                  <div className="text-2xl font-bold text-blue-600">
+                    {resultSummary.teamHpPercentages['home-team']?.toFixed(1) || 0}%
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-semibold">
+                    Away Team HP
+                  </div>
+                  <div className="text-2xl font-bold text-red-600">
+                    {resultSummary.teamHpPercentages['away-team']?.toFixed(1) || 0}%
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 text-center text-sm text-muted-foreground">
+                Battle completed in {resultSummary.totalTurns} turns with {resultSummary.totalEvents} events
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Battle Event Log */}
         <Card className="min-h-[400px]">

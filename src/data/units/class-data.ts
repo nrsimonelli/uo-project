@@ -8,7 +8,7 @@ export interface ClassSkillEntry {
   skillType: 'active' | 'passive'
 }
 
-interface ClassDefinition {
+export interface ClassDefinition {
   id: AllClassType
   allowedSlots: EquipmentSlotType[]
   race: 'Elven' | 'Bestral' | 'Angel' | null

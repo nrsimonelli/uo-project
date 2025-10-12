@@ -66,14 +66,14 @@ export const processEffects = (
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
   const validEffects = nonDamageEffects.filter(effect =>
-    evaluateAllConditions(effect.conditions, context)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    evaluateAllConditions(effect.conditions as any, context)
   )
 
   validEffects.forEach(effect => {
     if (effect.kind === 'PotencyBoost') {
       result.potencyModifiers.physical += effect.amount.physical || 0
       result.potencyModifiers.magical += effect.amount.magical || 0
-      console.debug('Applied PotencyBoost:', effect.amount)
       return
     }
 
@@ -83,26 +83,22 @@ export const processEffects = (
         result.defenseIgnoreFraction,
         effect.fraction
       )
-      console.debug('Applied IgnoreDefense:', effect.fraction)
       return
     }
 
     if (effect.kind === 'GrantFlag') {
       result.grantedFlags.push(effect.flag)
-      console.debug('Granted flag:', effect.flag)
       return
     }
 
     if (effect.kind === 'HealPercent') {
       result.healPercent += effect.value
-      console.debug('Added heal percent:', effect.value)
       return
     }
 
     if (effect.kind === 'Heal') {
       result.healPotency.physical += effect.potency.physical || 0
       result.healPotency.magical += effect.potency.magical || 0
-      console.debug('Added heal potency:', effect.potency)
       return
     }
 
@@ -113,7 +109,6 @@ export const processEffects = (
       if (effect.resource === 'PP') {
         result.ppGain += effect.amount
       }
-      console.debug(`Added ${effect.resource} gain:`, effect.amount)
       return
     }
 
@@ -125,7 +120,6 @@ export const processEffects = (
         target: effect.applyTo || 'Target',
         duration: effect.duration,
       })
-      console.debug('Added buff:', effect)
       return
     }
 
@@ -137,13 +131,11 @@ export const processEffects = (
         target: effect.applyTo || 'Target',
         duration: effect.duration,
       })
-      console.debug('Added debuff:', effect)
       return
     }
 
     if (effect.kind === 'Cover' || effect.kind === 'Guard') {
       // These would be processed differently - perhaps in passive skill system
-      console.debug('Skipping Cover/Guard effect - needs passive system')
       return
     }
 

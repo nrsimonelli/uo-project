@@ -73,7 +73,6 @@ const getTargetContext = (
   target: 'Self' | 'Ally' | 'Enemy',
   context: ConditionEvaluationContext
 ): BattleContext => {
-  console.log('getTargetContext', context)
   if (target === 'Self') {
     return context.attacker
   }

@@ -206,23 +206,23 @@ export const startNewRound = (state: BattlefieldState) => {
   // Check if the previous round was all standby actions
   // We can detect this by checking if lastActiveSkillRound is behind current round
   const wasStandbyRound = state.lastActiveSkillRound < state.currentRound
-  const updatedConsecutiveStandbyRounds = wasStandbyRound 
-    ? state.consecutiveStandbyRounds + 1 
+  const updatedConsecutiveStandbyRounds = wasStandbyRound
+    ? state.consecutiveStandbyRounds + 1
     : state.consecutiveStandbyRounds
 
-  console.log(`🔄 Starting Round ${state.currentRound + 1}:`, {
-    totalUnits: allLivingUnits.length,
-    actionableUnits: allLivingUnits.filter(isUnitActionableActive).length,
-    queue: newQueue,
-    wasLastRoundStandbyOnly: wasStandbyRound,
-    consecutiveStandbyRounds: updatedConsecutiveStandbyRounds,
-  })
-
   // Reset hasActedThisRound for all units at start of new round
+  // Preserve all unit state including updated HP values
   const unitsWithResetFlags = Object.fromEntries(
     Object.entries(state.units).map(([unitId, unit]) => [
       unitId,
-      { ...unit, hasActedThisRound: false }
+      {
+        ...unit,
+        unit: { ...unit.unit },
+        combatStats: { ...unit.combatStats },
+        afflictions: [...unit.afflictions],
+        buffs: [...unit.buffs],
+        hasActedThisRound: false,
+      },
     ])
   )
 
@@ -289,22 +289,12 @@ export const shouldContinueBattle = (state: BattlefieldState) => {
   const actionableUnits = Object.values(state.units).filter(
     unit => unit.currentHP > 0 && isUnitActionableActive(unit)
   )
-  
+
   const homeLiving = livingUnits.filter(unit => unit.team === 'home-team')
   const awayLiving = livingUnits.filter(unit => unit.team === 'away-team')
-  const homeActionable = actionableUnits.filter(unit => unit.team === 'home-team')
-  const awayActionable = actionableUnits.filter(unit => unit.team === 'away-team')
-
-  console.log('🩺 shouldContinueBattle check:', {
-    homeLiving: homeLiving.length,
-    awayLiving: awayLiving.length,
-    homeActionable: homeActionable.length,
-    awayActionable: awayActionable.length,
-    totalActionable: actionableUnits.length,
-    currentRound: state.currentRound,
-    consecutiveStandbyRounds: state.consecutiveStandbyRounds,
-    lastActiveSkillRound: state.lastActiveSkillRound
-  })
+  // Check actionable units by team (for future use if needed)
+  // const homeActionable = actionableUnits.filter(unit => unit.team === 'home-team')
+  // const awayActionable = actionableUnits.filter(unit => unit.team === 'away-team')
 
   // Battle ends if:
   // 1. One team is completely eliminated (HP = 0)
@@ -312,7 +302,7 @@ export const shouldContinueBattle = (state: BattlefieldState) => {
     console.log('💥 Battle ending: Team eliminated')
     return false
   }
-  
+
   // 2. No units on either team can act (all out of AP)
   if (actionableUnits.length === 0) {
     console.log('💪 Battle ending: All units out of AP')
@@ -327,7 +317,9 @@ export const shouldContinueBattle = (state: BattlefieldState) => {
 
   // 4. Stalemate - no active skills used for 3 consecutive rounds
   if (state.consecutiveStandbyRounds >= 3) {
-    console.log('🔄 Battle ending: Stalemate - 3 rounds of only Standby actions')
+    console.log(
+      '🔄 Battle ending: Stalemate - 3 rounds of only Standby actions'
+    )
     return false
   }
 
