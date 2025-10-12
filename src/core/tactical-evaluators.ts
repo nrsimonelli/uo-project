@@ -236,7 +236,7 @@ const filterUserConditionOnTarget: FilterEvaluator = (
   })
 }
 
-const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
+const filterAttackHistory: FilterEvaluator = (targets, _metadata, context) => {
   const recentActions = context.battlefield.actionHistory.slice(-5)
 
   return targets.filter(target => {

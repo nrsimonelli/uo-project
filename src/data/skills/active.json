@@ -732,5 +732,386 @@
         ]
       }
     ]
+  },
+  {
+    "id": "wardingSlash",
+    "type": "active",
+    "name": "Warding Slash",
+    "description": "Attack a single enemy. Grants the user +20% Phys. Defense.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "shieldBash",
+    "type": "active",
+    "name": "Shield Bash",
+    "description": "Attack a single enemy. Inflicts Stun.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "defender",
+    "type": "active",
+    "name": "Defender",
+    "description": "Attack a single enemy. Grants the user +50% Phys. Defense. Grants the user +1 PP if this attack hits.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 50,
+        "scaling": "percent",
+        "applyTo": "User"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "HitCheck",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "honedSpear",
+    "type": "active",
+    "name": "Honed Spear",
+    "description": "Attack a column of enemies with a piercing strike. +50 potency if the user is buffed. Cavalry targets cannot guard against this attack.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 130 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "AnyBuff",
+            "target": "Self",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "Unguardable",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "smash",
+    "type": "active",
+    "name": "Smash",
+    "description": "Attack a single enemy. Inflicts Phys. Defense -20%.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "rollingAxe",
+    "type": "active",
+    "name": "Rolling Axe",
+    "description": "Attack a row of enemies with multiple hits. Inflicts Phys. Defense -15%.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 40 },
+        "hitRate": 75,
+        "hitCount": 3
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -15,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "wideBreaker",
+    "type": "active",
+    "name": "Wide Breaker",
+    "description": "Attack a row of enemies. Inflicts Phys. Defense -30%. +50 potency v. debuffed targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -30,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "AnyDebuff",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "keenEdge",
+    "type": "active",
+    "name": "Keen Edge",
+    "description": "Attack a single enemy with a critical strike. (Critical rate+50%.)",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "skillFlags": ["TrueStrike"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": "True",
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 50,
+        "scaling": "percent",
+        "applyTo": "User",
+        "duration": "NextAction"
+      }
+    ]
+  },
+  {
+    "id": "impale",
+    "type": "active",
+    "name": "Impale",
+    "description": "Attack a single enemy. Grants the user +1 PP if the target is defeated.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "meteorSlash",
+    "type": "active",
+    "name": "Meteor Slash",
+    "description": "Attack a single enemy with a critical flurry. (Critical rate +30%.)",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 20 },
+        "hitRate": 100,
+        "hitCount": 9
+      },
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 30,
+        "scaling": "percent",
+        "applyTo": "User",
+        "duration": "NextAction"
+      }
+    ]
+  },
+  {
+    "id": "killingChain",
+    "type": "active",
+    "name": "Killing Chain",
+    "description": "Attack a single enemy. Grants the user +1 AP if the target is defeated.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bastardsCross",
+    "type": "active",
+    "name": "Bastard's Cross",
+    "description": "Attack a single enemy. Potency increases based on the target's HP. (Maximum increase: +60.)",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 60 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Enemy",
+            "stat": "HP",
+            "comparator": "GreaterThan",
+            "value": 80,
+            "percent": true
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1,22 +1,21 @@
 # Skill Validation Report
 
-*Generated: 2025-10-12T15:52:35.036Z*
+_Generated: 2025-10-12T23:10:33.357Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 21
-- **Passive Skills Defined**: 5
-- **Total Skills Defined**: 26
+- **Active Skills Defined**: 33
+- **Passive Skills Defined**: 18
+- **Total Skills Defined**: 51
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **375 missing skills:**
+❌ **351 missing skills:**
 
 - `accelerate`
-- `activeGift`
 - `activeHeal`
 - `activeShatter`
 - `activeSteal`
@@ -31,7 +30,6 @@
 - `aquaVenom`
 - `armorShatter`
 - `armorShatterII`
-- `arrowCover`
 - `arrowRain`
 - `artenieStrike`
 - `assassinsNail`
@@ -42,7 +40,6 @@
 - `banishingPursuit`
 - `banishingSmite`
 - `banishingStab`
-- `bastardsCross`
 - `bearCrush`
 - `bearsDen`
 - `beastslayer`
@@ -54,7 +51,6 @@
 - `blizzard`
 - `boonOfTheFaeries`
 - `bulkUp`
-- `bullForce`
 - `bulwark`
 - `bunkerStance`
 - `burningEdge`
@@ -63,7 +59,6 @@
 - `cavalryGuard`
 - `cavalrySlayer`
 - `celestialLight`
-- `chargedImpetus`
 - `checkmate`
 - `circleBarrier`
 - `circleHeal`
@@ -85,7 +80,6 @@
 - `deadlyRush`
 - `deathSpin`
 - `decimate`
-- `defender`
 - `defensiveCurse`
 - `defensiveOrder`
 - `deflect`
@@ -132,9 +126,7 @@
 - `flameConferral`
 - `flameThrust`
 - `focusSight`
-- `followingSlash`
 - `freezeCure`
-- `frenziedStrike`
 - `frostConferral`
 - `glacialRain`
 - `grandSmash`
@@ -163,7 +155,6 @@
 - `hastenedCurse`
 - `hastenedHeal`
 - `hastenedShatter`
-- `hastenedStrike`
 - `hawkEye`
 - `heal`
 - `healingHunter`
@@ -190,7 +181,6 @@
 - `icicleArrow`
 - `icyBlow`
 - `icyCrush`
-- `impale`
 - `impetusStance`
 - `impulse`
 - `inferno`
@@ -198,8 +188,6 @@
 - `inspiration`
 - `invincible`
 - `ironVeil`
-- `keenEdge`
-- `killingChain`
 - `killingPursuit`
 - `knightsPursuit`
 - `lifeBlow`
@@ -218,7 +206,6 @@
 - `magickShatter`
 - `maidensHammer`
 - `medicalAid`
-- `meteorSlash`
 - `mightyShield`
 - `mirageStab`
 - `mirrorWeakness`
@@ -241,8 +228,6 @@
 - `overheal`
 - `painbringer`
 - `painfulSmash`
-- `parry`
-- `partingBlow`
 - `partingDeath`
 - `partingResurrection`
 - `partyAid`
@@ -271,7 +256,6 @@
 - `preemptiveHeal`
 - `primusEdge`
 - `protection`
-- `provoke`
 - `provokingCrush`
 - `provokingSlash`
 - `provokingWall`
@@ -284,7 +268,6 @@
 - `quickCure`
 - `quickCurse`
 - `quickDispel`
-- `quickGuard`
 - `quickHeal`
 - `quickImpetus`
 - `quickReload`
@@ -302,7 +285,6 @@
 - `removeWeakness`
 - `restore`
 - `resurrection`
-- `rollingAxe`
 - `roundSwing`
 - `rowBarrier`
 - `rowCover`
@@ -330,13 +312,11 @@
 - `shadowPursuit`
 - `shadowbite`
 - `shatteringPursuit`
-- `shieldBash`
 - `shieldSmite`
 - `shiningLight`
 - `singleShot`
 - `skywardThrust`
 - `slice`
-- `smash`
 - `sneakingEdge`
 - `snipingOrder`
 - `snowWhiteStrike`
@@ -369,7 +349,6 @@
 - `vanitas`
 - `vengeance`
 - `vengefulAxe`
-- `vengefulGuard`
 - `vengefulImpetus`
 - `venomAxe`
 - `venomThrust`
@@ -377,10 +356,7 @@
 - `volcano`
 - `wall`
 - `warCry`
-- `warHorn`
-- `wardingSlash`
 - `weaknessHunter`
-- `wideBreaker`
 - `wideCounter`
 - `widePursuit`
 - `wideSmash`
@@ -393,11 +369,14 @@
 
 ## Unused Skills (Defined but Not Referenced)
 
-✅ **No unused skills found!**
+⚠️ **1 unused skills:**
+
+- `honedSpear`
 
 ## Skills by Source
 
 ### From Class Data (244)
+
 - `accelerate`
 - `activeGift`
 - `activeSteal`
@@ -644,6 +623,7 @@
 - `wingRest`
 
 ### From Equipment Data (181)
+
 - `activeHeal`
 - `activeShatter`
 - `aerialAlignment`
@@ -826,32 +806,59 @@
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (21)
+### Active Skills Defined (33)
+
+- `bastardsCross`
 - `brandish`
+- `defender`
 - `dragoonDive`
 - `elfslayer`
 - `flameJavelin`
 - `heavySlash`
+- `honedSpear`
 - `icicleDart`
+- `impale`
 - `ironCrusher`
 - `javelin`
+- `keenEdge`
+- `killingChain`
 - `leanEdge`
 - `lethalVenom`
 - `lightningShaker`
 - `longThrust`
 - `magicAttack`
+- `meteorSlash`
 - `passiveShatter`
 - `phantomAttack`
 - `rampage`
+- `rollingAxe`
 - `sanguineAttack`
 - `shadowThrust`
+- `shieldBash`
+- `smash`
 - `thunderousThrust`
 - `trueThrust`
 - `verticalEdge`
+- `wardingSlash`
+- `wideBreaker`
 
-### Passive Skills Defined (5)
+### Passive Skills Defined (18)
+
+- `activeGift`
+- `arrowCover`
+- `bullForce`
+- `chargedImpetus`
 - `firstAid`
+- `followingSlash`
+- `frenziedStrike`
+- `hastenedStrike`
 - `keenCall`
 - `luminousCover`
 - `nobleGuard`
+- `parry`
+- `partingBlow`
+- `provoke`
+- `quickGuard`
 - `rapidOrder`
+- `vengefulGuard`
+- `warHorn`

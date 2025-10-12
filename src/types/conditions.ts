@@ -22,6 +22,8 @@ export type Condition =
       comparator: NumericComparator
       value: number
       percent?: boolean
+      // TODO: For Bastard's Cross - need dynamic scaling based on HP percentage
+      // Currently uses simple threshold, but should scale potency proportionally
     }
   | {
       kind: 'Affliction'
@@ -43,6 +45,16 @@ export type Condition =
     }
   | {
       kind: 'AnyAffliction'
+      target: Target
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'AnyBuff'
+      target: Target
+      comparator: EqualityComparator
+    }
+  | {
+      kind: 'AnyDebuff'
       target: Target
       comparator: EqualityComparator
     }

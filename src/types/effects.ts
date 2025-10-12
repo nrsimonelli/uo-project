@@ -64,6 +64,8 @@ export interface BuffEffect extends BaseEffect {
 
 export interface DebuffEffect extends BaseEffect {
   kind: 'Debuff'
+  // TODO: Add source tracking for Taunt debuffs to enable proper targeting override
+  // When stat === 'Taunt', the battle system needs to track which unit applied the taunt
 }
 
 export interface CoverEffect {
@@ -82,6 +84,13 @@ export interface ResourceGainEffect {
 export interface GuardEffect {
   kind: 'Guard'
   guard: 'light' | 'medium' | 'heavy' | 'full'
+  conditions?: Condition[] | readonly Condition[]
+}
+
+export interface ParryEffect {
+  kind: 'Parry'
+  // Parry always fully blocks physical damage and works against all attacks including Unguardable
+  applyTo?: 'User'
   conditions?: Condition[] | readonly Condition[]
 }
 
@@ -111,5 +120,6 @@ export type Effect =
   | ResourceGainEffect
   | CoverEffect
   | GuardEffect
+  | ParryEffect
   | AfflictionEffect
   | LifeStealEffect

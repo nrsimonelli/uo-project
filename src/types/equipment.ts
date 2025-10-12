@@ -38,6 +38,7 @@ export type ExtraStats =
   | 'Defense'
   | 'Attack'
   | 'Faeries'
+  | 'Taunt'
 export type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string

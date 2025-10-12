@@ -33,6 +33,7 @@ export const SkillCategories = [
   'Utility', // Buff/utility skills
   'Cover',
   'Guard',
+  'Parry', // Defensive skills that work against all attacks including Unguardable
 ] as const
 export type SkillCategory = (typeof SkillCategories)[number]
 
