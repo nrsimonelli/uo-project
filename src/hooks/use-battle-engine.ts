@@ -93,7 +93,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         id: `${unit.unit.name}-${skillSelection.skill.name}-${Date.now()}`,
         type: 'skill-execution',
         turn: battlefieldState.turnCount,
-        description: `${unit.unit.name} uses ${skillSelection.skill.name}`,
+        description: `${unit.unit.name} used ${skillSelection.skill.name}`,
         actingUnit: {
           id: unit.unit.id,
           name: unit.unit.name,
@@ -101,6 +101,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           team: unit.team,
         },
         targets: skillSelection.targets.map(t => t.unit.id),
+        skillId: skillSelection.skill.id
       }
       setBattleEvents(prev => [...prev, battleEvent])
 

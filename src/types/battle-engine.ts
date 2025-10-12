@@ -19,6 +19,7 @@ export interface BattleEvent {
     team: 'home-team' | 'away-team'
   }
   targets?: string[]
+  skillId?: string // Just store the skill ID, look up details in component
 }
 
 /**

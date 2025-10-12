@@ -5,6 +5,9 @@ import { cn } from '@/lib/utils'
 import type { AllClassType } from '@/types/base-stats'
 import type { BattleEvent } from '@/types/battle-engine'
 
+import { ActiveSkillsMap } from '@/generated/skills-active'
+import type { DamageEffect } from '@/types/effects'
+
 interface BattleEventCardProps {
   event: BattleEvent
 }
@@ -15,6 +18,20 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
   const team = actingUnit?.team
   const unitClass = actingUnit?.classKey as AllClassType
   const unitSprite = unitClass ? SPRITES[unitClass] : null
+
+  // Look up skill data if skillId is provided
+  const skill = event.skillId ? ActiveSkillsMap[event.skillId as keyof typeof ActiveSkillsMap] : null
+  
+  // Extract damage potency from skill effects
+  const skillPotency = skill?.effects
+    .filter(effect => effect.kind === 'Damage')
+    .reduce((acc, effect) => {
+      const damageEffect = effect as DamageEffect
+      return {
+        physical: (acc.physical || 0) + (damageEffect.potency?.physical || 0),
+        magical: (acc.magical || 0) + (damageEffect.potency?.magical || 0)
+      }
+    }, { physical: 0, magical: 0 })
 
   // Team-based styling
   const teamStyles = {
@@ -64,17 +81,51 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
                   {event.description}
                 </p>
                 
-                {/* Event type and targets */}
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Badge variant="secondary" className="text-xs capitalize">
-                    {event.type.replace('_', ' ')}
-                  </Badge>
-                  {event.targets && event.targets.length > 0 && (
-                    <span>
-                      → {event.targets.join(', ')}
-                    </span>
-                  )}
-                </div>
+                {/* Skill details */}
+                {skill ? (
+                  <div className="space-y-1">
+                    {/* Potency and skill categories on same line */}
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      {/* Physical and Magical Potency */}
+                      {skillPotency && skillPotency.physical > 0 && (
+                        <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-800">
+                          {skillPotency.physical}% Physical
+                        </Badge>
+                      )}
+                      {skillPotency && skillPotency.magical > 0 && (
+                        <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-800">
+                          {skillPotency.magical}% Magical
+                        </Badge>
+                      )}
+                      
+                      {/* Skill Categories */}
+                      {skill.skillCategories?.map(category => (
+                        <Badge key={category} variant="outline" className="text-xs">
+                          {category}
+                        </Badge>
+                      ))}
+                    </div>
+                    
+                    {/* Targets */}
+                    {event.targets && event.targets.length > 0 && (
+                      <div className="text-xs text-muted-foreground">
+                        <span className="font-medium">Targets:</span> {event.targets.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* Fallback for events without skill data */
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Badge variant="secondary" className="text-xs capitalize">
+                      {event.type.replace('_', ' ')}
+                    </Badge>
+                    {event.targets && event.targets.length > 0 && (
+                      <span>
+                        → {event.targets.join(', ')}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
               
               {/* Unit name */}
