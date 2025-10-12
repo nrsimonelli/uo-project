@@ -1,18 +1,88 @@
+import { CombatResultsSummary } from './combat-results'
+
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { SPRITES } from '@/data/sprites'
+import { ActiveSkillsMap } from '@/generated/skills-active'
 import { cn } from '@/lib/utils'
 import type { AllClassType } from '@/types/base-stats'
 import type { BattleEvent } from '@/types/battle-engine'
-
-import { ActiveSkillsMap } from '@/generated/skills-active'
 import type { DamageEffect } from '@/types/effects'
-
 interface BattleEventCardProps {
   event: BattleEvent
+  totalEvents?: number
 }
 
-export function BattleEventCard({ event }: BattleEventCardProps) {
+export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
+  // Special handling for battle start events
+  if (event.type === 'battle-start') {
+    // TODO: improve this by passing team names directly in event
+    // Extract team names from description: "Battle begins between Team1 and Team2"
+    const descMatch = event.description.match(
+      /Battle begins between (.+) and (.+)/
+    )
+    const homeTeam = descMatch?.[1] || 'Home Team'
+    const awayTeam = descMatch?.[2] || 'Away Team'
+
+    return (
+      <Card className="w-full ">
+        <CardContent className="p-4">
+          <div className="text-center space-y-2">
+            <div className="text-lg font-bold text-primary">Battle Begins</div>
+            <div className="text-xl font-semibold">
+              {homeTeam} <span className="text-muted-foreground">vs</span>{' '}
+              {awayTeam}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Special handling for battle end events
+  if (event.type === 'battle-end') {
+    // TODO: improve this by passing winner and rounds directly in event
+    // Extract winner from description: "Battle ends! Winner: Team Name"
+    const winnerMatch = event.description.match(/Winner: (.+)/)
+    const winner = winnerMatch?.[1] || 'Unknown'
+
+    const rounds = event.turn
+    const events = totalEvents || 0
+
+    return (
+      <Card className="w-full">
+        <CardContent className="p-4">
+          <div className="text-center space-y-3">
+            <div className="text-lg font-bold text-primary">Battle Ends</div>
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div className="space-y-1">
+                <div className="text-muted-foreground">Events</div>
+                <div className="font-semibold">{events}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-muted-foreground">Rounds</div>
+                <div className="font-semibold">{rounds}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-muted-foreground">Result</div>
+                <div className="font-semibold">
+                  {winner === 'Draw' ? (
+                    <Badge variant="secondary">Draw</Badge>
+                  ) : winner === 'Home Team' ? (
+                    <Badge variant="home-team">{winner} Wins</Badge>
+                  ) : (
+                    <Badge variant="away-team">{winner} Wins</Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Regular event handling
   // Get unit info from the actingUnit object
   const actingUnit = event.actingUnit
   const team = actingUnit?.team
@@ -20,46 +90,51 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
   const unitSprite = unitClass ? SPRITES[unitClass] : null
 
   // Look up skill data if skillId is provided
-  const skill = event.skillId ? ActiveSkillsMap[event.skillId as keyof typeof ActiveSkillsMap] : null
-  
+  const skill = event.skillId
+    ? ActiveSkillsMap[event.skillId as keyof typeof ActiveSkillsMap]
+    : null
+
   // Extract damage potency from skill effects
   const skillPotency = skill?.effects
     .filter(effect => effect.kind === 'Damage')
-    .reduce((acc, effect) => {
-      const damageEffect = effect as DamageEffect
-      return {
-        physical: (acc.physical || 0) + (damageEffect.potency?.physical || 0),
-        magical: (acc.magical || 0) + (damageEffect.potency?.magical || 0)
-      }
-    }, { physical: 0, magical: 0 })
+    .reduce(
+      (acc, effect) => {
+        const damageEffect = effect as DamageEffect
+        return {
+          physical: (acc.physical || 0) + (damageEffect.potency?.physical || 0),
+          magical: (acc.magical || 0) + (damageEffect.potency?.magical || 0),
+        }
+      },
+      { physical: 0, magical: 0 }
+    )
 
-  // Team-based styling
-  const teamStyles = {
-    'home-team': {
-      cardClass: 'border-blue-200 bg-blue-50/50 dark:border-blue-700/50 dark:bg-blue-950/30',
-      badgeClass: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-blue-200 dark:border-blue-700/50'
-    },
-    'away-team': {
-      cardClass: 'border-red-200 bg-red-50/50 dark:border-red-700/50 dark:bg-red-950/30', 
-      badgeClass: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/50 dark:text-red-200 dark:border-red-700/50'
-    }
+  // Team-based card styling
+  const teamCardStyles = {
+    'home-team':
+      'border-blue-200 bg-blue-50/50 dark:border-blue-700/50 dark:bg-blue-950/30',
+    'away-team':
+      'border-red-200 bg-red-50/50 dark:border-red-700/50 dark:bg-red-950/30',
   }
 
-  const currentTeamStyles = team
-    ? teamStyles[team]
-    : { cardClass: '', badgeClass: '' }
+  const currentCardStyle = team ? teamCardStyles[team] : ''
 
   return (
-    <Card className={cn('w-full', currentTeamStyles.cardClass)}>
+    <Card className={cn('w-full', currentCardStyle)}>
       <CardContent className="p-3">
         <div className="flex items-start gap-3">
           {/* Left side - Turn badge and unit sprite */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <Badge 
-              variant="outline" 
-              className={cn('text-xs', currentTeamStyles.badgeClass)}
+            <Badge
+              variant={
+                team === 'home-team'
+                  ? 'home-team'
+                  : team === 'away-team'
+                    ? 'away-team'
+                    : 'outline'
+              }
+              className="text-xs"
             >
-              Turn {event.turn}
+              Turn {event.turn + 1}
             </Badge>
             {unitSprite && (
               <img
@@ -80,7 +155,7 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
                 <p className="text-sm font-medium text-foreground mb-1">
                   {event.description}
                 </p>
-                
+
                 {/* Skill details */}
                 {skill ? (
                   <div className="space-y-1">
@@ -88,30 +163,37 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
                     <div className="flex flex-wrap items-center gap-2 text-xs">
                       {/* Physical and Magical Potency */}
                       {skillPotency && skillPotency.physical > 0 && (
-                        <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-800">
-                          {skillPotency.physical}% Physical
+                        <Badge variant="physical" className="text-xs">
+                          Phys. {skillPotency.physical}
                         </Badge>
                       )}
                       {skillPotency && skillPotency.magical > 0 && (
-                        <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-800">
-                          {skillPotency.magical}% Magical
+                        <Badge variant="magical" className="text-xs">
+                          Mag. {skillPotency.magical}
                         </Badge>
                       )}
-                      
+
                       {/* Skill Categories */}
                       {skill.skillCategories?.map(category => (
-                        <Badge key={category} variant="outline" className="text-xs">
+                        <Badge
+                          key={category}
+                          variant="outline"
+                          className="text-xs"
+                        >
                           {category}
                         </Badge>
                       ))}
                     </div>
-                    
-                    {/* Targets */}
-                    {event.targets && event.targets.length > 0 && (
-                      <div className="text-xs text-muted-foreground">
-                        <span className="font-medium">Targets:</span> {event.targets.join(', ')}
-                      </div>
-                    )}
+
+                    {/* Targets - only show if no combat results available */}
+                    {!event.skillResults &&
+                      event.targets &&
+                      event.targets.length > 0 && (
+                        <div className="text-xs text-muted-foreground">
+                          <span className="font-medium">Targets:</span>{' '}
+                          {event.targets.join(', ')}
+                        </div>
+                      )}
                   </div>
                 ) : (
                   /* Fallback for events without skill data */
@@ -120,14 +202,19 @@ export function BattleEventCard({ event }: BattleEventCardProps) {
                       {event.type.replace('_', ' ')}
                     </Badge>
                     {event.targets && event.targets.length > 0 && (
-                      <span>
-                        → {event.targets.join(', ')}
-                      </span>
+                      <span>→ {event.targets.join(', ')}</span>
                     )}
                   </div>
                 )}
+
+                {/* Combat Results */}
+                {event.skillResults && (
+                  <div className="mt-2 pt-2 border-t border-border/50">
+                    <CombatResultsSummary skillResults={event.skillResults} />
+                  </div>
+                )}
               </div>
-              
+
               {/* Unit name */}
               {actingUnit && (
                 <div className="text-xs text-muted-foreground text-right flex-shrink-0">

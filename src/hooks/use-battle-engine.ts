@@ -13,7 +13,11 @@ import {
 } from '@/core/battlefield-state'
 import { calculateTurnOrder } from '@/core/calculations'
 import { rng } from '@/core/random'
-import { executeSkill } from '@/core/skill-execution'
+import {
+  executeSkill,
+  type SingleTargetSkillResult,
+  type MultiTargetSkillResult,
+} from '@/core/skill-execution'
 import { selectActiveSkill } from '@/core/skill-selection'
 import {
   isUnitActionableActive,
@@ -24,8 +28,70 @@ import type {
   BattleEvent,
   BattleResultSummary,
   BattlefieldState,
+  BattleContext,
 } from '@/types/battle-engine'
 import type { Team } from '@/types/team'
+
+/**
+ * Transform skill execution results into battle event format
+ */
+const transformSkillResults = (
+  result: SingleTargetSkillResult | MultiTargetSkillResult,
+  targets: BattleContext[]
+): BattleEvent['skillResults'] => {
+  // Handle single target result
+  if ('damageResults' in result) {
+    const target = targets[0]
+    if (!target) return undefined
+
+    return {
+      targetResults: [
+        {
+          targetId: target.unit.id,
+          targetName: target.unit.name,
+          hits: result.damageResults.map(dmgResult => ({
+            hit: dmgResult.hit,
+            damage: dmgResult.damage,
+            wasCritical: dmgResult.wasCritical,
+            wasGuarded: dmgResult.wasGuarded,
+            hitChance: dmgResult.hitChance,
+          })),
+          totalDamage: result.totalDamage,
+        },
+      ],
+    }
+  }
+
+  // Handle multi-target result
+  return {
+    targetResults: result.results.map((singleResult, index) => {
+      const target = targets[index]
+      if (!target) {
+        console.warn(`Missing target for index ${index}`)
+        return {
+          targetId: 'unknown',
+          targetName: 'Unknown',
+          hits: [],
+          totalDamage: 0,
+        }
+      }
+
+      return {
+        targetId: target.unit.id,
+        targetName: target.unit.name,
+        hits: singleResult.damageResults.map(dmgResult => ({
+          hit: dmgResult.hit,
+          damage: dmgResult.damage,
+          wasCritical: dmgResult.wasCritical,
+          wasGuarded: dmgResult.wasGuarded,
+          hitChance: dmgResult.hitChance,
+        })),
+        totalDamage: singleResult.totalDamage,
+      }
+    }),
+    summary: result.summary,
+  }
+}
 
 /**
  * Hook return type - clean interface with only what UI components need
@@ -88,6 +154,9 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         battlefieldState.rng
       )
 
+      // Transform skill results for battle event
+      const skillResults = transformSkillResults(result, skillSelection.targets)
+
       // Create and add battle event
       const battleEvent: BattleEvent = {
         id: `${unit.unit.name}-${skillSelection.skill.name}-${Date.now()}`,
@@ -101,7 +170,8 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           team: unit.team,
         },
         targets: skillSelection.targets.map(t => t.unit.id),
-        skillId: skillSelection.skill.id
+        skillId: skillSelection.skill.id,
+        skillResults
       }
       setBattleEvents(prev => [...prev, battleEvent])
 
@@ -241,7 +311,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       const totalTurns = finalState.actionCounter || finalState.turnCount || 0
 
       // Add battle end event
-      const battleEndEvent = createBattleEndEvent(winner, totalTurns)
+      const battleEndEvent = createBattleEndEvent(winner, totalTurns, finalState)
       setBattleEvents(prevEvents => [...prevEvents, battleEndEvent])
 
       // Set final results

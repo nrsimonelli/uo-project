@@ -1,4 +1,5 @@
 import { STANDBY_SKILL, getDefaultTargets } from './skill-targeting'
+import { evaluateSkillSlotTactics } from './tactical-targeting'
 
 import { ActiveSkillsMap } from '@/generated/skills-active'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
@@ -33,9 +34,7 @@ export const selectActiveSkill = (
     return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
 
-  // TODO: clean up logic and consider targeting...
-
-  // Go through skill slots and find the first affordable active skill
+  // Go through skill slots and find the first usable active skill using tactical evaluation
   for (const skillSlot of unit.unit.skillSlots) {
     // Check if this is a valid active skill slot
     if (!skillSlot.skillId || skillSlot.skillType !== 'active') {
@@ -43,7 +42,7 @@ export const selectActiveSkill = (
       continue
     }
 
-    // Get the skill data
+    // Get the skill data to check AP cost
     const skill = ActiveSkillsMap[
       skillSlot.skillId as keyof typeof ActiveSkillsMap
     ] as ActiveSkill
@@ -52,14 +51,22 @@ export const selectActiveSkill = (
       continue
     }
 
-    // Check if unit can afford this skill
-    if (skill.ap <= unit.currentAP) {
-      const targets = getDefaultTargets(skill, unit, battlefield)
-      if (targets.length > 0) {
-        return { skill, targets }
-      }
-      // If no valid targets, continue to next skill
+    // Check if unit can afford this skill before tactical evaluation
+    if (skill.ap > unit.currentAP) {
+      continue // Skip unaffordable skills
     }
+
+    // Use tactical evaluation to determine if skill should be used and get targets
+    const tacticalResult = evaluateSkillSlotTactics(
+      skillSlot,
+      unit,
+      battlefield
+    )
+
+    if (tacticalResult.shouldUseSkill && tacticalResult.targets.length > 0) {
+      return { skill, targets: tacticalResult.targets }
+    }
+    // If tactics say don't use this skill or no valid targets, continue to next skill
   }
 
   // No affordable skills found - use Standby

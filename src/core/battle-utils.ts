@@ -4,9 +4,6 @@ import type {
   BattleEvent,
 } from '@/types/battle-engine'
 
-/**
- * Calculate team HP percentages for results
- */
 export const calculateTeamHpPercentages = (state: BattlefieldState) => {
   const homeUnits = Object.values(state.units).filter(
     u => u.team === 'home-team'
@@ -28,14 +25,7 @@ export const calculateTeamHpPercentages = (state: BattlefieldState) => {
   }
 }
 
-/**
- * ✅ Determine who won the battle
- * @param state Final battlefield state
- * @returns Winner team name or null for draw
- */
-export const determineBattleWinner = (
-  state: BattlefieldState
-) => {
+export const determineBattleWinner = (state: BattlefieldState) => {
   // Get all living units for each team
   const homeTeamUnits = Object.values(state.units).filter(
     unit => unit.team === 'home-team' && unit.currentHP > 0
@@ -59,7 +49,6 @@ export const determineBattleWinner = (
   }
 
   // Case 2: Both teams have living units - compare HP percentages
-  // Calculate current HP percentage for home team
   const homeCurrentHp = homeTeamUnits.reduce(
     (sum, unit) => sum + unit.currentHP,
     0
@@ -70,7 +59,6 @@ export const determineBattleWinner = (
   )
   const homeHpPercentage = homeMaxHp > 0 ? (homeCurrentHp / homeMaxHp) * 100 : 0
 
-  // Calculate current HP percentage for away team
   const awayCurrentHp = awayTeamUnits.reduce(
     (sum, unit) => sum + unit.currentHP,
     0
@@ -109,16 +97,40 @@ export const createBattleStartEvent = (
   description: `Battle begins between ${homeTeamName} and ${awayTeamName}`,
 })
 
-/**
- * Create a battle end event
- */
 export const createBattleEndEvent = (
   winner: string | null,
-  turn: number
-): BattleEvent => ({
-  id: `event-battle-end`,
-  type: 'battle-end',
-  turn,
-  description: `Battle ends! Winner: ${winner || 'Draw'}`,
-})
+  turn: number,
+  finalState: BattlefieldState
+): BattleEvent => {
+  // Extract roster data from final battlefield state
+  const allUnits = Object.values(finalState.units)
+  const homeTeamUnits = allUnits.filter(unit => unit.team === 'home-team')
+  const awayTeamUnits = allUnits.filter(unit => unit.team === 'away-team')
 
+  const teamRosters = {
+    homeTeam: homeTeamUnits.map(unit => ({
+      unitId: unit.unit.id,
+      name: unit.unit.name,
+      classKey: unit.unit.classKey,
+      currentHP: unit.currentHP,
+      maxHP: unit.combatStats.HP,
+      position: unit.position,
+    })),
+    awayTeam: awayTeamUnits.map(unit => ({
+      unitId: unit.unit.id,
+      name: unit.unit.name,
+      classKey: unit.unit.classKey,
+      currentHP: unit.currentHP,
+      maxHP: unit.combatStats.HP,
+      position: unit.position,
+    })),
+  }
+
+  return {
+    id: `event-battle-end`,
+    type: 'battle-end',
+    turn,
+    description: `Battle ends! Winner: ${winner || 'Draw'}`,
+    teamRosters,
+  }
+}

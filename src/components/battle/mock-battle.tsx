@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 
 import { BattleEventCard } from '@/components/battle/battle-event-card'
+import { BattleRosterDisplay } from '@/components/battle/battle-roster'
 import { IsometricFormationDisplay } from '@/components/isometric-formation/isometric-formation-display'
 import { PageHeader } from '@/components/page-header'
 import { PageLayout } from '@/components/page-layout'
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/select'
 import { useBattleEngine } from '@/hooks/use-battle-engine'
 import { useTeam } from '@/hooks/use-team'
+import { cn } from '@/lib/utils'
 import type { Team } from '@/types/team'
 
 export function MockBattle() {
@@ -23,8 +25,20 @@ export function MockBattle() {
   const [selectedAllyTeam, setSelectedAllyTeam] = useState<Team | null>(null)
   const [selectedEnemyTeam, setSelectedEnemyTeam] = useState<Team | null>(null)
 
-  const { battleEvents, resultSummary, isExecuting, error, executeBattle, clearResults } =
-    useBattleEngine()
+  const {
+    battleEvents,
+    resultSummary,
+    isExecuting,
+    error,
+    executeBattle,
+    clearResults,
+  } = useBattleEngine()
+
+  // Simple animation state - just track if battle is complete
+  const [showResults, setShowResults] = useState(false)
+
+  // Ref for scroll area
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   // Filter out empty teams (teams with no units)
   const nonEmptyTeams = Object.values(teams).filter(team =>
@@ -62,7 +76,29 @@ export function MockBattle() {
 
   const handleClearResults = () => {
     clearResults()
+    setShowResults(false)
   }
+
+  // Show results when battle completes
+  useEffect(() => {
+    if (resultSummary.winner && !showResults) {
+      setShowResults(true)
+    }
+  }, [resultSummary.winner, showResults])
+
+  // Reset state when battle starts
+  useEffect(() => {
+    if (isExecuting) {
+      setShowResults(false)
+    }
+  }, [isExecuting])
+
+  // Extract team roster data from battle-end event
+  const battleEndEvent = useMemo(
+    () => battleEvents.find(event => event.type === 'battle-end'),
+    [battleEvents]
+  )
+  const teamRosters = battleEndEvent?.teamRosters
 
   return (
     <PageLayout>
@@ -170,83 +206,104 @@ export function MockBattle() {
           </CardContent>
         </Card>
 
-        {/* Battle Result Summary */}
-        {resultSummary.winner && (
-          <Card>
+        {/* Battle Results and Event Log - Side by side on large screens */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Battle Result Summary */}
+          {resultSummary.winner && showResults && (
+            <Card className="lg:sticky lg:top-6 lg:self-start">
+              <CardHeader>
+                <CardTitle className="text-center">
+                  🏆 {resultSummary.winner} Wins!
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {teamRosters ? (
+                  <BattleRosterDisplay teamRosters={teamRosters} />
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-lg font-semibold">
+                        Winner: {resultSummary.winner}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {resultSummary.endReason}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-semibold">Home Team HP</div>
+                      <div className="text-2xl font-bold text-blue-600">
+                        {resultSummary.teamHpPercentages['home-team']?.toFixed(
+                          1
+                        ) || 0}
+                        %
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-semibold">Away Team HP</div>
+                      <div className="text-2xl font-bold text-red-600">
+                        {resultSummary.teamHpPercentages['away-team']?.toFixed(
+                          1
+                        ) || 0}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="mt-4 text-center text-sm text-muted-foreground">
+                  Battle completed in {resultSummary.totalTurns} turns with{' '}
+                  {resultSummary.totalEvents} events
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Battle Event Log */}
+          <Card
+            className={cn(
+              'min-h-[400px]',
+              resultSummary.winner && showResults ? '' : 'lg:col-span-2'
+            )}
+          >
             <CardHeader>
-              <CardTitle>Battle Results</CardTitle>
+              <CardTitle>Battle Event Log</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-lg font-semibold">
-                    Winner: {resultSummary.winner}
+              {battleEvents.length > 0 ? (
+                <ScrollArea className="h-[500px] w-full" ref={scrollAreaRef}>
+                  <div className="space-y-3">
+                    {battleEvents.map(event => (
+                      <BattleEventCard
+                        key={event.id}
+                        event={event}
+                        totalEvents={battleEvents.length}
+                      />
+                    ))}
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {resultSummary.endReason}
+                </ScrollArea>
+              ) : canStartBattle ? (
+                <div className="text-center space-y-4 py-16">
+                  <div className="text-muted-foreground">
+                    <div className="text-lg font-medium mb-2">
+                      Ready to Battle!
+                    </div>
+                    <p className="text-sm">
+                      {selectedAllyTeam?.name} vs {selectedEnemyTeam?.name}
+                    </p>
+                    <p className="text-xs mt-4">
+                      Click "Start Battle" to begin the simulation
+                    </p>
                   </div>
                 </div>
-                <div className="text-center">
-                  <div className="text-lg font-semibold">
-                    Home Team HP
-                  </div>
-                  <div className="text-2xl font-bold text-blue-600">
-                    {resultSummary.teamHpPercentages['home-team']?.toFixed(1) || 0}%
-                  </div>
+              ) : (
+                <div className="flex items-center justify-center h-32">
+                  <p className="text-muted-foreground">
+                    Select both home and away teams to start a battle
+                  </p>
                 </div>
-                <div className="text-center">
-                  <div className="text-lg font-semibold">
-                    Away Team HP
-                  </div>
-                  <div className="text-2xl font-bold text-red-600">
-                    {resultSummary.teamHpPercentages['away-team']?.toFixed(1) || 0}%
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 text-center text-sm text-muted-foreground">
-                Battle completed in {resultSummary.totalTurns} turns with {resultSummary.totalEvents} events
-              </div>
+              )}
             </CardContent>
           </Card>
-        )}
-
-        {/* Battle Event Log */}
-        <Card className="min-h-[400px]">
-          <CardHeader>
-            <CardTitle>Battle Event Log</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {battleEvents.length > 0 ? (
-              <ScrollArea className="h-[350px] w-full">
-                <div className="space-y-3">
-                  {battleEvents.map(event => (
-                    <BattleEventCard key={event.id} event={event} />
-                  ))}
-                </div>
-              </ScrollArea>
-            ) : canStartBattle ? (
-              <div className="text-center space-y-4 py-16">
-                <div className="text-muted-foreground">
-                  <div className="text-lg font-medium mb-2">
-                    Ready to Battle!
-                  </div>
-                  <p className="text-sm">
-                    {selectedAllyTeam?.name} vs {selectedEnemyTeam?.name}
-                  </p>
-                  <p className="text-xs mt-4">
-                    Click "Start Battle" to begin the simulation
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-32">
-                <p className="text-muted-foreground">
-                  Select both home and away teams to start a battle
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </PageLayout>
   )

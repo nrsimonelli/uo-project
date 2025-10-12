@@ -1,4 +1,5 @@
 import { getAttackType, isDamageSkill } from './attack-types'
+
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
@@ -26,17 +27,20 @@ const findClosestTarget = (
   if (potentialTargets.length === 1) return potentialTargets[0]
 
   // Determine if this is a melee attack that should respect front row blocking
-  const shouldRespectFrontRow = isDamageSkill(skill.skillCategories) && 
+  const shouldRespectFrontRow =
+    isDamageSkill(skill.skillCategories) &&
     getAttackType(actingUnit.unit.classKey, skill.innateAttackType) === 'Melee'
 
   if (shouldRespectFrontRow) {
     // Melee attacks: prioritize front row, then closest distance within that row
-    const frontRow = potentialTargets.filter(target => target.position.row === 1)
+    const frontRow = potentialTargets.filter(
+      target => target.position.row === 1
+    )
     const backRow = potentialTargets.filter(target => target.position.row === 0)
-    
+
     // Always prioritize front row if available
     const targetsToConsider = frontRow.length > 0 ? frontRow : backRow
-    
+
     // Find closest by distance within the chosen row
     let closestTarget = targetsToConsider[0]
     let closestDistance = calculateDistance(
@@ -86,6 +90,10 @@ const targetingGroupHandlers = {
     Object.values(battlefield.units).filter(
       unit => unit.team !== actingUnit.team && unit.currentHP > 0
     ),
+
+  Self: (actingUnit: BattleContext, _battlefield: BattlefieldState) => [
+    actingUnit,
+  ],
 } as const
 
 /**
@@ -93,47 +101,73 @@ const targetingGroupHandlers = {
  * All handlers have consistent signature: (targets, actingUnit, skill) => BattleContext[]
  */
 const targetingPatternHandlers = {
-  Self: (_targets: BattleContext[], actingUnit: BattleContext, _skill: ActiveSkill | PassiveSkill) => [actingUnit],
+  Self: (
+    _targets: BattleContext[],
+    actingUnit: BattleContext,
+    _skill: ActiveSkill | PassiveSkill
+  ) => [actingUnit],
 
-  All: (targets: BattleContext[], _actingUnit: BattleContext, _skill: ActiveSkill | PassiveSkill) => targets,
+  All: (
+    targets: BattleContext[],
+    _actingUnit: BattleContext,
+    _skill: ActiveSkill | PassiveSkill
+  ) => targets,
 
-  Single: (targets: BattleContext[], actingUnit: BattleContext, skill: ActiveSkill | PassiveSkill) => {
+  Single: (
+    targets: BattleContext[],
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill
+  ) => {
     const closestTarget = findClosestTarget(actingUnit, targets, skill)
     return closestTarget ? [closestTarget] : []
   },
 
-  Row: (targets: BattleContext[], actingUnit: BattleContext, skill: ActiveSkill | PassiveSkill) => {
+  Row: (
+    targets: BattleContext[],
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill
+  ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
-    
+
     // Find closest target first (this will be in the row we want to target)
     const primaryTarget = findClosestTarget(actingUnit, targets, skill)
     if (!primaryTarget) return []
 
     // Return all targets in the same row as the primary target
-    return targets.filter(target => target.position.row === primaryTarget.position.row)
+    return targets.filter(
+      target => target.position.row === primaryTarget.position.row
+    )
   },
 
-  Column: (targets: BattleContext[], actingUnit: BattleContext, skill: ActiveSkill | PassiveSkill) => {
+  Column: (
+    targets: BattleContext[],
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill
+  ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
-    
+
     // Find closest target first (this will be in the column we want to target)
     const primaryTarget = findClosestTarget(actingUnit, targets, skill)
     if (!primaryTarget) return []
 
     // Return all targets in the same column as the primary target
-    return targets.filter(target => target.position.col === primaryTarget.position.col)
-  }
+    return targets.filter(
+      target => target.position.col === primaryTarget.position.col
+    )
+  },
 } as const
 
 /**
  * Get default targets for a skill based on its targeting pattern
+ * @param preFilteredTargets Optional pre-filtered list of targets to select from (used by tactical system)
  */
 export const getDefaultTargets = (
   skill: ActiveSkill | PassiveSkill,
   actingUnit: BattleContext,
-  battlefield: BattlefieldState
+  battlefield: BattlefieldState,
+  preFilteredTargets?: BattleContext[]
 ): BattleContext[] => {
   const { targeting } = skill
   const { group, pattern } = targeting
@@ -144,15 +178,19 @@ export const getDefaultTargets = (
     return selfHandler([], actingUnit, skill)
   }
 
-  // Get potential targets based on group
-  const groupHandler =
-    targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
-  if (!groupHandler) {
-    console.warn(`Unknown targeting group: ${group}`)
-    return []
+  // Use pre-filtered targets if provided, otherwise get targets based on group
+  let potentialTargets: BattleContext[]
+  if (preFilteredTargets) {
+    potentialTargets = preFilteredTargets
+  } else {
+    const groupHandler =
+      targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
+    if (!groupHandler) {
+      console.warn(`Unknown targeting group: ${group}`)
+      return []
+    }
+    potentialTargets = groupHandler(actingUnit, battlefield)
   }
-
-  const potentialTargets = groupHandler(actingUnit, battlefield)
 
   // Apply pattern-based selection
   const patternHandler =
@@ -161,7 +199,11 @@ export const getDefaultTargets = (
     console.warn(
       `Unsupported targeting pattern: ${pattern}, falling back to Single`
     )
-    const fallbackTarget = findClosestTarget(actingUnit, potentialTargets, skill)
+    const fallbackTarget = findClosestTarget(
+      actingUnit,
+      potentialTargets,
+      skill
+    )
     return fallbackTarget ? [fallbackTarget] : []
   }
 
