@@ -2154,6 +2154,54 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'heal',
+    type: 'active',
+    name: 'Heal',
+    description: 'Restore moderate HP to an ally.',
+    ap: 1,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'sacredHeal',
+    type: 'active',
+    name: 'Sacred Heal',
+    description:
+      "Restore moderate HP to a row of allies. Removes all of target's debuffs.",
+    ap: 2,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

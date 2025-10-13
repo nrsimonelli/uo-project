@@ -1,19 +1,19 @@
 # Skill Validation Report
 
-_Generated: 2025-10-13T16:15:30.976Z_
+_Generated: 2025-10-13T21:02:41.628Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 61
-- **Passive Skills Defined**: 43
-- **Total Skills Defined**: 104
+- **Active Skills Defined**: 63
+- **Passive Skills Defined**: 47
+- **Total Skills Defined**: 110
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **297 missing skills:**
+❌ **291 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -137,7 +137,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `hastenedHeal`
 - `hastenedShatter`
 - `hawkEye`
-- `heal`
 - `healingHunter`
 - `healingPursuit`
 - `healingWind`
@@ -165,7 +164,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `ironVeil`
 - `killingPursuit`
 - `lifeBlow`
-- `lifesaver`
 - `lifeshare`
 - `lightningBlade`
 - `maelstrom`
@@ -200,7 +198,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `painbringer`
 - `painfulSmash`
 - `partingDeath`
-- `partingResurrection`
 - `partyAid`
 - `passiveCure`
 - `passiveCurse`
@@ -235,7 +232,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `quickCure`
 - `quickCurse`
 - `quickDispel`
-- `quickHeal`
 - `quickImpetus`
 - `radiantCover`
 - `radiantHeal`
@@ -243,7 +239,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `rapidShot`
 - `recast`
 - `reflectMagic`
-- `refresh`
 - `reheal`
 - `reincarnation`
 - `reinforce`
@@ -255,7 +250,6 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `rowResistance`
 - `royalGuard`
 - `sacredCure`
-- `sacredHeal`
 - `sacrifice`
 - `saintsBarrier`
 - `saintsShot`
@@ -750,7 +744,7 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (61)
+### Active Skills Defined (63)
 
 - `activeSteal`
 - `assaultingBlow`
@@ -766,6 +760,7 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `grandSmash`
 - `greatshield`
 - `hache`
+- `heal`
 - `heavyBolt`
 - `heavySlash`
 - `heavySmash`
@@ -794,6 +789,7 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `rowProtection`
 - `rowShot`
 - `rowSmash`
+- `sacredHeal`
 - `saintsBlade`
 - `sanguineAttack`
 - `shadowThrust`
@@ -814,7 +810,7 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (43)
+### Passive Skills Defined (47)
 
 - `activeGift`
 - `aerialSnipe`
@@ -840,17 +836,21 @@ _Generated: 2025-10-13T16:15:30.976Z_
 - `holyGuard`
 - `keenCall`
 - `knightsPursuit`
+- `lifesaver`
 - `luminousCover`
 - `magicBarrier`
 - `medicalAid`
 - `nobleGuard`
 - `parry`
 - `partingBlow`
+- `partingResurrection`
 - `provoke`
 - `pursuit`
 - `quickGuard`
+- `quickHeal`
 - `quickReload`
 - `rapidOrder`
+- `refresh`
 - `rowBarrier`
 - `rowCover`
 - `sanguineArts`

@@ -1168,6 +1168,111 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'quickHeal',
+    type: 'passive',
+    name: 'Quick Heal',
+    description:
+      'Activates after an ally is hit by an attack. Restore minor HP to an ally.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'afterAllyHit',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'refresh',
+    type: 'passive',
+    name: 'Refresh',
+    description:
+      'Activates after an ally is debuffed. Remove all debuffs from a row of allies.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyDebuffed',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'lifesaver',
+    type: 'passive',
+    name: 'Lifesaver',
+    description:
+      'Activates before being attacked. Heal self for minor HP recovery. Grants user a buff to endure one lethal blow.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingHit',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+        applyTo: 'User',
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'SurviveLethal',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'partingResurrection',
+    type: 'passive',
+    name: 'Parting Resurrection',
+    description:
+      'Activates at the end of battle. Revive one ally, restoring them to 1 HP.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'endOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Resurrect',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Ally',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 0,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
 ] as const
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

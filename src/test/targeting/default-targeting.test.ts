@@ -451,7 +451,7 @@ describe('Default Targeting System', () => {
       // Back row enemy in column 2 (same column as attacker)
       const backRowSameCol = createMockBattleContext(
         'backsame',
-        'Back Same Column', 
+        'Back Same Column',
         'away-team',
         { row: 0, col: 2 } // Same column as attacker, distance = |1-0| + |2-2| = 1
       )
@@ -469,7 +469,11 @@ describe('Default Targeting System', () => {
         'Enemy',
         'Column'
       )
-      const columnTargets = getDefaultTargets(meleeColumnSkill, meleeAttacker, battlefield)
+      const columnTargets = getDefaultTargets(
+        meleeColumnSkill,
+        meleeAttacker,
+        battlefield
+      )
 
       // Should target the entire column, but primary target selection follows default rules
       // (front row first), so should select column 2 based on front row target
@@ -564,7 +568,11 @@ describe('Default Targeting System', () => {
           'Enemy',
           'Single'
         )
-        const meleeTargets = getDefaultTargets(meleeSkill, attacker, battlefield)
+        const meleeTargets = getDefaultTargets(
+          meleeSkill,
+          attacker,
+          battlefield
+        )
         expect(meleeTargets).toHaveLength(1)
         expect(meleeTargets[0]).toBe(farFrontEnemy) // Front row first
 
@@ -576,7 +584,11 @@ describe('Default Targeting System', () => {
           'Single',
           'Ranged'
         )
-        const rangedTargets = getDefaultTargets(rangedSkill, attacker, battlefield)
+        const rangedTargets = getDefaultTargets(
+          rangedSkill,
+          attacker,
+          battlefield
+        )
         expect(rangedTargets).toHaveLength(1)
         expect(rangedTargets[0]).toBe(farFrontEnemy) // Front row first for all skills
 
@@ -588,7 +600,11 @@ describe('Default Targeting System', () => {
           'Single',
           'Magical'
         )
-        const magicTargets = getDefaultTargets(magicSkill, attacker, battlefield)
+        const magicTargets = getDefaultTargets(
+          magicSkill,
+          attacker,
+          battlefield
+        )
         expect(magicTargets).toHaveLength(1)
         expect(magicTargets[0]).toBe(farFrontEnemy) // Front row first for all skills
       })
@@ -621,12 +637,7 @@ describe('Default Targeting System', () => {
           backEnemy2,
         ])
 
-        const skill = createMockSkill(
-          'attack',
-          'Attack',
-          'Enemy',
-          'Single'
-        )
+        const skill = createMockSkill('attack', 'Attack', 'Enemy', 'Single')
         const targets = getDefaultTargets(skill, attacker, battlefield)
 
         expect(targets).toHaveLength(1)
@@ -707,11 +718,21 @@ describe('Default Targeting System', () => {
           backEnemy,
         ])
 
-        const meleeSkill = createMockSkill('sword-strike', 'Sword Strike', 'Enemy', 'Single')
-        
+        const meleeSkill = createMockSkill(
+          'sword-strike',
+          'Sword Strike',
+          'Enemy',
+          'Single'
+        )
+
         // Simulate tactical system trying to target only back row
         const tacticalBackRowSelection = [backEnemy]
-        const targets = getDefaultTargets(meleeSkill, meleeUnit, battlefield, tacticalBackRowSelection)
+        const targets = getDefaultTargets(
+          meleeSkill,
+          meleeUnit,
+          battlefield,
+          tacticalBackRowSelection
+        )
 
         // Should be blocked - return empty array
         expect(targets).toHaveLength(0)
@@ -744,11 +765,21 @@ describe('Default Targeting System', () => {
           backEnemy,
         ])
 
-        const meleeColumnSkill = createMockSkill('spear-thrust', 'Spear Thrust', 'Enemy', 'Column')
-        
+        const meleeColumnSkill = createMockSkill(
+          'spear-thrust',
+          'Spear Thrust',
+          'Enemy',
+          'Column'
+        )
+
         // Simulate tactical system targeting back row unit
         const tacticalBackRowSelection = [backEnemy]
-        const targets = getDefaultTargets(meleeColumnSkill, meleeUnit, battlefield, tacticalBackRowSelection)
+        const targets = getDefaultTargets(
+          meleeColumnSkill,
+          meleeUnit,
+          battlefield,
+          tacticalBackRowSelection
+        )
 
         // Should be allowed - column attacks can bypass front-row blocking
         expect(targets).toHaveLength(1)
@@ -782,18 +813,29 @@ describe('Default Targeting System', () => {
           backEnemy,
         ])
 
-        const rangedSkill = createMockSkill('bow-shot', 'Bow Shot', 'Enemy', 'Single', 'Ranged')
-        
+        const rangedSkill = createMockSkill(
+          'bow-shot',
+          'Bow Shot',
+          'Enemy',
+          'Single',
+          'Ranged'
+        )
+
         // Simulate tactical system targeting back row unit
         const tacticalBackRowSelection = [backEnemy]
-        const targets = getDefaultTargets(rangedSkill, rangedUnit, battlefield, tacticalBackRowSelection)
+        const targets = getDefaultTargets(
+          rangedSkill,
+          rangedUnit,
+          battlefield,
+          tacticalBackRowSelection
+        )
 
         // Should be allowed - ranged attacks can bypass front-row blocking
         expect(targets).toHaveLength(1)
         expect(targets[0]).toBe(backEnemy)
       })
     })
-    
+
     describe('Distance Tie-Breaking', () => {
       it('should randomly select among equidistant targets', () => {
         const attacker = createMockBattleContext(
@@ -824,7 +866,7 @@ describe('Default Targeting System', () => {
         ])
 
         const skill = createMockSkill('attack', 'Attack', 'Enemy', 'Single')
-        
+
         // Run multiple times to verify random selection (should select different targets)
         const results = new Set()
         for (let i = 0; i < 20; i++) {
@@ -833,7 +875,7 @@ describe('Default Targeting System', () => {
           expect([enemy1, enemy2]).toContain(targets[0])
           results.add(targets[0].unit.id)
         }
-        
+
         // With 20 trials, we should see both targets selected at least once
         // (probability of this failing randomly is extremely low)
         expect(results.size).toBeGreaterThan(1)

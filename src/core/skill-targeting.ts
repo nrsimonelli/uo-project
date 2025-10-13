@@ -42,7 +42,6 @@ const selectClosestTargets = (
   return selectedTargets
 }
 
-
 /**
  * Find the closest target using default targeting rules
  * DEFAULT TARGETING RULE: Closest unit in front row first, then closest unit in back row
@@ -51,7 +50,8 @@ const selectClosestTargets = (
 const findClosestTarget = (
   actingUnit: BattleContext,
   potentialTargets: BattleContext[],
-  skill: ActiveSkill | PassiveSkill
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _skill: ActiveSkill | PassiveSkill
 ): BattleContext | null => {
   if (potentialTargets.length === 0) return null
   if (potentialTargets.length === 1) return potentialTargets[0]
@@ -72,7 +72,7 @@ const findClosestTarget = (
 
   // Collect all targets at the closest distance for tie-breaking
   const closestTargets = [closestTarget]
-  
+
   for (const target of targetsToConsider.slice(1)) {
     const distance = calculateDistance(actingUnit.position, target.position)
     if (distance < closestDistance) {
@@ -84,7 +84,7 @@ const findClosestTarget = (
       closestTargets.push(target)
     }
   }
-  
+
   // If multiple targets are equidistant, randomly select one
   if (closestTargets.length > 1) {
     const randomIndex = Math.floor(Math.random() * closestTargets.length)
@@ -236,7 +236,7 @@ export const getDefaultTargets = (
       actingUnit.unit.classKey,
       skill.innateAttackType
     )
-    
+
     // Only apply front-row blocking for melee Single/Row attacks
     if (attackType === 'Melee' && (pattern === 'Single' || pattern === 'Row')) {
       // Check the ENTIRE battlefield for front row enemies, not just filtered targets

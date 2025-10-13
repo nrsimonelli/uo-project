@@ -130,6 +130,21 @@ export interface SacrificeEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface CleanseEffect {
+  kind: 'Cleanse'
+  target: 'Debuffs' | 'Afflictions'
+  applyTo?: 'User' | 'Target'
+  conditions?: Condition[] | readonly Condition[]
+}
+
+export interface ResurrectEffect {
+  kind: 'Resurrect'
+  value: number
+  scaling: 'flat' | 'percent'
+  applyTo?: 'Target' // Who to resurrect
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -147,3 +162,5 @@ export type Effect =
   | LifeStealEffect
   | ResourceStealEffect
   | SacrificeEffect
+  | CleanseEffect
+  | ResurrectEffect
