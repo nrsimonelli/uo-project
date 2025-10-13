@@ -26,24 +26,37 @@ export function SkillSelectionModal({
   unit,
   onSkillSelect,
 }: SkillSelectionModalProps) {
-  const { searchTerm, updateSearchTerm, open, setOpen, closeModal } =
-    useModalState()
+  const { open, setOpen } = useModalState()
 
-  const { filteredSkills, skillTypeFilter, setSkillTypeFilter, setSearchTerm } =
-    useSkillSelection({ unit })
+  const {
+    filteredSkills,
+    skillTypeFilter,
+    setSkillTypeFilter,
+    searchTerm,
+    setSearchTerm,
+  } = useSkillSelection({ unit })
 
   const handleSearchChange = (value: string) => {
-    updateSearchTerm(value)
     setSearchTerm(value)
   }
 
   const handleSkillSelect = (skill: AvailableSkill) => {
     onSkillSelect(skill)
-    closeModal()
+    setOpen(false)
+    // Clear search when closing
+    setSearchTerm('')
+  }
+
+  const handleModalClose = (isOpen: boolean) => {
+    setOpen(isOpen)
+    // Clear search when modal is closed
+    if (!isOpen) {
+      setSearchTerm('')
+    }
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleModalClose}>
       <DialogTrigger asChild>
         <Button variant="default" size="sm" className="justify-start">
           <Plus className="size-4" />

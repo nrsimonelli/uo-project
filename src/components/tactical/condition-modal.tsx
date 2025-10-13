@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { Search } from 'lucide-react'
+import { useState, useMemo } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -8,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -28,7 +30,8 @@ export const ConditionModal = ({
   onSelectCondition,
   currentCondition,
 }: ConditionModalProps) => {
-  const { open, closeModal, setOpen } = useModalState()
+  const { open, setOpen } = useModalState()
+  const [searchTerm, setSearchTerm] = useState('')
 
   const [selectedCategory, setSelectedCategory] = useState<TacticCategoryKey>(
     currentCondition?.category || TACTIC_CATEGORIES.FORMATION_SITUATION
@@ -37,19 +40,56 @@ export const ConditionModal = ({
   const categories = Object.values(TACTIC_CATEGORIES)
   const keysForCategory = TACTIC_CATEGORY_MAP[selectedCategory]
 
-  const handleConditionSelect = (key: string) => {
+  // Create searchable conditions with category info
+  const allConditions = useMemo(() => {
+    return Object.entries(TACTIC_CATEGORY_MAP).flatMap(([category, keys]) =>
+      keys.map(key => ({
+        key,
+        category: category as TacticCategoryKey,
+      }))
+    )
+  }, [])
+
+  // Filter conditions based on search term
+  const filteredConditions = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return keysForCategory.map(key => ({
+        key,
+        category: selectedCategory,
+      }))
+    }
+
+    const searchLower = searchTerm.toLowerCase().trim()
+    return allConditions.filter(condition =>
+      condition.key.toLowerCase().includes(searchLower)
+    )
+  }, [searchTerm, keysForCategory, selectedCategory, allConditions])
+
+  const isSearching = searchTerm.trim().length > 0
+
+  const handleConditionSelect = (key: string, category: TacticCategoryKey) => {
     const condition: TacticalCondition = {
-      category: selectedCategory,
+      category,
       key,
     }
     onSelectCondition(condition)
-    closeModal()
+    setOpen(false)
+    // Clear search when closing
+    setSearchTerm('')
+  }
+
+  const handleModalClose = (isOpen: boolean) => {
+    setOpen(isOpen)
+    // Clear search when modal is closed
+    if (!isOpen) {
+      setSearchTerm('')
+    }
   }
 
   const isEmpty = currentCondition === null
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleModalClose}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -75,46 +115,88 @@ export const ConditionModal = ({
           <DialogTitle>Select a tactic</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
+          {/* Search Input */}
+          <div className="relative px-4">
+            <Search className="absolute left-7 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search conditions..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
           <div className="flex flex-1 overflow-hidden w-full">
-            <div className="flex-1 p-3 flex flex-col">
-              <p className="font-medium text-foreground mb-3">Categories</p>
-              <ScrollArea className="flex flex-col w-full overflow-y-auto">
-                <div className="space-y-1 pr-2">
-                  {categories.map(category => (
-                    <Button
-                      key={category}
-                      variant={
-                        selectedCategory === category ? 'default' : 'ghost'
-                      }
-                      onClick={() => setSelectedCategory(category)}
-                      className="w-full justify-start text-sm h-auto p-2"
-                    >
-                      {category}
-                    </Button>
-                  ))}
+            {/* Categories - hide when searching */}
+            {!isSearching && (
+              <>
+                <div className="flex-1 p-3 flex flex-col">
+                  <p className="font-medium text-foreground mb-3">Categories</p>
+                  <ScrollArea className="flex flex-col w-full overflow-y-auto">
+                    <div className="space-y-1 pr-2">
+                      {categories.map(category => (
+                        <Button
+                          key={category}
+                          variant={
+                            selectedCategory === category ? 'default' : 'ghost'
+                          }
+                          onClick={() => setSelectedCategory(category)}
+                          className="w-full justify-start text-sm h-auto p-2"
+                        >
+                          {category}
+                        </Button>
+                      ))}
+                    </div>
+                  </ScrollArea>
                 </div>
-              </ScrollArea>
-            </div>
-            <Separator orientation="vertical" />
-            <div className="flex-1 p-3 flex flex-col">
-              <p className="font-medium text-foreground mb-3">Conditions</p>
+                <Separator orientation="vertical" />
+              </>
+            )}
+
+            {/* Conditions - full width when searching */}
+            <div
+              className={cn(
+                'flex-1 p-3 flex flex-col',
+                isSearching && 'w-full'
+              )}
+            >
+              <p className="font-medium text-foreground mb-3">
+                {isSearching ? 'Search Results' : 'Conditions'}
+              </p>
               <ScrollArea className="flex flex-col w-full overflow-y-auto">
                 <div className="space-y-1 pr-2">
-                  {keysForCategory.map(key => (
-                    <Button
-                      key={key}
-                      variant={
-                        currentCondition?.key === key &&
-                        currentCondition?.category === selectedCategory
-                          ? 'default'
-                          : 'ghost'
-                      }
-                      onClick={() => handleConditionSelect(key)}
-                      className="w-full justify-start text-sm h-auto p-2"
-                    >
-                      {key}
-                    </Button>
-                  ))}
+                  {filteredConditions.length === 0 && isSearching ? (
+                    <div className="text-sm text-muted-foreground p-2">
+                      No conditions found matching "{searchTerm}"
+                    </div>
+                  ) : (
+                    filteredConditions.map(condition => (
+                      <Button
+                        key={`${condition.category}-${condition.key}`}
+                        variant={
+                          currentCondition?.key === condition.key &&
+                          currentCondition?.category === condition.category
+                            ? 'default'
+                            : 'ghost'
+                        }
+                        onClick={() =>
+                          handleConditionSelect(
+                            condition.key,
+                            condition.category
+                          )
+                        }
+                        className="w-full justify-start text-sm h-auto p-2"
+                      >
+                        <div className="w-full text-left">
+                          <div>{condition.key}</div>
+                          {isSearching && (
+                            <div className="text-xs text-muted-foreground mt-0.5">
+                              {condition.category}
+                            </div>
+                          )}
+                        </div>
+                      </Button>
+                    ))
+                  )}
                 </div>
               </ScrollArea>
             </div>
