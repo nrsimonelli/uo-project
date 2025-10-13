@@ -1532,26 +1532,5 @@
         ]
       }
     ]
-  },
-  {
-    "id": "tripleShot",
-    "type": "active",
-    "name": "Triple Shot",
-    "description": "Attack three enemies with reduced power.",
-    "ap": 2,
-    "skillCategories": ["Damage"],
-    "targeting": {
-      "group": "Enemy",
-      "pattern": "Three"
-    },
-    "innateAttackType": "Ranged",
-    "effects": [
-      {
-        "kind": "Damage",
-        "potency": { "physical": 60 },
-        "hitRate": 90,
-        "hitCount": 1
-      }
-    ]
   }
 ]
