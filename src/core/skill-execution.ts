@@ -1,6 +1,6 @@
 import { isDamageSkill } from './attack-types'
 import type { DamageResult } from './battle-damage'
-import { calculateSkillDamage } from './battle-damage'
+import { calculateSkillDamage, calculateMultiHitDamage } from './battle-damage'
 import type { ConditionEvaluationContext } from './condition-evaluator'
 import {
   processEffects,
@@ -111,16 +111,30 @@ const executeDamageSkill = (
       potency: modifiedDamageData.modifiedPotency,
     }
 
-    const result = calculateSkillDamage(
-      modifiedEffect,
-      skill.skillFlags || [],
-      skill.skillCategories,
-      attacker,
-      target,
-      rng
-    )
-
-    damageResults.push(result)
+    // Handle multi-hit attacks (hitCount > 1)
+    if (damageEffect.hitCount > 1) {
+      const multiHitResults = calculateMultiHitDamage(
+        attacker,
+        target,
+        modifiedEffect,
+        rng,
+        skill.skillFlags || [],
+        [], // effectFlags - not used in current implementation
+        skill.skillCategories || ['Damage']
+      )
+      damageResults.push(...multiHitResults)
+    } else {
+      // Single hit attack
+      const result = calculateSkillDamage(
+        modifiedEffect,
+        skill.skillFlags || [],
+        skill.skillCategories,
+        attacker,
+        target,
+        rng
+      )
+      damageResults.push(result)
+    }
   }
 
   // Calculate total damage and hit status
@@ -172,6 +186,19 @@ export const executeSkill = (
 ): SingleTargetSkillResult | MultiTargetSkillResult => {
   // Convert to array for consistent handling
   const targetArray = Array.isArray(targets) ? targets : [targets]
+
+  // Safety check: Single-target skills should only affect one target
+  // (This should now be rare due to tactical system fix, but kept as safety net)
+  if (skill.targeting.pattern === 'Single' && targetArray.length > 1) {
+    console.warn(
+      `⚠️  executeSkill: Single-target skill '${skill.name}' received ${targetArray.length} targets (tactical system should prevent this):`,
+      targetArray.map(t => t.unit.name)
+    )
+    // For single-target skills, only use the first target
+    const singleTarget = targetArray[0]
+    const result = executeSingleTarget(skill, attacker, singleTarget, rng)
+    return result
+  }
 
   // Execute skill for all targets
   const results = targetArray.map(target =>

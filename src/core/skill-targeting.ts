@@ -196,6 +196,74 @@ export const getDefaultTargets = (
     potentialTargets = groupHandler(actingUnit, battlefield)
   }
 
+  // CRITICAL: Apply front row blocking for melee attacks
+  // This must happen even with prefiltered targets to enforce melee targeting rules
+  if (group === 'Enemy' && isDamageSkill(skill.skillCategories)) {
+    const attackType = getAttackType(
+      actingUnit.unit.classKey,
+      skill.innateAttackType
+    )
+    if (attackType === 'Melee') {
+      // For melee attacks against enemies, enforce front row blocking
+      // Check the ENTIRE battlefield for front row enemies, not just filtered targets
+      const allEnemies = Object.values(battlefield.units).filter(
+        unit => unit.team !== actingUnit.team && unit.currentHP > 0
+      )
+      const allFrontRowEnemies = allEnemies.filter(
+        enemy => enemy.position.row === 1
+      )
+
+      if (allFrontRowEnemies.length > 0) {
+        // Front row enemies exist on battlefield - melee attacks can only target front row
+        const frontRowTargetsInSelection = potentialTargets.filter(
+          target => target.position.row === 1
+        )
+        const backRowTargetsInSelection = potentialTargets.filter(
+          target => target.position.row === 0
+        )
+
+        if (
+          backRowTargetsInSelection.length > 0 &&
+          frontRowTargetsInSelection.length === 0
+        ) {
+          // Tactical system selected only back row, but front row enemies exist - block the attack entirely
+          console.debug(
+            `⚠️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} BLOCKED - tactical system selected back row only but front row enemies exist`,
+            {
+              allFrontRowEnemies: allFrontRowEnemies.map(e => ({
+                name: e.unit.name,
+                pos: e.position,
+              })),
+              tacticalSelection: potentialTargets.map(t => ({
+                name: t.unit.name,
+                pos: t.position,
+              })),
+              result: 'SKILL_BLOCKED',
+            }
+          )
+          return [] // Return empty - skill should be skipped
+        } else if (backRowTargetsInSelection.length > 0) {
+          // Mixed front/back selection - remove back row targets
+          console.debug(
+            `🛡️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} restricted to front row targets only`,
+            {
+              originalTargets: potentialTargets.length,
+              frontRowTargets: frontRowTargetsInSelection.length,
+              backRowTargets: backRowTargetsInSelection.length,
+              restrictedTo: frontRowTargetsInSelection.map(t => ({
+                name: t.unit.name,
+                pos: t.position,
+              })),
+            }
+          )
+          potentialTargets = frontRowTargetsInSelection
+        }
+        // If selection already contains only front row targets, no change needed
+      }
+      // If no front row enemies exist anywhere, back row enemies become valid targets
+    }
+  }
+
   // Apply pattern-based selection
   const patternHandler =
     targetingPatternHandlers[pattern as keyof typeof targetingPatternHandlers]

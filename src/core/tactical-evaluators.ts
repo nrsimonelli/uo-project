@@ -214,8 +214,126 @@ const filterFormation: FilterEvaluator = (targets, metadata, context) => {
       })
     }
 
-    // Handle advanced formation types (simplified for now)
-    // In full implementation, would include the complex logic from evaluateAdvancedFormationFilter
+    // Handle Full Column condition
+    if (metadata.formationType === 'full-column') {
+      // For Full Column, check if this target's column has multiple units
+      const targetColumn = target.position.col
+      const unitsInSameColumn = targets.filter(
+        unit => unit.position.col === targetColumn
+      )
+
+      // In a 2x3 grid, a "full column" means 2 units in the same column
+      const isFullColumn = unitsInSameColumn.length >= 2
+
+      console.debug(`🎯 Full Column check for ${target.unit.name}:`, {
+        targetColumn,
+        unitsInColumn: unitsInSameColumn.map(u => ({
+          name: u.unit.name,
+          pos: u.position,
+        })),
+        isFullColumn,
+        result: isFullColumn ? 'INCLUDE' : 'EXCLUDE',
+      })
+
+      if (!isFullColumn) {
+        // If this column is not full, exclude ALL targets from this column
+        // This ensures the skill is only used when there's actually a full column available
+        return false
+      }
+
+      // Only return targets that are in a full column
+      return true
+    }
+
+    // Handle Row with specific combatant count conditions
+    if (metadata.formationType === 'min-combatants') {
+      // For "Row with X+ Combatants", check if this target's row has enough units
+      const targetRow = target.position.row
+      const unitsInSameRow = targets.filter(
+        unit => unit.position.row === targetRow
+      )
+
+      const hasEnoughCombatants =
+        unitsInSameRow.length >= metadata.minCombatants!
+
+      console.debug(
+        `🎯 Row with ${metadata.minCombatants}+ check for ${target.unit.name}:`,
+        {
+          targetRow,
+          unitsInRow: unitsInSameRow.map(u => ({
+            name: u.unit.name,
+            pos: u.position,
+          })),
+          count: unitsInSameRow.length,
+          required: metadata.minCombatants,
+          hasEnoughCombatants,
+          result: hasEnoughCombatants ? 'INCLUDE' : 'EXCLUDE',
+        }
+      )
+
+      return hasEnoughCombatants
+    }
+
+    // Handle "Row with Most Combatants"
+    if (metadata.formationType === 'most-combatants') {
+      // Find the row with the most units
+      const rowCounts = new Map<number, number>()
+      targets.forEach(unit => {
+        const row = unit.position.row
+        rowCounts.set(row, (rowCounts.get(row) || 0) + 1)
+      })
+
+      const maxCount = Math.max(...rowCounts.values())
+      const targetRow = target.position.row
+      const targetRowCount = rowCounts.get(targetRow) || 0
+      const isMaxRow = targetRowCount === maxCount
+
+      console.debug(
+        `🎯 Row with Most Combatants check for ${target.unit.name}:`,
+        {
+          targetRow,
+          targetRowCount,
+          maxCount,
+          allRowCounts: Object.fromEntries(rowCounts),
+          isMaxRow,
+          result: isMaxRow ? 'INCLUDE' : 'EXCLUDE',
+        }
+      )
+
+      return isMaxRow
+    }
+
+    // Handle "Row with Least Combatants"
+    if (metadata.formationType === 'least-combatants') {
+      // Find the row with the fewest units
+      const rowCounts = new Map<number, number>()
+      targets.forEach(unit => {
+        const row = unit.position.row
+        rowCounts.set(row, (rowCounts.get(row) || 0) + 1)
+      })
+
+      const minCount = Math.min(...rowCounts.values())
+      const targetRow = target.position.row
+      const targetRowCount = rowCounts.get(targetRow) || 0
+      const isMinRow = targetRowCount === minCount
+
+      console.debug(
+        `🎯 Row with Least Combatants check for ${target.unit.name}:`,
+        {
+          targetRow,
+          targetRowCount,
+          minCount,
+          allRowCounts: Object.fromEntries(rowCounts),
+          isMinRow,
+          result: isMinRow ? 'INCLUDE' : 'EXCLUDE',
+        }
+      )
+
+      return isMinRow
+    }
+
+    // Handle other advanced formation types (placeholder for future implementation)
+    console.warn(`Unimplemented formation type: ${metadata.formationType}`)
     return true
   })
 }

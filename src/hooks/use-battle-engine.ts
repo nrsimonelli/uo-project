@@ -39,8 +39,24 @@ const transformSkillResults = (
   result: SingleTargetSkillResult | MultiTargetSkillResult,
   targets: BattleContext[]
 ): BattleEvent['skillResults'] => {
+  // Debug logging to track the issue
+  console.debug('transformSkillResults called with:', {
+    resultType: 'damageResults' in result ? 'SingleTarget' : 'MultiTarget',
+    hasResults: 'results' in result,
+    targetCount: targets.length,
+    targetNames: targets.map(t => t.unit.name),
+  })
+
   // Handle single target result
   if ('damageResults' in result) {
+    // Additional safety check for single target skills with multiple targets
+    if (targets.length > 1) {
+      console.warn(
+        `⚠️  Single target skill received ${targets.length} targets:`,
+        targets.map(t => t.unit.name)
+      )
+    }
+
     const target = targets[0]
     if (!target) return undefined
 
@@ -147,6 +163,14 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       // Select and execute skill
       const skillSelection = selectActiveSkill(unit, battlefieldState)
 
+      // Debug logging for skill selection
+      console.debug(`🎯 ${unit.unit.name} selected skill:`, {
+        skillName: skillSelection.skill.name,
+        skillTargeting: skillSelection.skill.targeting,
+        targetCount: skillSelection.targets.length,
+        targetNames: skillSelection.targets.map(t => t.unit.name),
+      })
+
       const result = executeSkill(
         skillSelection.skill,
         unit,
@@ -171,7 +195,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         },
         targets: skillSelection.targets.map(t => t.unit.id),
         skillId: skillSelection.skill.id,
-        skillResults
+        skillResults,
       }
       setBattleEvents(prev => [...prev, battleEvent])
 
@@ -311,7 +335,11 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       const totalTurns = finalState.actionCounter || finalState.turnCount || 0
 
       // Add battle end event
-      const battleEndEvent = createBattleEndEvent(winner, totalTurns, finalState)
+      const battleEndEvent = createBattleEndEvent(
+        winner,
+        totalTurns,
+        finalState
+      )
       setBattleEvents(prevEvents => [...prevEvents, battleEndEvent])
 
       // Set final results

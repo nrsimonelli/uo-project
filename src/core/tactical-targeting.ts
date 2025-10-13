@@ -106,7 +106,16 @@ export const evaluateSkillSlotTactics = (
     }
   }
 
-  return { shouldUseSkill: true, targets }
+  // CRITICAL FIX: Always apply the skill's targeting pattern after tactical processing
+  // This ensures Single targets 1, Column targets same column, etc.
+  const finalTargets = getDefaultTargets(
+    skill,
+    actingUnit,
+    battlefield,
+    targets // Pass tactically-processed targets as preFilteredTargets
+  )
+
+  return { shouldUseSkill: finalTargets.length > 0, targets: finalTargets }
 }
 
 /**
