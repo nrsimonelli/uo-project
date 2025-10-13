@@ -152,6 +152,71 @@ This document tracks the implementation status of all tactical conditions in the
 - Verify skills are used/skipped appropriately
 - Test edge cases (empty battlefields, single units, etc.)
 
+## 🎯 Skill Effect Implementation TODO
+
+### Critical Effect Systems - **HIGH PRIORITY**
+
+#### 1. Stackable Buffs System
+
+**Status**: Partially implemented (types updated, logic missing)
+**Affects**: Cavalier Call, Enrage, Vengeful Guard, Vengeance
+
+- [ ] Update effect processor to handle `stacks: true` buffs
+- [ ] Modify battle state to track stacked buff instances
+- [ ] Update condition evaluator to work with stacked values
+- [ ] Consider maximum stack limits
+- [ ] Update UI display for stacked buff values
+
+#### 2. Dynamic Damage Scaling
+
+**Status**: Not implemented
+**Affects**: Vengeful Axe, potentially Bastard's Cross and others
+
+- [ ] Implement HP-based damage scaling (Vengeful Axe: +100 max potency as HP decreases)
+- [ ] Create new condition type for HP percentage scaling
+- [ ] Add dynamic potency calculation in damage resolution
+- [ ] Consider stat-based scaling for future skills
+
+#### 3. HP Consumption Effects
+
+**Status**: Partially implemented (types and skill data updated)
+**Affects**: Dark Flame (30% HP cost), Demonic Pact (25% HP sacrifice)
+
+- [x] Create new SacrificeEffect type for HP consumption
+- [x] Add SacrificeEffect to Dark Flame and Demonic Pact skills
+- [ ] Implement SacrificeEffect processing in effect processor
+- [ ] Ensure units don't die from self-inflicted damage unless intended
+- [ ] Add validation for sufficient HP before skill use
+- [ ] Handle timing: Dark Flame (pre-attack), Demonic Pact (post-skill)
+
+### Medium Priority Effect Systems
+
+#### 4. Advanced Condition Types
+
+**Status**: Missing condition evaluators
+**Affects**: Dark Flame and other conditional skills
+
+- [ ] **HasDebuff condition** - Check if target has any active debuffs
+- [ ] **FirstHitGuarded condition** - Already added to types, verify evaluator
+- [ ] Expand condition system for complex skill interactions
+
+#### 5. Life Steal Effects
+
+**Status**: Types exist, implementation uncertain
+**Affects**: Sanguine Arts (50% life steal on next attack)
+
+- [ ] Verify LifeSteal effect implementation in effect processor
+- [ ] Ensure healing scales with actual damage dealt
+- [ ] Test with multi-hit attacks and critical strikes
+- [ ] Handle life steal with damage-over-time effects
+
+### Implementation Notes
+
+- **Stackable Buffs**: Most critical as multiple skills already use this mechanic
+- **HP Scaling**: Complex but essential for damage variety
+- **HP Consumption**: Needs careful balance to avoid accidental unit death
+- **Condition Types**: Foundation for many future skill mechanics
+
 ## 📊 Statistics
 
 - **Total Tactics**: 146
@@ -159,3 +224,4 @@ This document tracks the implementation status of all tactical conditions in the
 - **Missing/Incomplete**: 99 (68%)
 - **Critical Missing**: 32 (22%)
 - **High Priority Missing**: 44 (30%)
+- **Skill Effects Missing**: 5 major systems

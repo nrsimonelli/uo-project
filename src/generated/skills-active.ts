@@ -2037,6 +2037,123 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'vengefulAxe',
+    type: 'active',
+    name: 'Vengeful Axe',
+    description:
+      'Attacks a single enemy. Damage increases the less HP the user has. (Maximum increase: +100.)',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 0,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'venomAxe',
+    type: 'active',
+    name: 'Venom Axe',
+    description: 'Attack a single enemy. Inflicts Poison.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Poison',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'darkFlame',
+    type: 'active',
+    name: 'Dark Flame',
+    description:
+      'Consumes 30% of own HP to attack a row of enemies. +50 potency v. debuffed targets. Inflicts Burn.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Sacrifice',
+        resource: 'HP',
+        amount: 30,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+          magical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'HasDebuff',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

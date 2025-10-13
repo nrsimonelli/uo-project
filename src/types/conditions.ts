@@ -22,8 +22,10 @@ export type Condition =
       comparator: NumericComparator
       value: number
       percent?: boolean
-      // TODO: For Bastard's Cross - need dynamic scaling based on HP percentage
+      // TODO: For Bastard's Cross & Vengeful Axe - need dynamic scaling based on HP percentage
       // Currently uses simple threshold, but should scale potency proportionally
+      // Vengeful Axe: +100 max potency as HP decreases (50 base + up to 100 scaling)
+      // Both skills need proportional scaling instead of binary conditions
     }
   | {
       kind: 'Affliction'

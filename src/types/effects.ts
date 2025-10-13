@@ -121,6 +121,15 @@ export interface ResourceStealEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface SacrificeEffect {
+  kind: 'Sacrifice'
+  resource: 'HP' // Currently only HP sacrifice is supported
+  amount: number // Amount to sacrifice (percentage for HP)
+  scaling: 'percent' // Currently only percentage-based sacrifice
+  applyTo?: 'User' // Always applies to the user
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -137,3 +146,4 @@ export type Effect =
   | AfflictionEffect
   | LifeStealEffect
   | ResourceStealEffect
+  | SacrificeEffect

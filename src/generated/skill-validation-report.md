@@ -1,19 +1,19 @@
 # Skill Validation Report
 
-_Generated: 2025-10-13T15:49:02.409Z_
+_Generated: 2025-10-13T16:15:30.976Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 58
-- **Passive Skills Defined**: 40
-- **Total Skills Defined**: 98
+- **Active Skills Defined**: 61
+- **Passive Skills Defined**: 43
+- **Total Skills Defined**: 104
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **303 missing skills:**
+❌ **297 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -64,7 +64,6 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `cursedImpetus`
 - `cursedSwamp`
 - `darkConferral`
-- `darkFlame`
 - `darkMist`
 - `darkStep`
 - `dawnHorn`
@@ -75,7 +74,6 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `defensiveOrder`
 - `deflect`
 - `delayingShot`
-- `demonicPact`
 - `desperation`
 - `discharge`
 - `dispelAll`
@@ -262,7 +260,6 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `saintsBarrier`
 - `saintsShot`
 - `sandstorm`
-- `sanguineArts`
 - `sanguineConferral`
 - `sanguineDarts`
 - `sanguinePursuit`
@@ -302,10 +299,7 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `undyingWill`
 - `unitedFront`
 - `vanitas`
-- `vengeance`
-- `vengefulAxe`
 - `vengefulImpetus`
-- `venomAxe`
 - `venomThrust`
 - `viciousTorment`
 - `volcano`
@@ -756,13 +750,14 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (58)
+### Active Skills Defined (61)
 
 - `activeSteal`
 - `assaultingBlow`
 - `assaultingLance`
 - `bastardsCross`
 - `brandish`
+- `darkFlame`
 - `defender`
 - `dragoonDive`
 - `dualShot`
@@ -811,13 +806,15 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `toxicBolt`
 - `toxicThrow`
 - `trueThrust`
+- `vengefulAxe`
+- `venomAxe`
 - `verticalEdge`
 - `wardingSlash`
 - `wideBreaker`
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (40)
+### Passive Skills Defined (43)
 
 - `activeGift`
 - `aerialSnipe`
@@ -829,6 +826,7 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `bullForce`
 - `cavalierCall`
 - `chargedImpetus`
+- `demonicPact`
 - `eagleEye`
 - `enrage`
 - `evade`
@@ -855,7 +853,9 @@ _Generated: 2025-10-13T15:49:02.409Z_
 - `rapidOrder`
 - `rowBarrier`
 - `rowCover`
+- `sanguineArts`
 - `sneakingEdge`
+- `vengeance`
 - `vengefulGuard`
 - `warHorn`
 - `wideCounter`

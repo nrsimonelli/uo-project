@@ -1072,6 +1072,102 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'vengeance',
+    type: 'passive',
+    name: 'Vengeance',
+    description:
+      'Activates after being attacked. Grants the user +20% Attack and +20% Defense. (Effect stacks.) Grants the user +1 PP if the user is at 50% HP or less.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterBeingHit',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'Attack',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+        stacks: true,
+      },
+      {
+        kind: 'Buff',
+        stat: 'Defense',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+        stacks: true,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'LessOrEqual',
+            value: 50,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'sanguineArts',
+    type: 'passive',
+    name: 'Sanguine Arts',
+    description:
+      'Activates before attacking with an active skill. User will recover HP equal to +50% of damage dealt on next attack.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'LifeSteal',
+        percentage: 50,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'demonicPact',
+    type: 'passive',
+    name: 'Demonic Pact',
+    description:
+      'Activates after using an active skill. Sacrifice 25% HP to grant user +1 AP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Sacrifice',
+        resource: 'HP',
+        amount: 25,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+      },
+    ],
+  },
 ] as const
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']
