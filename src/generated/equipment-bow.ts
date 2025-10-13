@@ -385,7 +385,7 @@ export const EquipmentBow = [
     stats: {
       PATK: 18,
     },
-    skillId: 'magickShatter',
+    skillId: 'magicShatter',
     nullifications: [],
     classRestrictions: [],
   },

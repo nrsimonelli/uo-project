@@ -439,6 +439,7 @@ export const PassiveSkills = [
         value: 20,
         scaling: 'percent',
         applyTo: 'User',
+        stacks: true,
       },
     ],
   },
@@ -517,6 +518,7 @@ export const PassiveSkills = [
         value: 20,
         scaling: 'percent',
         applyTo: 'User',
+        stacks: true,
       },
       {
         kind: 'Buff',
@@ -524,6 +526,7 @@ export const PassiveSkills = [
         value: 20,
         scaling: 'percent',
         applyTo: 'User',
+        stacks: true,
       },
     ],
   },
@@ -655,17 +658,19 @@ export const PassiveSkills = [
     effects: [
       {
         kind: 'Buff',
-        stat: 'PATK',
+        stat: 'Attack',
         value: 20,
         scaling: 'percent',
         applyTo: 'User',
+        stacks: true,
       },
       {
         kind: 'Buff',
         stat: 'ACC',
         value: 20,
-        scaling: 'percent',
+        scaling: 'flat',
         applyTo: 'User',
+        stacks: true,
       },
     ],
   },
@@ -925,6 +930,145 @@ export const PassiveSkills = [
         kind: 'Affliction',
         affliction: 'PassiveSeal',
         applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'cavalierCall',
+    type: 'passive',
+    name: 'Cavalier Call',
+    description:
+      "Activates before attacking with an active skill. Grants cavalry allies in the user's row +20% Attack. (Effect stacks.)",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'Attack',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'Target',
+        stacks: true,
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Ally',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'knightsPursuit',
+    type: 'passive',
+    name: "Knight's Pursuit",
+    description:
+      'Activates after a cavalry-based ally attacks (Active). Follow-up attack a column of enemies with a piercing strike.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterCavalryAllyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'magicBarrier',
+    type: 'passive',
+    name: 'Magic Barrier',
+    description:
+      'Activates before an ally is hit by a magic attack. Negate the next magic damage dealt to an ally. Also negates afflictions.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyHitMagic',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'NegateMagicDamage',
+        applyTo: 'Target',
+        duration: 'NextAttack',
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'AfflictionImmunity',
+        applyTo: 'Target',
+        duration: 'NextAttack',
+      },
+    ],
+  },
+  {
+    id: 'holyGuard',
+    type: 'passive',
+    name: 'Holy Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. Prevents debuffs.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+        applyTo: 'User',
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'DebuffImmunity',
+        applyTo: 'User',
+        duration: 'NextAttack',
+      },
+    ],
+  },
+  {
+    id: 'rowBarrier',
+    type: 'passive',
+    name: 'Row Barrier',
+    description:
+      'Activates before an ally is hit by a magic attack. Negate the next magic damage dealt to a row of allies. Also negates afflictions.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyHitMagic',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'NegateMagicDamage',
+        applyTo: 'Target',
+        duration: 'NextAttack',
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'AfflictionImmunity',
+        applyTo: 'Target',
+        duration: 'NextAttack',
       },
     ],
   },

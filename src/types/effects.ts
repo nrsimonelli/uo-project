@@ -62,6 +62,7 @@ interface BaseEffect {
 }
 export interface BuffEffect extends BaseEffect {
   kind: 'Buff'
+  stacks?: boolean
 }
 
 export interface DebuffEffect extends BaseEffect {

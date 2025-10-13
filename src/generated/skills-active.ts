@@ -1831,6 +1831,212 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'assaultingLance',
+    type: 'active',
+    name: 'Assaulting Lance',
+    description:
+      'Attack a single enemy. Grants the user +1 AP if the target is defeated.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'wildRush',
+    type: 'active',
+    name: 'Wild Rush',
+    description:
+      'Attack a column of enemies with a piercing strike. Inflicts Stun.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 80,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'pileThrust',
+    type: 'active',
+    name: 'Pile Thrust',
+    description:
+      'Attack a single target with multiple hits. Grants the user +1 AP if the target is defeated.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'hache',
+    type: 'active',
+    name: 'Hache',
+    description:
+      'Attack a single enemy. Grants the user +1 PP if this attack hits.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'HitCheck',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'rowHeal',
+    type: 'active',
+    name: 'Row Heal',
+    description: 'Restore moderate HP to a row of allies.',
+    ap: 1,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'saintsBlade',
+    type: 'active',
+    name: "Saint's Blade",
+    description:
+      'Attack a single enemy. +25 potency if the user is at 100% HP. Grants the user +1 PP if this attack hits.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 2,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 100,
+            percent: true,
+          },
+        ],
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'HitCheck',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

@@ -1,19 +1,19 @@
 # Skill Validation Report
 
-_Generated: 2025-10-13T14:42:04.304Z_
+_Generated: 2025-10-13T15:49:02.409Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 52
-- **Passive Skills Defined**: 35
-- **Total Skills Defined**: 87
+- **Active Skills Defined**: 58
+- **Passive Skills Defined**: 40
+- **Total Skills Defined**: 98
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **314 missing skills:**
+❌ **303 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -30,7 +30,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `arrowRain`
 - `artenieStrike`
 - `assassinsNail`
-- `assaultingLance`
 - `astralBlade`
 - `auroraVeil`
 - `banishingPursuit`
@@ -48,7 +47,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `bunkerStance`
 - `burningEdge`
 - `carnage`
-- `cavalierCall`
 - `cavalryGuard`
 - `cavalrySlayer`
 - `celestialLight`
@@ -132,7 +130,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `guardOrder`
 - `guardingFighter`
 - `guardingImpetus`
-- `hache`
 - `harpoonBolt`
 - `hastenedAction`
 - `hastenedCast`
@@ -152,7 +149,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `holyBarrier`
 - `holyBreath`
 - `holyCradle`
-- `holyGuard`
 - `holyLight`
 - `holySmite`
 - `honedHealing`
@@ -170,21 +166,19 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `invincible`
 - `ironVeil`
 - `killingPursuit`
-- `knightsPursuit`
 - `lifeBlow`
 - `lifesaver`
 - `lifeshare`
 - `lightningBlade`
 - `maelstrom`
-- `magicBarrier`
 - `magicBurst`
 - `magicConferral`
 - `magicCounter`
 - `magicMissile`
 - `magicPursuit`
+- `magicShatter`
 - `magicShell`
 - `magicWall`
-- `magickShatter`
 - `maidensHammer`
 - `mightyShield`
 - `mirageStab`
@@ -222,7 +216,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `phantomVeil`
 - `photonArrow`
 - `piercingLance`
-- `pileThrust`
 - `poisonArrow`
 - `poisonBurst`
 - `poisonCure`
@@ -261,15 +254,12 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `restore`
 - `resurrection`
 - `roundSwing`
-- `rowBarrier`
-- `rowHeal`
 - `rowResistance`
 - `royalGuard`
 - `sacredCure`
 - `sacredHeal`
 - `sacrifice`
 - `saintsBarrier`
-- `saintsBlade`
 - `saintsShot`
 - `sandstorm`
 - `sanguineArts`
@@ -325,7 +315,6 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `widePursuit`
 - `wildFang`
 - `wildKick`
-- `wildRush`
 - `windArrow`
 - `wingRest`
 - `wolfPack`
@@ -681,9 +670,9 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `magicBarrier`
 - `magicBurst`
 - `magicCounter`
+- `magicShatter`
 - `magicShell`
 - `magicWall`
-- `magickShatter`
 - `mightyShield`
 - `nimbleFighter`
 - `nocturnalEvade`
@@ -767,10 +756,11 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (52)
+### Active Skills Defined (58)
 
 - `activeSteal`
 - `assaultingBlow`
+- `assaultingLance`
 - `bastardsCross`
 - `brandish`
 - `defender`
@@ -780,6 +770,7 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `flameJavelin`
 - `grandSmash`
 - `greatshield`
+- `hache`
 - `heavyBolt`
 - `heavySlash`
 - `heavySmash`
@@ -800,12 +791,15 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `passiveShatter`
 - `passiveSteal`
 - `phantomAttack`
+- `pileThrust`
 - `powerBolt`
 - `rampage`
 - `rollingAxe`
+- `rowHeal`
 - `rowProtection`
 - `rowShot`
 - `rowSmash`
+- `saintsBlade`
 - `sanguineAttack`
 - `shadowThrust`
 - `shadowbite`
@@ -821,8 +815,9 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `wardingSlash`
 - `wideBreaker`
 - `wideSmash`
+- `wildRush`
 
-### Passive Skills Defined (35)
+### Passive Skills Defined (40)
 
 - `activeGift`
 - `aerialSnipe`
@@ -832,6 +827,7 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `bindingGuard`
 - `bulkUp`
 - `bullForce`
+- `cavalierCall`
 - `chargedImpetus`
 - `eagleEye`
 - `enrage`
@@ -843,8 +839,11 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `hastenedStrike`
 - `heavyCounter`
 - `heavyCover`
+- `holyGuard`
 - `keenCall`
+- `knightsPursuit`
 - `luminousCover`
+- `magicBarrier`
 - `medicalAid`
 - `nobleGuard`
 - `parry`
@@ -854,6 +853,7 @@ _Generated: 2025-10-13T14:42:04.304Z_
 - `quickGuard`
 - `quickReload`
 - `rapidOrder`
+- `rowBarrier`
 - `rowCover`
 - `sneakingEdge`
 - `vengefulGuard`
