@@ -14,12 +14,12 @@ describe('Condition Evaluation', () => {
         stat: 'HP',
         comparator: 'GreaterThan',
         value: 50,
-        percent: true
+        percent: true,
       }
-      
+
       const context = createMockContext()
       const result = evaluateCondition(condition, context)
-      
+
       // Target has 100/100 HP = 100% > 50%
       expect(result).toBe(true)
     })
@@ -31,12 +31,12 @@ describe('Condition Evaluation', () => {
         kind: 'CombatantType',
         target: 'Enemy',
         combatantType: 'Infantry',
-        comparator: 'EqualTo'
+        comparator: 'EqualTo',
       }
-      
+
       const context = createMockContext()
       const result = evaluateCondition(condition, context)
-      
+
       expect(result).toBe(true)
     })
   })

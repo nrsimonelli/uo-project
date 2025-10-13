@@ -7,7 +7,7 @@ export type Target = 'Self' | 'Ally' | 'Enemy'
 export const TargetPatterns = [
   'Single',
   'Column',
-  'Row',
+  'Row', // TODO: For Row Protection - need "SameRow" pattern to target only allies in user's row
   'All',
   'Self',
 ] as const

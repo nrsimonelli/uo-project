@@ -14,7 +14,7 @@ export function testSkillDamage(
   rng: RandomNumberGeneratorType
 ) {
   const damageEffects = getDamageEffects(skill.effects)
-  
+
   if (damageEffects.length === 0) {
     return { damage: 0, hit: false }
   }

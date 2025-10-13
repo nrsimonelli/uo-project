@@ -6,9 +6,7 @@ import { CostSymbols } from '@/components/cost-symbols'
 import { EquipmentSearchModal } from '@/components/equipment-builder/equipment-search-modal'
 import { RadarGraph } from '@/components/radar-graph'
 import { Card } from '@/components/ui/card'
-import {
-  calculateFinalAPPP,
-} from '@/core/calculations'
+import { calculateFinalAPPP } from '@/core/calculations'
 import { getEquipmentSlots } from '@/core/helpers'
 import { SPRITES } from '@/data/sprites'
 import { useChartData } from '@/hooks/use-chart-data'

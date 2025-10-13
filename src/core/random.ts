@@ -58,10 +58,8 @@ export const shuffleInPlace = <T>(
 
 export const select = <T>(r: RandomNumberGeneratorType, a: Array<T>) =>
   a[uint32(r) % a.length]!
-export const selectIndex = <T>(
-  r: RandomNumberGeneratorType,
-  a: Array<T>
-) => uint32(r) % a.length
+export const selectIndex = <T>(r: RandomNumberGeneratorType, a: Array<T>) =>
+  uint32(r) % a.length
 
 export const str = (() => {
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '
@@ -75,13 +73,9 @@ export const str = (() => {
   }
 })()
 
-export const range = (
-  r: RandomNumberGeneratorType,
-  min: number,
-  max: number
-) => min + r.random() * (max - min)
-export const uint32 = (r: RandomNumberGeneratorType) =>
-  r.random() * 0x100000000 // 2^32
+export const range = (r: RandomNumberGeneratorType, min: number, max: number) =>
+  min + r.random() * (max - min)
+export const uint32 = (r: RandomNumberGeneratorType) => r.random() * 0x100000000 // 2^32
 export const fract53 = (r: RandomNumberGeneratorType) =>
   r.random() + ((r.random() * 0x200000) | 0) * 1.1102230246251565e-16 // 2^-53
 

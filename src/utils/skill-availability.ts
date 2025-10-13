@@ -59,7 +59,9 @@ export const getClassSkills = (unit: Unit) => {
 
           if (classSkill.skillType === 'active') {
             skill =
-              ActiveSkillsMap[classSkill.skillId as keyof typeof ActiveSkillsMap]
+              ActiveSkillsMap[
+                classSkill.skillId as keyof typeof ActiveSkillsMap
+              ]
           } else if (classSkill.skillType === 'passive') {
             skill =
               PassiveSkillsMap[
@@ -98,19 +100,21 @@ export const getEquipmentSkills = (unit: Unit) => {
       const equipment = getEquipmentById(equippedItem.itemId!)
       return equipment?.skillId ? equipment : null
     })
-    .filter((equipment): equipment is NonNullable<typeof equipment> => equipment !== null)
+    .filter(
+      (equipment): equipment is NonNullable<typeof equipment> =>
+        equipment !== null
+    )
 
   equipmentWithSkills.forEach(equipment => {
     let skill: ActiveSkill | PassiveSkill | undefined
-    
+
     // Safe to use ! because we filtered for skillId existence
     const skillId = equipment.skillId!
 
     if (skillId in ActiveSkillsMap) {
       skill = ActiveSkillsMap[skillId as keyof typeof ActiveSkillsMap]
     } else if (skillId in PassiveSkillsMap) {
-      skill =
-        PassiveSkillsMap[skillId as keyof typeof PassiveSkillsMap]
+      skill = PassiveSkillsMap[skillId as keyof typeof PassiveSkillsMap]
     }
 
     if (skill) {

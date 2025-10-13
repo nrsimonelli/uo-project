@@ -11,9 +11,9 @@ describe('Active Skills', () => {
     it('should deal damage', () => {
       const skill = ActiveSkillsMap['heavySlash']
       const context = createMockContext()
-      
+
       const result = testSkillDamage(skill, context, mockRngPresets.alwaysHit())
-      
+
       expect(result.hit).toBe(true)
       expect(result.damage).toBeGreaterThan(0)
     })
@@ -23,9 +23,9 @@ describe('Active Skills', () => {
     it('should deal damage', () => {
       const skill = ActiveSkillsMap['ironCrusher']
       const context = createMockContext()
-      
+
       const result = testSkillDamage(skill, context, mockRngPresets.alwaysHit())
-      
+
       expect(result.hit).toBe(true)
       expect(result.damage).toBeGreaterThan(0)
     })

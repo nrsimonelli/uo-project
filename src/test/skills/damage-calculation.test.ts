@@ -12,7 +12,7 @@ describe('Damage Calculation', () => {
       kind: 'Damage',
       potency: { physical: 100 },
       hitRate: 100,
-      hitCount: 1
+      hitCount: 1,
     }
 
     const context = createMockContext()
@@ -34,7 +34,7 @@ describe('Damage Calculation', () => {
       kind: 'Damage',
       potency: { physical: 100 },
       hitRate: 50,
-      hitCount: 1
+      hitCount: 1,
     }
 
     const context = createMockContext()

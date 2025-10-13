@@ -8,6 +8,7 @@ export const FLAGS = [
   'Unguardable',
   'Uncoverable',
   'TrueCritical',
+  'SurviveLethal', // Unit survives one lethal blow
 
   // Skill properties
   'Charge', // Executes on following round
@@ -78,6 +79,8 @@ export interface ResourceGainEffect {
   kind: 'ResourceGain'
   resource: 'AP' | 'PP'
   amount: number
+  // TODO: For Berserk - need ResourceConsume effect to consume ALL PP before gaining AP
+  // Currently only handles positive resource gains
   conditions?: Condition[] | readonly Condition[]
 }
 
