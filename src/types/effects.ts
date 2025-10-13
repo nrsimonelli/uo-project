@@ -9,6 +9,7 @@ export const FLAGS = [
   'Uncoverable',
   'TrueCritical',
   'SurviveLethal', // Unit survives one lethal blow
+  'InflictGuardSeal', // Next attack inflicts Guard Seal affliction
 
   // Skill properties
   'Charge', // Executes on following round

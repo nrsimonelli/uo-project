@@ -1113,5 +1113,445 @@
         ]
       }
     ]
+  },
+  {
+    "id": "sting",
+    "type": "active",
+    "name": "Sting",
+    "description": "Attack a single enemy. +50 potency if the user is below 50% HP.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "LessThan",
+            "value": 50,
+            "percent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rowProtection",
+    "type": "active",
+    "name": "Row Protection",
+    "description": "Grants allies in the user's row +50% Phys. Defense.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 50,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "greatshield",
+    "type": "active",
+    "name": "Greatshield",
+    "description": "Grants the user +50% Phys. Defense and +2 PP.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 50,
+        "scaling": "percent",
+        "applyTo": "User"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "id": "wideSmash",
+    "type": "active",
+    "name": "Wide Smash",
+    "description": "Attack a row of enemies. +50 potency if the user is at 100% HP.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 150 },
+        "hitRate": 80,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "EqualTo",
+            "value": 100,
+            "percent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mountingCharge",
+    "type": "active",
+    "name": "Mounting Charge",
+    "description": "Restore 30% HP to the user. Grants the user +30% Phys. Attack.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "HealPercent",
+        "value": 30,
+        "applyTo": "User"
+      },
+      {
+        "kind": "Buff",
+        "stat": "PATK",
+        "value": 30,
+        "scaling": "percent",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "grandSmash",
+    "type": "active",
+    "name": "Grand Smash",
+    "description": "Attack all enemies. +50 potency if the user is at 100% HP.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Ranged",
+    "skillFlags": ["GroundBased"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 80,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "EqualTo",
+            "value": 100,
+            "percent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavySmash",
+    "type": "active",
+    "name": "Heavy Smash",
+    "description": "Attack a single enemy. Ignores 100% Defense v. armored targets.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "skillFlags": ["Unguardable"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 1.0,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "assaultingBlow",
+    "type": "active",
+    "name": "Assaulting Blow",
+    "description": "Attack a single enemy. Grants the user +1 AP if the target is defeated.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "skillFlags": ["Unguardable"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rowSmash",
+    "type": "active",
+    "name": "Row Smash",
+    "description": "Attack a row of enemies. Ignores 100% Defense v. armored targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "skillFlags": ["Unguardable", "Uncoverable"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 1.0,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "singleShot",
+    "type": "active",
+    "name": "Single Shot",
+    "description": "Attack a single enemy.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "dualShot",
+    "type": "active",
+    "name": "Dual Shot",
+    "description": "Attack two enemies.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "rowShot",
+    "type": "active",
+    "name": "Row Shot",
+    "description": "Attack a row of enemies.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "powerBolt",
+    "type": "active",
+    "name": "Power Bolt",
+    "description": "Attack a single enemy with a powerful ranged strike.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 120 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "toxicBolt",
+    "type": "active",
+    "name": "Toxic Bolt",
+    "description": "Attack a single enemy with a poisoned bolt. Inflicts poison.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "heavyBolt",
+    "type": "active",
+    "name": "Heavy Bolt",
+    "description": "Attack a single enemy with a heavy crossbow bolt. +100 potency if user is in the front row.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 100 },
+        "conditions": [
+          {
+            "kind": "Position",
+            "target": "Self",
+            "row": 1,
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tripleShot",
+    "type": "active",
+    "name": "Triple Shot",
+    "description": "Attack three enemies with reduced power.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Three"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 60 },
+        "hitRate": 90,
+        "hitCount": 1
+      }
+    ]
   }
 ]

@@ -93,7 +93,7 @@ const createMockSkill = (
   id: string,
   name: string,
   group: 'Ally' | 'Enemy',
-  pattern: 'Self' | 'Single' | 'All' | 'Row' | 'Column',
+  pattern: 'Self' | 'Single' | 'All' | 'Row' | 'Column' | 'Two' | 'Three',
   innateAttackType?: 'Ranged' | 'Magical',
   skillCategories: SkillCategory[] = ['Damage']
 ): ActiveSkill => ({
@@ -315,7 +315,13 @@ describe('Default Targeting System', () => {
         deadEnemy,
       ])
 
-      const aoeSkill = createMockSkill('fireball', 'Fireball', 'Enemy', 'All')
+      const aoeSkill = createMockSkill(
+        'thunderball',
+        'Thunderball',
+        'Enemy',
+        'All',
+        'Magical'
+      )
       const targets = getDefaultTargets(aoeSkill, attacker, battlefield)
 
       expect(targets).toHaveLength(2)
@@ -411,7 +417,13 @@ describe('Default Targeting System', () => {
         col0Enemy,
       ])
 
-      const columnSkill = createMockSkill('pierce', 'Pierce', 'Enemy', 'Column')
+      const columnSkill = createMockSkill(
+        'pierce',
+        'Pierce',
+        'Enemy',
+        'Column',
+        'Ranged'
+      )
       const targets = getDefaultTargets(columnSkill, attacker, battlefield)
 
       expect(targets).toHaveLength(2)
@@ -746,6 +758,312 @@ describe('Default Targeting System', () => {
           )
           .map(d => d.unit)
         expect(expectedTargets).toContain(targets[0])
+      })
+    })
+  })
+
+  describe('Multi-Target Patterns (Two/Three)', () => {
+    describe('Two Pattern', () => {
+      it('should target exactly two closest enemies with no overlap', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const closeEnemy = createMockBattleContext(
+          'close',
+          'Close Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        ) // Distance: 1
+        const mediumEnemy = createMockBattleContext(
+          'medium',
+          'Medium Enemy',
+          'away-team',
+          { row: 0, col: 2 }
+        ) // Distance: 2
+        const farEnemy = createMockBattleContext(
+          'far',
+          'Far Enemy',
+          'away-team',
+          { row: 0, col: 0 }
+        ) // Distance: 3
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          closeEnemy,
+          mediumEnemy,
+          farEnemy,
+        ])
+
+        const dualShotSkill = createMockSkill(
+          'dual-shot',
+          'Dual Shot',
+          'Enemy',
+          'Two',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(dualShotSkill, attacker, battlefield)
+
+        expect(targets).toHaveLength(2)
+        expect(targets).toContain(closeEnemy) // Should include closest
+        expect(targets).toContain(mediumEnemy) // Should include second closest
+        expect(targets).not.toContain(farEnemy) // Should not include farthest
+
+        // Verify no duplicates
+        const uniqueTargets = new Set(targets)
+        expect(uniqueTargets.size).toBe(2)
+      })
+
+      it('should target only one enemy when only one is available', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+        const singleEnemy = createMockBattleContext(
+          'single',
+          'Single Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+
+        const battlefield = createMockBattlefieldState([attacker, singleEnemy])
+
+        const dualShotSkill = createMockSkill(
+          'dual-shot',
+          'Dual Shot',
+          'Enemy',
+          'Two',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(dualShotSkill, attacker, battlefield)
+
+        expect(targets).toHaveLength(1)
+        expect(targets[0]).toBe(singleEnemy)
+      })
+
+      it('should return empty array when no enemies are available', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+        const ally = createMockBattleContext('ally', 'Ally', 'home-team', {
+          row: 0,
+          col: 1,
+        })
+
+        const battlefield = createMockBattlefieldState([attacker, ally])
+
+        const dualShotSkill = createMockSkill(
+          'dual-shot',
+          'Dual Shot',
+          'Enemy',
+          'Two',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(dualShotSkill, attacker, battlefield)
+
+        expect(targets).toHaveLength(0)
+      })
+
+      it('should respect front row blocking for melee attacks', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const frontEnemy1 = createMockBattleContext(
+          'front1',
+          'Front Enemy 1',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+        const frontEnemy2 = createMockBattleContext(
+          'front2',
+          'Front Enemy 2',
+          'away-team',
+          { row: 1, col: 0 }
+        )
+        const backEnemy = createMockBattleContext(
+          'back',
+          'Back Enemy',
+          'away-team',
+          { row: 0, col: 1 }
+        ) // This should be blocked by front row
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          frontEnemy1,
+          frontEnemy2,
+          backEnemy,
+        ])
+
+        // Melee attack should only target front row
+        const meleeTwoSkill = createMockSkill(
+          'melee-double',
+          'Melee Double Attack',
+          'Enemy',
+          'Two'
+        )
+        const targets = getDefaultTargets(meleeTwoSkill, attacker, battlefield)
+
+        expect(targets).toHaveLength(2)
+        expect(targets).toContain(frontEnemy1)
+        expect(targets).toContain(frontEnemy2)
+        expect(targets).not.toContain(backEnemy) // Should be blocked by front row
+      })
+    })
+
+    describe('Three Pattern', () => {
+      it('should target exactly three closest enemies with no overlap', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const closeEnemy = createMockBattleContext(
+          'close',
+          'Close Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        ) // Distance: 1
+        const mediumEnemy = createMockBattleContext(
+          'medium',
+          'Medium Enemy',
+          'away-team',
+          { row: 0, col: 2 }
+        ) // Distance: 2
+        const farEnemy = createMockBattleContext(
+          'far',
+          'Far Enemy',
+          'away-team',
+          { row: 0, col: 0 }
+        ) // Distance: 3
+        const veryFarEnemy = createMockBattleContext(
+          'very-far',
+          'Very Far Enemy',
+          'away-team',
+          { row: 0, col: 3 }
+        ) // Distance: 4
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          closeEnemy,
+          mediumEnemy,
+          farEnemy,
+          veryFarEnemy,
+        ])
+
+        const tripleShotSkill = createMockSkill(
+          'triple-shot',
+          'Triple Shot',
+          'Enemy',
+          'Three',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(
+          tripleShotSkill,
+          attacker,
+          battlefield
+        )
+
+        expect(targets).toHaveLength(3)
+        expect(targets).toContain(closeEnemy) // Should include closest
+        expect(targets).toContain(mediumEnemy) // Should include second closest
+        expect(targets).toContain(farEnemy) // Should include third closest
+        expect(targets).not.toContain(veryFarEnemy) // Should not include farthest
+
+        // Verify no duplicates
+        const uniqueTargets = new Set(targets)
+        expect(uniqueTargets.size).toBe(3)
+      })
+
+      it('should target fewer than three when insufficient enemies available', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+        const enemy1 = createMockBattleContext(
+          'enemy1',
+          'Enemy 1',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+        const enemy2 = createMockBattleContext(
+          'enemy2',
+          'Enemy 2',
+          'away-team',
+          { row: 0, col: 2 }
+        )
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          enemy1,
+          enemy2,
+        ])
+
+        const tripleShotSkill = createMockSkill(
+          'triple-shot',
+          'Triple Shot',
+          'Enemy',
+          'Three',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(
+          tripleShotSkill,
+          attacker,
+          battlefield
+        )
+
+        expect(targets).toHaveLength(2) // Should only get 2 since only 2 available
+        expect(targets).toContain(enemy1)
+        expect(targets).toContain(enemy2)
+
+        // Verify no duplicates
+        const uniqueTargets = new Set(targets)
+        expect(uniqueTargets.size).toBe(2)
+      })
+
+      it('should return empty array when no enemies are available', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+        const ally = createMockBattleContext('ally', 'Ally', 'home-team', {
+          row: 0,
+          col: 1,
+        })
+
+        const battlefield = createMockBattlefieldState([attacker, ally])
+
+        const tripleShotSkill = createMockSkill(
+          'triple-shot',
+          'Triple Shot',
+          'Enemy',
+          'Three',
+          'Ranged'
+        )
+        const targets = getDefaultTargets(
+          tripleShotSkill,
+          attacker,
+          battlefield
+        )
+
+        expect(targets).toHaveLength(0)
       })
     })
   })

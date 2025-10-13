@@ -36,6 +36,12 @@ export const evaluateCondition = (
   if (condition.kind === 'AnyAffliction') {
     return evaluateAnyAfflictionCondition(condition, context)
   }
+  if (condition.kind === 'AnyBuff') {
+    return evaluateAnyBuffCondition(condition, context)
+  }
+  if (condition.kind === 'AnyDebuff') {
+    return evaluateAnyDebuffCondition(condition, context)
+  }
   if (condition.kind === 'Flag') {
     return evaluateFlagCondition(condition, context)
   }
@@ -44,6 +50,9 @@ export const evaluateCondition = (
   }
   if (condition.kind === 'TargetDefeated') {
     return evaluateTargetDefeatedCondition(condition, context)
+  }
+  if (condition.kind === 'Position') {
+    return evaluatePositionCondition(condition, context)
   }
   // This case should be unreachable since we've handled all condition kinds
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -172,6 +181,32 @@ const evaluateAnyAfflictionCondition = (
 }
 
 /**
+ * Evaluate any buff conditions (e.g., "target has any buff")
+ */
+const evaluateAnyBuffCondition = (
+  condition: Extract<Condition, { kind: 'AnyBuff' }>,
+  context: ConditionEvaluationContext
+) => {
+  const targetContext = getTargetContext(condition.target, context)
+  const hasAnyBuff = targetContext.buffs.length > 0
+
+  return applyEqualityComparator(hasAnyBuff, condition.comparator)
+}
+
+/**
+ * Evaluate any debuff conditions (e.g., "target has any debuff")
+ */
+const evaluateAnyDebuffCondition = (
+  condition: Extract<Condition, { kind: 'AnyDebuff' }>,
+  context: ConditionEvaluationContext
+) => {
+  const targetContext = getTargetContext(condition.target, context)
+  const hasAnyDebuff = targetContext.debuffs.length > 0
+
+  return applyEqualityComparator(hasAnyDebuff, condition.comparator)
+}
+
+/**
  * Evaluate flag conditions (e.g., "has TrueStrike flag")
  */
 const evaluateFlagCondition = (
@@ -211,6 +246,23 @@ const evaluateTargetDefeatedCondition = (
     targetDefeated,
     condition.comparator,
     condition.value
+  )
+}
+
+/**
+ * Evaluate position conditions (e.g., "user is in front row")
+ */
+const evaluatePositionCondition = (
+  condition: Extract<Condition, { kind: 'Position' }>,
+  context: ConditionEvaluationContext
+) => {
+  const targetContext = getTargetContext(condition.target, context)
+  const actualRow = targetContext.position.row
+  const expectedRow = condition.row
+
+  return applyEqualityComparator(
+    actualRow === expectedRow,
+    condition.comparator
   )
 }
 

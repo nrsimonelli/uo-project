@@ -339,7 +339,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Infantry',
     baseClass: ALL_CLASSES.SOLDIER,
     skills: [
-      { skillId: 'hornedSpear', level: 20, skillType: 'active' },
+      { skillId: 'honedSpear', level: 20, skillType: 'active' },
       { skillId: 'activeGift', level: 25, skillType: 'passive' },
     ],
   },

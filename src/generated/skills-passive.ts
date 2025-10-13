@@ -179,11 +179,11 @@ export const PassiveSkills = [
     type: 'passive',
     name: 'Provoke',
     description:
-      'Activates at the start of a battle. Force a row of enemies to focus attacks on the user.',
+      'Activates at the start of a battle. Force a row of enemies to focus attacks on the user. Grants the user +50% Guard Rate.',
     pp: 1,
     skillCategories: ['Sabotage'],
     activationWindow: 'startOfBattle',
-    attackType: 'Ranged',
+    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
@@ -195,6 +195,13 @@ export const PassiveSkills = [
         value: 1,
         scaling: 'flat',
         applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'GRD',
+        value: 50,
+        scaling: 'percent',
+        applyTo: 'User',
       },
     ],
   },
@@ -467,6 +474,401 @@ export const PassiveSkills = [
         value: 20,
         scaling: 'flat',
         applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'heavyCover',
+    type: 'passive',
+    name: 'Heavy Cover',
+    description:
+      'Activates before an ally is attacked. Cover an ally with a heavy guard.',
+    pp: 1,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'heavy',
+      },
+    ],
+  },
+  {
+    id: 'guardian',
+    type: 'passive',
+    name: 'Guardian',
+    description:
+      'Activates after being hit by a physical attack. Grants the user +20% Phys. Defense and +20% Guard Rate. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'afterBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'PDEF',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'GRD',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'rowCover',
+    type: 'passive',
+    name: 'Row Cover',
+    description:
+      'Activates before an ally is attacked. Cover a row of allies with a medium guard.',
+    pp: 2,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'medium',
+      },
+    ],
+  },
+  {
+    id: 'bulkUp',
+    type: 'passive',
+    name: 'Bulk Up',
+    description: 'Activates after being hit by an attack. Recover 40% HP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterBeingHit',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'HealPercent',
+        value: 40,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'wideCounter',
+    type: 'passive',
+    name: 'Wide Counter',
+    description:
+      'Activates after an enemy attacks with an active skill. Counterattack a row of enemies.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 75,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'berserk',
+    type: 'passive',
+    name: 'Berserk',
+    description:
+      'Activates before attacking with an active skill. Consume all PP to grant the user +1 AP. The user will survive one lethal blow.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'SurviveLethal',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'bindingGuard',
+    type: 'passive',
+    name: 'Binding Guard',
+    description:
+      "Activates before attacking with an active skill. User's next attack will inflict Guard Seal.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'InflictGuardSeal',
+        applyTo: 'User',
+        duration: 'NextAction',
+      },
+    ],
+  },
+  {
+    id: 'enrage',
+    type: 'passive',
+    name: 'Enrage',
+    description:
+      'Activates after an ally is hit by an attack. Grants the user +20% Attack and +20% Accuracy. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyHit',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'ACC',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'heavyCounter',
+    type: 'passive',
+    name: 'Heavy Counter',
+    description:
+      'Activates after an enemy attacks with an active skill. Counterattack a single enemy. Ignores 100% Defense v. armored targets.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 1,
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Armored',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'eagleEye',
+    type: 'passive',
+    name: 'Eagle Eye',
+    description:
+      "Activates before attacking with an active skill. Makes the user's next attack a truestrike.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        applyTo: 'User',
+        duration: 'NextAction',
+      },
+    ],
+  },
+  {
+    id: 'pursuit',
+    type: 'passive',
+    name: 'Pursuit',
+    description:
+      'Activates after an ally attacks (Active). Follow-up attack a single enemy.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterAllyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 90,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'aerialSnipe',
+    type: 'passive',
+    name: 'Aerial Snipe',
+    description:
+      'Activates after an ally is hit by an attack. Counterattack a single enemy. +100 potency v. flying targets.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterAllyHit',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'medicalAid',
+    type: 'passive',
+    name: 'Medical Aid',
+    description:
+      'At the end of battle, heal a row of allies for 15% HP. Double heal if ally is below 50% HP.',
+    pp: 2,
+    skillCategories: ['Heal'],
+    activationWindow: 'endOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'HealPercent',
+        value: 15,
+      },
+      {
+        kind: 'HealPercent',
+        value: 15,
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Ally',
+            stat: 'HP',
+            comparator: 'LessThan',
+            value: 50,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'quickReload',
+    type: 'passive',
+    name: 'Quick Reload',
+    description:
+      'Activates after using an active skill. Follow-up attack a single enemy.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'aidCover',
+    type: 'passive',
+    name: 'Aid Cover',
+    description:
+      'Activates before an ally is attacked. Cover an ally with medium guard and restore 25% HP to that ally.',
+    pp: 2,
+    skillCategories: ['Cover', 'Heal'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'medium',
+      },
+      {
+        kind: 'HealPercent',
+        value: 25,
+        applyTo: 'Target',
       },
     ],
   },

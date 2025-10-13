@@ -6,6 +6,8 @@ export type Target = 'Self' | 'Ally' | 'Enemy'
 
 export const TargetPatterns = [
   'Single',
+  'Two', // Target exactly 2 different enemies (e.g., Dual Shot)
+  'Three', // Target exactly 3 different enemies (e.g., Triple Shot)
   'Column',
   'Row', // TODO: For Row Protection - need "SameRow" pattern to target only allies in user's row
   'All',

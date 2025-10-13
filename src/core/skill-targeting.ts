@@ -14,6 +14,35 @@ const calculateDistance = (
 }
 
 /**
+ * Select multiple closest targets with no overlap
+ * Returns up to 'count' targets, prioritizing closest ones
+ */
+const selectClosestTargets = (
+  targets: BattleContext[],
+  actingUnit: BattleContext,
+  skill: ActiveSkill | PassiveSkill,
+  count: number
+): BattleContext[] => {
+  if (targets.length === 0) return []
+  if (count <= 0) return []
+
+  const selectedTargets: BattleContext[] = []
+  let remainingTargets = [...targets] // Copy to avoid mutating original array
+
+  // Select targets one by one, always picking the closest from remaining targets
+  for (let i = 0; i < count && remainingTargets.length > 0; i++) {
+    const nextTarget = findClosestTarget(actingUnit, remainingTargets, skill)
+    if (!nextTarget) break
+
+    selectedTargets.push(nextTarget)
+    // Remove the selected target from remaining targets to ensure no overlap
+    remainingTargets = remainingTargets.filter(target => target !== nextTarget)
+  }
+
+  return selectedTargets
+}
+
+/**
  * Find the closest target to the acting unit based on position
  * For melee attacks: Prioritizes front row over back row, then closest distance
  * For ranged/magical attacks: Simply finds closest by distance regardless of row
@@ -160,6 +189,22 @@ const targetingPatternHandlers = {
     return targets.filter(
       target => target.position.col === primaryTarget.position.col
     )
+  },
+
+  Two: (
+    targets: BattleContext[],
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill
+  ) => {
+    return selectClosestTargets(targets, actingUnit, skill, 2)
+  },
+
+  Three: (
+    targets: BattleContext[],
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill
+  ) => {
+    return selectClosestTargets(targets, actingUnit, skill, 3)
   },
 } as const
 

@@ -68,3 +68,9 @@ export type Condition =
       comparator: EqualityComparator
       value: boolean
     }
+  | {
+      kind: 'Position'
+      target: Target
+      row: number // 0 = back row, 1 = front row
+      comparator: EqualityComparator
+    }
