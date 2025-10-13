@@ -4,6 +4,52 @@ import type { ConditionEvaluationContext } from './condition-evaluator'
 import type { Effect, DamageEffect } from '@/types/effects'
 
 /**
+ * Check if an effect is classified as a debuff for immunity purposes
+ * Debuff-type effects include:
+ * - DebuffEffect (stat debuffs)
+ * - ResourceStealEffect (resource stealing)
+ * - AfflictionEffect (status afflictions)
+ */
+export const isDebuffTypeEffect = (effect: Effect): boolean => {
+  return (
+    effect.kind === 'Debuff' ||
+    effect.kind === 'ResourceSteal' ||
+    effect.kind === 'Affliction'
+  )
+}
+
+/**
+ * Check if a unit is immune to debuff-type effects
+ */
+export const hasDebuffImmunity = (
+  unitImmunities: (
+    | import('@/types/conditions').AfflictionType
+    | 'Affliction'
+    | 'Debuff'
+  )[]
+): boolean => {
+  return unitImmunities.includes('Debuff')
+}
+
+/**
+ * Check if a unit is immune to a specific affliction
+ */
+export const hasAfflictionImmunity = (
+  unitImmunities: (
+    | import('@/types/conditions').AfflictionType
+    | 'Affliction'
+    | 'Debuff'
+  )[],
+  affliction: import('@/types/conditions').AfflictionType
+): boolean => {
+  return (
+    unitImmunities.includes('Affliction') ||
+    unitImmunities.includes('Debuff') ||
+    unitImmunities.includes(affliction)
+  )
+}
+
+/**
  * Result of processing effects for a skill
  */
 export interface EffectProcessingResult {
@@ -27,6 +73,13 @@ export interface EffectProcessingResult {
   // Resource changes
   apGain: number
   ppGain: number
+
+  // Resource stealing (classified as debuffs for immunity purposes)
+  resourceStealToApply: Array<{
+    resource: 'AP' | 'PP'
+    amount: number | 'All'
+    target: 'User' | 'Target'
+  }>
 
   // Buffs/debuffs to apply
   buffsToApply: Array<{
@@ -62,6 +115,7 @@ export const processEffects = (
     ppGain: 0,
     buffsToApply: [],
     debuffsToApply: [],
+    resourceStealToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -130,6 +184,16 @@ export const processEffects = (
         scaling: effect.scaling,
         target: effect.applyTo || 'Target',
         duration: effect.duration,
+      })
+      return
+    }
+
+    if (effect.kind === 'ResourceSteal') {
+      // ResourceSteal is classified as a debuff-type effect for immunity purposes
+      result.resourceStealToApply.push({
+        resource: effect.resource,
+        amount: effect.amount,
+        target: effect.applyTo || 'User', // Resources go to user, taken from target
       })
       return
     }

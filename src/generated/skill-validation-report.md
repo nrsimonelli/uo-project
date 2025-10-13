@@ -1,24 +1,23 @@
 # Skill Validation Report
 
-_Generated: 2025-10-13T03:16:12.139Z_
+_Generated: 2025-10-13T14:42:04.304Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 48
-- **Passive Skills Defined**: 33
-- **Total Skills Defined**: 81
+- **Active Skills Defined**: 52
+- **Passive Skills Defined**: 35
+- **Total Skills Defined**: 87
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **320 missing skills:**
+❌ **314 missing skills:**
 
 - `accelerate`
 - `activeHeal`
 - `activeShatter`
-- `activeSteal`
 - `advanceCover`
 - `aerialAlignment`
 - `aerialGuard`
@@ -97,7 +96,6 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `elementalRoar`
 - `enduringCover`
 - `enduringGuard`
-- `evade`
 - `evasiveImpetus`
 - `evilCover`
 - `execution`
@@ -217,7 +215,6 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `passiveGift`
 - `passiveHold`
 - `passiveMiracle`
-- `passiveSteal`
 - `penetrate`
 - `phalanxShift`
 - `phantomCounter`
@@ -284,13 +281,11 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `selflessHeal`
 - `shadowArrow`
 - `shadowPursuit`
-- `shadowbite`
 - `shatteringPursuit`
 - `shieldSmite`
 - `shiningLight`
 - `skywardThrust`
 - `slice`
-- `sneakingEdge`
 - `snipingOrder`
 - `snowWhiteStrike`
 - `sonicBlast`
@@ -311,7 +306,6 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `thunderousConferral`
 - `thunderousStrike`
 - `toughness`
-- `toxicThrow`
 - `trinityRain`
 - `tripleCounter`
 - `tripleShatter`
@@ -773,8 +767,9 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (48)
+### Active Skills Defined (52)
 
+- `activeSteal`
 - `assaultingBlow`
 - `bastardsCross`
 - `brandish`
@@ -803,6 +798,7 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `meteorSlash`
 - `mountingCharge`
 - `passiveShatter`
+- `passiveSteal`
 - `phantomAttack`
 - `powerBolt`
 - `rampage`
@@ -812,19 +808,21 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `rowSmash`
 - `sanguineAttack`
 - `shadowThrust`
+- `shadowbite`
 - `shieldBash`
 - `singleShot`
 - `smash`
 - `sting`
 - `thunderousThrust`
 - `toxicBolt`
+- `toxicThrow`
 - `trueThrust`
 - `verticalEdge`
 - `wardingSlash`
 - `wideBreaker`
 - `wideSmash`
 
-### Passive Skills Defined (33)
+### Passive Skills Defined (35)
 
 - `activeGift`
 - `aerialSnipe`
@@ -837,6 +835,7 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `chargedImpetus`
 - `eagleEye`
 - `enrage`
+- `evade`
 - `firstAid`
 - `followingSlash`
 - `frenziedStrike`
@@ -856,6 +855,7 @@ _Generated: 2025-10-13T03:16:12.139Z_
 - `quickReload`
 - `rapidOrder`
 - `rowCover`
+- `sneakingEdge`
 - `vengefulGuard`
 - `warHorn`
 - `wideCounter`

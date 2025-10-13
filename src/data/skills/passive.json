@@ -811,5 +811,58 @@
         "applyTo": "Target"
       }
     ]
+  },
+  {
+    "id": "evade",
+    "type": "passive",
+    "name": "Evade",
+    "description": "Activates before being attacked. Evade a single hit.",
+    "pp": 1,
+    "skillCategories": ["Guard"],
+    "activationWindow": "beforeBeingHit",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Guard",
+        "guard": "full",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "sneakingEdge",
+    "type": "passive",
+    "name": "Sneaking Edge",
+    "description": "Activates at the start of a battle. Attack a single enemy with a first strike. Inflicts Guard Seal and Passive Seal.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "startOfBattle",
+    "innateAttackType": "Ranged",
+    "skillFlags": ["Uncoverable", "Unguardable"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal",
+        "applyTo": "Target"
+      }
+    ]
   }
 ]

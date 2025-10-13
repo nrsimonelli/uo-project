@@ -112,6 +112,14 @@ export interface LifeStealEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface ResourceStealEffect {
+  kind: 'ResourceSteal'
+  resource: 'AP' | 'PP'
+  amount: number | 'All' // Amount to steal, or 'All' for all remaining resources
+  applyTo?: 'User' // Resource goes to user, taken from target
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -127,3 +135,4 @@ export type Effect =
   | ParryEffect
   | AfflictionEffect
   | LifeStealEffect
+  | ResourceStealEffect

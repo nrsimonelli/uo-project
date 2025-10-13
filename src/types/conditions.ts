@@ -74,3 +74,8 @@ export type Condition =
       row: number // 0 = back row, 1 = front row
       comparator: EqualityComparator
     }
+  | {
+      kind: 'FirstHitGuarded'
+      comparator: EqualityComparator
+      value: boolean // true if first hit was guarded, false if not
+    }

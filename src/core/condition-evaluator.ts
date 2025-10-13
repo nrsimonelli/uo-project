@@ -14,6 +14,7 @@ export interface ConditionEvaluationContext {
   target: BattleContext
   hitResult?: boolean
   targetDefeated?: boolean
+  firstHitGuarded?: boolean
 }
 
 /**
@@ -53,6 +54,9 @@ export const evaluateCondition = (
   }
   if (condition.kind === 'Position') {
     return evaluatePositionCondition(condition, context)
+  }
+  if (condition.kind === 'FirstHitGuarded') {
+    return evaluateFirstHitGuardedCondition(condition, context)
   }
   // This case should be unreachable since we've handled all condition kinds
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -263,6 +267,21 @@ const evaluatePositionCondition = (
   return applyEqualityComparator(
     actualRow === expectedRow,
     condition.comparator
+  )
+}
+
+/**
+ * Evaluate first hit guarded conditions (e.g., "first hit was not guarded")
+ */
+const evaluateFirstHitGuardedCondition = (
+  condition: Extract<Condition, { kind: 'FirstHitGuarded' }>,
+  context: ConditionEvaluationContext
+) => {
+  const firstHitGuarded = context.firstHitGuarded ?? false
+  return applyEqualityComparator(
+    firstHitGuarded,
+    condition.comparator,
+    condition.value
   )
 }
 

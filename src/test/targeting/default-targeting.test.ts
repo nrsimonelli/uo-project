@@ -964,15 +964,15 @@ describe('Default Targeting System', () => {
           veryFarEnemy,
         ])
 
-        const tripleShotSkill = createMockSkill(
-          'triple-shot',
-          'Triple Shot',
+        const multiArrowSkill = createMockSkill(
+          'multi-arrow',
+          'Multi Arrow',
           'Enemy',
           'Three',
           'Ranged'
         )
         const targets = getDefaultTargets(
-          tripleShotSkill,
+          multiArrowSkill,
           attacker,
           battlefield
         )
@@ -1014,15 +1014,15 @@ describe('Default Targeting System', () => {
           enemy2,
         ])
 
-        const tripleShotSkill = createMockSkill(
-          'triple-shot',
-          'Triple Shot',
+        const multiArrow2Skill = createMockSkill(
+          'multi-arrow-2',
+          'Multi Arrow 2',
           'Enemy',
           'Three',
           'Ranged'
         )
         const targets = getDefaultTargets(
-          tripleShotSkill,
+          multiArrow2Skill,
           attacker,
           battlefield
         )
@@ -1050,15 +1050,15 @@ describe('Default Targeting System', () => {
 
         const battlefield = createMockBattlefieldState([attacker, ally])
 
-        const tripleShotSkill = createMockSkill(
-          'triple-shot',
-          'Triple Shot',
+        const multiArrow3Skill = createMockSkill(
+          'multi-arrow-3',
+          'Multi Arrow 3',
           'Enemy',
           'Three',
           'Ranged'
         )
         const targets = getDefaultTargets(
-          tripleShotSkill,
+          multiArrow3Skill,
           attacker,
           battlefield
         )

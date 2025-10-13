@@ -1532,5 +1532,137 @@
         ]
       }
     ]
+  },
+  {
+    "id": "passiveSteal",
+    "type": "active",
+    "name": "Passive Steal",
+    "description": "Attack a single enemy. Steal all of the enemy's PP. (Does not apply if they guard the first hit.)",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 50 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "ResourceSteal",
+        "resource": "PP",
+        "amount": "All",
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "FirstHitGuarded",
+            "comparator": "EqualTo",
+            "value": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "toxicThrow",
+    "type": "active",
+    "name": "Toxic Throw",
+    "description": "Attack a single enemy. Inflicts Poison.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "shadowbite",
+    "type": "active",
+    "name": "Shadowbite",
+    "description": "Attack a row of enemies. Inflicts Blindness. Inflicts Initiative -20 and Evasion -20.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 15 },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Blind",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -20,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "EVA",
+        "value": -20,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "activeSteal",
+    "type": "active",
+    "name": "Active Steal",
+    "description": "Attack a single enemy. Steal 1 of the enemy's AP. (Does not apply if they guard the first hit.)",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 4
+      },
+      {
+        "kind": "ResourceSteal",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "FirstHitGuarded",
+            "comparator": "EqualTo",
+            "value": false
+          }
+        ]
+      }
+    ]
   }
 ]
