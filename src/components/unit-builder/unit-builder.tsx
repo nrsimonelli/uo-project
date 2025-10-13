@@ -6,6 +6,7 @@ import { CostSymbols } from '@/components/cost-symbols'
 import { EquipmentSearchModal } from '@/components/equipment-builder/equipment-search-modal'
 import { RadarGraph } from '@/components/radar-graph'
 import { Card } from '@/components/ui/card'
+import { UnitIcon } from '@/components/unit-icon'
 import { calculateFinalAPPP } from '@/core/calculations'
 import { getEquipmentSlots } from '@/core/helpers'
 import { SPRITES } from '@/data/sprites'
@@ -52,6 +53,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
         <div className="flex-col flex-1 space-y-6 basis-xs">
           <div className="flex w-auto justify-start items-start gap-3 flex-col">
             <p className="text-lg font-medium">{unit.name}</p>
+            <UnitIcon classKey={unit.classKey} />
             <UnitImage
               imagePath={SPRITES[unit.classKey]}
               label={unit.classKey}
@@ -103,7 +105,7 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
           <RadarGraph chartData={chartData} />
           {/* Stat List */}
           <div className="flex flex-col space-y-3">
-            <p className="text-lg">Stats</p>
+            <p className="text-lg font-medium">Stats</p>
             <div className="space-y-1">
               {chartData.map(stat => (
                 <AnimatedStatBar key={`${unit.id}-${stat.stat}`} data={stat} />

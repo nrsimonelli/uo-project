@@ -1,0 +1,72 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { CLASS_DATA } from '@/data/units/class-data'
+import type { AllClassType } from '@/types/base-stats'
+import { getIcon } from '@/utils/get-icon'
+
+interface UnitIconProps {
+  classKey: AllClassType
+}
+
+export function UnitIcon({ classKey }: UnitIconProps) {
+  const classData = CLASS_DATA[classKey]
+
+  return (
+    <TooltipProvider>
+      <div className="flex items-center gap-2">
+        {/* Race */}
+        {classData.race && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+                {(() => {
+                  const RaceIcon = getIcon('race', classData.race)
+                  return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
+                })()}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Race: {classData.race}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+        {/* Trait */}
+        {classData.trait && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+                {(() => {
+                  const TraitIcon = getIcon('trait', classData.trait)
+                  return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
+                })()}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Trait: {classData.trait}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+        {/* Movement Type - Always present */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+              {(() => {
+                const MovementIcon = getIcon('movement', classData.movementType)
+                return MovementIcon ? (
+                  <MovementIcon className="w-4 h-4" />
+                ) : null
+              })()}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Movement: {classData.movementType}</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
+  )
+}
