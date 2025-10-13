@@ -169,12 +169,14 @@ This document tracks the implementation status of all tactical conditions in the
 
 #### 2. Dynamic Damage Scaling
 
-**Status**: Not implemented
+**Status**: Partially implemented (skill structure ready)
 **Affects**: Vengeful Axe, potentially Bastard's Cross and others
 
-- [ ] Implement HP-based damage scaling (Vengeful Axe: +100 max potency as HP decreases)
-- [ ] Create new condition type for HP percentage scaling
-- [ ] Add dynamic potency calculation in damage resolution
+- [x] Add PotencyBoost structure to Vengeful Axe with HP condition
+- [x] Update code comments referencing both Bastard's Cross and Vengeful Axe
+- [ ] Implement proportional HP-based scaling logic (currently binary condition)
+- [ ] Create dynamic potency calculation based on missing HP percentage
+- [ ] Replace simple threshold with scaling formula (0% HP = +100 potency, 100% HP = +0 potency)
 - [ ] Consider stat-based scaling for future skills
 
 #### 3. HP Consumption Effects

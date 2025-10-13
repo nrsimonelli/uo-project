@@ -42,10 +42,11 @@ const selectClosestTargets = (
   return selectedTargets
 }
 
+
 /**
- * Find the closest target to the acting unit based on position
- * For melee attacks: Prioritizes front row over back row, then closest distance
- * For ranged/magical attacks: Simply finds closest by distance regardless of row
+ * Find the closest target using default targeting rules
+ * DEFAULT TARGETING RULE: Closest unit in front row first, then closest unit in back row
+ * This applies to ALL skills (melee, ranged, healing, etc.) when using default targeting
  */
 const findClosestTarget = (
   actingUnit: BattleContext,
@@ -55,55 +56,42 @@ const findClosestTarget = (
   if (potentialTargets.length === 0) return null
   if (potentialTargets.length === 1) return potentialTargets[0]
 
-  // Determine if this is a melee attack that should respect front row blocking
-  const shouldRespectFrontRow =
-    isDamageSkill(skill.skillCategories) &&
-    getAttackType(actingUnit.unit.classKey, skill.innateAttackType) === 'Melee'
+  // UNIVERSAL DEFAULT TARGETING: Front row first, then back row
+  const frontRow = potentialTargets.filter(target => target.position.row === 1)
+  const backRow = potentialTargets.filter(target => target.position.row === 0)
 
-  if (shouldRespectFrontRow) {
-    // Melee attacks: prioritize front row, then closest distance within that row
-    const frontRow = potentialTargets.filter(
-      target => target.position.row === 1
-    )
-    const backRow = potentialTargets.filter(target => target.position.row === 0)
+  // Always prioritize front row if available (for ALL skills)
+  const targetsToConsider = frontRow.length > 0 ? frontRow : backRow
 
-    // Always prioritize front row if available
-    const targetsToConsider = frontRow.length > 0 ? frontRow : backRow
+  // Find closest by distance within the chosen row
+  let closestTarget = targetsToConsider[0]
+  let closestDistance = calculateDistance(
+    actingUnit.position,
+    closestTarget.position
+  )
 
-    // Find closest by distance within the chosen row
-    let closestTarget = targetsToConsider[0]
-    let closestDistance = calculateDistance(
-      actingUnit.position,
-      closestTarget.position
-    )
-
-    for (const target of targetsToConsider.slice(1)) {
-      const distance = calculateDistance(actingUnit.position, target.position)
-      if (distance < closestDistance) {
-        closestDistance = distance
-        closestTarget = target
-      }
+  // Collect all targets at the closest distance for tie-breaking
+  const closestTargets = [closestTarget]
+  
+  for (const target of targetsToConsider.slice(1)) {
+    const distance = calculateDistance(actingUnit.position, target.position)
+    if (distance < closestDistance) {
+      closestDistance = distance
+      closestTarget = target
+      closestTargets.length = 0 // Clear array
+      closestTargets.push(target)
+    } else if (distance === closestDistance) {
+      closestTargets.push(target)
     }
-
-    return closestTarget
-  } else {
-    // Ranged/Magical attacks or non-damage skills: find truly closest target
-    let closestTarget = potentialTargets[0]
-    let closestDistance = calculateDistance(
-      actingUnit.position,
-      closestTarget.position
-    )
-
-    for (const target of potentialTargets.slice(1)) {
-      const distance = calculateDistance(actingUnit.position, target.position)
-      if (distance < closestDistance) {
-        closestDistance = distance
-        closestTarget = target
-      }
-    }
-
-    return closestTarget
   }
+  
+  // If multiple targets are equidistant, randomly select one
+  if (closestTargets.length > 1) {
+    const randomIndex = Math.floor(Math.random() * closestTargets.length)
+    closestTarget = closestTargets[randomIndex]
+  }
+
+  return closestTarget
 }
 
 /**
@@ -181,7 +169,7 @@ const targetingPatternHandlers = {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
 
-    // Find closest target first (this will be in the column we want to target)
+    // Find closest target using default targeting rules (front row first, then back row)
     const primaryTarget = findClosestTarget(actingUnit, targets, skill)
     if (!primaryTarget) return []
 
@@ -241,15 +229,16 @@ export const getDefaultTargets = (
     potentialTargets = groupHandler(actingUnit, battlefield)
   }
 
-  // CRITICAL: Apply front row blocking for melee attacks
-  // This must happen even with prefiltered targets to enforce melee targeting rules
+  // SELECTIVE FRONT-ROW BLOCKING: Only apply to melee Single/Row attacks
+  // Column attacks and Ranged/Magical attacks can bypass front-row blocking via tactics
   if (group === 'Enemy' && isDamageSkill(skill.skillCategories)) {
     const attackType = getAttackType(
       actingUnit.unit.classKey,
       skill.innateAttackType
     )
-    if (attackType === 'Melee') {
-      // For melee attacks against enemies, enforce front row blocking
+    
+    // Only apply front-row blocking for melee Single/Row attacks
+    if (attackType === 'Melee' && (pattern === 'Single' || pattern === 'Row')) {
       // Check the ENTIRE battlefield for front row enemies, not just filtered targets
       const allEnemies = Object.values(battlefield.units).filter(
         unit => unit.team !== actingUnit.team && unit.currentHP > 0
@@ -259,7 +248,7 @@ export const getDefaultTargets = (
       )
 
       if (allFrontRowEnemies.length > 0) {
-        // Front row enemies exist on battlefield - melee attacks can only target front row
+        // Front row enemies exist - enforce front-row blocking for melee Single/Row attacks
         const frontRowTargetsInSelection = potentialTargets.filter(
           target => target.position.row === 1
         )
@@ -271,9 +260,9 @@ export const getDefaultTargets = (
           backRowTargetsInSelection.length > 0 &&
           frontRowTargetsInSelection.length === 0
         ) {
-          // Tactical system selected only back row, but front row enemies exist - block the attack entirely
+          // Tactical system selected only back row, but front row enemies exist - block the attack
           console.debug(
-            `⚠️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} BLOCKED - tactical system selected back row only but front row enemies exist`,
+            `⚠️  Front row blocking: Melee ${pattern} attack '${skill.name}' by ${actingUnit.unit.name} BLOCKED - tactical system selected back row only but front row enemies exist`,
             {
               allFrontRowEnemies: allFrontRowEnemies.map(e => ({
                 name: e.unit.name,
@@ -290,7 +279,7 @@ export const getDefaultTargets = (
         } else if (backRowTargetsInSelection.length > 0) {
           // Mixed front/back selection - remove back row targets
           console.debug(
-            `🛡️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} restricted to front row targets only`,
+            `🛡️  Front row blocking: Melee ${pattern} attack '${skill.name}' by ${actingUnit.unit.name} restricted to front row targets only`,
             {
               originalTargets: potentialTargets.length,
               frontRowTargets: frontRowTargetsInSelection.length,
@@ -307,6 +296,7 @@ export const getDefaultTargets = (
       }
       // If no front row enemies exist anywhere, back row enemies become valid targets
     }
+    // Column attacks and non-melee attacks can freely target any units chosen by tactics
   }
 
   // Apply pattern-based selection

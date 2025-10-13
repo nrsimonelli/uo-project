@@ -402,12 +402,12 @@ describe('Default Targeting System', () => {
         { row: 0, col: 2 }
       )
 
-      // Column 0 enemy - different column
+      // Column 0 enemy - different column, farther away
       const col0Enemy = createMockBattleContext(
         'col0',
         'Col0 Enemy',
         'away-team',
-        { row: 1, col: 0 }
+        { row: 0, col: 0 } // Distance 2, farther than col2Front
       )
 
       const battlefield = createMockBattlefieldState([
@@ -430,6 +430,52 @@ describe('Default Targeting System', () => {
       expect(targets).toContain(col2Front)
       expect(targets).toContain(col2Back)
       expect(targets).not.toContain(col0Enemy)
+    })
+
+    it('should follow default targeting rules for column attacks', () => {
+      const meleeAttacker = createMockBattleContext(
+        'melee',
+        'Melee Fighter',
+        'home-team',
+        { row: 1, col: 2 } // Attacker in column 2
+      )
+
+      // Front row enemy in column 2 (same column as attacker)
+      const frontRowSameCol = createMockBattleContext(
+        'frontsame',
+        'Front Same Column',
+        'away-team',
+        { row: 1, col: 2 } // Same column as attacker, distance = |1-1| + |2-2| = 0
+      )
+
+      // Back row enemy in column 2 (same column as attacker)
+      const backRowSameCol = createMockBattleContext(
+        'backsame',
+        'Back Same Column', 
+        'away-team',
+        { row: 0, col: 2 } // Same column as attacker, distance = |1-0| + |2-2| = 1
+      )
+
+      const battlefield = createMockBattlefieldState([
+        meleeAttacker,
+        frontRowSameCol,
+        backRowSameCol,
+      ])
+
+      // Column attack should follow default targeting: front row first, then back row
+      const meleeColumnSkill = createMockSkill(
+        'spear-thrust',
+        'Spear Thrust',
+        'Enemy',
+        'Column'
+      )
+      const columnTargets = getDefaultTargets(meleeColumnSkill, meleeAttacker, battlefield)
+
+      // Should target the entire column, but primary target selection follows default rules
+      // (front row first), so should select column 2 based on front row target
+      expect(columnTargets).toHaveLength(2)
+      expect(columnTargets).toContain(frontRowSameCol)
+      expect(columnTargets).toContain(backRowSameCol)
     })
   })
 
@@ -480,12 +526,12 @@ describe('Default Targeting System', () => {
   })
 
   describe('Attack Type Targeting', () => {
-    describe('Melee Attacks (Respect Front Row)', () => {
-      it('should target front row enemy even if back row is closer (melee Fighter)', () => {
-        // Fighter is melee by default
-        const meleeAttacker = createMockBattleContext(
-          'melee',
-          'Melee Fighter',
+    describe('Default Targeting (All Skills Use Same Rules)', () => {
+      it('should target front row first, then back row for all skills', () => {
+        // Any unit type
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
           'home-team',
           { row: 1, col: 1 }
         )
@@ -506,190 +552,35 @@ describe('Default Targeting System', () => {
         )
 
         const battlefield = createMockBattlefieldState([
-          meleeAttacker,
+          attacker,
           closeBackEnemy,
           farFrontEnemy,
         ])
 
+        // Test with melee skill - should prioritize front row
         const meleeSkill = createMockSkill(
           'sword-attack',
           'Sword Attack',
           'Enemy',
           'Single'
-        ) // No innate type = melee
-        const targets = getDefaultTargets(
-          meleeSkill,
-          meleeAttacker,
-          battlefield
         )
+        const meleeTargets = getDefaultTargets(meleeSkill, attacker, battlefield)
+        expect(meleeTargets).toHaveLength(1)
+        expect(meleeTargets[0]).toBe(farFrontEnemy) // Front row first
 
-        expect(targets).toHaveLength(1)
-        expect(targets[0]).toBe(farFrontEnemy) // Should prioritize front row despite distance
-      })
-    })
-
-    describe('Ranged Attacks (Ignore Front Row)', () => {
-      it('should target closest enemy regardless of row (Archer class)', () => {
-        // Archer class has Archer trait, making attacks Ranged
-        const archer = createMockBattleContext(
-          'archer',
-          'Archer',
-          'home-team',
-          { row: 1, col: 1 }
-        )
-        archer.unit.classKey = 'Hunter' // Hunter has Archer trait
-
-        // Back row enemy is closer (same column)
-        const closeBackEnemy = createMockBattleContext(
-          'back',
-          'Back Enemy',
-          'away-team',
-          { row: 0, col: 1 }
-        )
-        // Front row enemy is farther
-        const farFrontEnemy = createMockBattleContext(
-          'front',
-          'Front Enemy',
-          'away-team',
-          { row: 1, col: 2 }
-        )
-
-        const battlefield = createMockBattlefieldState([
-          archer,
-          closeBackEnemy,
-          farFrontEnemy,
-        ])
-
-        const bowSkill = createMockSkill(
+        // Test with ranged skill - should also prioritize front row (unified behavior)
+        const rangedSkill = createMockSkill(
           'bow-shot',
           'Bow Shot',
-          'Enemy',
-          'Single'
-        ) // Archer class makes it ranged
-        const targets = getDefaultTargets(bowSkill, archer, battlefield)
-
-        expect(targets).toHaveLength(1)
-        expect(targets[0]).toBe(closeBackEnemy) // Should target closest regardless of row
-      })
-
-      it('should target closest enemy regardless of row (Flying class)', () => {
-        // Flying units make ranged attacks
-        const flyingUnit = createMockBattleContext(
-          'flyer',
-          'Flying Unit',
-          'home-team',
-          { row: 1, col: 1 }
-        )
-        flyingUnit.unit.classKey = 'Gryphon Knight' // Flying movement type
-
-        // Back row enemy is closer (same column)
-        const closeBackEnemy = createMockBattleContext(
-          'back',
-          'Back Enemy',
-          'away-team',
-          { row: 0, col: 1 }
-        )
-        // Front row enemy is farther
-        const farFrontEnemy = createMockBattleContext(
-          'front',
-          'Front Enemy',
-          'away-team',
-          { row: 1, col: 2 }
-        )
-
-        const battlefield = createMockBattlefieldState([
-          flyingUnit,
-          closeBackEnemy,
-          farFrontEnemy,
-        ])
-
-        const diveSkill = createMockSkill(
-          'dive-attack',
-          'Dive Attack',
-          'Enemy',
-          'Single'
-        ) // Flying class makes it ranged
-        const targets = getDefaultTargets(diveSkill, flyingUnit, battlefield)
-
-        expect(targets).toHaveLength(1)
-        expect(targets[0]).toBe(closeBackEnemy) // Should target closest regardless of row
-      })
-
-      it('should target closest enemy regardless of row (innateAttackType: Ranged)', () => {
-        const meleeUnit = createMockBattleContext(
-          'melee',
-          'Melee Unit',
-          'home-team',
-          { row: 1, col: 1 }
-        )
-
-        // Back row enemy is closer (same column)
-        const closeBackEnemy = createMockBattleContext(
-          'back',
-          'Back Enemy',
-          'away-team',
-          { row: 0, col: 1 }
-        )
-        // Front row enemy is farther
-        const farFrontEnemy = createMockBattleContext(
-          'front',
-          'Front Enemy',
-          'away-team',
-          { row: 1, col: 2 }
-        )
-
-        const battlefield = createMockBattlefieldState([
-          meleeUnit,
-          closeBackEnemy,
-          farFrontEnemy,
-        ])
-
-        // Skill has innate ranged attack type
-        const rangedSkill = createMockSkill(
-          'javelin',
-          'Javelin Throw',
           'Enemy',
           'Single',
           'Ranged'
         )
-        const targets = getDefaultTargets(rangedSkill, meleeUnit, battlefield)
+        const rangedTargets = getDefaultTargets(rangedSkill, attacker, battlefield)
+        expect(rangedTargets).toHaveLength(1)
+        expect(rangedTargets[0]).toBe(farFrontEnemy) // Front row first for all skills
 
-        expect(targets).toHaveLength(1)
-        expect(targets[0]).toBe(closeBackEnemy) // Should target closest regardless of row
-      })
-    })
-
-    describe('Magical Attacks (Ignore Front Row)', () => {
-      it('should target closest enemy regardless of row (innateAttackType: Magical)', () => {
-        const caster = createMockBattleContext(
-          'caster',
-          'Caster',
-          'home-team',
-          { row: 1, col: 1 }
-        )
-
-        // Back row enemy is closer (same column)
-        const closeBackEnemy = createMockBattleContext(
-          'back',
-          'Back Enemy',
-          'away-team',
-          { row: 0, col: 1 }
-        )
-        // Front row enemy is farther
-        const farFrontEnemy = createMockBattleContext(
-          'front',
-          'Front Enemy',
-          'away-team',
-          { row: 1, col: 2 }
-        )
-
-        const battlefield = createMockBattlefieldState([
-          caster,
-          closeBackEnemy,
-          farFrontEnemy,
-        ])
-
-        // Skill has innate magical attack type
+        // Test with magical skill - should also prioritize front row (unified behavior)
         const magicSkill = createMockSkill(
           'fireball',
           'Fireball',
@@ -697,15 +588,52 @@ describe('Default Targeting System', () => {
           'Single',
           'Magical'
         )
-        const targets = getDefaultTargets(magicSkill, caster, battlefield)
+        const magicTargets = getDefaultTargets(magicSkill, attacker, battlefield)
+        expect(magicTargets).toHaveLength(1)
+        expect(magicTargets[0]).toBe(farFrontEnemy) // Front row first for all skills
+      })
+
+      it('should target back row if no front row units exist', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        // Only back row enemies exist
+        const backEnemy1 = createMockBattleContext(
+          'back1',
+          'Back Enemy 1',
+          'away-team',
+          { row: 0, col: 1 } // Distance 1
+        )
+        const backEnemy2 = createMockBattleContext(
+          'back2',
+          'Back Enemy 2',
+          'away-team',
+          { row: 0, col: 2 } // Distance 2
+        )
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          backEnemy1,
+          backEnemy2,
+        ])
+
+        const skill = createMockSkill(
+          'attack',
+          'Attack',
+          'Enemy',
+          'Single'
+        )
+        const targets = getDefaultTargets(skill, attacker, battlefield)
 
         expect(targets).toHaveLength(1)
-        expect(targets[0]).toBe(closeBackEnemy) // Should target closest regardless of row
+        expect(targets[0]).toBe(backEnemy1) // Should target closest back row unit
       })
-    })
 
-    describe('Non-Damage Skills (Ignore Front Row)', () => {
-      it('should target closest ally regardless of row for healing skills', () => {
+      it('should target closest ally (including self) with healing skills', () => {
         const healer = createMockBattleContext(
           'healer',
           'Healer',
@@ -713,15 +641,15 @@ describe('Default Targeting System', () => {
           { row: 1, col: 1 }
         )
 
-        // Back row ally is closer
-        const closeBackAlly = createMockBattleContext(
+        // Back row ally is at distance 1
+        const backAlly = createMockBattleContext(
           'back',
           'Back Ally',
           'home-team',
           { row: 0, col: 1 }
         )
-        // Front row ally is farther
-        const farFrontAlly = createMockBattleContext(
+        // Front row ally is at distance 1
+        const frontAlly = createMockBattleContext(
           'front',
           'Front Ally',
           'home-team',
@@ -730,11 +658,12 @@ describe('Default Targeting System', () => {
 
         const battlefield = createMockBattlefieldState([
           healer,
-          closeBackAlly,
-          farFrontAlly,
+          backAlly,
+          frontAlly,
         ])
 
-        // Non-damage skill should ignore front row rules
+        // Healing skill follows same default targeting: front row first, then back row
+        // But self is distance 0, so should be targeted first
         const healSkill = createMockSkill(
           'heal',
           'Heal',
@@ -746,18 +675,170 @@ describe('Default Targeting System', () => {
         const targets = getDefaultTargets(healSkill, healer, battlefield)
 
         expect(targets).toHaveLength(1)
-        // Should target closest ally (could be self, closeBackAlly, or farFrontAlly)
-        const distances = [
-          { unit: healer, distance: 0 },
-          { unit: closeBackAlly, distance: 1 },
-          { unit: farFrontAlly, distance: 1 },
-        ]
-        const expectedTargets = distances
-          .filter(
-            d => d.distance === Math.min(...distances.map(d => d.distance))
-          )
-          .map(d => d.unit)
-        expect(expectedTargets).toContain(targets[0])
+        expect(targets[0]).toBe(healer) // Should target self (distance 0 is closest)
+      })
+    })
+
+    describe('Tactical Front-Row Blocking', () => {
+      it('should block melee Single attacks from targeting back row via tactics when front row exists', () => {
+        const meleeUnit = createMockBattleContext(
+          'melee',
+          'Melee Unit',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const frontEnemy = createMockBattleContext(
+          'front',
+          'Front Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+        const backEnemy = createMockBattleContext(
+          'back',
+          'Back Enemy',
+          'away-team',
+          { row: 0, col: 1 }
+        )
+
+        const battlefield = createMockBattlefieldState([
+          meleeUnit,
+          frontEnemy,
+          backEnemy,
+        ])
+
+        const meleeSkill = createMockSkill('sword-strike', 'Sword Strike', 'Enemy', 'Single')
+        
+        // Simulate tactical system trying to target only back row
+        const tacticalBackRowSelection = [backEnemy]
+        const targets = getDefaultTargets(meleeSkill, meleeUnit, battlefield, tacticalBackRowSelection)
+
+        // Should be blocked - return empty array
+        expect(targets).toHaveLength(0)
+      })
+
+      it('should allow melee Column attacks to target back row via tactics even when front row exists', () => {
+        const meleeUnit = createMockBattleContext(
+          'melee',
+          'Melee Unit',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const frontEnemy = createMockBattleContext(
+          'front',
+          'Front Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+        const backEnemy = createMockBattleContext(
+          'back',
+          'Back Enemy',
+          'away-team',
+          { row: 0, col: 1 } // Same column as attacker
+        )
+
+        const battlefield = createMockBattlefieldState([
+          meleeUnit,
+          frontEnemy,
+          backEnemy,
+        ])
+
+        const meleeColumnSkill = createMockSkill('spear-thrust', 'Spear Thrust', 'Enemy', 'Column')
+        
+        // Simulate tactical system targeting back row unit
+        const tacticalBackRowSelection = [backEnemy]
+        const targets = getDefaultTargets(meleeColumnSkill, meleeUnit, battlefield, tacticalBackRowSelection)
+
+        // Should be allowed - column attacks can bypass front-row blocking
+        expect(targets).toHaveLength(1)
+        expect(targets[0]).toBe(backEnemy)
+      })
+
+      it('should allow ranged attacks to target back row via tactics when front row exists', () => {
+        const rangedUnit = createMockBattleContext(
+          'archer',
+          'Archer',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        const frontEnemy = createMockBattleContext(
+          'front',
+          'Front Enemy',
+          'away-team',
+          { row: 1, col: 2 }
+        )
+        const backEnemy = createMockBattleContext(
+          'back',
+          'Back Enemy',
+          'away-team',
+          { row: 0, col: 1 }
+        )
+
+        const battlefield = createMockBattlefieldState([
+          rangedUnit,
+          frontEnemy,
+          backEnemy,
+        ])
+
+        const rangedSkill = createMockSkill('bow-shot', 'Bow Shot', 'Enemy', 'Single', 'Ranged')
+        
+        // Simulate tactical system targeting back row unit
+        const tacticalBackRowSelection = [backEnemy]
+        const targets = getDefaultTargets(rangedSkill, rangedUnit, battlefield, tacticalBackRowSelection)
+
+        // Should be allowed - ranged attacks can bypass front-row blocking
+        expect(targets).toHaveLength(1)
+        expect(targets[0]).toBe(backEnemy)
+      })
+    })
+    
+    describe('Distance Tie-Breaking', () => {
+      it('should randomly select among equidistant targets', () => {
+        const attacker = createMockBattleContext(
+          'attacker',
+          'Attacker',
+          'home-team',
+          { row: 1, col: 1 }
+        )
+
+        // Two enemies at same distance in same row
+        const enemy1 = createMockBattleContext(
+          'enemy1',
+          'Enemy 1',
+          'away-team',
+          { row: 1, col: 0 } // Distance: 1
+        )
+        const enemy2 = createMockBattleContext(
+          'enemy2',
+          'Enemy 2',
+          'away-team',
+          { row: 1, col: 2 } // Distance: 1 (same as enemy1)
+        )
+
+        const battlefield = createMockBattlefieldState([
+          attacker,
+          enemy1,
+          enemy2,
+        ])
+
+        const skill = createMockSkill('attack', 'Attack', 'Enemy', 'Single')
+        
+        // Run multiple times to verify random selection (should select different targets)
+        const results = new Set()
+        for (let i = 0; i < 20; i++) {
+          const targets = getDefaultTargets(skill, attacker, battlefield)
+          expect(targets).toHaveLength(1)
+          expect([enemy1, enemy2]).toContain(targets[0])
+          results.add(targets[0].unit.id)
+        }
+        
+        // With 20 trials, we should see both targets selected at least once
+        // (probability of this failing randomly is extremely low)
+        expect(results.size).toBeGreaterThan(1)
+        expect(results.has('enemy1')).toBe(true)
+        expect(results.has('enemy2')).toBe(true)
       })
     })
   })
@@ -782,13 +863,13 @@ describe('Default Targeting System', () => {
           'medium',
           'Medium Enemy',
           'away-team',
-          { row: 0, col: 2 }
-        ) // Distance: 2
+          { row: 0, col: 1 }
+        ) // Distance: 1 (back row)
         const farEnemy = createMockBattleContext(
           'far',
           'Far Enemy',
           'away-team',
-          { row: 0, col: 0 }
+          { row: 0, col: 3 }
         ) // Distance: 3
 
         const battlefield = createMockBattlefieldState([
@@ -808,9 +889,12 @@ describe('Default Targeting System', () => {
         const targets = getDefaultTargets(dualShotSkill, attacker, battlefield)
 
         expect(targets).toHaveLength(2)
-        expect(targets).toContain(closeEnemy) // Should include closest
-        expect(targets).toContain(mediumEnemy) // Should include second closest
-        expect(targets).not.toContain(farEnemy) // Should not include farthest
+        // Should always include closeEnemy (front row, distance 1)
+        expect(targets).toContain(closeEnemy)
+        // Should include mediumEnemy (back row, distance 1) based on front-row-first rule
+        expect(targets).toContain(mediumEnemy)
+        // Should not include farEnemy (distance 3, much farther)
+        expect(targets).not.toContain(farEnemy)
 
         // Verify no duplicates
         const uniqueTargets = new Set(targets)
@@ -872,7 +956,7 @@ describe('Default Targeting System', () => {
         expect(targets).toHaveLength(0)
       })
 
-      it('should respect front row blocking for melee attacks', () => {
+      it('should target front row enemies first with default targeting', () => {
         const attacker = createMockBattleContext(
           'attacker',
           'Attacker',
@@ -897,7 +981,7 @@ describe('Default Targeting System', () => {
           'Back Enemy',
           'away-team',
           { row: 0, col: 1 }
-        ) // This should be blocked by front row
+        )
 
         const battlefield = createMockBattlefieldState([
           attacker,
@@ -906,19 +990,20 @@ describe('Default Targeting System', () => {
           backEnemy,
         ])
 
-        // Melee attack should only target front row
-        const meleeTwoSkill = createMockSkill(
-          'melee-double',
-          'Melee Double Attack',
+        // Two-target skill should prioritize closest front row enemies
+        const twoSkill = createMockSkill(
+          'double-attack',
+          'Double Attack',
           'Enemy',
           'Two'
         )
-        const targets = getDefaultTargets(meleeTwoSkill, attacker, battlefield)
+        const targets = getDefaultTargets(twoSkill, attacker, battlefield)
 
         expect(targets).toHaveLength(2)
         expect(targets).toContain(frontEnemy1)
         expect(targets).toContain(frontEnemy2)
-        expect(targets).not.toContain(backEnemy) // Should be blocked by front row
+        // Back row enemy should not be targeted when front row enemies are available
+        expect(targets).not.toContain(backEnemy)
       })
     })
 
