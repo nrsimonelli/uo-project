@@ -5,6 +5,7 @@ import { EquipmentBuilder } from '@/components/equipment-builder/equipment-build
 import { LandingLayout } from '@/components/landing-layout'
 import { LandingPage } from '@/components/landing-page'
 import { TeamBuilder } from '@/components/team-builder/team-builder'
+import { UnitData } from '@/components/unit-data/unit-data'
 
 export const App = () => {
   return (
@@ -19,6 +20,7 @@ export const App = () => {
       />
       <Route path="/team-builder" element={<TeamBuilder />} />
       <Route path="/equipment-builder" element={<EquipmentBuilder />} />
+      <Route path="/classes" element={<UnitData />} />
       <Route path="/mock-battle" element={<MockBattle />} />
     </Routes>
   )
