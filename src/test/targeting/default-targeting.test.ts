@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 
-import { getDefaultTargets } from '@/core/skill-targeting'
-import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
-import type { SkillCategory } from '@/types/core'
-import type { ActiveSkill } from '@/types/skills'
+import { getDefaultTargets } from '../../core/battle/targeting/skill-targeting'
+import type { BattleContext, BattlefieldState } from '../../types/battle-engine'
+import type { SkillCategory } from '../../types/core'
+import type { ActiveSkill } from '../../types/skills'
 
 // Helper to create a mock battle context
 const createMockBattleContext = (

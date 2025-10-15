@@ -1,29 +1,29 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import { trackSkillUsage } from '@/core/battle-state-tracking'
+import {
+  executeSkill,
+  type SingleTargetSkillResult,
+  type MultiTargetSkillResult,
+} from '@/core/battle/combat/skill-executor'
 import {
   calculateTeamHpPercentages,
   createBattleEndEvent,
   createBattleStartEvent,
   determineBattleWinner,
-} from '@/core/battle-utils'
+} from '@/core/battle/engine/battle-utils'
 import {
   createAllBattleContexts,
   createInitialBattlefieldState,
-} from '@/core/battlefield-state'
-import { calculateTurnOrder } from '@/core/calculations'
-import { rng } from '@/core/random'
-import {
-  executeSkill,
-  type SingleTargetSkillResult,
-  type MultiTargetSkillResult,
-} from '@/core/skill-execution'
-import { selectActiveSkill } from '@/core/skill-selection'
+} from '@/core/battle/engine/battlefield-state'
+import { trackSkillUsage } from '@/core/battle/engine/state-tracker'
 import {
   isUnitActionableActive,
   shouldContinueBattle,
   startNewRound,
-} from '@/core/turn-management'
+} from '@/core/battle/engine/turn-manager'
+import { calculateTurnOrder } from '@/core/calculations/turn-order'
+import { rng } from '@/core/random'
+import { selectActiveSkill } from '@/core/skill-selection'
 import type {
   BattleEvent,
   BattleResultSummary,

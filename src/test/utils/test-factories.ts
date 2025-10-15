@@ -1,4 +1,4 @@
-import type { ConditionEvaluationContext } from '@/core/condition-evaluator'
+import type { ConditionEvaluationContext } from '@/core/battle/evaluation/condition-evaluator'
 import type { BattleContext } from '@/types/battle-engine'
 import type { CombatantType } from '@/types/core'
 

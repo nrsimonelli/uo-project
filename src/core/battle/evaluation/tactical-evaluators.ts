@@ -5,8 +5,7 @@ import {
   getStatValue,
   evaluateUserCondition,
   evaluateBasicFormation,
-} from './tactical-utils'
-
+} from '@/core/tactical-utils'
 import type { ConditionMetadata } from '@/data/tactics/tactic-condition-meta'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'

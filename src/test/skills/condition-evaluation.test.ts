@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest'
 
+import { evaluateCondition } from '../../core/battle/evaluation/condition-evaluator'
+import type { Condition } from '../../types/conditions'
 import { createMockContext } from '../utils/test-factories'
-
-import { evaluateCondition } from '@/core/condition-evaluator'
-import type { Condition } from '@/types/conditions'
 
 describe('Condition Evaluation', () => {
   describe('HP conditions', () => {

@@ -1,6 +1,9 @@
-import { evaluateAllConditions } from './condition-evaluator'
-import type { ConditionEvaluationContext } from './condition-evaluator'
+import {
+  type ConditionEvaluationContext,
+  evaluateAllConditions,
+} from '../evaluation/condition-evaluator'
 
+import type { AfflictionType } from '@/types/conditions'
 import type { Effect, DamageEffect } from '@/types/effects'
 
 /**
@@ -22,11 +25,7 @@ export const isDebuffTypeEffect = (effect: Effect): boolean => {
  * Check if a unit is immune to debuff-type effects
  */
 export const hasDebuffImmunity = (
-  unitImmunities: (
-    | import('@/types/conditions').AfflictionType
-    | 'Affliction'
-    | 'Debuff'
-  )[]
+  unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[]
 ): boolean => {
   return unitImmunities.includes('Debuff')
 }
@@ -35,12 +34,8 @@ export const hasDebuffImmunity = (
  * Check if a unit is immune to a specific affliction
  */
 export const hasAfflictionImmunity = (
-  unitImmunities: (
-    | import('@/types/conditions').AfflictionType
-    | 'Affliction'
-    | 'Debuff'
-  )[],
-  affliction: import('@/types/conditions').AfflictionType
+  unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[],
+  affliction: AfflictionType
 ): boolean => {
   return (
     unitImmunities.includes('Affliction') ||

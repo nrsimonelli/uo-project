@@ -1,15 +1,19 @@
-import { isDamageSkill } from './attack-types'
-import type { DamageResult } from './battle-damage'
-import { calculateSkillDamage, calculateMultiHitDamage } from './battle-damage'
-import type { ConditionEvaluationContext } from './condition-evaluator'
+import type { ConditionEvaluationContext } from '../evaluation/condition-evaluator'
+
+import type { DamageResult } from './damage-calculator'
+import {
+  calculateSkillDamage,
+  calculateMultiHitDamage,
+} from './damage-calculator'
 import {
   processEffects,
   getDamageEffects,
   applyEffectsToDamage,
   type EffectProcessingResult,
 } from './effect-processor'
-import type { RandomNumberGeneratorType } from './random'
 
+import { isDamageSkill } from '@/core/attack-types'
+import type { RandomNumberGeneratorType } from '@/core/random'
 import type { BattleContext } from '@/types/battle-engine'
 import type { DamageEffect } from '@/types/effects'
 import type { ActiveSkill } from '@/types/skills'

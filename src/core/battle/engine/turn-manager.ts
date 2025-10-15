@@ -1,5 +1,5 @@
-import { calculateTurnOrder } from '@/core/calculations'
-import type { BattlefieldState, BattleContext } from '@/types/battle-engine'
+import { calculateTurnOrder } from '@/core/calculations/turn-order'
+import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
 
 export const isUnitAfflicted = (

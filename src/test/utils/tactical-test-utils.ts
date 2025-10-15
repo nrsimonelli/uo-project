@@ -1,4 +1,4 @@
-import type { TacticalContext } from '@/core/tactical-evaluators'
+import type { TacticalContext } from '@/core/battle/evaluation/tactical-evaluators'
 import type {
   ConditionMetadata,
   ComparisonOperator,

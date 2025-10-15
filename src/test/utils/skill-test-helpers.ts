@@ -1,6 +1,9 @@
-import { calculateSkillDamage } from '@/core/battle-damage'
-import type { ConditionEvaluationContext } from '@/core/condition-evaluator'
-import { processEffects, getDamageEffects } from '@/core/effect-processor'
+import { calculateSkillDamage } from '@/core/battle/combat/damage-calculator'
+import {
+  getDamageEffects,
+  processEffects,
+} from '@/core/battle/combat/effect-processor'
+import type { ConditionEvaluationContext } from '@/core/battle/evaluation/condition-evaluator'
 import type { RandomNumberGeneratorType } from '@/core/random'
 
 /**

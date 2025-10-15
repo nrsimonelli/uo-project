@@ -31,9 +31,9 @@ const MOVEMENT_ICONS = {
   Cavalry: Magnet,
 } as const
 
-export type RaceType = keyof typeof RACE_ICONS
-export type TraitType = keyof typeof TRAIT_ICONS
-export type MovementType = keyof typeof MOVEMENT_ICONS
+type RaceType = keyof typeof RACE_ICONS
+type TraitType = keyof typeof TRAIT_ICONS
+type MovementType = keyof typeof MOVEMENT_ICONS
 
 const ICON_MAPS = {
   race: RACE_ICONS,

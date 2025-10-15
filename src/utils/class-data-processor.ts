@@ -1,5 +1,5 @@
-import { calculateBaseStats } from '@/core/calculations'
-import { BASE_CLASSES, ADVANCED_CLASSES } from '@/data/constants'
+import { calculateBaseStats } from '@/core/calculations/base-stats'
+import { ADVANCED_CLASSES, BASE_CLASSES } from '@/data/constants'
 import { CLASS_DATA } from '@/data/units/class-data'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'

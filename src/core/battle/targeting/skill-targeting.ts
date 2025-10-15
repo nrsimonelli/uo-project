@@ -1,5 +1,4 @@
-import { getAttackType, isDamageSkill } from './attack-types'
-
+import { getAttackType, isDamageSkill } from '@/core/attack-types'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 

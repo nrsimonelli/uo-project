@@ -1,11 +1,10 @@
 import {
   calculateBaseStats,
-  calculateEquipmentBonus,
   calculateFinalAPPP,
-} from './calculations'
-import { getCombatantTypeFromClass } from './helpers'
-import type { RandomNumberGeneratorType } from './random'
-
+} from '@/core/calculations/base-stats'
+import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
+import { getCombatantTypeFromClass } from '@/core/helpers'
+import type { RandomNumberGeneratorType } from '@/core/random'
 import type { StatKey } from '@/types/base-stats'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { Team, Unit } from '@/types/team'

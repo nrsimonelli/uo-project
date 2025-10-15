@@ -2,10 +2,10 @@ import { useMemo } from 'react'
 
 import {
   calculateBaseStats,
-  calculateEquipmentBonus,
-  calculateGrowthRanks,
   calculateBaseAPPP,
-} from '@/core/calculations'
+  calculateGrowthRanks,
+} from '@/core/calculations/base-stats'
+import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
 import type { StatKey } from '@/types/base-stats'
 import type { Unit } from '@/types/team'

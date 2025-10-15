@@ -1,18 +1,21 @@
-import { getDefaultTargets } from './skill-targeting'
 import {
   type TacticalContext,
   SKIP_EVALUATORS,
   FILTER_EVALUATORS,
   SORT_EVALUATORS,
   COMPARE_EVALUATORS,
-} from './tactical-evaluators'
+} from '../evaluation/tactical-evaluators'
 
-import { COMPLETE_TACTIC_METADATA } from '@/data/tactics/tactic-condition-meta'
-import type { ConditionMetadata } from '@/data/tactics/tactic-condition-meta'
+import { getDefaultTargets } from './skill-targeting'
+
+import {
+  COMPLETE_TACTIC_METADATA,
+  type ConditionMetadata,
+} from '@/data/tactics/tactic-condition-meta'
 import { ActiveSkillsMap } from '@/generated/skills-active'
 import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
-import type { ActiveSkill, PassiveSkill, SkillSlot } from '@/types/skills'
+import type { SkillSlot, ActiveSkill, PassiveSkill } from '@/types/skills'
 import type { Tactic } from '@/types/tactics'
 
 /**

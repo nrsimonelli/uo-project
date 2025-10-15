@@ -1,25 +1,26 @@
 import {
   Sword,
-  Shield,
   Zap,
   Target,
   Eye,
-  Shield as ShieldIcon,
-  Star,
+  Shield,
+  ShieldBan,
   Heart,
+  Sparkles,
+  Wind,
 } from 'lucide-react'
 
 export const STAT_ICONS = {
   HP: Heart,
   PATK: Sword,
   PDEF: Shield,
-  MATK: Zap,
-  MDEF: ShieldIcon,
+  MATK: Sparkles,
+  MDEF: ShieldBan,
   ACC: Target,
   EVA: Eye,
-  CRT: Star,
+  CRT: Zap,
   GRD: Shield,
-  INIT: Zap,
+  INIT: Wind,
 } as const
 
 export const RANK_COLORS: Record<string, string> = {

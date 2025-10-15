@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest'
 
+import { calculateSkillDamage } from '../../core/battle/combat/damage-calculator'
+import type { DamageEffect } from '../../types/effects'
 import { mockRngPresets } from '../utils/mock-rng'
 import { createMockContext } from '../utils/test-factories'
-
-import { calculateSkillDamage } from '@/core/battle-damage'
-import type { DamageEffect } from '@/types/effects'
 
 describe('Damage Calculation', () => {
   it('should calculate basic physical damage', () => {

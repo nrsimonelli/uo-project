@@ -7,26 +7,27 @@ import { describe, it, expect } from 'vitest'
 
 import {
   testFilterCondition,
-  testSortCondition,
   testSkipCondition,
-} from '@/core/tactical-targeting'
+  testSortCondition,
+} from '../core/battle/targeting/tactical-targeting'
+
 import {
-  createMockBattleContext,
-  createMockTacticalContext,
-  createMockMetadata,
-  createLowHpUnit,
-  createResourceUnit,
-  createTypedUnit,
-  createStatusUnit,
   createUnitGroup,
-  testHpPercentTactic,
-  testCombatantTypeTactic,
-  testStatusTactic,
-  testResourceTactic,
+  createMockMetadata,
+  createMockTacticalContext,
   assertHpOrder,
   assertAllUnitsMatch,
   assertStatOrder,
-} from '@/test/utils/tactical-test-utils'
+  createLowHpUnit,
+  createResourceUnit,
+  testHpPercentTactic,
+  createTypedUnit,
+  testCombatantTypeTactic,
+  createStatusUnit,
+  testStatusTactic,
+  testResourceTactic,
+} from './utils/tactical-test-utils'
+import { createMockBattleContext } from './utils/test-factories'
 
 describe('Tactical Targeting - Individual Tactics', () => {
   // ============================================================================

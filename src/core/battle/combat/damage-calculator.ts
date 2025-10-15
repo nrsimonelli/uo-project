@@ -1,13 +1,16 @@
-import { getAttackType, getDamageType, getCombinedFlags } from './attack-types'
+import {
+  getAttackType,
+  getDamageType,
+  getCombinedFlags,
+} from '@/core/attack-types'
 import {
   rollCrit,
   getCritMultiplier,
   rollGuard,
   type GuardLevel,
-} from './calculations'
-import { findEffectivenessRule } from './effectiveness-rules'
-import type { RandomNumberGeneratorType } from './random'
-
+} from '@/core/calculations/combat-calculations'
+import { findEffectivenessRule } from '@/core/effectiveness-rules'
+import type { RandomNumberGeneratorType } from '@/core/random'
 import { CLASS_DATA } from '@/data/units/class-data'
 import { clamp } from '@/lib/utils'
 import type { BattleContext } from '@/types/battle-engine'
