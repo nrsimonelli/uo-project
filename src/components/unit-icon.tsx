@@ -18,39 +18,7 @@ export function UnitIcon({ classKey }: UnitIconProps) {
   return (
     <TooltipProvider>
       <div className="flex items-center gap-2">
-        {/* Race */}
-        {classData.race && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
-                {(() => {
-                  const RaceIcon = getIcon('race', classData.race)
-                  return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
-                })()}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Race: {classData.race}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-        {/* Trait */}
-        {classData.trait && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
-                {(() => {
-                  const TraitIcon = getIcon('trait', classData.trait)
-                  return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
-                })()}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Trait: {classData.trait}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-        {/* Movement Type - Always present */}
+        {/* Movement Type - First */}
         <Tooltip>
           <TooltipTrigger asChild>
             <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
@@ -63,9 +31,41 @@ export function UnitIcon({ classKey }: UnitIconProps) {
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Movement: {classData.movementType}</p>
+            <p>{classData.movementType}</p>
           </TooltipContent>
         </Tooltip>
+        {/* Trait - Second */}
+        {classData.trait && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+                {(() => {
+                  const TraitIcon = getIcon('trait', classData.trait)
+                  return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
+                })()}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{classData.trait}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+        {/* Race - Third */}
+        {classData.race && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+                {(() => {
+                  const RaceIcon = getIcon('race', classData.race)
+                  return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
+                })()}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{classData.race}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
       </div>
     </TooltipProvider>
   )

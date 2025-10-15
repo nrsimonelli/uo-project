@@ -354,14 +354,92 @@ const filterUserConditionOnTarget: FilterEvaluator = (
   })
 }
 
-const filterAttackHistory: FilterEvaluator = (targets, _metadata, context) => {
-  const recentActions = context.battlefield.actionHistory.slice(-5)
+const filterUnitCount: FilterEvaluator = (targets, metadata, context) => {
+  const targetUnits =
+    metadata.unitTarget === 'allies' ? context.allAllies : context.allEnemies
+  const unitCount = targetUnits.length
+
+  const meetsCondition = compareWithOperator(
+    unitCount,
+    metadata.threshold!,
+    metadata.operator!
+  )
+
+  // If the condition is met, return all targets; otherwise return empty array
+  return meetsCondition ? targets : []
+}
+
+const filterEnemyPresence: FilterEvaluator = (targets, metadata, context) => {
+  const hasEnemyType = context.allEnemies.some(enemy =>
+    enemy.combatantTypes.includes(metadata.combatantType!)
+  )
+
+  const shouldIncludeTargets = metadata.negated ? !hasEnemyType : hasEnemyType
+
+  // If the presence condition is met, return all targets; otherwise return empty array
+  return shouldIncludeTargets ? targets : []
+}
+
+const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
+  const recentActions = context.battlefield.actionHistory.slice(-10) // Increased window
 
   return targets.filter(target => {
-    // Simplified attack history check
-    return recentActions.some(action =>
-      action.targetIds.includes(target.unit.id)
-    )
+    if (
+      metadata.attackType === 'physical' ||
+      metadata.attackType === 'magical'
+    ) {
+      // TODO: Filter by attack type - requires skill lookup from skillId
+      // For now, treat as basic attack history check
+      return recentActions.some(action =>
+        action.targetIds.includes(target.unit.id)
+      )
+    } else if (metadata.attackType === 'row') {
+      // Check if target's row was attacked
+      return recentActions.some(action =>
+        action.targetIds.some(targetId => {
+          const attackedUnit = Object.values(context.battlefield.units).find(
+            u => u.unit.id === targetId
+          )
+          return (
+            attackedUnit && attackedUnit.position.row === target.position.row
+          )
+        })
+      )
+    } else if (metadata.attackType === 'column') {
+      // Check if target's column was attacked
+      return recentActions.some(action =>
+        action.targetIds.some(targetId => {
+          const attackedUnit = Object.values(context.battlefield.units).find(
+            u => u.unit.id === targetId
+          )
+          return (
+            attackedUnit && attackedUnit.position.col === target.position.col
+          )
+        })
+      )
+    } else if (metadata.attackType === 'all-allies') {
+      // Check if all allies were attacked in recent history
+      const allAlliesAttacked = context.allAllies.every(ally =>
+        recentActions.some(action => action.targetIds.includes(ally.unit.id))
+      )
+      return allAlliesAttacked ? targets : []
+    } else if (metadata.attackType === 'by-type') {
+      // Check if attacked by specific combatant type
+      return recentActions.some(action => {
+        if (action.targetIds.includes(target.unit.id)) {
+          const attacker = Object.values(context.battlefield.units).find(
+            u => u.unit.id === action.unitId
+          )
+          return attacker?.combatantTypes.includes(metadata.combatantType!)
+        }
+        return false
+      })
+    } else {
+      // Fallback: basic attack history check
+      return recentActions.some(action =>
+        action.targetIds.includes(target.unit.id)
+      )
+    }
   })
 }
 
@@ -453,6 +531,48 @@ const sortStats: SortEvaluator = (targets, metadata) => {
   })
 }
 
+const sortUnitCount: SortEvaluator = (
+  targets,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _metadata,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _context
+) => {
+  // Sort targets based on unit count conditions
+  // This is mainly a pass-through since unit count affects the entire target pool
+  return targets
+}
+
+const sortEnemyPresence: SortEvaluator = (
+  targets,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _metadata,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _context
+) => {
+  // Sort targets based on enemy presence
+  // This is mainly a pass-through since enemy presence affects the entire battlefield
+  return targets
+}
+
+const sortAttackHistory: SortEvaluator = (targets, metadata, context) => {
+  const recentActions = context.battlefield.actionHistory.slice(-10)
+
+  return [...targets].sort((a, b) => {
+    const aRecentlyAttacked = recentActions.some(action =>
+      action.targetIds.includes(a.unit.id)
+    )
+    const bRecentlyAttacked = recentActions.some(action =>
+      action.targetIds.includes(b.unit.id)
+    )
+
+    // Prioritize recently attacked units
+    if (aRecentlyAttacked && !bRecentlyAttacked) return -1
+    if (!aRecentlyAttacked && bRecentlyAttacked) return 1
+    return 0
+  })
+}
+
 // ============================================================================
 // COMPARE EVALUATORS (for hasTrueTie comparison)
 // ============================================================================
@@ -516,6 +636,50 @@ const compareStats: CompareEvaluator = (a, b, metadata) => {
   }
 }
 
+const compareUnitCount: CompareEvaluator = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _a,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _b,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _metadata,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _context
+) => {
+  // Unit count comparison doesn't really apply at the individual target level
+  return 0
+}
+
+const compareEnemyPresence: CompareEvaluator = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _a,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _b,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _metadata,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _context
+) => {
+  // Enemy presence comparison doesn't really apply at the individual target level
+  return 0
+}
+
+const compareAttackHistory: CompareEvaluator = (a, b, metadata, context) => {
+  const recentActions = context.battlefield.actionHistory.slice(-10)
+
+  const aRecentlyAttacked = recentActions.some(action =>
+    action.targetIds.includes(a.unit.id)
+  )
+  const bRecentlyAttacked = recentActions.some(action =>
+    action.targetIds.includes(b.unit.id)
+  )
+
+  // Prioritize recently attacked units
+  if (aRecentlyAttacked && !bRecentlyAttacked) return -1
+  if (!aRecentlyAttacked && bRecentlyAttacked) return 1
+  return 0
+}
+
 // ============================================================================
 // EVALUATOR REGISTRY - The replacement for switch statements
 // ============================================================================
@@ -541,6 +705,8 @@ export const FILTER_EVALUATORS: Record<string, FilterEvaluator> = {
   formation: filterFormation,
   'user-condition': filterUserConditionOnTarget,
   'attack-history': filterAttackHistory,
+  'unit-count': filterUnitCount,
+  'enemy-presence': filterEnemyPresence,
 }
 
 export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
@@ -552,6 +718,9 @@ export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
   formation: sortFormation,
   'stat-high': sortStats,
   'stat-low': sortStats,
+  'unit-count': sortUnitCount,
+  'enemy-presence': sortEnemyPresence,
+  'attack-history': sortAttackHistory,
 }
 
 export const COMPARE_EVALUATORS: Record<string, CompareEvaluator> = {
@@ -562,4 +731,7 @@ export const COMPARE_EVALUATORS: Record<string, CompareEvaluator> = {
   formation: compareFormation,
   'stat-high': compareStats,
   'stat-low': compareStats,
+  'unit-count': compareUnitCount,
+  'enemy-presence': compareEnemyPresence,
+  'attack-history': compareAttackHistory,
 }

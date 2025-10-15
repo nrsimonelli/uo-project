@@ -1,3 +1,5 @@
+import { ActiveSkillsMap } from '@/generated/skills-active'
+import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { EquipmentSkillId } from '@/types/equipment'
 
 export const getSkillDisplayName = (
@@ -5,7 +7,13 @@ export const getSkillDisplayName = (
 ): string => {
   if (!skillId) return ''
 
-  // For now, just return the ID as the display name
-  // Later, this could look up the actual skill name from the skills data
+  if (skillId in PassiveSkillsMap) {
+    return PassiveSkillsMap[skillId as keyof PassiveSkillsMap].name
+  }
+
+  if (skillId in ActiveSkillsMap) {
+    return ActiveSkillsMap[skillId as keyof ActiveSkillsMap].name
+  }
+
   return skillId
 }

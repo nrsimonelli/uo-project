@@ -1,7 +1,8 @@
-import { PlusIcon, Search } from 'lucide-react'
+import { PlusIcon } from 'lucide-react'
 
 import { UnitItem } from './unit-item'
 
+import { SearchInput } from '@/components/search-input'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { createUnit } from '@/core/create-unit'
 import { generateRandomId } from '@/core/helpers'
@@ -72,8 +72,9 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
         </DialogHeader>
         <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
           <SearchInput
-            searchTerm={searchTerm}
-            onSearchChange={updateSearchTerm}
+            value={searchTerm}
+            onChange={updateSearchTerm}
+            placeholder="Search..."
           />
           <ScrollArea className="flex flex-col w-full overflow-y-auto">
             <UnitList units={filteredUnits} onUnitSelect={handleUnitSelect} />
@@ -84,25 +85,6 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
-
-interface SearchInputProps {
-  searchTerm: string
-  onSearchChange: (term: string) => void
-}
-
-function SearchInput({ searchTerm, onSearchChange }: SearchInputProps) {
-  return (
-    <div className="relative w-full">
-      <Search className="absolute top-1/2 left-2 -translate-y-1/2 w-4 h-4" />
-      <Input
-        className="pl-8"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={e => onSearchChange(e.target.value)}
-      />
-    </div>
   )
 }
 
