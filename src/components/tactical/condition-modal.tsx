@@ -1,6 +1,6 @@
-import { Search } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
+import { SearchInput } from '@/components/search-input'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -116,15 +115,11 @@ export const ConditionModal = ({
         </DialogHeader>
         <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
           {/* Search Input */}
-          <div className="relative px-4">
-            <Search className="absolute left-7 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search conditions..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+          <SearchInput
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search conditions..."
+          />
           <div className="flex flex-1 overflow-hidden w-full">
             {/* Categories - hide when searching */}
             {!isSearching && (
