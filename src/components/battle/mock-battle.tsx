@@ -231,7 +231,7 @@ export function MockBattle() {
                     </div>
                     <div className="text-center">
                       <div className="text-lg font-semibold">Home Team HP</div>
-                      <div className="text-2xl font-bold text-blue-600">
+                      <div className="text-2xl font-bold text-home">
                         {resultSummary.teamHpPercentages['home-team']?.toFixed(
                           1
                         ) || 0}
@@ -240,7 +240,7 @@ export function MockBattle() {
                     </div>
                     <div className="text-center">
                       <div className="text-lg font-semibold">Away Team HP</div>
-                      <div className="text-2xl font-bold text-red-600">
+                      <div className="text-2xl font-bold text-away">
                         {resultSummary.teamHpPercentages['away-team']?.toFixed(
                           1
                         ) || 0}

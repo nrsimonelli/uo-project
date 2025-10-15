@@ -96,12 +96,25 @@ src/
 ├── components/      # React components
 │   ├── ui/         # shadcn/ui components (Radix UI primitives)
 │   ├── team-builder/ # Team building interface
-│   └── unit-builder/ # Unit customization interface
+│   ├── unit-builder/ # Unit customization interface
+│   └── battle/     # Battle UI components
 ├── core/           # Game logic and engine code
+│   ├── battle/     # Complete battle engine system
+│   │   ├── engine/ # State management, turn management
+│   │   ├── combat/ # Damage calculation, skill execution
+│   │   ├── evaluation/ # Tactical AI, condition evaluation
+│   │   └── targeting/  # Skill and tactical targeting
+│   └── calculations/ # Modular stat calculation system
+│       ├── base-stats.ts      # Base stats, growth, AP/PP
+│       ├── equipment-bonuses.ts # Equipment bonuses
+│       ├── dual-equipment.ts   # Specialized dual equipment
+│       ├── combat-calculations.ts # Damage, crit, guard
+│       └── turn-order.ts      # Initiative and turn order
 ├── data/           # Static game data (JSON files)
 ├── generated/      # Auto-generated TypeScript from JSON data
 ├── hooks/          # Custom React hooks
 ├── scripts/        # Build and maintenance scripts
+├── test/           # Test files and utilities
 ├── types/          # TypeScript type definitions
 └── utils/          # Utility functions
 ```
@@ -113,7 +126,6 @@ src/
 ### Team Builder
 
 - **Unit Management** — Add, remove, and position units in a 2x3 formation
-- **Drag & Drop** — Intuitive unit positioning with visual feedback
 - **Multiple Teams** — Manage up to 6 different team configurations
 - **Import/Export** — Share team configurations via JSON
 
@@ -127,9 +139,14 @@ src/
 ### Skills & Tactics System
 
 - **Active Skills** — Combat abilities that consume AP
-- **Passive Skills** — Automatic abilities that trigger based on conditions
+- **Passive Skills** — Reactive abilities that trigger based on conditions
 - **Tactical Modifiers** — Enhance skills with targeting, condition, and effect modifiers
-- **Class-based Learning** — Units learn skills based on their class and level
+
+### Battle Engine
+
+- **Modular Architecture** — Organized battle system with specialized subsystems
+- **Deterministic Combat** — Repeatable battles with seeded RNG
+- **Complete Skill Effects** — Full implementation of skill conditions and effects
 
 ---
 
@@ -151,11 +168,36 @@ src/
 - Team formation builder with drag-and-drop unit positioning.
 - Team import/export functionality for sharing configurations.
 
-**Phase 1 Status:** Currently implementing battle simulation engine. Team building and unit customization are complete.
+**Phase 1 Status:** ✅ Complete
 
 ---
 
-### Phase 2 — Automated Tournaments
+### Phase 1.5 — Battle Engine & Tactical AI ✅
+
+- **Complete Battle System Architecture** — Modular engine with specialized subsystems
+- **Initiative & Turn Management** — Proper turn order with tiebreaking
+- **Skill Effect System** — Complete condition evaluation and effect processing
+- **Damage Calculation** — Full damage system with crits, guard, effectiveness
+- **Modular Calculations** — Split calculations into focused, maintainable modules
+- **Import Modernization** — All files converted to modern `@/` path aliases
+
+**Phase 1.5 Status:** ✅ Complete
+
+---
+
+### Phase 2 — Battle Testing & UI Integration 🚧
+
+- **Battle Engine Testing** — Comprehensive testing of tactical AI and battle simulation
+- **Battle UI Integration** — Connect battle engine to user interface
+- **Performance Optimization** — Battle simulation performance tuning
+- **Edge Case Testing** — Complex tactical scenarios and battlefield conditions
+- **Battle Analytics** — Tactical decision debugging and analysis tools
+
+**Phase 2 Status:** 🚧 In Progress
+
+---
+
+### Phase 3 — Automated Tournaments
 
 - Players submit teams to asynchronous tournaments.
 - Brackets resolve automatically, with results viewable live or through a replay/log format.
@@ -163,7 +205,7 @@ src/
 
 ---
 
-### Phase 3+ — New Game Modes and Custom Content
+### Phase 4+ — New Game Modes and Custom Content
 
 - Custom classes and equipment allowing for more customized gameplay.
 - Rogue-like game mode that challenges team building, strategy, and realtime descision making skills.
@@ -178,6 +220,7 @@ src/
 
 This project uses ESLint and Prettier to maintain consistent code quality and formatting:
 
+- **Modern Import System:** All imports use `@/` path aliases instead of relative paths
 - **Import Organization:** Imports are automatically sorted into logical groups:
   - External packages (React, Lucide, etc.)
   - UI components (`../ui/*`)
@@ -185,6 +228,7 @@ This project uses ESLint and Prettier to maintain consistent code quality and fo
   - Core utilities (`@/core/*`)
   - Hooks (`@/hooks/*`)
   - Types (`@/types/*`)
+- **TypeScript Configuration:** Modernized without deprecated features
 
 - **Automatic Formatting:** Code is formatted on save with Prettier
 - **Lint Rules:** ESLint enforces code quality and catches common issues

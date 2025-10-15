@@ -55,37 +55,66 @@
 - [x] Set up **ESLint** with TypeScript rules
 - [x] Configure **Prettier** for code formatting
 - [x] Implement **automated import sorting** with logical grouping
-- [x] Add **VS Code integration** for format-on-save
-- [x] Update **README** with development workflow
-- [x] Create **comprehensive project documentation**
 
 ---
 
-## 📂 Phase 1.5 - Battle Engine (IN PROGRESS)
+## 📂 Phase 1.5 - Battle Engine ✅ COMPLETE
 
-### Battle System 🚧
+### Battle System ✅
 
-- [x] Start **battle engine** implementation (`core/battle-engine.ts`)
-- [ ] Complete **initiative order** calculation
-- [ ] Implement **action resolution** system
-- [ ] Add **RNG seed utilities** for deterministic outcomes
-- [ ] Hook up **condition evaluation** for skills/tactics
-- [ ] Create **battle log format** (`types/battle-log.ts`)
-- [ ] Write **battle simulation** function (team vs. team)
-- [ ] Add **damage calculation** with equipment/skills
-- [ ] Implement **status effects** and **condition tracking**
+- [x] **Complete modular battle architecture** (`src/core/battle/`)
+  - [x] `engine/` - State management, turn management, battlefield state
+  - [x] `combat/` - Damage calculation, skill execution, effect processing
+  - [x] `evaluation/` - Tactical AI and condition evaluation
+  - [x] `targeting/` - Skill and tactical targeting systems
+- [x] **Initiative order calculation** with proper tiebreaking
+- [x] **Action resolution system** with complete turn management
+- [x] **RNG seed utilities** for deterministic outcomes
+- [x] **Battle state tracking** with comprehensive battlefield state
+- [x] **Damage calculation system** with crits, guard, effectiveness
+- [x] **Skill effect processing** with complete condition evaluation
+- [x] **Status effects** and condition tracking systems
 
-### Battle UI 🚧
+### Calculation System Refactor ✅
 
-- [ ] Create **battle viewer** component
+- [x] **Split calculations.ts** into focused modules:
+  - [x] `base-stats.ts` - Base stat calculation, growth patterns, AP/PP
+  - [x] `equipment-bonuses.ts` - Equipment bonuses with dual equipment support
+  - [x] `dual-equipment.ts` - Specialized dual sword/shield calculations
+  - [x] `combat-calculations.ts` - Damage, crit, guard mechanics
+  - [x] `turn-order.ts` - Initiative-based turn order with tiebreaking
+
+---
+
+## 📂 Phase 2 - Battle Testing & Integration 🚧 IN PROGRESS
+
+### Battle Engine Testing 🚧
+
+- [ ] **Integration Testing** - Full tactical system with battle simulation
+- [ ] **Edge Case Testing** - Complex tactical scenarios and battlefield conditions
+- [ ] **Performance Testing** - Tactical evaluation and battle simulation performance
+- [ ] **Unit Behavior Validation** - Verify units make intelligent tactical decisions
+- [ ] **Deterministic Testing** - Ensure battles are repeatable with same seed
+
+### Battle UI Integration 🚧
+
+- [ ] Create **battle viewer** component with tactical reasoning display
 - [ ] Add **battle controls** (start, pause, step-through)
-- [ ] Implement **battle log display**
-- [ ] Create **unit health/status** indicators
+- [ ] Implement **battle log display** with action history
+- [ ] Create **unit health/status** indicators with real-time updates
 - [ ] Add **formation visualization** during battle
+- [ ] Build **tactical decision indicators** (why units chose specific actions)
+
+### Battle Analytics & Debug Tools 🚧
+
+- [ ] **Tactical Decision Logger** - Track tactical evaluation reasoning
+- [ ] **Performance Profiler** - Battle simulation performance metrics
+- [ ] **Battle Replay System** - Save and replay battle simulations
+- [ ] **Debug Interface** - Development tools for tactical analysis
 
 ---
 
-## 📂 Phase 2 - Tournament System
+## 📂 Phase 3 - Tournament System
 
 ### Tournament Framework
 
@@ -104,7 +133,7 @@
 
 ---
 
-## 📂 Phase 3+ - Advanced Features
+## 📂 Phase 4+ - Advanced Features
 
 ### Custom Content
 
@@ -123,9 +152,18 @@
 
 ## 📂 Current Priority
 
-**Focus:** Complete Phase 1.5 Battle Engine
+**Focus:** Phase 2.0 Battle Testing & Integration
 
-- Finish battle simulation system
-- Add battle UI components
-- Test deterministic battle outcomes
-- Prepare for Phase 2 tournament system
+- **Battle Engine Testing** - Comprehensive testing of tactical AI system
+- **Battle UI Integration** - Connect battle engine to user interface
+- **Performance Optimization** - Battle simulation performance tuning
+- **Edge Case Validation** - Test complex tactical scenarios
+- **Battle Analytics** - Add tactical decision debugging tools
+
+### Recent Achievements ✅
+
+- **Complete Battle System Architecture** - Fully modular, organized battle engine
+- **100% Tactical System Implementation** - All tactical conditions implemented
+- **Modular Calculations System** - Split monolithic calculations into focused modules
+- **Import System Modernization** - All files converted to modern `@/` path aliases
+- **TypeScript Configuration Update** - Removed deprecated features, modernized setup

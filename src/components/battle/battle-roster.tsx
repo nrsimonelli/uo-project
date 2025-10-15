@@ -238,19 +238,19 @@ function TugOfWarProgress({ homeTeam, awayTeam }: TugOfWarProgressProps) {
       {/* HP percentages with labels - animated */}
       <div className="flex justify-between items-center">
         <div className="text-center">
-          <div className="text-sm font-medium text-blue-600">Home</div>
+          <div className="text-sm font-medium text-home">Home</div>
           <div className="text-lg font-bold">{animatedHomeHP.toFixed(0)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm font-medium text-red-600">Away</div>
+          <div className="text-sm font-medium text-away">Away</div>
           <div className="text-lg font-bold">{animatedAwayHP.toFixed(0)}%</div>
         </div>
       </div>
 
       {/* Custom animated progress bar without CSS transitions */}
-      <div className="relative h-3 bg-primary/20 w-full overflow-hidden rounded-full">
+      <div className="relative h-3 bg-away/20 w-full overflow-hidden rounded-full">
         <div
-          className="h-full bg-blue-500 rounded-full"
+          className="h-full bg-home rounded-full"
           style={{ width: `${animatedProgress}%` }}
         />
       </div>

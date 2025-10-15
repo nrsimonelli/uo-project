@@ -16,20 +16,20 @@ const badgeVariants = cva(
           'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
         outline: 'text-foreground',
         success:
-          'border-transparent bg-green-100 text-green-800 border-green-200 dark:bg-green-900/50 dark:text-green-200',
+          'border-transparent bg-success/10 text-success hover:bg-success/20 dark:bg-success/20 dark:text-success-foreground',
         warning:
-          'border-transparent bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/50 dark:text-yellow-200',
-        info: 'border-transparent bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-blue-200',
+          'border-transparent bg-warning text-warning-foreground hover:bg-warning/80',
+        info: 'border-transparent bg-info/10 text-info hover:bg-info/20 dark:bg-info/20 dark:text-info-foreground',
         muted:
-          'border-transparent bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-400',
+          'border-transparent bg-muted text-muted-foreground hover:bg-muted/80',
         physical:
-          'border-transparent bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/50 dark:text-orange-200',
+          'border-transparent bg-physical/10 text-physical hover:bg-physical/20 dark:bg-physical/20 dark:text-physical-foreground',
         magical:
-          'border-transparent bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/50 dark:text-purple-200',
+          'border-transparent bg-magical/10 text-magical hover:bg-magical/20 dark:bg-magical/20 dark:text-magical-foreground',
         'home-team':
-          'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-blue-200 dark:border-blue-700/50',
+          'bg-home/10 text-home border-home/20 dark:bg-home/20 dark:text-home-foreground dark:border-home/50',
         'away-team':
-          'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/50 dark:text-red-200 dark:border-red-700/50',
+          'bg-away/10 text-away border-away/20 dark:bg-away/20 dark:text-away-foreground dark:border-away/50',
       },
     },
     defaultVariants: {

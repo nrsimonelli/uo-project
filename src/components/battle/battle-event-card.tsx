@@ -67,11 +67,21 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                 <div className="text-muted-foreground">Result</div>
                 <div className="font-semibold">
                   {winner === 'Draw' ? (
-                    <Badge variant="secondary">Draw</Badge>
+                    <Badge variant="outline">Draw</Badge>
                   ) : winner === 'Home Team' ? (
-                    <Badge variant="home-team">{winner} Wins</Badge>
+                    <Badge
+                      variant="default"
+                      className="bg-home text-home-foreground"
+                    >
+                      {winner} Wins
+                    </Badge>
                   ) : (
-                    <Badge variant="away-team">{winner} Wins</Badge>
+                    <Badge
+                      variant="default"
+                      className="bg-away text-away-foreground"
+                    >
+                      {winner} Wins
+                    </Badge>
                   )}
                 </div>
               </div>
@@ -108,12 +118,12 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
       { physical: 0, magical: 0 }
     )
 
-  // Team-based card styling
+  // Team-based card styling with enhanced differentiation
   const teamCardStyles = {
     'home-team':
-      'border-blue-200 bg-blue-50/50 dark:border-blue-700/50 dark:bg-blue-950/30',
+      'border-home/30 bg-home/10 dark:border-home/60 dark:bg-home/15 border-l-4 border-l-home',
     'away-team':
-      'border-red-200 bg-red-50/50 dark:border-red-700/50 dark:bg-red-950/30',
+      'border-away/30 bg-away/10 dark:border-away/60 dark:bg-away/15 border-r-4 border-r-away',
   }
 
   const currentCardStyle = team ? teamCardStyles[team] : ''
@@ -163,12 +173,18 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                     <div className="flex flex-wrap items-center gap-2 text-xs">
                       {/* Physical and Magical Potency */}
                       {skillPotency && skillPotency.physical > 0 && (
-                        <Badge variant="physical" className="text-xs">
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-physical text-physical"
+                        >
                           Phys. {skillPotency.physical}
                         </Badge>
                       )}
                       {skillPotency && skillPotency.magical > 0 && (
-                        <Badge variant="magical" className="text-xs">
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-magical text-magical"
+                        >
                           Mag. {skillPotency.magical}
                         </Badge>
                       )}
@@ -198,7 +214,7 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                 ) : (
                   /* Fallback for events without skill data */
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Badge variant="secondary" className="text-xs capitalize">
+                    <Badge variant="outline" className="text-xs capitalize">
                       {event.type.replace('_', ' ')}
                     </Badge>
                     {event.targets && event.targets.length > 0 && (

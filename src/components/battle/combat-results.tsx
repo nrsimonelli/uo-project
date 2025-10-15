@@ -28,8 +28,13 @@ export function CombatHitResult({ hit, hitIndex }: CombatHitResultProps) {
 
       {/* Hit/Miss status */}
       <Badge
-        variant={hit.hit ? 'success' : 'muted'}
-        className="text-xs px-1.5 py-0.5"
+        variant="outline"
+        className={cn(
+          'text-xs px-1.5 py-0.5',
+          hit.hit
+            ? 'border-foreground text-foreground'
+            : 'border-destructive text-destructive'
+        )}
       >
         {hit.hit ? 'HIT' : 'MISS'}
       </Badge>
@@ -38,21 +43,27 @@ export function CombatHitResult({ hit, hitIndex }: CombatHitResultProps) {
         <>
           {/* Critical hit */}
           {hit.wasCritical && (
-            <Badge variant="warning" className="text-xs">
+            <Badge
+              variant="outline"
+              className="text-xs border-warning text-warning"
+            >
               CRIT
             </Badge>
           )}
 
           {/* Guard status */}
           {hit.wasGuarded && (
-            <Badge variant="info" className="text-xs">
+            <Badge variant="outline" className="text-xs border-info text-info">
               GUARD
             </Badge>
           )}
 
           {/* Damage amount */}
           {hit.damage > 0 && (
-            <Badge variant="outline" className="text-xs font-mono">
+            <Badge
+              variant="outline"
+              className="text-xs font-mono border-foreground text-foreground"
+            >
               {hit.damage} DMG
             </Badge>
           )}
@@ -94,7 +105,10 @@ export function CombatTargetResult({ targetResult }: CombatTargetResultProps) {
           → {targetName}
         </span>
         {totalDamage > 0 && (
-          <Badge variant="outline" className="text-xs font-mono">
+          <Badge
+            variant="outline"
+            className="text-xs font-mono border-foreground text-foreground"
+          >
             {totalDamage} total
           </Badge>
         )}
@@ -129,16 +143,22 @@ export function CombatResultsSummary({
       {/* Multi-target summary */}
       {isMultiTarget && summary && (
         <div className="flex flex-wrap items-center gap-2 text-xs pb-1 border-b border-border/50">
-          <Badge variant="secondary" className="text-xs">
+          <Badge variant="outline" className="text-xs">
             {summary.targetsHit}/{targetResults.length} targets hit
           </Badge>
           {summary.criticalHits > 0 && (
-            <Badge variant="warning" className="text-xs">
+            <Badge
+              variant="outline"
+              className="text-xs border-warning text-warning"
+            >
               {summary.criticalHits} crits
             </Badge>
           )}
           {summary.totalDamage > 0 && (
-            <Badge variant="outline" className="text-xs font-mono">
+            <Badge
+              variant="outline"
+              className="text-xs font-mono border-foreground text-foreground"
+            >
               {summary.totalDamage} total DMG
             </Badge>
           )}

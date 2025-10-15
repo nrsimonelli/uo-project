@@ -24,11 +24,11 @@ export const STAT_ICONS = {
 } as const
 
 export const RANK_COLORS: Record<string, string> = {
-  S: 'text-blue-500',
-  A: 'text-blue-500',
+  S: 'text-success',
+  A: 'text-info',
   B: 'text-muted-foreground',
   C: 'text-muted-foreground',
   D: 'text-muted-foreground',
-  E: 'text-red-500',
-  F: 'text-red-500',
+  E: 'text-warning',
+  F: 'text-destructive',
 }

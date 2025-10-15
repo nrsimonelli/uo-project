@@ -1,6 +1,8 @@
-import { STANDBY_SKILL, getDefaultTargets } from './skill-targeting'
-import { evaluateSkillSlotTactics } from './tactical-targeting'
-
+import {
+  getDefaultTargets,
+  STANDBY_SKILL,
+} from '@/core/battle/targeting/skill-targeting'
+import { evaluateSkillSlotTactics } from '@/core/battle/targeting/tactical-targeting'
 import { ActiveSkillsMap } from '@/generated/skills-active'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill } from '@/types/skills'
