@@ -884,7 +884,7 @@ export const PassiveSkills = [
     description: 'Activates before being attacked. Evade a single hit.',
     pp: 1,
     skillCategories: ['Guard'],
-    activationWindow: 'beforeBeingHit',
+    activationWindow: 'beforeBeingAttacked',
     targeting: {
       group: 'Self',
       pattern: 'Single',
@@ -1220,7 +1220,7 @@ export const PassiveSkills = [
       'Activates before being attacked. Heal self for minor HP recovery. Grants user a buff to endure one lethal blow.',
     pp: 1,
     skillCategories: ['Utility'],
-    activationWindow: 'beforeBeingHit',
+    activationWindow: 'beforeBeingAttacked',
     targeting: {
       group: 'Self',
       pattern: 'Single',

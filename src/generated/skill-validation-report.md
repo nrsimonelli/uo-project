@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2025-10-16T18:07:46.459Z_
+_Generated: 2025-10-16T23:12:51.040Z_
 
 ## Summary
 
@@ -10,6 +10,8 @@ _Generated: 2025-10-16T18:07:46.459Z_
 - **Active Skills Defined**: 67
 - **Passive Skills Defined**: 49
 - **Total Skills Defined**: 116
+- **Activation Windows Referenced**: 20
+- **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
@@ -304,6 +306,34 @@ _Generated: 2025-10-16T18:07:46.459Z_
 ## Unused Skills (Defined but Not Referenced)
 
 ✅ **No unused skills found!**
+
+## Missing Activation Windows (Referenced but Not Defined)
+
+✅ **No missing activation windows found!**
+
+## Unused Activation Windows (Defined but Not Referenced)
+
+⚠️ **19 unused activation windows:**
+
+- `afterAllyAttackedActive`
+- `afterAllyHealed`
+- `afterAllyMagicAttacksActive`
+- `afterAllyPassiveSkill`
+- `afterAttacking`
+- `afterBeingAttacked`
+- `afterEnemyBuff`
+- `afterEnemyDebuff`
+- `afterEnemyGuards`
+- `afterEnemyHeals`
+- `afterEvade`
+- `afterFlyingAllyAttacksActive`
+- `afterHealed`
+- `afterReceivingAllyPassive`
+- `afterUserDebuff`
+- `beforeAllyAttackedRangedPhys`
+- `beforeAllyAttacksPhysicalActive`
+- `beforeBeingHitRanged`
+- `beforeEnemyAttacksMagic`
 
 ## Skills by Source
 
@@ -859,3 +889,70 @@ _Generated: 2025-10-16T18:07:46.459Z_
 - `vengefulGuard`
 - `warHorn`
 - `wideCounter`
+
+## Activation Windows
+
+### Referenced in Passive Skills (20)
+
+- `afterAllyActiveSkill`
+- `afterAllyAttacksActive`
+- `afterAllyDebuffed`
+- `afterAllyHit`
+- `afterBeingHit`
+- `afterBeingHitPhys`
+- `afterCavalryAllyAttacksActive`
+- `afterEnemyAttacksActive`
+- `afterUsingActiveSkill`
+- `beforeAllyAttacked`
+- `beforeAllyAttacksActive`
+- `beforeAllyHitMagic`
+- `beforeAllyHitRangedPhys`
+- `beforeAttackingActive`
+- `beforeBeingAttacked`
+- `beforeBeingHitMelee`
+- `beforeBeingHitPhys`
+- `beforeEnemyAttacks`
+- `endOfBattle`
+- `startOfBattle`
+
+### Defined Activation Windows (39)
+
+- `afterAllyActiveSkill`
+- `afterAllyAttackedActive`
+- `afterAllyAttacksActive`
+- `afterAllyDebuffed`
+- `afterAllyHealed`
+- `afterAllyHit`
+- `afterAllyMagicAttacksActive`
+- `afterAllyPassiveSkill`
+- `afterAttacking`
+- `afterBeingAttacked`
+- `afterBeingHit`
+- `afterBeingHitPhys`
+- `afterCavalryAllyAttacksActive`
+- `afterEnemyAttacksActive`
+- `afterEnemyBuff`
+- `afterEnemyDebuff`
+- `afterEnemyGuards`
+- `afterEnemyHeals`
+- `afterEvade`
+- `afterFlyingAllyAttacksActive`
+- `afterHealed`
+- `afterReceivingAllyPassive`
+- `afterUserDebuff`
+- `afterUsingActiveSkill`
+- `beforeAllyAttacked`
+- `beforeAllyAttackedRangedPhys`
+- `beforeAllyAttacksActive`
+- `beforeAllyAttacksPhysicalActive`
+- `beforeAllyHitMagic`
+- `beforeAllyHitRangedPhys`
+- `beforeAttackingActive`
+- `beforeBeingAttacked`
+- `beforeBeingHitMelee`
+- `beforeBeingHitPhys`
+- `beforeBeingHitRanged`
+- `beforeEnemyAttacks`
+- `beforeEnemyAttacksMagic`
+- `endOfBattle`
+- `startOfBattle`

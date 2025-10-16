@@ -12,6 +12,10 @@ interface SkillItem {
   type: string
 }
 
+interface PassiveSkillItem extends SkillItem {
+  activationWindow?: string
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -76,6 +80,98 @@ function getDefinedSkills(): {
   return { activeSkills: activeSkillIds, passiveSkills: passiveSkillIds }
 }
 
+function getDefinedActivationWindows(): Set<string> {
+  const activationWindowsPath = path.resolve(
+    __dirname,
+    '../data/activation-windows.ts'
+  )
+  const activationWindowsContent = fs.readFileSync(
+    activationWindowsPath,
+    'utf-8'
+  )
+
+  // Extract activation window IDs using regex - looking for id: 'windowName' patterns
+  const windowIdMatches = activationWindowsContent.match(/id: '([^']+)'/g) || []
+  const windowIds = windowIdMatches
+    .map(match => {
+      const result = match.match(/id: '([^']+)'/)
+      return result ? result[1] : ''
+    })
+    .filter(Boolean)
+
+  return new Set(windowIds)
+}
+
+function extractActivationWindowsFromPassiveSkills(): Set<string> {
+  const passiveSkillsPath = path.resolve(
+    __dirname,
+    '../data/skills/passive.json'
+  )
+  const passiveSkillsRaw = fs.readFileSync(passiveSkillsPath, 'utf-8')
+  const passiveSkills: PassiveSkillItem[] = JSON.parse(passiveSkillsRaw)
+
+  const activationWindows = new Set<string>()
+
+  for (const skill of passiveSkills) {
+    if (skill.activationWindow) {
+      activationWindows.add(skill.activationWindow)
+    }
+  }
+
+  return activationWindows
+}
+
+function validateActivationWindows() {
+  console.log('\n🪟 Validating activation windows...')
+
+  // Get all referenced activation windows from passive skills
+  const referencedWindows = extractActivationWindowsFromPassiveSkills()
+
+  // Get all defined activation windows
+  const definedWindows = getDefinedActivationWindows()
+
+  // Find missing activation windows
+  const missingWindows = new Set<string>()
+  for (const window of referencedWindows) {
+    if (!definedWindows.has(window)) {
+      missingWindows.add(window)
+    }
+  }
+
+  // Find unused activation windows (defined but not referenced)
+  const unusedWindows = new Set<string>()
+  for (const window of definedWindows) {
+    if (!referencedWindows.has(window)) {
+      unusedWindows.add(window)
+    }
+  }
+
+  // Console output
+  console.log(`📊 Activation Windows Summary:`)
+  console.log(
+    `   • Referenced in Passive Skills: ${referencedWindows.size} windows`
+  )
+  console.log(`   • Defined Windows: ${definedWindows.size} windows`)
+
+  if (missingWindows.size > 0) {
+    console.log(
+      `\n❌ MISSING ACTIVATION WINDOWS (${missingWindows.size}):`,
+      Array.from(missingWindows).sort()
+    )
+  } else {
+    console.log(`\n✅ No missing activation windows found!`)
+  }
+
+  if (unusedWindows.size > 0) {
+    console.log(
+      `\n⚠️  UNUSED ACTIVATION WINDOWS (${unusedWindows.size}):`,
+      Array.from(unusedWindows).sort()
+    )
+  }
+
+  return { missingWindows, unusedWindows, referencedWindows, definedWindows }
+}
+
 function validateSkillReferences() {
   console.log('\n🔍 Validating skill references...')
 
@@ -104,6 +200,9 @@ function validateSkillReferences() {
     }
   }
 
+  // Validate activation windows
+  const activationWindowValidation = validateActivationWindows()
+
   // Generate report
   const reportPath = path.resolve(
     __dirname,
@@ -115,7 +214,8 @@ function validateSkillReferences() {
     activeSkills,
     passiveSkills,
     missingSkills,
-    unusedSkills
+    unusedSkills,
+    activationWindowValidation
   )
 
   fs.writeFileSync(reportPath, report, 'utf-8')
@@ -154,7 +254,13 @@ function generateValidationReport(
   activeSkills: Set<string>,
   passiveSkills: Set<string>,
   missingSkills: Set<string>,
-  unusedSkills: Set<string>
+  unusedSkills: Set<string>,
+  activationWindowValidation: {
+    missingWindows: Set<string>
+    unusedWindows: Set<string>
+    referencedWindows: Set<string>
+    definedWindows: Set<string>
+  }
 ): string {
   const timestamp = new Date().toISOString()
 
@@ -170,6 +276,8 @@ function generateValidationReport(
 - **Active Skills Defined**: ${activeSkills.size}
 - **Passive Skills Defined**: ${passiveSkills.size}
 - **Total Skills Defined**: ${activeSkills.size + passiveSkills.size}
+- **Activation Windows Referenced**: ${activationWindowValidation.referencedWindows.size}
+- **Activation Windows Defined**: ${activationWindowValidation.definedWindows.size}
 
 ## Missing Skills (Referenced but Not Defined)
 
@@ -192,6 +300,32 @@ ${
     : `⚠️ **${unusedSkills.size} unused skills:**\n\n${Array.from(unusedSkills)
         .sort()
         .map(skill => `- \`${skill}\``)
+        .join('\n')}`
+}
+
+## Missing Activation Windows (Referenced but Not Defined)
+
+${
+  activationWindowValidation.missingWindows.size === 0
+    ? '✅ **No missing activation windows found!**'
+    : `❌ **${activationWindowValidation.missingWindows.size} missing activation windows:**\n\n${Array.from(
+        activationWindowValidation.missingWindows
+      )
+        .sort()
+        .map(window => `- \`${window}\``)
+        .join('\n')}`
+}
+
+## Unused Activation Windows (Defined but Not Referenced)
+
+${
+  activationWindowValidation.unusedWindows.size === 0
+    ? '✅ **No unused activation windows found!**'
+    : `⚠️ **${activationWindowValidation.unusedWindows.size} unused activation windows:**\n\n${Array.from(
+        activationWindowValidation.unusedWindows
+      )
+        .sort()
+        .map(window => `- \`${window}\``)
         .join('\n')}`
 }
 
@@ -219,6 +353,20 @@ ${Array.from(activeSkills)
 ${Array.from(passiveSkills)
   .sort()
   .map(skill => `- \`${skill}\``)
+  .join('\n')}
+
+## Activation Windows
+
+### Referenced in Passive Skills (${activationWindowValidation.referencedWindows.size})
+${Array.from(activationWindowValidation.referencedWindows)
+  .sort()
+  .map(window => `- \`${window}\``)
+  .join('\n')}
+
+### Defined Activation Windows (${activationWindowValidation.definedWindows.size})
+${Array.from(activationWindowValidation.definedWindows)
+  .sort()
+  .map(window => `- \`${window}\``)
   .join('\n')}
 `
 }

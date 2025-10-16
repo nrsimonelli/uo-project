@@ -24,8 +24,8 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates after an ally uses a passive skill',
     limited: false,
   },
-  AFTER_ALLY_DEBUFF: {
-    id: 'afterAllyDebuff',
+  AFTER_ALLY_DEBUFFED: {
+    id: 'afterAllyDebuffed',
     description: 'Activates after an ally is debuffed',
     limited: false,
   },
@@ -140,8 +140,8 @@ export const ACTIVATION_WINDOWS = {
       'Activates before an ally attacks with a physical active skill',
     limited: true,
   },
-  BEFORE_ATTACKED: {
-    id: 'beforeAttacked',
+  BEFORE_BEING_ATTACKED: {
+    id: 'beforeBeingAttacked',
     description: 'Activates before being attacked',
     limited: false,
   },
