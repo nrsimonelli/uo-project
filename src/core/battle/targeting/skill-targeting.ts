@@ -55,7 +55,7 @@ const selectClosestTargets = (
 const findClosestTarget = (
   actingUnit: BattleContext,
   potentialTargets: BattleContext[],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   _skill: ActiveSkill | PassiveSkill,
   battlefield?: BattlefieldState
 ): BattleContext | null => {

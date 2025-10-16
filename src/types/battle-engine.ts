@@ -98,6 +98,7 @@ export interface Buff {
   duration: 'indefinite' | 'next-attack' | 'next-debuff'
   scaling: 'flat' | 'percent'
   source: string
+  skillId: string
 }
 
 /**
@@ -110,6 +111,7 @@ export interface Debuff {
   duration: 'indefinite' | 'next-attack'
   scaling: 'flat' | 'percent'
   source: string
+  skillId: string
 }
 
 /**
@@ -132,7 +134,22 @@ export interface BattleContext {
   buffs: Buff[]
   debuffs: Debuff[]
 
-  // Cached combat stats for performance
+  // Stat foundation (base + equipment) - stored once for efficient recalculation
+  statFoundation: {
+    HP: number
+    PATK: number
+    PDEF: number
+    MATK: number
+    MDEF: number
+    ACC: number
+    EVA: number
+    CRT: number
+    GRD: number
+    INIT: number
+    GuardEff: number
+  }
+
+  // Final combat stats (foundation + buffs/debuffs) - dynamically calculated
   combatStats: {
     HP: number // maxHP
     PATK: number

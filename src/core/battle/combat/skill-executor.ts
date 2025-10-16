@@ -11,11 +11,13 @@ import {
   applyEffectsToDamage,
   type EffectProcessingResult,
 } from './effect-processor'
+import { applyStatusEffects } from './status-effects'
 
 import { isDamageSkill } from '@/core/attack-types'
 import type { RandomNumberGeneratorType } from '@/core/random'
 import type { BattleContext } from '@/types/battle-engine'
-import type { DamageEffect } from '@/types/effects'
+import type { SkillCategory } from '@/types/core'
+import type { DamageEffect, Flag } from '@/types/effects'
 import type { ActiveSkill } from '@/types/skills'
 
 /**
@@ -63,7 +65,14 @@ const executeNonDamageSkill = (
   }
 
   // Process all conditional effects
-  const effectResults = processEffects(skill.effects, conditionContext)
+  const effectResults = processEffects(
+    skill.effects,
+    conditionContext,
+    skill.id
+  )
+
+  // Apply status effects (buffs/debuffs) to appropriate targets
+  applyStatusEffects(effectResults, attacker, [target])
 
   return {
     damageResults: [],
@@ -92,7 +101,11 @@ const executeDamageSkill = (
   }
 
   // Process all conditional effects
-  const effectResults = processEffects(skill.effects, conditionContext)
+  const effectResults = processEffects(
+    skill.effects,
+    conditionContext,
+    skill.id
+  )
 
   // Get damage effects from skill
   const damageEffects = getDamageEffects(skill.effects)
@@ -122,9 +135,9 @@ const executeDamageSkill = (
         target,
         modifiedEffect,
         rng,
-        skill.skillFlags || [],
+        (skill.skillFlags as Flag[]) || [],
         [], // effectFlags - not used in current implementation
-        skill.skillCategories || ['Damage']
+        (skill.skillCategories as SkillCategory[]) || ['Damage']
       )
       damageResults.push(...multiHitResults)
     } else {
@@ -151,6 +164,9 @@ const executeDamageSkill = (
 
   // Update condition context with final hit result
   conditionContext.targetDefeated = target.currentHP - totalDamage <= 0
+
+  // Apply status effects (buffs/debuffs) to appropriate targets
+  applyStatusEffects(effectResults, attacker, [target])
 
   return {
     damageResults,

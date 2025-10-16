@@ -67,6 +67,7 @@ export interface BuffEffect extends BaseEffect {
 
 export interface DebuffEffect extends BaseEffect {
   kind: 'Debuff'
+  stacks?: boolean
   // TODO: Add source tracking for Taunt debuffs to enable proper targeting override
   // When stat === 'Taunt', the battle system needs to track which unit applied the taunt
 }

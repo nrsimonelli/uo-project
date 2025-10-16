@@ -83,6 +83,8 @@ export interface EffectProcessingResult {
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
     duration?: 'NextAction'
+    skillId: string
+    stacks: boolean
   }>
   debuffsToApply: Array<{
     stat: string
@@ -90,6 +92,8 @@ export interface EffectProcessingResult {
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
     duration?: 'NextAction'
+    skillId: string
+    stacks: boolean
   }>
 }
 
@@ -98,7 +102,8 @@ export interface EffectProcessingResult {
  */
 export const processEffects = (
   effects: readonly Effect[] | Effect[],
-  context: ConditionEvaluationContext
+  context: ConditionEvaluationContext,
+  skillId: string
 ): EffectProcessingResult => {
   const result: EffectProcessingResult = {
     potencyModifiers: { physical: 0, magical: 0 },
@@ -168,6 +173,8 @@ export const processEffects = (
         scaling: effect.scaling,
         target: effect.applyTo || 'Target',
         duration: effect.duration,
+        skillId,
+        stacks: effect.stacks || false,
       })
       return
     }
@@ -179,6 +186,8 @@ export const processEffects = (
         scaling: effect.scaling,
         target: effect.applyTo || 'Target',
         duration: effect.duration,
+        skillId,
+        stacks: effect.stacks || false,
       })
       return
     }

@@ -6,6 +6,10 @@ import {
   type MultiTargetSkillResult,
 } from '@/core/battle/combat/skill-executor'
 import {
+  removeExpiredBuffs,
+  removeExpiredDebuffs,
+} from '@/core/battle/combat/status-effects'
+import {
   calculateTeamHpPercentages,
   createBattleEndEvent,
   createBattleStartEvent,
@@ -159,6 +163,10 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       if (!battlefieldState) return
       const unit = battlefieldState.units[unitId]
       if (!unit) return
+
+      // Remove expired effects for the acting unit before their action
+      removeExpiredBuffs(unit, 'attack')
+      removeExpiredDebuffs(unit, 'attack')
 
       // Select and execute skill
       const skillSelection = selectActiveSkill(unit, battlefieldState)

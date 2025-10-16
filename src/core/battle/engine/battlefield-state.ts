@@ -1,3 +1,5 @@
+import { initializeStatFoundation } from '../combat/status-effects'
+
 import {
   calculateBaseStats,
   calculateFinalAPPP,
@@ -17,7 +19,7 @@ export const createBattleContext = (
   team: 'home-team' | 'away-team',
   position: { row: number; col: number }
 ): BattleContext => {
-  // Calculate combat stats from base stats + equipment
+  // Calculate combat stats from base stats + equipment (temporary for initial HP)
   const baseStats = calculateBaseStats(unit.level, unit.classKey, unit.growths)
   const equipmentBonus = calculateEquipmentBonus(
     unit.equipment,
@@ -25,7 +27,7 @@ export const createBattleContext = (
     unit.classKey
   )
 
-  // Combine base stats and equipment bonuses for combat stats
+  // Create initial combatStats structure (will be properly calculated by initializeStatFoundation)
   const combatStats = Object.keys(baseStats).reduce(
     (acc, stat) => {
       const key = stat as keyof typeof baseStats
@@ -44,7 +46,7 @@ export const createBattleContext = (
   // Get combatant types for this unit's class
   const combatantTypes = getCombatantTypeFromClass(unit.classKey)
 
-  return {
+  const battleContext: BattleContext = {
     unit,
     team,
     position,
@@ -53,6 +55,21 @@ export const createBattleContext = (
     currentAP: finalAPPP.AP,
     currentPP: finalAPPP.PP,
     combatantTypes,
+
+    // Initialize stat foundation (will be properly set by initializeStatFoundation)
+    statFoundation: {
+      HP: 0,
+      PATK: 0,
+      PDEF: 0,
+      MATK: 0,
+      MDEF: 0,
+      ACC: 0,
+      EVA: 0,
+      CRT: 0,
+      GRD: 0,
+      INIT: 0,
+      GuardEff: 0,
+    },
 
     // Initialize all status arrays empty
     buffs: [],
@@ -64,6 +81,11 @@ export const createBattleContext = (
     immunities: [],
     hasActedThisRound: false, // Initialize as hasn't acted this round
   }
+
+  // Initialize the stat foundation for efficient recalculation
+  initializeStatFoundation(battleContext)
+
+  return battleContext
 }
 
 /**
