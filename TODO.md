@@ -65,7 +65,7 @@
 - [x] **Complete modular battle architecture** (`src/core/battle/`)
   - [x] `engine/` - State management, turn management, battlefield state
   - [x] `combat/` - Damage calculation, skill execution, effect processing
-  - [x] `evaluation/` - Tactical AI and condition evaluation
+  - [x] `evaluation/` - Tactical and condition evaluation
   - [x] `targeting/` - Skill and tactical targeting systems
 - [x] **Initiative order calculation** with proper tiebreaking
 - [x] **Action resolution system** with complete turn management
@@ -86,31 +86,38 @@
 
 ---
 
-## 📂 Phase 2 - Battle Testing & Integration 🚧 IN PROGRESS
+## 📲 Phase 2 - Tactical System Refinement 🚧 IN PROGRESS
 
-### Battle Engine Testing 🚧
+### Tactical Condition Implementation 🚧
 
-- [ ] **Integration Testing** - Full tactical system with battle simulation
-- [ ] **Edge Case Testing** - Complex tactical scenarios and battlefield conditions
-- [ ] **Performance Testing** - Tactical evaluation and battle simulation performance
-- [ ] **Unit Behavior Validation** - Verify units make intelligent tactical decisions
-- [ ] **Deterministic Testing** - Ensure battles are repeatable with same seed
+- [ ] **Condition Implementation Audit** - Review all 200+ conditions in `COMPLETE_TACTIC_METADATA`
+- [ ] **Evaluator Implementation Status** - Map defined conditions to implemented evaluators
+- [ ] **Missing Evaluator Implementation** - Implement evaluators for undefined conditions
+- [ ] **Condition Logic Validation** - Verify each condition evaluates correctly
+- [ ] **Group Context Testing** - Test conditions against correct target groups (allies/enemies/self)
 
-### Battle UI Integration 🚧
+### Tactical Testing Framework 🚧
 
-- [ ] Create **battle viewer** component with tactical reasoning display
-- [ ] Add **battle controls** (start, pause, step-through)
-- [ ] Implement **battle log display** with action history
-- [ ] Create **unit health/status** indicators with real-time updates
-- [ ] Add **formation visualization** during battle
-- [ ] Build **tactical decision indicators** (why units chose specific actions)
+- [ ] **Individual Tactic Testing** - Systematic testing of each condition type
+- [ ] **Filter Evaluator Testing** - Test all filter conditions with edge cases
+- [ ] **Sort Evaluator Testing** - Test all sort conditions with tie-breaking
+- [ ] **Skip Evaluator Testing** - Test all skip conditions with boundary values
+- [ ] **Integration Testing** - Test tactical condition combinations and conflicts
 
-### Battle Analytics & Debug Tools 🚧
+### Target Selection & Edge Cases 🚧
 
-- [ ] **Tactical Decision Logger** - Track tactical evaluation reasoning
-- [ ] **Performance Profiler** - Battle simulation performance metrics
-- [ ] **Battle Replay System** - Save and replay battle simulations
-- [ ] **Debug Interface** - Development tools for tactical analysis
+- [ ] **Group Reference Testing** - Verify ally/enemy/self targeting works correctly
+- [ ] **Formation Condition Testing** - Test row/column/positioning conditions
+- [ ] **Status Effect Integration** - Test status-based tactical conditions
+- [ ] **Resource Condition Testing** - Test AP/PP/HP percentage conditions
+- [ ] **Complex Scenario Testing** - Multi-tactic combinations and priority resolution
+
+### Battle System Polish 🚧
+
+- [ ] **Tactical Decision Logging** - Enhanced logging for tactical evaluation debugging
+- [ ] **Performance Optimization** - Tactical evaluation performance tuning
+- [ ] **Battle Analytics Integration** - Connect tactical reasoning to UI display
+- [ ] **Edge Case Documentation** - Document known tactical behavior patterns
 
 ---
 
@@ -150,15 +157,15 @@
 
 ---
 
-## 📂 Current Priority
+## 📲 Current Priority
 
-**Focus:** Phase 2.0 Battle Testing & Integration
+**Focus:** Phase 2.0 Tactical System Refinement
 
-- **Battle Engine Testing** - Comprehensive testing of tactical AI system
-- **Battle UI Integration** - Connect battle engine to user interface
-- **Performance Optimization** - Battle simulation performance tuning
-- **Edge Case Validation** - Test complex tactical scenarios
-- **Battle Analytics** - Add tactical decision debugging tools
+- **Tactical Condition Implementation** - Complete implementation and testing of 200+ tactical conditions
+- **Evaluator Framework Validation** - Ensure all condition types (filter/sort/skip) work correctly
+- **Target Group Context Testing** - Verify tactical evaluation against proper skill targets (allies/enemies/self)
+- **Edge Case Resolution** - Handle complex tactical combinations and priority conflicts
+- **Testing Framework Expansion** - Systematic testing of all tactical behaviors
 
 ### Recent Achievements ✅
 

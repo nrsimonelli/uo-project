@@ -447,34 +447,53 @@ const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
 // ============================================================================
 
 const sortHpPercent: SortEvaluator = (targets, metadata) => {
+  const conditionKey = metadata.conditionKey || ''
+  const statName = metadata.statName || ''
+  const isHighestHp =
+    conditionKey.includes('Highest') || statName.includes('Highest')
+
   return [...targets].sort((a, b) => {
     const aPercent = getHpPercent(a)
     const bPercent = getHpPercent(b)
 
-    if (metadata.statName?.includes('Highest') || metadata.operator === 'gt') {
-      return bPercent - aPercent // Descending
+    if (isHighestHp) {
+      return bPercent - aPercent // Descending (highest first)
     } else {
-      return aPercent - bPercent // Ascending
+      return aPercent - bPercent // Ascending (lowest first)
     }
   })
 }
 
 const sortAp: SortEvaluator = (targets, metadata) => {
+  const conditionKey = metadata.conditionKey || ''
+  const statName = metadata.statName || ''
+  const isMostAp = conditionKey.includes('Most') || statName.includes('Most')
+  const isLeastAp = conditionKey.includes('Least') || statName.includes('Least')
+
   return [...targets].sort((a, b) => {
-    if (metadata.statName?.includes('Most')) {
-      return b.currentAP - a.currentAP // Descending
+    if (isMostAp) {
+      return b.currentAP - a.currentAP // Descending (most first)
+    } else if (isLeastAp) {
+      return a.currentAP - b.currentAP // Ascending (least first)
     } else {
-      return a.currentAP - b.currentAP // Ascending
+      return a.currentAP - b.currentAP // Default to ascending
     }
   })
 }
 
 const sortPp: SortEvaluator = (targets, metadata) => {
+  const conditionKey = metadata.conditionKey || ''
+  const statName = metadata.statName || ''
+  const isMostPp = conditionKey.includes('Most') || statName.includes('Most')
+  const isLeastPp = conditionKey.includes('Least') || statName.includes('Least')
+
   return [...targets].sort((a, b) => {
-    if (metadata.statName?.includes('Most')) {
-      return b.currentPP - a.currentPP // Descending
+    if (isMostPp) {
+      return b.currentPP - a.currentPP // Descending (most first)
+    } else if (isLeastPp) {
+      return a.currentPP - b.currentPP // Ascending (least first)
     } else {
-      return a.currentPP - b.currentPP // Ascending
+      return a.currentPP - b.currentPP // Default to ascending
     }
   })
 }
@@ -580,7 +599,11 @@ const compareHpPercent: CompareEvaluator = (a, b, metadata) => {
   const aPercent = getHpPercent(a)
   const bPercent = getHpPercent(b)
 
-  if (metadata.statName?.includes('Highest') || metadata.operator === 'gt') {
+  // Check the original condition key to determine comparison direction
+  const conditionKey = metadata.conditionKey || ''
+  const isHighestHp = conditionKey.includes('Highest')
+
+  if (isHighestHp) {
     return bPercent - aPercent
   } else {
     return aPercent - bPercent

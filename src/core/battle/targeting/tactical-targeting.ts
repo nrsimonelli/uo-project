@@ -109,8 +109,17 @@ export const evaluateSkillSlotTactics = (
     }
   }
 
-  // CRITICAL FIX: Always apply the skill's targeting pattern after tactical processing
-  // This ensures Single targets 1, Column targets same column, etc.
+  // Apply skill targeting pattern, respecting tactical priorities
+  // For Single patterns with clear tactical winner, use tactical result directly
+  // For other patterns (Row/Column/All), apply pattern to tactically-processed targets
+  const { pattern } = skill.targeting
+
+  if (pattern === 'Single' && targets.length > 0) {
+    // Single pattern with tactical processing: use the first (highest priority) target
+    return { shouldUseSkill: true, targets: [targets[0]] }
+  }
+
+  // For other patterns, apply the pattern to tactically-processed targets
   const finalTargets = getDefaultTargets(
     skill,
     actingUnit,
@@ -195,7 +204,12 @@ const applyTacticToTargets = (
   } else if (metadata.type === 'sort') {
     const sortEvaluator = SORT_EVALUATORS[metadata.valueType]
     if (sortEvaluator) {
-      return sortEvaluator(targets, metadata, context)
+      // Pass the original condition key in the metadata for sort evaluators
+      const extendedMetadata = {
+        ...metadata,
+        conditionKey: tactic.condition.key,
+      }
+      return sortEvaluator(targets, extendedMetadata, context)
     }
   }
 
@@ -222,7 +236,9 @@ const hasTrueTie = (
     const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
     if (!metadata || metadata.type !== 'sort') continue
 
-    const comparison = compareTargets(first, second, metadata, context)
+    // Pass the original condition key in the metadata for compare evaluators
+    const extendedMetadata = { ...metadata, conditionKey: tactic.condition.key }
+    const comparison = compareTargets(first, second, extendedMetadata, context)
     if (comparison !== 0) {
       return false // No tie - clear winner
     }

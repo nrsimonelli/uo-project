@@ -102,7 +102,7 @@ src/
 │   ├── battle/     # Complete battle engine system
 │   │   ├── engine/ # State management, turn management
 │   │   ├── combat/ # Damage calculation, skill execution
-│   │   ├── evaluation/ # Tactical AI, condition evaluation
+│   │   ├── evaluation/ # Tactics, condition evaluation
 │   │   └── targeting/  # Skill and tactical targeting
 │   └── calculations/ # Modular stat calculation system
 │       ├── base-stats.ts      # Base stats, growth, AP/PP
@@ -142,11 +142,13 @@ src/
 - **Passive Skills** — Reactive abilities that trigger based on conditions
 - **Tactical Modifiers** — Enhance skills with targeting, condition, and effect modifiers
 
-### Battle Engine
+### Battle System
 
+- **Complete Battle Loop** — Fully functional end-to-end battle execution
+- **Tactical System** — Registry-based system with 200+ tactical conditions
+- **Skill Selection & Execution** — Priority-based skill selection with tactical targeting
 - **Modular Architecture** — Organized battle system with specialized subsystems
 - **Deterministic Combat** — Repeatable battles with seeded RNG
-- **Complete Skill Effects** — Full implementation of skill conditions and effects
 
 ---
 
@@ -172,7 +174,7 @@ src/
 
 ---
 
-### Phase 1.5 — Battle Engine & Tactical AI ✅
+### Phase 1.5 — Battle Engine & Tactics ✅
 
 - **Complete Battle System Architecture** — Modular engine with specialized subsystems
 - **Initiative & Turn Management** — Proper turn order with tiebreaking
@@ -185,15 +187,15 @@ src/
 
 ---
 
-### Phase 2 — Battle Testing & UI Integration 🚧
+### Phase 2 — Tactical System Refinement & Testing 🚧
 
-- **Battle Engine Testing** — Comprehensive testing of tactical AI and battle simulation
-- **Battle UI Integration** — Connect battle engine to user interface
-- **Performance Optimization** — Battle simulation performance tuning
-- **Edge Case Testing** — Complex tactical scenarios and battlefield conditions
-- **Battle Analytics** — Tactical decision debugging and analysis tools
+- **Tactical Condition Implementation** — Complete implementation of 200+ tactical conditions
+- **Tactical Testing Framework** — Systematic testing of filter, sort, and skip evaluators
+- **Target Selection Validation** — Test tactical targeting against skill groups (allies/enemies/self)
+- **Edge Case Resolution** — Handle complex tactical scenarios and condition combinations
+- **Battle Analytics Integration** — Connect tactical decision logging to UI
 
-**Phase 2 Status:** 🚧 In Progress
+**Phase 2 Status:** 🚧 In Progress - Battle loop functional, refining tactical conditions
 
 ---
 

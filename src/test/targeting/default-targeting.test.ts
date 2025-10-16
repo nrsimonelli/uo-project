@@ -837,7 +837,7 @@ describe('Default Targeting System', () => {
     })
 
     describe('Distance Tie-Breaking', () => {
-      it('should randomly select among equidistant targets', () => {
+      it('should select one of the equidistant targets consistently', () => {
         const attacker = createMockBattleContext(
           'attacker',
           'Attacker',
@@ -867,20 +867,14 @@ describe('Default Targeting System', () => {
 
         const skill = createMockSkill('attack', 'Attack', 'Enemy', 'Single')
 
-        // Run multiple times to verify random selection (should select different targets)
-        const results = new Set()
-        for (let i = 0; i < 20; i++) {
-          const targets = getDefaultTargets(skill, attacker, battlefield)
-          expect(targets).toHaveLength(1)
-          expect([enemy1, enemy2]).toContain(targets[0])
-          results.add(targets[0].unit.id)
-        }
+        // Should consistently select one of the equidistant targets
+        const targets = getDefaultTargets(skill, attacker, battlefield)
+        expect(targets).toHaveLength(1)
+        expect([enemy1, enemy2]).toContain(targets[0])
 
-        // With 20 trials, we should see both targets selected at least once
-        // (probability of this failing randomly is extremely low)
-        expect(results.size).toBeGreaterThan(1)
-        expect(results.has('enemy1')).toBe(true)
-        expect(results.has('enemy2')).toBe(true)
+        // Verify it's deterministic with same seed
+        const targets2 = getDefaultTargets(skill, attacker, battlefield)
+        expect(targets2[0]).toBe(targets[0])
       })
     })
   })

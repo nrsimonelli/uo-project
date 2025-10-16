@@ -52,6 +52,8 @@ export interface ConditionMetadata {
   actionNumber?: number
   statName?: string
   negated?: boolean
+  // Runtime property added by tactical targeting system
+  conditionKey?: string
 }
 
 // Complete metadata map for ALL conditions in TACTIC-CATEGORY-MAP
@@ -729,12 +731,12 @@ export const COMPLETE_TACTIC_METADATA: Record<string, ConditionMetadata> = {
     formationType: 'full-column',
   },
   'Row with Most Combatants': {
-    type: 'filter',
+    type: 'sort',
     valueType: 'formation',
     formationType: 'most-combatants',
   },
   'Row with Least Combatants': {
-    type: 'filter',
+    type: 'sort',
     valueType: 'formation',
     formationType: 'least-combatants',
   },

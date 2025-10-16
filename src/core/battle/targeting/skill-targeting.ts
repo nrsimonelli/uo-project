@@ -20,7 +20,8 @@ const selectClosestTargets = (
   targets: BattleContext[],
   actingUnit: BattleContext,
   skill: ActiveSkill | PassiveSkill,
-  count: number
+  count: number,
+  battlefield?: BattlefieldState
 ): BattleContext[] => {
   if (targets.length === 0) return []
   if (count <= 0) return []
@@ -30,7 +31,12 @@ const selectClosestTargets = (
 
   // Select targets one by one, always picking the closest from remaining targets
   for (let i = 0; i < count && remainingTargets.length > 0; i++) {
-    const nextTarget = findClosestTarget(actingUnit, remainingTargets, skill)
+    const nextTarget = findClosestTarget(
+      actingUnit,
+      remainingTargets,
+      skill,
+      battlefield
+    )
     if (!nextTarget) break
 
     selectedTargets.push(nextTarget)
@@ -50,7 +56,8 @@ const findClosestTarget = (
   actingUnit: BattleContext,
   potentialTargets: BattleContext[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _skill: ActiveSkill | PassiveSkill
+  _skill: ActiveSkill | PassiveSkill,
+  battlefield?: BattlefieldState
 ): BattleContext | null => {
   if (potentialTargets.length === 0) return null
   if (potentialTargets.length === 1) return potentialTargets[0]
@@ -86,7 +93,8 @@ const findClosestTarget = (
 
   // If multiple targets are equidistant, randomly select one
   if (closestTargets.length > 1) {
-    const randomIndex = Math.floor(Math.random() * closestTargets.length)
+    const random = battlefield?.rng?.random || Math.random
+    const randomIndex = Math.floor(random() * closestTargets.length)
     closestTarget = closestTargets[randomIndex]
   }
 
@@ -115,14 +123,16 @@ const targetingGroupHandlers = {
 
 /**
  * Targeting pattern handlers
- * All handlers have consistent signature: (targets, actingUnit, skill) => BattleContext[]
+ * All handlers have consistent signature: (targets, actingUnit, skill, battlefield?, isTactical?) => BattleContext[]
  */
 const targetingPatternHandlers = {
   Self: (
     _targets: BattleContext[],
     actingUnit: BattleContext,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _skill: ActiveSkill | PassiveSkill
+    _skill: ActiveSkill | PassiveSkill,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _battlefield?: BattlefieldState
   ) => [actingUnit],
 
   All: (
@@ -130,28 +140,45 @@ const targetingPatternHandlers = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _actingUnit: BattleContext,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _skill: ActiveSkill | PassiveSkill
+    _skill: ActiveSkill | PassiveSkill,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _battlefield?: BattlefieldState
   ) => targets,
 
   Single: (
     targets: BattleContext[],
     actingUnit: BattleContext,
-    skill: ActiveSkill | PassiveSkill
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState
   ) => {
-    const closestTarget = findClosestTarget(actingUnit, targets, skill)
+    if (targets.length === 0) return []
+
+    // If we have targets, find the closest one using default targeting rules
+    const closestTarget = findClosestTarget(
+      actingUnit,
+      targets,
+      skill,
+      battlefield
+    )
     return closestTarget ? [closestTarget] : []
   },
 
   Row: (
     targets: BattleContext[],
     actingUnit: BattleContext,
-    skill: ActiveSkill | PassiveSkill
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState
   ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
 
     // Find closest target first (this will be in the row we want to target)
-    const primaryTarget = findClosestTarget(actingUnit, targets, skill)
+    const primaryTarget = findClosestTarget(
+      actingUnit,
+      targets,
+      skill,
+      battlefield
+    )
     if (!primaryTarget) return []
 
     // Return all targets in the same row as the primary target
@@ -163,13 +190,19 @@ const targetingPatternHandlers = {
   Column: (
     targets: BattleContext[],
     actingUnit: BattleContext,
-    skill: ActiveSkill | PassiveSkill
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState
   ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
 
     // Find closest target using default targeting rules (front row first, then back row)
-    const primaryTarget = findClosestTarget(actingUnit, targets, skill)
+    const primaryTarget = findClosestTarget(
+      actingUnit,
+      targets,
+      skill,
+      battlefield
+    )
     if (!primaryTarget) return []
 
     // Return all targets in the same column as the primary target
@@ -181,17 +214,19 @@ const targetingPatternHandlers = {
   Two: (
     targets: BattleContext[],
     actingUnit: BattleContext,
-    skill: ActiveSkill | PassiveSkill
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState
   ) => {
-    return selectClosestTargets(targets, actingUnit, skill, 2)
+    return selectClosestTargets(targets, actingUnit, skill, 2, battlefield)
   },
 
   Three: (
     targets: BattleContext[],
     actingUnit: BattleContext,
-    skill: ActiveSkill | PassiveSkill
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState
   ) => {
-    return selectClosestTargets(targets, actingUnit, skill, 3)
+    return selectClosestTargets(targets, actingUnit, skill, 3, battlefield)
   },
 } as const
 
@@ -211,7 +246,7 @@ export const getDefaultTargets = (
   // Handle Self pattern directly (doesn't use group)
   if (pattern === 'Self') {
     const selfHandler = targetingPatternHandlers.Self
-    return selfHandler([], actingUnit, skill)
+    return selfHandler([], actingUnit, skill, battlefield)
   }
 
   // Use pre-filtered targets if provided, otherwise get targets based on group
@@ -308,12 +343,13 @@ export const getDefaultTargets = (
     const fallbackTarget = findClosestTarget(
       actingUnit,
       potentialTargets,
-      skill
+      skill,
+      battlefield
     )
     return fallbackTarget ? [fallbackTarget] : []
   }
 
-  return patternHandler(potentialTargets, actingUnit, skill)
+  return patternHandler(potentialTargets, actingUnit, skill, battlefield)
 }
 
 /**
