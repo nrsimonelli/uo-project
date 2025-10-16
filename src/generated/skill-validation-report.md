@@ -1,19 +1,19 @@
 # Skill Validation Report
 
-_Generated: 2025-10-14T03:31:14.109Z_
+_Generated: 2025-10-16T18:07:46.459Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 63
-- **Passive Skills Defined**: 47
-- **Total Skills Defined**: 110
+- **Active Skills Defined**: 67
+- **Passive Skills Defined**: 49
+- **Total Skills Defined**: 116
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **291 missing skills:**
+❌ **285 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -53,7 +53,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `checkmate`
 - `circleBarrier`
 - `circleHeal`
-- `compoundingCurse`
 - `concentrate`
 - `counter`
 - `crush`
@@ -62,7 +61,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `curseStrike`
 - `cursedGaol`
 - `cursedImpetus`
-- `cursedSwamp`
 - `darkConferral`
 - `darkMist`
 - `darkStep`
@@ -70,7 +68,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `deadlyRush`
 - `deathSpin`
 - `decimate`
-- `defensiveCurse`
 - `defensiveOrder`
 - `deflect`
 - `delayingShot`
@@ -190,7 +187,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `nocturnalImpetus`
 - `nocturnalRest`
 - `nocturnalStrike`
-- `offensiveCurse`
 - `offensiveOrder`
 - `omegaShatter`
 - `ominousWall`
@@ -200,7 +196,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `partingDeath`
 - `partyAid`
 - `passiveCure`
-- `passiveCurse`
 - `passiveGift`
 - `passiveHold`
 - `passiveMiracle`
@@ -230,7 +225,6 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `quickCast`
 - `quickCover`
 - `quickCure`
-- `quickCurse`
 - `quickDispel`
 - `quickImpetus`
 - `radiantCover`
@@ -744,15 +738,17 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (63)
+### Active Skills Defined (67)
 
 - `activeSteal`
 - `assaultingBlow`
 - `assaultingLance`
 - `bastardsCross`
 - `brandish`
+- `compoundingCurse`
 - `darkFlame`
 - `defender`
+- `defensiveCurse`
 - `dragoonDive`
 - `dualShot`
 - `elfslayer`
@@ -778,6 +774,8 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `magicAttack`
 - `meteorSlash`
 - `mountingCharge`
+- `offensiveCurse`
+- `passiveCurse`
 - `passiveShatter`
 - `passiveSteal`
 - `phantomAttack`
@@ -810,7 +808,7 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (47)
+### Passive Skills Defined (49)
 
 - `activeGift`
 - `aerialSnipe`
@@ -822,6 +820,7 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `bullForce`
 - `cavalierCall`
 - `chargedImpetus`
+- `cursedSwamp`
 - `demonicPact`
 - `eagleEye`
 - `enrage`
@@ -846,6 +845,7 @@ _Generated: 2025-10-14T03:31:14.109Z_
 - `partingResurrection`
 - `provoke`
 - `pursuit`
+- `quickCurse`
 - `quickGuard`
 - `quickHeal`
 - `quickReload`

@@ -76,6 +76,29 @@ export const applyStatusEffects = (
     unitsToRecalculate.add(targetUnit)
   })
 
+  // Apply debuff amplifications as special debuffs
+  effectResults.debuffAmplificationsToApply.forEach(amplificationToApply => {
+    const targetUnit =
+      amplificationToApply.target === 'User' ? attacker : targets[0]
+    if (!targetUnit) return
+
+    const skillName = getSkillName(amplificationToApply.skillId)
+    const amplificationDebuff: Debuff = {
+      name: `${skillName} (Debuff Amplification)`,
+      stat: 'DebuffAmplification' as StatKey, // Special reserved stat
+      value: amplificationToApply.multiplier,
+      duration: mapDuration(amplificationToApply.duration) as
+        | 'indefinite'
+        | 'next-attack',
+      scaling: 'flat', // Store the raw multiplier value
+      source: attacker.unit.id,
+      skillId: amplificationToApply.skillId,
+    }
+
+    applyDebuff(targetUnit, amplificationDebuff, false) // Don't allow stacking of amplification
+    unitsToRecalculate.add(targetUnit)
+  })
+
   // Recalculate stats for all affected units
   unitsToRecalculate.forEach(unit => {
     recalculateStats(unit)
@@ -228,10 +251,19 @@ export const calculateStatModifier = (
   const buffs = getBuffsForStat(unit, stat)
   const debuffs = getDebuffsForStat(unit, stat)
 
+  // Get debuff amplification multiplier
+  const amplificationDebuffs = unit.debuffs.filter(
+    debuff => debuff.stat === ('DebuffAmplification' as StatKey)
+  )
+  const amplificationMultiplier =
+    amplificationDebuffs.length > 0
+      ? amplificationDebuffs[0].value // Use the first/most recent amplification
+      : 1.0 // No amplification
+
   let flatModifier = 0
   let percentModifier = 0
 
-  // Apply buffs
+  // Apply buffs (no amplification for buffs)
   buffs.forEach(buff => {
     if (buff.scaling === 'flat') {
       flatModifier += buff.value
@@ -240,12 +272,18 @@ export const calculateStatModifier = (
     }
   })
 
-  // Apply debuffs (subtract since they're negative effects)
+  // Apply debuffs with amplification (subtract since they're negative effects)
   debuffs.forEach(debuff => {
+    // Skip the amplification debuffs themselves
+    if (debuff.stat === ('DebuffAmplification' as StatKey)) {
+      return
+    }
+
+    const amplifiedValue = debuff.value * amplificationMultiplier
     if (debuff.scaling === 'flat') {
-      flatModifier -= debuff.value
+      flatModifier -= amplifiedValue
     } else if (debuff.scaling === 'percent') {
-      percentModifier -= debuff.value
+      percentModifier -= amplifiedValue
     }
   })
 

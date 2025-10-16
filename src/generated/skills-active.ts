@@ -2202,6 +2202,106 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'passiveCurse',
+    type: 'active',
+    name: 'Passive Curse',
+    description: 'Inflicts -1 PP and -10 Initiative on a row of enemies',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Debuff',
+        stat: 'INIT',
+        value: -10,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'offensiveCurse',
+    type: 'active',
+    name: 'Offensive Curse',
+    description:
+      'Inflicts -50% Phys. Attack and -50% Mag. Attack on a row of enemies',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'Attack',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'defensiveCurse',
+    type: 'active',
+    name: 'Defensive Curse',
+    description:
+      'Inflicts -50% Phys. Defense, -50% Mag. Defense, and Guard Seal on a row of enemies',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'Defense',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'GuardSeal',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'compoundingCurse',
+    type: 'active',
+    name: 'Compounding Curse',
+    description: 'Makes Debuffs 1.5x more effective for a row of enemies',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'DebuffAmplification',
+        multiplier: 1.5,
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

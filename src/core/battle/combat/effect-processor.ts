@@ -76,6 +76,14 @@ export interface EffectProcessingResult {
     target: 'User' | 'Target'
   }>
 
+  // Debuff amplification effects to apply
+  debuffAmplificationsToApply: Array<{
+    multiplier: number
+    target: 'User' | 'Target'
+    duration?: 'NextAction'
+    skillId: string
+  }>
+
   // Buffs/debuffs to apply
   buffsToApply: Array<{
     stat: string
@@ -116,6 +124,7 @@ export const processEffects = (
     buffsToApply: [],
     debuffsToApply: [],
     resourceStealToApply: [],
+    debuffAmplificationsToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -198,6 +207,16 @@ export const processEffects = (
         resource: effect.resource,
         amount: effect.amount,
         target: effect.applyTo || 'User', // Resources go to user, taken from target
+      })
+      return
+    }
+
+    if (effect.kind === 'DebuffAmplification') {
+      result.debuffAmplificationsToApply.push({
+        multiplier: effect.multiplier,
+        target: effect.applyTo || 'Target',
+        duration: effect.duration,
+        skillId,
       })
       return
     }

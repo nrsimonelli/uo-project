@@ -41,6 +41,7 @@ describe('Status Effects', () => {
       ],
       debuffsToApply: [],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
 
     // Verify target has no buffs initially
@@ -96,6 +97,7 @@ describe('Status Effects', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
 
     // Apply effects
@@ -148,6 +150,7 @@ describe('Status Effects', () => {
       ],
       debuffsToApply: [],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
 
     applyStatusEffects(firstEffect, attacker, [target])
@@ -279,6 +282,7 @@ describe('Status Effects', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
 
     // Apply effects - this should trigger stat recalculation
@@ -368,6 +372,7 @@ describe('Status Effects', () => {
         ],
         debuffsToApply: [],
         resourceStealToApply: [],
+        debuffAmplificationsToApply: [],
       }
       applyStatusEffects(effectResults, attacker, [target])
     })
@@ -393,6 +398,7 @@ describe('Status Effects', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
     applyStatusEffects(debuffResults, attacker, [target])
 
@@ -480,6 +486,7 @@ describe('Status Effects', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
@@ -487,5 +494,102 @@ describe('Status Effects', () => {
     // HP should be clamped to minimum 1, PATK can go to 0
     expect(target.combatStats.HP).toBe(1)
     expect(target.combatStats.PATK).toBe(0)
+  })
+
+  it('should amplify debuffs when DebuffAmplification is applied', () => {
+    const attacker = createMockBattleContext({
+      unit: { id: 'attacker-1' },
+      team: 'home-team',
+    })
+    const target = createMockBattleContext({
+      unit: { id: 'target-1' },
+      team: 'away-team',
+      combatStats: {
+        HP: 100,
+        PATK: 100,
+        PDEF: 100,
+        MATK: 100,
+        MDEF: 100,
+        ACC: 100,
+        EVA: 100,
+        CRT: 100,
+        GRD: 100,
+        INIT: 100,
+        GuardEff: 0,
+      },
+    })
+    target.statFoundation = {
+      HP: 100,
+      PATK: 100,
+      PDEF: 100,
+      MATK: 100,
+      MDEF: 100,
+      ACC: 100,
+      EVA: 100,
+      CRT: 100,
+      GRD: 100,
+      INIT: 100,
+      GuardEff: 0,
+    }
+
+    // Apply debuff amplification first
+    const amplificationResults: EffectProcessingResult = {
+      potencyModifiers: { physical: 0, magical: 0 },
+      defenseIgnoreFraction: 0,
+      grantedFlags: [],
+      healPercent: 0,
+      healPotency: { physical: 0, magical: 0 },
+      apGain: 0,
+      ppGain: 0,
+      buffsToApply: [],
+      debuffsToApply: [],
+      resourceStealToApply: [],
+      debuffAmplificationsToApply: [
+        {
+          multiplier: 1.5,
+          target: 'Target' as const,
+          skillId: 'compoundingCurse',
+        },
+      ],
+    }
+    applyStatusEffects(amplificationResults, attacker, [target])
+
+    // Apply both percentage and flat debuffs (-20% PATK, -10 INIT)
+    const debuffResults: EffectProcessingResult = {
+      potencyModifiers: { physical: 0, magical: 0 },
+      defenseIgnoreFraction: 0,
+      grantedFlags: [],
+      healPercent: 0,
+      healPotency: { physical: 0, magical: 0 },
+      apGain: 0,
+      ppGain: 0,
+      buffsToApply: [],
+      resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      debuffsToApply: [
+        {
+          stat: 'PATK',
+          value: 20,
+          scaling: 'percent' as const,
+          target: 'Target' as const,
+          skillId: 'offensiveCurse',
+          stacks: false,
+        },
+        {
+          stat: 'INIT',
+          value: 10,
+          scaling: 'flat' as const,
+          target: 'Target' as const,
+          skillId: 'passiveCurse',
+          stacks: false,
+        },
+      ],
+    }
+    applyStatusEffects(debuffResults, attacker, [target])
+
+    // Expected: 100 * (1 - 0.20 * 1.5) = 100 * (1 - 0.30) = 70 for PATK
+    // Expected: 100 - (10 * 1.5) = 100 - 15 = 85 for INIT
+    expect(target.combatStats.PATK).toBe(70)
+    expect(target.combatStats.INIT).toBe(85)
   })
 })

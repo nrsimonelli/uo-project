@@ -138,6 +138,14 @@ export interface CleanseEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface DebuffAmplificationEffect {
+  kind: 'DebuffAmplification'
+  multiplier: number // 1.5 for 150% effectiveness
+  applyTo?: 'User' | 'Target'
+  duration?: 'NextAction'
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export interface ResurrectEffect {
   kind: 'Resurrect'
   value: number
@@ -165,3 +173,4 @@ export type Effect =
   | SacrificeEffect
   | CleanseEffect
   | ResurrectEffect
+  | DebuffAmplificationEffect

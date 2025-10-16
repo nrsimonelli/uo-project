@@ -1191,5 +1191,78 @@
         ]
       }
     ]
+  },
+  {
+    "id": "quickCurse",
+    "type": "passive",
+    "name": "Quick Curse",
+    "description": "Activates before an enemy uses an attack skill. Inflicts -20% Attack for a single enemy's Next Attack. Inflicts Critical Seal.",
+    "pp": 1,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "beforeEnemyAttacks",
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "Attack",
+        "value": -20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "CritSeal",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "cursedSwamp",
+    "type": "passive",
+    "name": "Cursed Swamp",
+    "description": "Activates at the start of a battle. Inflicts -10 Initiative and -30 Evasion on all enemies. Inflicts -1 PP to Cavalry targets",
+    "pp": 2,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "startOfBattle",
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -10,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "EVA",
+        "value": -30,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
   }
 ]
