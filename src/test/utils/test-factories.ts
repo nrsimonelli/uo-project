@@ -64,6 +64,7 @@ export function createMockBattleContext(
     afflictions: [],
     buffs: [],
     debuffs: [],
+    conferrals: [],
     statFoundation: {
       HP: 0,
       PATK: 0,

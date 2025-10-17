@@ -80,8 +80,17 @@ export interface EffectProcessingResult {
   debuffAmplificationsToApply: Array<{
     multiplier: number
     target: 'User' | 'Target'
-    duration?: 'NextAction'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
     skillId: string
+  }>
+
+  // Conferral effects to apply
+  conferralsToApply: Array<{
+    potency: number
+    target: 'User' | 'Target'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+    skillId: string
+    casterMATK: number // Store the caster's MATK when the effect is applied
   }>
 
   // Buffs/debuffs to apply
@@ -90,7 +99,7 @@ export interface EffectProcessingResult {
     value: number
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
-    duration?: 'NextAction'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
     skillId: string
     stacks: boolean
   }>
@@ -99,7 +108,7 @@ export interface EffectProcessingResult {
     value: number
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
-    duration?: 'NextAction'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
     skillId: string
     stacks: boolean
   }>
@@ -111,7 +120,8 @@ export interface EffectProcessingResult {
 export const processEffects = (
   effects: readonly Effect[] | Effect[],
   context: ConditionEvaluationContext,
-  skillId: string
+  skillId: string,
+  casterMATK?: number // Optional caster MATK for MagicConferral effects
 ): EffectProcessingResult => {
   const result: EffectProcessingResult = {
     potencyModifiers: { physical: 0, magical: 0 },
@@ -125,6 +135,7 @@ export const processEffects = (
     debuffsToApply: [],
     resourceStealToApply: [],
     debuffAmplificationsToApply: [],
+    conferralsToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -217,6 +228,17 @@ export const processEffects = (
         target: effect.applyTo || 'Target',
         duration: effect.duration,
         skillId,
+      })
+      return
+    }
+
+    if (effect.kind === 'Conferral') {
+      result.conferralsToApply.push({
+        potency: effect.potency,
+        target: effect.applyTo || 'Target',
+        duration: effect.duration,
+        skillId,
+        casterMATK: casterMATK || 0, // Store caster's MATK at time of casting
       })
       return
     }

@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-16T23:12:51.040Z_
+_Generated: 2025-10-17T04:06:09.145Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 67
-- **Passive Skills Defined**: 49
-- **Total Skills Defined**: 116
-- **Activation Windows Referenced**: 20
+- **Active Skills Defined**: 73
+- **Passive Skills Defined**: 55
+- **Total Skills Defined**: 128
+- **Activation Windows Referenced**: 22
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **285 missing skills:**
+❌ **273 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -55,7 +55,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `checkmate`
 - `circleBarrier`
 - `circleHeal`
-- `concentrate`
 - `counter`
 - `crush`
 - `curingCall`
@@ -105,11 +104,9 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `fireCure`
 - `fireCurse`
 - `fireSlash`
-- `fireball`
 - `flameArrow`
 - `flameConferral`
 - `flameThrust`
-- `focusSight`
 - `freezeCure`
 - `frostConferral`
 - `glacialRain`
@@ -149,8 +146,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `holySmite`
 - `honedHealing`
 - `honedSlash`
-- `iceCoffin`
-- `icebolt`
 - `icicleArrow`
 - `icyBlow`
 - `icyCrush`
@@ -167,10 +162,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `lightningBlade`
 - `maelstrom`
 - `magicBurst`
-- `magicConferral`
-- `magicCounter`
-- `magicMissile`
-- `magicPursuit`
 - `magicShatter`
 - `magicShell`
 - `magicWall`
@@ -224,7 +215,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `pureField`
 - `quickAction`
 - `quickBarrier`
-- `quickCast`
 - `quickCover`
 - `quickCure`
 - `quickDispel`
@@ -281,7 +271,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `tailwind`
 - `tempestDrive`
 - `thunderousConferral`
-- `thunderousStrike`
 - `toughness`
 - `trinityRain`
 - `tripleCounter`
@@ -292,7 +281,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `vengefulImpetus`
 - `venomThrust`
 - `viciousTorment`
-- `volcano`
 - `wall`
 - `warCry`
 - `weaknessHunter`
@@ -313,11 +301,10 @@ _Generated: 2025-10-16T23:12:51.040Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **19 unused activation windows:**
+⚠️ **17 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
-- `afterAllyMagicAttacksActive`
 - `afterAllyPassiveSkill`
 - `afterAttacking`
 - `afterBeingAttacked`
@@ -331,7 +318,6 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `afterReceivingAllyPassive`
 - `afterUserDebuff`
 - `beforeAllyAttackedRangedPhys`
-- `beforeAllyAttacksPhysicalActive`
 - `beforeBeingHitRanged`
 - `beforeEnemyAttacksMagic`
 
@@ -768,7 +754,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (67)
+### Active Skills Defined (73)
 
 - `activeSteal`
 - `assaultingBlow`
@@ -782,6 +768,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `dragoonDive`
 - `dualShot`
 - `elfslayer`
+- `fireball`
 - `flameJavelin`
 - `grandSmash`
 - `greatshield`
@@ -791,6 +778,8 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `heavySlash`
 - `heavySmash`
 - `honedSpear`
+- `iceCoffin`
+- `icebolt`
 - `icicleDart`
 - `impale`
 - `ironCrusher`
@@ -802,6 +791,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `lightningShaker`
 - `longThrust`
 - `magicAttack`
+- `magicMissile`
 - `meteorSlash`
 - `mountingCharge`
 - `offensiveCurse`
@@ -826,6 +816,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `singleShot`
 - `smash`
 - `sting`
+- `thunderousStrike`
 - `thunderousThrust`
 - `toxicBolt`
 - `toxicThrow`
@@ -833,12 +824,13 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `vengefulAxe`
 - `venomAxe`
 - `verticalEdge`
+- `volcano`
 - `wardingSlash`
 - `wideBreaker`
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (49)
+### Passive Skills Defined (55)
 
 - `activeGift`
 - `aerialSnipe`
@@ -850,12 +842,14 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `bullForce`
 - `cavalierCall`
 - `chargedImpetus`
+- `concentrate`
 - `cursedSwamp`
 - `demonicPact`
 - `eagleEye`
 - `enrage`
 - `evade`
 - `firstAid`
+- `focusSight`
 - `followingSlash`
 - `frenziedStrike`
 - `guardian`
@@ -868,6 +862,9 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `lifesaver`
 - `luminousCover`
 - `magicBarrier`
+- `magicConferral`
+- `magicCounter`
+- `magicPursuit`
 - `medicalAid`
 - `nobleGuard`
 - `parry`
@@ -875,6 +872,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `partingResurrection`
 - `provoke`
 - `pursuit`
+- `quickCast`
 - `quickCurse`
 - `quickGuard`
 - `quickHeal`
@@ -892,12 +890,13 @@ _Generated: 2025-10-16T23:12:51.040Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (20)
+### Referenced in Passive Skills (22)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
 - `afterAllyDebuffed`
 - `afterAllyHit`
+- `afterAllyMagicAttacksActive`
 - `afterBeingHit`
 - `afterBeingHitPhys`
 - `afterCavalryAllyAttacksActive`
@@ -905,6 +904,7 @@ _Generated: 2025-10-16T23:12:51.040Z_
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`
 - `beforeAllyAttacksActive`
+- `beforeAllyAttacksPhysicalActive`
 - `beforeAllyHitMagic`
 - `beforeAllyHitRangedPhys`
 - `beforeAttackingActive`

@@ -52,11 +52,13 @@ describe('Status Effect Duration Handling', () => {
           target: 'User' as const,
           skillId: 'test-next-attack-buff',
           stacks: false,
-          duration: 'NextAction',
+          duration: 'UntilNextAttack',
         },
       ],
       debuffsToApply: [],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     // Apply the buff
@@ -64,10 +66,10 @@ describe('Status Effect Duration Handling', () => {
 
     // Verify buff is applied
     expect(attacker.buffs).toHaveLength(1)
-    expect(attacker.buffs[0].duration).toBe('next-attack')
+    expect(attacker.buffs[0].duration).toBe('UntilNextAttack')
 
     // Simulate attack - remove expired effects
-    removeExpiredBuffs(attacker, 'attack')
+    removeExpiredBuffs(attacker, 'attacks')
 
     // Verify buff is removed
     expect(attacker.buffs).toHaveLength(0)
@@ -120,16 +122,18 @@ describe('Status Effect Duration Handling', () => {
       ],
       debuffsToApply: [],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
 
-    // Manually set duration to next-debuff for testing
-    target.buffs[0].duration = 'next-debuff'
+    // Manually set duration to UntilDebuffed for testing
+    target.buffs[0].duration = 'UntilDebuffed'
 
     // Verify buff is applied
     expect(target.buffs).toHaveLength(1)
-    expect(target.buffs[0].duration).toBe('next-debuff')
+    expect(target.buffs[0].duration).toBe('UntilDebuffed')
 
     // Now apply a debuff - this should trigger buff removal
     effectResults = {
@@ -152,6 +156,8 @@ describe('Status Effect Duration Handling', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     // Apply debuff - this should remove the next-debuff buff
@@ -219,6 +225,8 @@ describe('Status Effect Duration Handling', () => {
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
@@ -226,13 +234,13 @@ describe('Status Effect Duration Handling', () => {
     // Verify effects are applied
     expect(target.buffs).toHaveLength(1)
     expect(target.debuffs).toHaveLength(1)
-    expect(target.buffs[0].duration).toBe('indefinite')
-    expect(target.debuffs[0].duration).toBe('indefinite')
+    expect(target.buffs[0].duration).toBe('Indefinite')
+    expect(target.debuffs[0].duration).toBe('Indefinite')
 
     // Simulate multiple attacks and debuff applications
-    removeExpiredBuffs(target, 'attack')
-    removeExpiredDebuffs(target, 'attack')
-    removeExpiredBuffs(target, 'debuff')
+    removeExpiredBuffs(target, 'attacks')
+    removeExpiredDebuffs(target, 'attacks')
+    removeExpiredBuffs(target, 'debuffed')
 
     // Indefinite effects should remain
     expect(target.buffs).toHaveLength(1)
@@ -282,20 +290,22 @@ describe('Status Effect Duration Handling', () => {
           target: 'User' as const, // Apply to attacker
           skillId: 'test-next-attack-debuff',
           stacks: false,
-          duration: 'NextAction',
+          duration: 'UntilNextAttack',
         },
       ],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
 
     // Verify debuff is applied
     expect(attacker.debuffs).toHaveLength(1)
-    expect(attacker.debuffs[0].duration).toBe('next-attack')
+    expect(attacker.debuffs[0].duration).toBe('UntilNextAttack')
 
     // Simulate attack - remove expired effects
-    removeExpiredDebuffs(attacker, 'attack')
+    removeExpiredDebuffs(attacker, 'attacks')
 
     // Verify debuff is removed
     expect(attacker.debuffs).toHaveLength(0)
@@ -352,11 +362,13 @@ describe('Status Effect Duration Handling', () => {
           target: 'Target' as const,
           skillId: 'temporary-buff',
           stacks: true,
-          duration: 'NextAction', // next-attack
+          duration: 'UntilNextAttack',
         },
       ],
       debuffsToApply: [],
       resourceStealToApply: [],
+      debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
@@ -366,7 +378,7 @@ describe('Status Effect Duration Handling', () => {
     expect(target.combatStats.PATK).toBe(50 + 20 + 15) // 85
 
     // Remove next-attack buffs
-    removeExpiredBuffs(target, 'attack')
+    removeExpiredBuffs(target, 'attacks')
 
     // Verify only the permanent buff remains and stats recalculated
     expect(target.buffs).toHaveLength(1)

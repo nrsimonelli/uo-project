@@ -68,7 +68,8 @@ const executeNonDamageSkill = (
   const effectResults = processEffects(
     skill.effects,
     conditionContext,
-    skill.id
+    skill.id,
+    attacker.combatStats.MATK // Pass caster's MATK for conferral effects
   )
 
   // Apply status effects (buffs/debuffs) to appropriate targets
@@ -104,7 +105,8 @@ const executeDamageSkill = (
   const effectResults = processEffects(
     skill.effects,
     conditionContext,
-    skill.id
+    skill.id,
+    attacker.combatStats.MATK // Pass caster's MATK for conferral effects
   )
 
   // Get damage effects from skill

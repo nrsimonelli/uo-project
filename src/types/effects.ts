@@ -28,7 +28,7 @@ export interface DamageEffect {
 export interface GrantFlagEffect {
   kind: 'GrantFlag'
   flag: Flag
-  duration?: 'NextAction'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
   applyTo?: 'Target' | 'User'
   conditions?: Condition[] | readonly Condition[]
 }
@@ -57,7 +57,7 @@ interface BaseEffect {
   value: number
   scaling: 'flat' | 'percent'
   applyTo?: 'User' | 'Target'
-  duration?: 'NextAction'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
   conditions?: Condition[] | readonly Condition[]
 }
 export interface BuffEffect extends BaseEffect {
@@ -142,7 +142,15 @@ export interface DebuffAmplificationEffect {
   kind: 'DebuffAmplification'
   multiplier: number // 1.5 for 150% effectiveness
   applyTo?: 'User' | 'Target'
-  duration?: 'NextAction'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  conditions?: Condition[] | readonly Condition[]
+}
+
+export interface ConferralEffect {
+  kind: 'Conferral'
+  potency: number // Magic potency to add (e.g., 50)
+  applyTo?: 'Target' // Who receives the conferral buff
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked' // When the effect expires
   conditions?: Condition[] | readonly Condition[]
 }
 
@@ -174,3 +182,4 @@ export type Effect =
   | CleanseEffect
   | ResurrectEffect
   | DebuffAmplificationEffect
+  | ConferralEffect

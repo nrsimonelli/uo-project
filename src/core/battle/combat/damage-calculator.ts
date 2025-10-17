@@ -1,3 +1,5 @@
+import { removeExpiredConferrals } from './status-effects'
+
 import {
   getAttackType,
   getDamageType,
@@ -270,6 +272,7 @@ export const calculateSkillDamage = (
   let totalDamage = 0
   let physicalDamage = 0
   let magicalDamage = 0
+  let conferralDamage = 0
 
   // Calculate physical damage component (before effectiveness)
   if (hasPhysical) {
@@ -299,6 +302,33 @@ export const calculateSkillDamage = (
     totalDamage += magicalDamage
   }
 
+  // Apply conferral magical damage (if attacker has active conferrals)
+  if (attacker.conferrals && attacker.conferrals.length > 0) {
+    attacker.conferrals.forEach(conferral => {
+      // Calculate magical damage using the stored caster's MATK
+      const conferralBaseDamage =
+        ((conferral.casterMATK - target.combatStats.MDEF) * conferral.potency) /
+        100
+      const conferralAfterCrit = conferralBaseDamage * critMultiplier
+      // No guard multiplier for conferral magical damage
+      conferralDamage += Math.max(1, Math.round(conferralAfterCrit))
+    })
+    totalDamage += conferralDamage
+
+    console.log('🪄 Conferral Effects Applied:', {
+      conferralCount: attacker.conferrals.length,
+      conferralDamage,
+      conferrals: attacker.conferrals.map(c => ({
+        skillId: c.skillId,
+        potency: c.potency,
+        casterMATK: c.casterMATK,
+      })),
+    })
+
+    // Remove conferrals that expire when this unit attacks
+    removeExpiredConferrals(attacker, 'attacks')
+  }
+
   // Calculate effectiveness once and apply to total damage
   // Use physical=true as default, but effectiveness is class-based anyway
   const attackerClassData = CLASS_DATA[attacker.unit.classKey]
@@ -324,8 +354,12 @@ export const calculateSkillDamage = (
     damageType: `${damageType} Damage`,
     damageBreakdown:
       hasPhysical && hasMagical
-        ? `(${physicalDamage} physical + ${magicalDamage} magical) × ${effectiveness} = ${finalDamage} total`
-        : `${totalDamage} ${hasPhysical ? 'physical' : 'magical'} × ${effectiveness} = ${finalDamage} final`,
+        ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness} = ${finalDamage} total`
+        : hasPhysical || hasMagical
+          ? `${physicalDamage + magicalDamage} ${hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness} = ${finalDamage} final`
+          : conferralDamage > 0
+            ? `${conferralDamage} conferral × ${effectiveness} = ${finalDamage} final`
+            : `${totalDamage} × ${effectiveness} = ${finalDamage} final`,
     hitChance: `${hitChance.toFixed(1)}%`,
     result: hit ? 'HIT' : 'MISS',
     damage: hit ? `${finalDamage} damage` : '0 damage (missed)',
@@ -344,6 +378,7 @@ export const calculateSkillDamage = (
       ? {
           physicalDamage: hasPhysical ? physicalDamage : 0,
           magicalDamage: hasMagical ? magicalDamage : 0,
+          conferralDamage: conferralDamage,
           subtotal: totalDamage,
           effectiveness: `×${effectiveness}`,
           critResult: wasCritical ? `CRIT ×${critMultiplier}` : 'no crit',

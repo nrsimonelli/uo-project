@@ -42,6 +42,7 @@ describe('Status Effects', () => {
       debuffsToApply: [],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     // Verify target has no buffs initially
@@ -98,6 +99,7 @@ describe('Status Effects', () => {
       ],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     // Apply effects
@@ -151,6 +153,7 @@ describe('Status Effects', () => {
       debuffsToApply: [],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(firstEffect, attacker, [target])
@@ -283,6 +286,7 @@ describe('Status Effects', () => {
       ],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     // Apply effects - this should trigger stat recalculation
@@ -373,6 +377,7 @@ describe('Status Effects', () => {
         debuffsToApply: [],
         resourceStealToApply: [],
         debuffAmplificationsToApply: [],
+        conferralsToApply: [],
       }
       applyStatusEffects(effectResults, attacker, [target])
     })
@@ -399,6 +404,7 @@ describe('Status Effects', () => {
       ],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
     applyStatusEffects(debuffResults, attacker, [target])
 
@@ -487,6 +493,7 @@ describe('Status Effects', () => {
       ],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
     }
 
     applyStatusEffects(effectResults, attacker, [target])
@@ -551,6 +558,7 @@ describe('Status Effects', () => {
           skillId: 'compoundingCurse',
         },
       ],
+      conferralsToApply: [],
     }
     applyStatusEffects(amplificationResults, attacker, [target])
 
@@ -566,6 +574,7 @@ describe('Status Effects', () => {
       buffsToApply: [],
       resourceStealToApply: [],
       debuffAmplificationsToApply: [],
+      conferralsToApply: [],
       debuffsToApply: [
         {
           stat: 'PATK',

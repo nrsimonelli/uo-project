@@ -5,7 +5,12 @@ import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
 import { ActiveSkillsMap } from '@/generated/skills-active'
 import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { StatKey } from '@/types/base-stats'
-import type { BattleContext, Buff, Debuff } from '@/types/battle-engine'
+import type {
+  BattleContext,
+  Buff,
+  Debuff,
+  ConferralStatus,
+} from '@/types/battle-engine'
 
 /**
  * Get skill name from skillId for both active and passive skills
@@ -57,7 +62,7 @@ export const applyStatusEffects = (
     if (!targetUnit) return
 
     // Remove expired buffs that trigger on debuff application
-    removeExpiredBuffs(targetUnit, 'debuff')
+    removeExpiredBuffs(targetUnit, 'debuffed')
 
     const skillName = getSkillName(debuffToApply.skillId)
     const debuff: Debuff = {
@@ -65,8 +70,9 @@ export const applyStatusEffects = (
       stat: debuffToApply.stat as StatKey,
       value: debuffToApply.value,
       duration: mapDuration(debuffToApply.duration) as
-        | 'indefinite'
-        | 'next-attack',
+        | 'Indefinite'
+        | 'UntilNextAttack'
+        | 'UntilNextAction',
       scaling: debuffToApply.scaling,
       source: attacker.unit.id,
       skillId: debuffToApply.skillId,
@@ -88,8 +94,9 @@ export const applyStatusEffects = (
       stat: 'DebuffAmplification' as StatKey, // Special reserved stat
       value: amplificationToApply.multiplier,
       duration: mapDuration(amplificationToApply.duration) as
-        | 'indefinite'
-        | 'next-attack',
+        | 'Indefinite'
+        | 'UntilNextAttack'
+        | 'UntilNextAction',
       scaling: 'flat', // Store the raw multiplier value
       source: attacker.unit.id,
       skillId: amplificationToApply.skillId,
@@ -97,6 +104,22 @@ export const applyStatusEffects = (
 
     applyDebuff(targetUnit, amplificationDebuff, false) // Don't allow stacking of amplification
     unitsToRecalculate.add(targetUnit)
+  })
+
+  // Apply conferral effects to appropriate targets
+  effectResults.conferralsToApply.forEach(conferralToApply => {
+    const targetUnit =
+      conferralToApply.target === 'User' ? attacker : targets[0]
+    if (!targetUnit) return
+
+    const conferral: ConferralStatus = {
+      skillId: conferralToApply.skillId,
+      potency: conferralToApply.potency,
+      casterMATK: conferralToApply.casterMATK,
+      duration: conferralToApply.duration || 'UntilNextAttack',
+    }
+
+    applyConferral(targetUnit, conferral)
   })
 
   // Recalculate stats for all affected units
@@ -156,6 +179,31 @@ const applyDebuff = (
 }
 
 /**
+ * Apply a conferral effect to a unit
+ */
+const applyConferral = (
+  unit: BattleContext,
+  newConferral: ConferralStatus
+): void => {
+  // Check for existing conferral with same skillId (replace if found)
+  const existingIndex = unit.conferrals.findIndex(
+    existing => existing.skillId === newConferral.skillId
+  )
+
+  if (existingIndex !== -1) {
+    // Replace existing conferral from same skill
+    unit.conferrals[existingIndex] = newConferral
+  } else {
+    // Add new conferral
+    unit.conferrals.push(newConferral)
+  }
+
+  console.log(
+    `${unit.unit.name} received conferral: +${newConferral.potency} magical potency from caster MATK ${newConferral.casterMATK}`
+  )
+}
+
+/**
  * Check if a unit is immune to a specific debuff
  */
 const isImmuneToDebuff = (unit: BattleContext): boolean => {
@@ -170,13 +218,24 @@ const isImmuneToDebuff = (unit: BattleContext): boolean => {
  * Map effect processor duration format to battle engine duration format
  */
 const mapDuration = (
-  duration?: 'NextAction'
-): 'indefinite' | 'next-attack' | 'next-debuff' => {
-  if (duration === 'NextAction') {
-    return 'next-attack'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+):
+  | 'Indefinite'
+  | 'UntilNextAttack'
+  | 'UntilAttacked'
+  | 'UntilDebuffed'
+  | 'UntilNextAction' => {
+  if (duration === 'UntilAttacked') {
+    return 'UntilAttacked'
+  }
+  if (duration === 'UntilNextAttack') {
+    return 'UntilNextAttack'
+  }
+  if (duration === 'UntilNextAction') {
+    return 'UntilNextAction'
   }
   // Default duration is indefinite
-  return 'indefinite'
+  return 'Indefinite'
 }
 
 /**
@@ -184,14 +243,18 @@ const mapDuration = (
  */
 export const removeExpiredBuffs = (
   unit: BattleContext,
-  trigger: 'attack' | 'debuff'
+  trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
 ): void => {
   const initialCount = unit.buffs.length
 
-  if (trigger === 'attack') {
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'next-attack')
-  } else if (trigger === 'debuff') {
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'next-debuff')
+  if (trigger === 'attacks') {
+    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAttack')
+  } else if (trigger === 'attacked') {
+    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilAttacked')
+  } else if (trigger === 'debuffed') {
+    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilDebuffed')
+  } else if (trigger === 'action') {
+    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAction')
   }
 
   // Recalculate stats if any buffs were removed
@@ -205,19 +268,51 @@ export const removeExpiredBuffs = (
  */
 export const removeExpiredDebuffs = (
   unit: BattleContext,
-  trigger: 'attack'
+  trigger: 'attacks' | 'action'
 ): void => {
   const initialCount = unit.debuffs.length
 
-  if (trigger === 'attack') {
+  if (trigger === 'attacks') {
     unit.debuffs = unit.debuffs.filter(
-      debuff => debuff.duration !== 'next-attack'
+      debuff => debuff.duration !== 'UntilNextAttack'
+    )
+  } else if (trigger === 'action') {
+    unit.debuffs = unit.debuffs.filter(
+      debuff => debuff.duration !== 'UntilNextAction'
     )
   }
 
   // Recalculate stats if any debuffs were removed
   if (unit.debuffs.length !== initialCount) {
     recalculateStats(unit)
+  }
+}
+
+/**
+ * Remove expired conferrals from a unit based on trigger conditions
+ */
+export const removeExpiredConferrals = (
+  unit: BattleContext,
+  trigger: 'attacks' | 'attacked' | 'action'
+): void => {
+  const initialCount = unit.conferrals.length
+
+  if (trigger === 'attacks') {
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilNextAttack'
+    )
+  } else if (trigger === 'attacked') {
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilAttacked'
+    )
+  } else if (trigger === 'action') {
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilNextAction'
+    )
+  }
+
+  if (unit.conferrals.length !== initialCount) {
+    console.log(`${unit.unit.name} conferrals expired (${trigger})`)
   }
 }
 

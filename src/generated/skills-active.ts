@@ -1063,7 +1063,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Keen Edge',
     description:
-      'Attack a single enemy with a critical strike. (Critical rate+50%.)',
+      'Attack a single enemy with a critical strike. (Critical rate +50%)',
     ap: 1,
     skillCategories: ['Damage'],
     targeting: {
@@ -1086,7 +1086,7 @@ export const ActiveSkills = [
         value: 50,
         scaling: 'percent',
         applyTo: 'User',
-        duration: 'NextAction',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -1152,7 +1152,7 @@ export const ActiveSkills = [
         value: 30,
         scaling: 'percent',
         applyTo: 'User',
-        duration: 'NextAction',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -2206,7 +2206,7 @@ export const ActiveSkills = [
     id: 'passiveCurse',
     type: 'active',
     name: 'Passive Curse',
-    description: 'Inflicts -1 PP and -10 Initiative on a row of enemies',
+    description: 'Inflicts -1 PP and -10 Initiative on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
     innateAttackType: 'Ranged',
@@ -2236,7 +2236,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Offensive Curse',
     description:
-      'Inflicts -50% Phys. Attack and -50% Mag. Attack on a row of enemies',
+      'Inflicts -50% Phys. Attack and -50% Mag. Attack on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
     innateAttackType: 'Ranged',
@@ -2259,7 +2259,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Defensive Curse',
     description:
-      'Inflicts -50% Phys. Defense, -50% Mag. Defense, and Guard Seal on a row of enemies',
+      'Inflicts -50% Phys. Defense, -50% Mag. Defense, and Guard Seal on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
     innateAttackType: 'Ranged',
@@ -2286,7 +2286,7 @@ export const ActiveSkills = [
     id: 'compoundingCurse',
     type: 'active',
     name: 'Compounding Curse',
-    description: 'Makes Debuffs 1.5x more effective for a row of enemies',
+    description: 'Makes Debuffs 1.5x more effective for a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
     innateAttackType: 'Ranged',
@@ -2299,6 +2299,164 @@ export const ActiveSkills = [
         kind: 'DebuffAmplification',
         multiplier: 1.5,
         applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'fireball',
+    type: 'active',
+    name: 'Fireball',
+    description: 'Attack a single enemy with Magic. Inflicts Burn',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 40,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'thunderousStrike',
+    type: 'active',
+    name: 'Thunderous Strike',
+    description: 'Attack a row of enemies with Magic. Inflicts Stun.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 90,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'volcano',
+    type: 'active',
+    name: 'Volcano',
+    description: 'Attack a column of enemies with Magic. Inflicts Burn.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 150,
+        },
+        hitRate: 90,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'icebolt',
+    type: 'active',
+    name: 'Icebolt',
+    description: 'Attack a single enemy with Magic. Inflicts Freeze.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'magicMissile',
+    type: 'active',
+    name: 'Magic Missile',
+    description: 'Attack two enemies with Magic.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Two',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 70,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'iceCoffin',
+    type: 'active',
+    name: 'Ice Coffin',
+    description: 'Attack a row of enemies with Magic. Inflicts Freeze.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Magical',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
       },
     ],
   },

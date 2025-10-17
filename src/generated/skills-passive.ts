@@ -38,7 +38,7 @@ export const PassiveSkills = [
       {
         kind: 'GrantFlag',
         flag: 'TrueCritical',
-        duration: 'NextAction',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -638,7 +638,7 @@ export const PassiveSkills = [
         kind: 'GrantFlag',
         flag: 'InflictGuardSeal',
         applyTo: 'User',
-        duration: 'NextAction',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -728,7 +728,7 @@ export const PassiveSkills = [
         kind: 'GrantFlag',
         flag: 'TrueStrike',
         applyTo: 'User',
-        duration: 'NextAction',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -1345,6 +1345,155 @@ export const PassiveSkills = [
             comparator: 'EqualTo',
           },
         ],
+      },
+    ],
+  },
+  {
+    id: 'magicCounter',
+    type: 'passive',
+    name: 'Magic Counter',
+    description:
+      'Activates after an enemy attacks with an active skill. Counterattack a single enemy with Magic.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'magicPursuit',
+    type: 'passive',
+    name: 'Magic Pursuit',
+    description:
+      'Activates after an ally uses a magic attack (Active). Follow-up attack a single enemy with Magic.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterAllyMagicAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'concentrate',
+    type: 'passive',
+    name: 'Concentrate',
+    description: 'Grants the user +1 AP and +40 Accuracy.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Self',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'ACC',
+        value: 40,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+      },
+    ],
+  },
+  {
+    id: 'magicConferral',
+    type: 'passive',
+    name: 'Magic Conferral',
+    description:
+      "Activates before an ally attacks with a Physical Active skill. Add Magic damage to an ally's next attack. (50 potency)",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacksPhysicalActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Conferral',
+        potency: 50,
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
+      },
+    ],
+  },
+  {
+    id: 'focusSight',
+    type: 'passive',
+    name: 'Focus Sight',
+    description:
+      "Activates before an ally attacks with an Active skill. Make an ally's next attack Truestrike.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacksActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        duration: 'UntilNextAttack',
+      },
+    ],
+  },
+  {
+    id: 'quickCast',
+    type: 'passive',
+    name: 'Quick Cast',
+    description:
+      'Activates at the start of a battle. Grants the user max initiative for their next action and -50% Critical Rate',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Self',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 999,
+        duration: 'UntilNextAction',
+      },
+      {
+        kind: 'Debuff',
+        stat: 'CRT',
+        value: -50,
+        scaling: 'percent',
+        duration: 'UntilNextAction',
       },
     ],
   },

@@ -95,7 +95,12 @@ export interface Buff {
   name: string
   stat: StatKey
   value: number
-  duration: 'indefinite' | 'next-attack' | 'next-debuff'
+  duration:
+    | 'Indefinite'
+    | 'UntilNextAttack'
+    | 'UntilAttacked'
+    | 'UntilDebuffed'
+    | 'UntilNextAction'
   scaling: 'flat' | 'percent'
   source: string
   skillId: string
@@ -108,10 +113,20 @@ export interface Debuff {
   name: string
   stat: StatKey
   value: number
-  duration: 'indefinite' | 'next-attack'
+  duration: 'Indefinite' | 'UntilNextAttack' | 'UntilNextAction'
   scaling: 'flat' | 'percent'
   source: string
   skillId: string
+}
+
+/**
+ * Conferral status effect (temporary magical damage boost)
+ */
+export interface ConferralStatus {
+  skillId: string
+  potency: number
+  casterMATK: number
+  duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
 }
 
 /**
@@ -133,6 +148,7 @@ export interface BattleContext {
   afflictions: Affliction[]
   buffs: Buff[]
   debuffs: Debuff[]
+  conferrals: ConferralStatus[]
 
   // Stat foundation (base + equipment) - stored once for efficient recalculation
   statFoundation: {
