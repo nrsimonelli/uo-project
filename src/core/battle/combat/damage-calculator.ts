@@ -54,12 +54,14 @@ export interface DamageResult {
  * Formula: ((100 + attacker accuracy) - target evasion) * skill hitRate / 100
  * Special cases:
  * - If hitRate is "True" or TrueStrike flag is present, always hits
+ * - Flying units get 50% evasion bonus against melee attacks
  */
 export const calculateHitChance = (
   attacker: BattleContext,
   target: BattleContext,
   damageEffect: DamageEffect,
-  flags: Flag[] = []
+  flags: Flag[] = [],
+  attackType?: 'Melee' | 'Ranged' | 'Magical'
 ): number => {
   // Check for always-hit conditions
   if (damageEffect.hitRate === 'True' || flags.includes('TrueStrike')) {
@@ -69,10 +71,16 @@ export const calculateHitChance = (
   // Calculate base hit chance
   const accuracy = attacker.combatStats.ACC
   const evasion = target.combatStats.EVA
-  const skillHitRate = damageEffect.hitRate as number
+  const skillHitRate = damageEffect.hitRate
 
   const rawHitChance = ((100 + accuracy - evasion) * skillHitRate) / 100
-  const clampedHitChance = clamp(rawHitChance, 0, 100)
+
+  // Apply flying evasion bonus against melee attacks
+  const targetIsFlying = target.combatantTypes.includes('Flying')
+  const flyingEvasionBonus = targetIsFlying && attackType === 'Melee' ? 0.5 : 1
+
+  const adjustedHitChance = rawHitChance * flyingEvasionBonus
+  const clampedHitChance = clamp(adjustedHitChance, 0, 100)
 
   return clampedHitChance
 }
@@ -192,13 +200,14 @@ export const calculateSkillDamage = (
   _skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
   attacker: BattleContext,
   target: BattleContext,
-  rng: RandomNumberGeneratorType
+  rng: RandomNumberGeneratorType,
+  innateAttackType?: 'Magical' | 'Ranged'
 ): DamageResult => {
   // Combine skill-level and damage effect flags
   const combinedFlags = getCombinedFlags(skillFlags, damageEffect.flags || [])
 
   // Determine attack type for this skill usage
-  const attackType = getAttackType(attacker.unit.classKey)
+  const attackType = getAttackType(attacker.unit.classKey, innateAttackType)
 
   // Determine damage type
   const damageType = getDamageType(damageEffect)
@@ -254,7 +263,8 @@ export const calculateSkillDamage = (
     attacker,
     target,
     damageEffect,
-    combinedFlags
+    combinedFlags,
+    attackType
   )
 
   // Roll for hit
@@ -454,8 +464,7 @@ export const calculateMultiHitDamage = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _effectFlags: Flag[] = [],
   skillCategories: SkillCategory[] = ['Damage'],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _innateAttackType?: 'Magical' | 'Ranged'
+  innateAttackType?: 'Magical' | 'Ranged'
 ): DamageResult[] => {
   const results: DamageResult[] = []
 
@@ -466,9 +475,8 @@ export const calculateMultiHitDamage = (
       skillCategories,
       attacker,
       target,
-      rng
-      // effectFlags,
-      // innateAttackType
+      rng,
+      innateAttackType
     )
     results.push(result)
   }

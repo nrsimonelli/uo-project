@@ -139,7 +139,8 @@ const executeDamageSkill = (
         rng,
         (skill.skillFlags as Flag[]) || [],
         [], // effectFlags - not used in current implementation
-        (skill.skillCategories as SkillCategory[]) || ['Damage']
+        (skill.skillCategories as SkillCategory[]) || ['Damage'],
+        skill.innateAttackType
       )
       damageResults.push(...multiHitResults)
     } else {
@@ -150,7 +151,8 @@ const executeDamageSkill = (
         skill.skillCategories,
         attacker,
         target,
-        rng
+        rng,
+        skill.innateAttackType
       )
       damageResults.push(result)
     }
