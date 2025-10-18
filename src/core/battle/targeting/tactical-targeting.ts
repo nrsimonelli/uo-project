@@ -17,7 +17,7 @@ import { ActiveSkillsMap } from '@/generated/skills-active'
 import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { SkillSlot, ActiveSkill, PassiveSkill } from '@/types/skills'
-import type { Tactic } from '@/types/tactics'
+import type { TacticalCondition } from '@/types/tactics'
 
 /**
  * Result of tactical evaluation for a skill slot
@@ -98,15 +98,15 @@ export const evaluateSkillSlotTactics = (
   // Check for true tie after all tactical processing
   const sortedTactics = [tactic1, tactic2].filter(
     tactic =>
-      tactic && COMPLETE_TACTIC_METADATA[tactic.condition.key]?.type === 'sort'
+      tactic && COMPLETE_TACTIC_METADATA[tactic.key]?.type === 'sort'
   )
 
   if (sortedTactics.length > 0 && hasTrueTie(targets, sortedTactics, context)) {
     // True tie detected - but for formation tactics, we should preserve tactical priorities
     // and not fall back to default targeting which would override formation preferences
-    const hasFormationTactic = sortedTactics.some(tactic => {
+      const hasFormationTactic = sortedTactics.some(tactic => {
       if (!tactic) return false
-      const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
+      const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
       return metadata?.valueType === 'formation'
     })
 
@@ -214,12 +214,12 @@ const getInitialTargetPool = (
  * Uses registry lookup instead of switch statement
  */
 const shouldSkipSkillForTactic = (
-  tactic: Tactic,
+  tactic: TacticalCondition,
   context: TacticalContext
 ): boolean => {
-  const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
+  const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
   if (!metadata) {
-    console.warn(`Unknown tactic condition: ${tactic.condition.key}`)
+    console.warn(`Unknown tactic condition: ${tactic.key}`)
     return false
   }
 
@@ -239,12 +239,12 @@ const shouldSkipSkillForTactic = (
  */
 const applyTacticToTargets = (
   targets: BattleContext[],
-  tactic: Tactic,
+  tactic: TacticalCondition,
   context: TacticalContext
 ): BattleContext[] => {
-  const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
+  const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
   if (!metadata) {
-    console.warn(`Unknown tactic condition: ${tactic.condition.key}`)
+    console.warn(`Unknown tactic condition: ${tactic.key}`)
     return targets
   }
 
@@ -259,7 +259,7 @@ const applyTacticToTargets = (
       // Pass the original condition key in the metadata for sort evaluators
       const extendedMetadata = {
         ...metadata,
-        conditionKey: tactic.condition.key,
+        conditionKey: tactic.key,
       }
       return sortEvaluator(targets, extendedMetadata, context)
     }
@@ -274,7 +274,7 @@ const applyTacticToTargets = (
  */
 const hasTrueTie = (
   targets: BattleContext[],
-  sortTactics: (Tactic | null)[],
+  sortTactics: (TacticalCondition | null)[],
   context: TacticalContext
 ): boolean => {
   if (targets.length < 2) return false
@@ -285,11 +285,11 @@ const hasTrueTie = (
   for (const tactic of sortTactics) {
     if (!tactic) continue
 
-    const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
+    const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
     if (!metadata || metadata.type !== 'sort') continue
 
     // Pass the original condition key in the metadata for compare evaluators
-    const extendedMetadata = { ...metadata, conditionKey: tactic.condition.key }
+    const extendedMetadata = { ...metadata, conditionKey: tactic.key }
     const comparison = compareTargets(first, second, extendedMetadata, context)
     if (comparison !== 0) {
       return false // No tie - clear winner

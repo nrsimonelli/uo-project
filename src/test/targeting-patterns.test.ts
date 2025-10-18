@@ -13,7 +13,7 @@ import {
   testSortCondition,
 } from '@/core/battle/targeting/tactical-targeting'
 import type { SkillSlot } from '@/types/skills'
-import type { Tactic } from '@/types/tactics'
+import type { TacticalCondition } from '@/types/tactics'
 
 describe('Targeting Patterns: Conditions vs Default', () => {
   describe('Conditional Tactics vs Default Targeting', () => {
@@ -169,12 +169,9 @@ describe('Targeting Patterns: Conditions vs Default', () => {
         },
       })
 
-      const tactic: Tactic = {
-        condition: {
-          key: 'Own HP is <50%',
-          category: 'HP',
-        },
-        kind: 'conditional',
+      const tactic: TacticalCondition = {
+        key: 'Own HP is <50%',
+        category: 'HP',
       }
 
       const skillSlot: SkillSlot = {

@@ -1,6 +1,6 @@
 import type { SkillCategory, Targeting } from './core'
 import type { Effect, Flag } from './effects'
-import type { Tactic } from './tactics'
+import type { TacticalCondition } from './tactics'
 
 import type { ActivationWindowId } from '@/data/activation-windows'
 
@@ -44,7 +44,7 @@ export interface SkillSlot {
   id: string
   skillId: string | null
   skillType: 'active' | 'passive' | null
-  tactics: [Tactic | null, Tactic | null] // Two tactic slots
+  tactics: [TacticalCondition | null, TacticalCondition | null] // Two tactic slots
   order: number
 }
 

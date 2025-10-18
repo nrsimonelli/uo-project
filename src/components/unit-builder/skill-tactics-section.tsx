@@ -18,7 +18,7 @@ import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
 import type { SkillSlot } from '@/types/skills'
-import type { Tactic, TacticalCondition } from '@/types/tactics'
+import type { TacticalCondition } from '@/types/tactics'
 import type { Unit } from '@/types/team'
 
 interface SkillTacticsSectionProps {
@@ -68,13 +68,10 @@ export function SkillTacticsSection({
   ) => {
     const updatedSkillSlots = skillSlots.map(slot => {
       if (slot.id === skillSlotId) {
-        const newTactics: [Tactic | null, Tactic | null] = [...slot.tactics]
+        const newTactics: [TacticalCondition | null, TacticalCondition | null] = [...slot.tactics]
 
         if (condition) {
-          newTactics[tacticIndex] = {
-            kind: 'conditional', // Default kind for now
-            condition,
-          }
+          newTactics[tacticIndex] = condition
         } else {
           newTactics[tacticIndex] = null
         }
@@ -162,7 +159,7 @@ export function SkillTacticsSection({
                     <ConditionModal
                       onSelectCondition={() => {}}
                       currentCondition={
-                        activeSkill.tactics[0]?.condition || null
+                        activeSkill.tactics[0] || null
                       }
                     />
                   </div>
@@ -170,7 +167,7 @@ export function SkillTacticsSection({
                     <ConditionModal
                       onSelectCondition={() => {}}
                       currentCondition={
-                        activeSkill.tactics[1]?.condition || null
+                        activeSkill.tactics[1] || null
                       }
                     />
                   </div>

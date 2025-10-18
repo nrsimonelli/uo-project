@@ -117,9 +117,9 @@ export function SkillTacticsRow({
           onSelectCondition={condition => {
             handleConditionSelect(skillSlot.id, 0, condition)
           }}
-          currentCondition={skillSlot.tactics[0]?.condition || null}
+                  currentCondition={skillSlot.tactics[0] || null}
         />
-        {skillSlot.tactics[0]?.condition && (
+        {skillSlot.tactics[0] && (
           <Button
             variant="ghost"
             size="sm"
@@ -135,9 +135,9 @@ export function SkillTacticsRow({
           onSelectCondition={condition => {
             handleConditionSelect(skillSlot.id, 1, condition)
           }}
-          currentCondition={skillSlot.tactics[1]?.condition || null}
+                  currentCondition={skillSlot.tactics[1] || null}
         />
-        {skillSlot.tactics[1]?.condition && (
+        {skillSlot.tactics[1] && (
           <Button
             variant="ghost"
             size="sm"
