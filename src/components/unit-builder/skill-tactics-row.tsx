@@ -1,4 +1,6 @@
-import { X } from 'lucide-react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { GripVertical, X } from 'lucide-react'
 
 import { CostSymbols } from '@/components/cost-symbols'
 import { ConditionModal } from '@/components/tactical/condition-modal'
@@ -11,6 +13,7 @@ import {
 } from '@/components/ui/tooltip'
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
+import { cn } from '@/lib/utils'
 import type { SkillSlot } from '@/types/skills'
 import type { TacticalCondition } from '@/types/tactics'
 
@@ -29,6 +32,20 @@ export function SkillTacticsRow({
   removeSkillSlot,
   handleConditionSelect,
 }: SkillTacticsRowProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: skillSlot.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
+
   const skill = skillSlot.skillId
     ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillSlot.skillId)
     : null
@@ -42,7 +59,24 @@ export function SkillTacticsRow({
   }
 
   return (
-    <div className="grid grid-cols-3 border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100">
+    <div 
+      ref={setNodeRef} 
+      style={style}
+      className={cn(
+        "grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors",
+        isDragging && "opacity-75"
+      )}
+    >
+      <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
+        <button
+          {...attributes}
+          {...listeners}
+          className="p-1 text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing transition-colors"
+          type="button"
+        >
+          <GripVertical className="size-4" />
+        </button>
+      </div>
       <div className="p-2 flex items-center gap-2 min-h-[40px] relative">
         {skill ? (
           <>

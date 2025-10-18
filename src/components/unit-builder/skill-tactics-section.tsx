@@ -1,7 +1,26 @@
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  type DragEndEvent,
+  type DragStartEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { GripVertical } from 'lucide-react'
+import { useState } from 'react'
+
 import { SkillSelectionModal } from './skill-selection-modal'
 import { SkillTacticsRow } from './skill-tactics-row'
 
+import { CostSymbols } from '@/components/cost-symbols'
+import { ConditionModal } from '@/components/tactical/condition-modal'
+import { ActiveSkills } from '@/generated/skills-active'
+import { PassiveSkills } from '@/generated/skills-passive'
 import { useSkillSlotManager } from '@/hooks/use-skill-slot-manager'
+import type { SkillSlot } from '@/types/skills'
 import type { Tactic, TacticalCondition } from '@/types/tactics'
 import type { Unit } from '@/types/team'
 
@@ -14,8 +33,31 @@ export function SkillTacticsSection({
   unit,
   onUpdateUnit,
 }: SkillTacticsSectionProps) {
-  const { skillSlots, addSkill, canAddMoreSkills, removeSkillSlot } =
+  const { skillSlots, addSkill, canAddMoreSkills, removeSkillSlot, reorderSkillSlot } =
     useSkillSlotManager({ unit, onUpdateUnit })
+    
+  const [activeSkill, setActiveSkill] = useState<SkillSlot | null>(null)
+  
+  const handleDragStart = (event: DragStartEvent) => {
+    const draggedSkill = skillSlots.find(slot => slot.id === event.active.id)
+    setActiveSkill(draggedSkill || null)
+  }
+  
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    setActiveSkill(null)
+    
+    if (!over || active.id === over.id) {
+      return
+    }
+    
+    const oldIndex = skillSlots.findIndex(slot => slot.id === active.id)
+    const newIndex = skillSlots.findIndex(slot => slot.id === over.id)
+    
+    if (oldIndex !== -1 && newIndex !== -1) {
+      reorderSkillSlot(oldIndex, newIndex)
+    }
+  }
 
   const handleConditionSelect = (
     skillSlotId: string,
@@ -57,23 +99,76 @@ export function SkillTacticsSection({
         </div>
       </div>
       {skillSlots.length > 0 && (
-        <div className="border rounded-lg overflow-hidden">
-          <div className="grid grid-cols-3 bg-muted/50 border-b text-sm font-medium">
-            <div className="p-3">Skill</div>
-            <div className="p-3 border-l">Condition 1</div>
-            <div className="p-3 border-l">Condition 2</div>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="border rounded-lg overflow-hidden">
+            <div className="grid grid-cols-[auto_1fr_1fr_1fr] bg-muted/50 border-b text-sm font-medium">
+              <div className="p-3 border-r w-12 flex-shrink-0"></div>
+              <div className="p-3">Skill</div>
+              <div className="p-3 border-l">Condition 1</div>
+              <div className="p-3 border-l">Condition 2</div>
+            </div>
+            <SortableContext
+              items={skillSlots.map(slot => slot.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div>
+                {skillSlots.map(skillSlot => (
+                  <SkillTacticsRow
+                    key={skillSlot.id}
+                    skillSlot={skillSlot}
+                    removeSkillSlot={removeSkillSlot}
+                    handleConditionSelect={handleConditionSelect}
+                  />
+                ))}
+              </div>
+            </SortableContext>
           </div>
-          <div>
-            {skillSlots.map(skillSlot => (
-              <SkillTacticsRow
-                key={skillSlot.id}
-                skillSlot={skillSlot}
-                removeSkillSlot={removeSkillSlot}
-                handleConditionSelect={handleConditionSelect}
-              />
-            ))}
-          </div>
-        </div>
+          <DragOverlay>
+            {activeSkill ? (
+              <div className="min-w-[600px] border rounded-lg overflow-hidden shadow-2xl">
+                <div className="grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors">
+                  <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
+                    <GripVertical className="size-4 text-muted-foreground" />
+                  </div>
+                  <div className="p-2 flex items-center gap-2 min-h-[40px] relative">
+                    {(() => {
+                      const skill = activeSkill.skillId
+                        ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === activeSkill.skillId)
+                        : null
+                      return skill ? (
+                        <>
+                          <CostSymbols
+                            cost={skill.type === 'active' ? skill.ap : skill.pp}
+                            type={skill.type}
+                          />
+                          <span className="text-sm">{skill.name}</span>
+                        </>
+                      ) : (
+                        <span className="text-sm text-muted-foreground">Empty</span>
+                      )
+                    })()}
+                  </div>
+                  <div className="p-2 border-l min-h-[40px] relative">
+                    <ConditionModal
+                      onSelectCondition={() => {}}
+                      currentCondition={activeSkill.tactics[0]?.condition || null}
+                    />
+                  </div>
+                  <div className="p-2 border-l min-h-[40px] relative">
+                    <ConditionModal
+                      onSelectCondition={() => {}}
+                      currentCondition={activeSkill.tactics[1]?.condition || null}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
       )}
     </div>
   )
