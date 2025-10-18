@@ -14,6 +14,19 @@ interface BattleEventCardProps {
 }
 
 export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
+  // Get common variables needed by all event types
+  const actingUnit = event.actingUnit
+  const team = actingUnit?.team
+
+  // Team-based card styling with enhanced differentiation
+  const teamCardStyles = {
+    'home-team':
+      'border-home/30 bg-home/10 dark:border-home/60 dark:bg-home/15 border-l-4 border-l-home',
+    'away-team':
+      'border-away/30 bg-away/10 dark:border-away/60 dark:bg-away/15 border-r-4 border-r-away',
+  }
+  const currentCardStyle = team ? teamCardStyles[team] : ''
+
   // Special handling for battle start events
   if (event.type === 'battle-start') {
     // TODO: improve this by passing team names directly in event
@@ -93,9 +106,7 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
   }
 
   // Regular event handling
-  // Get unit info from the actingUnit object
-  const actingUnit = event.actingUnit
-  const team = actingUnit?.team
+  // Get unit info from the actingUnit object (already declared above)
   const unitClass = actingUnit?.classKey as AllClassType
   const unitSprite = unitClass ? SPRITES[unitClass] : null
 
@@ -117,16 +128,6 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
       },
       { physical: 0, magical: 0 }
     )
-
-  // Team-based card styling with enhanced differentiation
-  const teamCardStyles = {
-    'home-team':
-      'border-home/30 bg-home/10 dark:border-home/60 dark:bg-home/15 border-l-4 border-l-home',
-    'away-team':
-      'border-away/30 bg-away/10 dark:border-away/60 dark:bg-away/15 border-r-4 border-r-away',
-  }
-
-  const currentCardStyle = team ? teamCardStyles[team] : ''
 
   return (
     <Card className={cn('w-full', currentCardStyle)}>
@@ -165,6 +166,93 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                 <p className="text-sm font-medium text-foreground mb-1">
                   {event.description}
                 </p>
+
+                {/* Affliction details */}
+                {event.afflictionData && (
+                  <div className="mb-2 pb-2 border-b border-border/30">
+                    <div className="flex items-center gap-2 text-xs">
+                      {/* Affliction type with icon */}
+                      <div className="flex items-center gap-1">
+                        <span className="text-sm">
+                          {event.afflictionData.afflictionType === 'Burn'
+                            ? '🔥'
+                            : event.afflictionData.afflictionType === 'Poison'
+                              ? '☠️'
+                              : event.afflictionData.afflictionType === 'Stun'
+                                ? '😵'
+                                : event.afflictionData.afflictionType ===
+                                    'Freeze'
+                                  ? '🧊'
+                                  : event.afflictionData.afflictionType ===
+                                      'Blind'
+                                    ? '👁️'
+                                    : event.afflictionData.afflictionType ===
+                                        'Guard Seal'
+                                      ? '🛡️'
+                                      : event.afflictionData.afflictionType ===
+                                          'Passive Seal'
+                                        ? '🚫'
+                                        : event.afflictionData
+                                              .afflictionType === 'Crit Seal'
+                                          ? '⚡'
+                                          : event.afflictionData
+                                                .afflictionType === 'Deathblow'
+                                            ? '💀'
+                                            : '⚠️'}
+                        </span>
+                        <Badge
+                          variant={
+                            event.type === 'affliction-damage' ||
+                            event.type === 'stun-clear'
+                              ? 'destructive'
+                              : 'secondary'
+                          }
+                          className="text-xs"
+                        >
+                          {event.afflictionData.afflictionType}
+                          {event.afflictionData.level &&
+                            event.afflictionData.level > 1 &&
+                            ` (${event.afflictionData.level})`}
+                        </Badge>
+                      </div>
+
+                      {/* Damage or effect indicator */}
+                      {event.afflictionData.damage && (
+                        <Badge variant="destructive" className="text-xs">
+                          -{event.afflictionData.damage} HP
+                        </Badge>
+                      )}
+
+                      {(event.type === 'stun-clear' ||
+                        (event.afflictionData?.afflictionType === 'Stun' &&
+                          !event.afflictionData?.applied)) && (
+                        <Badge
+                          variant="outline"
+                          className="text-xs text-yellow-600"
+                        >
+                          Turn Consumed
+                        </Badge>
+                      )}
+
+                      {event.type === 'affliction-apply' &&
+                        event.afflictionData.applied && (
+                          <Badge
+                            variant="outline"
+                            className="text-xs text-green-600"
+                          >
+                            Applied
+                          </Badge>
+                        )}
+
+                      {event.type === 'affliction-remove' &&
+                        !event.afflictionData.applied && (
+                          <Badge variant="outline" className="text-blue-600">
+                            Removed
+                          </Badge>
+                        )}
+                    </div>
+                  </div>
+                )}
 
                 {/* Skill details */}
                 {skill ? (

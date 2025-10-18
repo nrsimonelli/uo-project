@@ -1,3 +1,9 @@
+import {
+  checkAndConsumeBlind,
+  canCrit,
+  canGuard,
+  processAfflictionsOnDamage,
+} from './affliction-manager'
 import { removeExpiredConferrals } from './status-effects'
 
 import {
@@ -224,6 +230,25 @@ export const calculateSkillDamage = (
     },
   })
 
+  // Check for Blind - this overrides all hit calculations including TrueStrike
+  const blindMiss = checkAndConsumeBlind(attacker)
+  if (blindMiss) {
+    return {
+      hit: false,
+      damage: 0,
+      wasCritical: false,
+      wasGuarded: false,
+      hitChance: 0, // Blind guarantees miss
+      breakdown: {
+        baseDamage: 0,
+        afterPotency: 0,
+        afterCrit: 0,
+        afterGuard: 0,
+        afterEffectiveness: 0,
+      },
+    }
+  }
+
   // Calculate hit chance
   const hitChance = calculateHitChance(
     attacker,
@@ -255,14 +280,19 @@ export const calculateSkillDamage = (
 
   // Roll shared modifiers once
   const critRate = attacker.combatStats.CRT
+
+  // Check for Crit Seal - this overrides TrueCritical as well
+  const canLandCrit = canCrit(attacker)
   const wasCritical =
-    combinedFlags.includes('TrueCritical') || rollCrit(rng, critRate)
+    canLandCrit &&
+    (combinedFlags.includes('TrueCritical') || rollCrit(rng, critRate))
   const critMultiplier = getCritMultiplier(wasCritical)
 
   // Roll for guard (only affects physical damage)
-  const canGuard = hasPhysical && !combinedFlags.includes('Unguardable')
-  const guardRate = canGuard ? target.combatStats.GRD : 0
-  const wasGuarded = canGuard && rollGuard(rng, guardRate)
+  const canGuardAttack =
+    hasPhysical && !combinedFlags.includes('Unguardable') && canGuard(target)
+  const guardRate = canGuardAttack ? target.combatStats.GRD : 0
+  const wasGuarded = canGuardAttack && rollGuard(rng, guardRate)
   const equipmentGuardEff = target.combatStats.GuardEff || 0
   const guardMultiplier = calculateNaturalGuardMultiplier(
     wasGuarded,
@@ -346,6 +376,11 @@ export const calculateSkillDamage = (
       : null
   const effectiveness = effectivenessRule ? effectivenessRule.multiplier : 1.0
   const finalDamage = Math.max(1, Math.round(totalDamage * effectiveness))
+
+  // Process afflictions when target takes damage (removes Freeze)
+  if (finalDamage > 0) {
+    processAfflictionsOnDamage(target)
+  }
 
   console.log('🎲 Damage Calculation Complete', {
     attacker: attacker.unit.name,

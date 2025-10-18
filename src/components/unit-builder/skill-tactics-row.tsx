@@ -59,12 +59,12 @@ export function SkillTacticsRow({
   }
 
   return (
-    <div 
-      ref={setNodeRef} 
+    <div
+      ref={setNodeRef}
       style={style}
       className={cn(
-        "grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors",
-        isDragging && "opacity-75"
+        'grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors',
+        isDragging && 'opacity-75'
       )}
     >
       <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">

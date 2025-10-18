@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { SPRITES } from '@/data/sprites'
 import type { AllClassType } from '@/types/base-stats'
-import type { BattleEvent } from '@/types/battle-engine'
+import type { BattleEvent, Affliction } from '@/types/battle-engine'
 
 interface UnitSquareProps {
   unit: {
@@ -15,6 +15,7 @@ interface UnitSquareProps {
       row: number
       col: number
     }
+    afflictions?: Affliction[]
   } | null
 }
 
@@ -68,8 +69,24 @@ function UnitSquare({ unit }: UnitSquareProps) {
     )
   }
 
+  // Helper function to get affliction icons
+  const getAfflictionIcon = (type: string) => {
+    const icons: Record<string, string> = {
+      Burn: '🔥',
+      Poison: '☠️',
+      Stun: '😵',
+      Freeze: '🧊',
+      Blind: '👁️',
+      'Guard Seal': '🛡️',
+      'Passive Seal': '🚫',
+      'Crit Seal': '⚡',
+      Deathblow: '💀',
+    }
+    return icons[type] || '⚠️'
+  }
+
   return (
-    <div className="w-12 h-12 border border-border bg-card rounded p-1 flex flex-col items-center justify-center text-center">
+    <div className="relative w-12 h-12 border border-border bg-card rounded p-1 flex flex-col items-center justify-center text-center">
       {/* Unit sprite */}
       {unitSprite && (
         <img
@@ -85,6 +102,29 @@ function UnitSquare({ unit }: UnitSquareProps) {
       <div className="text-xs font-mono leading-none mt-0.5">
         {animatedHP}/{maxHP}
       </div>
+
+      {/* Afflictions overlay */}
+      {unit.afflictions && unit.afflictions.length > 0 && (
+        <div className="absolute -top-1 -right-1 flex flex-wrap gap-0.5 max-w-8">
+          {unit.afflictions.slice(0, 2).map((affliction, index) => (
+            <div
+              key={`${affliction.type}-${index}`}
+              className="text-xs leading-none"
+              title={`${affliction.type}${affliction.level ? ` (Level ${affliction.level})` : ''}`}
+            >
+              {getAfflictionIcon(affliction.type)}
+            </div>
+          ))}
+          {unit.afflictions.length > 2 && (
+            <div
+              className="text-xs leading-none"
+              title={`+${unit.afflictions.length - 2} more afflictions`}
+            >
+              +{unit.afflictions.length - 2}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -101,6 +141,7 @@ interface TeamFormationProps {
       row: number
       col: number
     }
+    afflictions?: Affliction[]
   }>
   teamColor: 'blue' | 'red'
   isAway?: boolean // For mirroring away team positions

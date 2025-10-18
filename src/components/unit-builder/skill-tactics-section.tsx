@@ -5,10 +5,7 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from '@dnd-kit/core'
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { GripVertical } from 'lucide-react'
 import { useState } from 'react'
 
@@ -33,27 +30,32 @@ export function SkillTacticsSection({
   unit,
   onUpdateUnit,
 }: SkillTacticsSectionProps) {
-  const { skillSlots, addSkill, canAddMoreSkills, removeSkillSlot, reorderSkillSlot } =
-    useSkillSlotManager({ unit, onUpdateUnit })
-    
+  const {
+    skillSlots,
+    addSkill,
+    canAddMoreSkills,
+    removeSkillSlot,
+    reorderSkillSlot,
+  } = useSkillSlotManager({ unit, onUpdateUnit })
+
   const [activeSkill, setActiveSkill] = useState<SkillSlot | null>(null)
-  
+
   const handleDragStart = (event: DragStartEvent) => {
     const draggedSkill = skillSlots.find(slot => slot.id === event.active.id)
     setActiveSkill(draggedSkill || null)
   }
-  
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     setActiveSkill(null)
-    
+
     if (!over || active.id === over.id) {
       return
     }
-    
+
     const oldIndex = skillSlots.findIndex(slot => slot.id === active.id)
     const newIndex = skillSlots.findIndex(slot => slot.id === over.id)
-    
+
     if (oldIndex !== -1 && newIndex !== -1) {
       reorderSkillSlot(oldIndex, newIndex)
     }
@@ -137,7 +139,9 @@ export function SkillTacticsSection({
                   <div className="p-2 flex items-center gap-2 min-h-[40px] relative">
                     {(() => {
                       const skill = activeSkill.skillId
-                        ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === activeSkill.skillId)
+                        ? [...ActiveSkills, ...PassiveSkills].find(
+                            s => s.id === activeSkill.skillId
+                          )
                         : null
                       return skill ? (
                         <>
@@ -148,20 +152,26 @@ export function SkillTacticsSection({
                           <span className="text-sm">{skill.name}</span>
                         </>
                       ) : (
-                        <span className="text-sm text-muted-foreground">Empty</span>
+                        <span className="text-sm text-muted-foreground">
+                          Empty
+                        </span>
                       )
                     })()}
                   </div>
                   <div className="p-2 border-l min-h-[40px] relative">
                     <ConditionModal
                       onSelectCondition={() => {}}
-                      currentCondition={activeSkill.tactics[0]?.condition || null}
+                      currentCondition={
+                        activeSkill.tactics[0]?.condition || null
+                      }
                     />
                   </div>
                   <div className="p-2 border-l min-h-[40px] relative">
                     <ConditionModal
                       onSelectCondition={() => {}}
-                      currentCondition={activeSkill.tactics[1]?.condition || null}
+                      currentCondition={
+                        activeSkill.tactics[1]?.condition || null
+                      }
                     />
                   </div>
                 </div>
