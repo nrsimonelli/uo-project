@@ -14,7 +14,7 @@ describe('Status Effects Basic', () => {
     const unit = createMockBattleContext({
       buffs: [
         {
-          name: 'Strength Up',
+          name: 'test-buff',
           stat: 'PATK',
           value: 10,
           duration: 'Indefinite',
@@ -34,7 +34,7 @@ describe('Status Effects Basic', () => {
     const unit = createMockBattleContext({
       debuffs: [
         {
-          name: 'Weakness',
+          name: 'test-debuff',
           stat: 'PATK',
           value: -5,
           duration: 'Indefinite',

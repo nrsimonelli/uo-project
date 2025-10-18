@@ -263,16 +263,19 @@ export const getDefaultTargets = (
     potentialTargets = groupHandler(actingUnit, battlefield)
   }
 
-  // SELECTIVE FRONT-ROW BLOCKING: Only apply to melee Single/Row attacks
-  // Column attacks and Ranged/Magical attacks can bypass front-row blocking via tactics
+  // FRONT-ROW BLOCKING: Apply to melee attacks without Piercing flag
+  // Piercing attacks and Ranged/Magical attacks can bypass front-row blocking via tactics
   if (group === 'Enemy' && isDamageSkill(skill.skillCategories)) {
     const attackType = getAttackType(
       actingUnit.unit.classKey,
       skill.innateAttackType
     )
 
-    // Only apply front-row blocking for melee Single/Row attacks
-    if (attackType === 'Melee' && (pattern === 'Single' || pattern === 'Row')) {
+    // Check if skill has Piercing flag
+    const hasPiercingFlag = skill.skillFlags?.includes('Piercing') ?? false
+
+    // Only apply front-row blocking for melee attacks without Piercing flag
+    if (attackType === 'Melee' && !hasPiercingFlag) {
       // Check the ENTIRE battlefield for front row enemies, not just filtered targets
       const allEnemies = Object.values(battlefield.units).filter(
         unit => unit.team !== actingUnit.team && unit.currentHP > 0
@@ -296,7 +299,7 @@ export const getDefaultTargets = (
         ) {
           // Tactical system selected only back row, but front row enemies exist - block the attack
           console.debug(
-            `⚠️  Front row blocking: Melee ${pattern} attack '${skill.name}' by ${actingUnit.unit.name} BLOCKED - tactical system selected back row only but front row enemies exist`,
+            `⚠️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} BLOCKED - tactical system selected back row only but front row enemies exist`,
             {
               allFrontRowEnemies: allFrontRowEnemies.map(e => ({
                 name: e.unit.name,
@@ -313,7 +316,7 @@ export const getDefaultTargets = (
         } else if (backRowTargetsInSelection.length > 0) {
           // Mixed front/back selection - remove back row targets
           console.debug(
-            `🛡️  Front row blocking: Melee ${pattern} attack '${skill.name}' by ${actingUnit.unit.name} restricted to front row targets only`,
+            `🛡️  Front row blocking: Melee attack '${skill.name}' by ${actingUnit.unit.name} restricted to front row targets only`,
             {
               originalTargets: potentialTargets.length,
               frontRowTargets: frontRowTargetsInSelection.length,
@@ -330,7 +333,7 @@ export const getDefaultTargets = (
       }
       // If no front row enemies exist anywhere, back row enemies become valid targets
     }
-    // Column attacks and non-melee attacks can freely target any units chosen by tactics
+    // Piercing and non-melee attacks can freely target any units chosen by tactics
   }
 
   // Apply pattern-based selection

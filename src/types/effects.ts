@@ -14,6 +14,7 @@ export const FLAGS = [
   // Skill properties
   'Charge', // Executes on following round
   'GroundBased', // Can only hit Cavalry and Infantry
+  'Piercing', // Can target back-row units even if melee (bypasses front-row blocking)
 ] as const
 export type Flag = (typeof FLAGS)[number]
 

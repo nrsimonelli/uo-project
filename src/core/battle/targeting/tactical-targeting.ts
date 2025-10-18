@@ -131,18 +131,23 @@ export const evaluateSkillSlotTactics = (
     }
   }
 
-  if ((pattern === 'Single' || pattern === 'Row') && targets.length > 0) {
-    // Check if this is a melee Single/Row attack that needs front-row blocking
+  if (targets.length > 0) {
+    // Check if this is a melee attack without Piercing that needs front-row blocking
     const { group } = skill.targeting
+    const attackType = getAttackType(
+      actingUnit.unit.classKey,
+      skill.innateAttackType
+    )
+    const hasPiercingFlag = skill.skillFlags?.includes('Piercing') ?? false
+
     const needsFrontRowBlocking =
       group === 'Enemy' &&
       isDamageSkill(skill.skillCategories) &&
-      getAttackType(actingUnit.unit.classKey, skill.innateAttackType) ===
-        'Melee' &&
-      (pattern === 'Single' || pattern === 'Row')
+      attackType === 'Melee' &&
+      !hasPiercingFlag
 
     if (needsFrontRowBlocking) {
-      // Apply front-row blocking check for melee Single/Row attacks
+      // Apply front-row blocking check for melee attacks without Piercing
       const frontRowBlockingResult = getDefaultTargets(
         skill,
         actingUnit,
@@ -158,11 +163,11 @@ export const evaluateSkillSlotTactics = (
       // Otherwise, use the front-row blocking result
       return { shouldUseSkill: true, targets: frontRowBlockingResult }
     } else {
-      // For non-melee attacks or Single ranged/magical attacks, use tactical result directly
+      // For Piercing attacks, ranged/magical attacks, use tactical result directly for Single pattern
       if (pattern === 'Single') {
         return { shouldUseSkill: true, targets: [targets[0]] }
       }
-      // For Row patterns that don't need front-row blocking, fall through to normal processing
+      // For other patterns, fall through to normal processing
     }
   }
 

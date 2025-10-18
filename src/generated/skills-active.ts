@@ -190,6 +190,7 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -343,6 +344,7 @@ export const ActiveSkills = [
     description: 'Attack a column of enemies. Inflicts blindness.',
     ap: 1,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -396,7 +398,7 @@ export const ActiveSkills = [
       group: 'Enemy',
       pattern: 'Column',
     },
-    skillFlags: ['TrueStrike'],
+    skillFlags: ['TrueStrike', 'Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -415,6 +417,7 @@ export const ActiveSkills = [
     description: 'Attack a column of enemies. Inflicts -1 PP.',
     ap: 1,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -568,6 +571,7 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Inflicts Poison. Inflicts Deathblow vs. poisoned foes.',
     ap: 3,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -652,6 +656,7 @@ export const ActiveSkills = [
       'Attack a column of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Elven targets.',
     ap: 2,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -916,6 +921,7 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. +50 potency if the user is buffed. Cavalry targets cannot guard against this attack.',
     ap: 2,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
@@ -1874,6 +1880,7 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Inflicts Stun.',
     ap: 1,
     skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',

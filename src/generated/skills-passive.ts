@@ -973,6 +973,7 @@ export const PassiveSkills = [
       'Activates after a cavalry-based ally attacks (Active). Follow-up attack a column of enemies with a piercing strike.',
     pp: 1,
     skillCategories: ['Damage', 'Pursuit'],
+    skillFlags: ['Piercing'],
     activationWindow: 'afterCavalryAllyAttacksActive',
     targeting: {
       group: 'Enemy',
