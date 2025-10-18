@@ -111,12 +111,12 @@ describe('Affliction System', () => {
     it('should handle multiple afflictions', () => {
       applyAffliction(unit, 'Poison', 'source')
       applyAffliction(unit, 'Blind', 'source')
-      applyAffliction(unit, 'Guard Seal', 'source')
+      applyAffliction(unit, 'GuardSeal', 'source')
 
       expect(unit.afflictions).toHaveLength(3)
       expect(hasAffliction(unit, 'Poison')).toBe(true)
       expect(hasAffliction(unit, 'Blind')).toBe(true)
-      expect(hasAffliction(unit, 'Guard Seal')).toBe(true)
+      expect(hasAffliction(unit, 'GuardSeal')).toBe(true)
     })
   })
 
@@ -235,7 +235,7 @@ describe('Affliction System', () => {
     it('should prevent passive skills with Passive Seal', () => {
       expect(canUsePassiveSkills(unit)).toBe(true)
 
-      applyAffliction(unit, 'Passive Seal', 'source')
+      applyAffliction(unit, 'PassiveSeal', 'source')
       expect(canUsePassiveSkills(unit)).toBe(false)
       expect(canUseActiveSkills(unit)).toBe(true) // Active skills unaffected
     })
@@ -243,14 +243,14 @@ describe('Affliction System', () => {
     it('should prevent guarding with Guard Seal', () => {
       expect(canGuard(unit)).toBe(true)
 
-      applyAffliction(unit, 'Guard Seal', 'source')
+      applyAffliction(unit, 'GuardSeal', 'source')
       expect(canGuard(unit)).toBe(false)
     })
 
     it('should prevent crits with Crit Seal', () => {
       expect(canCrit(unit)).toBe(true)
 
-      applyAffliction(unit, 'Crit Seal', 'source')
+      applyAffliction(unit, 'CritSeal', 'source')
       expect(canCrit(unit)).toBe(false)
     })
   })
@@ -369,7 +369,7 @@ describe('Affliction System', () => {
     it('should integrate with damage calculation - Crit Seal override', () => {
       const testRng = rng('test-seed')
       attacker.afflictions = [
-        { type: 'Crit Seal', name: 'Crit Seal', source: 'test' },
+        { type: 'CritSeal', name: 'Crit Seal', source: 'test' },
       ]
 
       const damageEffect: DamageEffect = {

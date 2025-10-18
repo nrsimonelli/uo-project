@@ -187,13 +187,13 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                                       'Blind'
                                     ? '👁️'
                                     : event.afflictionData.afflictionType ===
-                                        'Guard Seal'
+                                        'GuardSeal'
                                       ? '🛡️'
                                       : event.afflictionData.afflictionType ===
-                                          'Passive Seal'
+                                          'PassiveSeal'
                                         ? '🚫'
                                         : event.afflictionData
-                                              .afflictionType === 'Crit Seal'
+                                              .afflictionType === 'CritSeal'
                                           ? '⚡'
                                           : event.afflictionData
                                                 .afflictionType === 'Deathblow'

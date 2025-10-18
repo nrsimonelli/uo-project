@@ -55,9 +55,9 @@ export const AFFLICTIONS = [
   'Burn',
   'Freeze',
   'Blind',
-  'Guard Seal',
-  'Passive Seal',
-  'Crit Seal',
+  'GuardSeal',
+  'PassiveSeal',
+  'CritSeal',
   'Deathblow',
 ] as const
 

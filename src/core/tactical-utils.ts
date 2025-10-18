@@ -44,9 +44,9 @@ const STATUS_CHECKERS = {
   Blinded: (unit: BattleContext) =>
     unit.afflictions.some(aff => aff.type === 'Blind'),
   'Passive Sealed': (unit: BattleContext) =>
-    unit.afflictions.some(aff => aff.type === 'Passive Seal'),
+    unit.afflictions.some(aff => aff.type === 'PassiveSeal'),
   'Guard Sealed': (unit: BattleContext) =>
-    unit.afflictions.some(aff => aff.type === 'Guard Seal'),
+    unit.afflictions.some(aff => aff.type === 'GuardSeal'),
 } as const
 
 export const hasStatus = (unit: BattleContext, statusName: string): boolean => {

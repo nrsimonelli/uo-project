@@ -207,7 +207,7 @@ export const canUsePassiveSkills = (unit: BattleContext): boolean => {
   return !(
     hasAffliction(unit, 'Stun') ||
     hasAffliction(unit, 'Freeze') ||
-    hasAffliction(unit, 'Passive Seal')
+    hasAffliction(unit, 'PassiveSeal')
   )
 }
 
@@ -221,7 +221,7 @@ export const canGuard = (unit: BattleContext): boolean => {
   return !(
     hasAffliction(unit, 'Stun') ||
     hasAffliction(unit, 'Freeze') ||
-    hasAffliction(unit, 'Guard Seal')
+    hasAffliction(unit, 'GuardSeal')
   )
 }
 
@@ -239,7 +239,7 @@ export const canEvade = (unit: BattleContext): boolean => {
  * Check if a unit can land critical hits
  */
 export const canCrit = (unit: BattleContext): boolean => {
-  return !hasAffliction(unit, 'Crit Seal')
+  return !hasAffliction(unit, 'CritSeal')
 }
 
 /**
