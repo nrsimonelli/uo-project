@@ -109,6 +109,7 @@ export function TeamBuilder() {
                 />
 
                 <IsometricFormationBuilder
+                  key={currentTeamId}
                   formation={currentTeam.formation}
                   orientation={'right-facing'}
                   onSwap={handleSwap}
