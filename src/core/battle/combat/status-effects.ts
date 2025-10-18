@@ -1,3 +1,4 @@
+import { applyAffliction } from './affliction-manager'
 import type { EffectProcessingResult } from './effect-processor'
 
 import { calculateBaseStats } from '@/core/calculations/base-stats'
@@ -120,6 +121,29 @@ export const applyStatusEffects = (
     }
 
     applyConferral(targetUnit, conferral)
+  })
+
+  // Apply afflictions to appropriate targets
+  effectResults.afflictionsToApply.forEach(afflictionToApply => {
+    const targetUnit =
+      afflictionToApply.target === 'User' ? attacker : targets[0]
+    if (!targetUnit) return
+
+    applyAffliction(
+      targetUnit,
+      afflictionToApply.afflictionType,
+      attacker.unit.id,
+      afflictionToApply.level
+    )
+
+    // If Deathblow was applied and unit was defeated, add to recalculation set
+    // (though Deathblow doesn't affect stats, this ensures proper cleanup)
+    if (
+      afflictionToApply.afflictionType === 'Deathblow' ||
+      targetUnit.currentHP <= 0
+    ) {
+      unitsToRecalculate.add(targetUnit)
+    }
   })
 
   // Recalculate stats for all affected units

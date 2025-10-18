@@ -40,6 +40,13 @@ export interface BattleEvent {
       criticalHits: number
     }
   }
+  // Affliction-related event data
+  afflictionData?: {
+    afflictionType: AfflictionType
+    damage?: number // For burn/poison damage
+    level?: number // For burn stacking
+    applied?: boolean // Whether affliction was applied or removed
+  }
   // Team roster data for battle-end events
   teamRosters?: {
     homeTeam: Array<{
@@ -52,6 +59,7 @@ export interface BattleEvent {
         row: number
         col: number
       }
+      afflictions: Affliction[]
     }>
     awayTeam: Array<{
       unitId: string
@@ -63,6 +71,7 @@ export interface BattleEvent {
         row: number
         col: number
       }
+      afflictions: Affliction[]
     }>
   }
 }
@@ -184,7 +193,7 @@ export interface BattleContext {
   flags: string[] // Flag names as strings for simplicity
   lastPassiveResponse: number // activeSkillTurn when last passive was used
   isPassiveResponsive: boolean // false when defeated (currentHP -> 0), frozen, stunned, passive sealed or has already used a passive skill during this active skill turn.
-  immunities: (Affliction | 'Affliction' | 'Debuff')[] // Permanent immunities/skill nullifications. Specific Afflictions, all afflictions, all debuffs (everything, afflicitons are also debuffs but not all debuffs are afflictions)
+  immunities: (AfflictionType | 'Affliction' | 'Debuff')[] // Permanent immunities/skill nullifications. Specific Afflictions, all afflictions, all debuffs (everything, afflicitons are also debuffs but not all debuffs are afflictions)
   hasActedThisRound: boolean // Whether this unit has used an active skill this round
 }
 

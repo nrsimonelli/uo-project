@@ -8,6 +8,7 @@ import {
 
 import { getDefaultTargets } from './skill-targeting'
 
+import { getAttackType, isDamageSkill } from '@/core/attack-types'
 import {
   COMPLETE_TACTIC_METADATA,
   type ConditionMetadata,
@@ -89,6 +90,11 @@ export const evaluateSkillSlotTactics = (
     return { shouldUseSkill: false, targets: [] }
   }
 
+  // Apply skill targeting pattern, respecting tactical priorities
+  // For Single patterns, we need to check front-row blocking for melee attacks
+  // before returning the tactical result directly
+  const { pattern } = skill.targeting
+
   // Check for true tie after all tactical processing
   const sortedTactics = [tactic1, tactic2].filter(
     tactic =>
@@ -96,27 +102,68 @@ export const evaluateSkillSlotTactics = (
   )
 
   if (sortedTactics.length > 0 && hasTrueTie(targets, sortedTactics, context)) {
-    // True tie - use default targeting on the tied targets
-    const defaultTargets = getDefaultTargets(
-      skill,
-      actingUnit,
-      battlefield,
-      targets
-    )
-    return {
-      shouldUseSkill: defaultTargets.length > 0,
-      targets: defaultTargets,
+    // True tie detected - but for formation tactics, we should preserve tactical priorities
+    // and not fall back to default targeting which would override formation preferences
+    const hasFormationTactic = sortedTactics.some(tactic => {
+      if (!tactic) return false
+      const metadata = COMPLETE_TACTIC_METADATA[tactic.condition.key]
+      return metadata?.valueType === 'formation'
+    })
+
+    if (hasFormationTactic) {
+      // For formation tactics, use the tactically sorted result directly for Single attacks
+      // Don't fall back to default targeting which would override formation priorities
+      if (pattern === 'Single' && targets.length > 0) {
+        return { shouldUseSkill: true, targets: [targets[0]] }
+      }
+    } else {
+      // True tie for non-formation tactics - use default targeting on the tied targets
+      const defaultTargets = getDefaultTargets(
+        skill,
+        actingUnit,
+        battlefield,
+        targets
+      )
+      return {
+        shouldUseSkill: defaultTargets.length > 0,
+        targets: defaultTargets,
+      }
     }
   }
 
-  // Apply skill targeting pattern, respecting tactical priorities
-  // For Single patterns with clear tactical winner, use tactical result directly
-  // For other patterns (Row/Column/All), apply pattern to tactically-processed targets
-  const { pattern } = skill.targeting
+  if ((pattern === 'Single' || pattern === 'Row') && targets.length > 0) {
+    // Check if this is a melee Single/Row attack that needs front-row blocking
+    const { group } = skill.targeting
+    const needsFrontRowBlocking =
+      group === 'Enemy' &&
+      isDamageSkill(skill.skillCategories) &&
+      getAttackType(actingUnit.unit.classKey, skill.innateAttackType) ===
+        'Melee' &&
+      (pattern === 'Single' || pattern === 'Row')
 
-  if (pattern === 'Single' && targets.length > 0) {
-    // Single pattern with tactical processing: use the first (highest priority) target
-    return { shouldUseSkill: true, targets: [targets[0]] }
+    if (needsFrontRowBlocking) {
+      // Apply front-row blocking check for melee Single/Row attacks
+      const frontRowBlockingResult = getDefaultTargets(
+        skill,
+        actingUnit,
+        battlefield,
+        targets // Pass tactically-processed targets as preFilteredTargets
+      )
+
+      // If front-row blocking filtered out all targets, the skill should be blocked
+      if (frontRowBlockingResult.length === 0) {
+        return { shouldUseSkill: false, targets: [] }
+      }
+
+      // Otherwise, use the front-row blocking result
+      return { shouldUseSkill: true, targets: frontRowBlockingResult }
+    } else {
+      // For non-melee attacks or Single ranged/magical attacks, use tactical result directly
+      if (pattern === 'Single') {
+        return { shouldUseSkill: true, targets: [targets[0]] }
+      }
+      // For Row patterns that don't need front-row blocking, fall through to normal processing
+    }
   }
 
   // For other patterns, apply the pattern to tactically-processed targets

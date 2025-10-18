@@ -93,6 +93,14 @@ export interface EffectProcessingResult {
     casterMATK: number // Store the caster's MATK when the effect is applied
   }>
 
+  // Afflictions to apply
+  afflictionsToApply: Array<{
+    afflictionType: AfflictionType
+    target: 'User' | 'Target'
+    level?: number // For Burn stacking
+    skillId: string
+  }>
+
   // Buffs/debuffs to apply
   buffsToApply: Array<{
     stat: string
@@ -136,6 +144,7 @@ export const processEffects = (
     resourceStealToApply: [],
     debuffAmplificationsToApply: [],
     conferralsToApply: [],
+    afflictionsToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -239,6 +248,16 @@ export const processEffects = (
         duration: effect.duration,
         skillId,
         casterMATK: casterMATK || 0, // Store caster's MATK at time of casting
+      })
+      return
+    }
+
+    if (effect.kind === 'Affliction') {
+      result.afflictionsToApply.push({
+        afflictionType: effect.affliction,
+        target: effect.applyTo || 'Target',
+        level: effect.level, // For Burn stacking
+        skillId,
       })
       return
     }

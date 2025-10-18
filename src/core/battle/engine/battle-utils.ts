@@ -1,7 +1,7 @@
 import type {
+  BattleEvent,
   BattlefieldState,
   BattleContext,
-  BattleEvent,
 } from '@/types/battle-engine'
 
 export const calculateTeamHpPercentages = (state: BattlefieldState) => {
@@ -115,6 +115,7 @@ export const createBattleEndEvent = (
       currentHP: unit.currentHP,
       maxHP: unit.combatStats.HP,
       position: unit.position,
+      afflictions: unit.afflictions,
     })),
     awayTeam: awayTeamUnits.map(unit => ({
       unitId: unit.unit.id,
@@ -123,6 +124,7 @@ export const createBattleEndEvent = (
       currentHP: unit.currentHP,
       maxHP: unit.combatStats.HP,
       position: unit.position,
+      afflictions: unit.afflictions,
     })),
   }
 

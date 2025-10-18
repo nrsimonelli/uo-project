@@ -20,6 +20,7 @@ import {
   createInitialBattlefieldState,
 } from '@/core/battle/engine/battlefield-state'
 import { trackSkillUsage } from '@/core/battle/engine/state-tracker'
+import { processUnitTurnStart } from '@/core/battle/engine/turn-manager'
 import {
   isUnitActionableActive,
   shouldContinueBattle,
@@ -164,11 +165,76 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       const unit = battlefieldState.units[unitId]
       if (!unit) return
 
-      // Remove expired effects for the acting unit before their action
-      removeExpiredBuffs(unit, 'attack')
-      removeExpiredDebuffs(unit, 'attack')
+      // Process afflictions at turn start
+      const afflictionResult = processUnitTurnStart(unit)
 
-      // Select and execute skill
+      // If unit cannot act due to afflictions, create a single comprehensive event
+      if (!afflictionResult.canAct) {
+        // Create event for affliction effects that prevent action
+        const afflictionEventData = afflictionResult.events[0] // Should only be one event for non-acting units
+        let eventDescription = ''
+        let eventType = 'affliction-effect'
+        let afflictionData: BattleEvent['afflictionData'] | undefined
+
+        if (afflictionEventData?.type === 'stun-clear') {
+          // Treat stun clearing like a regular action (similar to Standby)
+          eventDescription = `${unit.unit.name} cleared Stun`
+          eventType = 'skill-execution' // Make it look like a regular action
+          afflictionData = {
+            afflictionType: 'Stun',
+            applied: false, // Stun was removed
+          }
+        } else if (
+          afflictionEventData?.type === 'burn-damage' ||
+          afflictionEventData?.type === 'poison-damage'
+        ) {
+          // Only say "defeated by" if unit actually dies
+          if (unit.currentHP <= 0) {
+            eventDescription = `${unit.unit.name} is defeated by ${afflictionEventData.afflictionType.toLowerCase()} damage`
+          } else {
+            eventDescription = `${unit.unit.name} takes ${afflictionEventData.damage} ${afflictionEventData.afflictionType.toLowerCase()} damage (cannot act)`
+          }
+          eventType = afflictionEventData.type
+          afflictionData = {
+            afflictionType: afflictionEventData.afflictionType,
+            damage: afflictionEventData.damage,
+            level: afflictionEventData.level,
+          }
+        }
+
+        const afflictionEvent: BattleEvent = {
+          id: `${unit.unit.name}-affliction-${Date.now()}`,
+          type: eventType,
+          turn: battlefieldState.turnCount,
+          description: eventDescription,
+          actingUnit: {
+            id: unit.unit.id,
+            name: unit.unit.name,
+            classKey: unit.unit.classKey,
+            team: unit.team,
+          },
+          afflictionData,
+        }
+        setBattleEvents(prev => [...prev, afflictionEvent])
+
+        // Update unit state - mark as having acted this round since they can't take normal action
+        setBattlefieldState(prevState => {
+          if (!prevState) return prevState
+          const newState = { ...prevState }
+          newState.units = {
+            ...newState.units,
+            [unitId]: {
+              ...unit,
+              currentHP: unit.currentHP <= 0 ? 0 : unit.currentHP, // Set to 0 if defeated
+              hasActedThisRound: true, // Always mark as acted - stun clear, death, etc. all consume turn
+            },
+          }
+          return newState
+        })
+        return
+      }
+
+      // Select skill first to determine proper trigger
       const skillSelection = selectActiveSkill(unit, battlefieldState)
 
       // Debug logging for skill selection
@@ -186,15 +252,41 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         battlefieldState.rng
       )
 
+      // Determine trigger type based on skill categories and remove expired effects
+      const isDamageSkill =
+        skillSelection.skill.skillCategories.includes('Damage')
+      const trigger = isDamageSkill ? 'attacks' : 'action'
+      removeExpiredBuffs(unit, trigger)
+      removeExpiredDebuffs(unit, trigger)
+
       // Transform skill results for battle event
       const skillResults = transformSkillResults(result, skillSelection.targets)
 
-      // Create and add battle event
+      // Create and add battle event (including any affliction processing from turn start)
+      let eventDescription = `${unit.unit.name} used ${skillSelection.skill.name}`
+      let afflictionData: BattleEvent['afflictionData'] | undefined
+
+      // If there were affliction events this turn, update description and include data
+      if (afflictionResult.events.length > 0) {
+        const afflictionEvent = afflictionResult.events[0] // Take first/most significant
+        if (
+          afflictionEvent.type === 'burn-damage' ||
+          afflictionEvent.type === 'poison-damage'
+        ) {
+          eventDescription = `${unit.unit.name} takes ${afflictionEvent.damage} ${afflictionEvent.afflictionType.toLowerCase()} damage, then used ${skillSelection.skill.name}`
+          afflictionData = {
+            afflictionType: afflictionEvent.afflictionType,
+            damage: afflictionEvent.damage,
+            level: afflictionEvent.level,
+          }
+        }
+      }
+
       const battleEvent: BattleEvent = {
         id: `${unit.unit.name}-${skillSelection.skill.name}-${Date.now()}`,
         type: 'skill-execution',
         turn: battlefieldState.turnCount,
-        description: `${unit.unit.name} used ${skillSelection.skill.name}`,
+        description: eventDescription,
         actingUnit: {
           id: unit.unit.id,
           name: unit.unit.name,
@@ -204,6 +296,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         targets: skillSelection.targets.map(t => t.unit.id),
         skillId: skillSelection.skill.id,
         skillResults,
+        afflictionData,
       }
       setBattleEvents(prev => [...prev, battleEvent])
 

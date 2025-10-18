@@ -1,3 +1,9 @@
+import {
+  canUseActiveSkills,
+  canUsePassiveSkills,
+  processAfflictionsAtTurnStart,
+} from '../combat/affliction-manager'
+
 import { calculateTurnOrder } from '@/core/calculations/turn-order'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
@@ -12,37 +18,15 @@ export const isUnitAfflicted = (
   return unit.afflictions.some(aff => affliction.includes(aff.type))
 }
 
-export const isUnitActionableActive = (unit: BattleContext) => {
-  if (unit.currentHP <= 0) {
-    return false
-  }
-  // Must have AP remaining
-  if (unit.currentAP <= 0) {
-    return false
-  }
-  // Cannot act if frozen
-  const isFrozen = isUnitAfflicted(unit, ['Freeze'])
+// Use new affliction manager functions
+export const isUnitActionableActive = canUseActiveSkills
+export const isUnitActionablePassive = canUsePassiveSkills
 
-  return !isFrozen
-}
-
-export const isUnitActionablePassive = (unit: BattleContext) => {
-  if (unit.currentHP <= 0) {
-    return false
-  }
-  // Must have PP remaining
-  if (unit.currentPP <= 0) {
-    return false
-  }
-  // Cannot act if frozen, stunned, or passive sealed
-  const isActionable = !isUnitAfflicted(unit, [
-    'Stun',
-    'Freeze',
-    'Passive Seal',
-  ])
-
-  return isActionable
-}
+/**
+ * Process afflictions at the start of a unit's turn
+ * Returns result with action capability and events for battle log
+ */
+export const processUnitTurnStart = processAfflictionsAtTurnStart
 
 /**
  * Remove current unit from active skill queue

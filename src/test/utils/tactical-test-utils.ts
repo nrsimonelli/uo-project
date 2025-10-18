@@ -246,7 +246,12 @@ export const createStatusUnit = (
       | 'INIT'
       | 'MOV'
     value: number
-    duration: 'Indefinite' | 'UntilNextAttack' | 'UntilAttacked' | 'UntilDebuffed' | 'UntilNextAction'
+    duration:
+      | 'Indefinite'
+      | 'UntilNextAttack'
+      | 'UntilAttacked'
+      | 'UntilDebuffed'
+      | 'UntilNextAction'
     scaling: 'flat' | 'percent'
     source: string
     skillId: string

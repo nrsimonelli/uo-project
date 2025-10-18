@@ -103,6 +103,7 @@ export interface ParryEffect {
 export interface AfflictionEffect {
   kind: 'Affliction'
   affliction: AfflictionType
+  level?: number // For Burn stacking - how many levels to apply
   applyTo?: 'Target' | 'User'
   conditions?: Condition[] | readonly Condition[]
 }

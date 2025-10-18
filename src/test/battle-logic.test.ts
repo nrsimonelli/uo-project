@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest'
 
-import { executeSkill, type SingleTargetSkillResult } from '@/core/battle/combat/skill-executor'
+import {
+  executeSkill,
+  type SingleTargetSkillResult,
+} from '@/core/battle/combat/skill-executor'
 import { createAllBattleContexts } from '@/core/battle/engine/battlefield-state'
 import { rng } from '@/core/random'
 import { ActiveSkillsMap } from '@/generated/skills-active'

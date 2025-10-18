@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest'
 
-import { executeSkill, type SingleTargetSkillResult } from '@/core/battle/combat/skill-executor'
+import {
+  executeSkill,
+  type SingleTargetSkillResult,
+} from '@/core/battle/combat/skill-executor'
 import { createAllBattleContexts } from '@/core/battle/engine/battlefield-state'
 import { rng } from '@/core/random'
 import { ActiveSkillsMap } from '@/generated/skills-active'
@@ -8,7 +11,10 @@ import type { Team, Unit } from '@/types/team'
 
 describe('Active Skills', () => {
   // Helper to create a simple test unit
-  function createTestUnit(id: string, classKey: 'Fighter' | 'Warrior' = 'Fighter'): Unit {
+  function createTestUnit(
+    id: string,
+    classKey: 'Fighter' | 'Warrior' = 'Fighter'
+  ): Unit {
     return {
       id,
       name: `Test ${classKey}`,
@@ -17,7 +23,7 @@ describe('Active Skills', () => {
       growths: ['Hardy', 'Hardy'],
       equipment: [],
       skillSlots: [],
-      position: { row: 1, col: 0 }
+      position: { row: 1, col: 0 },
     }
   }
 
@@ -25,10 +31,7 @@ describe('Active Skills', () => {
     return {
       id: `team-${name}`,
       name: `${name} Team`,
-      formation: [
-        null, null, null,
-        createTestUnit(unitId), null, null
-      ]
+      formation: [null, null, null, createTestUnit(unitId), null, null],
     }
   }
 
@@ -55,14 +58,14 @@ describe('Active Skills', () => {
     it('should deal more damage against armored targets', () => {
       const skill = ActiveSkillsMap['ironCrusher']
       const homeTeam = createTestTeam('home', 'attacker')
-      
+
       // Create an armored target (Fighter has Armored trait)
       const armoredTarget = createTestUnit('armored-target', 'Fighter')
       armoredTarget.position = { row: 1, col: 0 }
       const awayTeam: Team = {
         id: 'away-team',
-        name: 'Away Team', 
-        formation: [null, null, null, armoredTarget, null, null]
+        name: 'Away Team',
+        formation: [null, null, null, armoredTarget, null, null],
       }
 
       const battleContexts = createAllBattleContexts(homeTeam, awayTeam)
