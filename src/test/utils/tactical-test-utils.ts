@@ -37,6 +37,19 @@ export const createMockBattleContext = (
     currentHP: 100,
     currentAP: 2,
     currentPP: 1,
+    statFoundation: {
+      HP: 100,
+      PATK: 50,
+      PDEF: 30,
+      MATK: 20,
+      MDEF: 25,
+      ACC: 80,
+      EVA: 60,
+      CRT: 10,
+      GRD: 15,
+      INIT: 70,
+      GuardEff: 0,
+    },
     combatStats: {
       HP: 100,
       PATK: 50,
@@ -54,6 +67,7 @@ export const createMockBattleContext = (
     buffs: [],
     debuffs: [],
     afflictions: [],
+    conferrals: [],
     flags: [],
     lastPassiveResponse: 0,
     isPassiveResponsive: true,
@@ -185,6 +199,7 @@ export const createLowHpUnit = (hpPercent: number = 25): BattleContext => {
   return createMockBattleContext({
     currentHP,
     combatStats: { ...createMockBattleContext().combatStats, HP: maxHP },
+    statFoundation: { ...createMockBattleContext().statFoundation, HP: maxHP },
   })
 }
 
@@ -231,9 +246,10 @@ export const createStatusUnit = (
       | 'INIT'
       | 'MOV'
     value: number
-    duration: 'indefinite' | 'next-attack' | 'next-debuff'
+    duration: 'Indefinite' | 'UntilNextAttack' | 'UntilAttacked' | 'UntilDebuffed' | 'UntilNextAction'
     scaling: 'flat' | 'percent'
     source: string
+    skillId: string
   }> = [],
   debuffs: Array<{
     name: string
@@ -252,9 +268,10 @@ export const createStatusUnit = (
       | 'INIT'
       | 'MOV'
     value: number
-    duration: 'indefinite' | 'next-attack'
+    duration: 'Indefinite' | 'UntilNextAttack' | 'UntilNextAction'
     scaling: 'flat' | 'percent'
     source: string
+    skillId: string
   }> = [],
   afflictions: Array<{
     type:

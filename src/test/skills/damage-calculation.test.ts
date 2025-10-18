@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { calculateSkillDamage } from '../../core/battle/combat/damage-calculator'
 import type { DamageEffect } from '../../types/effects'
 import { mockRngPresets } from '../utils/mock-rng'
-import { createMockContext } from '../utils/test-factories'
+import { createMockTacticalContext } from '../utils/tactical-test-utils'
 
 describe('Damage Calculation', () => {
   it('should calculate basic physical damage', () => {
@@ -14,13 +14,13 @@ describe('Damage Calculation', () => {
       hitCount: 1,
     }
 
-    const context = createMockContext()
+    const context = createMockTacticalContext()
     const result = calculateSkillDamage(
       damageEffect,
       [], // skillFlags
       ['Damage'], // skillCategories
-      context.attacker,
-      context.target,
+      context.actingUnit,
+      context.allEnemies[0],
       mockRngPresets.alwaysHit()
     )
 
@@ -36,13 +36,13 @@ describe('Damage Calculation', () => {
       hitCount: 1,
     }
 
-    const context = createMockContext()
+    const context = createMockTacticalContext()
     const result = calculateSkillDamage(
       damageEffect,
       [], // skillFlags
       ['Damage'], // skillCategories
-      context.attacker,
-      context.target,
+      context.actingUnit,
+      context.allEnemies[0],
       mockRngPresets.alwaysMiss()
     )
 
