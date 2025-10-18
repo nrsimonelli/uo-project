@@ -112,6 +112,7 @@ export function TeamBuilder() {
                   formation={currentTeam.formation}
                   orientation={'right-facing'}
                   onSwap={handleSwap}
+                  onUnitSelect={setSelectedUnitId}
                 />
               </div>
               <div className="flex flex-col space-y-3">
