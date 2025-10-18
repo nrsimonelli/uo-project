@@ -1948,10 +1948,9 @@
         "amount": { "physical": 50, "magical": 50 },
         "conditions": [
           {
-            "kind": "HasDebuff",
+            "kind": "AnyDebuff",
             "target": "Enemy",
-            "comparator": "EqualTo",
-            "value": true
+            "comparator": "EqualTo"
           }
         ]
       },

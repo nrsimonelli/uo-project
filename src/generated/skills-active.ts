@@ -2147,10 +2147,9 @@ export const ActiveSkills = [
         },
         conditions: [
           {
-            kind: 'HasDebuff',
+            kind: 'AnyDebuff',
             target: 'Enemy',
             comparator: 'EqualTo',
-            value: true,
           },
         ],
       },

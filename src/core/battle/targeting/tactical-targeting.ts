@@ -97,14 +97,13 @@ export const evaluateSkillSlotTactics = (
 
   // Check for true tie after all tactical processing
   const sortedTactics = [tactic1, tactic2].filter(
-    tactic =>
-      tactic && COMPLETE_TACTIC_METADATA[tactic.key]?.type === 'sort'
+    tactic => tactic && COMPLETE_TACTIC_METADATA[tactic.key]?.type === 'sort'
   )
 
   if (sortedTactics.length > 0 && hasTrueTie(targets, sortedTactics, context)) {
     // True tie detected - but for formation tactics, we should preserve tactical priorities
     // and not fall back to default targeting which would override formation preferences
-      const hasFormationTactic = sortedTactics.some(tactic => {
+    const hasFormationTactic = sortedTactics.some(tactic => {
       if (!tactic) return false
       const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
       return metadata?.valueType === 'formation'

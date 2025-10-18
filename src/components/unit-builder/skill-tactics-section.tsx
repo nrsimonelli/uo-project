@@ -68,7 +68,8 @@ export function SkillTacticsSection({
   ) => {
     const updatedSkillSlots = skillSlots.map(slot => {
       if (slot.id === skillSlotId) {
-        const newTactics: [TacticalCondition | null, TacticalCondition | null] = [...slot.tactics]
+        const newTactics: [TacticalCondition | null, TacticalCondition | null] =
+          [...slot.tactics]
 
         if (condition) {
           newTactics[tacticIndex] = condition
@@ -158,17 +159,13 @@ export function SkillTacticsSection({
                   <div className="p-2 border-l min-h-[40px] relative">
                     <ConditionModal
                       onSelectCondition={() => {}}
-                      currentCondition={
-                        activeSkill.tactics[0] || null
-                      }
+                      currentCondition={activeSkill.tactics[0] || null}
                     />
                   </div>
                   <div className="p-2 border-l min-h-[40px] relative">
                     <ConditionModal
                       onSelectCondition={() => {}}
-                      currentCondition={
-                        activeSkill.tactics[1] || null
-                      }
+                      currentCondition={activeSkill.tactics[1] || null}
                     />
                   </div>
                 </div>

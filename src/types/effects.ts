@@ -10,6 +10,9 @@ export const FLAGS = [
   'TrueCritical',
   'SurviveLethal', // Unit survives one lethal blow
   'InflictGuardSeal', // Next attack inflicts Guard Seal affliction
+  'NegateMagicDamage', // Negates magic damage
+  'AfflictionImmunity', // Immune to afflictions
+  'DebuffImmunity', // Immune to debuffs
 
   // Skill properties
   'Charge', // Executes on following round

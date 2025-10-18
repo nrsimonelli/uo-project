@@ -940,13 +940,13 @@
         "kind": "GrantFlag",
         "flag": "NegateMagicDamage",
         "applyTo": "Target",
-        "duration": "NextAttack"
+        "duration": "UntilAttacked"
       },
       {
         "kind": "GrantFlag",
         "flag": "AfflictionImmunity",
         "applyTo": "Target",
-        "duration": "NextAttack"
+        "duration": "UntilAttacked"
       }
     ]
   },
@@ -972,7 +972,7 @@
         "kind": "GrantFlag",
         "flag": "DebuffImmunity",
         "applyTo": "User",
-        "duration": "NextAttack"
+        "duration": "UntilAttacked"
       }
     ]
   },
@@ -993,13 +993,13 @@
         "kind": "GrantFlag",
         "flag": "NegateMagicDamage",
         "applyTo": "Target",
-        "duration": "NextAttack"
+        "duration": "UntilAttacked"
       },
       {
         "kind": "GrantFlag",
         "flag": "AfflictionImmunity",
         "applyTo": "Target",
-        "duration": "NextAttack"
+        "duration": "UntilAttacked"
       }
     ]
   },
@@ -1386,6 +1386,7 @@
         "kind": "Buff",
         "stat": "INIT",
         "value": 999,
+        "scaling": "flat",
         "duration": "UntilNextAction"
       },
       {

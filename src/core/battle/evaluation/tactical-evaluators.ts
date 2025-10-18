@@ -573,7 +573,7 @@ const sortEnemyPresence: SortEvaluator = (
   return targets
 }
 
-const sortAttackHistory: SortEvaluator = (targets, metadata, context) => {
+const sortAttackHistory: SortEvaluator = (targets, _metadata, context) => {
   const recentActions = context.battlefield.actionHistory.slice(-10)
 
   return [...targets].sort((a, b) => {
@@ -686,7 +686,7 @@ const compareEnemyPresence: CompareEvaluator = (
   return 0
 }
 
-const compareAttackHistory: CompareEvaluator = (a, b, metadata, context) => {
+const compareAttackHistory: CompareEvaluator = (a, b, _metadata, context) => {
   const recentActions = context.battlefield.actionHistory.slice(-10)
 
   const aRecentlyAttacked = recentActions.some(action =>
