@@ -62,7 +62,7 @@ export const calculateHitChance = (
   damageEffect: DamageEffect,
   flags: Flag[] = [],
   attackType?: 'Melee' | 'Ranged' | 'Magical'
-): number => {
+) => {
   // Check for always-hit conditions
   if (damageEffect.hitRate === 'True' || flags.includes('TrueStrike')) {
     return 100

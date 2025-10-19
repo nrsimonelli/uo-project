@@ -215,7 +215,7 @@ const getInitialTargetPool = (
 const shouldSkipSkillForTactic = (
   tactic: TacticalCondition,
   context: TacticalContext
-): boolean => {
+) => {
   const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
   if (!metadata) {
     console.warn(`Unknown tactic condition: ${tactic.key}`)
@@ -275,7 +275,7 @@ const hasTrueTie = (
   targets: BattleContext[],
   sortTactics: (TacticalCondition | null)[],
   context: TacticalContext
-): boolean => {
+) => {
   if (targets.length < 2) return false
 
   // Compare first target with second target using all sort conditions
@@ -307,7 +307,7 @@ const compareTargets = (
   b: BattleContext,
   metadata: ConditionMetadata,
   context: TacticalContext
-): number => {
+) => {
   const compareEvaluator = COMPARE_EVALUATORS[metadata.valueType]
   if (compareEvaluator) {
     return compareEvaluator(a, b, metadata, context)
@@ -350,7 +350,7 @@ export const testSkipCondition = (
   valueType: string,
   metadata: ConditionMetadata,
   context: TacticalContext
-): boolean => {
+) => {
   const evaluator = SKIP_EVALUATORS[valueType]
   return evaluator ? evaluator(metadata, context) : false
 }
@@ -390,7 +390,7 @@ export const testCompareCondition = (
   b: BattleContext,
   metadata: ConditionMetadata,
   context: TacticalContext
-): number => {
+) => {
   const evaluator = COMPARE_EVALUATORS[valueType]
   return evaluator ? evaluator(a, b, metadata, context) : 0
 }

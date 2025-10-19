@@ -34,7 +34,7 @@ export const applyStatusEffects = (
   effectResults: EffectProcessingResult,
   attacker: BattleContext,
   targets: BattleContext[]
-): void => {
+) => {
   const unitsToRecalculate = new Set<BattleContext>()
 
   // Apply buffs to appropriate targets
@@ -159,7 +159,7 @@ const applyBuff = (
   unit: BattleContext,
   newBuff: Buff,
   allowStacks: boolean
-): void => {
+) => {
   // Check for existing effect with same skillId
   const existingIndex = unit.buffs.findIndex(
     existing => existing.skillId === newBuff.skillId
@@ -181,7 +181,7 @@ const applyDebuff = (
   unit: BattleContext,
   newDebuff: Debuff,
   allowStacks: boolean
-): void => {
+) => {
   // Check immunity before applying
   if (isImmuneToDebuff(unit)) {
     console.log(`${unit.unit.name} is immune to ${newDebuff.name}`)
@@ -205,10 +205,7 @@ const applyDebuff = (
 /**
  * Apply a conferral effect to a unit
  */
-const applyConferral = (
-  unit: BattleContext,
-  newConferral: ConferralStatus
-): void => {
+const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
   // Check for existing conferral with same skillId (replace if found)
   const existingIndex = unit.conferrals.findIndex(
     existing => existing.skillId === newConferral.skillId
@@ -268,7 +265,7 @@ const mapDuration = (
 export const removeExpiredBuffs = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
-): void => {
+) => {
   const initialCount = unit.buffs.length
 
   if (trigger === 'attacks') {
@@ -293,7 +290,7 @@ export const removeExpiredBuffs = (
 export const removeExpiredDebuffs = (
   unit: BattleContext,
   trigger: 'attacks' | 'action'
-): void => {
+) => {
   const initialCount = unit.debuffs.length
 
   if (trigger === 'attacks') {
@@ -318,7 +315,7 @@ export const removeExpiredDebuffs = (
 export const removeExpiredConferrals = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'action'
-): void => {
+) => {
   const initialCount = unit.conferrals.length
 
   if (trigger === 'attacks') {
@@ -426,10 +423,7 @@ export const hasDebuffs = (unit: BattleContext): boolean => {
 /**
  * Check if a unit has a specific affliction
  */
-export const hasAffliction = (
-  unit: BattleContext,
-  afflictionType: string
-): boolean => {
+export const hasAffliction = (unit: BattleContext, afflictionType: string) => {
   return unit.afflictions.some(affliction => affliction.type === afflictionType)
 }
 

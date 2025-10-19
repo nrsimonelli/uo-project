@@ -11,7 +11,7 @@ export const applyAffliction = (
   afflictionType: AfflictionType,
   source: string,
   level?: number
-): boolean => {
+) => {
   // Check immunity before applying
   if (hasAfflictionImmunity(unit.immunities, afflictionType)) {
     console.log(`${unit.unit.name} is immune to ${afflictionType}`)
@@ -70,7 +70,7 @@ export const applyAffliction = (
 export const removeAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType
-): boolean => {
+) => {
   const initialLength = unit.afflictions.length
   unit.afflictions = unit.afflictions.filter(aff => aff.type !== afflictionType)
 
@@ -88,7 +88,7 @@ export const removeAffliction = (
 export const hasAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType
-): boolean => {
+) => {
   return unit.afflictions.some(aff => aff.type === afflictionType)
 }
 
@@ -98,7 +98,7 @@ export const hasAffliction = (
 export const getAfflictionLevel = (
   unit: BattleContext,
   afflictionType: AfflictionType
-): number => {
+) => {
   const affliction = unit.afflictions.find(aff => aff.type === afflictionType)
   return affliction?.level || 0
 }
@@ -189,7 +189,7 @@ export const processAfflictionsAtTurnStart = (
 /**
  * Check if a unit can use active skills (not frozen)
  */
-export const canUseActiveSkills = (unit: BattleContext): boolean => {
+export const canUseActiveSkills = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
   if (unit.currentAP <= 0) return false
 
@@ -199,7 +199,7 @@ export const canUseActiveSkills = (unit: BattleContext): boolean => {
 /**
  * Check if a unit can use passive skills
  */
-export const canUsePassiveSkills = (unit: BattleContext): boolean => {
+export const canUsePassiveSkills = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
   if (unit.currentPP <= 0) return false
 
@@ -214,7 +214,7 @@ export const canUsePassiveSkills = (unit: BattleContext): boolean => {
 /**
  * Check if a unit can guard attacks
  */
-export const canGuard = (unit: BattleContext): boolean => {
+export const canGuard = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
 
   // Cannot guard if stunned, frozen, or guard sealed
@@ -228,7 +228,7 @@ export const canGuard = (unit: BattleContext): boolean => {
 /**
  * Check if a unit can evade attacks
  */
-export const canEvade = (unit: BattleContext): boolean => {
+export const canEvade = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
 
   // Cannot evade if stunned or frozen
@@ -238,7 +238,7 @@ export const canEvade = (unit: BattleContext): boolean => {
 /**
  * Check if a unit can land critical hits
  */
-export const canCrit = (unit: BattleContext): boolean => {
+export const canCrit = (unit: BattleContext) => {
   return !hasAffliction(unit, 'CritSeal')
 }
 
@@ -246,7 +246,7 @@ export const canCrit = (unit: BattleContext): boolean => {
  * Check if a unit's attack will miss due to Blind
  * If blind, removes the affliction after checking
  */
-export const checkAndConsumeBlind = (unit: BattleContext): boolean => {
+export const checkAndConsumeBlind = (unit: BattleContext) => {
   if (hasAffliction(unit, 'Blind')) {
     removeAffliction(unit, 'Blind')
     console.log(`👁️ ${unit.unit.name} misses due to Blind (now removed)`)
@@ -259,7 +259,7 @@ export const checkAndConsumeBlind = (unit: BattleContext): boolean => {
  * Process afflictions when a unit takes damage
  * Handles Freeze removal when hit
  */
-export const processAfflictionsOnDamage = (unit: BattleContext): void => {
+export const processAfflictionsOnDamage = (unit: BattleContext) => {
   if (hasAffliction(unit, 'Freeze')) {
     removeAffliction(unit, 'Freeze')
     console.log(`🧊 ${unit.unit.name} Freeze removed by taking damage`)
@@ -269,7 +269,7 @@ export const processAfflictionsOnDamage = (unit: BattleContext): void => {
 /**
  * Clear all afflictions from a unit (for cleanup/healing effects)
  */
-export const clearAllAfflictions = (unit: BattleContext): void => {
+export const clearAllAfflictions = (unit: BattleContext) => {
   const hadAfflictions = unit.afflictions.length > 0
   unit.afflictions = []
 
@@ -281,7 +281,7 @@ export const clearAllAfflictions = (unit: BattleContext): void => {
 /**
  * Get a summary of all active afflictions on a unit
  */
-export const getAfflictionSummary = (unit: BattleContext): string[] => {
+export const getAfflictionSummary = (unit: BattleContext) => {
   return unit.afflictions.map(aff => {
     if (aff.type === 'Burn' && aff.level && aff.level > 1) {
       return `${aff.type} (Level ${aff.level})`

@@ -13,7 +13,7 @@ import type { Effect, DamageEffect } from '@/types/effects'
  * - ResourceStealEffect (resource stealing)
  * - AfflictionEffect (status afflictions)
  */
-export const isDebuffTypeEffect = (effect: Effect): boolean => {
+export const isDebuffTypeEffect = (effect: Effect) => {
   return (
     effect.kind === 'Debuff' ||
     effect.kind === 'ResourceSteal' ||
@@ -26,7 +26,7 @@ export const isDebuffTypeEffect = (effect: Effect): boolean => {
  */
 export const hasDebuffImmunity = (
   unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[]
-): boolean => {
+) => {
   return unitImmunities.includes('Debuff')
 }
 
@@ -36,7 +36,7 @@ export const hasDebuffImmunity = (
 export const hasAfflictionImmunity = (
   unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[],
   affliction: AfflictionType
-): boolean => {
+) => {
   return (
     unitImmunities.includes('Affliction') ||
     unitImmunities.includes('Debuff') ||

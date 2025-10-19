@@ -431,7 +431,7 @@ export const testResourceTactic = (
 export const assertHpOrder = (
   units: BattleContext[],
   order: 'ascending' | 'descending' = 'ascending'
-): boolean => {
+) => {
   for (let i = 1; i < units.length; i++) {
     const prevHp = (units[i - 1].currentHP / units[i - 1].combatStats.HP) * 100
     const currentHp = (units[i].currentHP / units[i].combatStats.HP) * 100
@@ -448,7 +448,7 @@ export const assertHpOrder = (
 export const assertAllUnitsMatch = (
   units: BattleContext[],
   condition: (unit: BattleContext) => boolean
-): boolean => {
+) => {
   return units.every(condition)
 }
 
@@ -459,8 +459,8 @@ export const assertStatOrder = (
   units: BattleContext[],
   statName: string,
   order: 'ascending' | 'descending' = 'ascending'
-): boolean => {
-  const getStatValue = (unit: BattleContext): number => {
+) => {
+  const getStatValue = (unit: BattleContext) => {
     if (statName === 'currentAP') return unit.currentAP
     if (statName === 'currentPP') return unit.currentPP
     return (unit.combatStats as Record<string, number>)[statName] || 0

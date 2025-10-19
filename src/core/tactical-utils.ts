@@ -18,12 +18,12 @@ export const compareWithOperator = (
   value: number,
   threshold: number,
   operator: string
-): boolean => {
+) => {
   const operatorFn = OPERATORS[operator as keyof typeof OPERATORS]
   return operatorFn ? operatorFn(value, threshold) : false
 }
 
-export const getHpPercent = (unit: BattleContext): number => {
+export const getHpPercent = (unit: BattleContext) => {
   return (unit.currentHP / unit.combatStats.HP) * 100
 }
 
@@ -49,7 +49,7 @@ const STATUS_CHECKERS = {
     unit.afflictions.some(aff => aff.type === 'GuardSeal'),
 } as const
 
-export const hasStatus = (unit: BattleContext, statusName: string): boolean => {
+export const hasStatus = (unit: BattleContext, statusName: string) => {
   const checker = STATUS_CHECKERS[statusName as keyof typeof STATUS_CHECKERS]
   if (checker) {
     return checker(unit)
@@ -79,7 +79,7 @@ const STAT_GETTERS = {
   'Max PP': () => 4,
 } as const
 
-export const getStatValue = (unit: BattleContext, statName: string): number => {
+export const getStatValue = (unit: BattleContext, statName: string) => {
   const getter = STAT_GETTERS[statName as keyof typeof STAT_GETTERS]
   if (getter) {
     return getter(unit)
@@ -101,7 +101,7 @@ const USER_CONDITION_CHECKERS = {
 export const evaluateUserCondition = (
   unit: BattleContext,
   userCondition: string
-): boolean => {
+) => {
   const checker =
     USER_CONDITION_CHECKERS[
       userCondition as keyof typeof USER_CONDITION_CHECKERS
@@ -132,7 +132,7 @@ export const evaluateBasicFormation = (
   unit: BattleContext,
   formationType: string,
   context?: { battlefield: { isNight: boolean } }
-): boolean => {
+) => {
   const checker =
     FORMATION_CHECKERS[formationType as keyof typeof FORMATION_CHECKERS]
   if (checker) {

@@ -33,7 +33,7 @@ export const validateEquipmentReference = (itemId: string): boolean => {
 export const validateEquipmentForUnit = (
   itemId: string,
   unitClassKey: AllClassType
-): boolean => {
+) => {
   const equipment = findEquipmentById(itemId)
   if (!equipment) return false
 
@@ -50,7 +50,7 @@ export const validateEquipmentForUnit = (
 export const canUnitEquipItem = (
   unitClassKey: AllClassType,
   itemId: string | null
-): boolean => {
+) => {
   if (!itemId) return true
   return validateEquipmentForUnit(itemId, unitClassKey)
 }

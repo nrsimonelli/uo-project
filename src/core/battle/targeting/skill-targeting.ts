@@ -8,7 +8,7 @@ import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 const calculateDistance = (
   pos1: { row: number; col: number },
   pos2: { row: number; col: number }
-): number => {
+) => {
   return Math.abs(pos1.row - pos2.row) + Math.abs(pos1.col - pos2.col)
 }
 

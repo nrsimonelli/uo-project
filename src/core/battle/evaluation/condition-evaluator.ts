@@ -71,7 +71,7 @@ export const evaluateCondition = (
 export const evaluateAllConditions = (
   conditions: Condition[] = [],
   context: ConditionEvaluationContext
-): boolean => {
+) => {
   if (conditions.length === 0) {
     return true // No conditions = always true
   }
@@ -125,7 +125,7 @@ const evaluateCombatantTypeCondition = (
 const evaluateStatCondition = (
   condition: Extract<Condition, { kind: 'Stat' }>,
   context: ConditionEvaluationContext
-): boolean => {
+) => {
   const targetContext = getTargetContext(condition.target, context)
 
   // Get current stat value
