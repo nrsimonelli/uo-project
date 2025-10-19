@@ -18,7 +18,7 @@ import type { RandomNumberGeneratorType } from '@/core/random'
 import type { BattleContext } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
-import type { ActiveSkill } from '@/types/skills'
+import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
 /**
  * Result of executing a skill on a single target
@@ -52,7 +52,7 @@ export interface MultiTargetSkillResult {
  * Execute a non-damage skill on a single target
  */
 const executeNonDamageSkill = (
-  skill: ActiveSkill,
+  skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   target: BattleContext
 ): SingleTargetSkillResult => {
@@ -88,7 +88,7 @@ const executeNonDamageSkill = (
  * Execute a damage skill against a single target
  */
 const executeDamageSkill = (
-  skill: ActiveSkill,
+  skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   target: BattleContext,
   rng: RandomNumberGeneratorType
@@ -203,7 +203,7 @@ const calculateSkillSummary = (
  * Execute a skill against one or more targets
  */
 export const executeSkill = (
-  skill: ActiveSkill,
+  skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   targets: BattleContext | readonly BattleContext[],
   rng: RandomNumberGeneratorType
@@ -242,7 +242,7 @@ export const executeSkill = (
  * Execute a skill on a single target (preserving existing logic)
  */
 const executeSingleTarget = (
-  skill: ActiveSkill,
+  skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   target: BattleContext,
   rng: RandomNumberGeneratorType

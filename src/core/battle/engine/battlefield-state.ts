@@ -187,6 +187,7 @@ export const createInitialBattlefieldState = (
     rng,
     currentRound: 1,
     actionCounter: 0,
+    currentActionId: 0,
     passiveResponseTracking: {},
     inactivityCounter: 0,
     lastActionRound: 0,
