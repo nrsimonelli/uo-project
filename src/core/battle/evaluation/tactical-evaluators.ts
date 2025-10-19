@@ -91,10 +91,14 @@ const skipUserCondition: SkipEvaluator = (metadata, context) => {
 }
 
 const skipActionNumber: SkipEvaluator = (metadata, context) => {
+  if (metadata.actionNumber === undefined) {
+    console.error('metadata actionNumber is undefined', metadata)
+    return false
+  }
   const unitActionCount = context.battlefield.actionHistory.filter(
     action => action.unitId === context.actingUnit.unit.id
   ).length
-  const expectedActionNumber = metadata.actionNumber!
+  const expectedActionNumber = metadata.actionNumber
   return unitActionCount !== expectedActionNumber - 1
 }
 
@@ -703,7 +707,7 @@ const compareAttackHistory: CompareEvaluator = (a, b, _metadata, context) => {
 }
 
 // ============================================================================
-// EVALUATOR REGISTRY - The replacement for switch statements
+// EVALUATOR REGISTRY
 // ============================================================================
 
 export const SKIP_EVALUATORS: Record<string, SkipEvaluator> = {

@@ -326,6 +326,15 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           actionCounter: prevState.actionCounter + 1,
           turnCount: prevState.turnCount + 1,
           units: deepCopiedUnits,
+          actionHistory: [
+            ...prevState.actionHistory,
+            {
+              unitId: unit.unit.id,
+              targetIds: skillSelection.targets.map(t => t.unit.id),
+              skillId: skillSelection.skill.id,
+              turn: prevState.turnCount + 1,
+            },
+          ],
           consecutiveStandbyRounds:
             skillTracking.consecutiveStandbyRounds ??
             prevState.consecutiveStandbyRounds,
