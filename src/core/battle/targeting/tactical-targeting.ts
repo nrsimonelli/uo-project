@@ -34,7 +34,8 @@ export interface TacticalResult {
 export const evaluateSkillSlotTactics = (
   skillSlot: SkillSlot,
   actingUnit: BattleContext,
-  battlefield: BattlefieldState
+  battlefield: BattlefieldState,
+  preFilteredTargets?: BattleContext[]
 ): TacticalResult => {
   const skill = getSkillFromSlot(skillSlot)
   if (!skill) {
@@ -65,7 +66,10 @@ export const evaluateSkillSlotTactics = (
   }
 
   // Get initial target pool based on skill's target group
-  let targets = getInitialTargetPool(skill, context)
+  let targets =
+    preFilteredTargets && preFilteredTargets.length > 0
+      ? preFilteredTargets
+      : getInitialTargetPool(skill, context)
 
   // Apply tactic 1 if present
   if (tactic1) {

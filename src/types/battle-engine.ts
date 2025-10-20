@@ -1,4 +1,5 @@
 import type { RandomNumberGeneratorType } from '@/core/random'
+import type { ActivationWindowId } from '@/data/activation-windows'
 import type { StatKey } from '@/types/base-stats'
 import type { AfflictionType } from '@/types/conditions'
 import type { CombatantType } from '@/types/core'
@@ -195,6 +196,12 @@ export interface BattleContext {
   isPassiveResponsive: boolean // false when defeated (currentHP -> 0), frozen, stunned, passive sealed or has already used a passive skill during this active skill turn.
   immunities: (AfflictionType | 'Affliction' | 'Debuff')[] // Permanent immunities/skill nullifications. Specific Afflictions, all afflictions, all debuffs (everything, afflicitons are also debuffs but not all debuffs are afflictions)
   hasActedThisRound: boolean // Whether this unit has used an active skill this round
+
+  // Defensive states (apply to next incoming active attack instance)
+  incomingGuard?: 'light' | 'medium' | 'heavy' | 'full'
+  incomingParry?: boolean
+  cover?: { covererId: string; guard: 'light' | 'medium' | 'heavy' | 'full' }
+  defenseActionId?: number
 }
 
 /**
@@ -206,6 +213,20 @@ export interface ActionRecord {
   targetIds: string[]
   skillId: string
   turn: number
+}
+
+/**
+ * Passive action queued/executed during activation windows
+ */
+export interface PassiveAction {
+  id: string
+  windowId: ActivationWindowId
+  groupId: string
+  unitId: string
+  team: 'home-team' | 'away-team'
+  skillId: string
+  createdAtActionId: number
+  createdAtRound: number
 }
 
 /**
@@ -221,7 +242,7 @@ export interface BattlefieldState {
 
   // Turn order management
   activeSkillQueue: string[] // Only modified between active skill turns
-  passiveSkillQueue: string[] // Modified frequently during active turns
+  passiveSkillQueue: PassiveAction[] // Modified frequently during active turns
 
   battlePhase: string // I think this will need rework
   isNight: boolean
@@ -232,7 +253,8 @@ export interface BattlefieldState {
   rng: RandomNumberGeneratorType
   currentRound: number
   actionCounter: number
-  passiveResponseTracking: Record<string, number> // unitId -> activeSkillTurn
+  currentActionId: number
+  passiveResponseTracking: Record<string, number> // unitId -> active action id
   inactivityCounter: number
   lastActionRound: number
   lastActiveSkillRound: number // Track when last non-standby skill was used

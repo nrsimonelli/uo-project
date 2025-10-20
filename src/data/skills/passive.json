@@ -183,7 +183,7 @@
         "kind": "Buff",
         "stat": "GRD",
         "value": 50,
-        "scaling": "percent",
+        "scaling": "flat",
         "applyTo": "User"
       }
     ]
@@ -488,7 +488,7 @@
         "kind": "Buff",
         "stat": "GRD",
         "value": 20,
-        "scaling": "percent",
+        "scaling": "flat",
         "applyTo": "User",
         "stacks": true
       }
@@ -823,7 +823,7 @@
     "name": "Evade",
     "description": "Activates before being attacked. Evade a single hit.",
     "pp": 1,
-    "skillCategories": ["Guard"],
+    "skillCategories": ["Utility"],
     "activationWindow": "beforeBeingAttacked",
     "targeting": {
       "group": "Self",
@@ -1393,7 +1393,7 @@
         "kind": "Debuff",
         "stat": "CRT",
         "value": -50,
-        "scaling": "percent",
+        "scaling": "flat",
         "duration": "UntilNextAction"
       }
     ]

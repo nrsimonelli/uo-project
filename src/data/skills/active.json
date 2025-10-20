@@ -988,7 +988,7 @@
         "kind": "Buff",
         "stat": "CRT",
         "value": 50,
-        "scaling": "percent",
+        "scaling": "flat",
         "applyTo": "User",
         "duration": "UntilNextAttack"
       }
@@ -1048,7 +1048,7 @@
         "kind": "Buff",
         "stat": "CRT",
         "value": 30,
-        "scaling": "percent",
+        "scaling": "flat",
         "applyTo": "User",
         "duration": "UntilNextAttack"
       }
