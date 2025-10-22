@@ -61,7 +61,7 @@ export function IsometricFormationBase({
               width: SCALED_WIDTH,
               height: SCALED_HEIGHT,
             }}
-            onClick={(e) => {
+            onClick={e => {
               if (onTileClick) {
                 e.stopPropagation()
                 onTileClick(idx)

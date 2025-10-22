@@ -11,7 +11,11 @@ import {
   applyEffectsToDamage,
   type EffectProcessingResult,
 } from './effect-processor'
-import { applyStatusEffects } from './status-effects'
+import {
+  applyStatusEffects,
+  removeExpiredBuffs,
+  removeExpiredDebuffs,
+} from './status-effects'
 
 import { isDamageSkill } from '@/core/attack-types'
 import type { RandomNumberGeneratorType } from '@/core/random'
@@ -73,6 +77,7 @@ const executeNonDamageSkill = (
   )
 
   // Apply status effects (buffs/debuffs) to appropriate targets
+  // Note: applyStatusEffects already handles recalculating combat stats
   applyStatusEffects(effectResults, attacker, [target])
 
   return {
@@ -140,7 +145,8 @@ const executeDamageSkill = (
         (skill.skillFlags as Flag[]) || [],
         [], // effectFlags - not used in current implementation
         (skill.skillCategories as SkillCategory[]) || ['Damage'],
-        skill.innateAttackType
+        skill.innateAttackType,
+        effectResults
       )
       damageResults.push(...multiHitResults)
     } else {
@@ -152,7 +158,8 @@ const executeDamageSkill = (
         attacker,
         target,
         rng,
-        skill.innateAttackType
+        skill.innateAttackType,
+        effectResults
       )
       damageResults.push(result)
     }
@@ -170,7 +177,19 @@ const executeDamageSkill = (
   conditionContext.targetDefeated = target.currentHP - totalDamage <= 0
 
   // Apply status effects (buffs/debuffs) to appropriate targets
+  // Note: applyStatusEffects already handles recalculating combat stats
   applyStatusEffects(effectResults, attacker, [target])
+
+  // Clean up buffs/debuffs with UntilNextAttack duration
+  // These expire after the attacker attacks
+  removeExpiredBuffs(attacker, 'attacks')
+  removeExpiredDebuffs(attacker, 'attacks')
+
+  // Clean up buffs/debuffs with UntilAttacked duration for the target
+  // These expire after the target is attacked
+  if (anyHit) {
+    removeExpiredBuffs(target, 'attacked')
+  }
 
   return {
     damageResults,

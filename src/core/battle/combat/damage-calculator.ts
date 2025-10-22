@@ -4,6 +4,7 @@ import {
   canGuard,
   processAfflictionsOnDamage,
 } from './affliction-manager'
+import type { EffectProcessingResult } from './effect-processor'
 import { removeExpiredConferrals } from './status-effects'
 
 import {
@@ -97,21 +98,37 @@ export const rollHit = (rng: RandomNumberGeneratorType, hitChance: number) => {
 /**
  * Calculate base damage before modifiers
  * Formula: (attack - defense) * potency / 100
+ * Applies potency bonuses and defense ignore modifiers from effects
  */
 export const calculateBaseDamage = (
   attacker: BattleContext,
   target: BattleContext,
   potency: number,
-  isPhysical: boolean
+  isPhysical: boolean,
+  effectResults?: EffectProcessingResult
 ) => {
   const attack = isPhysical
     ? attacker.combatStats.PATK
     : attacker.combatStats.MATK
 
-  const defense = isPhysical ? target.combatStats.PDEF : target.combatStats.MDEF
+  let defense = isPhysical ? target.combatStats.PDEF : target.combatStats.MDEF
+
+  // Apply potency bonus from effects
+  let adjustedPotency = potency
+  if (effectResults) {
+    const bonusPercent = isPhysical
+      ? effectResults.potencyModifiers.physical
+      : effectResults.potencyModifiers.magical
+    adjustedPotency *= 1 + bonusPercent / 100
+  }
+
+  // Apply defense ignore from effects
+  if (effectResults && effectResults.defenseIgnoreFraction > 0) {
+    defense *= 1 - effectResults.defenseIgnoreFraction
+  }
 
   const baseDamage = attack - defense
-  const afterPotency = (baseDamage * potency) / 100
+  const afterPotency = (baseDamage * adjustedPotency) / 100
   const finalDamage = Math.max(1, afterPotency)
 
   return finalDamage
@@ -145,9 +162,9 @@ export const calculateNaturalGuardMultiplier = (
 export const calculateSkillGuardMultiplier = (guardLevel: GuardLevel) => {
   const fixedMultipliers: Record<GuardLevel, number> = {
     none: 1.0,
-    light: 0.75, // 25% reduction
-    medium: 0.5, // 50% reduction
-    heavy: 0.25, // 75% reduction
+    light: 0.75,
+    medium: 0.5,
+    heavy: 0.25,
   }
 
   return fixedMultipliers[guardLevel]
@@ -201,10 +218,21 @@ export const calculateSkillDamage = (
   attacker: BattleContext,
   target: BattleContext,
   rng: RandomNumberGeneratorType,
-  innateAttackType?: 'Magical' | 'Ranged'
+  innateAttackType?: 'Magical' | 'Ranged',
+  effectResults?: EffectProcessingResult
 ): DamageResult => {
-  // Combine skill-level and damage effect flags
-  const combinedFlags = getCombinedFlags(skillFlags, damageEffect.flags || [])
+  // Combine skill-level, damage effect flags, and granted flags from effects
+  let combinedFlags = getCombinedFlags(skillFlags, damageEffect.flags || [])
+  if (effectResults?.grantedFlags && effectResults.grantedFlags.length > 0) {
+    combinedFlags = getCombinedFlags(
+      combinedFlags,
+      effectResults.grantedFlags as Flag[]
+    )
+    console.log('🚩 Granted Flags Applied:', {
+      grantedFlags: effectResults.grantedFlags,
+      allCombinedFlags: combinedFlags,
+    })
+  }
 
   // Determine attack type for this skill usage
   const attackType = getAttackType(attacker.unit.classKey, innateAttackType)
@@ -259,6 +287,7 @@ export const calculateSkillDamage = (
   }
 
   // Calculate hit chance
+  const isTrueStrike = combinedFlags.includes('TrueStrike')
   const hitChance = calculateHitChance(
     attacker,
     target,
@@ -266,6 +295,9 @@ export const calculateSkillDamage = (
     combinedFlags,
     attackType
   )
+  if (isTrueStrike) {
+    console.log('🎯 TrueStrike Flag Active - guaranteed hit')
+  }
 
   // Roll for hit
   const hit = rollHit(rng, hitChance)
@@ -293,21 +325,37 @@ export const calculateSkillDamage = (
 
   // Check for Crit Seal - this overrides TrueCritical as well
   const canLandCrit = canCrit(attacker)
+  const hasTrueCritical = combinedFlags.includes('TrueCritical')
   const wasCritical =
-    canLandCrit &&
-    (combinedFlags.includes('TrueCritical') || rollCrit(rng, critRate))
+    canLandCrit && (hasTrueCritical || rollCrit(rng, critRate))
   const critMultiplier = getCritMultiplier(wasCritical)
+  if (hasTrueCritical) {
+    console.log('✨ TrueCritical Flag Active - guaranteed crit applied')
+  }
 
   // Roll for guard (only affects physical damage)
-  const canGuardAttack =
-    hasPhysical && !combinedFlags.includes('Unguardable') && canGuard(target)
+  const isUnguardable = combinedFlags.includes('Unguardable')
+  const canGuardAttack = hasPhysical && !isUnguardable && canGuard(target)
   const guardRate = canGuardAttack ? target.combatStats.GRD : 0
-  const wasGuarded = canGuardAttack && rollGuard(rng, guardRate)
+  let wasGuarded = canGuardAttack && rollGuard(rng, guardRate)
+  if (isUnguardable) {
+    console.log('⚡ Unguardable Flag Active - guard bypassed')
+  }
   const equipmentGuardEff = target.combatStats.GuardEff || 0
-  const guardMultiplier = calculateNaturalGuardMultiplier(
+  let guardMultiplier = calculateNaturalGuardMultiplier(
     wasGuarded,
     equipmentGuardEff
   )
+
+  // Skill Guard overrides natural guard for this attack instance (physical only)
+  if (hasPhysical && target.incomingGuard) {
+    const override =
+      target.incomingGuard === 'full'
+        ? 0
+        : calculateSkillGuardMultiplier(target.incomingGuard)
+    guardMultiplier = override
+    wasGuarded = true
+  }
 
   let totalDamage = 0
   let physicalDamage = 0
@@ -316,15 +364,28 @@ export const calculateSkillDamage = (
 
   // Calculate physical damage component (before effectiveness)
   if (hasPhysical) {
-    const physicalBaseDamage = calculateBaseDamage(
-      attacker,
-      target,
-      damageEffect.potency.physical!,
-      true
-    )
+    let physicalBaseDamage = 0
+    let parried = false
+
+    // Parry: negate melee physical damage for one hit
+    if (attackType === 'Melee' && target.incomingParry) {
+      parried = true
+      physicalBaseDamage = 0
+      // consume one parry charge
+      target.incomingParry = false
+    } else {
+      physicalBaseDamage = calculateBaseDamage(
+        attacker,
+        target,
+        damageEffect.potency.physical!,
+        true,
+        effectResults
+      )
+    }
+
     const afterCrit = physicalBaseDamage * critMultiplier
     const afterGuard = afterCrit * guardMultiplier // Guard only affects physical
-    physicalDamage = Math.max(1, Math.round(afterGuard))
+    physicalDamage = parried ? 0 : Math.max(1, Math.round(afterGuard))
     totalDamage += physicalDamage
   }
 
@@ -334,7 +395,8 @@ export const calculateSkillDamage = (
       attacker,
       target,
       damageEffect.potency.magical!,
-      false
+      false,
+      effectResults
     )
     const afterCrit = magicalBaseDamage * critMultiplier
     // No guard multiplier for magical damage
@@ -464,7 +526,8 @@ export const calculateMultiHitDamage = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _effectFlags: Flag[] = [],
   skillCategories: SkillCategory[] = ['Damage'],
-  innateAttackType?: 'Magical' | 'Ranged'
+  innateAttackType?: 'Magical' | 'Ranged',
+  effectResults?: EffectProcessingResult
 ): DamageResult[] => {
   const results: DamageResult[] = []
 
@@ -476,7 +539,8 @@ export const calculateMultiHitDamage = (
       attacker,
       target,
       rng,
-      innateAttackType
+      innateAttackType,
+      effectResults
     )
     results.push(result)
   }

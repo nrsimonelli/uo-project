@@ -16,7 +16,7 @@ import type {
 /**
  * Get skill name from skillId for both active and passive skills
  */
-const getSkillName = (skillId: string): string => {
+export const getSkillName = (skillId: string): string => {
   const activeSkill = ActiveSkillsMap[skillId as keyof typeof ActiveSkillsMap]
   if (activeSkill) return activeSkill.name
 
@@ -55,6 +55,11 @@ export const applyStatusEffects = (
 
     applyBuff(targetUnit, buff, buffToApply.stacks)
     unitsToRecalculate.add(targetUnit)
+
+    console.log(
+      `✅ Buff Applied: ${targetUnit.unit.name} +${buffToApply.value}${buffToApply.scaling === 'percent' ? '%' : ''} ${buffToApply.stat} (${buff.duration})`,
+      { skillName, buffValue: buffToApply.value, scaling: buffToApply.scaling }
+    )
   })
 
   // Apply debuffs to appropriate targets
@@ -81,6 +86,11 @@ export const applyStatusEffects = (
 
     applyDebuff(targetUnit, debuff, debuffToApply.stacks)
     unitsToRecalculate.add(targetUnit)
+
+    console.log(
+      `❌ Debuff Applied: ${targetUnit.unit.name} -${debuffToApply.value}${debuffToApply.scaling === 'percent' ? '%' : ''} ${debuffToApply.stat} (${debuff.duration})`,
+      { skillName, debuffValue: debuffToApply.value, scaling: debuffToApply.scaling }
+    )
   })
 
   // Apply debuff amplifications as special debuffs
@@ -155,7 +165,7 @@ export const applyStatusEffects = (
 /**
  * Apply a buff to a unit with stacking logic
  */
-const applyBuff = (
+export const applyBuff = (
   unit: BattleContext,
   newBuff: Buff,
   allowStacks: boolean
@@ -238,7 +248,7 @@ const isImmuneToDebuff = (unit: BattleContext): boolean => {
 /**
  * Map effect processor duration format to battle engine duration format
  */
-const mapDuration = (
+export const mapDuration = (
   duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
 ):
   | 'Indefinite'
@@ -267,19 +277,44 @@ export const removeExpiredBuffs = (
   trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
 ) => {
   const initialCount = unit.buffs.length
+  const expiredBuffs: Buff[] = []
 
   if (trigger === 'attacks') {
+    expiredBuffs.push(
+      ...unit.buffs.filter(buff => buff.duration === 'UntilNextAttack')
+    )
     unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAttack')
   } else if (trigger === 'attacked') {
+    expiredBuffs.push(
+      ...unit.buffs.filter(buff => buff.duration === 'UntilAttacked')
+    )
     unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilAttacked')
   } else if (trigger === 'debuffed') {
+    expiredBuffs.push(
+      ...unit.buffs.filter(buff => buff.duration === 'UntilDebuffed')
+    )
     unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilDebuffed')
   } else if (trigger === 'action') {
+    expiredBuffs.push(
+      ...unit.buffs.filter(buff => buff.duration === 'UntilNextAction')
+    )
     unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAction')
   }
 
   // Recalculate stats if any buffs were removed
   if (unit.buffs.length !== initialCount) {
+    console.log(
+      `🔄 Buffs Expired for ${unit.unit.name} (trigger: ${trigger}):`,
+      {
+        expiredBuffs: expiredBuffs.map(b => ({
+          name: b.name,
+          stat: b.stat,
+          value: b.value,
+        })),
+        remainingBuffs: unit.buffs.length,
+        statAfterRecalc: unit.combatStats,
+      }
+    )
     recalculateStats(unit)
   }
 }
@@ -292,12 +327,19 @@ export const removeExpiredDebuffs = (
   trigger: 'attacks' | 'action'
 ) => {
   const initialCount = unit.debuffs.length
+  const expiredDebuffs: Debuff[] = []
 
   if (trigger === 'attacks') {
+    expiredDebuffs.push(
+      ...unit.debuffs.filter(debuff => debuff.duration === 'UntilNextAttack')
+    )
     unit.debuffs = unit.debuffs.filter(
       debuff => debuff.duration !== 'UntilNextAttack'
     )
   } else if (trigger === 'action') {
+    expiredDebuffs.push(
+      ...unit.debuffs.filter(debuff => debuff.duration === 'UntilNextAction')
+    )
     unit.debuffs = unit.debuffs.filter(
       debuff => debuff.duration !== 'UntilNextAction'
     )
@@ -305,6 +347,18 @@ export const removeExpiredDebuffs = (
 
   // Recalculate stats if any debuffs were removed
   if (unit.debuffs.length !== initialCount) {
+    console.log(
+      `🔄 Debuffs Expired for ${unit.unit.name} (trigger: ${trigger}):`,
+      {
+        expiredDebuffs: expiredDebuffs.map(d => ({
+          name: d.name,
+          stat: d.stat,
+          value: d.value,
+        })),
+        remainingDebuffs: unit.debuffs.length,
+        statAfterRecalc: unit.combatStats,
+      }
+    )
     recalculateStats(unit)
   }
 }

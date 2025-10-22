@@ -19,7 +19,7 @@ export function IsometricFormationBuilder({
 
   const handleTileClick = (idx: number) => {
     const unit = formation[idx]
-    
+
     if (selectedIdx === null) {
       // First click - select for swapping and also select in tab if there's a unit
       setSelectedIdx(idx)

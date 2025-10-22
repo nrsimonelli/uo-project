@@ -177,14 +177,14 @@ export const startNewRound = (state: BattlefieldState) => {
   }
 
   // Rebuild queue with ALL living units in initiative order
-  const newQueue = calculateTurnOrder(
-    Object.fromEntries(
-      allLivingUnits.map(unit => [
-        `${unit.team === 'home-team' ? 'home' : 'away'}-${unit.unit.id}`,
-        unit,
-      ])
-    ),
-    state.rng
+  const queueMap = Object.fromEntries(
+    allLivingUnits.map(unit => [
+      `${unit.team === 'home-team' ? 'home' : 'away'}-${unit.unit.id}`,
+      unit,
+    ])
+  )
+  const newQueue = calculateTurnOrder(queueMap, state.rng).filter(
+    unitId => unitId in state.units
   )
 
   // Check if the previous round was all standby actions
