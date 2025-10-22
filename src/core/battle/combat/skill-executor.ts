@@ -15,11 +15,16 @@ import {
   applyStatusEffects,
   removeExpiredBuffs,
   removeExpiredDebuffs,
+  recalculateStats,
+  getSkillName,
+  applyBuff,
+  mapDuration,
 } from './status-effects'
 
 import { isDamageSkill } from '@/core/attack-types'
 import type { RandomNumberGeneratorType } from '@/core/random'
-import type { BattleContext } from '@/types/battle-engine'
+import type { StatKey } from '@/types/base-stats'
+import type { BattleContext, Buff } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
@@ -90,6 +95,40 @@ const executeNonDamageSkill = (
 }
 
 /**
+ * Apply self-buffs from effects to attacker before damage calculation
+ * Only applies buffs targeting the User (applyTo: 'User')
+ */
+const applyAttackerSelfBuffs = (
+  effectResults: EffectProcessingResult,
+  attacker: BattleContext
+) => {
+  // Filter buffs that apply to User
+  const selfBuffs = effectResults.buffsToApply.filter(
+    buff => buff.target === 'User'
+  )
+
+  if (selfBuffs.length === 0) return
+
+  selfBuffs.forEach(buff => {
+    const skillName = getSkillName(buff.skillId)
+    const buffToApply: Buff = {
+      name: `${skillName} (+${buff.stat})`,
+      stat: buff.stat as StatKey,
+      value: buff.value,
+      duration: mapDuration(buff.duration),
+      scaling: buff.scaling,
+      source: attacker.unit.id,
+      skillId: buff.skillId,
+    }
+
+    applyBuff(attacker, buffToApply, buff.stacks)
+  })
+
+  // Recalculate attacker stats with new buffs
+  recalculateStats(attacker)
+}
+
+/**
  * Execute a damage skill against a single target
  */
 const executeDamageSkill = (
@@ -114,6 +153,10 @@ const executeDamageSkill = (
     attacker.combatStats.MATK // Pass caster's MATK for conferral effects
   )
 
+  // Apply self-buffs to attacker BEFORE damage calculation
+  // This allows buffs like Keen Edge's +50 CRT to affect the current attack
+  applyAttackerSelfBuffs(effectResults, attacker)
+
   // Get damage effects from skill
   const damageEffects = getDamageEffects(skill.effects)
 
@@ -121,7 +164,7 @@ const executeDamageSkill = (
   const damageResults: DamageResult[] = []
 
   for (const damageEffect of damageEffects) {
-    // Apply effect modifications to damage
+    // Apply effect modifications to damage (potency boosts, defense ignore)
     const modifiedDamageData = applyEffectsToDamage(
       damageEffect,
       effectResults,
@@ -129,24 +172,42 @@ const executeDamageSkill = (
       target.combatStats.MDEF
     )
 
-    // Prepare damage effect with modified potency
+    // Create a new damage effect with modified potency
     const modifiedEffect: DamageEffect = {
       ...damageEffect,
       potency: modifiedDamageData.modifiedPotency,
+    }
+
+    // Create a modified target context with reduced defense
+    // to account for defense ignore effects
+    const targetWithModifiedDefense: BattleContext = {
+      ...target,
+      combatStats: {
+        ...target.combatStats,
+        PDEF: modifiedDamageData.modifiedDefenderPDEF,
+        MDEF: modifiedDamageData.modifiedDefenderMDEF,
+      },
+    }
+
+    // Create effect results without potency/defense modifiers since they're now in the damage effect/target
+    const effectResultsWithoutModifiers: EffectProcessingResult = {
+      ...effectResults,
+      potencyModifiers: { physical: 0, magical: 0 },
+      defenseIgnoreFraction: 0,
     }
 
     // Handle multi-hit attacks (hitCount > 1)
     if (damageEffect.hitCount > 1) {
       const multiHitResults = calculateMultiHitDamage(
         attacker,
-        target,
+        targetWithModifiedDefense,
         modifiedEffect,
         rng,
         (skill.skillFlags as Flag[]) || [],
         [], // effectFlags - not used in current implementation
         (skill.skillCategories as SkillCategory[]) || ['Damage'],
         skill.innateAttackType,
-        effectResults
+        effectResultsWithoutModifiers
       )
       damageResults.push(...multiHitResults)
     } else {
@@ -156,10 +217,10 @@ const executeDamageSkill = (
         skill.skillFlags || [],
         skill.skillCategories,
         attacker,
-        target,
+        targetWithModifiedDefense,
         rng,
         skill.innateAttackType,
-        effectResults
+        effectResultsWithoutModifiers
       )
       damageResults.push(result)
     }
@@ -176,13 +237,14 @@ const executeDamageSkill = (
   // Update condition context with final hit result
   conditionContext.targetDefeated = target.currentHP - totalDamage <= 0
 
-  // Apply status effects (buffs/debuffs) to appropriate targets
-  // Note: applyStatusEffects already handles recalculating combat stats
-  applyStatusEffects(effectResults, attacker, [target])
-
-  // Clean up buffs/debuffs with UntilNextAttack duration
-  // These expire after the attacker attacks
+  // Remove self-buffs with UntilNextAttack duration (they were consumed by this attack)
   removeExpiredBuffs(attacker, 'attacks')
+
+  // Apply remaining status effects (target buffs, debuffs, etc)
+  // Only apply target-directed effects if the attack hit
+  applyStatusEffects(effectResults, attacker, [target], anyHit)
+
+  // Clean up debuffs with UntilNextAttack duration
   removeExpiredDebuffs(attacker, 'attacks')
 
   // Clean up buffs/debuffs with UntilAttacked duration for the target

@@ -1,10 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import {
-  executeSkill,
-  type SingleTargetSkillResult,
-  type MultiTargetSkillResult,
-} from '@/core/battle/combat/skill-executor'
+import { executeSkill } from '@/core/battle/combat/skill-executor'
 import {
   removeExpiredBuffs,
   removeExpiredDebuffs,
@@ -19,6 +15,14 @@ import {
   createAllBattleContexts,
   createInitialBattlefieldState,
 } from '@/core/battle/engine/battlefield-state'
+import {
+  applyCoverRedirection,
+  clearDefenseForAction,
+} from '@/core/battle/engine/defense'
+import {
+  transformSkillResults,
+  applySkillDamageResults,
+} from '@/core/battle/engine/results'
 import { trackSkillUsage } from '@/core/battle/engine/state-tracker'
 import { processUnitTurnStart } from '@/core/battle/engine/turn-manager'
 import {
@@ -26,6 +30,7 @@ import {
   shouldContinueBattle,
   startNewRound,
 } from '@/core/battle/engine/turn-manager'
+import { deepCopyUnits } from '@/core/battle/engine/utils/immutability'
 import { calculateTurnOrder } from '@/core/calculations/turn-order'
 import { rng } from '@/core/random'
 import { selectActiveSkill } from '@/core/skill-selection'
@@ -36,83 +41,6 @@ import type {
   BattleContext,
 } from '@/types/battle-engine'
 import type { Team } from '@/types/team'
-
-/**
- * Transform skill execution results into battle event format
- */
-const transformSkillResults = (
-  result: SingleTargetSkillResult | MultiTargetSkillResult,
-  targets: BattleContext[]
-): BattleEvent['skillResults'] => {
-  // Debug logging to track the issue
-  console.debug('transformSkillResults called with:', {
-    resultType: 'damageResults' in result ? 'SingleTarget' : 'MultiTarget',
-    hasResults: 'results' in result,
-    targetCount: targets.length,
-    targetNames: targets.map(t => t.unit.name),
-  })
-
-  // Handle single target result
-  if ('damageResults' in result) {
-    // Additional safety check for single target skills with multiple targets
-    if (targets.length > 1) {
-      console.warn(
-        `⚠️  Single target skill received ${targets.length} targets:`,
-        targets.map(t => t.unit.name)
-      )
-    }
-
-    const target = targets[0]
-    if (!target) return undefined
-
-    return {
-      targetResults: [
-        {
-          targetId: target.unit.id,
-          targetName: target.unit.name,
-          hits: result.damageResults.map(dmgResult => ({
-            hit: dmgResult.hit,
-            damage: dmgResult.damage,
-            wasCritical: dmgResult.wasCritical,
-            wasGuarded: dmgResult.wasGuarded,
-            hitChance: dmgResult.hitChance,
-          })),
-          totalDamage: result.totalDamage,
-        },
-      ],
-    }
-  }
-
-  // Handle multi-target result
-  return {
-    targetResults: result.results.map((singleResult, index) => {
-      const target = targets[index]
-      if (!target) {
-        console.warn(`Missing target for index ${index}`)
-        return {
-          targetId: 'unknown',
-          targetName: 'Unknown',
-          hits: [],
-          totalDamage: 0,
-        }
-      }
-
-      return {
-        targetId: target.unit.id,
-        targetName: target.unit.name,
-        hits: singleResult.damageResults.map(dmgResult => ({
-          hit: dmgResult.hit,
-          damage: dmgResult.damage,
-          wasCritical: dmgResult.wasCritical,
-          wasGuarded: dmgResult.wasGuarded,
-          hitChance: dmgResult.hitChance,
-        })),
-        totalDamage: singleResult.totalDamage,
-      }
-    }),
-    summary: result.summary,
-  }
-}
 
 /**
  * Hook return type - clean interface with only what UI components need
@@ -203,9 +131,9 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         }
 
         const afflictionEvent: BattleEvent = {
-          id: `${unit.unit.name}-affliction-${Date.now()}`,
+          id: `affliction-${battlefieldState.currentActionId}-${unit.unit.id}`,
           type: eventType,
-          turn: battlefieldState.turnCount,
+          turn: battlefieldState.currentActionId,
           description: eventDescription,
           actingUnit: {
             id: unit.unit.id,
@@ -237,6 +165,12 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       // Select skill first to determine proper trigger
       const skillSelection = selectActiveSkill(unit, battlefieldState)
 
+      // Bump action id before skill execution
+      setBattlefieldState(prev => {
+        if (!prev) return prev
+        return { ...prev, currentActionId: prev.currentActionId + 1 }
+      })
+
       // Debug logging for skill selection
       console.debug(`🎯 ${unit.unit.name} selected skill:`, {
         skillName: skillSelection.skill.name,
@@ -245,10 +179,16 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         targetNames: skillSelection.targets.map(t => t.unit.name),
       })
 
+      // Apply Cover redirection to targets (entire attack instance)
+      const redirectedTargets: BattleContext[] = applyCoverRedirection(
+        battlefieldState,
+        skillSelection.targets
+      )
+
       const result = executeSkill(
         skillSelection.skill,
         unit,
-        skillSelection.targets,
+        redirectedTargets,
         battlefieldState.rng
       )
 
@@ -260,7 +200,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       removeExpiredDebuffs(unit, trigger)
 
       // Transform skill results for battle event
-      const skillResults = transformSkillResults(result, skillSelection.targets)
+      const skillResults = transformSkillResults(result, redirectedTargets)
 
       // Create and add battle event (including any affliction processing from turn start)
       let eventDescription = `${unit.unit.name} used ${skillSelection.skill.name}`
@@ -283,9 +223,9 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       }
 
       const battleEvent: BattleEvent = {
-        id: `${unit.unit.name}-${skillSelection.skill.name}-${Date.now()}`,
+        id: `skill-${battlefieldState.currentActionId}-${unit.unit.id}`,
         type: 'skill-execution',
-        turn: battlefieldState.turnCount,
+        turn: battlefieldState.currentActionId,
         description: eventDescription,
         actingUnit: {
           id: unit.unit.id,
@@ -293,7 +233,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           classKey: unit.unit.classKey,
           team: unit.team,
         },
-        targets: skillSelection.targets.map(t => t.unit.id),
+        targets: redirectedTargets.map(t => t.unit.id),
         skillId: skillSelection.skill.id,
         skillResults,
         afflictionData,
@@ -307,19 +247,8 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         // Create new state with counter updates
         const skillTracking = trackSkillUsage(prevState, skillSelection.skill)
 
-        // Deep copy the units object by mapping each unit to a new object
-        const deepCopiedUnits = Object.fromEntries(
-          Object.entries(prevState.units).map(([id, unit]) => [
-            id,
-            {
-              ...unit,
-              unit: { ...unit.unit },
-              combatStats: { ...unit.combatStats },
-              afflictions: [...unit.afflictions],
-              buffs: [...unit.buffs],
-            },
-          ])
-        )
+        // Deep copy the units object using shared helper
+        const deepCopiedUnits = deepCopyUnits(prevState.units)
 
         const newState = {
           ...prevState,
@@ -330,7 +259,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
             ...prevState.actionHistory,
             {
               unitId: unit.unit.id,
-              targetIds: skillSelection.targets.map(t => t.unit.id),
+              targetIds: redirectedTargets.map(t => t.unit.id),
               skillId: skillSelection.skill.id,
               turn: prevState.turnCount + 1,
             },
@@ -354,75 +283,16 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           hasActedThisRound: true,
         }
 
-        // Apply damage to target units
-
-        if ('results' in result) {
-          // Multi-target result
-          result.results.forEach((targetResult, index) => {
-            const targetUnit = skillSelection.targets[index]
-            if (!targetUnit) {
-              console.warn(`No target unit found for index ${index}`)
-              return
-            }
-
-            const targetStateId =
-              targetUnit.team && targetUnit.unit.id
-                ? `${targetUnit.team === 'home-team' ? 'home' : 'away'}-${targetUnit.unit.id}`
-                : null
-
-            if (targetStateId && targetStateId in newState.units) {
-              const currentUnit = newState.units[targetStateId]
-
-              const newHP = Math.max(
-                0,
-                currentUnit.currentHP - targetResult.totalDamage
-              )
-
-              // Create a completely new unit object
-              newState.units[targetStateId] = {
-                ...currentUnit,
-                unit: { ...currentUnit.unit },
-                combatStats: { ...currentUnit.combatStats },
-                afflictions: [...currentUnit.afflictions],
-                buffs: [...currentUnit.buffs],
-                currentHP: newHP,
-              }
-            }
-          })
-        } else {
-          // Single target result
-          const targetUnit = skillSelection.targets[0]
-          if (!targetUnit) {
-            console.warn('No target unit found for single target skill')
-            return newState
-          }
-
-          const targetStateId =
-            targetUnit.team && targetUnit.unit.id
-              ? `${targetUnit.team === 'home-team' ? 'home' : 'away'}-${targetUnit.unit.id}`
-              : null
-
-          if (targetStateId && targetStateId in newState.units) {
-            const currentUnit = newState.units[targetStateId]
-
-            const newHP = Math.max(
-              0,
-              currentUnit.currentHP - result.totalDamage
-            )
-
-            // Create a completely new unit object
-            newState.units[targetStateId] = {
-              ...currentUnit,
-              unit: { ...currentUnit.unit },
-              combatStats: { ...currentUnit.combatStats },
-              afflictions: [...currentUnit.afflictions],
-              buffs: [...currentUnit.buffs],
-              currentHP: newHP,
-            }
-          }
-        }
+        // Apply damage to target units via shared helper
+        applySkillDamageResults(newState, redirectedTargets, result)
 
         return newState
+      })
+
+      // Clear defensive states for this action (guard/parry/cover) if needed
+      setBattlefieldState(prev => {
+        if (!prev) return prev
+        return clearDefenseForAction(prev, prev.currentActionId)
       })
     },
     [battlefieldState]
@@ -437,14 +307,12 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
    */
   const finalizeBattle = useCallback(
     (finalState: BattlefieldState) => {
-      // Guard against duplicate finalization
       if (!isExecuting) return
 
       const winner = determineBattleWinner(finalState)
       const teamHpPercentages = calculateTeamHpPercentages(finalState)
       const totalTurns = finalState.actionCounter || finalState.turnCount || 0
 
-      // Add battle end event
       const battleEndEvent = createBattleEndEvent(
         winner,
         totalTurns,
@@ -452,12 +320,11 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       )
       setBattleEvents(prevEvents => [...prevEvents, battleEndEvent])
 
-      // Set final results
       setResultSummary({
         winner,
         endReason: winner === 'Draw' ? 'Turn limit or draw' : 'Team eliminated',
         totalTurns,
-        totalEvents: battleEvents.length + 1, // Include the end event
+        totalEvents: battleEvents.length + 1,
         teamHpPercentages,
       })
 
@@ -499,7 +366,7 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     const nextActionableUnit = battlefieldState.activeSkillQueue.find(
       unitId => {
         const unit = battlefieldState.units[unitId]
-        return !unit.hasActedThisRound && isUnitActionableActive(unit)
+        return unit && !unit.hasActedThisRound && isUnitActionableActive(unit)
       }
     )
 

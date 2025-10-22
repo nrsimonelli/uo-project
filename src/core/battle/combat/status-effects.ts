@@ -29,16 +29,21 @@ export const getSkillName = (skillId: string): string => {
 
 /**
  * Apply processed effects from skill execution to battle contexts
+ * If attackHit -> false, target-directed effects won't be applied (for dodge scenarios)
  */
 export const applyStatusEffects = (
   effectResults: EffectProcessingResult,
   attacker: BattleContext,
-  targets: BattleContext[]
+  targets: BattleContext[],
+  attackHit = true
 ) => {
   const unitsToRecalculate = new Set<BattleContext>()
 
   // Apply buffs to appropriate targets
   effectResults.buffsToApply.forEach(buffToApply => {
+    // Skip target effects if attack missed (attackHit = false)
+    if (!attackHit && buffToApply.target !== 'User') return
+
     const targetUnit = buffToApply.target === 'User' ? attacker : targets[0]
     if (!targetUnit) return
 
@@ -64,6 +69,9 @@ export const applyStatusEffects = (
 
   // Apply debuffs to appropriate targets
   effectResults.debuffsToApply.forEach(debuffToApply => {
+    // Skip target effects if attack missed (attackHit = false)
+    if (!attackHit && debuffToApply.target !== 'User') return
+
     const targetUnit = debuffToApply.target === 'User' ? attacker : targets[0]
     if (!targetUnit) return
 
@@ -89,12 +97,19 @@ export const applyStatusEffects = (
 
     console.log(
       `❌ Debuff Applied: ${targetUnit.unit.name} -${debuffToApply.value}${debuffToApply.scaling === 'percent' ? '%' : ''} ${debuffToApply.stat} (${debuff.duration})`,
-      { skillName, debuffValue: debuffToApply.value, scaling: debuffToApply.scaling }
+      {
+        skillName,
+        debuffValue: debuffToApply.value,
+        scaling: debuffToApply.scaling,
+      }
     )
   })
 
   // Apply debuff amplifications as special debuffs
   effectResults.debuffAmplificationsToApply.forEach(amplificationToApply => {
+    // Skip target effects if attack missed (attackHit = false)
+    if (!attackHit && amplificationToApply.target !== 'User') return
+
     const targetUnit =
       amplificationToApply.target === 'User' ? attacker : targets[0]
     if (!targetUnit) return
@@ -119,6 +134,9 @@ export const applyStatusEffects = (
 
   // Apply conferral effects to appropriate targets
   effectResults.conferralsToApply.forEach(conferralToApply => {
+    // Skip target effects if attack missed (attackHit = false)
+    if (!attackHit && conferralToApply.target !== 'User') return
+
     const targetUnit =
       conferralToApply.target === 'User' ? attacker : targets[0]
     if (!targetUnit) return
@@ -135,6 +153,9 @@ export const applyStatusEffects = (
 
   // Apply afflictions to appropriate targets
   effectResults.afflictionsToApply.forEach(afflictionToApply => {
+    // Skip target effects if attack missed (attackHit = false)
+    if (!attackHit && afflictionToApply.target !== 'User') return
+
     const targetUnit =
       afflictionToApply.target === 'User' ? attacker : targets[0]
     if (!targetUnit) return
@@ -442,7 +463,7 @@ export const calculateStatModifier = (
     }
   })
 
-  // Apply debuffs with amplification (subtract since they're negative effects)
+  // Apply debuffs (debuff values are already negative, so add them directly)
   debuffs.forEach(debuff => {
     // Skip the amplification debuffs themselves
     if (debuff.stat === ('DebuffAmplification' as StatKey)) {
@@ -451,9 +472,9 @@ export const calculateStatModifier = (
 
     const amplifiedValue = debuff.value * amplificationMultiplier
     if (debuff.scaling === 'flat') {
-      flatModifier -= amplifiedValue
+      flatModifier += amplifiedValue // Values are already negative
     } else if (debuff.scaling === 'percent') {
-      percentModifier -= amplifiedValue
+      percentModifier += amplifiedValue // Values are already negative
     }
   })
 
