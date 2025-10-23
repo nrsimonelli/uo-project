@@ -19,7 +19,7 @@ export const App = () => {
         }
       />
       <Route path="/team-builder" element={<TeamBuilder />} />
-      <Route path="/equipment-builder" element={<EquipmentBuilder />} />
+      <Route path="/equipment" element={<EquipmentBuilder />} />
       <Route path="/classes" element={<UnitData />} />
       <Route path="/mock-battle" element={<MockBattle />} />
     </Routes>

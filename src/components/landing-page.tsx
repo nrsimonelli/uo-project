@@ -30,7 +30,7 @@ export function LandingPage() {
               <Link to="/team-builder">Start Building Teams</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/equipment-builder">Manage Equipment</Link>
+              <Link to="/mock-battle">Battle Now</Link>
             </Button>
           </div>
         </div>
@@ -54,7 +54,7 @@ export function LandingPage() {
                 <UsersIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Team Builder</CardTitle>
                 <CardDescription>
-                  Create and manage up to 6 teams of any unit compositions
+                  Create and manage multiple teams of any unit compositions
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -67,14 +67,14 @@ export function LandingPage() {
             <Card>
               <CardHeader>
                 <SwordIcon className="h-8 w-8 text-primary" />
-                <CardTitle>Equipment Manager</CardTitle>
+                <CardTitle>Equipment Viewer</CardTitle>
                 <CardDescription>
-                  Optimize equipment loadouts and track gear across your teams
+                  Check out all equippable items and their details by category
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button variant="outline" size="sm" asChild>
-                  <Link to="/equipment-builder">Manage Gear</Link>
+                  <Link to="/equipment">View Inventory</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -84,12 +84,12 @@ export function LandingPage() {
                 <ShieldIcon className="h-8 w-8 text-primary" />
                 <CardTitle>Class Analysis</CardTitle>
                 <CardDescription>
-                  Deep dive into class abilities, skills, and optimal builds
+                  Deep dive into class stats, growths, and traits
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" size="sm" disabled>
-                  Coming Soon
+                <Button variant="outline" size="sm">
+                  <Link to="/equipment">Unit Data</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -97,14 +97,14 @@ export function LandingPage() {
             <Card>
               <CardHeader>
                 <TrendingUpIcon className="h-8 w-8 text-primary" />
-                <CardTitle>Battle Calculator</CardTitle>
+                <CardTitle>Battle</CardTitle>
                 <CardDescription>
-                  Calculate damage, effectiveness, and battle outcomes
+                  Simulate a full match between two teams
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" size="sm" disabled>
-                  Coming Soon
+                <Button variant="outline" size="sm">
+                  <Link to="/mock-battle">Battle</Link>
                 </Button>
               </CardContent>
             </Card>

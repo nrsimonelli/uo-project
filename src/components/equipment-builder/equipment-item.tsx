@@ -133,11 +133,10 @@ interface EquipmentSkillProps {
 function EquipmentSkill({ skillId }: EquipmentSkillProps) {
   if (!skillId) return null
 
-  const skill = [...ActiveSkills, ...PassiveSkills].find(
-    s => s.id === skillId
-  )
+  const skill = [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillId)
 
-  if (!skill) return <div className="text-xs text-primary">Skill: {skillId}</div>
+  if (!skill)
+    return <div className="text-xs text-primary">Skill: {skillId}</div>
 
   return (
     <TooltipProvider>

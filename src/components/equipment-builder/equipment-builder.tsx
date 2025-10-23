@@ -56,8 +56,8 @@ export function EquipmentBuilder() {
   return (
     <PageLayout>
       <PageHeader
-        title="Equipment Builder"
-        description="Manage and optimize equipment loadouts for your teams"
+        title="Equipment Inventory"
+        description="View all equippable items and their details"
       >
         {/* <Button>Import Team</Button> */}
       </PageHeader>
@@ -94,8 +94,10 @@ export function EquipmentBuilder() {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Equipment Inventory</CardTitle>
-                <CardDescription>All available equipment items</CardDescription>
+                <CardTitle>Equipment List</CardTitle>
+                <CardDescription>
+                  All available {selectedCategory}s
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <SearchInput

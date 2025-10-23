@@ -43,7 +43,7 @@ export function TopNav() {
               asChild
               className="text-muted-foreground hover:text-foreground hover:bg-initial transition-colors duration-200"
             >
-              <Link to="/equipment-builder">Equipment Builder</Link>
+              <Link to="/equipment">Equipment Data</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>

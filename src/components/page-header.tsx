@@ -17,7 +17,7 @@ export function PageHeader({
     <div className={cn('pb-5 sm:pb-0', className)}>
       <div className="md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold leading-7 text-foreground sm:truncate sm:text-3xl sm:tracking-tight">
+          <h1 className="text-2xl font-bold leading-10 text-foreground sm:truncate sm:text-3xl sm:tracking-tight">
             {title}
           </h1>
           {description && (
