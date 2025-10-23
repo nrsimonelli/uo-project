@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-18T18:32:38.654Z_
+_Generated: 2025-10-23T05:12:07.964Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
-- **Total Skills Referenced**: 401
-- **Active Skills Defined**: 73
-- **Passive Skills Defined**: 55
-- **Total Skills Defined**: 128
-- **Activation Windows Referenced**: 22
+- **Total Skills Referenced**: 400
+- **Active Skills Defined**: 79
+- **Passive Skills Defined**: 61
+- **Total Skills Defined**: 140
+- **Activation Windows Referenced**: 23
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **273 missing skills:**
+❌ **260 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -24,7 +24,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `aerialAlignment`
 - `aerialGuard`
 - `aerialPursuit`
-- `aerialSmite`
 - `aerialWing`
 - `aquaVenom`
 - `armorShatter`
@@ -70,7 +69,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `deathSpin`
 - `decimate`
 - `defensiveOrder`
-- `deflect`
 - `delayingShot`
 - `desperation`
 - `discharge`
@@ -79,10 +77,8 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `diurnalImpetus`
 - `divineBlessing`
 - `divineCross`
-- `divingThrust`
 - `doubleBlast`
 - `doubleHeal`
-- `dragonsRoar`
 - `dynamicGlide`
 - `earthquake`
 - `earthshaker`
@@ -96,10 +92,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `extraHeal`
 - `eyeOfTheWarriorPrincess`
 - `faerieHeal`
-- `fatalDive`
-- `feathering`
 - `finishingStab`
-- `fireBreath`
 - `fireBurst`
 - `fireCure`
 - `fireCurse`
@@ -115,10 +108,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `gravity`
 - `grislyFire`
 - `grislyPoison`
-- `groundCounter`
-- `groundCounterWyvern`
 - `groundStrike`
-- `gryphonGlide`
 - `guardCure`
 - `guardHunter`
 - `guardOrder`
@@ -138,7 +128,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `healingWind`
 - `heavyAlignment`
 - `heavyGuard`
-- `highSwing`
 - `holyBarrier`
 - `holyBreath`
 - `holyCradle`
@@ -269,7 +258,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `sylphicBarrier`
 - `sylphicWind`
 - `tailwind`
-- `tempestDrive`
 - `thunderousConferral`
 - `toughness`
 - `trinityRain`
@@ -288,7 +276,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `wildFang`
 - `wildKick`
 - `windArrow`
-- `wingRest`
 - `wolfPack`
 
 ## Unused Skills (Defined but Not Referenced)
@@ -301,7 +288,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **17 unused activation windows:**
+⚠️ **16 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
@@ -318,7 +305,6 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `afterReceivingAllyPassive`
 - `afterUserDebuff`
 - `beforeAllyAttackedRangedPhys`
-- `beforeBeingHitRanged`
 - `beforeEnemyAttacksMagic`
 
 ## Skills by Source
@@ -404,7 +390,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `glacialRain`
 - `grandSmash`
 - `greatshield`
-- `groundCounterWyvern`
+- `groundCounter`
 - `gryphonGlide`
 - `guardOrder`
 - `guardian`
@@ -544,7 +530,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `sylphicBarrier`
 - `sylphicWind`
 - `tailwind`
-- `tempestDrive`
+- `tempestDive`
 - `thunderousStrike`
 - `toxicBolt`
 - `toxicThrow`
@@ -754,9 +740,10 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (73)
+### Active Skills Defined (79)
 
 - `activeSteal`
+- `aerialSmite`
 - `assaultingBlow`
 - `assaultingLance`
 - `bastardsCross`
@@ -765,9 +752,12 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `darkFlame`
 - `defender`
 - `defensiveCurse`
+- `divingThrust`
 - `dragoonDive`
 - `dualShot`
 - `elfslayer`
+- `fatalDive`
+- `fireBreath`
 - `fireball`
 - `flameJavelin`
 - `grandSmash`
@@ -777,6 +767,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `heavyBolt`
 - `heavySlash`
 - `heavySmash`
+- `highSwing`
 - `honedSpear`
 - `iceCoffin`
 - `icebolt`
@@ -816,6 +807,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `singleShot`
 - `smash`
 - `sting`
+- `tempestDive`
 - `thunderousStrike`
 - `thunderousThrust`
 - `toxicBolt`
@@ -830,7 +822,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (55)
+### Passive Skills Defined (61)
 
 - `activeGift`
 - `aerialSnipe`
@@ -844,14 +836,19 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `chargedImpetus`
 - `concentrate`
 - `cursedSwamp`
+- `deflect`
 - `demonicPact`
+- `dragonsRoar`
 - `eagleEye`
 - `enrage`
 - `evade`
+- `feathering`
 - `firstAid`
 - `focusSight`
 - `followingSlash`
 - `frenziedStrike`
+- `groundCounter`
+- `gryphonGlide`
 - `guardian`
 - `hastenedStrike`
 - `heavyCounter`
@@ -887,10 +884,11 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `vengefulGuard`
 - `warHorn`
 - `wideCounter`
+- `wingRest`
 
 ## Activation Windows
 
-### Referenced in Passive Skills (22)
+### Referenced in Passive Skills (23)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
@@ -911,6 +909,7 @@ _Generated: 2025-10-18T18:32:38.654Z_
 - `beforeBeingAttacked`
 - `beforeBeingHitMelee`
 - `beforeBeingHitPhys`
+- `beforeBeingHitRanged`
 - `beforeEnemyAttacks`
 - `endOfBattle`
 - `startOfBattle`

@@ -267,7 +267,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Flying',
     skills: [
       { skillId: 'divingThrust', level: 1, skillType: 'active' },
-      { skillId: 'groundCounterWyvern', level: 1, skillType: 'passive' },
+      { skillId: 'groundCounter', level: 1, skillType: 'passive' },
       { skillId: 'deflect', level: 15, skillType: 'passive' },
     ],
   },
@@ -551,7 +551,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     baseClass: ALL_CLASSES.WYVERN_KNIGHT,
     skills: [
       { skillId: 'fireBreath', level: 20, skillType: 'active' },
-      { skillId: 'tempestDrive', level: 30, skillType: 'active' },
+      { skillId: 'tempestDive', level: 30, skillType: 'active' },
       { skillId: 'dragonsRoar', level: 25, skillType: 'passive' },
     ],
   },

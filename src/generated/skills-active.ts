@@ -2466,6 +2466,271 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'divingThrust',
+    type: 'active',
+    name: 'Diving Thrust',
+    description:
+      'Attack a single enemy. Cavalry targets cannot guard against this attack. +50 potency vs Cavalry targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'Unguardable',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'fireBreath',
+    type: 'active',
+    name: 'Fire Breath',
+    description: 'Attack a row of enemies. Inflicts Burn.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'tempestDive',
+    type: 'active',
+    name: 'Tempest Dive',
+    description:
+      'Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Becomes a truestrike and critical if user is below 50% HP.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Piercing'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'Unguardable',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'LessOrEqual',
+            value: 50,
+            percent: true,
+          },
+        ],
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueCritical',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'LessOrEqual',
+            value: 50,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'highSwing',
+    type: 'active',
+    name: 'High Swing',
+    description:
+      'Attack a row of enemies. Cavalry targets cannot guard against this attack. +50 potency vs Cavalry targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'Unguardable',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'fatalDive',
+    type: 'active',
+    name: 'Fatal Dive',
+    description:
+      "Attack a column of enemies with a piercing strike. Deals damage equal to 50% of the user's HP. This attack cannot be a critical.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable', 'Piercing'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {},
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {},
+    ],
+  },
+  {
+    id: 'aerialSmite',
+    type: 'active',
+    name: 'Aerial Smite',
+    description:
+      'Attack a row of enemies. Cavalry targets cannot guard against this attack. -1 AP to targets at 100% HP.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'Unguardable',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Debuff',
+        stat: 'AP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 100,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

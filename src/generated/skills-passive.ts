@@ -891,8 +891,7 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'Guard',
-        guard: 'full',
+        kind: 'Evade',
         applyTo: 'User',
       },
     ],
@@ -1496,6 +1495,175 @@ export const PassiveSkills = [
         value: -50,
         scaling: 'flat',
         duration: 'UntilNextAction',
+      },
+    ],
+  },
+  {
+    id: 'groundCounter',
+    type: 'passive',
+    name: 'Ground Counter',
+    description:
+      'Activates after an enemy attacks with an active skill. Counterattack a single enemy. +100 potency vs Cavalry targets.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'deflect',
+    type: 'passive',
+    name: 'Deflect',
+    description:
+      'Activates before being hit by a melee attack. Negate melee damage for a single hit. Grants the user +20 Evasion. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Parry'],
+    activationWindow: 'beforeBeingHitMelee',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Parry',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'EVA',
+        value: 20,
+        scaling: 'flat',
+        applyTo: 'User',
+        stacks: true,
+      },
+    ],
+  },
+  {
+    id: 'dragonsRoar',
+    type: 'passive',
+    name: "Dragon's Roar",
+    description:
+      'Activates at the start of a battle. Inflicts Initiative -20 on all enemies.',
+    pp: 2,
+    skillCategories: ['Sabotage'],
+    activationWindow: 'startOfBattle',
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'INIT',
+        value: -20,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'wingRest',
+    type: 'passive',
+    name: 'Wing Rest',
+    description:
+      'Activates at the end of a battle. Recover 25% HP. Recovered HP doubles if Afflicted.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'endOfBattle',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'HealPercent',
+        value: 25,
+      },
+      {
+        kind: 'HealPercent',
+        value: 25,
+        conditions: [
+          {
+            kind: 'AnyAffliction',
+            target: 'Self',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'feathering',
+    type: 'passive',
+    name: 'Feathering',
+    description:
+      "Activates before attacking with an active skill. Grants allies in the user's row +15 initiative.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 15,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'gryphonGlide',
+    type: 'passive',
+    name: 'Gryphon Glide',
+    description:
+      'Activates before being hit by a ranged attack. Evade a single hit of a ranged attack. Grants the user +1 AP.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingHitRanged',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
       },
     ],
   },
