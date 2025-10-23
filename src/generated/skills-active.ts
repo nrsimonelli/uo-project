@@ -2731,6 +2731,103 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'lightningBlade',
+    type: 'active',
+    name: 'Lightning Blade',
+    description: 'Attack a single enemy. Inflicts Stun.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+          magical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'naturesWrath',
+    type: 'active',
+    name: "Nature's Wrath",
+    description:
+      'Attack a column of enemies with piercing Magic. Inflicts -1 PP to Cavalry targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: ['Magical'],
+    skillFlags: ['GroundBased'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'mirageStab',
+    type: 'active',
+    name: 'Mirage Stab',
+    description:
+      'Attack a row of enemies. Grants the user the ability to Evade one attack.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+          magical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Buff',
+        stat: 'Evade',
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

@@ -1667,6 +1667,66 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'sylphicBarrier',
+    type: 'passive',
+    name: 'Sylphic Barrier',
+    description:
+      'Activates before an ally is hit by a ranged phys. attack. Allow an ally to Evade one attack.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyHitRangedPhys',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'removeWeakness',
+    type: 'passive',
+    name: 'Remove Weakness',
+    description:
+      "Activates after the user is debuffed. Remove the user's debuffs. Grants the user a buff to Evade one attack.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUserDebuff',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'evasiveImpetus',
+    type: 'passive',
+    name: 'Evasive Impetus',
+    description: 'Activates after evading an attack. Grants the user +1 AP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterEvade',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+      },
+    ],
+  },
 ] as const
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

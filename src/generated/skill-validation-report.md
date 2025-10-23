@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-23T05:12:07.964Z_
+_Generated: 2025-10-23T23:29:55.080Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 79
-- **Passive Skills Defined**: 61
-- **Total Skills Defined**: 140
-- **Activation Windows Referenced**: 23
+- **Active Skills Defined**: 82
+- **Passive Skills Defined**: 64
+- **Total Skills Defined**: 146
+- **Activation Windows Referenced**: 25
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **260 missing skills:**
+❌ **254 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -86,7 +86,6 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `elementalRoar`
 - `enduringCover`
 - `enduringGuard`
-- `evasiveImpetus`
 - `evilCover`
 - `execution`
 - `extraHeal`
@@ -148,7 +147,6 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `killingPursuit`
 - `lifeBlow`
 - `lifeshare`
-- `lightningBlade`
 - `maelstrom`
 - `magicBurst`
 - `magicShatter`
@@ -156,12 +154,10 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `magicWall`
 - `maidensHammer`
 - `mightyShield`
-- `mirageStab`
 - `mirrorWeakness`
 - `mysticArrow`
 - `mysticConferralArcher`
 - `mysticShield`
-- `naturesWrath`
 - `nightVision`
 - `nimbleFighter`
 - `nocturnalEvade`
@@ -218,7 +214,6 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `reincarnation`
 - `reinforce`
 - `relicHeal`
-- `removeWeakness`
 - `restore`
 - `resurrection`
 - `roundSwing`
@@ -255,7 +250,6 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `strengthShatter`
 - `strengthShatterII`
 - `stunCure`
-- `sylphicBarrier`
 - `sylphicWind`
 - `tailwind`
 - `thunderousConferral`
@@ -288,7 +282,7 @@ _Generated: 2025-10-23T05:12:07.964Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **16 unused activation windows:**
+⚠️ **14 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
@@ -299,11 +293,9 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `afterEnemyDebuff`
 - `afterEnemyGuards`
 - `afterEnemyHeals`
-- `afterEvade`
 - `afterFlyingAllyAttacksActive`
 - `afterHealed`
 - `afterReceivingAllyPassive`
-- `afterUserDebuff`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
 
@@ -740,7 +732,7 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (79)
+### Active Skills Defined (82)
 
 - `activeSteal`
 - `aerialSmite`
@@ -779,12 +771,15 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `killingChain`
 - `leanEdge`
 - `lethalVenom`
+- `lightningBlade`
 - `lightningShaker`
 - `longThrust`
 - `magicAttack`
 - `magicMissile`
 - `meteorSlash`
+- `mirageStab`
 - `mountingCharge`
+- `naturesWrath`
 - `offensiveCurse`
 - `passiveCurse`
 - `passiveShatter`
@@ -822,7 +817,7 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `wideSmash`
 - `wildRush`
 
-### Passive Skills Defined (61)
+### Passive Skills Defined (64)
 
 - `activeGift`
 - `aerialSnipe`
@@ -842,6 +837,7 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `eagleEye`
 - `enrage`
 - `evade`
+- `evasiveImpetus`
 - `feathering`
 - `firstAid`
 - `focusSight`
@@ -876,10 +872,12 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `quickReload`
 - `rapidOrder`
 - `refresh`
+- `removeWeakness`
 - `rowBarrier`
 - `rowCover`
 - `sanguineArts`
 - `sneakingEdge`
+- `sylphicBarrier`
 - `vengeance`
 - `vengefulGuard`
 - `warHorn`
@@ -888,7 +886,7 @@ _Generated: 2025-10-23T05:12:07.964Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (23)
+### Referenced in Passive Skills (25)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
@@ -899,6 +897,8 @@ _Generated: 2025-10-23T05:12:07.964Z_
 - `afterBeingHitPhys`
 - `afterCavalryAllyAttacksActive`
 - `afterEnemyAttacksActive`
+- `afterEvade`
+- `afterUserDebuff`
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`
 - `beforeAllyAttacksActive`
