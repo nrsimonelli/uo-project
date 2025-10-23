@@ -200,6 +200,7 @@ export interface BattleContext {
   // Defensive states (apply to next incoming active attack instance)
   incomingGuard?: 'light' | 'medium' | 'heavy' | 'full'
   incomingParry?: boolean
+  incomingEvade?: boolean // Makes next incoming hit miss (only triggers if attack would hit, bypassed by TrueStrike)
   cover?: { covererId: string; guard: 'light' | 'medium' | 'heavy' | 'full' }
   defenseActionId?: number
 }

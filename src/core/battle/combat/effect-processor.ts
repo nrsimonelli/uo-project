@@ -263,7 +263,17 @@ export const processEffects = (
     }
 
     if (effect.kind === 'Cover' || effect.kind === 'Guard') {
-      // These would be processed differently - perhaps in passive skill system
+      // These would be processed differently - passive skill system
+      return
+    }
+
+    if (effect.kind === 'Parry') {
+      // Parry is processed in passive skill system
+      return
+    }
+
+    if (effect.kind === 'Evade') {
+      // Evade is processed in passive skill system
       return
     }
 

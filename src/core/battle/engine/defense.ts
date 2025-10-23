@@ -44,6 +44,7 @@ export function clearDefenseForAction(
         ...u,
         incomingGuard: undefined,
         incomingParry: undefined,
+        incomingEvade: undefined,
         cover: undefined,
         defenseActionId: undefined,
       }

@@ -104,6 +104,12 @@ export interface ParryEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface EvadeEffect {
+  kind: 'Evade'
+  applyTo?: 'User' | 'Target'
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export interface AfflictionEffect {
   kind: 'Affliction'
   affliction: AfflictionType
@@ -180,6 +186,7 @@ export type Effect =
   | CoverEffect
   | GuardEffect
   | ParryEffect
+  | EvadeEffect
   | AfflictionEffect
   | LifeStealEffect
   | ResourceStealEffect

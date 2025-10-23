@@ -299,6 +299,8 @@ export const calculateSkillDamage = (
     console.log('🎯 TrueStrike Flag Active - guaranteed hit')
   }
 
+  // TODO: implement Evade here...
+
   // Roll for hit
   const hit = rollHit(rng, hitChance)
 
