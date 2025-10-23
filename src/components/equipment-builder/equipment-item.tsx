@@ -6,8 +6,11 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
 } from '@/components/ui/tooltip'
 import { SPRITES } from '@/data/sprites'
+import { ActiveSkills } from '@/generated/skills-active'
+import { PassiveSkills } from '@/generated/skills-passive'
 import type { EquippedByInfo } from '@/hooks/use-equipment-manager'
 import type { EquipmentSlotType } from '@/types/equipment'
 import type { GeneratedEquipment } from '@/types/generated-equipment'
@@ -130,7 +133,29 @@ interface EquipmentSkillProps {
 function EquipmentSkill({ skillId }: EquipmentSkillProps) {
   if (!skillId) return null
 
-  return <div className="text-xs text-primary">Skill: {skillId}</div>
+  const skill = [...ActiveSkills, ...PassiveSkills].find(
+    s => s.id === skillId
+  )
+
+  if (!skill) return <div className="text-xs text-primary">Skill: {skillId}</div>
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="text-xs text-primary cursor-help">
+            Skill: {skill.name}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-xs">
+          <div className="space-y-1">
+            <p className="font-medium">{skill.name}</p>
+            <p className="text-sm">{skill.description}</p>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
 }
 
 interface EquipmentRestrictionsProps {

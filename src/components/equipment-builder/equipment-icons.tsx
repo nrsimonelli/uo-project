@@ -9,7 +9,7 @@ import {
   Torus,
 } from 'lucide-react'
 
-import type { EquipmentSlotType } from '@/types/equipment'
+import { type EquipmentSlotType } from '@/types/equipment'
 
 // Equipment slot icon mapping
 const EQUIPMENT_ICONS = {

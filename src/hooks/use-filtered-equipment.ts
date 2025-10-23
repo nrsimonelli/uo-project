@@ -24,7 +24,7 @@ const equipmentMap = {
 
 export const useFilteredEquipment = (
   slotType: EquipmentSlotType,
-  unitClass: AllClassType,
+  unitClass: AllClassType | 'All',
   searchTerm: string
 ) => {
   return useMemo(() => {
@@ -38,11 +38,14 @@ export const useFilteredEquipment = (
         return false
       }
 
-      if (
-        item.classRestrictions.length > 0 &&
-        !(item.classRestrictions as readonly AllClassType[]).includes(unitClass)
-      ) {
-        return false
+      if (item.classRestrictions.length > 0) {
+        if (unitClass === 'All') {
+          return true
+        }
+
+        return (item.classRestrictions as readonly AllClassType[]).includes(
+          unitClass
+        )
       }
 
       return true
