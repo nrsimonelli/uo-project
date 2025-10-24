@@ -125,7 +125,12 @@ export interface Debuff {
   name: string
   stat: StatKey | ExtraStats
   value: number
-  duration: 'Indefinite' | 'UntilNextAttack' | 'UntilNextAction'
+  duration:
+    | 'Indefinite'
+    | 'UntilNextAttack'
+    | 'UntilNextAction'
+    | 'UntilAttacked'
+    | 'UntilDebuffed'
   scaling: 'flat' | 'percent'
   source: string
   skillId: string

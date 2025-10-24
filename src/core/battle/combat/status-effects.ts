@@ -52,7 +52,7 @@ export const applyStatusEffects = (
       name: `${skillName} (+${buffToApply.stat})`,
       stat: buffToApply.stat as StatKey,
       value: buffToApply.value,
-      duration: mapDuration(buffToApply.duration),
+      duration: buffToApply.duration ?? 'Indefinite',
       scaling: buffToApply.scaling,
       source: attacker.unit.id,
       skillId: buffToApply.skillId,
@@ -83,10 +83,7 @@ export const applyStatusEffects = (
       name: `${skillName} (-${debuffToApply.stat})`,
       stat: debuffToApply.stat as StatKey,
       value: debuffToApply.value,
-      duration: mapDuration(debuffToApply.duration) as
-        | 'Indefinite'
-        | 'UntilNextAttack'
-        | 'UntilNextAction',
+      duration: debuffToApply.duration ?? 'Indefinite',
       scaling: debuffToApply.scaling,
       source: attacker.unit.id,
       skillId: debuffToApply.skillId,
@@ -119,10 +116,7 @@ export const applyStatusEffects = (
       name: `${skillName} (Debuff Amplification)`,
       stat: 'DebuffAmplification' as StatKey, // Special reserved stat
       value: amplificationToApply.multiplier,
-      duration: mapDuration(amplificationToApply.duration) as
-        | 'Indefinite'
-        | 'UntilNextAttack'
-        | 'UntilNextAction',
+      duration: amplificationToApply.duration ?? 'Indefinite',
       scaling: 'flat', // Store the raw multiplier value
       source: attacker.unit.id,
       skillId: amplificationToApply.skillId,
@@ -319,30 +313,6 @@ const isImmuneToDebuff = (unit: BattleContext) => {
   }
 
   return false
-}
-
-/**
- * Map effect processor duration format to battle engine duration format
- */
-export const mapDuration = (
-  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
-):
-  | 'Indefinite'
-  | 'UntilNextAttack'
-  | 'UntilAttacked'
-  | 'UntilDebuffed'
-  | 'UntilNextAction' => {
-  if (duration === 'UntilAttacked') {
-    return 'UntilAttacked'
-  }
-  if (duration === 'UntilNextAttack') {
-    return 'UntilNextAttack'
-  }
-  if (duration === 'UntilNextAction') {
-    return 'UntilNextAction'
-  }
-  // Default duration is indefinite
-  return 'Indefinite'
 }
 
 /**

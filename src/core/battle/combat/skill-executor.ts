@@ -18,7 +18,6 @@ import {
   recalculateStats,
   getSkillName,
   applyBuff,
-  mapDuration,
 } from './status-effects'
 
 import { isDamageSkill } from '@/core/attack-types'
@@ -115,7 +114,7 @@ const applyAttackerSelfBuffs = (
       name: `${skillName} (+${buff.stat})`,
       stat: buff.stat as StatKey,
       value: buff.value,
-      duration: mapDuration(buff.duration),
+      duration: buff.duration ?? 'Indefinite',
       scaling: buff.scaling,
       source: attacker.unit.id,
       skillId: buff.skillId,
