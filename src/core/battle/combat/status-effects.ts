@@ -256,14 +256,69 @@ const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
 }
 
 /**
- * Check if a unit is immune to a specific debuff
+ * Check if a unit has SurviveLethal buff and consume it if lethal damage would occur
+ * Returns the HP to set (1 if buff was consumed, 0 if no buff)
  */
-const isImmuneToDebuff = (unit: BattleContext): boolean => {
-  return unit.immunities.some(immunity => {
-    if (immunity === 'Debuff') return true
-    // TODO: Add more specific immunity checks
+export const checkAndConsumeSurviveLethal = (
+  unit: BattleContext,
+  newHP: number
+): number => {
+  // If damage wouldn't be lethal, no need to check
+  if (newHP > 0) return newHP
+
+  // Check for SurviveLethal buff
+  const surviveLethalBuffIndex = unit.buffs.findIndex(
+    buff => buff.stat === ('SurviveLethal' as StatKey)
+  )
+
+  if (surviveLethalBuffIndex !== -1) {
+    // Remove the buff (it's consumed)
+    const consumedBuff = unit.buffs[surviveLethalBuffIndex]
+    unit.buffs.splice(surviveLethalBuffIndex, 1)
+    console.log(
+      `💚 ${unit.unit.name}'s ${consumedBuff.name} buff consumed (survived lethal blow)`
+    )
+    recalculateStats(unit)
+    return 1 // Survive with 1 HP
+  }
+
+  return 0 // No buff, unit is defeated
+}
+
+/**
+ * Check if a unit is immune to debuffs and consume the immunity buff if present
+ * Returns true if the debuff should be blocked
+ */
+const isImmuneToDebuff = (unit: BattleContext) => {
+  // Check permanent immunities first (not consumed)
+  const hasPermanentImmunity = unit.immunities.some(immunity => {
+    if (immunity === 'Debuff') {
+      return true
+    }
     return false
   })
+
+  // Check for DebuffImmunity buff (consumed on use)
+  const immunityBuffIndex = unit.buffs.findIndex(
+    buff => buff.stat === 'DebuffImmunity'
+  )
+
+  if (immunityBuffIndex !== -1) {
+    // Remove the immunity buff (it's consumed)
+    const consumedBuff = unit.buffs[immunityBuffIndex]
+    unit.buffs.splice(immunityBuffIndex, 1)
+    console.log(
+      `🛡️ ${unit.unit.name}'s ${consumedBuff.name} buff consumed (blocked debuff)`
+    )
+    recalculateStats(unit)
+    return true
+  }
+
+  if (hasPermanentImmunity) {
+    return true
+  }
+
+  return false
 }
 
 /**

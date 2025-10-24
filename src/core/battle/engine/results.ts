@@ -2,6 +2,7 @@ import type {
   MultiTargetSkillResult,
   SingleTargetSkillResult,
 } from '@/core/battle/combat/skill-executor'
+import { checkAndConsumeSurviveLethal } from '@/core/battle/combat/status-effects'
 import { getStateIdForContext } from '@/core/battle/engine/utils/state-ids'
 import type { BattleEvent, BattleContext } from '@/types/battle-engine'
 
@@ -127,7 +128,8 @@ export function applySkillDamageResults(
       const sid = getStateIdForContext(target)
       const current = state.units[sid]
       if (!current) continue
-      const newHP = Math.max(0, current.currentHP - single.totalDamage)
+      const calculatedHP = Math.max(0, current.currentHP - single.totalDamage)
+      const finalHP = checkAndConsumeSurviveLethal(current, calculatedHP)
       state.units[sid] = {
         ...current,
         unit: { ...current.unit },
@@ -135,7 +137,7 @@ export function applySkillDamageResults(
         afflictions: [...current.afflictions],
         buffs: [...current.buffs],
         debuffs: [...current.debuffs],
-        currentHP: newHP,
+        currentHP: finalHP,
       }
     }
   } else {
@@ -145,7 +147,8 @@ export function applySkillDamageResults(
       const sid = getStateIdForContext(target)
       const current = state.units[sid]
       if (current) {
-        const newHP = Math.max(0, current.currentHP - result.totalDamage)
+        const calculatedHP = Math.max(0, current.currentHP - result.totalDamage)
+        const finalHP = checkAndConsumeSurviveLethal(current, calculatedHP)
         state.units[sid] = {
           ...current,
           unit: { ...current.unit },
@@ -153,7 +156,7 @@ export function applySkillDamageResults(
           afflictions: [...current.afflictions],
           buffs: [...current.buffs],
           debuffs: [...current.debuffs],
-          currentHP: newHP,
+          currentHP: finalHP,
         }
       }
     }

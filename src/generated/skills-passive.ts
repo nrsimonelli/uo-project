@@ -614,8 +614,10 @@ export const PassiveSkills = [
         amount: 1,
       },
       {
-        kind: 'GrantFlag',
-        flag: 'SurviveLethal',
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'User',
       },
     ],
@@ -1037,8 +1039,10 @@ export const PassiveSkills = [
         applyTo: 'User',
       },
       {
-        kind: 'GrantFlag',
-        flag: 'DebuffImmunity',
+        kind: 'Buff',
+        stat: 'DebuffImmunity',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'User',
         duration: 'UntilAttacked',
       },
@@ -1235,8 +1239,10 @@ export const PassiveSkills = [
         applyTo: 'User',
       },
       {
-        kind: 'GrantFlag',
-        flag: 'SurviveLethal',
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'User',
       },
     ],
@@ -1705,6 +1711,11 @@ export const PassiveSkills = [
         kind: 'Evade',
         applyTo: 'User',
       },
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'User',
+      },
     ],
   },
   {
@@ -1724,6 +1735,84 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+      },
+    ],
+  },
+  {
+    id: 'quickCure',
+    type: 'passive',
+    name: 'Quick Cure',
+    description:
+      'Activates after an ally is debuffed. Remove all debuffs from an ally. Grants the target immunity to one debuff.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyDebuffed',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'DebuffImmunity',
+        value: 1,
+        scaling: 'flat',
+        duration: 'UntilDebuffed',
+      },
+    ],
+  },
+  {
+    id: 'selflessHeal',
+    type: 'passive',
+    name: 'Selfless Heal',
+    description:
+      'Activates after being healed. Restore minor HP to all allies. Removes all debuffs.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'afterHealed',
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'pureField',
+    type: 'passive',
+    name: 'Pure Field',
+    description:
+      'Activates at the start of a battle. Grants all allies a buff that negates a single debuff.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'DebuffImmunity',
+        value: 1,
+        scaling: 'flat',
+        duration: 'UntilDebuffed',
       },
     ],
   },

@@ -1,3 +1,5 @@
+import type { ExtraStats } from './equipment'
+
 import type { RandomNumberGeneratorType } from '@/core/random'
 import type { ActivationWindowId } from '@/data/activation-windows'
 import type { StatKey } from '@/types/base-stats'
@@ -103,7 +105,7 @@ export interface Affliction {
  */
 export interface Buff {
   name: string
-  stat: StatKey
+  stat: StatKey | ExtraStats
   value: number
   duration:
     | 'Indefinite'
@@ -121,7 +123,7 @@ export interface Buff {
  */
 export interface Debuff {
   name: string
-  stat: StatKey
+  stat: StatKey | ExtraStats
   value: number
   duration: 'Indefinite' | 'UntilNextAttack' | 'UntilNextAction'
   scaling: 'flat' | 'percent'

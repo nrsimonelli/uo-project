@@ -8,12 +8,10 @@ export const FLAGS = [
   'Unguardable',
   'Uncoverable',
   'TrueCritical',
-  'SurviveLethal', // Unit survives one lethal blow
   'InflictGuardSeal', // Next attack inflicts Guard Seal affliction
   'NegateMagicDamage', // Negates magic damage
   'AfflictionImmunity', // Immune to afflictions
   'DebuffImmunity', // Immune to debuffs
-
   // Skill properties
   'Charge', // Executes on following round
   'GroundBased', // Can only hit Cavalry and Infantry
@@ -61,12 +59,19 @@ interface BaseEffect {
   value: number
   scaling: 'flat' | 'percent'
   applyTo?: 'User' | 'Target'
-  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  duration?:
+    | 'UntilNextAction'
+    | 'UntilNextAttack'
+    | 'UntilAttacked'
+    | 'UntilDebuffed'
   conditions?: Condition[] | readonly Condition[]
 }
 export interface BuffEffect extends BaseEffect {
   kind: 'Buff'
   stacks?: boolean
+  // Special buff stats for immunity mechanics (consumed on use):
+  // - 'SurviveLethal': Prevents one lethal blow, consumed when triggered
+  // - 'DebuffImmunity': Blocks next debuff/affliction/resource steal, consumed when triggered
 }
 
 export interface DebuffEffect extends BaseEffect {
@@ -144,7 +149,7 @@ export interface SacrificeEffect {
 
 export interface CleanseEffect {
   kind: 'Cleanse'
-  target: 'Debuffs' | 'Afflictions'
+  target: 'Debuffs' | 'Afflictions' | AfflictionType
   applyTo?: 'User' | 'Target'
   conditions?: Condition[] | readonly Condition[]
 }

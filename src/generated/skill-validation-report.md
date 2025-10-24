@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-23T23:29:55.080Z_
+_Generated: 2025-10-24T01:01:33.902Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 82
-- **Passive Skills Defined**: 64
-- **Total Skills Defined**: 146
-- **Activation Windows Referenced**: 25
+- **Active Skills Defined**: 85
+- **Passive Skills Defined**: 67
+- **Total Skills Defined**: 152
+- **Activation Windows Referenced**: 26
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **254 missing skills:**
+❌ **248 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -134,7 +134,6 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `holySmite`
 - `honedHealing`
 - `honedSlash`
-- `icicleArrow`
 - `icyBlow`
 - `icyCrush`
 - `impetusStance`
@@ -156,7 +155,6 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `mightyShield`
 - `mirrorWeakness`
 - `mysticArrow`
-- `mysticConferralArcher`
 - `mysticShield`
 - `nightVision`
 - `nimbleFighter`
@@ -197,11 +195,9 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `provokingCrush`
 - `provokingSlash`
 - `provokingWall`
-- `pureField`
 - `quickAction`
 - `quickBarrier`
 - `quickCover`
-- `quickCure`
 - `quickDispel`
 - `quickImpetus`
 - `radiantCover`
@@ -229,7 +225,6 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `sanguinePursuit`
 - `scornfulDead`
 - `selfCare`
-- `selflessHeal`
 - `shadowArrow`
 - `shadowPursuit`
 - `shatteringPursuit`
@@ -269,7 +264,6 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `widePursuit`
 - `wildFang`
 - `wildKick`
-- `windArrow`
 - `wolfPack`
 
 ## Unused Skills (Defined but Not Referenced)
@@ -282,7 +276,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **14 unused activation windows:**
+⚠️ **13 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
@@ -294,7 +288,6 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `afterEnemyGuards`
 - `afterEnemyHeals`
 - `afterFlyingAllyAttacksActive`
-- `afterHealed`
 - `afterReceivingAllyPassive`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
@@ -440,7 +433,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `mirrorWeakness`
 - `mountingCharge`
 - `mysticArrow`
-- `mysticConferralArcher`
+- `mysticConferral`
 - `mysticShield`
 - `naturesWrath`
 - `nightVision`
@@ -732,7 +725,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (82)
+### Active Skills Defined (85)
 
 - `activeSteal`
 - `aerialSmite`
@@ -763,6 +756,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `honedSpear`
 - `iceCoffin`
 - `icebolt`
+- `icicleArrow`
 - `icicleDart`
 - `impale`
 - `ironCrusher`
@@ -779,6 +773,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `meteorSlash`
 - `mirageStab`
 - `mountingCharge`
+- `mysticConferral`
 - `naturesWrath`
 - `offensiveCurse`
 - `passiveCurse`
@@ -816,8 +811,9 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `wideBreaker`
 - `wideSmash`
 - `wildRush`
+- `windArrow`
 
-### Passive Skills Defined (64)
+### Passive Skills Defined (67)
 
 - `activeGift`
 - `aerialSnipe`
@@ -864,8 +860,10 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `partingBlow`
 - `partingResurrection`
 - `provoke`
+- `pureField`
 - `pursuit`
 - `quickCast`
+- `quickCure`
 - `quickCurse`
 - `quickGuard`
 - `quickHeal`
@@ -876,6 +874,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `rowBarrier`
 - `rowCover`
 - `sanguineArts`
+- `selflessHeal`
 - `sneakingEdge`
 - `sylphicBarrier`
 - `vengeance`
@@ -886,7 +885,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (25)
+### Referenced in Passive Skills (26)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
@@ -898,6 +897,7 @@ _Generated: 2025-10-23T23:29:55.080Z_
 - `afterCavalryAllyAttacksActive`
 - `afterEnemyAttacksActive`
 - `afterEvade`
+- `afterHealed`
 - `afterUserDebuff`
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`

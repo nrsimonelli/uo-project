@@ -40,6 +40,8 @@ export type ExtraStats =
   | 'Faeries'
   | 'Taunt'
   | 'Evade'
+  | 'SurviveLethal'
+  | 'DebuffImmunity'
 export type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string

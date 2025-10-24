@@ -2828,6 +2828,85 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'windArrow',
+    type: 'active',
+    name: 'Wind Arrow',
+    description: 'Attack a single enemy. Inflicts Evasion -50.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+          magical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'EVA',
+        value: -50,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'mysticConferral',
+    type: 'active',
+    name: 'Mystic Conferral',
+    description: "Add Magic damage (50 potency) to an ally's attacks.",
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Conferral',
+        potency: 50,
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'icicleArrow',
+    type: 'active',
+    name: 'Icicle Arrow',
+    description: 'Attack two enemies. Inflicts Freeze.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Two',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+          magical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

@@ -591,7 +591,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     movementType: 'Infantry',
     skills: [
       { skillId: 'windArrow', level: 1, skillType: 'active' },
-      { skillId: 'mysticConferralArcher', level: 20, skillType: 'active' },
+      { skillId: 'mysticConferral', level: 20, skillType: 'active' },
       { skillId: 'icicleArrow', level: 30, skillType: 'active' },
       { skillId: 'quickCure', level: 1, skillType: 'passive' },
       { skillId: 'selflessHeal', level: 15, skillType: 'passive' },
