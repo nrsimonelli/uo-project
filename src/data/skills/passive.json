@@ -1941,5 +1941,69 @@
         "amount": 80
       }
     ]
+  },
+  {
+    "id": "restore",
+    "type": "passive",
+    "name": "Restore",
+    "description": "Activates after an ally uses a passive skill. Grants an ally +1 PP.",
+    "pp": 1,
+    "activationWindow": "afterAllyPassiveSkill",
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "id": "quickDispel",
+    "type": "passive",
+    "name": "Quick Dispel",
+    "description": "Activates after an enemy is buffed. Remove all buffs from a single enemy.",
+    "pp": 1,
+    "activationWindow": "afterEnemyBuff",
+    "skillCategories": ["Sabotage"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "circleBarrier",
+    "type": "passive",
+    "name": "Circle Barrier",
+    "description": "Activates before an ally is attacked. Reduce damage taken by all allies by 25% for one attack.",
+    "pp": 2,
+    "activationWindow": "beforeAllyAttacked",
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "DmgReductionPercent",
+        "value": 25,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      }
+    ]
   }
 ]

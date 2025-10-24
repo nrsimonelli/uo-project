@@ -150,7 +150,7 @@ export interface SacrificeEffect {
 
 export interface CleanseEffect {
   kind: 'Cleanse'
-  target: 'Debuffs' | 'Afflictions' | AfflictionType
+  target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType
   applyTo?: 'User' | 'Target'
   conditions?: Condition[] | readonly Condition[]
 }

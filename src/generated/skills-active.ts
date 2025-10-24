@@ -3269,6 +3269,107 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'auroraVeil',
+    type: 'active',
+    name: 'Aurora Veil',
+    description:
+      'Grants HP regeneration to a row of allies. Grants targets +50% Mag. Defense.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MDEF',
+        value: 50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'OnActiveHealPercent',
+        value: 25,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'nightVision',
+    type: 'active',
+    name: 'Night Vision',
+    description:
+      "Grants a row of allies +50 Accuracy. At Night, makes the targets' next attack a Truestrike.",
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'ACC',
+        value: 50,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        duration: 'UntilNextAttack',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'extraHeal',
+    type: 'active',
+    name: 'Extra heal',
+    description:
+      'Restore moderate HP to an ally. Grants HP regeneration and +30 Initiative.',
+    ap: 2,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitCount: 1,
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 30,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'OnActiveHealPercent',
+        value: 25,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

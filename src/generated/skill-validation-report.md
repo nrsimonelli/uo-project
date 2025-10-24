@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-24T21:01:30.009Z_
+_Generated: 2025-10-24T23:28:02.103Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 94
-- **Passive Skills Defined**: 76
-- **Total Skills Defined**: 170
-- **Activation Windows Referenced**: 28
+- **Active Skills Defined**: 97
+- **Passive Skills Defined**: 79
+- **Total Skills Defined**: 176
+- **Activation Windows Referenced**: 30
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **230 missing skills:**
+❌ **224 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -32,7 +32,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `artenieStrike`
 - `assassinsNail`
 - `astralBlade`
-- `auroraVeil`
 - `banishingPursuit`
 - `banishingSmite`
 - `banishingStab`
@@ -50,7 +49,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `cavalrySlayer`
 - `celestialLight`
 - `checkmate`
-- `circleBarrier`
 - `circleHeal`
 - `counter`
 - `crush`
@@ -84,7 +82,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `enduringGuard`
 - `evilCover`
 - `execution`
-- `extraHeal`
 - `eyeOfTheWarriorPrincess`
 - `faerieHeal`
 - `fireBurst`
@@ -148,7 +145,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `mirrorWeakness`
 - `mysticArrow`
 - `mysticShield`
-- `nightVision`
 - `nimbleFighter`
 - `nocturnalGuard`
 - `nocturnalImpetus`
@@ -185,7 +181,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `quickAction`
 - `quickBarrier`
 - `quickCover`
-- `quickDispel`
 - `quickImpetus`
 - `radiantCover`
 - `radiantHeal`
@@ -197,7 +192,6 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `reincarnation`
 - `reinforce`
 - `relicHeal`
-- `restore`
 - `resurrection`
 - `rowResistance`
 - `royalGuard`
@@ -258,13 +252,11 @@ _Generated: 2025-10-24T21:01:30.009Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **11 unused activation windows:**
+⚠️ **9 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
-- `afterAllyPassiveSkill`
 - `afterBeingAttacked`
-- `afterEnemyBuff`
 - `afterEnemyGuards`
 - `afterEnemyHeals`
 - `afterFlyingAllyAttacksActive`
@@ -705,12 +697,13 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (94)
+### Active Skills Defined (97)
 
 - `activeSteal`
 - `aerialSmite`
 - `assaultingBlow`
 - `assaultingLance`
+- `auroraVeil`
 - `bastardsCross`
 - `bearCrush`
 - `brandish`
@@ -724,6 +717,7 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `dualShot`
 - `earthshaker`
 - `elfslayer`
+- `extraHeal`
 - `fatalDive`
 - `finishingStab`
 - `fireBreath`
@@ -759,6 +753,7 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `mountingCharge`
 - `mysticConferral`
 - `naturesWrath`
+- `nightVision`
 - `offensiveCurse`
 - `passiveCurse`
 - `passiveHold`
@@ -802,7 +797,7 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (76)
+### Passive Skills Defined (79)
 
 - `activeGift`
 - `aerialSnipe`
@@ -815,6 +810,7 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `bullForce`
 - `cavalierCall`
 - `chargedImpetus`
+- `circleBarrier`
 - `concentrate`
 - `cursedSwamp`
 - `deflect`
@@ -861,12 +857,14 @@ _Generated: 2025-10-24T21:01:30.009Z_
 - `quickCast`
 - `quickCure`
 - `quickCurse`
+- `quickDispel`
 - `quickGuard`
 - `quickHeal`
 - `quickReload`
 - `rapidOrder`
 - `refresh`
 - `removeWeakness`
+- `restore`
 - `rowBarrier`
 - `rowCover`
 - `sanguineArts`
@@ -883,18 +881,20 @@ _Generated: 2025-10-24T21:01:30.009Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (28)
+### Referenced in Passive Skills (30)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
 - `afterAllyDebuffed`
 - `afterAllyHit`
 - `afterAllyMagicAttacksActive`
+- `afterAllyPassiveSkill`
 - `afterAttacking`
 - `afterBeingHit`
 - `afterBeingHitPhys`
 - `afterCavalryAllyAttacksActive`
 - `afterEnemyAttacksActive`
+- `afterEnemyBuff`
 - `afterEnemyDebuff`
 - `afterEvade`
 - `afterHealed`
