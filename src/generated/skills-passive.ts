@@ -2061,7 +2061,7 @@ export const PassiveSkills = [
       "Activates at the end of a battle. Attacks a single enemy. Deals damage equal to 80% of the users's HP. (This attack cannot be a critical)",
     pp: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable'],
+    skillFlags: ['Unguardable', 'NoCrit'],
     activationWindow: 'endOfBattle',
     targeting: {
       group: 'Enemy',
@@ -2073,6 +2073,11 @@ export const PassiveSkills = [
         potency: {},
         hitRate: 100,
         hitCount: 1,
+      },
+      {
+        kind: 'OwnHPBasedDamageEffect',
+        type: 'percentRemaining',
+        amount: 80,
       },
     ],
   },

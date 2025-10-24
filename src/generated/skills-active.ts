@@ -2662,7 +2662,7 @@ export const ActiveSkills = [
       "Attack a column of enemies with a piercing strike. Deals damage equal to 50% of the user's HP. This attack cannot be a critical.",
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable', 'Piercing'],
+    skillFlags: ['Unguardable', 'Piercing', 'NoCrit'],
     innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
@@ -2675,7 +2675,11 @@ export const ActiveSkills = [
         hitRate: 100,
         hitCount: 1,
       },
-      {},
+      {
+        kind: 'OwnHPBasedDamageEffect',
+        type: 'percentRemaining',
+        amount: 50,
+      },
     ],
   },
   {

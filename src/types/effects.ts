@@ -16,6 +16,7 @@ export const FLAGS = [
   'Charge', // Executes on following round
   'GroundBased', // Can only hit Cavalry and Infantry
   'Piercing', // Can target back-row units even if melee (bypasses front-row blocking)
+  'NoCrit',
 ] as const
 export type Flag = (typeof FLAGS)[number]
 
@@ -24,7 +25,6 @@ export interface DamageEffect {
   potency: { physical?: number; magical?: number }
   hitRate: number | 'True'
   hitCount: number
-  flags?: Flag[] | readonly Flag[]
   conditions?: Condition[] | readonly Condition[]
 }
 export interface GrantFlagEffect {
@@ -34,6 +34,7 @@ export interface GrantFlagEffect {
   applyTo?: 'Target' | 'User'
   conditions?: Condition[] | readonly Condition[]
 }
+
 export interface IgnoreDefenseEffect {
   kind: 'IgnoreDefense'
   fraction: number
@@ -178,6 +179,13 @@ export interface ResurrectEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface OwnHPBasedDamageEffect {
+  kind: 'OwnHPBasedDamage'
+  type: 'percentRemaining' | 'percentMissing'
+  amount: number
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -200,3 +208,4 @@ export type Effect =
   | ResurrectEffect
   | DebuffAmplificationEffect
   | ConferralEffect
+  | OwnHPBasedDamageEffect

@@ -107,7 +107,11 @@ export interface EffectProcessingResult {
     value: number
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
-    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+    duration?:
+      | 'UntilNextAction'
+      | 'UntilNextAttack'
+      | 'UntilAttacked'
+      | 'UntilDebuffed'
     skillId: string
     stacks: boolean
   }>
@@ -116,7 +120,11 @@ export interface EffectProcessingResult {
     value: number
     scaling: 'flat' | 'percent'
     target: 'User' | 'Target'
-    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+    duration?:
+      | 'UntilNextAction'
+      | 'UntilNextAttack'
+      | 'UntilAttacked'
+      | 'UntilDebuffed'
     skillId: string
     stacks: boolean
   }>
@@ -274,6 +282,27 @@ export const processEffects = (
 
     if (effect.kind === 'Evade') {
       // Evade is processed in passive skill system
+      return
+    }
+
+    if (effect.kind === 'Cleanse') {
+      // TODO: Implementation
+      return
+    }
+    if (effect.kind === 'LifeSteal') {
+      // TODO: Implementation
+      return
+    }
+    if (effect.kind === 'OwnHPBasedDamage') {
+      // TODO: Implementation
+      return
+    }
+    if (effect.kind === 'Resurrect') {
+      // TODO: Implementation
+      return
+    }
+    if (effect.kind === 'Sacrifice') {
+      // TODO: Implementation
       return
     }
 
