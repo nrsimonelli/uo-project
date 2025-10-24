@@ -556,7 +556,7 @@ export const PassiveSkills = [
     name: 'Bulk Up',
     description: 'Activates after being hit by an attack. Recover 40% HP.',
     pp: 1,
-    skillCategories: ['Utility'],
+    skillCategories: ['Utility', 'Heal'],
     activationWindow: 'afterBeingHit',
     targeting: {
       group: 'Self',
@@ -1223,7 +1223,7 @@ export const PassiveSkills = [
     description:
       'Activates before being attacked. Heal self for minor HP recovery. Grants user a buff to endure one lethal blow.',
     pp: 1,
-    skillCategories: ['Utility'],
+    skillCategories: ['Utility', 'Heal'],
     activationWindow: 'beforeBeingAttacked',
     targeting: {
       group: 'Self',
@@ -1908,6 +1908,171 @@ export const PassiveSkills = [
             value: true,
           },
         ],
+      },
+    ],
+  },
+  {
+    id: 'nocturnalEvade',
+    type: 'passive',
+    name: 'Nocturnal Evade',
+    description:
+      'Activates before being attacked. Evade a single hit. Grants the user +1 PP at Night.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingAttacked',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'shadowPursuit',
+    type: 'passive',
+    name: 'Shadow Pursuit',
+    description:
+      'Activates after an ally attacks (Active). Follow-up attack a single enemy. Inflicts Blindness.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterAllyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Blind',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'weaknessHunter',
+    type: 'passive',
+    name: 'Weakness Hunter',
+    description:
+      "Activates after an enemy is debuffed. Attack a single enemy. Ignores 50% of the target's Defense.",
+    pp: 2,
+    skillCategories: ['Damage', 'Pursuit'],
+    skillFlags: ['Unguardable'],
+    activationWindow: 'afterEnemyDebuff',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+      },
+    ],
+  },
+  {
+    id: 'heavyGuard',
+    type: 'passive',
+    name: 'Heavy Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a heavy guard.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'heavy',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'nocturnalRest',
+    type: 'passive',
+    name: 'Nocturnal Rest',
+    description:
+      'Activates after attacking. Recover 30% HP. Recovered HP doubles at Night.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'afterAttacking',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'HealPercent',
+        value: 30,
+      },
+      {
+        kind: 'HealPercent',
+        value: 30,
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'lifeBlow',
+    type: 'passive',
+    name: 'Life Blow',
+    description:
+      "Activates at the end of a battle. Attacks a single enemy. Deals damage equal to 80% of the users's HP. (This attack cannot be a critical)",
+    pp: 1,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable'],
+    activationWindow: 'endOfBattle',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {},
+        hitRate: 100,
+        hitCount: 1,
       },
     ],
   },

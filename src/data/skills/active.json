@@ -2779,5 +2779,197 @@
         "conditions": [{}]
       }
     ]
+  },
+  {
+    "id": "piercingLance",
+    "type": "active",
+    "name": "Piercing Lance",
+    "description": "Attack a single of enemy. Inflicts Guard Seal.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "passiveHold",
+    "type": "active",
+    "name": "Passive Hold",
+    "description": "Attack a single of enemy. Inflicts Passive Seal.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "PassiveSeal",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "venomThrust",
+    "type": "active",
+    "name": "Venom Thrust",
+    "description": "Attack a column of enemies with a piercing strike. Inflicts Poison and debuffs target HP recovery by -50%. +50 potency vs Poisoned targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "skillFlags": ["Piercing"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "HPRecovery",
+        "value": -50,
+        "scaling": "percent",
+        "appplyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "bearCrush",
+    "type": "active",
+    "name": "Bear Crush",
+    "description": "Attack a single enemy. Inflicts Stun.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "skillFlags": ["Unguardable"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "roundSwing",
+    "type": "active",
+    "name": "Round Swing",
+    "description": "Attack a row enemies. Damage increases the more HP the user has (Maximum increase +50.)",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "skillFlags": ["Unguardable"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 75,
+        "hitCount": 3
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 50 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "GreaterThan",
+            "value": 80,
+            "percent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "earthshaker",
+    "type": "active",
+    "name": "Earthshaker",
+    "description": "Attack all enemies. Damage increases the less HP the user has (Maximum increase +75.)",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "skillFlags": ["Unguardable", "GroundBased"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 75 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": { "physical": 75 },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "LessThan",
+            "value": 20,
+            "percent": true
+          }
+        ]
+      }
+    ]
   }
 ]

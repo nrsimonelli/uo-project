@@ -42,6 +42,7 @@ export type ExtraStats =
   | 'Evade'
   | 'SurviveLethal'
   | 'DebuffImmunity'
+  | 'HPRecovery'
 export type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string
