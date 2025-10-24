@@ -49,6 +49,8 @@
 - [x] Create **tactics system** with modifiers
 - [x] Build **skill slot manager** for equipping/unequipping
 - [x] Add **skill type filtering** (Active/Passive)
+- [ ] Fatal Dive and Desperation Damage Calculations
+- [ ] Scaling for Bastards Cross, Decimate, WildFang, Berserker, and Werebear scaling skills
 
 ### Code Quality & Development ✅
 

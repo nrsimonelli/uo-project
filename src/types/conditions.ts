@@ -81,3 +81,14 @@ export type Condition =
       comparator: EqualityComparator
       value: boolean // true if first hit was guarded, false if not
     }
+  | {
+      kind: 'UnitSize'
+      target: Target
+      comparator: NumericComparator
+      value: number
+    }
+  | {
+      kind: 'IsNightCycle'
+      comparator: EqualityComparator
+      value: boolean
+    }

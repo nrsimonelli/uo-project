@@ -753,7 +753,7 @@ export const PassiveSkills = [
         potency: {
           physical: 75,
         },
-        hitRate: 90,
+        hitRate: 100,
         hitCount: 1,
       },
     ],
@@ -1813,6 +1813,101 @@ export const PassiveSkills = [
         value: 1,
         scaling: 'flat',
         duration: 'UntilDebuffed',
+      },
+    ],
+  },
+  {
+    id: 'nocturnalStrike',
+    type: 'passive',
+    name: 'Nocturnal Strike',
+    description:
+      'Activates at the start of a battle. Attack a single enemy with a first strike. Grants the user +1 PP at Night.',
+    pp: 1,
+    skillCategories: ['Damage'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'bestralHowl',
+    type: 'passive',
+    name: 'Bestral Howl',
+    description:
+      "Activates before attacking with an active skill. Grants allies in the user's row +15% Phys. Attack.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 15,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'killingPursuit',
+    type: 'passive',
+    name: 'Killing Pursuit',
+    description:
+      'Activates after an ally attacks (Active). Follow-up attack a single enemy. Grants +1 AP if the target is defeated.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterAllyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        conditions: [
+          {
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
       },
     ],
   },

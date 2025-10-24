@@ -58,6 +58,12 @@ export const evaluateCondition = (
   if (condition.kind === 'FirstHitGuarded') {
     return evaluateFirstHitGuardedCondition(condition, context)
   }
+  if (condition.kind === 'IsNightCycle') {
+    return evaluateNightCycleCondition(condition, context)
+  }
+  if (condition.kind === 'UnitSize') {
+    return evaluateUnitSizeCondition(condition, context)
+  }
   // This case should be unreachable since we've handled all condition kinds
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   console.warn(`Unknown condition kind: ${(condition as any).kind}`)
@@ -283,6 +289,25 @@ const evaluateFirstHitGuardedCondition = (
     condition.comparator,
     condition.value
   )
+}
+
+// TODO: Day/Night Cycle
+const evaluateNightCycleCondition = (
+  condition: Extract<Condition, { kind: 'IsNightCycle' }>,
+  context: ConditionEvaluationContext
+) => {
+  // TODO need to get access to "isNight" from BattlefieldState...
+  const isNight = true
+  return applyEqualityComparator(isNight, condition.comparator, condition.value)
+}
+
+// TODO: number of enemies remaining (Decimate)
+const evaluateUnitSizeCondition = (
+  condition: Extract<Condition, { kind: 'UnitSize' }>,
+  context: ConditionEvaluationContext
+) => {
+  // TODO target -> num living members
+  return applyNumericComparator(_, condition.value, condition.comparator)
 }
 
 /**

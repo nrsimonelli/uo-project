@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-24T01:01:33.902Z_
+_Generated: 2025-10-24T04:07:15.923Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 85
-- **Passive Skills Defined**: 67
-- **Total Skills Defined**: 152
+- **Active Skills Defined**: 88
+- **Passive Skills Defined**: 70
+- **Total Skills Defined**: 158
 - **Activation Windows Referenced**: 26
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **248 missing skills:**
+❌ **242 missing skills:**
 
 - `accelerate`
 - `activeHeal`
@@ -40,7 +40,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `bearsDen`
 - `beastslayer`
 - `bestralGuard`
-- `bestralHowl`
 - `blindCure`
 - `blizzard`
 - `boonOfTheFaeries`
@@ -67,7 +66,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `dawnHorn`
 - `deadlyRush`
 - `deathSpin`
-- `decimate`
 - `defensiveOrder`
 - `delayingShot`
 - `desperation`
@@ -91,7 +89,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `extraHeal`
 - `eyeOfTheWarriorPrincess`
 - `faerieHeal`
-- `finishingStab`
 - `fireBurst`
 - `fireCure`
 - `fireCurse`
@@ -143,7 +140,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `inspiration`
 - `invincible`
 - `ironVeil`
-- `killingPursuit`
 - `lifeBlow`
 - `lifeshare`
 - `maelstrom`
@@ -162,7 +158,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `nocturnalGuard`
 - `nocturnalImpetus`
 - `nocturnalRest`
-- `nocturnalStrike`
 - `offensiveOrder`
 - `omegaShatter`
 - `ominousWall`
@@ -262,7 +257,6 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `warCry`
 - `weaknessHunter`
 - `widePursuit`
-- `wildFang`
 - `wildKick`
 - `wolfPack`
 
@@ -725,7 +719,7 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (85)
+### Active Skills Defined (88)
 
 - `activeSteal`
 - `aerialSmite`
@@ -735,6 +729,7 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `brandish`
 - `compoundingCurse`
 - `darkFlame`
+- `decimate`
 - `defender`
 - `defensiveCurse`
 - `divingThrust`
@@ -742,6 +737,7 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `dualShot`
 - `elfslayer`
 - `fatalDive`
+- `finishingStab`
 - `fireBreath`
 - `fireball`
 - `flameJavelin`
@@ -810,16 +806,18 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `wardingSlash`
 - `wideBreaker`
 - `wideSmash`
+- `wildFang`
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (67)
+### Passive Skills Defined (70)
 
 - `activeGift`
 - `aerialSnipe`
 - `aidCover`
 - `arrowCover`
 - `berserk`
+- `bestralHowl`
 - `bindingGuard`
 - `bulkUp`
 - `bullForce`
@@ -847,6 +845,7 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `heavyCover`
 - `holyGuard`
 - `keenCall`
+- `killingPursuit`
 - `knightsPursuit`
 - `lifesaver`
 - `luminousCover`
@@ -856,6 +855,7 @@ _Generated: 2025-10-24T01:01:33.902Z_
 - `magicPursuit`
 - `medicalAid`
 - `nobleGuard`
+- `nocturnalStrike`
 - `parry`
 - `partingBlow`
 - `partingResurrection`

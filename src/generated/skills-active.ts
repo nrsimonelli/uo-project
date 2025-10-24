@@ -2907,6 +2907,151 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'finishingStab',
+    type: 'active',
+    name: 'Finishing Stab',
+    description:
+      'Attack a single enemy. Grants the user +50% Phys. Attack if the target is defeated.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 50,
+        scaling: 'percent',
+        conditions: [
+          {
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'decimate',
+    type: 'active',
+    name: 'Decimate',
+    description:
+      'Attack a single enemy. Potency increases the fewer enemies there are. (Maximum increase +100.)',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Enemy',
+            comparator: 'LessOrEqual',
+            value: 4,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Enemy',
+            comparator: 'LessOrEqual',
+            value: 3,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Enemy',
+            comparator: 'LessOrEqual',
+            value: 2,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 25,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+            value: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'wildFang',
+    type: 'active',
+    name: 'Wild Fang',
+    description:
+      'Attack a row of enemies. Potency increases the less HP a target has. (Maximum increase +50.)',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 20,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 50,
+        },
+        conditions: [{}],
+      },
+    ],
+  },
 ] as const
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']
