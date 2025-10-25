@@ -5,6 +5,16 @@ interface EquipmentBadgesProps {
   equipment: EquipmentSlotType[]
 }
 
+const BADGE_COLOR_MAP = {
+  Lance: 'info',
+  Sword: 'success',
+  Bow: 'outline',
+  Axe: 'physical',
+  Staff: 'magical',
+  Greatshield: 'secondary',
+  Shield: 'secondary',
+} as const
+
 export function EquipmentBadges({ equipment }: EquipmentBadgesProps) {
   const nonAccessorySlots = equipment.filter(slot => slot !== 'Accessory')
   // filter out doubles
@@ -15,7 +25,7 @@ export function EquipmentBadges({ equipment }: EquipmentBadgesProps) {
   return (
     <div className="flex flex-wrap gap-1">
       {uniqueNonAccessorySlots.map((slot, index) => (
-        <Badge key={index} variant="secondary" className="text-xs">
+        <Badge key={index} variant={BADGE_COLOR_MAP[slot]} className="text-xs">
           {slot}
         </Badge>
       ))}

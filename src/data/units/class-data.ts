@@ -882,7 +882,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
   [ALL_CLASSES.DARK_MARQUESS_LANCE]: {
     id: ALL_CLASSES.DARK_MARQUESS_LANCE,
     allowedSlots: ['Lance', 'Greatshield', 'Accessory', 'Accessory'],
-    race: null,
+    race: 'Bestral',
     trait: null,
     movementType: 'Infantry',
     skills: [

@@ -157,15 +157,6 @@
     @apply bg-background text-foreground;
   }
 
-  @keyframes flash {
-    0% {
-      color: var(--chart-2);
-    }
-    100% {
-      color: inherit;
-    }
-  }
-
   :root {
     --chart-1: oklch(0.627 0.225 160.1);
     --chart-2: oklch(0.696 0.17 162.48);

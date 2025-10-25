@@ -204,17 +204,15 @@ export function UnitDataTable() {
                   </TableCell>
                   {filteredStatKeys.map(statKey => {
                     const value = row[statKey as keyof ClassTableRow]
+                    const isAcc = statKey === 'ACC'
                     const isBestralStat =
                       row.race === 'Bestral' && statKey !== 'HP'
-
-                    const isAcc = statKey === 'ACC'
 
                     return (
                       <TableCell
                         key={`${row.id}-${statKey}`}
                         className={cn(
                           'text-foreground',
-                          isBestralStat && 'transition-colors duration-300',
                           isBestralStat && isNighttime && 'text-primary'
                         )}
                       >
