@@ -51,6 +51,7 @@
 - [x] Add **skill type filtering** (Active/Passive)
 - [ ] Fatal Dive, Life Blow, and Desperation Damage Calculations
 - [ ] Scaling for Bastards Cross, WildFang, Berserker, and Werebear scaling skills
+- [ ] Custom effect for Discharge
 
 ### Code Quality & Development ✅
 

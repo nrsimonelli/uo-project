@@ -3071,5 +3071,235 @@
         "applyTo": "Target"
       }
     ]
+  },
+  {
+    "id": "spiralSword",
+    "type": "active",
+    "name": "Spiral Sword",
+    "description": "Attack a single enemy. Inflicts Evasion -20. Graths the user +20 Evasion.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "EVA",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "User"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "EVA",
+        "value": -20,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "shieldSmite",
+    "type": "active",
+    "name": "Shield Smite",
+    "description": "Attack a single enemy. Inflicts Defense -20%. Graths the user +20% Defense.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "Defense",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "User"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "Defense",
+        "value": -20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "honedSlash",
+    "type": "active",
+    "name": "Honed Slash",
+    "description": "Attack a single enemy. Becomes a truestrike if the user is buffed.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 70 },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueStrike",
+        "conditions": [
+          {
+            "kind": "AnyBuff",
+            "target": "Self",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "delayingShot",
+    "type": "active",
+    "name": "Delaying Shot",
+    "description": "Attack a single enemy. Inflicts Initiative -20.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 25 },
+        "hitRate": 100,
+        "hitCount": 4
+      },
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -20,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "saintsShot",
+    "type": "active",
+    "name": "Saint's Shot",
+    "description": "Attack a single enemy. Inflicts -1 PP. Additional -1 PP to ground-based targets.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 80 },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Infantry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "photonArrow",
+    "type": "active",
+    "name": "Photon Arrow",
+    "description": "Attack two enemies. Inflicts Physical Defense -50%. Inflicts Guard Seal during the Day.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": "80",
+          "hitRate": 100,
+          "hitCount": 1
+        }
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -50,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "IsNightCycle",
+            "comparator": "EqualTo",
+            "value": false
+          }
+        ]
+      }
+    ]
   }
 ]

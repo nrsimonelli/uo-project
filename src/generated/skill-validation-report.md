@@ -1,29 +1,27 @@
 # Skill Validation Report
 
-_Generated: 2025-10-24T23:28:02.103Z_
+_Generated: 2025-10-25T01:54:03.141Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 97
-- **Passive Skills Defined**: 79
-- **Total Skills Defined**: 176
-- **Activation Windows Referenced**: 30
+- **Active Skills Defined**: 103
+- **Passive Skills Defined**: 85
+- **Total Skills Defined**: 188
+- **Activation Windows Referenced**: 31
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **224 missing skills:**
+❌ **212 missing skills:**
 
-- `accelerate`
 - `activeHeal`
 - `activeShatter`
 - `advanceCover`
 - `aerialAlignment`
 - `aerialGuard`
-- `aerialPursuit`
 - `aerialWing`
 - `aquaVenom`
 - `armorShatter`
@@ -64,11 +62,8 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `deadlyRush`
 - `deathSpin`
 - `defensiveOrder`
-- `delayingShot`
 - `desperation`
-- `discharge`
 - `dispelAll`
-- `diurnalGuard`
 - `diurnalImpetus`
 - `divineBlessing`
 - `divineCross`
@@ -124,7 +119,6 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `holyLight`
 - `holySmite`
 - `honedHealing`
-- `honedSlash`
 - `icyBlow`
 - `icyCrush`
 - `impetusStance`
@@ -164,7 +158,6 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `phantomCounter`
 - `phantomStep`
 - `phantomVeil`
-- `photonArrow`
 - `poisonArrow`
 - `poisonBurst`
 - `poisonCure`
@@ -198,7 +191,6 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `sacredCure`
 - `sacrifice`
 - `saintsBarrier`
-- `saintsShot`
 - `sandstorm`
 - `sanguineConferral`
 - `sanguineDarts`
@@ -207,8 +199,6 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `selfCare`
 - `shadowArrow`
 - `shatteringPursuit`
-- `shieldSmite`
-- `shiningLight`
 - `skywardThrust`
 - `slice`
 - `snipingOrder`
@@ -220,12 +210,10 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `spikedBlow`
 - `spikedBolt`
 - `spinningEdge`
-- `spiralSword`
 - `strengthShatter`
 - `strengthShatterII`
 - `stunCure`
 - `sylphicWind`
-- `tailwind`
 - `thunderousConferral`
 - `toughness`
 - `trinityRain`
@@ -252,14 +240,13 @@ _Generated: 2025-10-24T23:28:02.103Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **9 unused activation windows:**
+⚠️ **8 unused activation windows:**
 
 - `afterAllyAttackedActive`
 - `afterAllyHealed`
 - `afterBeingAttacked`
 - `afterEnemyGuards`
 - `afterEnemyHeals`
-- `afterFlyingAllyAttacksActive`
 - `afterReceivingAllyPassive`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
@@ -697,7 +684,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (97)
+### Active Skills Defined (103)
 
 - `activeSteal`
 - `aerialSmite`
@@ -712,6 +699,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `decimate`
 - `defender`
 - `defensiveCurse`
+- `delayingShot`
 - `divingThrust`
 - `dragoonDive`
 - `dualShot`
@@ -731,6 +719,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `heavySlash`
 - `heavySmash`
 - `highSwing`
+- `honedSlash`
 - `honedSpear`
 - `iceCoffin`
 - `icebolt`
@@ -760,6 +749,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `passiveShatter`
 - `passiveSteal`
 - `phantomAttack`
+- `photonArrow`
 - `piercingLance`
 - `pileThrust`
 - `powerBolt`
@@ -772,12 +762,15 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `rowSmash`
 - `sacredHeal`
 - `saintsBlade`
+- `saintsShot`
 - `sanguineAttack`
 - `shadowThrust`
 - `shadowbite`
 - `shieldBash`
+- `shieldSmite`
 - `singleShot`
 - `smash`
+- `spiralSword`
 - `sting`
 - `tempestDive`
 - `thunderousStrike`
@@ -797,9 +790,11 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (79)
+### Passive Skills Defined (85)
 
+- `accelerate`
 - `activeGift`
+- `aerialPursuit`
 - `aerialSnipe`
 - `aidCover`
 - `arrowCover`
@@ -815,6 +810,8 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `cursedSwamp`
 - `deflect`
 - `demonicPact`
+- `discharge`
+- `diurnalGuard`
 - `dragonsRoar`
 - `eagleEye`
 - `enrage`
@@ -870,8 +867,10 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `sanguineArts`
 - `selflessHeal`
 - `shadowPursuit`
+- `shiningLight`
 - `sneakingEdge`
 - `sylphicBarrier`
+- `tailwind`
 - `vengeance`
 - `vengefulGuard`
 - `warHorn`
@@ -881,7 +880,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (30)
+### Referenced in Passive Skills (31)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttacksActive`
@@ -897,6 +896,7 @@ _Generated: 2025-10-24T23:28:02.103Z_
 - `afterEnemyBuff`
 - `afterEnemyDebuff`
 - `afterEvade`
+- `afterFlyingAllyAttacksActive`
 - `afterHealed`
 - `afterUserDebuff`
 - `afterUsingActiveSkill`

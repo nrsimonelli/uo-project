@@ -1782,7 +1782,6 @@
       }
     ]
   },
-
   {
     "id": "nocturnalEvade",
     "type": "passive",
@@ -1814,7 +1813,6 @@
       }
     ]
   },
-
   {
     "id": "shadowPursuit",
     "type": "passive",
@@ -2003,6 +2001,168 @@
         "scaling": "percent",
         "applyTo": "Target",
         "duration": "UntilAttacked"
+      }
+    ]
+  },
+  {
+    "id": "accelerate",
+    "type": "passive",
+    "name": "Accelerate",
+    "description": "Activates after an enemy attacks with an active skill. Grants the user +20 Initiative and +30 Accuracy. (Effect stacks.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      },
+      {
+        "kind": "Buff",
+        "stat": "ACC",
+        "value": 30,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
+  },
+  {
+    "id": "diurnalGuard",
+    "type": "passive",
+    "name": "Diurnal Guard",
+    "description": "Activates before being hit by a physical attack. Block enemy attack with medium guard. Grants the user +1 PP during the day.",
+    "pp": 1,
+    "skillCategories": ["Guard"],
+    "activationWindow": "beforeBeingHitPhys",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Guard",
+        "guard": "medium",
+        "applyTo": "User"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "conditions": [
+          {
+            "kind": "IsNightCycle",
+            "comparator": "EqualTo",
+            "value": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "discharge",
+    "type": "passive",
+    "name": "Discharge",
+    "description": "Activates before attacking with an active skill. Consume all of the user's buffs and increase attack power for one attack. (Number of consumed buffs x 25%)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAttackingActive",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [{}]
+  },
+  {
+    "id": "aerialPursuit",
+    "type": "passive",
+    "name": "Aerial Pursuit",
+    "description": "Activates after a flying ally attacks (Active). Follow-up attack a single enemy.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "innateAttackType": "Ranged",
+    "activationWindow": "afterFlyingAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": { "physical": 100 },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "tailwind",
+    "type": "passive",
+    "name": "Tailwind",
+    "description": "Activates after using an active skill. Grants a row of allies +10 Initiative. Effect is doubled for flying targets.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterUsingActiveSkill",
+    "targeting": { "group": "Ally", "pattern": "Row" },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 10,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "stacks": true,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "combatantType": "Flying",
+            "comparator": "NotEqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "stacks": true,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shiningLight",
+    "type": "passive",
+    "name": "Shining Light",
+    "description": "Activates before an enemy uses an attack skill. Inflicts Blindness on a row of enemies.",
+    "pp": 2,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "beforeEnemyAttacks",
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Affliction",
+        "affliction": "Blind",
+        "applyTo": "Target"
       }
     ]
   }
