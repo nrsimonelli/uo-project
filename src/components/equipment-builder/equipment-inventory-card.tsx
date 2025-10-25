@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { STATS } from '@/data/constants'
@@ -94,14 +93,14 @@ export function EquipmentInventoryCard({
   }
 
   return (
-    <div className="flex items-center gap-4 border rounded-lg p-3 hover:bg-accent/50 transition-colors">
+    <div className="flex items-center gap-4 p-3 transition-colors border rounded-lg hover:bg-accent/50">
       {/* Left: Icon */}
-      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center flex-shrink-0">
+      <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 rounded bg-muted">
         <Icon className="w-6 h-6" />
       </div>
 
       {/* Center: Name and Primary Stats */}
-      <div className="flex-1 flex flex-col gap-1">
+      <div className="flex flex-col flex-1 gap-1">
         <div className="font-medium">{item.name}</div>
         <div className="flex gap-3 text-sm">
           <div className="flex gap-1.5">
@@ -130,26 +129,24 @@ export function EquipmentInventoryCard({
       </div>
 
       {/* Right: Skill and Other Stats */}
-      <div className="flex flex-col gap-1 items-end text-sm">
+      <div className="flex flex-col items-end gap-1 text-sm">
         {skill && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-primary font-medium cursor-help">
-                  {skill.name}
-                </span>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <div className="space-y-1">
-                  <p className="font-medium">{skill.name}</p>
-                  <p className="text-sm">{skill.description}</p>
-                </div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="font-medium text-primary cursor-help">
+                {skill.name}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs">
+              <div className="space-y-1">
+                <p className="font-medium">{skill.name}</p>
+                <p className="text-sm">{skill.description}</p>
+              </div>
+            </TooltipContent>
+          </Tooltip>
         )}
         {(itemStats.length > 0 || secondaryStats.length > 0) && (
-          <div className="flex flex-wrap gap-1 justify-end">
+          <div className="flex flex-wrap justify-end gap-1">
             {secondaryStats.map(([statKey, statValue]) => (
               <Badge
                 key={`secondary-${statKey}`}

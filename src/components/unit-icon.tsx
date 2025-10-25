@@ -1,7 +1,6 @@
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { CLASS_DATA } from '@/data/units/class-data'
@@ -16,57 +15,53 @@ export function UnitIcon({ classKey }: UnitIconProps) {
   const classData = CLASS_DATA[classKey]
 
   return (
-    <TooltipProvider>
-      <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2">
+      <Tooltip>
         {/* Movement Type - First */}
+        <TooltipTrigger asChild>
+          <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
+            {(() => {
+              const MovementIcon = getIcon('movement', classData.movementType)
+              return MovementIcon ? <MovementIcon className="w-4 h-4" /> : null
+            })()}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{classData.movementType}</p>
+        </TooltipContent>
+      </Tooltip>
+      {/* Trait - Second */}
+      {classData.trait && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
+            <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
               {(() => {
-                const MovementIcon = getIcon('movement', classData.movementType)
-                return MovementIcon ? (
-                  <MovementIcon className="w-4 h-4" />
-                ) : null
+                const TraitIcon = getIcon('trait', classData.trait)
+                return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
               })()}
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{classData.movementType}</p>
+            <p>{classData.trait}</p>
           </TooltipContent>
         </Tooltip>
-        {/* Trait - Second */}
-        {classData.trait && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
-                {(() => {
-                  const TraitIcon = getIcon('trait', classData.trait)
-                  return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
-                })()}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{classData.trait}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-        {/* Race - Third */}
-        {classData.race && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center cursor-help">
-                {(() => {
-                  const RaceIcon = getIcon('race', classData.race)
-                  return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
-                })()}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{classData.race}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-      </div>
-    </TooltipProvider>
+      )}
+      {/* Race - Third */}
+      {classData.race && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
+              {(() => {
+                const RaceIcon = getIcon('race', classData.race)
+                return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
+              })()}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{classData.race}</p>
+          </TooltipContent>
+        </Tooltip>
+      )}
+    </div>
   )
 }

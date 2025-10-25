@@ -6,7 +6,6 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-  TooltipProvider,
 } from '@/components/ui/tooltip'
 import { SPRITES } from '@/data/sprites'
 import { ActiveSkills } from '@/generated/skills-active'
@@ -35,20 +34,20 @@ export function EquipmentItem({
   return (
     <Button
       variant="ghost"
-      className="justify-start w-full p-4 h-auto border-b border-border/50 last:border-b-0"
+      className="justify-start w-full h-auto p-4 border-b border-border/50 last:border-b-0"
       onClick={() => onSelect(item)}
       disabled={isDisabled}
     >
-      <div className="flex items-start gap-3 w-full">
-        <div className="w-10 h-10 bg-muted rounded flex items-center justify-center flex-shrink-0">
+      <div className="flex items-start w-full gap-3">
+        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 rounded bg-muted">
           <EquipmentSlotIcon
             // TODO: revisit later
             slotType={item.type as EquipmentSlotType}
             className="w-6 h-6"
           />
         </div>
-        <div className="flex flex-col items-start gap-1 w-full min-w-0">
-          <div className="flex items-center gap-2 w-full">
+        <div className="flex flex-col items-start w-full min-w-0 gap-1">
+          <div className="flex items-center w-full gap-2">
             <div className="font-medium truncate">{item.name}</div>
             <EquipmentStatusBadge
               equippedBy={equippedBy}
@@ -80,7 +79,7 @@ function EquipmentStatusBadge({
 }: EquipmentStatusBadgeProps) {
   if (isCurrentlyEquipped || isEquippedByCurrentUnitElsewhere) {
     return (
-      <Badge variant="default" className="text-xs flex-shrink-0">
+      <Badge variant="default" className="flex-shrink-0 text-xs">
         Current
       </Badge>
     )
@@ -90,7 +89,7 @@ function EquipmentStatusBadge({
     return (
       <Badge
         variant="secondary"
-        className="text-xs flex-shrink-0 flex items-center gap-1 px-2 py-1"
+        className="flex items-center flex-shrink-0 gap-1 px-2 py-1 text-xs"
       >
         <img
           src={SPRITES[equippedBy.unitClass]}
@@ -113,7 +112,7 @@ function EquipmentStats({ stats }: EquipmentStatsProps) {
   if (Object.keys(stats).length === 0) return null
 
   return (
-    <div className="text-xs text-muted-foreground flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
       {Object.entries(stats)
         .slice(0, 4)
         .filter(([, value]) => typeof value === 'number')
@@ -139,21 +138,19 @@ function EquipmentSkill({ skillId }: EquipmentSkillProps) {
     return <div className="text-xs text-primary">Skill: {skillId}</div>
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className="text-xs text-primary cursor-help">
-            Skill: {skill.name}
-          </div>
-        </TooltipTrigger>
-        <TooltipContent className="max-w-xs">
-          <div className="space-y-1">
-            <p className="font-medium">{skill.name}</p>
-            <p className="text-sm">{skill.description}</p>
-          </div>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="text-xs text-primary cursor-help">
+          Skill: {skill.name}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent className="max-w-xs">
+        <div className="space-y-1">
+          <p className="font-medium">{skill.name}</p>
+          <p className="text-sm">{skill.description}</p>
+        </div>
+      </TooltipContent>
+    </Tooltip>
   )
 }
 
@@ -182,7 +179,7 @@ function EquipmentRestrictions({
       </TooltipTrigger>
       <TooltipContent className="max-w-xs">
         <div className="text-xs">
-          <div className="font-semibold mb-1">Restricted to:</div>
+          <div className="mb-1 font-semibold">Restricted to:</div>
           {classRestrictions.join(', ')}
         </div>
       </TooltipContent>

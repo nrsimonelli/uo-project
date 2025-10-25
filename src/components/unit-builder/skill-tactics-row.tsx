@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ActiveSkills } from '@/generated/skills-active'
@@ -71,7 +70,7 @@ export function SkillTacticsRow({
         <button
           {...attributes}
           {...listeners}
-          className="p-1 text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing transition-colors"
+          className="p-1 transition-colors text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing"
           type="button"
         >
           <GripVertical className="size-4" />
@@ -84,19 +83,17 @@ export function SkillTacticsRow({
               cost={skill.type === 'active' ? skill.ap : skill.pp}
               type={skill.type}
             />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="text-sm cursor-help">{skill.name}</span>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <div className="space-y-1">
-                    <p className="font-medium">{skill.name}</p>
-                    <p className="text-sm">{skill.description}</p>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-sm cursor-help">{skill.name}</span>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <div className="space-y-1">
+                  <p className="font-medium">{skill.name}</p>
+                  <p className="text-sm">{skill.description}</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </>
         ) : (
           <span className="text-sm text-muted-foreground">Empty</span>
@@ -106,7 +103,7 @@ export function SkillTacticsRow({
             variant="ghost"
             size="sm"
             onClick={handleRemove}
-            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
+            className="absolute transition-opacity -translate-y-1/2 opacity-0 remove-btn right-1 top-1/2 size-6 text-muted-foreground hover:text-destructive"
           >
             <X className="size-3" />
           </Button>
@@ -124,7 +121,7 @@ export function SkillTacticsRow({
             variant="ghost"
             size="sm"
             onClick={() => handleRemoveCondition(0)}
-            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
+            className="absolute transition-opacity -translate-y-1/2 opacity-0 remove-btn right-1 top-1/2 size-6 text-muted-foreground hover:text-destructive"
           >
             <X className="size-3" />
           </Button>
@@ -142,7 +139,7 @@ export function SkillTacticsRow({
             variant="ghost"
             size="sm"
             onClick={() => handleRemoveCondition(1)}
-            className="remove-btn absolute right-1 top-1/2 -translate-y-1/2 size-6 text-muted-foreground hover:text-destructive opacity-0 transition-opacity"
+            className="absolute transition-opacity -translate-y-1/2 opacity-0 remove-btn right-1 top-1/2 size-6 text-muted-foreground hover:text-destructive"
           >
             <X className="size-3" />
           </Button>

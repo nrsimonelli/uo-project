@@ -65,7 +65,7 @@ export function UnitDataTable() {
   return (
     <div className="space-y-6">
       {/* Single Row: All Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Left side: Search, Filter, and Settings Controls */}
         <div className="flex items-center gap-4">
           {/* Search Input */}
@@ -124,7 +124,7 @@ export function UnitDataTable() {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg overflow-hidden">
+      <div className="overflow-hidden border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
@@ -180,7 +180,7 @@ export function UnitDataTable() {
                   className="h-32 text-center"
                 >
                   <div className="flex flex-col items-center justify-center space-y-2 text-muted-foreground">
-                    <Search className="h-8 w-8" />
+                    <Search className="w-8 h-8" />
                     <div className="text-sm font-medium">No results found</div>
                     <div className="text-xs">
                       {totalActiveFilters > 0 || searchTerm
@@ -210,11 +210,13 @@ export function UnitDataTable() {
                         key={`${row.id}-${statKey}-${isNighttime}`}
                         className={cn(
                           isBestralStat &&
-                            'transition-colors duration-900 ease-out',
-                          isBestralStat && 'animate-[flash_0.9s_ease-out]'
+                            'transition-colors duration-900 ease-out text-green-500'
                         )}
                       >
+                        {/* <Tooltip> */}
+
                         {value}
+                        {/* </Tooltip> */}
                       </TableCell>
                     )
                   })}
