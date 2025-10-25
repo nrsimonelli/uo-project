@@ -1,5 +1,7 @@
 import { Search, X } from 'lucide-react'
 
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+
 import { EquipmentBadges } from './equipment-badges'
 import { FilterPopover } from './filter-popover'
 import { NightBoostToggle } from './night-boost-toggle'
@@ -205,18 +207,27 @@ export function UnitDataTable() {
                     const isBestralStat =
                       row.race === 'Bestral' && statKey !== 'HP'
 
+                    const isAcc = statKey === 'ACC'
+
                     return (
                       <TableCell
-                        key={`${row.id}-${statKey}-${isNighttime}`}
+                        key={`${row.id}-${statKey}`}
                         className={cn(
-                          isBestralStat &&
-                            'transition-colors duration-900 ease-out text-green-500'
+                          'text-foreground',
+                          isBestralStat && 'transition-colors duration-300',
+                          isBestralStat && isNighttime && 'text-primary'
                         )}
                       >
-                        {/* <Tooltip> */}
-
-                        {value}
-                        {/* </Tooltip> */}
+                        {isNighttime ? (
+                          <Tooltip>
+                            <TooltipTrigger>{value}</TooltipTrigger>
+                            <TooltipContent>
+                              {`+${Math.round((isAcc ? Number(value) - 100 : Number(value)) * (1 / 6))}`}
+                            </TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          value
+                        )}
                       </TableCell>
                     )
                   })}
