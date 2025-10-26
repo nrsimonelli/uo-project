@@ -50,7 +50,6 @@ const calculateGrowthCorrectionA = (
   const finalGrowthCorrectionA = {
     ...initialStatData,
   }
-  console.debug('Calculating Growth Correction A', { classKey, growthType })
   const growthTypeOneCorrection = GROWTH_CORRECTION_TABLE_A[growthType[0]]
   const growthTypeTwoCorrection = GROWTH_CORRECTION_TABLE_A[growthType[1]]
   const baseRates = COMBINED_CLASS_GROWTH_TABLE[classKey]

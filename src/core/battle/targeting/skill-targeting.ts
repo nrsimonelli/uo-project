@@ -173,12 +173,14 @@ const targetingPatternHandlers = {
     if (targets.length === 0) return []
 
     // Find closest target first (this will be in the row we want to target)
-    const primaryTarget = findClosestTarget(
-      actingUnit,
-      targets,
-      skill,
-      battlefield
-    )
+    // Or do we actually just want the first target?...
+    const primaryTarget = targets[0]
+    // const primaryTarget = findClosestTarget(
+    //   actingUnit,
+    //   targets,
+    //   skill,
+    //   battlefield
+    // )
     if (!primaryTarget) return []
 
     // Return all targets in the same row as the primary target

@@ -277,64 +277,6 @@ const filterFormation: FilterEvaluator = (targets, metadata, context) => {
       return hasEnoughCombatants
     }
 
-    // Handle "Row with Most Combatants"
-    if (metadata.formationType === 'most-combatants') {
-      // Find the row with the most units
-      const rowCounts = new Map<number, number>()
-      targets.forEach(unit => {
-        const row = unit.position.row
-        rowCounts.set(row, (rowCounts.get(row) || 0) + 1)
-      })
-
-      const maxCount = Math.max(...rowCounts.values())
-      const targetRow = target.position.row
-      const targetRowCount = rowCounts.get(targetRow) || 0
-      const isMaxRow = targetRowCount === maxCount
-
-      console.debug(
-        `🎯 Row with Most Combatants check for ${target.unit.name}:`,
-        {
-          targetRow,
-          targetRowCount,
-          maxCount,
-          allRowCounts: Object.fromEntries(rowCounts),
-          isMaxRow,
-          result: isMaxRow ? 'INCLUDE' : 'EXCLUDE',
-        }
-      )
-
-      return isMaxRow
-    }
-
-    // Handle "Row with Least Combatants"
-    if (metadata.formationType === 'least-combatants') {
-      // Find the row with the fewest units
-      const rowCounts = new Map<number, number>()
-      targets.forEach(unit => {
-        const row = unit.position.row
-        rowCounts.set(row, (rowCounts.get(row) || 0) + 1)
-      })
-
-      const minCount = Math.min(...rowCounts.values())
-      const targetRow = target.position.row
-      const targetRowCount = rowCounts.get(targetRow) || 0
-      const isMinRow = targetRowCount === minCount
-
-      console.debug(
-        `🎯 Row with Least Combatants check for ${target.unit.name}:`,
-        {
-          targetRow,
-          targetRowCount,
-          minCount,
-          allRowCounts: Object.fromEntries(rowCounts),
-          isMinRow,
-          result: isMinRow ? 'INCLUDE' : 'EXCLUDE',
-        }
-      )
-
-      return isMinRow
-    }
-
     // Handle other advanced formation types (placeholder for future implementation)
     console.warn(`Unimplemented formation type: ${metadata.formationType}`)
     return true
@@ -527,12 +469,46 @@ const sortStatus: SortEvaluator = (targets, metadata) => {
 }
 
 const sortFormation: SortEvaluator = (targets, metadata) => {
+  const rowCounts = {
+    frontRow: 0,
+    backRow: 0,
+  }
+
+  for (const target of targets) {
+    if (target.position.row === 1) {
+      rowCounts.frontRow += 1
+    }
+    if (target.position.row === 0) {
+      rowCounts.backRow += 1
+    }
+  }
+
+  const largestRow =
+    rowCounts.frontRow < rowCounts.backRow ? 'back-row' : 'front-row'
+
   return [...targets].sort((a, b) => {
     if (metadata.formationType === 'front-row') {
       return b.position.row - a.position.row // Front row (1) comes before back row (0)
-    } else if (metadata.formationType === 'back-row') {
+    }
+    if (metadata.formationType === 'back-row') {
       return a.position.row - b.position.row // Back row (0) comes before front row (1)
     }
+    if (metadata.formationType === 'most-combatants') {
+      console.warn('IN MOST', largestRow)
+      if (largestRow === 'back-row') {
+        return a.position.row - b.position.row // Back row (0) comes before front row (1)
+      } else {
+        return b.position.row - a.position.row // Front row (1) comes before back row (0)
+      }
+    }
+    if (metadata.formationType === 'least-combatants') {
+      if (largestRow === 'front-row') {
+        return a.position.row - b.position.row // Back row (0) comes before front row (1)
+      } else {
+        return b.position.row - a.position.row // Front row (1) comes before back row (0)
+      }
+    }
+
     return 0
   })
 }

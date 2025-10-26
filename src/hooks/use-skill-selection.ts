@@ -10,15 +10,12 @@ interface UseSkillSelectionProps {
 }
 
 export const useSkillSelection = ({ unit }: UseSkillSelectionProps) => {
-  console.log('unit', unit)
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')
 
   const availableSkills = useMemo(() => {
     return getAvailableSkills(unit)
   }, [unit])
-
-  console.log('AVAILABLE', availableSkills)
 
   const activeSkills = useMemo(() => {
     return availableSkills.filter(skill => skill.skill.type === 'active')

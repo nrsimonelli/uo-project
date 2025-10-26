@@ -187,7 +187,6 @@ export const evaluateSkillSlotTactics = (
 
 /**
  * Get initial target pool based on skill's targeting and tactic requirements
- * (unchanged from original)
  */
 const getInitialTargetPool = (
   skill: ActiveSkill | PassiveSkill,
@@ -213,8 +212,7 @@ const getInitialTargetPool = (
 }
 
 /**
- * NEW: Check if a tactic condition requires skipping the skill entirely
- * Uses registry lookup instead of switch statement
+ * Check if a tactic condition requires skipping the skill entirely
  */
 const shouldSkipSkillForTactic = (
   tactic: TacticalCondition,
@@ -237,8 +235,7 @@ const shouldSkipSkillForTactic = (
 }
 
 /**
- * NEW: Apply a tactic (filter or sort) to a list of targets
- * Uses registry lookup instead of switch statement
+ * Apply a tactic (filter or sort) to a list of targets
  */
 const applyTacticToTargets = (
   targets: BattleContext[],
@@ -273,7 +270,6 @@ const applyTacticToTargets = (
 
 /**
  * Check if there's a true tie among the top targets after sorting
- * (unchanged from original)
  */
 const hasTrueTie = (
   targets: BattleContext[],
@@ -303,8 +299,7 @@ const hasTrueTie = (
 }
 
 /**
- * NEW: Compare two targets using a specific sort condition
- * Uses registry lookup instead of switch statement
+ * Compare two targets using a specific sort condition
  */
 const compareTargets = (
   a: BattleContext,
@@ -322,7 +317,6 @@ const compareTargets = (
 
 /**
  * Helper function to get skill from slot
- * (unchanged from original)
  */
 const getSkillFromSlot = (
   skillSlot: SkillSlot

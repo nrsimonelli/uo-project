@@ -40,44 +40,104 @@ const COMBATANT_TYPE_KEYS = [
   ...COMBATANT_TYPES.map(combatant => `Prioritize ${combatant}` as const),
   ...COMBATANT_TYPES,
 ]
-const ENEMIES_PRESENT_KEYS = COMBATANT_TYPES.flatMap(
-  combatant =>
-    [`No ${combatant} Enemies`, `${combatant} Enemies Present`] as const
-)
-
-const HP_THRESHOLDS = ['25%', '50%', '75%', '100%'] as const
-const HP_KEYS = [
-  ...(['Highest HP', 'Lowest HP', 'Highest % HP', 'Lowest % HP'] as const),
-  ...HP_THRESHOLDS.flatMap(
-    val =>
-      [
-        `Target HP is >${val}`,
-        `Target HP is <${val}`,
-        `Average HP is >${val}`,
-        `Average HP is <${val}`,
-      ] as const
-  ),
-]
-const OWN_HP_KEYS = HP_THRESHOLDS.flatMap(
-  val => [`Own HP is <${val}`, `Own HP is >${val}`] as const
-)
-
-const AP_PP_THRESHOLDS = [
-  '0',
-  '1 or Less',
-  '2 or Less',
-  '3 or Less',
-  '1 or More',
-  '2 or More',
-  '3 or More',
-  '4 or More',
+const ENEMIES_PRESENT_KEYS = [
+  'No Infantry Enemies',
+  'No Cavalry Enemies',
+  'No Flying Enemies',
+  'No Armored Enemies',
+  'No Scout Enemies',
+  'No Archer Enemies',
+  'No Caster Enemies',
+  'No Elven Enemies',
+  'No Bestral Enemies',
+  'No Angel Enemies',
+  'Infantry Enemies Present',
+  'Cavalry Enemies Present',
+  'Flying Enemies Present',
+  'Armored Enemies Present',
+  'Scout Enemies Present',
+  'Archer Enemies Present',
+  'Caster Enemies Present',
+  'Elven Enemies Present',
+  'Bestral Enemies Present',
+  'Angel Enemies Present',
 ] as const
-const AP_PP_KEYS = (['Most', 'Least', ...AP_PP_THRESHOLDS] as const).flatMap(
-  val => [`${val} AP`, `${val} PP`] as const
-)
-const OWN_AP_PP_KEYS = AP_PP_THRESHOLDS.flatMap(
-  val => [`Own AP is ${val}`, `Own PP is ${val}`] as const
-)
+
+const HP_KEYS = [
+  'Highest HP',
+  'Lowest HP',
+  'Highest % HP',
+  'Lowest % HP',
+  'Target HP is >25%',
+  'Target HP is >50%',
+  'Target HP is >75%',
+  'Target HP is >100%',
+  'Target HP is <25%',
+  'Target HP is <50%',
+  'Target HP is <75%',
+  'Target HP is <100%',
+  'Average HP is >25%',
+  'Average HP is >50%',
+  'Average HP is >75%',
+  'Average HP is >100%',
+  'Average HP is <25%',
+  'Average HP is <50%',
+  'Average HP is <75%',
+  'Average HP is <100%',
+] as const
+const OWN_HP_KEYS = [
+  'Own HP is <25%',
+  'Own HP is <50%',
+  'Own HP is <75%',
+  'Own HP is <100%',
+  'Own HP is >25%',
+  'Own HP is >50%',
+  'Own HP is >75%',
+  'Own HP is >100%',
+] as const
+
+const AP_PP_KEYS = [
+  '0 AP',
+  '1 or Less AP',
+  '2 or Less AP',
+  '3 or Less AP',
+  '1 or More AP',
+  '2 or More AP',
+  '3 or More AP',
+  '4 or More AP',
+  'Most AP',
+  'Least AP',
+  '0 PP',
+  '1 or Less PP',
+  '2 or Less PP',
+  '3 or Less PP',
+  '1 or More PP',
+  '2 or More PP',
+  '3 or More PP',
+  '4 or More PP',
+  'Most PP',
+  'Least PP',
+] as const
+
+const OWN_AP_PP_KEYS = [
+  'Own AP is 0',
+  'Own AP is 1 or Less',
+  'Own AP is 2 or Less',
+  'Own AP is 3 or Less',
+  'Own AP is 1 or More',
+  'Own AP is 2 or More',
+  'Own AP is 3 or More',
+  'Own AP is 4 or More',
+  'Own PP is 0',
+  'Own PP is 1 or Less',
+  'Own PP is 2 or Less',
+  'Own PP is 3 or Less',
+  'Own PP is 1 or More',
+  'Own PP is 2 or More',
+  'Own PP is 3 or More',
+  'Own PP is 4 or More',
+] as const
+
 const FORMATION_KEYS = [
   'Prioritize Front Row',
   'Prioritize Back Row',
@@ -106,7 +166,8 @@ const STATUS_OPTIONS = [
 ] as const
 const COMBATANT_STATUS_KEYS = [
   ...(['Prioritize Buffed', 'Prioritize Debuffed'] as const),
-  ...STATUS_OPTIONS.flatMap(val => [`${val}`, `Not ${val}`] as const),
+  ...STATUS_OPTIONS,
+  ...STATUS_OPTIONS.map(val => `Not ${val}` as const),
 ]
 const ATTACK_TYPE_KEYS = [
   ...([
@@ -119,21 +180,24 @@ const ATTACK_TYPE_KEYS = [
   ...COMBATANT_TYPES.map(combatant => `Attacked by ${combatant}` as const),
 ]
 
-const UNIT_SIZE_OPTIONS = [
-  '2 or More',
-  '3 or More',
-  '4 or More',
-  '5 or More',
-  '1 or Fewer',
-  '2 or Fewer',
-  '3 or Fewer',
-  '4 or Fewer',
-] as const
 const UNIT_SIZE_KEYS = [
-  ...UNIT_SIZE_OPTIONS.flatMap(
-    opt => [`${opt} Enemies`, `${opt} Allies`] as const
-  ),
-]
+  '2 or More Enemies',
+  '3 or More Enemies',
+  '4 or More Enemies',
+  '5 or More Enemies',
+  '1 or Fewer Enemies',
+  '2 or Fewer Enemies',
+  '3 or Fewer Enemies',
+  '4 or Fewer Enemies',
+  '2 or More Allies',
+  '3 or More Allies',
+  '4 or More Allies',
+  '5 or More Allies',
+  '1 or Fewer Allies',
+  '2 or Fewer Allies',
+  '3 or Fewer Allies',
+  '4 or Fewer Allies',
+] as const
 const OWN_CONDITION_KEYS = [
   'User',
   'Other Combatants',

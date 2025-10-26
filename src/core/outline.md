@@ -31,7 +31,7 @@ Damage in combat is determined by the following formula:
 ### 3.1 Total Defense
 
 - **Formula:**  
-  `Base Defense + Equipment + Enhancements + Buffs – Debuffs`
+  `Base Defense + Equipment + Enhancements + Buffs & Debuffs`
 - **Variants:**
   - Physical Defense → reduces physical damage.
   - Magical Defense → reduces magical damage.
@@ -47,7 +47,8 @@ Damage in combat is determined by the following formula:
 ### 4.1 Base Potency
 
 - Defined by the skill/ability being used.
-- Usually 100, but can be lower (weaker skills) or higher (finishers, ultimates).
+- Usually 100 and is specific to either physical or magical.
+- Skills can have separate potency values for each.
 
 ### 4.2 Modifiers
 
@@ -77,7 +78,7 @@ Damage in combat is determined by the following formula:
 ### 6.1 Triggering Guard
 
 - Guard is possible only against **physical attacks**.
-- Determined by defender’s **Guard Rate** (base + equipment/skills).
+- Determined by defender’s **Guard Rate** (base + equipment + modifiers).
 - RNG roll decides whether a guard occurs.
 - Replays must log which guard type occurred for determinism.
 
@@ -96,13 +97,13 @@ Damage in combat is determined by the following formula:
 - Based on class or skill traits.
 - Current matchups:
   - Archer > Flying
-  - Flying > Cavalry
+  - Flying (Gryphon & Wyvern) > Cavalry
   - Cavalry > Infantry
 
 ### 7.2 Multiplier
 
 - Always **×2** when effective.
-- No overlapping effectiveness (at this stage).
+- There are no overlapping effectiveness multipliers.
 
 ---
 
