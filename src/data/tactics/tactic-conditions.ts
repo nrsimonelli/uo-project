@@ -210,19 +210,18 @@ const OWN_CONDITION_KEYS = [
   'Fifth Action',
 ] as const
 
-export const TACTIC_CATEGORY_MAP: Record<TacticCategoryKey, readonly string[]> =
-  {
-    'Formation & Situation': FORMATION_KEYS, // Uses the skill's targeting (ally, enemy, self)
-    'Combatant Type': COMBATANT_TYPE_KEYS, // Uses skill targeting
-    HP: HP_KEYS, // uses skill targeting
-    'AP & PP': AP_PP_KEYS, // uses skill targeting
-    'Combatant Status': COMBATANT_STATUS_KEYS, // uses skill targeting
-    'Attack Type': ATTACK_TYPE_KEYS, // always enemy
-    'Unit Size': UNIT_SIZE_KEYS, // overrides skill targeting
-    'Own Condition': OWN_CONDITION_KEYS, // overrides skill targeting
-    'Own HP': OWN_HP_KEYS, // always self
-    'Own AP & PP': OWN_AP_PP_KEYS, // always self
-    'Enemies Present': ENEMIES_PRESENT_KEYS, // Always enemy units
-    'High Stats': HIGH_STAT_KEYS, // Uses skill targeting
-    'Low Stats': LOW_STAT_KEYS, // Uses skill targeting
-  }
+export const TACTIC_CATEGORY_MAP = {
+  'Formation & Situation': FORMATION_KEYS, // Uses the skill's targeting (ally, enemy, self)
+  'Combatant Type': COMBATANT_TYPE_KEYS, // Uses skill targeting
+  HP: HP_KEYS, // uses skill targeting
+  'AP & PP': AP_PP_KEYS, // uses skill targeting
+  'Combatant Status': COMBATANT_STATUS_KEYS, // uses skill targeting
+  'Attack Type': ATTACK_TYPE_KEYS, // always enemy
+  'Unit Size': UNIT_SIZE_KEYS, // overrides skill targeting
+  'Own Condition': OWN_CONDITION_KEYS, // overrides skill targeting
+  'Own HP': OWN_HP_KEYS, // always self
+  'Own AP & PP': OWN_AP_PP_KEYS, // always self
+  'Enemies Present': ENEMIES_PRESENT_KEYS, // Always enemy units
+  'High Stats': HIGH_STAT_KEYS, // Uses skill targeting
+  'Low Stats': LOW_STAT_KEYS, // Uses skill targeting
+}

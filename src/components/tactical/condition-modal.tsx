@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import type { TacticConditionKey } from '@/data/tactics/tactic-condition-meta'
 import {
   TACTIC_CATEGORIES,
   TACTIC_CATEGORY_MAP,
@@ -66,7 +67,10 @@ export const ConditionModal = ({
 
   const isSearching = searchTerm.trim().length > 0
 
-  const handleConditionSelect = (key: string, category: TacticCategoryKey) => {
+  const handleConditionSelect = (
+    key: TacticConditionKey,
+    category: TacticCategoryKey
+  ) => {
     const condition: TacticalCondition = {
       category,
       key,

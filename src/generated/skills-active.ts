@@ -2676,7 +2676,7 @@ export const ActiveSkills = [
         hitCount: 1,
       },
       {
-        kind: 'OwnHPBasedDamageEffect',
+        kind: 'OwnHPBasedDamage',
         type: 'percentRemaining',
         amount: 50,
       },

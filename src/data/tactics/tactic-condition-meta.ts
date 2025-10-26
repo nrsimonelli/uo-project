@@ -1,3 +1,7 @@
+import {
+  TACTIC_CATEGORY_MAP,
+  type TacticCategoryKey,
+} from '@/data/tactics/tactic-conditions'
 import type { CombatantType } from '@/types/core'
 
 export type ConditionType = 'filter' | 'sort'
@@ -56,8 +60,12 @@ export interface ConditionMetadata {
   conditionKey?: string
 }
 
-// Complete metadata map for ALL conditions in TACTIC-CATEGORY-MAP
-export const COMPLETE_TACTIC_METADATA: Record<string, ConditionMetadata> = {
+export type TacticConditionKey =
+  (typeof TACTIC_CATEGORY_MAP)[TacticCategoryKey][number]
+export const COMPLETE_TACTIC_METADATA: Record<
+  TacticConditionKey,
+  ConditionMetadata
+> = {
   // === HP CONDITIONS ===
   'Highest HP': { type: 'sort', valueType: 'hp-percent' },
   'Lowest HP': { type: 'sort', valueType: 'hp-percent' },
