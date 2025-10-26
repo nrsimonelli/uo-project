@@ -391,6 +391,20 @@ const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
 // ============================================================================
 // SORT EVALUATORS (for sortTargets)
 // ============================================================================
+const sortHpRaw: SortEvaluator = (targets, metadata) => {
+  const conditionKey = metadata.conditionKey || ''
+  const statName = metadata.statName || ''
+  const isHighestHp =
+    conditionKey.includes('Highest') || statName.includes('Highest')
+
+  return [...targets].sort((a, b) => {
+    if (isHighestHp) {
+      return b.currentHP - a.currentAP // Descending (highest first)
+    } else {
+      return a.currentHP - b.currentHP // Ascending (lowest first)
+    }
+  })
+}
 
 const sortHpPercent: SortEvaluator = (targets, metadata) => {
   const conditionKey = metadata.conditionKey || ''
@@ -494,7 +508,6 @@ const sortFormation: SortEvaluator = (targets, metadata) => {
       return a.position.row - b.position.row // Back row (0) comes before front row (1)
     }
     if (metadata.formationType === 'most-combatants') {
-      console.warn('IN MOST', largestRow)
       if (largestRow === 'back-row') {
         return a.position.row - b.position.row // Back row (0) comes before front row (1)
       } else {
@@ -712,6 +725,7 @@ export const FILTER_EVALUATORS: Record<string, FilterEvaluator> = {
 }
 
 export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
+  'hp-raw': sortHpRaw,
   'hp-percent': sortHpPercent,
   ap: sortAp,
   pp: sortPp,

@@ -9,6 +9,7 @@ export type ConditionType = 'filter' | 'sort'
 export type ComparisonOperator = 'gt' | 'lt' | 'gte' | 'lte' | 'eq' | 'neq'
 
 export type ValueType =
+  | 'hp-raw'
   | 'hp-percent'
   | 'hp-average'
   | 'ap'
@@ -67,8 +68,8 @@ export const COMPLETE_TACTIC_METADATA: Record<
   ConditionMetadata
 > = {
   // === HP CONDITIONS ===
-  'Highest HP': { type: 'sort', valueType: 'hp-percent' },
-  'Lowest HP': { type: 'sort', valueType: 'hp-percent' },
+  'Highest HP': { type: 'sort', valueType: 'hp-raw' },
+  'Lowest HP': { type: 'sort', valueType: 'hp-raw' },
   'Highest % HP': { type: 'sort', valueType: 'hp-percent' },
   'Lowest % HP': { type: 'sort', valueType: 'hp-percent' },
   'Target HP is >25%': {
