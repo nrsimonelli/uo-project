@@ -1708,8 +1708,12 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'Evade',
+        kind: 'Buff',
+        stat: 'Evade',
         applyTo: 'User',
+        value: 1,
+        scaling: 'flat',
+        duration: 'UntilAttacked',
       },
       {
         kind: 'Cleanse',
@@ -1802,6 +1806,7 @@ export const PassiveSkills = [
       'Activates at the start of a battle. Grants all allies a buff that negates a single debuff.',
     pp: 1,
     skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
     targeting: {
       group: 'Ally',
       pattern: 'All',
@@ -2226,7 +2231,7 @@ export const PassiveSkills = [
       group: 'Self',
       pattern: 'Single',
     },
-    effects: [{}],
+    effects: [],
   },
   {
     id: 'aerialPursuit',
@@ -2277,6 +2282,7 @@ export const PassiveSkills = [
         conditions: [
           {
             kind: 'CombatantType',
+            target: 'Ally',
             combatantType: 'Flying',
             comparator: 'NotEqualTo',
           },
@@ -2292,6 +2298,7 @@ export const PassiveSkills = [
         conditions: [
           {
             kind: 'CombatantType',
+            target: 'Ally',
             combatantType: 'Flying',
             comparator: 'EqualTo',
           },

@@ -2771,7 +2771,7 @@ export const ActiveSkills = [
       'Attack a column of enemies with piercing Magic. Inflicts -1 PP to Cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: ['Magical'],
+    innateAttackType: 'Magical',
     skillFlags: ['GroundBased'],
     targeting: {
       group: 'Enemy',
@@ -2829,6 +2829,9 @@ export const ActiveSkills = [
         kind: 'Buff',
         stat: 'Evade',
         applyTo: 'User',
+        value: 1,
+        scaling: 'flat',
+        duration: 'UntilAttacked',
       },
     ],
   },
@@ -3052,7 +3055,7 @@ export const ActiveSkills = [
         amount: {
           physical: 50,
         },
-        conditions: [{}],
+        conditions: [],
       },
     ],
   },
@@ -3589,10 +3592,10 @@ export const ActiveSkills = [
       {
         kind: 'Damage',
         potency: {
-          physical: '80',
-          hitRate: 100,
-          hitCount: 1,
+          physical: 80,
         },
+        hitRate: 100,
+        hitCount: 1,
       },
       {
         kind: 'Debuff',
