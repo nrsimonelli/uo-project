@@ -20,7 +20,7 @@ const CRUSADER_VALKYRIA_LIMITS = {
 }
 
 export const filterUnits = (team: Team, searchTerm = ''): string[] => {
-  const allUnits = Object.values(ALL_CLASSES)
+  const allUnits = Object.values(ALL_CLASSES).sort()
   const teamClasses = team.formation
     .filter(u => u !== null)
     .map(u => u.classKey)
