@@ -21,7 +21,8 @@ const selectClosestTargets = (
   actingUnit: BattleContext,
   skill: ActiveSkill | PassiveSkill,
   count: number,
-  battlefield?: BattlefieldState
+  battlefield?: BattlefieldState,
+  options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
 ): BattleContext[] => {
   if (targets.length === 0) return []
   if (count <= 0) return []
@@ -29,13 +30,21 @@ const selectClosestTargets = (
   const selectedTargets: BattleContext[] = []
   let remainingTargets = [...targets] // Copy to avoid mutating original array
 
+  // If targets were tactically pre-filtered and the caller doesn't want the
+  // default tie-breaking behavior, respect the tactical ordering and return
+  // the first N targets.
+  if (options?.preFiltered && !options?.useDefaultTieBreaker) {
+    return remainingTargets.slice(0, count)
+  }
+
   // Select targets one by one, always picking the closest from remaining targets
   for (let i = 0; i < count && remainingTargets.length > 0; i++) {
     const nextTarget = findClosestTarget(
       actingUnit,
       remainingTargets,
       skill,
-      battlefield
+      battlefield,
+      options
     )
     if (!nextTarget) break
 
@@ -57,10 +66,18 @@ const findClosestTarget = (
   potentialTargets: BattleContext[],
 
   _skill: ActiveSkill | PassiveSkill,
-  battlefield?: BattlefieldState
+  battlefield?: BattlefieldState,
+  options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
 ): BattleContext | null => {
   if (potentialTargets.length === 0) return null
   if (potentialTargets.length === 1) return potentialTargets[0]
+
+  // If these targets were provided by the tactical system and the caller
+  // doesn't want default tie-breaking, respect the tactical ordering and
+  // choose the first target in the provided list.
+  if (options?.preFiltered && !options?.useDefaultTieBreaker) {
+    return potentialTargets[0] || null
+  }
 
   // UNIVERSAL DEFAULT TARGETING: Front row first, then back row
   const frontRow = potentialTargets.filter(target => target.position.row === 1)
@@ -123,42 +140,59 @@ const targetingGroupHandlers = {
 
 /**
  * Targeting pattern handlers
- * All handlers have consistent signature: (targets, actingUnit, skill, battlefield?, isTactical?) => BattleContext[]
+ * All handlers have consistent signature: (targets, actingUnit, skill, battlefield?, options?) => BattleContext[]
  */
 const targetingPatternHandlers = {
   Self: (
     _targets: BattleContext[],
     actingUnit: BattleContext,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _skill: ActiveSkill | PassiveSkill,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _battlefield?: BattlefieldState
-  ) => [actingUnit],
+    _battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
+  ) => {
+    void options
+    void _skill
+    void _battlefield
+    return [actingUnit]
+  },
 
   All: (
     targets: BattleContext[],
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _actingUnit: BattleContext,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _skill: ActiveSkill | PassiveSkill,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _battlefield?: BattlefieldState
-  ) => targets,
+    _battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
+  ) => {
+    void options
+    void _actingUnit
+    void _skill
+    void _battlefield
+    return targets
+  },
 
   Single: (
     targets: BattleContext[],
     actingUnit: BattleContext,
     skill: ActiveSkill | PassiveSkill,
-    battlefield?: BattlefieldState
+    battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
     if (targets.length === 0) return []
 
-    // If we have targets, find the closest one using default targeting rules
+    // If targets are tactically pre-filtered and caller asked us to respect
+    // tactical ordering, pick the first target directly instead of running
+    // default distance-based logic which may override tactical priorities.
+    if (options?.preFiltered && !options?.useDefaultTieBreaker) {
+      return [targets[0]]
+    }
+
+    // Otherwise use default targeting logic (front-row-first + distance)
     const closestTarget = findClosestTarget(
       actingUnit,
       targets,
       skill,
-      battlefield
+      battlefield,
+      options
     )
     return closestTarget ? [closestTarget] : []
   },
@@ -167,20 +201,27 @@ const targetingPatternHandlers = {
     targets: BattleContext[],
     actingUnit: BattleContext,
     skill: ActiveSkill | PassiveSkill,
-    battlefield?: BattlefieldState
+    battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
 
-    // Find closest target first (this will be in the row we want to target)
-    // Or do we actually just want the first target?...
-    const primaryTarget = targets[0]
-    // const primaryTarget = findClosestTarget(
-    //   actingUnit,
-    //   targets,
-    //   skill,
-    //   battlefield
-    // )
+    // Choose primary target. If tactical ordering is present and we're asked to
+    // respect it, use the first target; otherwise fall back to default distance
+    // selection.
+    let primaryTarget: BattleContext | null = null
+    if (options?.preFiltered && !options?.useDefaultTieBreaker) {
+      primaryTarget = targets[0]
+    } else {
+      primaryTarget = findClosestTarget(
+        actingUnit,
+        targets,
+        skill,
+        battlefield,
+        options
+      )
+    }
     if (!primaryTarget) return []
 
     // Return all targets in the same row as the primary target
@@ -193,18 +234,27 @@ const targetingPatternHandlers = {
     targets: BattleContext[],
     actingUnit: BattleContext,
     skill: ActiveSkill | PassiveSkill,
-    battlefield?: BattlefieldState
+    battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
     // If no targets or primary target, return empty
     if (targets.length === 0) return []
 
-    // Find closest target using default targeting rules (front row first, then back row)
-    const primaryTarget = findClosestTarget(
-      actingUnit,
-      targets,
-      skill,
-      battlefield
-    )
+    // Choose primary target. If tactical ordering is present and we're asked to
+    // respect it, use the first target; otherwise fall back to default distance
+    // selection.
+    let primaryTarget: BattleContext | null = null
+    if (options?.preFiltered && !options?.useDefaultTieBreaker) {
+      primaryTarget = targets[0]
+    } else {
+      primaryTarget = findClosestTarget(
+        actingUnit,
+        targets,
+        skill,
+        battlefield,
+        options
+      )
+    }
     if (!primaryTarget) return []
 
     // Return all targets in the same column as the primary target
@@ -217,18 +267,34 @@ const targetingPatternHandlers = {
     targets: BattleContext[],
     actingUnit: BattleContext,
     skill: ActiveSkill | PassiveSkill,
-    battlefield?: BattlefieldState
+    battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
-    return selectClosestTargets(targets, actingUnit, skill, 2, battlefield)
+    return selectClosestTargets(
+      targets,
+      actingUnit,
+      skill,
+      2,
+      battlefield,
+      options
+    )
   },
 
   Three: (
     targets: BattleContext[],
     actingUnit: BattleContext,
     skill: ActiveSkill | PassiveSkill,
-    battlefield?: BattlefieldState
+    battlefield?: BattlefieldState,
+    options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
-    return selectClosestTargets(targets, actingUnit, skill, 3, battlefield)
+    return selectClosestTargets(
+      targets,
+      actingUnit,
+      skill,
+      3,
+      battlefield,
+      options
+    )
   },
 } as const
 
@@ -240,7 +306,11 @@ export const getDefaultTargets = (
   skill: ActiveSkill | PassiveSkill,
   actingUnit: BattleContext,
   battlefield: BattlefieldState,
-  preFilteredTargets?: BattleContext[]
+  preFilteredTargets?: BattleContext[],
+  // When true, apply the original DEFAULT targeting rules (front-row-first, distance tie-breaks).
+  // When false (default), and preFilteredTargets is provided, respect the tactical ordering
+  // supplied by the caller and only use default tie-breaking when the caller explicitly requests it.
+  useDefaultTieBreaker = false
 ): BattleContext[] => {
   const { targeting } = skill
   const { group, pattern } = targeting
@@ -354,7 +424,13 @@ export const getDefaultTargets = (
     return fallbackTarget ? [fallbackTarget] : []
   }
 
-  return patternHandler(potentialTargets, actingUnit, skill, battlefield)
+  // If tactical pre-filtered targets were provided and the caller did NOT request
+  // the default tie-breaker behavior, we want pattern handlers to respect the
+  // tactical ordering rather than recomputing a distance-based default.
+  return patternHandler(potentialTargets, actingUnit, skill, battlefield, {
+    useDefaultTieBreaker,
+    preFiltered: Boolean(preFilteredTargets),
+  } as unknown as Record<string, unknown>)
 }
 
 /**

@@ -114,10 +114,51 @@ export const evaluateSkillSlotTactics = (
     })
 
     if (hasFormationTactic) {
-      // For formation tactics, use the tactically sorted result directly for Single attacks
-      // Don't fall back to default targeting which would override formation priorities
+      // For formation tactics, we want to preserve the formation priority (i.e. the
+      // tactically-sorted list which promotes the desired row), but when there is
+      // a true tie among sorted values we should use the default tie-breaker to
+      // pick the closest unit within that prioritized group. Call getDefaultTargets
+      // with useDefaultTieBreaker = true so distance/front-row rules are applied
+      // only for tie-breaking inside the tactically-selected subset.
       if (pattern === 'Single' && targets.length > 0) {
-        return { shouldUseSkill: true, targets: [targets[0]] }
+        // Find the formation sort tactic metadata so we can restrict the
+        // default tie-breaking to the tactically-prioritized subset (e.g., the
+        // back row). This avoids the default 'front-row-first' rule from
+        // overturning a formation preference when we only want to break ties
+        // among formation-matching units.
+        const formationTactic = sortedTactics.find(t => {
+          if (!t) return false
+          const m = COMPLETE_TACTIC_METADATA[t.key]
+          return m?.valueType === 'formation'
+        })
+
+        let tieCandidates = targets
+        if (formationTactic) {
+          const formationMeta = {
+            ...COMPLETE_TACTIC_METADATA[formationTactic.key],
+            conditionKey: formationTactic.key,
+          }
+          // Use filter evaluator for formation to get only formation-matching targets
+          const formationFilter = FILTER_EVALUATORS['formation']
+          if (formationFilter) {
+            tieCandidates = formationFilter(targets, formationMeta, context)
+          }
+        }
+
+        // Now apply default tie-breaking (closest/front-row-first) only within the
+        // formation-prioritized subset (tieCandidates). This will pick the closest
+        // unit among the candidates.
+        const defaultTargets = getDefaultTargets(
+          skill,
+          actingUnit,
+          battlefield,
+          tieCandidates,
+          true // request default tie-breaking (closest/front-row-first)
+        )
+        return {
+          shouldUseSkill: defaultTargets.length > 0,
+          targets: defaultTargets,
+        }
       }
     } else {
       // True tie for non-formation tactics - use default targeting on the tied targets
@@ -125,7 +166,8 @@ export const evaluateSkillSlotTactics = (
         skill,
         actingUnit,
         battlefield,
-        targets
+        targets,
+        true // caller requests default tie-breaking behavior
       )
       return {
         shouldUseSkill: defaultTargets.length > 0,
@@ -155,7 +197,8 @@ export const evaluateSkillSlotTactics = (
         skill,
         actingUnit,
         battlefield,
-        targets // Pass tactically-processed targets as preFilteredTargets
+        targets, // Pass tactically-processed targets as preFilteredTargets
+        true // apply default front-row blocking/tie-breaking logic
       )
 
       // If front-row blocking filtered out all targets, the skill should be blocked

@@ -5,11 +5,7 @@ import { getAvailableSkills } from '@/utils/skill-availability'
 
 export type SkillTypeFilter = 'all' | 'active' | 'passive'
 
-interface UseSkillSelectionProps {
-  unit: Unit
-}
-
-export const useSkillSelection = ({ unit }: UseSkillSelectionProps) => {
+export const useSkillSelection = ({ unit }: { unit: Unit }) => {
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')
 

@@ -802,7 +802,7 @@ export const PassiveSkills = [
     name: 'Medical Aid',
     description:
       'At the end of battle, heal a row of allies for 15% HP. Double heal if ally is below 50% HP.',
-    pp: 2,
+    pp: 1,
     skillCategories: ['Heal'],
     activationWindow: 'endOfBattle',
     targeting: {

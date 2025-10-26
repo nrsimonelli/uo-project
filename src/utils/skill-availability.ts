@@ -80,7 +80,7 @@ export const getClassSkills = (unit: Unit) => {
     }
   })
 
-  return availableSkills
+  return availableSkills.sort((a, b) => (a.level ?? 0) - (b.level ?? 0))
 }
 
 export const getAvailableSkills = (unit: Unit) => {
