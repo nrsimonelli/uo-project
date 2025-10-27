@@ -434,7 +434,7 @@ export const getDefaultTargets = (
 }
 
 /**
- * Hardcoded Standby skill - costs 0 AP, does nothing
+ * Hardcoded Standby skill - costs 0 AP, counts as having used an active skill, passes turn
  */
 export const STANDBY_SKILL: ActiveSkill = {
   id: 'standby',

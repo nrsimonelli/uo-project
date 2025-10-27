@@ -371,11 +371,56 @@ ${Array.from(activationWindowValidation.definedWindows)
 `
 }
 
-function generateTsFile(jsonPath: string, outPath: string, exportName: string) {
+function generateSkillTsFile(
+  jsonPath: string,
+  outPath: string,
+  exportName: string
+) {
   const raw = fs.readFileSync(jsonPath, 'utf-8')
   const parsed = JSON.parse(raw)
+  const arrayContent = JSON.stringify(parsed, null, 2)
 
-  // stringify pretty
+  // Determine skill type for proper TS type inference
+  const baseType = exportName.startsWith('Active')
+    ? 'ActiveSkill'
+    : exportName.startsWith('Passive')
+      ? 'PassiveSkill'
+      : 'any'
+
+  const tsContent = `// AUTO-GENERATED FILE. DO NOT EDIT.
+// Source: ${path.basename(jsonPath)}
+import type { ${baseType} } from "@/types/skills"
+
+export const ${exportName} = ${arrayContent} as const satisfies readonly ${baseType}[];
+
+export type ${exportName}Id = (typeof ${exportName})[number]['id'];
+
+export type ${exportName}Base = (typeof ${exportName})[number];
+
+// Shared optional structure to allow property access on partial fields
+type ${exportName}Shared = Partial<${baseType}>;
+
+export type ${exportName}Map = {
+  [K in ${exportName}Id]: Extract<${exportName}Base, { id: K }> & ${exportName}Shared;
+};
+
+export const ${exportName}Map: ${exportName}Map = Object.fromEntries(
+  ${exportName}.map(item => [item.id, item])
+) as ${exportName}Map;
+`
+
+  fs.writeFileSync(outPath, tsContent, 'utf-8')
+  console.log(`✅ Generated file: ${path.basename(outPath)}`)
+}
+
+// === Equipment Generator (general-purpose data) ===
+function generateEquipmentTsFile(
+  jsonPath: string,
+  outPath: string,
+  exportName: string
+) {
+  const raw = fs.readFileSync(jsonPath, 'utf-8')
+  const parsed = JSON.parse(raw)
   const arrayContent = JSON.stringify(parsed, null, 2)
 
   const tsContent = `// AUTO-GENERATED FILE. DO NOT EDIT.
@@ -383,7 +428,7 @@ function generateTsFile(jsonPath: string, outPath: string, exportName: string) {
 
 export const ${exportName} = ${arrayContent} as const;
 
-export type ${exportName}Id = (typeof ${exportName})[number]["id"];
+export type ${exportName}Id = (typeof ${exportName})[number]['id'];
 
 export type ${exportName}Map = {
   [K in ${exportName}Id]: Extract<(typeof ${exportName})[number], { id: K }>;
@@ -395,7 +440,7 @@ export const ${exportName}Map: ${exportName}Map = Object.fromEntries(
 `
 
   fs.writeFileSync(outPath, tsContent, 'utf-8')
-  console.log(`✅ Generated ${outPath}`)
+  console.log(`✅ Generated: ${path.basename(outPath)}`)
 }
 
 // === Directories ===
@@ -406,13 +451,13 @@ const outDir = path.resolve(__dirname, '../generated')
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
 
 // === Skills ===
-generateTsFile(
+generateSkillTsFile(
   path.join(skillsDir, 'active.json'),
   path.join(outDir, 'skills-active.ts'),
   'ActiveSkills'
 )
 
-generateTsFile(
+generateSkillTsFile(
   path.join(skillsDir, 'passive.json'),
   path.join(outDir, 'skills-passive.ts'),
   'PassiveSkills'
@@ -428,7 +473,7 @@ for (const file of equipmentFiles) {
   const exportName = `Equipment${baseName[0].toUpperCase()}${baseName.slice(1)}`
   const outPath = path.join(outDir, `equipment-${baseName}.ts`)
 
-  generateTsFile(path.join(equipmentDir, file), outPath, exportName)
+  generateEquipmentTsFile(path.join(equipmentDir, file), outPath, exportName)
 }
 
 // === Skill Validation ===

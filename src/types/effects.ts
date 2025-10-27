@@ -48,11 +48,13 @@ export interface PotencyBoostEffect {
 export interface HealPercentEffect {
   kind: 'HealPercent'
   value: number
+  applyTo?: 'User' | 'Target'
   conditions?: Condition[] | readonly Condition[]
 }
 export interface HealPotencyEffect {
   kind: 'Heal'
   potency: { physical?: number; magical?: number }
+  hitCount: number
   conditions?: Condition[] | readonly Condition[]
 }
 interface BaseEffect {

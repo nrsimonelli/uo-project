@@ -1,5 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
 // Source: passive.json
+import type { PassiveSkill } from '@/types/skills'
 
 export const PassiveSkills = [
   {
@@ -107,7 +108,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'medium',
-        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -170,7 +170,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'medium',
-        applyTo: 'User',
       },
     ],
   },
@@ -431,7 +430,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'medium',
-        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -505,7 +503,7 @@ export const PassiveSkills = [
     description:
       'Activates after being hit by a physical attack. Grants the user +20% Phys. Defense and +20% Guard Rate. (Effect stacks.)',
     pp: 1,
-    skillCategories: ['Guard'],
+    skillCategories: ['Utility'],
     activationWindow: 'afterBeingHitPhys',
     targeting: {
       group: 'Self',
@@ -1036,7 +1034,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'medium',
-        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -1236,7 +1233,6 @@ export const PassiveSkills = [
           magical: 50,
         },
         hitCount: 1,
-        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -2023,7 +2019,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'heavy',
-        applyTo: 'User',
       },
     ],
   },
@@ -2202,7 +2197,6 @@ export const PassiveSkills = [
       {
         kind: 'Guard',
         guard: 'medium',
-        applyTo: 'User',
       },
       {
         kind: 'ResourceGain',
@@ -2328,12 +2322,18 @@ export const PassiveSkills = [
       },
     ],
   },
-] as const
+] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']
 
+export type PassiveSkillsBase = (typeof PassiveSkills)[number]
+
+// Shared optional structure to allow property access on partial fields
+type PassiveSkillsShared = Partial<PassiveSkill>
+
 export type PassiveSkillsMap = {
-  [K in PassiveSkillsId]: Extract<(typeof PassiveSkills)[number], { id: K }>
+  [K in PassiveSkillsId]: Extract<PassiveSkillsBase, { id: K }> &
+    PassiveSkillsShared
 }
 
 export const PassiveSkillsMap: PassiveSkillsMap = Object.fromEntries(

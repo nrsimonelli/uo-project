@@ -3,16 +3,18 @@ import type { Effect, Flag } from './effects'
 import type { TacticalCondition } from './tactics'
 
 import type { ActivationWindowId } from '@/data/activation-windows'
+import type { ActiveSkillsId } from '@/generated/skills-active'
+import type { PassiveSkillsId } from '@/generated/skills-passive'
 
-interface SkillBase {
+export interface SkillBase {
   id: string
   name: string
   description: string
   targeting: Targeting
-  effects: Effect[] | readonly Effect[]
-  skillFlags?: Flag[] | readonly Flag[] // Skill-level flags that apply to all effects
-  skillCategories: SkillCategory[] | readonly SkillCategory[] // New field for skill classification
-  innateAttackType?: 'Ranged' | 'Magical' // Innate attack type (renamed from attackType)
+  effects: readonly Effect[]
+  skillFlags?: readonly Flag[]
+  skillCategories: readonly SkillCategory[]
+  innateAttackType?: 'Ranged' | 'Magical'
 }
 
 export interface ActiveSkill extends SkillBase {
@@ -40,13 +42,28 @@ export interface ClassSkills {
   skills: ClassSkillEntry[]
 }
 
-export interface SkillSlot {
+interface BaseSkillSlot {
   id: string
-  skillId: string | null
-  skillType: 'active' | 'passive' | null
-  tactics: [TacticalCondition | null, TacticalCondition | null] // Two tactic slots
+  tactics: [TacticalCondition | null, TacticalCondition | null]
   order: number
 }
+
+interface ActiveSkillSlot extends BaseSkillSlot {
+  skillType: 'active'
+  skillId: ActiveSkillsId
+}
+
+interface PassiveSkillSlot extends BaseSkillSlot {
+  skillType: 'passive'
+  skillId: PassiveSkillsId
+}
+
+interface EmptySkillSlot extends BaseSkillSlot {
+  skillType: null
+  skillId: null
+}
+
+export type SkillSlot = ActiveSkillSlot | PassiveSkillSlot | EmptySkillSlot
 
 export interface AvailableSkill {
   skill: ActiveSkill | PassiveSkill

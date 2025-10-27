@@ -1,5 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
 // Source: active.json
+import type { ActiveSkill } from '@/types/skills'
 
 export const ActiveSkills = [
   {
@@ -1988,7 +1989,6 @@ export const ActiveSkills = [
         potency: {
           magical: 100,
         },
-        hitRate: 100,
         hitCount: 1,
       },
     ],
@@ -3159,7 +3159,7 @@ export const ActiveSkills = [
         stat: 'HPRecovery',
         value: -50,
         scaling: 'percent',
-        appplyTo: 'Target',
+        applyTo: 'Target',
       },
     ],
   },
@@ -3355,7 +3355,6 @@ export const ActiveSkills = [
           magical: 100,
         },
         hitCount: 1,
-        applyTo: 'Target',
       },
       {
         kind: 'Buff',
@@ -3618,12 +3617,18 @@ export const ActiveSkills = [
       },
     ],
   },
-] as const
+] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']
 
+export type ActiveSkillsBase = (typeof ActiveSkills)[number]
+
+// Shared optional structure to allow property access on partial fields
+type ActiveSkillsShared = Partial<ActiveSkill>
+
 export type ActiveSkillsMap = {
-  [K in ActiveSkillsId]: Extract<(typeof ActiveSkills)[number], { id: K }>
+  [K in ActiveSkillsId]: Extract<ActiveSkillsBase, { id: K }> &
+    ActiveSkillsShared
 }
 
 export const ActiveSkillsMap: ActiveSkillsMap = Object.fromEntries(

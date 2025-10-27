@@ -19,18 +19,11 @@ import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { SkillSlot, ActiveSkill, PassiveSkill } from '@/types/skills'
 import type { TacticalCondition } from '@/types/tactics'
 
-/**
- * Result of tactical evaluation for a skill slot
- */
 export interface TacticalResult {
   shouldUseSkill: boolean
   targets: BattleContext[]
 }
 
-/**
- * Main function to evaluate tactical targeting for a skill slot
- * This is identical to the original but uses registry-based evaluators
- */
 export const evaluateSkillSlotTactics = (
   skillSlot: SkillSlot,
   actingUnit: BattleContext,
@@ -108,7 +101,9 @@ export const evaluateSkillSlotTactics = (
     // True tie detected - but for formation tactics, we should preserve tactical priorities
     // and not fall back to default targeting which would override formation preferences
     const hasFormationTactic = sortedTactics.some(tactic => {
-      if (!tactic) return false
+      if (!tactic) {
+        return false
+      }
       const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
       return metadata?.valueType === 'formation'
     })
@@ -126,10 +121,12 @@ export const evaluateSkillSlotTactics = (
         // back row). This avoids the default 'front-row-first' rule from
         // overturning a formation preference when we only want to break ties
         // among formation-matching units.
-        const formationTactic = sortedTactics.find(t => {
-          if (!t) return false
-          const m = COMPLETE_TACTIC_METADATA[t.key]
-          return m?.valueType === 'formation'
+        const formationTactic = sortedTactics.find(tactic => {
+          if (!tactic) {
+            return false
+          }
+          const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
+          return metadata?.valueType === 'formation'
         })
 
         let tieCandidates = targets
@@ -228,9 +225,6 @@ export const evaluateSkillSlotTactics = (
   return { shouldUseSkill: finalTargets.length > 0, targets: finalTargets }
 }
 
-/**
- * Get initial target pool based on skill's targeting and tactic requirements
- */
 const getInitialTargetPool = (
   skill: ActiveSkill | PassiveSkill,
   context: TacticalContext
@@ -254,9 +248,6 @@ const getInitialTargetPool = (
   return []
 }
 
-/**
- * Check if a tactic condition requires skipping the skill entirely
- */
 const shouldSkipSkillForTactic = (
   tactic: TacticalCondition,
   context: TacticalContext
@@ -277,9 +268,6 @@ const shouldSkipSkillForTactic = (
   return false
 }
 
-/**
- * Apply a tactic (filter or sort) to a list of targets
- */
 const applyTacticToTargets = (
   targets: BattleContext[],
   tactic: TacticalCondition,
@@ -311,9 +299,6 @@ const applyTacticToTargets = (
   return targets
 }
 
-/**
- * Check if there's a true tie among the top targets after sorting
- */
 const hasTrueTie = (
   targets: BattleContext[],
   sortTactics: (TacticalCondition | null)[],
@@ -341,9 +326,6 @@ const hasTrueTie = (
   return true // All sort conditions resulted in ties
 }
 
-/**
- * Compare two targets using a specific sort condition
- */
 const compareTargets = (
   a: BattleContext,
   b: BattleContext,
@@ -358,23 +340,15 @@ const compareTargets = (
   return 0 // tie for unhandled types
 }
 
-/**
- * Helper function to get skill from slot
- */
-const getSkillFromSlot = (
-  skillSlot: SkillSlot
-): ActiveSkill | PassiveSkill | null => {
-  if (!skillSlot.skillId) return null
+const getSkillFromSlot = (skillSlot: SkillSlot) => {
+  if (!skillSlot.skillId) {
+    return null
+  }
 
   if (skillSlot.skillType === 'active') {
-    return (
-      ActiveSkillsMap[skillSlot.skillId as keyof typeof ActiveSkillsMap] || null
-    )
+    return ActiveSkillsMap[skillSlot.skillId]
   } else if (skillSlot.skillType === 'passive') {
-    return (
-      PassiveSkillsMap[skillSlot.skillId as keyof typeof PassiveSkillsMap] ||
-      null
-    )
+    return PassiveSkillsMap[skillSlot.skillId]
   }
 
   return null
@@ -384,9 +358,6 @@ const getSkillFromSlot = (
 // INDIVIDUAL TACTIC TESTING EXPORTS
 // ============================================================================
 
-/**
- * Test individual skip conditions - useful for unit testing
- */
 export const testSkipCondition = (
   valueType: string,
   metadata: ConditionMetadata,
@@ -396,9 +367,6 @@ export const testSkipCondition = (
   return evaluator ? evaluator(metadata, context) : false
 }
 
-/**
- * Test individual filter conditions - useful for unit testing
- */
 export const testFilterCondition = (
   valueType: string,
   targets: BattleContext[],
@@ -409,9 +377,6 @@ export const testFilterCondition = (
   return evaluator ? evaluator(targets, metadata, context) : targets
 }
 
-/**
- * Test individual sort conditions - useful for unit testing
- */
 export const testSortCondition = (
   valueType: string,
   targets: BattleContext[],
@@ -422,9 +387,6 @@ export const testSortCondition = (
   return evaluator ? evaluator(targets, metadata, context) : targets
 }
 
-/**
- * Test individual compare conditions - useful for unit testing
- */
 export const testCompareCondition = (
   valueType: string,
   a: BattleContext,

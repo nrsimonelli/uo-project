@@ -92,8 +92,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "medium",
-        "applyTo": "User"
+        "guard": "medium"
       },
       {
         "kind": "Buff",
@@ -153,8 +152,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "medium",
-        "applyTo": "User"
+        "guard": "medium"
       }
     ]
   },
@@ -397,8 +395,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "medium",
-        "applyTo": "User"
+        "guard": "medium"
       },
       {
         "kind": "Buff",
@@ -469,7 +466,7 @@
     "name": "Guardian",
     "description": "Activates after being hit by a physical attack. Grants the user +20% Phys. Defense and +20% Guard Rate. (Effect stacks.)",
     "pp": 1,
-    "skillCategories": ["Guard"],
+    "skillCategories": ["Utility"],
     "activationWindow": "afterBeingHitPhys",
     "targeting": {
       "group": "Self",
@@ -966,8 +963,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "medium",
-        "applyTo": "User"
+        "guard": "medium"
       },
       {
         "kind": "Buff",
@@ -1155,8 +1151,7 @@
       {
         "kind": "Heal",
         "potency": { "magical": 50 },
-        "hitCount": 1,
-        "applyTo": "User"
+        "hitCount": 1
       },
       {
         "kind": "Buff",
@@ -1886,8 +1881,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "heavy",
-        "applyTo": "User"
+        "guard": "heavy"
       }
     ]
   },
@@ -2055,8 +2049,7 @@
     "effects": [
       {
         "kind": "Guard",
-        "guard": "medium",
-        "applyTo": "User"
+        "guard": "medium"
       },
       {
         "kind": "ResourceGain",

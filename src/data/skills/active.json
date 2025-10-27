@@ -1808,7 +1808,6 @@
       {
         "kind": "Heal",
         "potency": { "magical": 100 },
-        "hitRate": 100,
         "hitCount": 1
       }
     ]
@@ -2878,7 +2877,7 @@
         "stat": "HPRecovery",
         "value": -50,
         "scaling": "percent",
-        "appplyTo": "Target"
+        "applyTo": "Target"
       }
     ]
   },
@@ -3056,8 +3055,7 @@
       {
         "kind": "Heal",
         "potency": { "magical": 100 },
-        "hitCount": 1,
-        "applyTo": "Target"
+        "hitCount": 1
       },
       {
         "kind": "Buff",
