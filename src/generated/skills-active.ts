@@ -796,22 +796,8 @@ export const ActiveSkills = [
           {
             kind: 'CombatantType',
             target: 'Enemy',
-            combatantType: 'Infantry',
-            comparator: 'EqualTo',
-          },
-        ],
-      },
-      {
-        kind: 'PotencyBoost',
-        amount: {
-          physical: 50,
-        },
-        conditions: [
-          {
-            kind: 'CombatantType',
-            target: 'Enemy',
-            combatantType: 'Cavalry',
-            comparator: 'EqualTo',
+            combatantType: 'Flying',
+            comparator: 'NotEqualTo',
           },
         ],
       },
@@ -1318,13 +1304,11 @@ export const ActiveSkills = [
         stat: 'PDEF',
         value: 50,
         scaling: 'percent',
-        applyTo: 'User',
       },
       {
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 2,
-        applyTo: 'User',
       },
     ],
   },
@@ -1383,14 +1367,12 @@ export const ActiveSkills = [
       {
         kind: 'HealPercent',
         value: 30,
-        applyTo: 'User',
       },
       {
         kind: 'Buff',
         stat: 'PATK',
         value: 30,
         scaling: 'percent',
-        applyTo: 'User',
       },
     ],
   },
@@ -3562,23 +3544,8 @@ export const ActiveSkills = [
           {
             kind: 'CombatantType',
             target: 'Enemy',
-            combatantType: 'Cavalry',
-            comparator: 'EqualTo',
-          },
-        ],
-      },
-      {
-        kind: 'Debuff',
-        stat: 'PP',
-        value: -1,
-        scaling: 'flat',
-        applyTo: 'Target',
-        conditions: [
-          {
-            kind: 'CombatantType',
-            target: 'Enemy',
-            combatantType: 'Infantry',
-            comparator: 'EqualTo',
+            combatantType: 'Flying',
+            comparator: 'NotEqualTo',
           },
         ],
       },
@@ -3690,6 +3657,92 @@ export const ActiveSkills = [
         value: 1,
         scaling: 'flat',
         applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'impulse',
+    type: 'active',
+    name: 'Impulse',
+    description:
+      'Attack a single enemy. Inflicts Mag. Defense -50% to ground-based targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'MDEF',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'NotEqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'rowResistance',
+    type: 'active',
+    name: 'Row Resistance',
+    description:
+      "Grants allies in the user's row +50% Mag. Defense. Extends to all allies during the day.",
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Self',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MDEF',
+        value: 50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'mysticShield',
+    type: 'active',
+    name: 'Mystic Shield',
+    description: 'Grants the user +50% Mag. Defense and +2 PP.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MDEF',
+        value: 50,
+        scaling: 'percent',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 2,
       },
     ],
   },

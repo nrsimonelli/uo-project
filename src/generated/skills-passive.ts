@@ -2436,6 +2436,32 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'sacrifice',
+    type: 'passive',
+    name: 'Sacrifice',
+    description:
+      "Activates before an ally is attacked. Risk one's life to cover an ally. Grants the user +2 PP",
+    pp: 1,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'none',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 2,
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

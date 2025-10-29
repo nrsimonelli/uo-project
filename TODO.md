@@ -52,6 +52,10 @@
 - [ ] Fatal Dive, Life Blow, and Desperation Damage Calculations
 - [ ] Scaling for Bastards Cross, WildFang, Berserker, and Werebear scaling skills
 - [ ] Custom effect for Discharge
+- [ ] Need variable targeting for Row Resistance
+- [ ] Need Reflect Magic...
+- [ ] Need Mirror Weakness
+- [ ] skill effect implementation audit
 
 ### Code Quality & Development ✅
 

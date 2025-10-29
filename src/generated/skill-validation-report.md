@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-29T16:10:18.672Z_
+_Generated: 2025-10-29T16:43:33.128Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 106
-- **Passive Skills Defined**: 88
-- **Total Skills Defined**: 194
+- **Active Skills Defined**: 109
+- **Passive Skills Defined**: 89
+- **Total Skills Defined**: 198
 - **Activation Windows Referenced**: 31
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **206 missing skills:**
+❌ **202 missing skills:**
 
 - `activeHeal`
 - `activeShatter`
@@ -118,7 +118,6 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `icyBlow`
 - `icyCrush`
 - `impetusStance`
-- `impulse`
 - `inferno`
 - `innocentRay`
 - `inspiration`
@@ -134,7 +133,6 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `mightyShield`
 - `mirrorWeakness`
 - `mysticArrow`
-- `mysticShield`
 - `nimbleFighter`
 - `nocturnalGuard`
 - `nocturnalImpetus`
@@ -180,10 +178,8 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `reinforce`
 - `relicHeal`
 - `resurrection`
-- `rowResistance`
 - `royalGuard`
 - `sacredCure`
-- `sacrifice`
 - `saintsBarrier`
 - `sandstorm`
 - `sanguineConferral`
@@ -678,7 +674,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (106)
+### Active Skills Defined (109)
 
 - `activeSteal`
 - `aerialSmite`
@@ -722,6 +718,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `icicleArrow`
 - `icicleDart`
 - `impale`
+- `impulse`
 - `ironCrusher`
 - `javelin`
 - `keenEdge`
@@ -737,6 +734,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `mirageStab`
 - `mountingCharge`
 - `mysticConferral`
+- `mysticShield`
 - `naturesWrath`
 - `nightVision`
 - `offensiveCurse`
@@ -755,6 +753,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `roundSwing`
 - `rowHeal`
 - `rowProtection`
+- `rowResistance`
 - `rowShot`
 - `rowSmash`
 - `sacredHeal`
@@ -787,7 +786,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (88)
+### Passive Skills Defined (89)
 
 - `accelerate`
 - `activeGift`
@@ -864,6 +863,7 @@ _Generated: 2025-10-29T16:10:18.672Z_
 - `restore`
 - `rowBarrier`
 - `rowCover`
+- `sacrifice`
 - `sanguineArts`
 - `selflessHeal`
 - `shadowPursuit`
