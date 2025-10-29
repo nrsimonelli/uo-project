@@ -222,6 +222,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'Target',
       },
     ],
   },
@@ -403,6 +404,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'HitCheck',
@@ -610,6 +612,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -1409,8 +1412,8 @@ export const PassiveSkills = [
     skillCategories: ['Utility'],
     activationWindow: 'afterUsingActiveSkill',
     targeting: {
-      group: 'Ally',
-      pattern: 'Self',
+      group: 'Self',
+      pattern: 'Single',
     },
     effects: [
       {
@@ -1843,6 +1846,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'IsNightCycle',
@@ -1902,6 +1906,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -2099,6 +2104,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'Target',
       },
     ],
   },
@@ -2319,6 +2325,114 @@ export const PassiveSkills = [
         kind: 'Affliction',
         affliction: 'Blind',
         applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'hastenedHeal',
+    type: 'passive',
+    name: 'Hastened Heal',
+    description:
+      'Activates at the start of a battle. Restore minor HP to all allies. Grants HP regeneration during the day.',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'Buff',
+        stat: 'OnActiveHealPercent',
+        value: 25,
+        scaling: 'percent',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'preemptiveHeal',
+    type: 'passive',
+    name: 'Preemptive Heal',
+    description:
+      'Activates before an ally is attacked. Restore moderate HP to an ally.',
+    pp: 2,
+    skillCategories: ['Heal'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'holyBreath',
+    type: 'passive',
+    name: 'Holy Breath',
+    description:
+      'Activates before an ally attacks with an Active skill. Restore minor HP to an ally. If target is Afflicted, remove the Affliction and grant the user +1 PP',
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'beforeAllyAttacksActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'AnyAffliction',
+            target: 'Ally',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Afflictions',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'AnyAffliction',
+            target: 'Ally',
+            comparator: 'EqualTo',
+          },
+        ],
       },
     ],
   },

@@ -300,6 +300,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'HitCheck',
@@ -904,6 +905,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'HitCheck',
@@ -1122,6 +1124,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -1188,6 +1191,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -1320,6 +1324,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 2,
+        applyTo: 'User',
       },
     ],
   },
@@ -1491,6 +1496,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -1863,6 +1869,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -1927,6 +1934,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -1962,6 +1970,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'HitCheck',
@@ -2034,6 +2043,7 @@ export const ActiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'HitCheck',
@@ -3614,6 +3624,72 @@ export const ActiveSkills = [
             value: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    id: 'overheal',
+    type: 'active',
+    name: 'Overheal',
+    description: 'Restore minor HP to a row of allies above their limits.',
+    ap: 1,
+    skillCategories: ['Heal'],
+    skillFlags: ['Overheal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'honedHealing',
+    type: 'active',
+    name: 'Honed Healing',
+    description:
+      'Grants a row of allies a buff that doubles HP restored when healing.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'HPRecovery',
+        value: 100,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'holyCradle',
+    type: 'active',
+    name: 'Holy Cradle',
+    description:
+      'Grants a row of allies the ability to withstand one lethal blow.',
+    ap: 2,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
       },
     ],
   },

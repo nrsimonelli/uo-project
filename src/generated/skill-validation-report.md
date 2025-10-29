@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-10-27T20:25:20.094Z_
+_Generated: 2025-10-29T16:10:18.672Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 181
 - **Total Skills Referenced**: 400
-- **Active Skills Defined**: 103
-- **Passive Skills Defined**: 85
-- **Total Skills Defined**: 188
+- **Active Skills Defined**: 106
+- **Passive Skills Defined**: 88
+- **Total Skills Defined**: 194
 - **Activation Windows Referenced**: 31
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **212 missing skills:**
+❌ **206 missing skills:**
 
 - `activeHeal`
 - `activeShatter`
@@ -106,7 +106,6 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `hastenedCharge`
 - `hastenedCover`
 - `hastenedCurse`
-- `hastenedHeal`
 - `hastenedShatter`
 - `hawkEye`
 - `healingHunter`
@@ -114,11 +113,8 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `healingWind`
 - `heavyAlignment`
 - `holyBarrier`
-- `holyBreath`
-- `holyCradle`
 - `holyLight`
 - `holySmite`
-- `honedHealing`
 - `icyBlow`
 - `icyCrush`
 - `impetusStance`
@@ -145,7 +141,6 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `offensiveOrder`
 - `omegaShatter`
 - `ominousWall`
-- `overheal`
 - `painbringer`
 - `painfulSmash`
 - `partingDeath`
@@ -165,7 +160,6 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `poisonSlash`
 - `powerfulCall`
 - `powerfulImpact`
-- `preemptiveHeal`
 - `primusEdge`
 - `protection`
 - `provokingCrush`
@@ -684,7 +678,7 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (103)
+### Active Skills Defined (106)
 
 - `activeSteal`
 - `aerialSmite`
@@ -719,6 +713,8 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `heavySlash`
 - `heavySmash`
 - `highSwing`
+- `holyCradle`
+- `honedHealing`
 - `honedSlash`
 - `honedSpear`
 - `iceCoffin`
@@ -744,6 +740,7 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `naturesWrath`
 - `nightVision`
 - `offensiveCurse`
+- `overheal`
 - `passiveCurse`
 - `passiveHold`
 - `passiveShatter`
@@ -790,7 +787,7 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (85)
+### Passive Skills Defined (88)
 
 - `accelerate`
 - `activeGift`
@@ -825,10 +822,12 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `groundCounter`
 - `gryphonGlide`
 - `guardian`
+- `hastenedHeal`
 - `hastenedStrike`
 - `heavyCounter`
 - `heavyCover`
 - `heavyGuard`
+- `holyBreath`
 - `holyGuard`
 - `keenCall`
 - `killingPursuit`
@@ -848,6 +847,7 @@ _Generated: 2025-10-27T20:25:20.094Z_
 - `parry`
 - `partingBlow`
 - `partingResurrection`
+- `preemptiveHeal`
 - `provoke`
 - `pureField`
 - `pursuit`

@@ -17,6 +17,7 @@ export const FLAGS = [
   'GroundBased', // Can only hit Cavalry and Infantry
   'Piercing', // Can target back-row units even if melee (bypasses front-row blocking)
   'NoCrit',
+  'Overheal',
 ] as const
 export type Flag = (typeof FLAGS)[number]
 
@@ -94,6 +95,7 @@ export interface ResourceGainEffect {
   kind: 'ResourceGain'
   resource: 'AP' | 'PP'
   amount: number
+  applyTo?: 'Target' | 'User'
   // TODO: For Berserk - need ResourceConsume effect to consume ALL PP before gaining AP
   // Currently only handles positive resource gains
   conditions?: Condition[] | readonly Condition[]
