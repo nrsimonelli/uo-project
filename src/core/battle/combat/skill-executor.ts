@@ -23,6 +23,7 @@ import {
 import { isDamageSkill } from '@/core/attack-types'
 import type { RandomNumberGeneratorType } from '@/core/random'
 import type { StatKey } from '@/types/base-stats'
+import type { BattlefieldState } from '@/types/battle-engine'
 import type { BattleContext, Buff } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
@@ -62,12 +63,24 @@ export interface MultiTargetSkillResult {
 const executeNonDamageSkill = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
-  target: BattleContext
+  target: BattleContext,
+  battlefield?: BattlefieldState
 ): SingleTargetSkillResult => {
   // Create condition evaluation context
   const conditionContext: ConditionEvaluationContext = {
     attacker,
     target,
+    isNight: battlefield?.isNight,
+    alliesLiving: battlefield
+      ? Object.values(battlefield.units).filter(
+          u => u.team === attacker.team && u.currentHP > 0
+        ).length
+      : undefined,
+    enemiesLiving: battlefield
+      ? Object.values(battlefield.units).filter(
+          u => u.team !== attacker.team && u.currentHP > 0
+        ).length
+      : undefined,
     hitResult: undefined,
     targetDefeated: undefined,
   }
@@ -134,12 +147,24 @@ const executeDamageSkill = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   target: BattleContext,
-  rng: RandomNumberGeneratorType
+  rng: RandomNumberGeneratorType,
+  battlefield?: BattlefieldState
 ): SingleTargetSkillResult => {
   // Create condition evaluation context
   const conditionContext: ConditionEvaluationContext = {
     attacker,
     target,
+    isNight: battlefield?.isNight,
+    alliesLiving: battlefield
+      ? Object.values(battlefield.units).filter(
+          u => u.team === attacker.team && u.currentHP > 0
+        ).length
+      : undefined,
+    enemiesLiving: battlefield
+      ? Object.values(battlefield.units).filter(
+          u => u.team !== attacker.team && u.currentHP > 0
+        ).length
+      : undefined,
     hitResult: undefined,
     targetDefeated: undefined,
   }
@@ -286,7 +311,8 @@ export const executeSkill = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   targets: BattleContext | readonly BattleContext[],
-  rng: RandomNumberGeneratorType
+  rng: RandomNumberGeneratorType,
+  battlefield?: BattlefieldState
 ): SingleTargetSkillResult | MultiTargetSkillResult => {
   // Convert to array for consistent handling
   const targetArray = Array.isArray(targets) ? targets : [targets]
@@ -300,13 +326,19 @@ export const executeSkill = (
     )
     // For single-target skills, only use the first target
     const singleTarget = targetArray[0]
-    const result = executeSingleTarget(skill, attacker, singleTarget, rng)
+    const result = executeSingleTarget(
+      skill,
+      attacker,
+      singleTarget,
+      rng,
+      battlefield
+    )
     return result
   }
 
   // Execute skill for all targets
   const results = targetArray.map(target =>
-    executeSingleTarget(skill, attacker, target, rng)
+    executeSingleTarget(skill, attacker, target, rng, battlefield)
   )
 
   // Return single result for one target, multi-target result for multiple
@@ -325,10 +357,11 @@ const executeSingleTarget = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
   target: BattleContext,
-  rng: RandomNumberGeneratorType
+  rng: RandomNumberGeneratorType,
+  battlefield?: BattlefieldState
 ): SingleTargetSkillResult => {
   if (!isDamageSkill(skill.skillCategories)) {
-    return executeNonDamageSkill(skill, attacker, target)
+    return executeNonDamageSkill(skill, attacker, target, battlefield)
   }
-  return executeDamageSkill(skill, attacker, target, rng)
+  return executeDamageSkill(skill, attacker, target, rng, battlefield)
 }

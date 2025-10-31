@@ -189,7 +189,8 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         skillSelection.skill,
         unit,
         redirectedTargets,
-        battlefieldState.rng
+        battlefieldState.rng,
+        battlefieldState
       )
 
       // Determine trigger type based on skill categories and remove expired effects

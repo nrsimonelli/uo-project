@@ -1,3 +1,4 @@
+import { getDamageType, isDamageSkill } from '@/core/attack-types'
 import {
   compareWithOperator,
   getHpPercent,
@@ -7,7 +8,10 @@ import {
   evaluateBasicFormation,
 } from '@/core/tactical-utils'
 import type { ConditionMetadata } from '@/data/tactics/tactic-condition-meta'
+import { ActiveSkillsMap } from '@/generated/skills-active'
+import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
+import type { DamageEffect } from '@/types/effects'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
 /**
@@ -333,11 +337,55 @@ const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
       metadata.attackType === 'physical' ||
       metadata.attackType === 'magical'
     ) {
-      // TODO: Filter by attack type - requires skill lookup from skillId
-      // For now, treat as basic attack history check
-      return recentActions.some(action =>
-        action.targetIds.includes(target.unit.id)
-      )
+      // Look up skill from action history and check damage type
+      return recentActions.some(action => {
+        if (!action.targetIds.includes(target.unit.id)) {
+          return false
+        }
+
+        // Look up the skill used in this action
+        const skill =
+          ActiveSkillsMap[action.skillId as keyof typeof ActiveSkillsMap] ||
+          PassiveSkillsMap[action.skillId as keyof typeof PassiveSkillsMap]
+
+        if (!skill) {
+          // Skill not found - fallback to basic check
+          return true
+        }
+
+        // Check if skill has damage effects
+        if (!isDamageSkill(skill.skillCategories)) {
+          return false
+        }
+
+        // Find damage effects in the skill
+        const damageEffects = skill.effects.filter(
+          (effect): effect is DamageEffect => effect.kind === 'Damage'
+        )
+
+        if (damageEffects.length === 0) {
+          return false
+        }
+
+        // Check if any damage effect matches the attack type
+        for (const damageEffect of damageEffects) {
+          const damageType = getDamageType(damageEffect)
+
+          if (metadata.attackType === 'physical') {
+            // Physical attack: check for Physical or Hybrid damage
+            if (damageType === 'Physical' || damageType === 'Hybrid') {
+              return true
+            }
+          } else if (metadata.attackType === 'magical') {
+            // Magical attack: check for Magical or Hybrid damage
+            if (damageType === 'Magical' || damageType === 'Hybrid') {
+              return true
+            }
+          }
+        }
+
+        return false
+      })
     } else if (metadata.attackType === 'row') {
       // Check if target's row was attacked
       return recentActions.some(action =>
@@ -399,7 +447,7 @@ const sortHpRaw: SortEvaluator = (targets, metadata) => {
 
   return [...targets].sort((a, b) => {
     if (isHighestHp) {
-      return b.currentHP - a.currentAP // Descending (highest first)
+      return b.currentHP - a.currentHP // Descending (highest first)
     } else {
       return a.currentHP - b.currentHP // Ascending (lowest first)
     }
@@ -651,6 +699,58 @@ const compareStats: CompareEvaluator = (a, b, metadata) => {
   }
 }
 
+const compareHpRaw: CompareEvaluator = (a, b, metadata) => {
+  const conditionKey = metadata.conditionKey || ''
+  const isHighestHp = conditionKey.includes('Highest')
+
+  if (isHighestHp) {
+    return b.currentHP - a.currentHP
+  } else {
+    return a.currentHP - b.currentHP
+  }
+}
+
+const compareHpAverage: CompareEvaluator = (a, b, metadata, context) => {
+  // Get average HP for target groups
+  const aGroup =
+    a.team === context.actingUnit.team ? context.allAllies : context.allEnemies
+  const bGroup =
+    b.team === context.actingUnit.team ? context.allAllies : context.allEnemies
+
+  const aTotalHpPercent = aGroup.reduce((sum, unit) => {
+    return sum + getHpPercent(unit)
+  }, 0)
+  const bTotalHpPercent = bGroup.reduce((sum, unit) => {
+    return sum + getHpPercent(unit)
+  }, 0)
+
+  const aAverageHpPercent =
+    aGroup.length > 0 ? aTotalHpPercent / aGroup.length : 0
+  const bAverageHpPercent =
+    bGroup.length > 0 ? bTotalHpPercent / bGroup.length : 0
+
+  // For average HP filters, we compare based on whether they meet the threshold
+  // Since this is used for tie-breaking, we just compare the averages
+  const operator = metadata.operator || 'gt'
+
+  // If operator is >, higher average is better; if <, lower average is better
+  if (operator === 'gt' || operator === 'gte') {
+    return bAverageHpPercent - aAverageHpPercent
+  } else {
+    return aAverageHpPercent - bAverageHpPercent
+  }
+}
+
+const compareStatus: CompareEvaluator = (a, b, metadata) => {
+  const statusName = metadata.statusName!
+  const aHasStatus = hasStatus(a, statusName)
+  const bHasStatus = hasStatus(b, statusName)
+
+  if (aHasStatus && !bHasStatus) return -1
+  if (!aHasStatus && bHasStatus) return 1
+  return 0
+}
+
 const compareUnitCount: CompareEvaluator = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _a,
@@ -740,10 +840,13 @@ export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
 }
 
 export const COMPARE_EVALUATORS: Record<string, CompareEvaluator> = {
+  'hp-raw': compareHpRaw,
   'hp-percent': compareHpPercent,
+  'hp-average': compareHpAverage,
   ap: compareAp,
   pp: comparePp,
   'combatant-type': compareCombatantType,
+  status: compareStatus,
   formation: compareFormation,
   'stat-high': compareStats,
   'stat-low': compareStats,

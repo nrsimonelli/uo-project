@@ -12,6 +12,10 @@ import type {
 export interface ConditionEvaluationContext {
   attacker: BattleContext
   target: BattleContext
+  // Optional battlefield-derived context for conditional checks
+  isNight?: boolean
+  alliesLiving?: number
+  enemiesLiving?: number
   hitResult?: boolean
   targetDefeated?: boolean
   firstHitGuarded?: boolean
@@ -291,23 +295,29 @@ const evaluateFirstHitGuardedCondition = (
   )
 }
 
-// TODO: Day/Night Cycle
+// Day/Night Cycle
 const evaluateNightCycleCondition = (
   condition: Extract<Condition, { kind: 'IsNightCycle' }>,
   context: ConditionEvaluationContext
 ) => {
-  // TODO need to get access to "isNight" from BattlefieldState...
-  const isNight = true
+  const isNight = Boolean(context.isNight)
   return applyEqualityComparator(isNight, condition.comparator, condition.value)
 }
 
-// TODO: number of enemies remaining (Decimate)
+// Unit size (number of living allies/enemies)
 const evaluateUnitSizeCondition = (
   condition: Extract<Condition, { kind: 'UnitSize' }>,
   context: ConditionEvaluationContext
 ) => {
-  // TODO target -> num living members
-  return applyNumericComparator(_, condition.value, condition.comparator)
+  // Choose which side to measure based on target
+  // Self/Ally -> alliesLiving (relative to attacker)
+  // Enemy -> enemiesLiving (relative to attacker)
+  const isEnemyTarget = condition.target === 'Enemy'
+  const count = isEnemyTarget
+    ? (context.enemiesLiving ?? 0)
+    : (context.alliesLiving ?? 0)
+
+  return applyNumericComparator(count, condition.value, condition.comparator)
 }
 
 /**
