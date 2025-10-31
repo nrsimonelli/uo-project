@@ -120,6 +120,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'Stat',
@@ -182,11 +183,11 @@ export const PassiveSkills = [
     pp: 1,
     skillCategories: ['Sabotage'],
     activationWindow: 'startOfBattle',
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -347,6 +348,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
     ],
   },
@@ -368,6 +370,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -461,6 +464,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
       {
         kind: 'Buff',
@@ -682,7 +686,7 @@ export const PassiveSkills = [
     type: 'passive',
     name: 'Heavy Counter',
     description:
-      'Activates after an enemy attacks with an active skill. Counterattack a single enemy. Ignores 100% Defense v. armored targets.',
+      'Activates after an enemy attacks with an active skill. Counterattack a single enemy. Ignores 100% Defense vs armored targets.',
     pp: 1,
     skillCategories: ['Damage', 'Counter'],
     activationWindow: 'afterEnemyAttacksActive',
@@ -764,7 +768,7 @@ export const PassiveSkills = [
     type: 'passive',
     name: 'Aerial Snipe',
     description:
-      'Activates after an ally is hit by an attack. Counterattack a single enemy. +100 potency v. flying targets.',
+      'Activates after an ally is hit by an attack. Counterattack a single enemy. +100 potency vs flying targets.',
     pp: 1,
     skillCategories: ['Damage', 'Counter'],
     activationWindow: 'afterAllyHit',
@@ -908,12 +912,12 @@ export const PassiveSkills = [
     pp: 1,
     skillCategories: ['Damage'],
     activationWindow: 'startOfBattle',
-    innateAttackType: 'Ranged',
-    skillFlags: ['Uncoverable', 'Unguardable'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
+    skillFlags: ['Uncoverable', 'Unguardable'],
     effects: [
       {
         kind: 'Damage',
@@ -945,7 +949,7 @@ export const PassiveSkills = [
     skillCategories: ['Utility'],
     activationWindow: 'beforeAttackingActive',
     targeting: {
-      group: 'Ally',
+      group: 'Self',
       pattern: 'Row',
     },
     effects: [
@@ -975,12 +979,12 @@ export const PassiveSkills = [
       'Activates after a cavalry-based ally attacks (Active). Follow-up attack a column of enemies with a piercing strike.',
     pp: 1,
     skillCategories: ['Damage', 'Pursuit'],
-    skillFlags: ['Piercing'],
     activationWindow: 'afterCavalryAllyAttacksActive',
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -1110,6 +1114,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'Stat',
@@ -1169,6 +1174,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
     ],
   },
@@ -1287,11 +1293,11 @@ export const PassiveSkills = [
     pp: 1,
     skillCategories: ['Sabotage'],
     activationWindow: 'beforeEnemyAttacks',
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -1316,11 +1322,11 @@ export const PassiveSkills = [
     pp: 2,
     skillCategories: ['Sabotage'],
     activationWindow: 'startOfBattle',
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'All',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -1427,6 +1433,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
     ],
   },
@@ -1483,8 +1490,8 @@ export const PassiveSkills = [
     skillCategories: ['Utility'],
     activationWindow: 'startOfBattle',
     targeting: {
-      group: 'Ally',
-      pattern: 'Self',
+      group: 'Self',
+      pattern: 'Single',
     },
     effects: [
       {
@@ -1492,6 +1499,7 @@ export const PassiveSkills = [
         stat: 'INIT',
         value: 999,
         scaling: 'flat',
+        applyTo: 'User',
         duration: 'UntilNextAction',
       },
       {
@@ -1499,6 +1507,7 @@ export const PassiveSkills = [
         stat: 'CRT',
         value: -50,
         scaling: 'flat',
+        applyTo: 'User',
         duration: 'UntilNextAction',
       },
     ],
@@ -1578,11 +1587,11 @@ export const PassiveSkills = [
     pp: 2,
     skillCategories: ['Sabotage'],
     activationWindow: 'startOfBattle',
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'All',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -1669,6 +1678,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
     ],
   },
@@ -1738,6 +1748,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
       },
     ],
   },
@@ -1764,6 +1775,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'DebuffImmunity',
         value: 1,
+        applyTo: 'Target',
         scaling: 'flat',
         duration: 'UntilDebuffed',
       },
@@ -1815,6 +1827,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'DebuffImmunity',
         value: 1,
+        applyTo: 'Target',
         scaling: 'flat',
         duration: 'UntilDebuffed',
       },
@@ -1939,6 +1952,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'IsNightCycle',
@@ -1986,12 +2000,12 @@ export const PassiveSkills = [
       "Activates after an enemy is debuffed. Attack a single enemy. Ignores 50% of the target's Defense.",
     pp: 2,
     skillCategories: ['Damage', 'Pursuit'],
-    skillFlags: ['Unguardable'],
     activationWindow: 'afterEnemyDebuff',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    skillFlags: ['Unguardable'],
     effects: [
       {
         kind: 'Damage',
@@ -2044,10 +2058,12 @@ export const PassiveSkills = [
       {
         kind: 'HealPercent',
         value: 30,
+        applyTo: 'User',
       },
       {
         kind: 'HealPercent',
         value: 30,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'IsNightCycle',
@@ -2066,12 +2082,12 @@ export const PassiveSkills = [
       "Activates at the end of a battle. Attacks a single enemy. Deals damage equal to 80% of the users's HP. (This attack cannot be a critical)",
     pp: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable', 'NoCrit'],
     activationWindow: 'endOfBattle',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    skillFlags: ['Unguardable', 'NoCrit'],
     effects: [
       {
         kind: 'Damage',
@@ -2093,8 +2109,8 @@ export const PassiveSkills = [
     description:
       'Activates after an ally uses a passive skill. Grants an ally +1 PP.',
     pp: 1,
-    activationWindow: 'afterAllyPassiveSkill',
     skillCategories: ['Utility'],
+    activationWindow: 'afterAllyPassiveSkill',
     targeting: {
       group: 'Ally',
       pattern: 'Single',
@@ -2115,13 +2131,13 @@ export const PassiveSkills = [
     description:
       'Activates after an enemy is buffed. Remove all buffs from a single enemy.',
     pp: 1,
-    activationWindow: 'afterEnemyBuff',
     skillCategories: ['Sabotage'],
-    innateAttackType: 'Ranged',
+    activationWindow: 'afterEnemyBuff',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Cleanse',
@@ -2137,8 +2153,8 @@ export const PassiveSkills = [
     description:
       'Activates before an ally is attacked. Reduce damage taken by all allies by 25% for one attack.',
     pp: 2,
-    activationWindow: 'beforeAllyAttacked',
     skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
     targeting: {
       group: 'Ally',
       pattern: 'All',
@@ -2208,6 +2224,7 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 1,
+        applyTo: 'User',
         conditions: [
           {
             kind: 'IsNightCycle',
@@ -2241,12 +2258,12 @@ export const PassiveSkills = [
       'Activates after a flying ally attacks (Active). Follow-up attack a single enemy.',
     pp: 1,
     skillCategories: ['Damage', 'Pursuit'],
-    innateAttackType: 'Ranged',
     activationWindow: 'afterFlyingAllyAttacksActive',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2315,11 +2332,11 @@ export const PassiveSkills = [
     pp: 2,
     skillCategories: ['Sabotage'],
     activationWindow: 'beforeEnemyAttacks',
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Affliction',

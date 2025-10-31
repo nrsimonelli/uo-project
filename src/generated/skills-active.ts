@@ -191,11 +191,11 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Grants +50 potency vs cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -346,11 +346,11 @@ export const ActiveSkills = [
     description: 'Attack a column of enemies. Inflicts blindness.',
     ap: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -419,11 +419,11 @@ export const ActiveSkills = [
     description: 'Attack a column of enemies. Inflicts -1 PP.',
     ap: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -570,14 +570,14 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Lethal Venom',
     description:
-      'Attack a column of enemies with a piercing strike. Inflicts Poison. Inflicts Deathblow vs. poisoned foes.',
+      'Attack a column of enemies with a piercing strike. Inflicts Poison. Inflicts Deathblow vs poisoned foes.',
     ap: 3,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -612,7 +612,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Flame Javelin',
     description:
-      'Attack a single enemy. +50 potency vs. flying targets. Inflicts burn.',
+      'Attack a single enemy. +50 potency vs flying targets. Inflicts burn.',
     ap: 2,
     skillCategories: ['Damage'],
     targeting: {
@@ -658,11 +658,11 @@ export const ActiveSkills = [
       'Attack a column of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Elven targets.',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -910,11 +910,11 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. +50 potency if the user is buffed. Cavalry targets cannot guard against this attack.',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -1015,7 +1015,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Wide Breaker',
     description:
-      'Attack a row of enemies. Inflicts Phys. Defense -30%. +50 potency v. debuffed targets.',
+      'Attack a row of enemies. Inflicts Phys. Defense -30%. +50 potency vs debuffed targets.',
     ap: 2,
     skillCategories: ['Damage'],
     targeting: {
@@ -1304,11 +1304,13 @@ export const ActiveSkills = [
         stat: 'PDEF',
         value: 50,
         scaling: 'percent',
+        applyTo: 'User',
       },
       {
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 2,
+        applyTo: 'User',
       },
     ],
   },
@@ -1367,12 +1369,14 @@ export const ActiveSkills = [
       {
         kind: 'HealPercent',
         value: 30,
+        applyTo: 'User',
       },
       {
         kind: 'Buff',
         stat: 'PATK',
         value: 30,
         scaling: 'percent',
+        applyTo: 'User',
       },
     ],
   },
@@ -1421,7 +1425,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Heavy Smash',
     description:
-      'Attack a single enemy. Ignores 100% Defense v. armored targets.',
+      'Attack a single enemy. Ignores 100% Defense vs armored targets.',
     ap: 1,
     skillCategories: ['Damage'],
     targeting: {
@@ -1494,7 +1498,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Row Smash',
     description:
-      'Attack a row of enemies. Ignores 100% Defense v. armored targets.',
+      'Attack a row of enemies. Ignores 100% Defense vs armored targets.',
     ap: 2,
     skillCategories: ['Damage'],
     targeting: {
@@ -1870,11 +1874,11 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Inflicts Stun.',
     ap: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -2107,7 +2111,7 @@ export const ActiveSkills = [
     type: 'active',
     name: 'Dark Flame',
     description:
-      'Consumes 30% of own HP to attack a row of enemies. +50 potency v. debuffed targets. Inflicts Burn.',
+      'Consumes 30% of own HP to attack a row of enemies. +50 potency vs debuffed targets. Inflicts Burn.',
     ap: 2,
     skillCategories: ['Damage'],
     targeting: {
@@ -2207,11 +2211,11 @@ export const ActiveSkills = [
     description: 'Inflicts -1 PP and -10 Initiative on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -2237,11 +2241,11 @@ export const ActiveSkills = [
       'Inflicts -50% Phys. Attack and -50% Mag. Attack on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -2260,11 +2264,11 @@ export const ActiveSkills = [
       'Inflicts -50% Phys. Defense, -50% Mag. Defense, and Guard Seal on a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Debuff',
@@ -2287,11 +2291,11 @@ export const ActiveSkills = [
     description: 'Makes Debuffs 1.5x more effective for a row of enemies.',
     ap: 1,
     skillCategories: ['Sabotage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'DebuffAmplification',
@@ -2307,11 +2311,11 @@ export const ActiveSkills = [
     description: 'Attack a single enemy with Magic. Inflicts Burn',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2335,11 +2339,11 @@ export const ActiveSkills = [
     description: 'Attack a row of enemies with Magic. Inflicts Stun.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2363,11 +2367,11 @@ export const ActiveSkills = [
     description: 'Attack a column of enemies with Magic. Inflicts Burn.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2391,11 +2395,11 @@ export const ActiveSkills = [
     description: 'Attack a single enemy with Magic. Inflicts Freeze.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2419,11 +2423,11 @@ export const ActiveSkills = [
     description: 'Attack two enemies with Magic.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Two',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2442,11 +2446,11 @@ export const ActiveSkills = [
     description: 'Attack a row of enemies with Magic. Inflicts Freeze.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Magical',
     effects: [
       {
         kind: 'Damage',
@@ -2466,11 +2470,11 @@ export const ActiveSkills = [
       'Attack a single enemy. Cavalry targets cannot guard against this attack. +50 potency vs Cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2515,11 +2519,11 @@ export const ActiveSkills = [
     description: 'Attack a row of enemies. Inflicts Burn.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2539,12 +2543,12 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Cavalry targets cannot guard against this attack. Becomes a truestrike and critical if user is below 50% HP.',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    innateAttackType: 'Ranged',
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -2604,11 +2608,11 @@ export const ActiveSkills = [
       'Attack a row of enemies. Cavalry targets cannot guard against this attack. +50 potency vs Cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2654,12 +2658,12 @@ export const ActiveSkills = [
       "Attack a column of enemies with a piercing strike. Deals damage equal to 50% of the user's HP. This attack cannot be a critical.",
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable', 'Piercing', 'NoCrit'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    innateAttackType: 'Ranged',
+    skillFlags: ['Unguardable', 'Piercing', 'NoCrit'],
     effects: [
       {
         kind: 'Damage',
@@ -2682,11 +2686,11 @@ export const ActiveSkills = [
       'Attack a row of enemies. Cavalry targets cannot guard against this attack. -1 AP to targets at 100% HP.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2763,12 +2767,12 @@ export const ActiveSkills = [
       'Attack a column of enemies with piercing Magic. Inflicts -1 PP to Cavalry targets.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Magical',
-    skillFlags: ['GroundBased'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    innateAttackType: 'Magical',
+    skillFlags: ['GroundBased'],
     effects: [
       {
         kind: 'Damage',
@@ -2834,11 +2838,11 @@ export const ActiveSkills = [
     description: 'Attack a single enemy. Inflicts Evasion -50.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2884,11 +2888,11 @@ export const ActiveSkills = [
     description: 'Attack two enemies. Inflicts Freeze.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Two',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -2932,6 +2936,7 @@ export const ActiveSkills = [
         stat: 'PATK',
         value: 50,
         scaling: 'percent',
+        applyTo: 'User',
         conditions: [
           {
             kind: 'TargetDefeated',
@@ -3113,11 +3118,11 @@ export const ActiveSkills = [
       'Attack a column of enemies with a piercing strike. Inflicts Poison and debuffs target HP recovery by -50%. +50 potency vs Poisoned targets.',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Piercing'],
     targeting: {
       group: 'Enemy',
       pattern: 'Column',
     },
+    skillFlags: ['Piercing'],
     effects: [
       {
         kind: 'Damage',
@@ -3162,11 +3167,11 @@ export const ActiveSkills = [
     description: 'Attack a single enemy. Inflicts Stun.',
     ap: 1,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable'],
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    skillFlags: ['Unguardable'],
     effects: [
       {
         kind: 'Damage',
@@ -3191,11 +3196,11 @@ export const ActiveSkills = [
       'Attack a row enemies. Damage increases the more HP the user has (Maximum increase +50.)',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable'],
     targeting: {
       group: 'Enemy',
       pattern: 'Row',
     },
+    skillFlags: ['Unguardable'],
     effects: [
       {
         kind: 'Damage',
@@ -3231,12 +3236,12 @@ export const ActiveSkills = [
       'Attack all enemies. Damage increases the less HP the user has (Maximum increase +75.)',
     ap: 2,
     skillCategories: ['Damage'],
-    skillFlags: ['Unguardable', 'GroundBased'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'All',
     },
+    innateAttackType: 'Ranged',
+    skillFlags: ['Unguardable', 'GroundBased'],
     effects: [
       {
         kind: 'Damage',
@@ -3372,11 +3377,11 @@ export const ActiveSkills = [
       'Attack a single enemy. Inflicts Evasion -20. Graths the user +20 Evasion.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -3410,11 +3415,11 @@ export const ActiveSkills = [
       'Attack a single enemy. Inflicts Defense -20%. Graths the user +20% Defense.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -3448,11 +3453,11 @@ export const ActiveSkills = [
       'Attack a single enemy. Becomes a truestrike if the user is buffed.',
     ap: 2,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -3559,11 +3564,11 @@ export const ActiveSkills = [
       'Attack two enemies. Inflicts Physical Defense -50%. Inflicts Guard Seal during the Day.',
     ap: 1,
     skillCategories: ['Damage'],
-    innateAttackType: 'Ranged',
     targeting: {
       group: 'Enemy',
       pattern: 'Two',
     },
+    innateAttackType: 'Ranged',
     effects: [
       {
         kind: 'Damage',
@@ -3601,11 +3606,11 @@ export const ActiveSkills = [
     description: 'Restore minor HP to a row of allies above their limits.',
     ap: 1,
     skillCategories: ['Heal'],
-    skillFlags: ['Overheal'],
     targeting: {
       group: 'Ally',
       pattern: 'Row',
     },
+    skillFlags: ['Overheal'],
     effects: [
       {
         kind: 'Heal',
@@ -3738,11 +3743,13 @@ export const ActiveSkills = [
         stat: 'MDEF',
         value: 50,
         scaling: 'percent',
+        applyTo: 'User',
       },
       {
         kind: 'ResourceGain',
         resource: 'PP',
         amount: 2,
+        applyTo: 'User',
       },
     ],
   },

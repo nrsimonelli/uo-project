@@ -7,7 +7,10 @@
     "pp": 1,
     "skillCategories": ["Heal"],
     "activationWindow": "endOfBattle",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "HealPercent",
@@ -23,7 +26,10 @@
     "pp": 1,
     "skillCategories": ["Utility"],
     "activationWindow": "beforeAllyAttacksActive",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "GrantFlag",
@@ -40,7 +46,10 @@
     "pp": 1,
     "skillCategories": ["Cover"],
     "activationWindow": "beforeAllyAttacked",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "Cover",
@@ -105,6 +114,7 @@
         "kind": "ResourceGain",
         "resource": "PP",
         "amount": 1,
+        "applyTo": "User",
         "conditions": [
           {
             "kind": "Stat",
@@ -164,11 +174,11 @@
     "pp": 1,
     "skillCategories": ["Sabotage"],
     "activationWindow": "startOfBattle",
-    "innateAttackType": "Ranged",
     "targeting": {
       "group": "Enemy",
       "pattern": "Row"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Debuff",
@@ -222,7 +232,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 75 },
+        "potency": {
+          "physical": 75
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -243,7 +255,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 50 },
+        "potency": {
+          "physical": 50
+        },
         "hitRate": 100,
         "hitCount": 1
       },
@@ -291,7 +305,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 150 },
+        "potency": {
+          "physical": 150
+        },
         "hitRate": "True",
         "hitCount": 1
       }
@@ -317,7 +333,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       }
     ]
   },
@@ -337,7 +354,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       },
       {
         "kind": "Buff",
@@ -363,7 +381,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 75 },
+        "potency": {
+          "physical": 75
+        },
         "hitRate": 90,
         "hitCount": 1
       },
@@ -425,7 +445,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       },
       {
         "kind": "Buff",
@@ -547,7 +568,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 100 },
+        "potency": {
+          "physical": 100
+        },
         "hitRate": 75,
         "hitCount": 1
       }
@@ -637,7 +660,7 @@
     "id": "heavyCounter",
     "type": "passive",
     "name": "Heavy Counter",
-    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy. Ignores 100% Defense v. armored targets.",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy. Ignores 100% Defense vs armored targets.",
     "pp": 1,
     "skillCategories": ["Damage", "Counter"],
     "activationWindow": "afterEnemyAttacksActive",
@@ -648,13 +671,15 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 150 },
+        "potency": {
+          "physical": 150
+        },
         "hitRate": 100,
         "hitCount": 1
       },
       {
         "kind": "IgnoreDefense",
-        "fraction": 1.0,
+        "fraction": 1,
         "conditions": [
           {
             "kind": "CombatantType",
@@ -702,7 +727,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 75 },
+        "potency": {
+          "physical": 75
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -712,7 +739,7 @@
     "id": "aerialSnipe",
     "type": "passive",
     "name": "Aerial Snipe",
-    "description": "Activates after an ally is hit by an attack. Counterattack a single enemy. +100 potency v. flying targets.",
+    "description": "Activates after an ally is hit by an attack. Counterattack a single enemy. +100 potency vs flying targets.",
     "pp": 1,
     "skillCategories": ["Damage", "Counter"],
     "activationWindow": "afterAllyHit",
@@ -723,13 +750,17 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 50 },
+        "potency": {
+          "physical": 50
+        },
         "hitRate": 100,
         "hitCount": 1
       },
       {
         "kind": "PotencyBoost",
-        "amount": { "physical": 100 },
+        "amount": {
+          "physical": 100
+        },
         "conditions": [
           {
             "kind": "CombatantType",
@@ -789,7 +820,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 50 },
+        "potency": {
+          "physical": 50
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -846,16 +879,18 @@
     "pp": 1,
     "skillCategories": ["Damage"],
     "activationWindow": "startOfBattle",
-    "innateAttackType": "Ranged",
-    "skillFlags": ["Uncoverable", "Unguardable"],
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "innateAttackType": "Ranged",
+    "skillFlags": ["Uncoverable", "Unguardable"],
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 50 },
+        "potency": {
+          "physical": 50
+        },
         "hitRate": 100,
         "hitCount": 2
       },
@@ -880,7 +915,7 @@
     "skillCategories": ["Utility"],
     "activationWindow": "beforeAttackingActive",
     "targeting": {
-      "group": "Ally",
+      "group": "Self",
       "pattern": "Row"
     },
     "effects": [
@@ -909,16 +944,18 @@
     "description": "Activates after a cavalry-based ally attacks (Active). Follow-up attack a column of enemies with a piercing strike.",
     "pp": 1,
     "skillCategories": ["Damage", "Pursuit"],
-    "skillFlags": ["Piercing"],
     "activationWindow": "afterCavalryAllyAttacksActive",
     "targeting": {
       "group": "Enemy",
       "pattern": "Column"
     },
+    "skillFlags": ["Piercing"],
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 50 },
+        "potency": {
+          "physical": 50
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -1038,6 +1075,7 @@
         "kind": "ResourceGain",
         "resource": "PP",
         "amount": 1,
+        "applyTo": "User",
         "conditions": [
           {
             "kind": "Stat",
@@ -1094,7 +1132,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       }
     ]
   },
@@ -1113,7 +1152,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 50 },
+        "potency": {
+          "magical": 50
+        },
         "hitCount": 1
       }
     ]
@@ -1153,7 +1194,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 50 },
+        "potency": {
+          "magical": 50
+        },
         "hitCount": 1
       },
       {
@@ -1204,11 +1247,11 @@
     "pp": 1,
     "skillCategories": ["Sabotage"],
     "activationWindow": "beforeEnemyAttacks",
-    "innateAttackType": "Ranged",
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Debuff",
@@ -1232,11 +1275,11 @@
     "pp": 2,
     "skillCategories": ["Sabotage"],
     "activationWindow": "startOfBattle",
-    "innateAttackType": "Ranged",
     "targeting": {
       "group": "Enemy",
       "pattern": "All"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Debuff",
@@ -1285,7 +1328,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "magical": 150 },
+        "potency": {
+          "magical": 150
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -1307,7 +1352,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "magical": 100 },
+        "potency": {
+          "magical": 100
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -1336,7 +1383,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       }
     ]
   },
@@ -1348,7 +1396,10 @@
     "pp": 1,
     "skillCategories": ["Utility"],
     "activationWindow": "beforeAllyAttacksPhysicalActive",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "Conferral",
@@ -1366,7 +1417,10 @@
     "pp": 1,
     "skillCategories": ["Utility"],
     "activationWindow": "beforeAllyAttacksActive",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "GrantFlag",
@@ -1383,13 +1437,17 @@
     "pp": 1,
     "skillCategories": ["Utility"],
     "activationWindow": "startOfBattle",
-    "targeting": { "group": "Ally", "pattern": "Self" },
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "Buff",
         "stat": "INIT",
         "value": 999,
         "scaling": "flat",
+        "applyTo": "User",
         "duration": "UntilNextAction"
       },
       {
@@ -1397,6 +1455,7 @@
         "stat": "CRT",
         "value": -50,
         "scaling": "flat",
+        "applyTo": "User",
         "duration": "UntilNextAction"
       }
     ]
@@ -1409,7 +1468,10 @@
     "pp": 1,
     "skillCategories": ["Damage", "Counter"],
     "activationWindow": "afterEnemyAttacksActive",
-    "targeting": { "group": "Enemy", "pattern": "Single" },
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "Damage",
@@ -1421,7 +1483,9 @@
       },
       {
         "kind": "PotencyBoost",
-        "amount": { "physical": 100 },
+        "amount": {
+          "physical": 100
+        },
         "conditions": [
           {
             "kind": "CombatantType",
@@ -1468,11 +1532,11 @@
     "pp": 2,
     "skillCategories": ["Sabotage"],
     "activationWindow": "startOfBattle",
-    "innateAttackType": "Ranged",
     "targeting": {
       "group": "Enemy",
       "pattern": "All"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Debuff",
@@ -1491,7 +1555,10 @@
     "pp": 1,
     "skillCategories": ["Heal"],
     "activationWindow": "endOfBattle",
-    "targeting": { "group": "Self", "pattern": "Single" },
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "HealPercent",
@@ -1552,7 +1619,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       }
     ]
   },
@@ -1619,7 +1687,8 @@
       {
         "kind": "ResourceGain",
         "resource": "AP",
-        "amount": 1
+        "amount": 1,
+        "applyTo": "User"
       }
     ]
   },
@@ -1645,6 +1714,7 @@
         "kind": "Buff",
         "stat": "DebuffImmunity",
         "value": 1,
+        "applyTo": "Target",
         "scaling": "flat",
         "duration": "UntilDebuffed"
       }
@@ -1665,7 +1735,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 50 },
+        "potency": {
+          "magical": 50
+        },
         "hitCount": 1
       },
       {
@@ -1692,6 +1764,7 @@
         "kind": "Buff",
         "stat": "DebuffImmunity",
         "value": 1,
+        "applyTo": "Target",
         "scaling": "flat",
         "duration": "UntilDebuffed"
       }
@@ -1712,7 +1785,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 150 },
+        "potency": {
+          "physical": 150
+        },
         "hitRate": 100,
         "hitCount": 1
       },
@@ -1768,7 +1843,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 75 },
+        "potency": {
+          "physical": 75
+        },
         "hitRate": 100,
         "hitCount": 1
       },
@@ -1808,6 +1885,7 @@
         "kind": "ResourceGain",
         "resource": "PP",
         "amount": 1,
+        "applyTo": "User",
         "conditions": [
           {
             "kind": "IsNightCycle",
@@ -1833,7 +1911,9 @@
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 75 },
+        "potency": {
+          "physical": 75
+        },
         "hitRate": 100,
         "hitCount": 1
       },
@@ -1851,16 +1931,18 @@
     "description": "Activates after an enemy is debuffed. Attack a single enemy. Ignores 50% of the target's Defense.",
     "pp": 2,
     "skillCategories": ["Damage", "Pursuit"],
-    "skillFlags": ["Unguardable"],
     "activationWindow": "afterEnemyDebuff",
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "skillFlags": ["Unguardable"],
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 100 },
+        "potency": {
+          "physical": 100
+        },
         "hitRate": 100,
         "hitCount": 1
       },
@@ -1870,7 +1952,6 @@
       }
     ]
   },
-
   {
     "id": "heavyGuard",
     "type": "passive",
@@ -1898,15 +1979,20 @@
     "pp": 1,
     "skillCategories": ["Heal"],
     "activationWindow": "afterAttacking",
-    "targeting": { "group": "Self", "pattern": "Single" },
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "HealPercent",
-        "value": 30
+        "value": 30,
+        "applyTo": "User"
       },
       {
         "kind": "HealPercent",
         "value": 30,
+        "applyTo": "User",
         "conditions": [
           {
             "kind": "IsNightCycle",
@@ -1924,12 +2010,12 @@
     "description": "Activates at the end of a battle. Attacks a single enemy. Deals damage equal to 80% of the users's HP. (This attack cannot be a critical)",
     "pp": 1,
     "skillCategories": ["Damage"],
-    "skillFlags": ["Unguardable", "NoCrit"],
     "activationWindow": "endOfBattle",
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "skillFlags": ["Unguardable", "NoCrit"],
     "effects": [
       {
         "kind": "Damage",
@@ -1950,8 +2036,8 @@
     "name": "Restore",
     "description": "Activates after an ally uses a passive skill. Grants an ally +1 PP.",
     "pp": 1,
-    "activationWindow": "afterAllyPassiveSkill",
     "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyPassiveSkill",
     "targeting": {
       "group": "Ally",
       "pattern": "Single"
@@ -1971,13 +2057,13 @@
     "name": "Quick Dispel",
     "description": "Activates after an enemy is buffed. Remove all buffs from a single enemy.",
     "pp": 1,
-    "activationWindow": "afterEnemyBuff",
     "skillCategories": ["Sabotage"],
-    "innateAttackType": "Ranged",
+    "activationWindow": "afterEnemyBuff",
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Cleanse",
@@ -1992,8 +2078,8 @@
     "name": "Circle Barrier",
     "description": "Activates before an ally is attacked. Reduce damage taken by all allies by 25% for one attack.",
     "pp": 2,
-    "activationWindow": "beforeAllyAttacked",
     "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacked",
     "targeting": {
       "group": "Ally",
       "pattern": "All"
@@ -2061,6 +2147,7 @@
         "kind": "ResourceGain",
         "resource": "PP",
         "amount": 1,
+        "applyTo": "User",
         "conditions": [
           {
             "kind": "IsNightCycle",
@@ -2092,16 +2179,18 @@
     "description": "Activates after a flying ally attacks (Active). Follow-up attack a single enemy.",
     "pp": 1,
     "skillCategories": ["Damage", "Pursuit"],
-    "innateAttackType": "Ranged",
     "activationWindow": "afterFlyingAllyAttacksActive",
     "targeting": {
       "group": "Enemy",
       "pattern": "Single"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Damage",
-        "potency": { "physical": 100 },
+        "potency": {
+          "physical": 100
+        },
         "hitRate": 100,
         "hitCount": 1
       }
@@ -2115,7 +2204,10 @@
     "pp": 1,
     "skillCategories": ["Utility"],
     "activationWindow": "afterUsingActiveSkill",
-    "targeting": { "group": "Ally", "pattern": "Row" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
     "effects": [
       {
         "kind": "Buff",
@@ -2159,11 +2251,11 @@
     "pp": 2,
     "skillCategories": ["Sabotage"],
     "activationWindow": "beforeEnemyAttacks",
-    "innateAttackType": "Ranged",
     "targeting": {
       "group": "Enemy",
       "pattern": "Row"
     },
+    "innateAttackType": "Ranged",
     "effects": [
       {
         "kind": "Affliction",
@@ -2187,7 +2279,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 50 },
+        "potency": {
+          "magical": 50
+        },
         "hitCount": 1
       },
       {
@@ -2221,7 +2315,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 100 },
+        "potency": {
+          "magical": 100
+        },
         "hitCount": 1
       }
     ]
@@ -2241,7 +2337,9 @@
     "effects": [
       {
         "kind": "Heal",
-        "potency": { "magical": 50 },
+        "potency": {
+          "magical": 50
+        },
         "hitCount": 1
       },
       {
@@ -2279,7 +2377,10 @@
     "pp": 1,
     "skillCategories": ["Cover"],
     "activationWindow": "beforeAllyAttacked",
-    "targeting": { "group": "Ally", "pattern": "Single" },
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
     "effects": [
       {
         "kind": "Cover",
