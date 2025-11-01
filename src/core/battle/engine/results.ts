@@ -8,7 +8,11 @@ import {
   getDebuffsForStat,
 } from '@/core/battle/combat/status-effects'
 import { getStateIdForContext } from '@/core/battle/engine/utils/state-ids'
-import type { BattleEvent, BattleContext } from '@/types/battle-engine'
+import type {
+  BattleEvent,
+  BattleContext,
+  BattlefieldState,
+} from '@/types/battle-engine'
 import type { ExtraStats } from '@/types/equipment'
 
 export function transformSkillResults(
@@ -120,10 +124,10 @@ export function buildPostAttackSets(
 }
 
 export function applySkillDamageResults(
-  state: import('@/types/battle-engine').BattlefieldState,
+  state: BattlefieldState,
   targets: BattleContext[],
   result: SingleTargetSkillResult | MultiTargetSkillResult
-): import('@/types/battle-engine').BattlefieldState {
+): BattlefieldState {
   if ('results' in result) {
     // Multi-target
     for (let i = 0; i < result.results.length; i += 1) {
