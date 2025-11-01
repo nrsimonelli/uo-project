@@ -108,6 +108,13 @@ export interface EffectProcessingResult {
     skillId: string
   }>
 
+  // LifeSteal entries - healed after damage is applied
+  lifeStealsToApply: Array<{
+    percentage: number
+    target: 'User' | 'Target'
+    skillId: string
+  }>
+
   // Buffs/debuffs to apply
   buffsToApply: Array<{
     stat: string
@@ -161,6 +168,7 @@ export const processEffects = (
     conferralsToApply: [],
     afflictionsToApply: [],
     cleansesToApply: [],
+    lifeStealsToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -303,7 +311,11 @@ export const processEffects = (
       return
     }
     if (effect.kind === 'LifeSteal') {
-      // TODO: Implementation
+      result.lifeStealsToApply.push({
+        percentage: effect.percentage,
+        target: effect.applyTo || 'User',
+        skillId,
+      })
       return
     }
     if (effect.kind === 'OwnHPBasedDamage') {

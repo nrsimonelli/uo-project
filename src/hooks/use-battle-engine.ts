@@ -300,9 +300,6 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
   )
 
   /**
-   * Finalize the battle and set final results using proper React state patterns
-   */
-  /**
    * Finalize the battle and set final results
    * Updates battle events and result summary
    */
@@ -382,11 +379,6 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     // Process the next unit's turn immediately
     processUnitAction(nextActionableUnit)
   }, [battlefieldState, isExecuting, finalizeBattle, processUnitAction])
-
-  /**
-   * Process a single unit's action during their turn
-   * Handles skill selection, execution, and state updates
-   */
 
   /**
    * Start a new battle between two teams

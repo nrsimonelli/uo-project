@@ -16,6 +16,7 @@ import type {
   Debuff,
   ConferralStatus,
 } from '@/types/battle-engine'
+import type { ExtraStats } from '@/types/equipment'
 
 /**
  * Get skill name from skillId for both active and passive skills
@@ -484,7 +485,10 @@ export const removeExpiredConferrals = (
 /**
  * Get all buffs affecting a specific stat
  */
-export const getBuffsForStat = (unit: BattleContext, stat: StatKey): Buff[] => {
+export const getBuffsForStat = (
+  unit: BattleContext,
+  stat: StatKey | ExtraStats
+): Buff[] => {
   return unit.buffs.filter(buff => buff.stat === stat)
 }
 
@@ -493,7 +497,7 @@ export const getBuffsForStat = (unit: BattleContext, stat: StatKey): Buff[] => {
  */
 export const getDebuffsForStat = (
   unit: BattleContext,
-  stat: StatKey
+  stat: StatKey | ExtraStats
 ): Debuff[] => {
   return unit.debuffs.filter(debuff => debuff.stat === stat)
 }
@@ -503,7 +507,7 @@ export const getDebuffsForStat = (
  */
 export const calculateStatModifier = (
   unit: BattleContext,
-  stat: StatKey
+  stat: StatKey | ExtraStats
 ): {
   flatModifier: number
   percentModifier: number

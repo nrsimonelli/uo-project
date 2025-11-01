@@ -2,9 +2,14 @@ import type {
   MultiTargetSkillResult,
   SingleTargetSkillResult,
 } from '@/core/battle/combat/skill-executor'
-import { checkAndConsumeSurviveLethal } from '@/core/battle/combat/status-effects'
+import {
+  checkAndConsumeSurviveLethal,
+  getBuffsForStat,
+  getDebuffsForStat,
+} from '@/core/battle/combat/status-effects'
 import { getStateIdForContext } from '@/core/battle/engine/utils/state-ids'
 import type { BattleEvent, BattleContext } from '@/types/battle-engine'
+import type { ExtraStats } from '@/types/equipment'
 
 export function transformSkillResults(
   result: SingleTargetSkillResult | MultiTargetSkillResult,
@@ -124,20 +129,97 @@ export function applySkillDamageResults(
     for (let i = 0; i < result.results.length; i += 1) {
       const target = targets[i]
       const single = result.results[i]
-      if (!target || !single) continue
-      const sid = getStateIdForContext(target)
-      const current = state.units[sid]
-      if (!current) continue
-      const calculatedHP = Math.max(0, current.currentHP - single.totalDamage)
-      const finalHP = checkAndConsumeSurviveLethal(current, calculatedHP)
-      state.units[sid] = {
-        ...current,
-        unit: { ...current.unit },
-        combatStats: { ...current.combatStats },
-        afflictions: [...current.afflictions],
-        buffs: [...current.buffs],
-        debuffs: [...current.debuffs],
-        currentHP: finalHP,
+      if (target && single) {
+        const sid = getStateIdForContext(target)
+        const current = state.units[sid]
+        if (current) {
+          const calculatedHP = Math.max(
+            0,
+            current.currentHP - single.totalDamage
+          )
+          const finalHP = checkAndConsumeSurviveLethal(current, calculatedHP)
+          state.units[sid] = {
+            ...current,
+            unit: { ...current.unit },
+            combatStats: { ...current.combatStats },
+            afflictions: [...current.afflictions],
+            buffs: [...current.buffs],
+            debuffs: [...current.debuffs],
+            currentHP: finalHP,
+          }
+
+          // Apply LifeSteal healing if any were queued for this attack
+          if (
+            single.effectResults &&
+            single.effectResults.lifeStealsToApply?.length
+          ) {
+            const attackerState = state.units[single.attackerId]
+
+            // Get drain effectiveness modifiers from buffs/debuffs
+            const drainBuffs = getBuffsForStat(
+              attackerState,
+              'DrainEff' as ExtraStats
+            )
+            const drainDebuffs = getDebuffsForStat(
+              attackerState,
+              'DrainEff' as ExtraStats
+            )
+            const drainEff =
+              drainBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+              drainDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
+
+            // Get HP recovery modifiers from buffs/debuffs
+            const recoveryBuffs = getBuffsForStat(
+              attackerState,
+              'HPRecovery' as ExtraStats
+            )
+            const recoveryDebuffs = getDebuffsForStat(
+              attackerState,
+              'HPRecovery' as ExtraStats
+            )
+            const hpRecovery =
+              recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+              recoveryDebuffs.reduce(
+                (sum, debuff) => sum + (debuff.value || 0),
+                0
+              )
+
+            for (const ls of single.effectResults.lifeStealsToApply) {
+              if (single.totalDamage > 0) {
+                // DrainEff adds directly to the LifeSteal percentage before calculating healing
+                const effectiveLifeStealPercent = ls.percentage + drainEff
+                const baseHeal = Math.round(
+                  (single.totalDamage * effectiveLifeStealPercent) / 100
+                )
+                // Apply HPRecovery multiplier after calculating base life steal amount
+                const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
+
+                // Determine who receives the heal
+                const healTargetState =
+                  ls.target === 'User' ? attackerState : state.units[sid]
+                if (healTargetState) {
+                  const allowOverheal =
+                    single.effectResults.grantedFlags?.includes('Overheal')
+                  const newHP = healTargetState.currentHP + finalHeal
+                  const cappedHP = allowOverheal
+                    ? newHP
+                    : Math.min(newHP, healTargetState.combatStats.HP)
+
+                  state.units[ls.target === 'User' ? single.attackerId : sid] =
+                    {
+                      ...healTargetState,
+                      unit: { ...healTargetState.unit },
+                      combatStats: { ...healTargetState.combatStats },
+                      afflictions: [...healTargetState.afflictions],
+                      buffs: [...healTargetState.buffs],
+                      debuffs: [...healTargetState.debuffs],
+                      currentHP: cappedHP,
+                    }
+                }
+              }
+            }
+          }
+        }
       }
     }
   } else {

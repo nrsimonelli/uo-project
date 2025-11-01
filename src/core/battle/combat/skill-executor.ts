@@ -38,6 +38,7 @@ export interface SingleTargetSkillResult {
   totalDamage: number
   anyHit: boolean
   allHit: boolean
+  attackerId: string
 }
 
 /**
@@ -103,6 +104,7 @@ const executeNonDamageSkill = (
     totalDamage: 0,
     anyHit: true, // Non-damage skills always "hit"
     allHit: true,
+    attackerId: attacker.unit.id,
   }
 }
 
@@ -283,6 +285,7 @@ const executeDamageSkill = (
     totalDamage,
     anyHit,
     allHit,
+    attackerId: attacker.unit.id,
   }
 }
 
