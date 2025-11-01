@@ -101,6 +101,13 @@ export interface EffectProcessingResult {
     skillId: string
   }>
 
+  // Cleanses to apply (remove buffs/debuffs/afflictions)
+  cleansesToApply: Array<{
+    target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType
+    applyTo: 'User' | 'Target'
+    skillId: string
+  }>
+
   // Buffs/debuffs to apply
   buffsToApply: Array<{
     stat: string
@@ -153,6 +160,7 @@ export const processEffects = (
     debuffAmplificationsToApply: [],
     conferralsToApply: [],
     afflictionsToApply: [],
+    cleansesToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -286,7 +294,12 @@ export const processEffects = (
     }
 
     if (effect.kind === 'Cleanse') {
-      // TODO: Implementation
+      // Queue cleanse actions for later application (status-effects will execute them)
+      result.cleansesToApply.push({
+        target: effect.target,
+        applyTo: effect.applyTo || 'Target',
+        skillId,
+      })
       return
     }
     if (effect.kind === 'LifeSteal') {

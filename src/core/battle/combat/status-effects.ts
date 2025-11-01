@@ -1,4 +1,8 @@
-import { applyAffliction } from './affliction-manager'
+import {
+  applyAffliction,
+  removeAffliction,
+  clearAllAfflictions,
+} from './affliction-manager'
 import type { EffectProcessingResult } from './effect-processor'
 
 import { calculateBaseStats } from '@/core/calculations/base-stats'
@@ -39,15 +43,51 @@ export const applyStatusEffects = (
 ) => {
   const unitsToRecalculate = new Set<BattleContext>()
 
+  // Apply cleanses (remove buffs/debuffs/afflictions) before applying new effects
+  effectResults.cleansesToApply.forEach(cleanse => {
+    const skillName = getSkillName(cleanse.skillId)
+    const targetUnit = cleanse.applyTo === 'User' ? attacker : targets[0]
+
+    // Skip if target-directed effect missed
+    if (!attackHit && cleanse.applyTo === 'Target') {
+      return
+    }
+
+    if (cleanse.target === 'Buffs') {
+      if (targetUnit.buffs.length > 0) {
+        targetUnit.buffs = []
+        console.log(`✨ ${targetUnit.unit.name} buffs removed by ${skillName}`)
+        unitsToRecalculate.add(targetUnit)
+      }
+    } else if (cleanse.target === 'Debuffs') {
+      if (targetUnit.debuffs.length > 0) {
+        targetUnit.debuffs = []
+        console.log(
+          `✨ ${targetUnit.unit.name} debuffs removed by ${skillName}`
+        )
+        unitsToRecalculate.add(targetUnit)
+      }
+    } else if (cleanse.target === 'Afflictions') {
+      clearAllAfflictions(targetUnit)
+      unitsToRecalculate.add(targetUnit)
+    } else {
+      // Specific affliction type
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      removeAffliction(targetUnit, cleanse.target as any)
+      unitsToRecalculate.add(targetUnit)
+    }
+  })
+
   // Apply buffs to appropriate targets
   effectResults.buffsToApply.forEach(buffToApply => {
-    // Skip target effects if attack missed (attackHit = false)
-    if (!attackHit && buffToApply.target !== 'User') return
-
-    const targetUnit = buffToApply.target === 'User' ? attacker : targets[0]
-    if (!targetUnit) return
-
     const skillName = getSkillName(buffToApply.skillId)
+    const targetUnit = buffToApply.target === 'User' ? attacker : targets[0]
+
+    // Skip if target-directed effect missed
+    if (!attackHit && buffToApply.target === 'Target') {
+      return
+    }
+
     const buff: Buff = {
       name: `${skillName} (+${buffToApply.stat})`,
       stat: buffToApply.stat as StatKey,
@@ -69,16 +109,14 @@ export const applyStatusEffects = (
 
   // Apply debuffs to appropriate targets
   effectResults.debuffsToApply.forEach(debuffToApply => {
-    // Skip target effects if attack missed (attackHit = false)
-    if (!attackHit && debuffToApply.target !== 'User') return
-
-    const targetUnit = debuffToApply.target === 'User' ? attacker : targets[0]
-    if (!targetUnit) return
-
-    // Remove expired buffs that trigger on debuff application
-    removeExpiredBuffs(targetUnit, 'debuffed')
-
     const skillName = getSkillName(debuffToApply.skillId)
+    const targetUnit = debuffToApply.target === 'User' ? attacker : targets[0]
+
+    // Skip if target-directed effect missed
+    if (!attackHit && debuffToApply.target === 'Target') {
+      return
+    }
+
     const debuff: Debuff = {
       name: `${skillName} (-${debuffToApply.stat})`,
       stat: debuffToApply.stat as StatKey,
@@ -88,6 +126,9 @@ export const applyStatusEffects = (
       source: attacker.unit.id,
       skillId: debuffToApply.skillId,
     }
+
+    // Remove expired buffs that trigger on debuff application
+    removeExpiredBuffs(targetUnit, 'debuffed')
 
     applyDebuff(targetUnit, debuff, debuffToApply.stacks)
     unitsToRecalculate.add(targetUnit)
@@ -104,14 +145,15 @@ export const applyStatusEffects = (
 
   // Apply debuff amplifications as special debuffs
   effectResults.debuffAmplificationsToApply.forEach(amplificationToApply => {
-    // Skip target effects if attack missed (attackHit = false)
-    if (!attackHit && amplificationToApply.target !== 'User') return
-
+    const skillName = getSkillName(amplificationToApply.skillId)
     const targetUnit =
       amplificationToApply.target === 'User' ? attacker : targets[0]
-    if (!targetUnit) return
 
-    const skillName = getSkillName(amplificationToApply.skillId)
+    // Skip if target-directed effect missed
+    if (!attackHit && amplificationToApply.target === 'Target') {
+      return
+    }
+
     const amplificationDebuff: Debuff = {
       name: `${skillName} (Debuff Amplification)`,
       stat: 'DebuffAmplification' as StatKey, // Special reserved stat
@@ -128,12 +170,13 @@ export const applyStatusEffects = (
 
   // Apply conferral effects to appropriate targets
   effectResults.conferralsToApply.forEach(conferralToApply => {
-    // Skip target effects if attack missed (attackHit = false)
-    if (!attackHit && conferralToApply.target !== 'User') return
-
     const targetUnit =
       conferralToApply.target === 'User' ? attacker : targets[0]
-    if (!targetUnit) return
+
+    // Skip if target-directed effect missed
+    if (!attackHit && conferralToApply.target === 'Target') {
+      return
+    }
 
     const conferral: ConferralStatus = {
       skillId: conferralToApply.skillId,
@@ -147,12 +190,13 @@ export const applyStatusEffects = (
 
   // Apply afflictions to appropriate targets
   effectResults.afflictionsToApply.forEach(afflictionToApply => {
-    // Skip target effects if attack missed (attackHit = false)
-    if (!attackHit && afflictionToApply.target !== 'User') return
-
     const targetUnit =
       afflictionToApply.target === 'User' ? attacker : targets[0]
-    if (!targetUnit) return
+
+    // Skip if target-directed effect missed
+    if (!attackHit && afflictionToApply.target === 'Target') {
+      return
+    }
 
     applyAffliction(
       targetUnit,
