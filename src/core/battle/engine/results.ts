@@ -87,38 +87,40 @@ export function buildPostAttackSets(
   result: SingleTargetSkillResult | MultiTargetSkillResult,
   targets: BattleContext[]
 ): { attackedIds: string[]; hitIds: string[]; anyGuarded: boolean } {
+  // Get IDs of all targets regardless of hit status
   const attackedIds = targets.map(getStateIdForContext)
-  const hitIds: string[] = []
+
+  // Determine which targets were actually hit
+  let hitIds: string[] = []
   let anyGuarded = false
 
   if ('results' in result) {
-    for (let i = 0; i < result.results.length; i += 1) {
-      const r = result.results[i]
-      if (r.anyHit) {
-        const t = targets[i]
-        if (t) {
-          const sid = getStateIdForContext(t)
-          if (hitIds.indexOf(sid) === -1) hitIds.push(sid)
+    // Multi-target case: Check each result separately
+    result.results.forEach((singleResult, index) => {
+      const target = targets[index]
+      if (singleResult.anyHit && target) {
+        const sid = getStateIdForContext(target)
+        if (!hitIds.includes(sid)) {
+          hitIds.push(sid)
         }
       }
-      const hits = r.damageResults
-      for (let j = 0; j < hits.length; j += 1) {
-        if (hits[j].wasGuarded) anyGuarded = true
+
+      // Check for guarded hits in this result
+      if (singleResult.damageResults.some(hit => hit.wasGuarded)) {
+        anyGuarded = true
       }
-    }
+    })
   } else {
-    if (result.anyHit) {
-      const t = targets[0]
-      if (t) {
-        const sid = getStateIdForContext(t)
-        if (hitIds.indexOf(sid) === -1) hitIds.push(sid)
-      }
+    // Single-target case: Only check the one result
+    if (result.anyHit && targets[0]) {
+      hitIds = [getStateIdForContext(targets[0])]
     }
-    const hits = result.damageResults
-    for (let j = 0; j < hits.length; j += 1) {
-      if (hits[j].wasGuarded) anyGuarded = true
-    }
+
+    // Check for guarded hits
+    anyGuarded = result.damageResults.some(hit => hit.wasGuarded)
   }
+
+  return { attackedIds, hitIds, anyGuarded }
 
   return { attackedIds, hitIds, anyGuarded }
 }
@@ -243,6 +245,73 @@ export function applySkillDamageResults(
           buffs: [...current.buffs],
           debuffs: [...current.debuffs],
           currentHP: finalHP,
+        }
+
+        // Handle resurrect and lifesteal effects for single target case
+        if (result.effectResults) {
+          const attackerState = state.units[result.attackerId]
+
+          // Apply LifeSteal effects
+          if (result.effectResults.lifeStealsToApply?.length) {
+            const drainBuffs = getBuffsForStat(
+              attackerState,
+              'DrainEff' as ExtraStats
+            )
+            const drainDebuffs = getDebuffsForStat(
+              attackerState,
+              'DrainEff' as ExtraStats
+            )
+            const drainEff =
+              drainBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+              drainDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
+
+            const recoveryBuffs = getBuffsForStat(
+              attackerState,
+              'HPRecovery' as ExtraStats
+            )
+            const recoveryDebuffs = getDebuffsForStat(
+              attackerState,
+              'HPRecovery' as ExtraStats
+            )
+            const hpRecovery =
+              recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+              recoveryDebuffs.reduce(
+                (sum, debuff) => sum + (debuff.value || 0),
+                0
+              )
+
+            for (const ls of result.effectResults.lifeStealsToApply) {
+              if (result.totalDamage > 0) {
+                const effectiveLifeStealPercent = ls.percentage + drainEff
+                const baseHeal = Math.round(
+                  (result.totalDamage * effectiveLifeStealPercent) / 100
+                )
+                const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
+
+                const healTargetState =
+                  ls.target === 'User' ? attackerState : state.units[sid]
+                if (healTargetState) {
+                  const allowOverheal =
+                    result.effectResults.grantedFlags?.includes('Overheal')
+                  const newHP = healTargetState.currentHP + finalHeal
+                  const cappedHP = allowOverheal
+                    ? newHP
+                    : Math.min(newHP, healTargetState.combatStats.HP)
+
+                  state.units[ls.target === 'User' ? result.attackerId : sid] =
+                    {
+                      ...healTargetState,
+                      unit: { ...healTargetState.unit },
+                      combatStats: { ...healTargetState.combatStats },
+                      afflictions: [...healTargetState.afflictions],
+                      buffs: [...healTargetState.buffs],
+                      debuffs: [...healTargetState.debuffs],
+                      currentHP: cappedHP,
+                    }
+                }
+              }
+            }
+          }
         }
       }
     }

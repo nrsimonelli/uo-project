@@ -36,39 +36,34 @@ export const selectActiveSkill = (
     return { skill: STANDBY_SKILL, targets: standbyTargets }
   }
 
-  // Go through skill slots and find the first usable active skill using tactical evaluation
+  // Check each skill slot in priority order
   for (const skillSlot of unit.unit.skillSlots) {
-    // Check if this is a valid active skill slot
-    if (!skillSlot.skillId || skillSlot.skillType !== 'active') {
-      // Skip invalid or non-active slots
-      continue
-    }
+    // Only process valid active skill slots
+    if (skillSlot.skillId && skillSlot.skillType === 'active') {
+      // Get the skill data and verify it exists
+      const skill = ActiveSkillsMap[
+        skillSlot.skillId as keyof typeof ActiveSkillsMap
+      ] as ActiveSkill
 
-    // Get the skill data to check AP cost
-    const skill = ActiveSkillsMap[
-      skillSlot.skillId as keyof typeof ActiveSkillsMap
-    ] as ActiveSkill
-    if (!skill) {
-      console.warn(`Active skill not found: ${skillSlot.skillId}`)
-      continue
-    }
+      if (skill && skill.ap <= unit.currentAP) {
+        // Check tactical evaluation for valid targets
+        const tacticalResult = evaluateSkillSlotTactics(
+          skillSlot,
+          unit,
+          battlefield
+        )
 
-    // Check if unit can afford this skill before tactical evaluation
-    if (skill.ap > unit.currentAP) {
-      continue // Skip unaffordable skills
+        // If this skill should be used and has valid targets, return it
+        if (
+          tacticalResult.shouldUseSkill &&
+          tacticalResult.targets.length > 0
+        ) {
+          return { skill, targets: tacticalResult.targets }
+        }
+      } else if (!skill) {
+        console.warn(`Active skill not found: ${skillSlot.skillId}`)
+      }
     }
-
-    // Use tactical evaluation to determine if skill should be used and get targets
-    const tacticalResult = evaluateSkillSlotTactics(
-      skillSlot,
-      unit,
-      battlefield
-    )
-
-    if (tacticalResult.shouldUseSkill && tacticalResult.targets.length > 0) {
-      return { skill, targets: tacticalResult.targets }
-    }
-    // If tactics say don't use this skill or no valid targets, continue to next skill
   }
 
   // No affordable skills found - use Standby

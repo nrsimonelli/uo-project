@@ -189,6 +189,36 @@ export const applyStatusEffects = (
     applyConferral(targetUnit, conferral)
   })
 
+  // Apply resurrect effects to restore defeated units
+  effectResults.resurrectsToApply.forEach(resurrect => {
+    const targetUnit = resurrect.target === 'User' ? attacker : targets[0]
+
+    // Skip if target-directed effect missed
+    if (!attackHit && resurrect.target === 'Target') {
+      return
+    }
+
+    // Only resurrect dead units
+    if (targetUnit.currentHP <= 0) {
+      // Calculate heal amount
+      const healAmount =
+        resurrect.healType === 'percent'
+          ? Math.round((targetUnit.combatStats.HP * resurrect.healAmount) / 100)
+          : resurrect.healAmount
+
+      // Reset target's state
+      targetUnit.afflictions = [] // Clear all afflictions
+      targetUnit.buffs = [] // Clear all buffs
+      targetUnit.debuffs = [] // Clear all debuffs
+      targetUnit.currentHP = healAmount
+      targetUnit.isPassiveResponsive = true // Re-enable passive skills
+
+      console.log(
+        `✨ ${targetUnit.unit.name} resurrected with ${healAmount} HP`
+      )
+    }
+  })
+
   // Apply afflictions to appropriate targets
   effectResults.afflictionsToApply.forEach(afflictionToApply => {
     const targetUnit =

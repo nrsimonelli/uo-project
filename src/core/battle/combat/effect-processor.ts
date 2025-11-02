@@ -108,6 +108,14 @@ export interface EffectProcessingResult {
     skillId: string
   }>
 
+  // Resurrect entries - applied after damage phase, revives dead targets
+  resurrectsToApply: Array<{
+    healAmount: number
+    healType: 'flat' | 'percent'
+    target: 'User' | 'Target'
+    skillId: string
+  }>
+
   // LifeSteal entries - healed after damage is applied
   lifeStealsToApply: Array<{
     percentage: number
@@ -168,6 +176,7 @@ export const processEffects = (
     conferralsToApply: [],
     afflictionsToApply: [],
     cleansesToApply: [],
+    resurrectsToApply: [],
     lifeStealsToApply: [],
   }
 
@@ -323,7 +332,12 @@ export const processEffects = (
       return
     }
     if (effect.kind === 'Resurrect') {
-      // TODO: Implementation
+      result.resurrectsToApply.push({
+        healAmount: effect.value,
+        healType: effect.scaling,
+        target: effect.applyTo || 'Target',
+        skillId,
+      })
       return
     }
     if (effect.kind === 'Sacrifice') {
