@@ -4,7 +4,7 @@ import {
 } from '../evaluation/condition-evaluator'
 
 import type { AfflictionType } from '@/types/conditions'
-import type { Effect, DamageEffect } from '@/types/effects'
+import type { Effect, DamageEffect, Flag } from '@/types/effects'
 
 /**
  * Check if an effect is classified as a debuff for immunity purposes
@@ -52,6 +52,8 @@ export interface EffectProcessingResult {
   sacrificeAmount: number // Actual amount of HP sacrificed
   sacrificePercentage: number // Original percentage requested
 
+  ownHPBasedDamage: null | number // Damage based on own HP
+
   // Damage modifications
   potencyModifiers: {
     physical: number
@@ -60,7 +62,7 @@ export interface EffectProcessingResult {
   defenseIgnoreFraction: number
 
   // Additional flags granted by effects
-  grantedFlags: string[]
+  grantedFlags: Flag[]
 
   // Healing effects
   healPercent: number
@@ -215,6 +217,7 @@ export const processEffects = (
   const result: EffectProcessingResult = {
     sacrificeAmount: 0,
     sacrificePercentage: 0,
+    ownHPBasedDamage: null,
     potencyModifiers: { physical: 0, magical: 0 },
     defenseIgnoreFraction: 0,
     grantedFlags: [],
@@ -363,6 +366,20 @@ export const processEffects = (
       return
     }
 
+    if (effect.kind === 'OwnHPBasedDamage') {
+      const currentHP = context.attacker.currentHP
+      const missingHP = context.attacker.combatStats.HP - currentHP
+      const factor = effect.amount / 100
+
+      const rawDamage =
+        effect.type === 'percentRemaining'
+          ? currentHP * factor
+          : missingHP * factor
+
+      result.ownHPBasedDamage = Math.max(0, Math.round(rawDamage))
+      return
+    }
+
     if (effect.kind === 'Cleanse') {
       // Queue cleanse actions for later application (status-effects will execute them)
       result.cleansesToApply.push({
@@ -372,6 +389,7 @@ export const processEffects = (
       })
       return
     }
+
     if (effect.kind === 'LifeSteal') {
       result.lifeStealsToApply.push({
         percentage: effect.percentage,
@@ -380,10 +398,7 @@ export const processEffects = (
       })
       return
     }
-    if (effect.kind === 'OwnHPBasedDamage') {
-      // TODO: Implementation
-      return
-    }
+
     if (effect.kind === 'Resurrect') {
       result.resurrectsToApply.push({
         healAmount: effect.value,
@@ -391,10 +406,6 @@ export const processEffects = (
         target: effect.applyTo || 'Target',
         skillId,
       })
-      return
-    }
-    if (effect.kind === 'Sacrifice') {
-      // TODO: Implementation
       return
     }
 

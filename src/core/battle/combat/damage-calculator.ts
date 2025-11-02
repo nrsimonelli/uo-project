@@ -222,14 +222,14 @@ export const calculateSkillDamage = (
   effectResults?: EffectProcessingResult
 ): DamageResult => {
   // Combine skill-level, damage effect flags, and granted flags from effects
-  let combinedFlags = getCombinedFlags(skillFlags, damageEffect.flags || [])
+  const combinedFlags = getCombinedFlags(
+    skillFlags,
+    effectResults?.grantedFlags || []
+  )
+
   if (effectResults?.grantedFlags && effectResults.grantedFlags.length > 0) {
-    combinedFlags = getCombinedFlags(
-      combinedFlags,
-      effectResults.grantedFlags as Flag[]
-    )
     console.log('🚩 Granted Flags Applied:', {
-      grantedFlags: effectResults.grantedFlags,
+      grantedFlags: effectResults?.grantedFlags,
       allCombinedFlags: combinedFlags,
     })
   }
@@ -363,6 +363,40 @@ export const calculateSkillDamage = (
   let physicalDamage = 0
   let magicalDamage = 0
   let conferralDamage = 0
+
+  // For HP-based damage: Still process combat mechanics (consume charges) but use unmodified damage
+  if (typeof effectResults?.ownHPBasedDamage === 'number') {
+    // Still consume parry if it's a melee attack (but damage is not reduced)
+    if (attackType === 'Melee' && target.incomingParry) {
+      target.incomingParry = false
+    }
+
+    // Process and consume conferrals without calculating damage
+    if (attacker.conferrals && attacker.conferrals.length > 0) {
+      // Just remove expired conferrals
+      removeExpiredConferrals(attacker, 'attacks')
+    }
+
+    // Process afflictions when damage is dealt
+    if (effectResults.ownHPBasedDamage > 0) {
+      processAfflictionsOnDamage(target)
+    }
+
+    return {
+      hit,
+      damage: effectResults.ownHPBasedDamage,
+      wasCritical: false,
+      wasGuarded: false,
+      hitChance,
+      breakdown: {
+        baseDamage: effectResults.ownHPBasedDamage,
+        afterPotency: effectResults.ownHPBasedDamage,
+        afterCrit: effectResults.ownHPBasedDamage,
+        afterGuard: effectResults.ownHPBasedDamage,
+        afterEffectiveness: effectResults.ownHPBasedDamage,
+      },
+    }
+  }
 
   // Calculate physical damage component (before effectiveness)
   if (hasPhysical) {

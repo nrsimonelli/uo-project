@@ -41,7 +41,7 @@
 - [x] Create **equipment slot management**
 - [x] Build **equipment stat calculations**
 
-### Skills & Tactics ✅
+### Skills, Tactics, Damage and Effect Processing ✅
 
 - [x] Finalize **ActiveSkill** and **PassiveSkill** models
 - [x] Add support for **hybrid damage** and complex effects
@@ -49,7 +49,8 @@
 - [x] Create **tactics system** with modifiers
 - [x] Build **skill slot manager** for equipping/unequipping
 - [x] Add **skill type filtering** (Active/Passive)
-- [ ] Fatal Dive, Life Blow, and Desperation Damage Calculations
+- [x] Fatal Dive, Life Blow, and Desperation Damage Calculations
+- [ ] Need a post calculation damage reduction check for shackles as well as skills like protection. This should also apply to true damage skills^^
 - [ ] Scaling for Bastards Cross, WildFang, Berserker, and Werebear scaling skills
 - [ ] Custom effect for Discharge
 - [ ] Need variable targeting for Row Resistance
