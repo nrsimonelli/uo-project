@@ -121,8 +121,72 @@ export function buildPostAttackSets(
   }
 
   return { attackedIds, hitIds, anyGuarded }
+}
 
-  return { attackedIds, hitIds, anyGuarded }
+function applyLifeStealEffects(
+  state: BattlefieldState,
+  attackerId: string,
+  targetId: string,
+  totalDamage: number,
+  lifeSteals: { percentage: number; target: 'User' | 'Target' }[],
+  grantedFlags?: string[]
+): BattlefieldState {
+  const attackerState = state.units[attackerId]
+  if (!attackerState) return state
+
+  // Get drain effectiveness modifiers from buffs/debuffs
+  const drainBuffs = getBuffsForStat(attackerState, 'DrainEff' as ExtraStats)
+  const drainDebuffs = getDebuffsForStat(
+    attackerState,
+    'DrainEff' as ExtraStats
+  )
+  const drainEff =
+    drainBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+    drainDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
+
+  // Get HP recovery modifiers from buffs/debuffs
+  const recoveryBuffs = getBuffsForStat(
+    attackerState,
+    'HPRecovery' as ExtraStats
+  )
+  const recoveryDebuffs = getDebuffsForStat(
+    attackerState,
+    'HPRecovery' as ExtraStats
+  )
+  const hpRecovery =
+    recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+    recoveryDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
+
+  for (const ls of lifeSteals) {
+    // DrainEff adds directly to the LifeSteal percentage before calculating healing
+    const effectiveLifeStealPercent = ls.percentage + drainEff
+    const baseHeal = Math.round((totalDamage * effectiveLifeStealPercent) / 100)
+    // Apply HPRecovery multiplier after calculating base life steal amount
+    const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
+
+    // Determine who receives the heal
+    const healTargetState =
+      ls.target === 'User' ? attackerState : state.units[targetId]
+    if (healTargetState) {
+      const allowOverheal = grantedFlags?.includes('Overheal')
+      const newHP = healTargetState.currentHP + finalHeal
+      const cappedHP = allowOverheal
+        ? newHP
+        : Math.min(newHP, healTargetState.combatStats.HP)
+
+      state.units[ls.target === 'User' ? attackerId : targetId] = {
+        ...healTargetState,
+        unit: { ...healTargetState.unit },
+        combatStats: { ...healTargetState.combatStats },
+        afflictions: [...healTargetState.afflictions],
+        buffs: [...healTargetState.buffs],
+        debuffs: [...healTargetState.debuffs],
+        currentHP: cappedHP,
+      }
+    }
+  }
+
+  return state
 }
 
 export function applySkillDamageResults(
@@ -157,70 +221,17 @@ export function applySkillDamageResults(
           // Apply LifeSteal healing if any were queued for this attack
           if (
             single.effectResults &&
-            single.effectResults.lifeStealsToApply?.length
+            single.effectResults.lifeStealsToApply?.length &&
+            single.totalDamage > 0
           ) {
-            const attackerState = state.units[single.attackerId]
-
-            // Get drain effectiveness modifiers from buffs/debuffs
-            const drainBuffs = getBuffsForStat(
-              attackerState,
-              'DrainEff' as ExtraStats
+            state = applyLifeStealEffects(
+              state,
+              single.attackerId,
+              sid,
+              single.totalDamage,
+              single.effectResults.lifeStealsToApply,
+              single.effectResults.grantedFlags
             )
-            const drainEff = drainBuffs.reduce(
-              (sum, buff) => sum + (buff.value || 0),
-              0
-            )
-
-            // Get HP recovery modifiers from buffs/debuffs
-            const recoveryBuffs = getBuffsForStat(
-              attackerState,
-              'HPRecovery' as ExtraStats
-            )
-            const recoveryDebuffs = getDebuffsForStat(
-              attackerState,
-              'HPRecovery' as ExtraStats
-            )
-            const hpRecovery =
-              recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
-              recoveryDebuffs.reduce(
-                (sum, debuff) => sum + (debuff.value || 0),
-                0
-              )
-
-            for (const ls of single.effectResults.lifeStealsToApply) {
-              if (single.totalDamage > 0) {
-                // DrainEff adds directly to the LifeSteal percentage before calculating healing
-                const effectiveLifeStealPercent = ls.percentage + drainEff
-                const baseHeal = Math.round(
-                  (single.totalDamage * effectiveLifeStealPercent) / 100
-                )
-                // Apply HPRecovery multiplier after calculating base life steal amount
-                const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
-
-                // Determine who receives the heal
-                const healTargetState =
-                  ls.target === 'User' ? attackerState : state.units[sid]
-                if (healTargetState) {
-                  const allowOverheal =
-                    single.effectResults.grantedFlags?.includes('Overheal')
-                  const newHP = healTargetState.currentHP + finalHeal
-                  const cappedHP = allowOverheal
-                    ? newHP
-                    : Math.min(newHP, healTargetState.combatStats.HP)
-
-                  state.units[ls.target === 'User' ? single.attackerId : sid] =
-                    {
-                      ...healTargetState,
-                      unit: { ...healTargetState.unit },
-                      combatStats: { ...healTargetState.combatStats },
-                      afflictions: [...healTargetState.afflictions],
-                      buffs: [...healTargetState.buffs],
-                      debuffs: [...healTargetState.debuffs],
-                      currentHP: cappedHP,
-                    }
-                }
-              }
-            }
           }
         }
       }
@@ -246,68 +257,19 @@ export function applySkillDamageResults(
 
         // Handle resurrect and lifesteal effects for single target case
         if (result.effectResults) {
-          const attackerState = state.units[result.attackerId]
-
           // Apply LifeSteal effects
-          if (result.effectResults.lifeStealsToApply?.length) {
-            const drainBuffs = getBuffsForStat(
-              attackerState,
-              'DrainEff' as ExtraStats
+          if (
+            result.effectResults.lifeStealsToApply?.length &&
+            result.totalDamage > 0
+          ) {
+            state = applyLifeStealEffects(
+              state,
+              result.attackerId,
+              sid,
+              result.totalDamage,
+              result.effectResults.lifeStealsToApply,
+              result.effectResults.grantedFlags
             )
-            const drainDebuffs = getDebuffsForStat(
-              attackerState,
-              'DrainEff' as ExtraStats
-            )
-            const drainEff =
-              drainBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
-              drainDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
-
-            const recoveryBuffs = getBuffsForStat(
-              attackerState,
-              'HPRecovery' as ExtraStats
-            )
-            const recoveryDebuffs = getDebuffsForStat(
-              attackerState,
-              'HPRecovery' as ExtraStats
-            )
-            const hpRecovery =
-              recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
-              recoveryDebuffs.reduce(
-                (sum, debuff) => sum + (debuff.value || 0),
-                0
-              )
-
-            for (const ls of result.effectResults.lifeStealsToApply) {
-              if (result.totalDamage > 0) {
-                const effectiveLifeStealPercent = ls.percentage + drainEff
-                const baseHeal = Math.round(
-                  (result.totalDamage * effectiveLifeStealPercent) / 100
-                )
-                const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
-
-                const healTargetState =
-                  ls.target === 'User' ? attackerState : state.units[sid]
-                if (healTargetState) {
-                  const allowOverheal =
-                    result.effectResults.grantedFlags?.includes('Overheal')
-                  const newHP = healTargetState.currentHP + finalHeal
-                  const cappedHP = allowOverheal
-                    ? newHP
-                    : Math.min(newHP, healTargetState.combatStats.HP)
-
-                  state.units[ls.target === 'User' ? result.attackerId : sid] =
-                    {
-                      ...healTargetState,
-                      unit: { ...healTargetState.unit },
-                      combatStats: { ...healTargetState.combatStats },
-                      afflictions: [...healTargetState.afflictions],
-                      buffs: [...healTargetState.buffs],
-                      debuffs: [...healTargetState.debuffs],
-                      currentHP: cappedHP,
-                    }
-                }
-              }
-            }
           }
         }
       }

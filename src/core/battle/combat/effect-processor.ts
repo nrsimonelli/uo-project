@@ -159,11 +159,18 @@ export interface EffectProcessingResult {
 /**
  * Process all effects for a skill, evaluating conditions and accumulating results
  */
+
 /**
- * Process sacrifice effects first to determine HP cost
- * Ensures sacrifice cannot reduce HP below 1
+ * Process sacrifice effects to determine the HP cost for using a skill
+ * This is called once at skill execution time, before any targeting or per-target effects.
+ *
+ * Key Behavior:
+ * - Sacrifice is a skill cost, not a per-target effect
+ * - Only applies once per skill use regardless of number of targets
+ * - Ensures unit will never be reduced below 1 HP
+ * - Must be called BEFORE individual target processing begins
  */
-const processSacrificeEffects = (
+export const processSacrificeEffects = (
   effects: readonly Effect[] | Effect[],
   context: ConditionEvaluationContext
 ): {
@@ -205,17 +212,9 @@ export const processEffects = (
   skillId: string,
   casterMATK?: number // Optional caster MATK for MagicConferral effects
 ): EffectProcessingResult => {
-  // Process sacrifice first
-  const { hpSacrificed, percentageRequested } = processSacrificeEffects(
-    effects,
-    context
-  )
-
   const result: EffectProcessingResult = {
-    // Initialize with sacrifice results
-    sacrificeAmount: hpSacrificed,
-    sacrificePercentage: percentageRequested,
-
+    sacrificeAmount: 0,
+    sacrificePercentage: 0,
     potencyModifiers: { physical: 0, magical: 0 },
     defenseIgnoreFraction: 0,
     grantedFlags: [],

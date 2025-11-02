@@ -348,12 +348,11 @@ describe('Affliction System', () => {
         potency: { physical: 100 },
         hitRate: 100, // Should always hit normally
         hitCount: 1,
-        flags: ['TrueStrike'], // Should guarantee hit but Blind overrides
       }
 
       const result = calculateSkillDamage(
         damageEffect,
-        [],
+        ['TrueStrike'],
         [],
         attacker,
         target,
@@ -377,12 +376,11 @@ describe('Affliction System', () => {
         potency: { physical: 100 },
         hitRate: 100,
         hitCount: 1,
-        flags: ['TrueCritical'], // Should guarantee crit but Crit Seal prevents
       }
 
       const result = calculateSkillDamage(
         damageEffect,
-        [],
+        ['TrueCritical'],
         [],
         attacker,
         target,

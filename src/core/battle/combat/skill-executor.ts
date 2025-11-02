@@ -9,6 +9,7 @@ import {
   processEffects,
   getDamageEffects,
   applyEffectsToDamage,
+  processSacrificeEffects,
   type EffectProcessingResult,
 } from './effect-processor'
 import {
@@ -67,24 +68,8 @@ const executeNonDamageSkill = (
   target: BattleContext,
   battlefield?: BattlefieldState
 ): SingleTargetSkillResult => {
-  // Create condition evaluation context
-  const conditionContext: ConditionEvaluationContext = {
-    attacker,
-    target,
-    isNight: battlefield?.isNight,
-    alliesLiving: battlefield
-      ? Object.values(battlefield.units).filter(
-          u => u.team === attacker.team && u.currentHP > 0
-        ).length
-      : undefined,
-    enemiesLiving: battlefield
-      ? Object.values(battlefield.units).filter(
-          u => u.team !== attacker.team && u.currentHP > 0
-        ).length
-      : undefined,
-    hitResult: undefined,
-    targetDefeated: undefined,
-  }
+  // Create condition evaluation context using shared helper
+  const conditionContext = createConditionContext(attacker, target, battlefield)
 
   // Process all conditional effects
   const effectResults = processEffects(
@@ -96,7 +81,7 @@ const executeNonDamageSkill = (
 
   // Apply status effects (buffs/debuffs) to appropriate targets
   // Note: applyStatusEffects already handles recalculating combat stats
-  applyStatusEffects(effectResults, attacker, [target])
+  applyStatusEffects(effectResults, attacker, [target], true)
 
   return {
     damageResults: [],
@@ -152,24 +137,8 @@ const executeDamageSkill = (
   rng: RandomNumberGeneratorType,
   battlefield?: BattlefieldState
 ): SingleTargetSkillResult => {
-  // Create condition evaluation context
-  const conditionContext: ConditionEvaluationContext = {
-    attacker,
-    target,
-    isNight: battlefield?.isNight,
-    alliesLiving: battlefield
-      ? Object.values(battlefield.units).filter(
-          u => u.team === attacker.team && u.currentHP > 0
-        ).length
-      : undefined,
-    enemiesLiving: battlefield
-      ? Object.values(battlefield.units).filter(
-          u => u.team !== attacker.team && u.currentHP > 0
-        ).length
-      : undefined,
-    hitResult: undefined,
-    targetDefeated: undefined,
-  }
+  // Create condition evaluation context using shared helper
+  const conditionContext = createConditionContext(attacker, target, battlefield)
 
   // Process all conditional effects
   const effectResults = processEffects(
@@ -308,6 +277,58 @@ const calculateSkillSummary = (
 }
 
 /**
+ * Create a condition evaluation context for a skill effect
+ */
+const createConditionContext = (
+  attacker: BattleContext,
+  target: BattleContext,
+  battlefield?: BattlefieldState
+): ConditionEvaluationContext => ({
+  attacker,
+  target,
+  isNight: battlefield?.isNight,
+  alliesLiving: battlefield
+    ? Object.values(battlefield.units).filter(
+        u => u.team === attacker.team && u.currentHP > 0
+      ).length
+    : undefined,
+  enemiesLiving: battlefield
+    ? Object.values(battlefield.units).filter(
+        u => u.team !== attacker.team && u.currentHP > 0
+      ).length
+    : undefined,
+  hitResult: undefined,
+  targetDefeated: undefined,
+})
+
+/**
+ * Process skill costs that must be paid upfront (e.g. Sacrifice HP)
+ */
+const processSkillCosts = (
+  skill: ActiveSkill | PassiveSkill,
+  attacker: BattleContext,
+  target: BattleContext,
+  battlefield?: BattlefieldState
+) => {
+  // Process Sacrifice upfront as a skill cost (once per skill use)
+  const sacrificeContext = createConditionContext(attacker, target, battlefield)
+  const { hpSacrificed, percentageRequested } = processSacrificeEffects(
+    skill.effects,
+    sacrificeContext
+  )
+
+  if (hpSacrificed > 0) {
+    // Apply Sacrifice cost upfront, ensuring unit stays at minimum 1 HP
+    const safeAmount = Math.min(hpSacrificed, attacker.currentHP - 1)
+    attacker.currentHP -= safeAmount
+    console.log(
+      `💔 ${attacker.unit.name} sacrificed ${safeAmount} HP (${percentageRequested}% requested)`
+    )
+    recalculateStats(attacker)
+  }
+}
+
+/**
  * Execute a skill against one or more targets
  */
 export const executeSkill = (
@@ -319,6 +340,9 @@ export const executeSkill = (
 ): SingleTargetSkillResult | MultiTargetSkillResult => {
   // Convert to array for consistent handling
   const targetArray = Array.isArray(targets) ? targets : [targets]
+
+  // Process any upfront skill costs (e.g. Sacrifice)
+  processSkillCosts(skill, attacker, targetArray[0], battlefield)
 
   // Safety check: Single-target skills should only affect one target
   // (This should now be rare due to tactical system fix, but kept as safety net)

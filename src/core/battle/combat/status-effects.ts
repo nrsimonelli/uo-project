@@ -44,20 +44,7 @@ export const applyStatusEffects = (
 ) => {
   const unitsToRecalculate = new Set<BattleContext>()
 
-  // Apply sacrifice first if any
-  if (effectResults.sacrificeAmount > 0) {
-    // Double check we're not reducing below 1 HP
-    const safeAmount = Math.min(
-      effectResults.sacrificeAmount,
-      attacker.currentHP - 1
-    )
-    attacker.currentHP -= safeAmount
-
-    console.log(
-      `💔 ${attacker.unit.name} sacrificed ${safeAmount} HP (${effectResults.sacrificePercentage}% requested)`
-    )
-    unitsToRecalculate.add(attacker)
-  }
+  // Sacrifice is now handled as an upfront skill cost in executeSkill
 
   // Apply cleanses (remove buffs/debuffs/afflictions) before applying new effects
   effectResults.cleansesToApply.forEach(cleanse => {
