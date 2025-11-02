@@ -166,13 +166,10 @@ export function applySkillDamageResults(
               attackerState,
               'DrainEff' as ExtraStats
             )
-            const drainDebuffs = getDebuffsForStat(
-              attackerState,
-              'DrainEff' as ExtraStats
+            const drainEff = drainBuffs.reduce(
+              (sum, buff) => sum + (buff.value || 0),
+              0
             )
-            const drainEff =
-              drainBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
-              drainDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
 
             // Get HP recovery modifiers from buffs/debuffs
             const recoveryBuffs = getBuffsForStat(

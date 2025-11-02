@@ -48,6 +48,10 @@ export const hasAfflictionImmunity = (
  * Result of processing effects for a skill
  */
 export interface EffectProcessingResult {
+  // Sacrifice tracking
+  sacrificeAmount: number // Actual amount of HP sacrificed
+  sacrificePercentage: number // Original percentage requested
+
   // Damage modifications
   potencyModifiers: {
     physical: number
@@ -155,13 +159,63 @@ export interface EffectProcessingResult {
 /**
  * Process all effects for a skill, evaluating conditions and accumulating results
  */
+/**
+ * Process sacrifice effects first to determine HP cost
+ * Ensures sacrifice cannot reduce HP below 1
+ */
+const processSacrificeEffects = (
+  effects: readonly Effect[] | Effect[],
+  context: ConditionEvaluationContext
+): {
+  hpSacrificed: number
+  percentageRequested: number
+} => {
+  const sacrificeEffect = effects.find(e => e.kind === 'Sacrifice')
+  if (!sacrificeEffect || sacrificeEffect.kind !== 'Sacrifice') {
+    return { hpSacrificed: 0, percentageRequested: 0 }
+  }
+
+  // Skip if conditions aren't met
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (!evaluateAllConditions(sacrificeEffect.conditions as any, context)) {
+    return { hpSacrificed: 0, percentageRequested: 0 }
+  }
+
+  // Calculate maximum safe sacrifice
+  const currentHP = context.attacker.currentHP
+  const maxSacrifice = Math.max(0, currentHP - 1) // Must leave 1 HP
+
+  // Calculate requested sacrifice
+  const requestedAmount = Math.floor(
+    (context.attacker.combatStats.HP * sacrificeEffect.amount) / 100
+  )
+
+  // Take minimum of requested and safe amount
+  const actualSacrifice = Math.min(maxSacrifice, requestedAmount)
+
+  return {
+    hpSacrificed: actualSacrifice,
+    percentageRequested: sacrificeEffect.amount,
+  }
+}
+
 export const processEffects = (
   effects: readonly Effect[] | Effect[],
   context: ConditionEvaluationContext,
   skillId: string,
   casterMATK?: number // Optional caster MATK for MagicConferral effects
 ): EffectProcessingResult => {
+  // Process sacrifice first
+  const { hpSacrificed, percentageRequested } = processSacrificeEffects(
+    effects,
+    context
+  )
+
   const result: EffectProcessingResult = {
+    // Initialize with sacrifice results
+    sacrificeAmount: hpSacrificed,
+    sacrificePercentage: percentageRequested,
+
     potencyModifiers: { physical: 0, magical: 0 },
     defenseIgnoreFraction: 0,
     grantedFlags: [],
