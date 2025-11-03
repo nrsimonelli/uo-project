@@ -15,6 +15,7 @@ import type {
   Buff,
   Debuff,
   ConferralStatus,
+  EvadeStatus,
 } from '@/types/battle-engine'
 import type { ExtraStats } from '@/types/equipment'
 
@@ -191,6 +192,31 @@ export const applyStatusEffects = (
     applyConferral(targetUnit, conferral)
   })
 
+  // Apply evade effects to appropriate targets
+  effectResults.evadesToApply.forEach(evadeToApply => {
+    const targetUnit = evadeToApply.target === 'User' ? attacker : targets[0]
+
+    // Skip if target-directed effect missed
+    if (!attackHit && evadeToApply.target === 'Target') {
+      return
+    }
+
+    const evade: EvadeStatus = {
+      skillId: evadeToApply.skillId,
+      evadeType: evadeToApply.evadeType,
+      duration: evadeToApply.duration || 'UntilAttacked',
+      source: attacker.unit.id,
+    }
+
+    applyEvade(targetUnit, evade)
+    unitsToRecalculate.add(targetUnit)
+
+    console.log(
+      `✅ Evade Applied: ${targetUnit.unit.name} ${evadeToApply.evadeType} evade (${evade.duration})`,
+      { skillName: getSkillName(evadeToApply.skillId) }
+    )
+  })
+
   // Apply resurrect effects to restore defeated units
   effectResults.resurrectsToApply.forEach(resurrect => {
     const targetUnit = resurrect.target === 'User' ? attacker : targets[0]
@@ -327,6 +353,24 @@ const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
 }
 
 /**
+ * Apply an evade effect to a unit
+ */
+const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
+  // Check for existing evade with same skillId (replace if found)
+  const existingIndex = unit.evades.findIndex(
+    existing => existing.skillId === newEvade.skillId
+  )
+
+  if (existingIndex !== -1) {
+    // Replace existing evade from same skill
+    unit.evades[existingIndex] = newEvade
+  } else {
+    // Add new evade
+    unit.evades.push(newEvade)
+  }
+}
+
+/**
  * Check if a unit has SurviveLethal buff and consume it if lethal damage would occur
  * Returns the HP to set (1 if buff was consumed, 0 if no buff)
  */
@@ -394,12 +438,13 @@ const isImmuneToDebuff = (unit: BattleContext) => {
 
 /**
  * Remove expired buffs from a unit based on trigger conditions
+ * Also handles evades and conferrals expiration
  */
 export const removeExpiredBuffs = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
 ) => {
-  const initialCount = unit.buffs.length
+  const initialBuffCount = unit.buffs.length
   const expiredBuffs: Buff[] = []
 
   if (trigger === 'attacks') {
@@ -424,10 +469,43 @@ export const removeExpiredBuffs = (
     unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAction')
   }
 
+  // Also remove expired conferrals and evades
+  const initialConferralCount = unit.conferrals.length
+  const initialEvadeCount = unit.evades.length
+
+  if (trigger === 'attacks') {
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilNextAttack'
+    )
+    unit.evades = unit.evades.filter(
+      evade => evade.duration !== 'UntilNextAttack'
+    )
+  } else if (trigger === 'attacked') {
+    // Conferrals and evades with UntilAttacked are consumed when used, not expired
+    // But handle other cases just in case
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilAttacked'
+    )
+    unit.evades = unit.evades.filter(
+      evade => evade.duration !== 'UntilAttacked'
+    )
+  } else if (trigger === 'action') {
+    unit.conferrals = unit.conferrals.filter(
+      conferral => conferral.duration !== 'UntilNextAction'
+    )
+    unit.evades = unit.evades.filter(
+      evade => evade.duration !== 'UntilNextAction'
+    )
+  }
+
   // Recalculate stats if any buffs were removed
-  if (unit.buffs.length !== initialCount) {
+  const buffsChanged = unit.buffs.length !== initialBuffCount
+  const conferralsChanged = unit.conferrals.length !== initialConferralCount
+  const evadesChanged = unit.evades.length !== initialEvadeCount
+
+  if (buffsChanged || conferralsChanged || evadesChanged) {
     console.log(
-      `🔄 Buffs Expired for ${unit.unit.name} (trigger: ${trigger}):`,
+      `🔄 Status Expired for ${unit.unit.name} (trigger: ${trigger}):`,
       {
         expiredBuffs: expiredBuffs.map(b => ({
           name: b.name,
@@ -435,10 +513,14 @@ export const removeExpiredBuffs = (
           value: b.value,
         })),
         remainingBuffs: unit.buffs.length,
+        remainingConferrals: unit.conferrals.length,
+        remainingEvades: unit.evades.length,
         statAfterRecalc: unit.combatStats,
       }
     )
-    recalculateStats(unit)
+    if (buffsChanged) {
+      recalculateStats(unit)
+    }
   }
 }
 
@@ -588,9 +670,14 @@ export const calculateStatModifier = (
 
 /**
  * Check if a unit has any buffs
+ * Includes regular buffs, conferrals, and evades
  */
 export const hasBuffs = (unit: BattleContext): boolean => {
-  return unit.buffs.length > 0
+  return (
+    unit.buffs.length > 0 ||
+    unit.conferrals.length > 0 ||
+    (unit.evades?.length ?? 0) > 0
+  )
 }
 
 /**

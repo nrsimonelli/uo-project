@@ -2,6 +2,7 @@ import { ALL_CLASSES } from '@/data/constants'
 import { CLASS_DATA } from '@/data/units/class-data'
 import type { AllClassType } from '@/types/base-stats'
 import type { NumericComparator, EqualityComparator } from '@/types/conditions'
+import type { CombatantType } from '@/types/core'
 
 export function isValidClass(className: string): className is AllClassType {
   return Object.values(ALL_CLASSES).includes(className as AllClassType)
@@ -37,5 +38,5 @@ export const getEquipmentSlots = (classId: AllClassType) => {
 
 export const getCombatantTypeFromClass = (classId: AllClassType) => {
   const { race, trait, movementType } = CLASS_DATA[classId]
-  return [race, trait, movementType].filter(x => x !== null)
+  return [race, trait, movementType].filter(x => x !== null) as CombatantType[]
 }

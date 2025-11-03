@@ -116,7 +116,9 @@ export interface ParryEffect {
 
 export interface EvadeEffect {
   kind: 'Evade'
+  evadeType: 'entireAttack' | 'singleHit' | 'twoHits'
   applyTo?: 'User' | 'Target'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
   conditions?: Condition[] | readonly Condition[]
 }
 

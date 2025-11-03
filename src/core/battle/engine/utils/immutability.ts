@@ -25,6 +25,7 @@ export function deepCopyUnits(
         buffs: [...u.buffs],
         debuffs: [...u.debuffs],
         conferrals: [...u.conferrals],
+        evades: [...u.evades],
       } as BattleContext,
     ])
   )
@@ -39,5 +40,6 @@ export function cloneContext(ctx: BattleContext): BattleContext {
     buffs: [...ctx.buffs],
     debuffs: [...ctx.debuffs],
     conferrals: [...ctx.conferrals],
+    evades: [...ctx.evades],
   }
 }

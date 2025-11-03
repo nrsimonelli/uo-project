@@ -99,6 +99,14 @@ export interface EffectProcessingResult {
     casterMATK: number // Store the caster's MATK when the effect is applied
   }>
 
+  // Evade effects to apply
+  evadesToApply: Array<{
+    evadeType: 'entireAttack' | 'singleHit' | 'twoHits'
+    target: 'User' | 'Target'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+    skillId: string
+  }>
+
   // Afflictions to apply
   afflictionsToApply: Array<{
     afflictionType: AfflictionType
@@ -226,6 +234,7 @@ export const processEffects = (
     resourceStealToApply: [],
     debuffAmplificationsToApply: [],
     conferralsToApply: [],
+    evadesToApply: [],
     afflictionsToApply: [],
     cleansesToApply: [],
     resurrectsToApply: [],
@@ -281,6 +290,14 @@ export const processEffects = (
     }
 
     if (effect.kind === 'Buff') {
+      // Evade should use EvadeEffect, not Buff with stat: "Evade"
+      if (effect.stat === 'Evade') {
+        console.error(
+          `Skill ${skillId} uses Buff with stat: "Evade". Use EvadeEffect instead.`
+        )
+        return
+      }
+
       result.buffsToApply.push({
         stat: effect.stat,
         value: effect.value,
@@ -358,7 +375,15 @@ export const processEffects = (
     }
 
     if (effect.kind === 'Evade') {
-      // Evade is processed in passive skill system
+      // Handle EvadeEffect - convert from active skill buff or passive skill activation
+      // For now, this handles buff-based evade from active skills
+      // NOTE: Passive skill Evade (incomingEvade) is handled separately in passive skill system
+      result.evadesToApply.push({
+        evadeType: effect.evadeType,
+        target: effect.applyTo || 'Target',
+        duration: effect.duration || 'UntilAttacked',
+        skillId,
+      })
       return
     }
 

@@ -5,7 +5,7 @@ import {
   processAfflictionsOnHit,
 } from './affliction-manager'
 import type { EffectProcessingResult } from './effect-processor'
-import { removeExpiredConferrals } from './status-effects'
+import { removeExpiredConferrals, getSkillName } from './status-effects'
 
 import {
   getAttackType,
@@ -22,7 +22,7 @@ import { findEffectivenessRule } from '@/core/effectiveness-rules'
 import type { RandomNumberGeneratorType } from '@/core/random'
 import { CLASS_DATA } from '@/data/units/class-data'
 import { clamp } from '@/lib/utils'
-import type { BattleContext } from '@/types/battle-engine'
+import type { BattleContext, EvadeStatus } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 
@@ -38,6 +38,8 @@ export interface DamageResult {
   wasCritical: boolean
   /** Whether the target guarded */
   wasGuarded: boolean
+  /** Whether the attack was dodged by evade */
+  wasDodged: boolean
   /** Hit chance percentage that was calculated */
   hitChance: number
   /** Breakdown of damage calculation steps */
@@ -208,6 +210,147 @@ export const calculateEffectiveness = (
 }
 
 /**
+ * Helper: Remove evade from array and return consumed evade
+ */
+const consumeEvade = (
+  evades: EvadeStatus[],
+  evade: EvadeStatus
+): EvadeStatus | null => {
+  const index = evades.indexOf(evade)
+  if (index !== -1) {
+    evades.splice(index, 1)
+    return evade
+  }
+  return null
+}
+
+/**
+ * Helper: Get initial twoHits remaining uses
+ */
+const getInitialTwoHitsRemaining = (
+  evades: EvadeStatus[],
+  provided?: number
+): number => {
+  if (provided !== undefined && provided > 0) return provided
+
+  const twoHitsEvades = evades.filter(evade => evade.evadeType === 'twoHits')
+  return twoHitsEvades[0]?._remainingUses ?? (twoHitsEvades.length > 0 ? 2 : 0)
+}
+
+/**
+ * Helper: Consume all evades with UntilAttacked duration
+ */
+const consumeAllUntilAttacked = (evades: EvadeStatus[]): EvadeStatus[] => {
+  return evades.filter(evade => {
+    if (evade.duration === 'UntilAttacked') {
+      const index = evades.indexOf(evade)
+      if (index !== -1) {
+        evades.splice(index, 1)
+        return true
+      }
+    }
+    return false
+  })
+}
+
+/**
+ * Check for and consume evade effects on target
+ * Returns whether the attack was dodged and which evades were consumed
+ * Priority: entireAttack > twoHits > singleHit
+ *
+ * NOTE: For future passive skill system - passive evade (incomingEvade) should
+ * be checked after this function, only if hit would succeed
+ *
+ * @param twoHitsRemaining - For twoHits evade: remaining uses before consumption (0-2)
+ */
+export const checkAndConsumeEvade = (
+  target: BattleContext,
+  hasTrueStrike: boolean,
+  hitWouldSucceed: boolean,
+  twoHitsRemaining?: number
+): {
+  dodged: boolean
+  consumedEvades: EvadeStatus[]
+  twoHitsRemaining: number
+} => {
+  const evades = target.evades || []
+
+  if (evades.length === 0) {
+    return { dodged: false, consumedEvades: [], twoHitsRemaining: 0 }
+  }
+
+  // TrueStrike bypasses evade but still consumes it
+  if (hasTrueStrike) {
+    const consumedEvades = consumeAllUntilAttacked(target.evades)
+    return { dodged: false, consumedEvades, twoHitsRemaining: 0 }
+  }
+
+  // Don't waste evade if hit wouldn't succeed
+  if (!hitWouldSucceed) {
+    const currentRemaining = getInitialTwoHitsRemaining(
+      evades,
+      twoHitsRemaining
+    )
+    return {
+      dodged: false,
+      consumedEvades: [],
+      twoHitsRemaining: currentRemaining,
+    }
+  }
+
+  // Group evades by type (priority order: entireAttack > twoHits > singleHit)
+  const evadeByType = {
+    entireAttack: evades.filter(evade => evade.evadeType === 'entireAttack'),
+    twoHits: evades.filter(evade => evade.evadeType === 'twoHits'),
+    singleHit: evades.filter(evade => evade.evadeType === 'singleHit'),
+  }
+
+  // Priority 1: entireAttack
+  if (evadeByType.entireAttack.length > 0) {
+    const consumedEvades = consumeAllUntilAttacked(target.evades)
+    console.log(
+      `💨 ${target.unit.name} evaded entire attack using ${getSkillName(evadeByType.entireAttack[0].skillId)}`
+    )
+    return { dodged: true, consumedEvades, twoHitsRemaining: 0 }
+  }
+
+  // Priority 2: twoHits
+  const currentRemaining = getInitialTwoHitsRemaining(evades, twoHitsRemaining)
+  if (evadeByType.twoHits.length > 0 && currentRemaining > 0) {
+    const evade = evadeByType.twoHits[0]
+    const newRemaining = currentRemaining - 1
+    evade._remainingUses = newRemaining
+
+    const consumedEvades: EvadeStatus[] = []
+    if (newRemaining === 0 && evade.duration === 'UntilAttacked') {
+      const consumed = consumeEvade(target.evades, evade)
+      if (consumed) consumedEvades.push(consumed)
+    }
+
+    console.log(
+      `💨 ${target.unit.name} evaded hit using ${getSkillName(evade.skillId)} (twoHits: ${2 - newRemaining}/2 used)`
+    )
+    return { dodged: true, consumedEvades, twoHitsRemaining: newRemaining }
+  }
+
+  // Priority 3: singleHit
+  if (evadeByType.singleHit.length > 0) {
+    const evadeToConsume = evadeByType.singleHit[0]
+    const consumedEvades: EvadeStatus[] = []
+    if (evadeToConsume.duration === 'UntilAttacked') {
+      const consumed = consumeEvade(target.evades, evadeToConsume)
+      if (consumed) consumedEvades.push(consumed)
+    }
+    console.log(
+      `💨 ${target.unit.name} evaded hit using ${getSkillName(evadeToConsume.skillId)} (singleHit)`
+    )
+    return { dodged: true, consumedEvades, twoHitsRemaining: 0 }
+  }
+
+  return { dodged: false, consumedEvades: [], twoHitsRemaining: 0 }
+}
+
+/**
  * Main damage calculation function
  * Handles hit chance, damage calculation, crit, guard, and effectiveness
  */
@@ -220,7 +363,8 @@ export const calculateSkillDamage = (
   target: BattleContext,
   rng: RandomNumberGeneratorType,
   innateAttackType?: 'Magical' | 'Ranged',
-  effectResults?: EffectProcessingResult
+  effectResults?: EffectProcessingResult,
+  twoHitsRemaining?: number
 ): DamageResult => {
   // Combine skill-level, damage effect flags, and granted flags from effects
   const combinedFlags = getCombinedFlags(
@@ -277,6 +421,7 @@ export const calculateSkillDamage = (
       wasCritical: false,
       wasGuarded: false,
       hitChance: 0, // Blind guarantees miss
+      wasDodged: false,
       breakdown: {
         baseDamage: 0,
         afterPotency: 0,
@@ -301,24 +446,37 @@ export const calculateSkillDamage = (
     console.log('🎯 TrueStrike Flag Active - guaranteed hit')
   }
 
-  // TODO: implement Evade here...
-
   // Roll for hit
-  const hit = rollHit(rng, hitChance)
+  const hit = rollHit(rng, hitChance) || isTrueStrike
 
-  // If hit occurred, process afflictions (e.g., Freeze removal)
+  // Check for evade (after hit determination, before afflictions)
+  // NOTE: For future passive skill system - this is where "beforeBeingAttacked"
+  // window would open IF hit === true (passive evade only triggers on hits)
+  const evadeResult = checkAndConsumeEvade(
+    target,
+    isTrueStrike,
+    hit,
+    twoHitsRemaining
+  )
+
+  // If dodged by buff-based evade (and not TrueStrike), treat as miss
+  const wasDodged = evadeResult.dodged && !isTrueStrike
+  const finalHit = hit && !wasDodged
+
+  // If hit occurred (and not dodged), process afflictions (e.g., Freeze removal)
   // This happens regardless of damage amount
-  if (hit) {
+  if (finalHit) {
     processAfflictionsOnHit(target)
   }
 
-  // If miss, return early
-  if (!hit) {
+  // If miss or dodged, return early
+  if (!finalHit) {
     return {
       hit: false,
       damage: 0,
       wasCritical: false,
       wasGuarded: false,
+      wasDodged,
       hitChance,
       breakdown: {
         baseDamage: 0,
@@ -399,6 +557,7 @@ export const calculateSkillDamage = (
       damage: finalDamage,
       wasCritical: false,
       wasGuarded: false,
+      wasDodged: false, // OwnHPBasedDamage cannot be dodged by evade (already handled earlier)
       hitChance,
       breakdown: {
         baseDamage: effectResults.ownHPBasedDamage,
@@ -523,8 +682,8 @@ export const calculateSkillDamage = (
             ? `${conferralDamage} conferral × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
             : `${totalDamage} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`,
     hitChance: `${hitChance.toFixed(1)}%`,
-    result: hit ? 'HIT' : 'MISS',
-    damage: hit ? `${finalDamage} damage` : '0 damage (missed)',
+    result: finalHit ? 'HIT' : wasDodged ? 'DODGED' : 'MISS',
+    damage: finalHit ? `${finalDamage} damage` : '0 damage (missed)',
     effectiveness: effectivenessRule
       ? `×${effectiveness} - ${effectivenessRule.description}`
       : 'No effectiveness bonus',
@@ -557,10 +716,11 @@ export const calculateSkillDamage = (
   })
 
   return {
-    hit,
+    hit: finalHit,
     damage: finalDamage,
     wasCritical,
     wasGuarded,
+    wasDodged,
     hitChance,
     breakdown: {
       baseDamage:
@@ -575,7 +735,36 @@ export const calculateSkillDamage = (
 }
 
 /**
+ * Helper: Create a dodged result for a hit
+ */
+const createDodgedResult = (): DamageResult => ({
+  hit: false,
+  damage: 0,
+  wasCritical: false,
+  wasGuarded: false,
+  wasDodged: true,
+  hitChance: 0,
+  breakdown: {
+    baseDamage: 0,
+    afterPotency: 0,
+    afterCrit: 0,
+    afterGuard: 0,
+    afterEffectiveness: 0,
+    afterDmgReduction: 0,
+  },
+})
+
+/**
+ * Helper: Get current twoHits remaining from evades
+ */
+const getCurrentTwoHitsRemaining = (evades: EvadeStatus[]): number => {
+  const twoHitsEvade = evades.find(evade => evade.evadeType === 'twoHits')
+  return twoHitsEvade?._remainingUses ?? (twoHitsEvade ? 2 : 0)
+}
+
+/**
  * Apply multiple hits from a skill (for skills with hitCount > 1)
+ * Handles per-hit evade tracking for singleHit and twoHits evade types
  */
 export const calculateMultiHitDamage = (
   attacker: BattleContext,
@@ -589,9 +778,29 @@ export const calculateMultiHitDamage = (
   innateAttackType?: 'Magical' | 'Ranged',
   effectResults?: EffectProcessingResult
 ): DamageResult[] => {
-  const results: DamageResult[] = []
+  const initialEntireAttackCount = target.evades.filter(
+    evade => evade.evadeType === 'entireAttack'
+  ).length
+  const initialTwoHitsEvades = target.evades.filter(
+    evade => evade.evadeType === 'twoHits'
+  )
 
-  for (let i = 0; i < damageEffect.hitCount; i++) {
+  const calculateHit = (
+    twoHitsRemaining: number,
+    entireAttackUsed: boolean
+  ): {
+    result: DamageResult
+    nextRemaining: number
+    nextEntireAttackUsed: boolean
+  } => {
+    if (entireAttackUsed) {
+      return {
+        result: createDodgedResult(),
+        nextRemaining: twoHitsRemaining,
+        nextEntireAttackUsed: true,
+      }
+    }
+
     const result = calculateSkillDamage(
       damageEffect,
       skillFlags,
@@ -600,10 +809,46 @@ export const calculateMultiHitDamage = (
       target,
       rng,
       innateAttackType,
-      effectResults
+      effectResults,
+      twoHitsRemaining
     )
-    results.push(result)
+
+    const currentEntireAttackCount = target.evades.filter(
+      evade => evade.evadeType === 'entireAttack'
+    ).length
+    const nextEntireAttackUsed =
+      result.wasDodged &&
+      initialEntireAttackCount > 0 &&
+      currentEntireAttackCount < initialEntireAttackCount
+
+    const nextRemaining =
+      result.wasDodged && initialTwoHitsEvades.length > 0
+        ? getCurrentTwoHitsRemaining(target.evades)
+        : twoHitsRemaining
+
+    return { result, nextRemaining, nextEntireAttackUsed }
   }
 
-  return results
+  const initialTwoHitsRemaining =
+    initialTwoHitsEvades[0]?._remainingUses ??
+    (initialTwoHitsEvades.length > 0 ? 2 : 0)
+
+  return Array.from({ length: damageEffect.hitCount }).reduce<{
+    results: DamageResult[]
+    remaining: number
+    entireAttackUsed: boolean
+  }>(
+    acc => {
+      const { result, nextRemaining, nextEntireAttackUsed } = calculateHit(
+        acc.remaining,
+        acc.entireAttackUsed
+      )
+      return {
+        results: [...acc.results, result],
+        remaining: nextRemaining,
+        entireAttackUsed: nextEntireAttackUsed,
+      }
+    },
+    { results: [], remaining: initialTwoHitsRemaining, entireAttackUsed: false }
+  ).results
 }

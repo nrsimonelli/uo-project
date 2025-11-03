@@ -147,6 +147,18 @@ export interface ConferralStatus {
 }
 
 /**
+ * Evade status effect (temporary damage avoidance protection)
+ */
+export interface EvadeStatus {
+  skillId: string
+  evadeType: 'entireAttack' | 'singleHit' | 'twoHits'
+  duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  source: string // unit ID that applied this
+  // For twoHits: tracks remaining uses (only used internally, not stored)
+  _remainingUses?: number
+}
+
+/**
  * Battle context for a unit with all tracking data
  */
 export interface BattleContext {
@@ -166,6 +178,7 @@ export interface BattleContext {
   buffs: Buff[]
   debuffs: Debuff[]
   conferrals: ConferralStatus[]
+  evades: EvadeStatus[]
 
   // Stat foundation (base + equipment) - stored once for efficient recalculation
   statFoundation: {

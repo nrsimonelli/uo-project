@@ -867,7 +867,9 @@
     "effects": [
       {
         "kind": "Evade",
-        "applyTo": "User"
+        "evadeType": "singleHit",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
       }
     ]
   },
@@ -1614,7 +1616,9 @@
     "effects": [
       {
         "kind": "Evade",
-        "applyTo": "User"
+        "evadeType": "singleHit",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
       },
       {
         "kind": "ResourceGain",
@@ -1639,7 +1643,9 @@
     "effects": [
       {
         "kind": "Evade",
-        "applyTo": "Target"
+        "evadeType": "entireAttack",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
       }
     ]
   },
@@ -1657,11 +1663,9 @@
     },
     "effects": [
       {
-        "kind": "Buff",
-        "stat": "Evade",
+        "kind": "Evade",
+        "evadeType": "entireAttack",
         "applyTo": "User",
-        "value": 1,
-        "scaling": "flat",
         "duration": "UntilAttacked"
       },
       {
@@ -1879,7 +1883,9 @@
     "effects": [
       {
         "kind": "Evade",
-        "applyTo": "User"
+        "evadeType": "singleHit",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
       },
       {
         "kind": "ResourceGain",

@@ -2822,11 +2822,9 @@ export const ActiveSkills = [
         hitCount: 1,
       },
       {
-        kind: 'Buff',
-        stat: 'Evade',
+        kind: 'Evade',
+        evadeType: 'entireAttack',
         applyTo: 'User',
-        value: 1,
-        scaling: 'flat',
         duration: 'UntilAttacked',
       },
     ],

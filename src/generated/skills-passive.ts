@@ -899,7 +899,9 @@ export const PassiveSkills = [
     effects: [
       {
         kind: 'Evade',
+        evadeType: 'singleHit',
         applyTo: 'User',
+        duration: 'UntilAttacked',
       },
     ],
   },
@@ -1672,7 +1674,9 @@ export const PassiveSkills = [
     effects: [
       {
         kind: 'Evade',
+        evadeType: 'singleHit',
         applyTo: 'User',
+        duration: 'UntilAttacked',
       },
       {
         kind: 'ResourceGain',
@@ -1698,7 +1702,9 @@ export const PassiveSkills = [
     effects: [
       {
         kind: 'Evade',
+        evadeType: 'entireAttack',
         applyTo: 'Target',
+        duration: 'UntilAttacked',
       },
     ],
   },
@@ -1717,11 +1723,9 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'Buff',
-        stat: 'Evade',
+        kind: 'Evade',
+        evadeType: 'entireAttack',
         applyTo: 'User',
-        value: 1,
-        scaling: 'flat',
         duration: 'UntilAttacked',
       },
       {
@@ -1946,7 +1950,9 @@ export const PassiveSkills = [
     effects: [
       {
         kind: 'Evade',
+        evadeType: 'singleHit',
         applyTo: 'User',
+        duration: 'UntilAttacked',
       },
       {
         kind: 'ResourceGain',

@@ -29,7 +29,10 @@ export const getHpPercent = (unit: BattleContext) => {
 
 // Status check lookup table
 const STATUS_CHECKERS = {
-  Buff: (unit: BattleContext) => unit.buffs.length > 0,
+  Buff: (unit: BattleContext) =>
+    unit.buffs.length > 0 ||
+    unit.conferrals.length > 0 ||
+    (unit.evades?.length ?? 0) > 0,
   Debuff: (unit: BattleContext) =>
     unit.debuffs.length > 0 || unit.afflictions.length > 0,
   Afflicted: (unit: BattleContext) => unit.afflictions.length > 0,

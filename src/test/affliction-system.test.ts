@@ -42,6 +42,7 @@ const createMockUnit = (name: string, hp = 100): BattleContext => ({
   buffs: [],
   debuffs: [],
   conferrals: [],
+  evades: [],
   statFoundation: {
     HP: hp,
     PATK: 50,
