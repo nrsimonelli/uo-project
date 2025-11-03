@@ -180,6 +180,7 @@ export interface BattleContext {
     GRD: number
     INIT: number
     GuardEff: number
+    DmgReductionPercent: number
   }
 
   // Final combat stats (foundation + buffs/debuffs) - dynamically calculated
@@ -195,6 +196,7 @@ export interface BattleContext {
     GRD: number
     INIT: number
     GuardEff: number // Guard effectiveness from equipment
+    DmgReductionPercent: number // Damage reduction percentage from equipment and buffs
   }
 
   // Battle-specific tracking

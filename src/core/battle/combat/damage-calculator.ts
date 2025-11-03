@@ -2,7 +2,7 @@ import {
   checkAndConsumeBlind,
   canCrit,
   canGuard,
-  processAfflictionsOnDamage,
+  processAfflictionsOnHit,
 } from './affliction-manager'
 import type { EffectProcessingResult } from './effect-processor'
 import { removeExpiredConferrals } from './status-effects'
@@ -47,6 +47,7 @@ export interface DamageResult {
     afterCrit: number
     afterGuard: number
     afterEffectiveness: number
+    afterDmgReduction: number
   }
 }
 
@@ -282,6 +283,7 @@ export const calculateSkillDamage = (
         afterCrit: 0,
         afterGuard: 0,
         afterEffectiveness: 0,
+        afterDmgReduction: 0,
       },
     }
   }
@@ -304,6 +306,12 @@ export const calculateSkillDamage = (
   // Roll for hit
   const hit = rollHit(rng, hitChance)
 
+  // If hit occurred, process afflictions (e.g., Freeze removal)
+  // This happens regardless of damage amount
+  if (hit) {
+    processAfflictionsOnHit(target)
+  }
+
   // If miss, return early
   if (!hit) {
     return {
@@ -318,6 +326,7 @@ export const calculateSkillDamage = (
         afterCrit: 0,
         afterGuard: 0,
         afterEffectiveness: 0,
+        afterDmgReduction: 0,
       },
     }
   }
@@ -364,7 +373,7 @@ export const calculateSkillDamage = (
   let magicalDamage = 0
   let conferralDamage = 0
 
-  // For HP-based damage: Still process combat mechanics (consume charges) but use unmodified damage
+  // For HP-based damage: Apply damage reduction but skip other modifiers
   if (typeof effectResults?.ownHPBasedDamage === 'number') {
     // Still consume parry if it's a melee attack (but damage is not reduced)
     if (attackType === 'Melee' && target.incomingParry) {
@@ -377,14 +386,17 @@ export const calculateSkillDamage = (
       removeExpiredConferrals(attacker, 'attacks')
     }
 
-    // Process afflictions when damage is dealt
-    if (effectResults.ownHPBasedDamage > 0) {
-      processAfflictionsOnDamage(target)
-    }
+    // Apply damage reduction from DmgReductionPercent stat (only modifier that affects OwnHPBasedDamage)
+    const dmgReductionPercent = target.combatStats.DmgReductionPercent ?? 0
+    const dmgReductionMultiplier = (100 - dmgReductionPercent) / 100
+    const finalDamage = Math.max(
+      0,
+      Math.round(effectResults.ownHPBasedDamage * dmgReductionMultiplier)
+    )
 
     return {
       hit,
-      damage: effectResults.ownHPBasedDamage,
+      damage: finalDamage,
       wasCritical: false,
       wasGuarded: false,
       hitChance,
@@ -394,6 +406,7 @@ export const calculateSkillDamage = (
         afterCrit: effectResults.ownHPBasedDamage,
         afterGuard: effectResults.ownHPBasedDamage,
         afterEffectiveness: effectResults.ownHPBasedDamage,
+        afterDmgReduction: finalDamage,
       },
     }
   }
@@ -483,12 +496,18 @@ export const calculateSkillDamage = (
         )
       : null
   const effectiveness = effectivenessRule ? effectivenessRule.multiplier : 1.0
-  const finalDamage = Math.max(1, Math.round(totalDamage * effectiveness))
+  const afterEffectiveness = Math.max(
+    1,
+    Math.round(totalDamage * effectiveness)
+  )
 
-  // Process afflictions when target takes damage (removes Freeze)
-  if (finalDamage > 0) {
-    processAfflictionsOnDamage(target)
-  }
+  // Apply damage reduction from DmgReductionPercent stat
+  const dmgReductionPercent = target.combatStats.DmgReductionPercent ?? 0
+  const dmgReductionMultiplier = (100 - dmgReductionPercent) / 100
+  const finalDamage = Math.max(
+    1,
+    Math.round(afterEffectiveness * dmgReductionMultiplier)
+  )
 
   console.log('🎲 Damage Calculation Complete', {
     attacker: attacker.unit.name,
@@ -497,12 +516,12 @@ export const calculateSkillDamage = (
     damageType: `${damageType} Damage`,
     damageBreakdown:
       hasPhysical && hasMagical
-        ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness} = ${finalDamage} total`
+        ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
         : hasPhysical || hasMagical
-          ? `${physicalDamage + magicalDamage} ${hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness} = ${finalDamage} final`
+          ? `${physicalDamage + magicalDamage} ${hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
           : conferralDamage > 0
-            ? `${conferralDamage} conferral × ${effectiveness} = ${finalDamage} final`
-            : `${totalDamage} × ${effectiveness} = ${finalDamage} final`,
+            ? `${conferralDamage} conferral × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+            : `${totalDamage} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`,
     hitChance: `${hitChance.toFixed(1)}%`,
     result: hit ? 'HIT' : 'MISS',
     damage: hit ? `${finalDamage} damage` : '0 damage (missed)',
@@ -529,6 +548,10 @@ export const calculateSkillDamage = (
             ? `GUARDED (${Math.min(25 + equipmentGuardEff, 75)}% reduction) - physical only`
             : 'no guard',
           final: `${finalDamage} total damage`,
+          dmgReduction:
+            dmgReductionPercent > 0
+              ? `${dmgReductionPercent}% reduction applied`
+              : 'no reduction',
         }
       : null,
   })
@@ -542,10 +565,11 @@ export const calculateSkillDamage = (
     breakdown: {
       baseDamage:
         (hasPhysical ? physicalDamage : 0) + (hasMagical ? magicalDamage : 0),
-      afterPotency: finalDamage,
-      afterCrit: finalDamage,
-      afterGuard: finalDamage,
-      afterEffectiveness: finalDamage,
+      afterPotency: totalDamage,
+      afterCrit: totalDamage,
+      afterGuard: totalDamage,
+      afterEffectiveness: afterEffectiveness,
+      afterDmgReduction: finalDamage,
     },
   }
 }

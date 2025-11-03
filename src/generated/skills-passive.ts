@@ -2164,7 +2164,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'DmgReductionPercent',
         value: 25,
-        scaling: 'percent',
+        scaling: 'flat',
         applyTo: 'Target',
         duration: 'UntilAttacked',
       },

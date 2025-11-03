@@ -159,10 +159,6 @@ export interface EffectProcessingResult {
 }
 
 /**
- * Process all effects for a skill, evaluating conditions and accumulating results
- */
-
-/**
  * Process sacrifice effects to determine the HP cost for using a skill
  * This is called once at skill execution time, before any targeting or per-target effects.
  *

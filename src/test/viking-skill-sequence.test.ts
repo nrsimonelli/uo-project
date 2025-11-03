@@ -35,6 +35,7 @@ describe('Viking Skill Sequences', () => {
         GRD: 35,
         INIT: 75,
         GuardEff: 0,
+        DmgReductionPercent: 0,
       },
       statFoundation: {
         HP: 150,
@@ -48,6 +49,7 @@ describe('Viking Skill Sequences', () => {
         GRD: 35,
         INIT: 75,
         GuardEff: 0,
+        DmgReductionPercent: 0,
       },
     })
 
@@ -74,6 +76,7 @@ describe('Viking Skill Sequences', () => {
         GRD: 20,
         INIT: 60,
         GuardEff: 0,
+        DmgReductionPercent: 0,
       },
       statFoundation: {
         HP: 500,
@@ -87,6 +90,7 @@ describe('Viking Skill Sequences', () => {
         GRD: 20,
         INIT: 60,
         GuardEff: 0,
+        DmgReductionPercent: 0,
       },
       currentHP: 500,
     })

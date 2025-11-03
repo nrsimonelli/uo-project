@@ -32,6 +32,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -45,6 +46,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })
@@ -71,6 +73,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -84,6 +87,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Flying'],
       })
@@ -137,6 +141,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -150,6 +155,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })
@@ -176,6 +182,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -189,6 +196,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })
@@ -239,6 +247,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -252,6 +261,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })
@@ -278,6 +288,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 100,
           INIT: 70,
           GuardEff: 50,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -291,6 +302,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 100,
           INIT: 70,
           GuardEff: 50,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Armored'],
       })
@@ -345,6 +357,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -358,6 +371,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 0,
           INIT: 70,
           GuardEff: 0,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })
@@ -384,6 +398,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 100,
           INIT: 70,
           GuardEff: 50,
+          DmgReductionPercent: 0,
         },
         statFoundation: {
           HP: 100,
@@ -397,6 +412,7 @@ describe('Crusader Conditional Effects', () => {
           GRD: 100,
           INIT: 70,
           GuardEff: 50,
+          DmgReductionPercent: 0,
         },
         combatantTypes: ['Infantry'],
       })

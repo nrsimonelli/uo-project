@@ -16,6 +16,7 @@ const initialEquipmentData = {
   AP: 0,
   PP: 0,
   GuardEff: 0,
+  DmgReductionPercent: 0,
 }
 
 // Equipment stat processing functions
@@ -40,6 +41,7 @@ const directStatMappings: Record<string, keyof typeof initialEquipmentData> = {
   AP: 'AP',
   PP: 'PP',
   GuardEff: 'GuardEff',
+  DmgReductionPercent: 'DmgReductionPercent',
 }
 
 const specialStatProcessors: Record<string, StatProcessor> = {
@@ -97,7 +99,6 @@ const ignoredStats = [
   'GoldGainPercent',
   'ExpGainPercent',
   'OnActiveHealPercent',
-  'DmgReductionPercent',
   'DrainEff',
   'PursuitPotency',
   'CounterAttackPotency',

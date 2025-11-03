@@ -12,7 +12,7 @@ import {
   canEvade,
   canCrit,
   checkAndConsumeBlind,
-  processAfflictionsOnDamage,
+  processAfflictionsOnHit,
   clearAllAfflictions,
   getAfflictionSummary,
 } from '@/core/battle/combat/affliction-manager'
@@ -54,6 +54,7 @@ const createMockUnit = (name: string, hp = 100): BattleContext => ({
     GRD: 20,
     INIT: 50,
     GuardEff: 0,
+    DmgReductionPercent: 0,
   },
   combatStats: {
     HP: hp,
@@ -67,6 +68,7 @@ const createMockUnit = (name: string, hp = 100): BattleContext => ({
     GRD: 20,
     INIT: 50,
     GuardEff: 0,
+    DmgReductionPercent: 0,
   },
   flags: [],
   lastPassiveResponse: 0,
@@ -222,11 +224,11 @@ describe('Affliction System', () => {
       expect(canEvade(unit)).toBe(false)
     })
 
-    it('should remove freeze when taking damage', () => {
+    it('should remove freeze when being hit', () => {
       applyAffliction(unit, 'Freeze', 'source')
       expect(hasAffliction(unit, 'Freeze')).toBe(true)
 
-      processAfflictionsOnDamage(unit)
+      processAfflictionsOnHit(unit)
       expect(hasAffliction(unit, 'Freeze')).toBe(false)
     })
   })

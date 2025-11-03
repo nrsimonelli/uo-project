@@ -636,6 +636,7 @@ export const initializeStatFoundation = (unit: BattleContext): void => {
     GRD: baseStats.GRD + (equipmentBonus.GRD ?? 0),
     INIT: baseStats.INIT + (equipmentBonus.INIT ?? 0),
     GuardEff: equipmentBonus.GuardEff ?? 0,
+    DmgReductionPercent: equipmentBonus.DmgReductionPercent ?? 0,
   }
 
   // Initialize combatStats to foundation values
@@ -682,4 +683,15 @@ export const recalculateStats = (unit: BattleContext): void => {
 
   // Handle GuardEff separately (no buff/debuff modifiers yet)
   unit.combatStats.GuardEff = foundation.GuardEff
+
+  // Handle DmgReductionPercent with buff/debuff modifiers (only flat scaling)
+  const dmgReductionModifiers = calculateStatModifier(
+    unit,
+    'DmgReductionPercent'
+  )
+  // DmgReductionPercent only uses flat modifiers (all buffs/debuffs add/subtract flat values)
+  unit.combatStats.DmgReductionPercent = Math.max(
+    0,
+    foundation.DmgReductionPercent + dmgReductionModifiers.flatModifier
+  )
 }

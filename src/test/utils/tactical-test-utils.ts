@@ -49,6 +49,7 @@ export const createMockBattleContext = (
       GRD: 15,
       INIT: 70,
       GuardEff: 0,
+      DmgReductionPercent: 0,
     },
     combatStats: {
       HP: 100,
@@ -62,6 +63,7 @@ export const createMockBattleContext = (
       GRD: 15,
       INIT: 70,
       GuardEff: 0,
+      DmgReductionPercent: 0,
     },
     combatantTypes: ['Infantry'],
     buffs: [],

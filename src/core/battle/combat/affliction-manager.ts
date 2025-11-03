@@ -256,13 +256,13 @@ export const checkAndConsumeBlind = (unit: BattleContext) => {
 }
 
 /**
- * Process afflictions when a unit takes damage
- * Handles Freeze removal when hit
+ * Process afflictions when a unit is hit by an attack
+ * Handles Freeze removal when hit (regardless of damage amount)
  */
-export const processAfflictionsOnDamage = (unit: BattleContext) => {
+export const processAfflictionsOnHit = (unit: BattleContext) => {
   if (hasAffliction(unit, 'Freeze')) {
     removeAffliction(unit, 'Freeze')
-    console.log(`🧊 ${unit.unit.name} Freeze removed by taking damage`)
+    console.log(`🧊 ${unit.unit.name} Freeze removed by being hit`)
   }
 }
 
