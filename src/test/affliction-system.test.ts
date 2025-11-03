@@ -18,65 +18,52 @@ import {
 } from '@/core/battle/combat/affliction-manager'
 import { calculateSkillDamage } from '@/core/battle/combat/damage-calculator'
 import { rng } from '@/core/random'
+import { createMockBattleContext } from '@/test/utils/tactical-test-utils'
 import type { BattleContext } from '@/types/battle-engine'
 import type { DamageEffect } from '@/types/effects'
 
-// Mock unit creation helper
-const createMockUnit = (name: string, hp = 100): BattleContext => ({
-  unit: {
-    id: `unit-${name}`,
-    name,
-    classKey: 'Fighter',
-    level: 10,
-    growths: ['Hardy', 'Hardy'],
-    equipment: [],
-    skillSlots: [],
-  },
-  currentHP: hp,
-  currentAP: 4,
-  currentPP: 4,
-  team: 'home-team',
-  combatantTypes: ['Infantry'],
-  position: { row: 0, col: 0 },
-  afflictions: [],
-  buffs: [],
-  debuffs: [],
-  conferrals: [],
-  evades: [],
-  statFoundation: {
-    HP: hp,
-    PATK: 50,
-    PDEF: 30,
-    MATK: 40,
-    MDEF: 25,
-    ACC: 70,
-    EVA: 60,
-    CRT: 15,
-    GRD: 20,
-    INIT: 50,
-    GuardEff: 0,
-    DmgReductionPercent: 0,
-  },
-  combatStats: {
-    HP: hp,
-    PATK: 50,
-    PDEF: 30,
-    MATK: 40,
-    MDEF: 25,
-    ACC: 70,
-    EVA: 60,
-    CRT: 15,
-    GRD: 20,
-    INIT: 50,
-    GuardEff: 0,
-    DmgReductionPercent: 0,
-  },
-  flags: [],
-  lastPassiveResponse: 0,
-  isPassiveResponsive: true,
-  immunities: [],
-  hasActedThisRound: false,
-})
+// Helper to create mock unit with custom HP
+const createMockUnit = (name: string, hp = 100): BattleContext =>
+  createMockBattleContext({
+    unit: {
+      id: `unit-${name}`,
+      name,
+      classKey: 'Fighter',
+      level: 10,
+      growths: ['Hardy', 'Hardy'],
+      equipment: [],
+      skillSlots: [],
+    },
+    currentHP: hp,
+    statFoundation: {
+      HP: hp,
+      PATK: 50,
+      PDEF: 30,
+      MATK: 40,
+      MDEF: 25,
+      ACC: 70,
+      EVA: 60,
+      CRT: 15,
+      GRD: 20,
+      INIT: 50,
+      GuardEff: 0,
+      DmgReductionPercent: 0,
+    },
+    combatStats: {
+      HP: hp,
+      PATK: 50,
+      PDEF: 30,
+      MATK: 40,
+      MDEF: 25,
+      ACC: 70,
+      EVA: 60,
+      CRT: 15,
+      GRD: 20,
+      INIT: 50,
+      GuardEff: 0,
+      DmgReductionPercent: 0,
+    },
+  })
 
 describe('Affliction System', () => {
   let unit: BattleContext

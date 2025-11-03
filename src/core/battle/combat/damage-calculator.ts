@@ -180,9 +180,9 @@ export const calculateSkillGuardMultiplier = (guardLevel: GuardLevel) => {
 export const calculateEffectiveness = (
   attacker: BattleContext,
   target: BattleContext,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _isPhysical: boolean
+  isPhysical: boolean
 ) => {
+  void isPhysical
   const attackerClassData = CLASS_DATA[attacker.unit.classKey]
   const targetClassData = CLASS_DATA[target.unit.classKey]
 
@@ -254,6 +254,15 @@ const consumeAllUntilAttacked = (evades: EvadeStatus[]): EvadeStatus[] => {
 }
 
 /**
+ * Helper: Consume all evades (used by entireAttack)
+ */
+const consumeAllEvades = (evades: EvadeStatus[]): EvadeStatus[] => {
+  const consumed = [...evades]
+  evades.length = 0
+  return consumed
+}
+
+/**
  * Check for and consume evade effects on target
  * Returns whether the attack was dodged and which evades were consumed
  * Priority: entireAttack > twoHits > singleHit
@@ -305,9 +314,9 @@ export const checkAndConsumeEvade = (
     singleHit: evades.filter(evade => evade.evadeType === 'singleHit'),
   }
 
-  // Priority 1: entireAttack
+  // Priority 1: entireAttack - consumes all evades
   if (evadeByType.entireAttack.length > 0) {
-    const consumedEvades = consumeAllUntilAttacked(target.evades)
+    const consumedEvades = consumeAllEvades(target.evades)
     console.log(
       `💨 ${target.unit.name} evaded entire attack using ${getSkillName(evadeByType.entireAttack[0].skillId)}`
     )
@@ -357,8 +366,7 @@ export const checkAndConsumeEvade = (
 export const calculateSkillDamage = (
   damageEffect: DamageEffect,
   skillFlags: readonly Flag[] | Flag[] = [],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
+  skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
   attacker: BattleContext,
   target: BattleContext,
   rng: RandomNumberGeneratorType,
@@ -366,6 +374,7 @@ export const calculateSkillDamage = (
   effectResults?: EffectProcessingResult,
   twoHitsRemaining?: number
 ): DamageResult => {
+  void skillCategories
   // Combine skill-level, damage effect flags, and granted flags from effects
   const combinedFlags = getCombinedFlags(
     skillFlags,

@@ -592,11 +592,11 @@ const sortStats: SortEvaluator = (targets, metadata) => {
 
 const sortUnitCount: SortEvaluator = (
   targets,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _metadata,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _context
+  metadata,
+  context
 ) => {
+  void metadata
+  void context
   // Sort targets based on unit count conditions
   // This is mainly a pass-through since unit count affects the entire target pool
   return targets
@@ -604,17 +604,18 @@ const sortUnitCount: SortEvaluator = (
 
 const sortEnemyPresence: SortEvaluator = (
   targets,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _metadata,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _context
+  metadata,
+  context
 ) => {
+  void metadata
+  void context
   // Sort targets based on enemy presence
   // This is mainly a pass-through since enemy presence affects the entire battlefield
   return targets
 }
 
-const sortAttackHistory: SortEvaluator = (targets, _metadata, context) => {
+const sortAttackHistory: SortEvaluator = (targets, metadata, context) => {
+  void metadata
   const recentActions = context.battlefield.actionHistory.slice(-10)
 
   return [...targets].sort((a, b) => {
@@ -752,34 +753,35 @@ const compareStatus: CompareEvaluator = (a, b, metadata) => {
 }
 
 const compareUnitCount: CompareEvaluator = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _a,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _b,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _metadata,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _context
+  a,
+  b,
+  metadata,
+  context
 ) => {
+  void a
+  void b
+  void metadata
+  void context
   // Unit count comparison doesn't really apply at the individual target level
   return 0
 }
 
 const compareEnemyPresence: CompareEvaluator = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _a,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _b,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _metadata,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _context
+  a,
+  b,
+  metadata,
+  context
 ) => {
+  void a
+  void b
+  void metadata
+  void context
   // Enemy presence comparison doesn't really apply at the individual target level
   return 0
 }
 
-const compareAttackHistory: CompareEvaluator = (a, b, _metadata, context) => {
+const compareAttackHistory: CompareEvaluator = (a, b, metadata, context) => {
+  void metadata
   const recentActions = context.battlefield.actionHistory.slice(-10)
 
   const aRecentlyAttacked = recentActions.some(action =>

@@ -122,13 +122,19 @@ const FORMATION_CHECKERS = {
   'front-row': (unit: BattleContext) => unit.position.row === 1,
   'back-row': (unit: BattleContext) => unit.position.row === 0,
   daytime: (
-    _unit: BattleContext,
+    unit: BattleContext,
     context?: { battlefield: { isNight: boolean } }
-  ) => !(context?.battlefield.isNight ?? false),
+  ) => {
+    void unit
+    return !(context?.battlefield.isNight ?? false)
+  },
   nighttime: (
-    _unit: BattleContext,
+    unit: BattleContext,
     context?: { battlefield: { isNight: boolean } }
-  ) => context?.battlefield.isNight ?? false,
+  ) => {
+    void unit
+    return context?.battlefield.isNight ?? false
+  },
 } as const
 
 export const evaluateBasicFormation = (

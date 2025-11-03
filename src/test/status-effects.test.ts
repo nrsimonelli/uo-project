@@ -99,4 +99,70 @@ describe('Status Effects Basic', () => {
     expect(unit.buffs).toHaveLength(2)
     expect(unit.debuffs).toHaveLength(1)
   })
+
+  it('should detect units with conferrals as buffed', () => {
+    const unit = createMockBattleContext({
+      conferrals: [
+        {
+          skillId: 'test-conferral',
+          potency: 50,
+          casterMATK: 40,
+          duration: 'UntilNextAttack',
+        },
+      ],
+    })
+
+    expect(hasBuffs(unit)).toBe(true)
+    expect(unit.conferrals).toHaveLength(1)
+  })
+
+  it('should detect units with evades as buffed', () => {
+    const unit = createMockBattleContext({
+      evades: [
+        {
+          skillId: 'test-evade',
+          evadeType: 'singleHit',
+          duration: 'UntilAttacked',
+          source: 'test-source',
+        },
+      ],
+    })
+
+    expect(hasBuffs(unit)).toBe(true)
+    expect(unit.evades).toHaveLength(1)
+  })
+
+  it('should detect buffed status with any combination of buffs/conferrals/evades', () => {
+    const unitWithAll = createMockBattleContext({
+      buffs: [
+        {
+          name: 'Buff',
+          stat: 'PATK',
+          value: 10,
+          duration: 'Indefinite',
+          scaling: 'flat',
+          source: 'skill1',
+          skillId: 'skill1',
+        },
+      ],
+      conferrals: [
+        {
+          skillId: 'skill2',
+          potency: 50,
+          casterMATK: 40,
+          duration: 'UntilNextAttack',
+        },
+      ],
+      evades: [
+        {
+          skillId: 'skill3',
+          evadeType: 'singleHit',
+          duration: 'UntilAttacked',
+          source: 'source',
+        },
+      ],
+    })
+
+    expect(hasBuffs(unitWithAll)).toBe(true)
+  })
 })

@@ -65,10 +65,11 @@ const findClosestTarget = (
   actingUnit: BattleContext,
   potentialTargets: BattleContext[],
 
-  _skill: ActiveSkill | PassiveSkill,
+  skill: ActiveSkill | PassiveSkill,
   battlefield?: BattlefieldState,
   options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
 ): BattleContext | null => {
+  void skill
   if (potentialTargets.length === 0) return null
   if (potentialTargets.length === 1) return potentialTargets[0]
 
@@ -132,10 +133,10 @@ const targetingGroupHandlers = {
       unit => unit.team !== actingUnit.team && unit.currentHP > 0
     ),
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Self: (actingUnit: BattleContext, _battlefield: BattlefieldState) => [
-    actingUnit,
-  ],
+  Self: (actingUnit: BattleContext, battlefield: BattlefieldState) => {
+    void battlefield
+    return [actingUnit]
+  },
 } as const
 
 /**
@@ -144,15 +145,16 @@ const targetingGroupHandlers = {
  */
 const targetingPatternHandlers = {
   Self: (
-    _targets: BattleContext[],
+    targets: BattleContext[],
     actingUnit: BattleContext,
-    _skill: ActiveSkill | PassiveSkill,
-    _battlefield?: BattlefieldState,
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState,
     options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
+    void targets
+    void skill
+    void battlefield
     void options
-    void _skill
-    void _battlefield
     return [actingUnit]
   },
 
