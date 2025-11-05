@@ -198,6 +198,88 @@ export const ACTIVATION_WINDOWS = {
   },
 } as const
 
+export const ACTIVATION_WINDOW_CATEGORIES: Record<
+  string,
+  ActivationWindowId[]
+> = {
+  // No active skill root trigger
+  // --------------------------------
+  START: ['startOfBattle'],
+  END: ['endOfBattle'],
+  // --------------------------------
+
+  // Active skill root
+  // 1.0 skill is selected
+  // 1.1 Ally team pre-attack window
+  // -- Ally Window (Limited)
+  PRE_ATTACK_ALLY: [
+    'beforeAllyAttacksActive',
+    'beforeAllyAttacksPhysicalActive',
+  ],
+  // -- Self Window
+  PRE_ATTACK_USER: ['beforeAttackingActive'],
+
+  // 1.2 Enemy team pre-attack window
+  // -- Enemy Window (Limited)
+  PRE_ATTACK_ENEMY: [
+    'beforeEnemyAttacks',
+    'beforeEnemyAttacksMagic',
+    'beforeAllyAttacked',
+    'beforeAllyAttackedRangedPhys',
+    'beforeAllyHitMagic',
+    'beforeAllyHitRangedPhys',
+  ],
+  // -- Target Window
+  PRE_ATTACK_TARGET: [
+    'beforeBeingHitPhys',
+    'beforeBeingHitMelee',
+    'beforeBeingHitRanged',
+    'beforeBeingAttacked',
+  ],
+  // 1.3 Post-attack
+  // -- Ally Window
+  POST_ATTACK_ALLY: [
+    'afterAllyAttacksActive',
+    'afterAllyMagicAttacksActive',
+    'afterCavalryAllyAttacksActive',
+    'afterFlyingAllyAttacksActive',
+    'afterAllyActiveSkill',
+    'afterEnemyDebuff',
+    'afterEnemyBuff',
+    'afterEnemyAttacksActive',
+  ],
+
+  POST_ATTACK_ENEMY: [
+    'afterAllyAttackedActive',
+    'afterBeingAttacked',
+    'afterAllyHit',
+  ],
+  POST_ATTACK_USER: ['afterAttacking', 'afterUsingActiveSkill'],
+  POST_ATTACK_TARGET: [
+    'afterBeingHitPhys',
+    'afterBeingHit',
+    'afterBeingAttacked',
+  ],
+  // target instant
+  // user instant
+  // ally pursuit
+
+  // Instant use windows?
+  // todo: needs testing for determining distinct windows
+  TEST_INSTANT_USE: [
+    'afterAllyHealed',
+    'afterReceivingAllyPassive',
+    'afterAllyPassiveSkill',
+    'afterAllyDebuffed',
+    'afterUserDebuff',
+    'afterEvade',
+    'afterEnemyGuards',
+    'afterEnemyHeals',
+  ],
+
+  // enemy counter
+}
+
 export const ActivationWindowById: Record<
   ActivationWindowId,
   ActivationWindowMeta
