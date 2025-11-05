@@ -37,8 +37,11 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'GrantFlag',
-        flag: 'TrueCritical',
+        kind: 'Buff',
+        stat: 'TrueCritical',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
         duration: 'UntilNextAttack',
       },
     ],
@@ -296,8 +299,10 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'GrantFlag',
-        flag: 'Unguardable',
+        kind: 'Buff',
+        stat: 'Unguardable',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'Target',
       },
     ],
@@ -1013,14 +1018,18 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'GrantFlag',
-        flag: 'NegateMagicDamage',
+        kind: 'Buff',
+        stat: 'NegateMagicDamage',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'Target',
         duration: 'UntilAttacked',
       },
       {
-        kind: 'GrantFlag',
-        flag: 'AfflictionImmunity',
+        kind: 'Buff',
+        stat: 'AfflictionImmunity',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'Target',
         duration: 'UntilAttacked',
       },
@@ -1069,14 +1078,18 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'GrantFlag',
-        flag: 'NegateMagicDamage',
+        kind: 'Buff',
+        stat: 'NegateMagicDamage',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'Target',
         duration: 'UntilAttacked',
       },
       {
-        kind: 'GrantFlag',
-        flag: 'AfflictionImmunity',
+        kind: 'Buff',
+        stat: 'AfflictionImmunity',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'Target',
         duration: 'UntilAttacked',
       },
@@ -1476,8 +1489,11 @@ export const PassiveSkills = [
     },
     effects: [
       {
-        kind: 'GrantFlag',
-        flag: 'TrueStrike',
+        kind: 'Buff',
+        stat: 'TrueStrike',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
         duration: 'UntilNextAttack',
       },
     ],
@@ -2482,6 +2498,86 @@ export const PassiveSkills = [
         resource: 'PP',
         amount: 2,
         applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'holyBarrier',
+    type: 'passive',
+    name: 'Holy Barrier',
+    description:
+      'Activates before an ally is attacked. Reduce the damage taken by an ally by 50% for one attack. Also prevents them from being afflicted.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'DmgReductionPercent',
+        value: 50,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+      {
+        kind: 'Buff',
+        stat: 'AfflictionImmunity',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'guardOrder',
+    type: 'passive',
+    name: 'Guard Order',
+    description:
+      'Activates before an ally is attacked. Grants a row of allies +100% Guard Rate for one attack.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'GRD',
+        value: 100,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'snipingOrder',
+    type: 'passive',
+    name: 'Sniping Order',
+    description:
+      "Activates before an ally attacks with an active skill. Make a row of allies' next attack a truestrike.",
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacksActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'TrueStrike',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
       },
     ],
   },

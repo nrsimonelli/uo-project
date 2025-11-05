@@ -117,6 +117,111 @@
     ]
   },
   {
+    "id": "cavalrySlayer",
+    "type": "active",
+    "name": "Cavalry Slayer",
+    "description": "Attack a single enemy. Inflicts -1 AP, -1 PP, and Guard Seal if the target is Cavalry.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "AP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Cavalry",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spinningEdge",
+    "type": "active",
+    "name": "Spinning Edge",
+    "description": "Attack a row of enemies. Ignores 50% of the target's Defenes. Grants the user +1 PP if a target is defeated.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 60
+        },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.5,
+        "applyTo": "Target"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "verticalEdge",
     "type": "active",
     "name": "Vertical Edge",
@@ -397,7 +502,7 @@
         "potency": {
           "physical": 80
         },
-        "hitRate": 100,
+        "hitRate": "True",
         "hitCount": 1
       }
     ]
@@ -508,7 +613,7 @@
           "physical": 100,
           "magical": 50
         },
-        "hitRate": 100,
+        "hitRate": "True",
         "hitCount": 1
       },
       {
@@ -3257,8 +3362,10 @@
         "applyTo": "Target"
       },
       {
-        "kind": "GrantFlag",
-        "flag": "TrueStrike",
+        "kind": "Buff",
+        "stat": "TrueStrike",
+        "value": 1,
+        "scaling": "flat",
         "duration": "UntilNextAttack",
         "applyTo": "Target",
         "conditions": [
@@ -3678,6 +3785,151 @@
         "resource": "PP",
         "amount": 2,
         "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "slice",
+    "type": "active",
+    "name": "Slice",
+    "description": "Attack a single enemy. Grants the user +1 PP if the target is defeated.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "divineCross",
+    "type": "active",
+    "name": "Divine Cross",
+    "description": "Attack a single enemy and remove all buffs. Grants the user +1 PP if the target is defeated.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 50,
+          "magical": 50
+        },
+        "hitRate": "True",
+        "hitCount": 2
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "TargetDefeated",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "banishingStab",
+    "type": "active",
+    "name": "Banishing Stab",
+    "description": "Attack a single enemy. Remove all of the target's buffs.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "defensiveOrder",
+    "type": "active",
+    "name": "Defensive Order",
+    "description": "Grants all allies +20% Defense.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "Defense",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "offensiveOrder",
+    "type": "active",
+    "name": "Offensive Order",
+    "description": "Grants all allies +20% Attack.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target"
       }
     ]
   }

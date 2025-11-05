@@ -28,10 +28,33 @@ export interface DamageEffect {
   hitCount: number
   conditions?: Condition[] | readonly Condition[]
 }
+
+/**
+ * GrantFlagEffect - Instant-use flags for the current skill execution
+ *
+ * ⚠️ IMPORTANT: GrantFlag effects do NOT support durations or persistence.
+ * Flags are only available during the skill execution that grants them and are
+ * immediately consumed/checked during that same execution.
+ *
+ * When to use GrantFlag:
+ * - Flag is only needed during the skill execution that grants it
+ * - Flag modifies the current attack/skill being executed
+ * - Examples: TrueStrike for current attack, Unguardable for current attack,
+ *   TrueCritical for current attack, NoCrit for current attack
+ *
+ * When to use BuffEffect instead:
+ * - Effect must persist beyond the skill execution
+ * - Effect needs to be checked later (on next attack, when attacked, etc.)
+ * - Examples: Sniping Order, Row Barrier, Night Vision
+ *
+ * Rule of thumb: If the effect needs to exist AFTER the skill finishes executing,
+ * use BuffEffect with the appropriate stat/flag (e.g., TrueStrike, s).
+ */
 export interface GrantFlagEffect {
   kind: 'GrantFlag'
   flag: Flag
-  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  // Note: Duration is NOT supported - flags are instant-use only
+  // Use BuffEffect with duration if persistence is needed
   applyTo?: 'Target' | 'User'
   conditions?: Condition[] | readonly Condition[]
 }
@@ -70,12 +93,31 @@ interface BaseEffect {
     | 'UntilDebuffed'
   conditions?: Condition[] | readonly Condition[]
 }
+
+/**
+ * BuffEffect - Persistent effects stored on units with duration tracking
+ *
+ * Buffs are stored on units and persist until consumed or expired based on duration.
+ * Supports full duration tracking: UntilNextAction, UntilNextAttack, UntilAttacked,
+ * UntilDebuffed, or Indefinite.
+ *
+ * Special buff stats for immunity/consumable mechanics:
+ * - 'SurviveLethal': Prevents one lethal blow, consumed when triggered
+ * - 'DebuffImmunity': Blocks next debuff/affliction/resource steal, consumed when triggered
+ * - 'NegateMagicDamage': Negates all incoming magic damage, consumed when triggered
+ * - 'AfflictionImmunity': Blocks next affliction, consumed when triggered
+ * - 'TrueStrike': Guarantees next attack hits, consumed when used
+ *
+ * Use BuffEffect when:
+ * - Effect must persist beyond the skill execution
+ * - Effect needs duration tracking (UntilNextAttack, UntilAttacked, etc.)
+ * - Effect should be stored on the unit until consumed/expired
+ *
+ * For instant-use flags (no persistence), use GrantFlagEffect instead.
+ */
 export interface BuffEffect extends BaseEffect {
   kind: 'Buff'
   stacks?: boolean
-  // Special buff stats for immunity mechanics (consumed on use):
-  // - 'SurviveLethal': Prevents one lethal blow, consumed when triggered
-  // - 'DebuffImmunity': Blocks next debuff/affliction/resource steal, consumed when triggered
 }
 
 export interface DebuffEffect extends BaseEffect {

@@ -43,6 +43,11 @@ export type ExtraStats =
   | 'SurviveLethal'
   | 'DebuffImmunity'
   | 'HPRecovery'
+  | 'TrueStrike'
+  | 'NegateMagicDamage'
+  | 'AfflictionImmunity'
+  | 'TrueCritical'
+  | 'Unguardable'
 export type EquipmentStatKey = StatKey | ExtraStats
 export interface Equipment {
   id: string

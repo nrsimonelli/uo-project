@@ -1,7 +1,31 @@
 import { hasAfflictionImmunity } from './effect-processor'
+import { recalculateStats } from './status-effects'
 
 import type { BattleContext, Affliction } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
+
+/**
+ * Check if a unit has AfflictionImmunity buff and consume it if present
+ * Returns true if the affliction should be blocked
+ */
+const checkAndConsumeAfflictionImmunity = (unit: BattleContext) => {
+  const immunityBuffIndex = unit.buffs.findIndex(
+    buff => buff.stat === 'AfflictionImmunity'
+  )
+
+  if (immunityBuffIndex !== -1) {
+    // Remove the immunity buff (it's consumed)
+    const consumedBuff = unit.buffs[immunityBuffIndex]
+    unit.buffs.splice(immunityBuffIndex, 1)
+    console.log(
+      `🛡️ ${unit.unit.name}'s ${consumedBuff.name} buff consumed (blocked affliction)`
+    )
+    recalculateStats(unit)
+    return true
+  }
+
+  return false
+}
 
 /**
  * Apply an affliction to a unit with stacking and immunity checks
@@ -12,9 +36,17 @@ export const applyAffliction = (
   source: string,
   level?: number
 ) => {
-  // Check immunity before applying
+  // Check permanent immunities first (not consumed)
   if (hasAfflictionImmunity(unit.immunities, afflictionType)) {
     console.log(`${unit.unit.name} is immune to ${afflictionType}`)
+    return false
+  }
+
+  // Check for AfflictionImmunity buff (consumed on use)
+  if (checkAndConsumeAfflictionImmunity(unit)) {
+    console.log(
+      `${unit.unit.name} blocked ${afflictionType} via AfflictionImmunity buff`
+    )
     return false
   }
 

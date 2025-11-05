@@ -590,11 +590,7 @@ const sortStats: SortEvaluator = (targets, metadata) => {
   })
 }
 
-const sortUnitCount: SortEvaluator = (
-  targets,
-  metadata,
-  context
-) => {
+const sortUnitCount: SortEvaluator = (targets, metadata, context) => {
   void metadata
   void context
   // Sort targets based on unit count conditions
@@ -602,11 +598,7 @@ const sortUnitCount: SortEvaluator = (
   return targets
 }
 
-const sortEnemyPresence: SortEvaluator = (
-  targets,
-  metadata,
-  context
-) => {
+const sortEnemyPresence: SortEvaluator = (targets, metadata, context) => {
   void metadata
   void context
   // Sort targets based on enemy presence
@@ -752,12 +744,7 @@ const compareStatus: CompareEvaluator = (a, b, metadata) => {
   return 0
 }
 
-const compareUnitCount: CompareEvaluator = (
-  a,
-  b,
-  metadata,
-  context
-) => {
+const compareUnitCount: CompareEvaluator = (a, b, metadata, context) => {
   void a
   void b
   void metadata
@@ -766,12 +753,7 @@ const compareUnitCount: CompareEvaluator = (
   return 0
 }
 
-const compareEnemyPresence: CompareEvaluator = (
-  a,
-  b,
-  metadata,
-  context
-) => {
+const compareEnemyPresence: CompareEvaluator = (a, b, metadata, context) => {
   void a
   void b
   void metadata
