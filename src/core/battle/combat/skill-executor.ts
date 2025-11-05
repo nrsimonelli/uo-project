@@ -27,7 +27,7 @@ import type { StatKey } from '@/types/base-stats'
 import type { BattlefieldState } from '@/types/battle-engine'
 import type { BattleContext, Buff } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
-import type { DamageEffect, Flag } from '@/types/effects'
+import type { DamageEffect, Effect, Flag } from '@/types/effects'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
 /**
@@ -371,6 +371,60 @@ export const executeSkill = (
   // Return single result for one target, multi-target result for multiple
   if (targetArray.length === 1) {
     return results[0]
+  }
+
+  // For multi-target skills, handle ResourceGain effects with TargetDefeated conditions
+  // These should only trigger once if ANY target is defeated, not once per target
+  const anyTargetDefeated = results.some((result, index) => {
+    const target = targetArray[index]
+    if (!target) return false
+    return target.currentHP - result.totalDamage <= 0
+  })
+
+  // Find ResourceGain effects with TargetDefeated conditions that apply to User
+  const resourceGainEffectsWithTargetDefeated = skill.effects.filter(
+    (effect): effect is Extract<Effect, { kind: 'ResourceGain' }> => {
+      if (effect.kind !== 'ResourceGain') return false
+      return (
+        effect.applyTo === 'User' &&
+        Boolean(
+          effect.conditions?.some(
+            condition => condition.kind === 'TargetDefeated'
+          )
+        )
+      )
+    }
+  )
+
+  // If there are ResourceGain effects with TargetDefeated conditions
+  if (resourceGainEffectsWithTargetDefeated.length > 0) {
+    if (anyTargetDefeated) {
+      // Any target was defeated: keep ResourceGain only in the first result,
+      // remove from all other results to prevent multiple applications
+      const firstResult = results[0]
+
+      // Zero out ResourceGain from all results
+      results.forEach(result => {
+        result.effectResults.apGain = 0
+        result.effectResults.ppGain = 0
+      })
+
+      // Apply the ResourceGain once to the first result
+      resourceGainEffectsWithTargetDefeated.forEach(effect => {
+        if (effect.resource === 'AP') {
+          firstResult.effectResults.apGain = effect.amount
+        }
+        if (effect.resource === 'PP') {
+          firstResult.effectResults.ppGain = effect.amount
+        }
+      })
+    } else {
+      // No targets defeated: remove ResourceGain from all results
+      results.forEach(result => {
+        result.effectResults.apGain = 0
+        result.effectResults.ppGain = 0
+      })
+    }
   }
 
   const summary = calculateSkillSummary(results)

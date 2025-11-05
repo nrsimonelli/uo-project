@@ -303,12 +303,28 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
 
         // Update acting unit's AP and status
         const actingUnit = newState.units[unitId]
+
+        // Calculate ResourceGain from skill execution results
+        // For multi-target skills, ResourceGain is only in the first result (handled in executeSkill)
+        let apGain = 0
+        let ppGain = 0
+        if ('results' in result && result.results.length > 0) {
+          // Multi-target: use first result (ResourceGain is consolidated there)
+          apGain = result.results[0]?.effectResults?.apGain ?? 0
+          ppGain = result.results[0]?.effectResults?.ppGain ?? 0
+        } else if ('effectResults' in result) {
+          // Single-target
+          apGain = result.effectResults?.apGain ?? 0
+          ppGain = result.effectResults?.ppGain ?? 0
+        }
+
         newState.units[unitId] = {
           ...actingUnit,
           currentAP: Math.max(
             0,
-            actingUnit.currentAP - skillSelection.skill.ap
+            actingUnit.currentAP - skillSelection.skill.ap + apGain
           ),
+          currentPP: Math.max(0, actingUnit.currentPP + ppGain),
           hasActedThisRound: true,
         }
 
