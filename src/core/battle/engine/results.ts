@@ -8,6 +8,7 @@ import {
   getDebuffsForStat,
 } from '@/core/battle/combat/status-effects'
 import { getStateIdForContext } from '@/core/battle/engine/utils/state-ids'
+import { getEquipmentById } from '@/core/equipment-lookup'
 import type {
   BattleEvent,
   BattleContext,
@@ -184,6 +185,99 @@ function applyLifeStealEffects(
         currentHP: cappedHP,
       }
     }
+  }
+
+  return state
+}
+
+/**
+ * Get OnActiveHealPercent from unit's equipment and buffs
+ * OnActiveHealPercent can come from:
+ * 1. Equipment stats (ExtraStats)
+ * 2. Buffs (skills like hastenedHeal grant OnActiveHealPercent as a buff)
+ */
+export function getOnActiveHealPercent(unit: BattleContext): number {
+  let total = 0
+
+  // Get from equipment
+  for (const equippedItem of unit.unit.equipment) {
+    if (!equippedItem.itemId) continue
+    const equipment = getEquipmentById(equippedItem.itemId)
+    if (equipment?.stats?.OnActiveHealPercent) {
+      total += equipment.stats.OnActiveHealPercent
+    }
+  }
+
+  // Get from buffs (skills can grant OnActiveHealPercent as a buff stat)
+  const onActiveHealBuffs = getBuffsForStat(
+    unit,
+    'OnActiveHealPercent' as ExtraStats
+  )
+  total += onActiveHealBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0)
+
+  return total
+}
+
+/**
+ * Calculate OnActiveHealPercent heal amount without mutating state
+ * Returns the heal amount that should be applied
+ */
+export function calculateOnActiveHealAmount(unit: BattleContext): number {
+  // Get OnActiveHealPercent from equipment and buffs
+  const onActiveHealPercent = getOnActiveHealPercent(unit)
+  if (onActiveHealPercent === 0) return 0
+
+  // Get HP recovery modifiers from buffs/debuffs (additive)
+  const recoveryBuffs = getBuffsForStat(unit, 'HPRecovery' as ExtraStats)
+  const recoveryDebuffs = getDebuffsForStat(unit, 'HPRecovery' as ExtraStats)
+  const hpRecovery =
+    recoveryBuffs.reduce((sum, buff) => sum + (buff.value || 0), 0) +
+    recoveryDebuffs.reduce((sum, debuff) => sum + (debuff.value || 0), 0)
+
+  // Calculate base heal: (maxHP * OnActiveHealPercent) / 100
+  const baseHeal = Math.round((unit.combatStats.HP * onActiveHealPercent) / 100)
+
+  // Apply HPRecovery multiplier: baseHeal * (1 + hpRecovery / 100)
+  const finalHeal = Math.round(baseHeal * (1 + hpRecovery / 100))
+
+  return finalHeal
+}
+
+/**
+ * Apply OnActiveHealPercent healing to a unit in state
+ * Similar to applyLifeStealEffects but uses maxHP and OnActiveHealPercent
+ * Preserves overheal: if unit is already above maxHP, cap is pre-heal currentHP
+ */
+export function applyOnActiveHealPercent(
+  state: BattlefieldState,
+  unitId: string
+): BattlefieldState {
+  const unitState = state.units[unitId]
+  if (!unitState) return state
+
+  const healAmount = calculateOnActiveHealAmount(unitState)
+  if (healAmount === 0) return state
+
+  // Save pre-heal currentHP for cap calculation
+  const preHealCurrentHP = unitState.currentHP
+
+  // Calculate new HP after healing
+  const newHP = preHealCurrentHP + healAmount
+
+  // Cap logic:
+  // - If currentHP <= maxHP: cap at maxHP
+  // - If currentHP > maxHP (overhealed): cap at pre-heal currentHP (preserves overheal, doesn't increase)
+  const cap = Math.max(unitState.combatStats.HP, preHealCurrentHP)
+  const cappedHP = Math.min(newHP, cap)
+
+  state.units[unitId] = {
+    ...unitState,
+    unit: { ...unitState.unit },
+    combatStats: { ...unitState.combatStats },
+    afflictions: [...unitState.afflictions],
+    buffs: [...unitState.buffs],
+    debuffs: [...unitState.debuffs],
+    currentHP: cappedHP,
   }
 
   return state

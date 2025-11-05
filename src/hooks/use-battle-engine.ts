@@ -22,6 +22,8 @@ import {
 import {
   transformSkillResults,
   applySkillDamageResults,
+  applyOnActiveHealPercent,
+  calculateOnActiveHealAmount,
 } from '@/core/battle/engine/results'
 import { trackSkillUsage } from '@/core/battle/engine/state-tracker'
 import { processUnitTurnStart } from '@/core/battle/engine/turn-manager'
@@ -31,6 +33,7 @@ import {
   startNewRound,
 } from '@/core/battle/engine/turn-manager'
 import { deepCopyUnits } from '@/core/battle/engine/utils/immutability'
+import { getStateIdForContext } from '@/core/battle/engine/utils/state-ids'
 import { calculateTurnOrder } from '@/core/calculations/turn-order'
 import { rng } from '@/core/random'
 import { selectActiveSkill } from '@/core/skill-selection'
@@ -185,9 +188,31 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         skillSelection.targets
       )
 
+      // Apply OnActiveHealPercent healing BEFORE skill execution
+      // This is the regen effect that happens when taking an action
+      const unitStateId = getStateIdForContext(unit)
+
+      // Calculate heal amount (without mutating state)
+      const healAmount = calculateOnActiveHealAmount(unit)
+
+      // Create healed unit reference for skill execution (doesn't mutate state)
+      // Cap logic:
+      // - If currentHP <= maxHP: cap at maxHP
+      // - If currentHP > maxHP (overhealed): cap at pre-heal currentHP (preserves overheal, doesn't increase)
+      const preHealCurrentHP = unit.currentHP
+      const newHP = preHealCurrentHP + healAmount
+      const cap = Math.max(unit.combatStats.HP, preHealCurrentHP)
+      const healedHP = Math.min(newHP, cap)
+
+      const healedUnit: BattleContext = {
+        ...unit,
+        currentHP: healedHP,
+      }
+
+      // Execute skill with the healed unit (healing already calculated)
       const result = executeSkill(
         skillSelection.skill,
-        unit,
+        healedUnit,
         redirectedTargets,
         battlefieldState.rng,
         battlefieldState
@@ -245,32 +270,35 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       setBattlefieldState(prevState => {
         if (!prevState) return prevState
 
+        // Apply OnActiveHealPercent healing to prevState (only once, in state update)
+        const healedState = applyOnActiveHealPercent(prevState, unitStateId)
+
         // Create new state with counter updates
-        const skillTracking = trackSkillUsage(prevState, skillSelection.skill)
+        const skillTracking = trackSkillUsage(healedState, skillSelection.skill)
 
         // Deep copy the units object using shared helper
-        const deepCopiedUnits = deepCopyUnits(prevState.units)
+        const deepCopiedUnits = deepCopyUnits(healedState.units)
 
         const newState = {
-          ...prevState,
-          actionCounter: prevState.actionCounter + 1,
-          turnCount: prevState.turnCount + 1,
+          ...healedState,
+          actionCounter: healedState.actionCounter + 1,
+          turnCount: healedState.turnCount + 1,
           units: deepCopiedUnits,
           actionHistory: [
-            ...prevState.actionHistory,
+            ...healedState.actionHistory,
             {
               unitId: unit.unit.id,
               targetIds: redirectedTargets.map(t => t.unit.id),
               skillId: skillSelection.skill.id,
-              turn: prevState.turnCount + 1,
+              turn: healedState.turnCount + 1,
             },
           ],
           consecutiveStandbyRounds:
             skillTracking.consecutiveStandbyRounds ??
-            prevState.consecutiveStandbyRounds,
+            healedState.consecutiveStandbyRounds,
           lastActiveSkillRound:
             skillTracking.lastActiveSkillRound ??
-            prevState.lastActiveSkillRound,
+            healedState.lastActiveSkillRound,
         }
 
         // Update acting unit's AP and status
