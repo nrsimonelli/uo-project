@@ -13,11 +13,14 @@ import {
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import { cn } from '@/lib/utils'
+import { isSkillValidForUnit } from '@/utils/skill-availability'
 import type { SkillSlot } from '@/types/skills'
 import type { TacticalCondition } from '@/types/tactics'
+import type { Unit } from '@/types/team'
 
 interface SkillTacticsRowProps {
   skillSlot: SkillSlot
+  unit: Unit
   removeSkillSlot: (arg: string) => void
   handleConditionSelect: (
     skillSlotId: string,
@@ -28,6 +31,7 @@ interface SkillTacticsRowProps {
 
 export function SkillTacticsRow({
   skillSlot,
+  unit,
   removeSkillSlot,
   handleConditionSelect,
 }: SkillTacticsRowProps) {
@@ -49,6 +53,8 @@ export function SkillTacticsRow({
     ? [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillSlot.skillId)
     : null
 
+  const isValid = isSkillValidForUnit(unit, skillSlot)
+
   const handleRemove = () => {
     removeSkillSlot(skillSlot.id)
   }
@@ -63,7 +69,8 @@ export function SkillTacticsRow({
       style={style}
       className={cn(
         'grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors',
-        isDragging && 'opacity-75'
+        isDragging && 'opacity-75',
+        !isValid && 'bg-red-50 dark:bg-red-950/20'
       )}
     >
       <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
@@ -85,12 +92,24 @@ export function SkillTacticsRow({
             />
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="text-sm cursor-help">{skill.name}</span>
+                <span
+                  className={cn(
+                    'text-sm cursor-help',
+                    !isValid && 'text-red-600 dark:text-red-400 font-medium'
+                  )}
+                >
+                  {skill.name}
+                </span>
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
                 <div className="space-y-1">
                   <p className="font-medium">{skill.name}</p>
                   <p className="text-sm">{skill.description}</p>
+                  {!isValid && (
+                    <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+                      This skill is not valid for the unit's current level
+                    </p>
+                  )}
                 </div>
               </TooltipContent>
             </Tooltip>

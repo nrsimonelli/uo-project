@@ -1,8 +1,14 @@
 import { useState, type ReactNode } from 'react'
 
+import { getEquipmentById } from '@/core/equipment-lookup'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { TeamContext } from '@/hooks/use-team'
 import { COLS, type Position, type Team, type Unit } from '@/types/team'
+import {
+  getClassSkills,
+  getEquipmentSkills,
+  insertSkill,
+} from '@/utils/skill-availability'
 
 export interface TeamContextValue {
   teams: Record<string, Team>
@@ -86,10 +92,22 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       if (team.formation[idx]) throw new Error('Position occupied')
       const formation = [...team.formation]
 
+      // Get all class skills for this unit and populate skillSlots
+      const initialSkillSlots = unit.skillSlots || []
+      const classSkills = getClassSkills(unit)
+
+      // If skillSlots is empty, populate with one of each class skill
+      const skillSlots =
+        initialSkillSlots.length === 0 && classSkills.length > 0
+          ? classSkills.reduce((slots, classSkill) => {
+              return insertSkill(slots, classSkill)
+            }, initialSkillSlots)
+          : initialSkillSlots
+
       const unitWithSkills = {
         ...unit,
         position,
-        skillSlots: unit.skillSlots || [],
+        skillSlots,
       }
 
       formation[idx] = unitWithSkills
@@ -97,13 +115,119 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     })
   }
 
-  const updateUnit = (id: string, updates: Partial<Unit>) => {
+  const updateUnit = (unitId: string, updates: Partial<Unit>) => {
     modifyTeam(currentTeamId, team => {
-      const formation = team.formation.map(u => {
-        if (!u || u.id !== id) return u
+      const formation = team.formation.map(unit => {
+        if (!unit || unit.id !== unitId) return unit
 
-        const unitWithSkills = ensureSkillSlots(u)
-        return { ...unitWithSkills, ...updates }
+        const unitWithSkills = ensureSkillSlots(unit)
+
+        // Check if level is being updated and if it increased
+        let updatedUnit = { ...unitWithSkills, ...updates }
+
+        // Track skill slots to update
+        let updatedSkillSlots = [...updatedUnit.skillSlots]
+        const maxSkills = 10
+        const currentSkillIds = new Set(
+          updatedSkillSlots
+            .map(skillSlot => skillSlot.skillId)
+            .filter(
+              (skillId): skillId is NonNullable<typeof skillId> =>
+                skillId !== null
+            )
+        )
+
+        // Check if level increased - add new class skills
+        if (updates.level !== undefined && updates.level > unit.level) {
+          const availableClassSkills = getClassSkills(updatedUnit)
+
+          // Find skills that are now available but not in skillSlots yet
+          const newSkillsToAdd = availableClassSkills.filter(
+            availableSkill =>
+              !currentSkillIds.has(availableSkill.skill.id) &&
+              updatedSkillSlots.length < maxSkills
+          )
+
+          // Add new class skills
+          if (newSkillsToAdd.length > 0) {
+            newSkillsToAdd.forEach(newClassSkill => {
+              if (updatedSkillSlots.length < maxSkills) {
+                updatedSkillSlots = insertSkill(
+                  updatedSkillSlots,
+                  newClassSkill
+                )
+                currentSkillIds.add(newClassSkill.skill.id)
+              }
+            })
+          }
+        }
+
+        // Check if equipment changed - add new equipment skills
+        // Note: Equipment removal is handled automatically by isSkillValidForUnit
+        // which will invalidate skills from removed equipment (highlighting them in red)
+        if (updates.equipment !== undefined) {
+          const oldEquipmentIds = new Set(
+            unit.equipment
+              .map(equippedItem => equippedItem.itemId)
+              .filter(
+                (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
+                  equipmentId !== null
+              )
+          )
+          const newEquipmentIds = new Set(
+            updatedUnit.equipment
+              .map(equippedItem => equippedItem.itemId)
+              .filter(
+                (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
+                  equipmentId !== null
+              )
+          )
+
+          // Find equipment that was added
+          const addedEquipmentIds = Array.from(newEquipmentIds).filter(
+            equipmentId => !oldEquipmentIds.has(equipmentId)
+          )
+
+          // For each newly added equipment, check if it provides a skill
+          addedEquipmentIds.forEach(equipmentId => {
+            const equipment = getEquipmentById(equipmentId)
+            if (equipment?.skillId) {
+              const equipmentSkillId = equipment.skillId
+              // Check if skill is already in slots (using string comparison)
+              const alreadyHasSkill = Array.from(currentSkillIds).some(
+                skillIdInSlot =>
+                  String(skillIdInSlot) === String(equipmentSkillId)
+              )
+
+              if (!alreadyHasSkill) {
+                // Find the skill in the available skills
+                const equipmentSkills = getEquipmentSkills(updatedUnit)
+                const newEquipmentSkill = equipmentSkills.find(
+                  equipmentSkill => equipmentSkill.skill.id === equipmentSkillId
+                )
+
+                if (newEquipmentSkill && updatedSkillSlots.length < maxSkills) {
+                  updatedSkillSlots = insertSkill(
+                    updatedSkillSlots,
+                    newEquipmentSkill
+                  )
+                  currentSkillIds.add(newEquipmentSkill.skill.id)
+                }
+              }
+            }
+          })
+
+          // When equipment changes (add or remove), we need to ensure React re-renders
+          // by creating a new unit object reference. This allows isSkillValidForUnit
+          // to re-evaluate skills and highlight invalid ones (from removed equipment)
+        }
+
+        // Always create a new unit object to ensure React detects the change
+        // This is important for equipment changes to trigger re-renders
+        // The new reference will cause SkillTacticsRow to re-render and re-validate skills
+        updatedUnit = { ...updatedUnit, skillSlots: updatedSkillSlots }
+
+        return updatedUnit
       })
       return { ...team, formation }
     })

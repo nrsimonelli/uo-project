@@ -9,9 +9,18 @@ export const useSkillSelection = ({ unit }: { unit: Unit }) => {
   const [skillTypeFilter, setSkillTypeFilter] = useState<SkillTypeFilter>('all')
   const [searchTerm, setSearchTerm] = useState('')
 
+  // Depend on specific unit properties that affect available skills
+  // This ensures we recalculate when equipment changes (new array reference)
+  // or when level/class changes (which affect class skills)
   const availableSkills = useMemo(() => {
     return getAvailableSkills(unit)
-  }, [unit])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    unit.id,
+    unit.level,
+    unit.classKey,
+    unit.equipment, // Equipment array reference changes when equipment is updated
+  ])
 
   const activeSkills = useMemo(() => {
     return availableSkills.filter(skill => skill.skill.type === 'active')

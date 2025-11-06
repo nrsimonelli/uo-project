@@ -53,34 +53,36 @@ export const getClassSkills = (unit: Unit) => {
     const classData = CLASS_DATA[className]
     if (classData?.skills) {
       classData.skills
-        .filter(classSkill => unit.level >= classSkill.level)
-        .forEach(classSkill => {
-          let skill: ActiveSkill | PassiveSkill | undefined
+        .filter(classSkillEntry => unit.level >= classSkillEntry.level)
+        .forEach(classSkillEntry => {
+          let foundClassSkill: ActiveSkill | PassiveSkill | undefined
 
-          if (classSkill.skillType === 'active') {
-            skill =
+          if (classSkillEntry.skillType === 'active') {
+            foundClassSkill =
               ActiveSkillsMap[
-                classSkill.skillId as keyof typeof ActiveSkillsMap
+                classSkillEntry.skillId as keyof typeof ActiveSkillsMap
               ]
-          } else if (classSkill.skillType === 'passive') {
-            skill =
+          } else if (classSkillEntry.skillType === 'passive') {
+            foundClassSkill =
               PassiveSkillsMap[
-                classSkill.skillId as keyof typeof PassiveSkillsMap
+                classSkillEntry.skillId as keyof typeof PassiveSkillsMap
               ]
           }
 
-          if (skill) {
+          if (foundClassSkill) {
             availableSkills.push({
-              skill,
+              skill: foundClassSkill,
               source: 'class',
-              level: classSkill.level,
+              level: classSkillEntry.level,
             })
           }
         })
     }
   })
 
-  return availableSkills.sort((a, b) => (a.level ?? 0) - (b.level ?? 0))
+  return availableSkills.sort(
+    (skillA, skillB) => (skillA.level ?? 0) - (skillB.level ?? 0)
+  )
 }
 
 export const getAvailableSkills = (unit: Unit) => {
@@ -106,20 +108,24 @@ export const getEquipmentSkills = (unit: Unit) => {
     )
 
   equipmentWithSkills.forEach(equipment => {
-    let skill: ActiveSkill | PassiveSkill | undefined
-
     // Safe to use ! because we filtered for skillId existence
-    const skillId = equipment.skillId!
+    const equipmentSkillId = equipment.skillId!
 
-    if (skillId in ActiveSkillsMap) {
-      skill = ActiveSkillsMap[skillId as keyof typeof ActiveSkillsMap]
-    } else if (skillId in PassiveSkillsMap) {
-      skill = PassiveSkillsMap[skillId as keyof typeof PassiveSkillsMap]
+    // Try to find the skill in the active skills map
+    let foundSkill: ActiveSkill | PassiveSkill | undefined
+    if (equipmentSkillId in ActiveSkillsMap) {
+      foundSkill =
+        ActiveSkillsMap[equipmentSkillId as keyof typeof ActiveSkillsMap]
+    }
+    // If not found, try passive skills map
+    if (!foundSkill && equipmentSkillId in PassiveSkillsMap) {
+      foundSkill =
+        PassiveSkillsMap[equipmentSkillId as keyof typeof PassiveSkillsMap]
     }
 
-    if (skill) {
+    if (foundSkill) {
       availableSkills.push({
-        skill,
+        skill: foundSkill,
         source: 'equipment',
       })
     }
@@ -142,13 +148,22 @@ export const insertSkill = (slots: SkillSlot[], newSkill: AvailableSkill) => {
 
   const skillSlotId = generateRandomId()
 
-  const newSlot: SkillSlot = {
-    id: skillSlotId,
-    skillId: newSkill.skill.id,
-    skillType: newSkill.skill.type,
-    tactics: [null, null],
-    order: insertIndex,
-  }
+  const newSlot: SkillSlot =
+    newSkill.skill.type === 'active'
+      ? {
+          id: skillSlotId,
+          skillId: newSkill.skill.id,
+          skillType: 'active',
+          tactics: [null, null],
+          order: insertIndex,
+        }
+      : {
+          id: skillSlotId,
+          skillId: newSkill.skill.id,
+          skillType: 'passive',
+          tactics: [null, null],
+          order: insertIndex,
+        }
 
   const newSlots = [...slots]
   newSlots.splice(insertIndex, 0, newSlot)
@@ -209,4 +224,63 @@ export const removeSkill = (slots: SkillSlot[], skillSlotId: string) => {
     ...slot,
     order: index,
   }))
+}
+
+/**
+ * Get the required level for a class skill
+ * Returns undefined if the skill is not from class data
+ */
+export const getClassSkillRequiredLevel = (
+  unit: Unit,
+  skillId: string
+): number | undefined => {
+  const inheritanceChain = getInheritanceChain(unit.classKey as AllClassType)
+
+  for (const className of inheritanceChain) {
+    const classData = CLASS_DATA[className]
+    if (classData?.skills) {
+      const classSkillEntry = classData.skills.find(
+        classSkillEntry => classSkillEntry.skillId === skillId
+      )
+      if (classSkillEntry) {
+        return classSkillEntry.level
+      }
+    }
+  }
+
+  return undefined
+}
+
+/**
+ * Check if a skill in a skillSlot is valid for the unit
+ * Returns true if:
+ * - The skill is currently available from equipment, OR
+ * - The skill is from class and the unit's level meets the requirement
+ * Returns false if:
+ * - The skill was from equipment but equipment is no longer equipped
+ * - The skill is from class but unit's level is too low
+ */
+export const isSkillValidForUnit = (
+  unit: Unit,
+  skillSlot: SkillSlot
+): boolean => {
+  if (!skillSlot.skillId) return true // Empty slot is valid
+
+  // Check if skill is currently available from equipment
+  const equipmentSkills = getEquipmentSkills(unit)
+  const isEquipmentSkill = equipmentSkills.some(
+    equipmentSkill => equipmentSkill.skill.id === skillSlot.skillId
+  )
+  if (isEquipmentSkill) return true
+
+  // Check if it's a class skill and if the unit meets the level requirement
+  const requiredLevel = getClassSkillRequiredLevel(unit, skillSlot.skillId)
+  if (requiredLevel !== undefined) {
+    // It's a class skill - check if level requirement is met
+    return unit.level >= requiredLevel
+  }
+
+  // Skill not found in class data or equipment - it's invalid
+  // (This handles cases where equipment was removed)
+  return false
 }

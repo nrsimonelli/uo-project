@@ -120,6 +120,7 @@ export function SkillTacticsSection({
                   <SkillTacticsRow
                     key={skillSlot.id}
                     skillSlot={skillSlot}
+                    unit={unit}
                     removeSkillSlot={removeSkillSlot}
                     handleConditionSelect={handleConditionSelect}
                   />
