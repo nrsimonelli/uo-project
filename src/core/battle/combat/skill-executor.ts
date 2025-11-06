@@ -229,8 +229,11 @@ const executeDamageSkill = (
   const anyHit = damageResults.some(result => result.hit)
   const allHit = damageResults.every(result => result.hit)
 
-  // Update condition context with final hit result
+  // Update condition context with final hit result and critical status
   conditionContext.targetDefeated = target.currentHP - totalDamage <= 0
+  // Set wasCritical based on the first hit because the only skill that uses this is Leaping Slash.
+  conditionContext.wasCritical =
+    damageResults.length > 0 ? damageResults[0].wasCritical : false
 
   // Remove self-buffs with UntilNextAttack duration (they were consumed by this attack)
   removeExpiredBuffs(attacker, 'attacks')
@@ -299,6 +302,7 @@ const createConditionContext = (
     : undefined,
   hitResult: undefined,
   targetDefeated: undefined,
+  wasCritical: undefined,
 })
 
 /**

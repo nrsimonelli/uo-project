@@ -82,6 +82,11 @@ export type Condition =
       value: boolean // true if first hit was guarded, false if not
     }
   | {
+      kind: 'WasCritical'
+      comparator: EqualityComparator
+      value: boolean // true if attack was critical, false if not
+    }
+  | {
       kind: 'UnitSize'
       target: Target
       comparator: NumericComparator

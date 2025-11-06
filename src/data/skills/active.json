@@ -3931,5 +3931,391 @@
         "applyTo": "Target"
       }
     ]
+  },
+  {
+    "id": "assassinsNail",
+    "type": "active",
+    "name": "Assassin's Nail",
+    "description": "Attack a single enemy. Inflicts Blindness. +50 potency and critical hit at Night.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Blind",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 50
+        },
+        "conditions": [
+          {
+            "kind": "IsNightCycle",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueCritical",
+        "conditions": [
+          {
+            "kind": "IsNightCycle",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doubleBlast",
+    "type": "active",
+    "name": "Double Blast",
+    "description": "Attack two enemies. +80 potency vs flying targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Two"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 70
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 80
+        },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grislyFire",
+    "type": "active",
+    "name": "Grisly Fire",
+    "description": "Attack a single enemy. Inflicts Burn. +50 potency and critical hit vs burning targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Burn",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 50
+        },
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Burn",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueCritical",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Burn",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grislyPoison",
+    "type": "active",
+    "name": "Grisly Poison",
+    "description": "Attack a single enemy. Inflicts Poison. +50 potency and critical hit vs poisoned targets.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 50
+        },
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "GrantFlag",
+        "flag": "TrueCritical",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "activeShatter",
+    "type": "active",
+    "name": "Active Shatter",
+    "description": "Attack a single enemy. Inflicts -1 AP.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "AP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "sonicBlast",
+    "type": "active",
+    "name": "Sonic Blast",
+    "description": "Attack a single enemy. +80 potency vs flying targets.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 70
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 80
+        },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fireSlash",
+    "type": "active",
+    "name": "Fire Slash",
+    "description": "Attack a single enemy. Inflicts Burn.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Burn",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "poisonSlash",
+    "type": "active",
+    "name": "Poison Slash",
+    "description": "Attack a single enemy. Inflicts Poison.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Poison",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "provokingSlash",
+    "type": "active",
+    "name": "Provoking Slash",
+    "description": "Attack a single enemy. Forces the target to focus attacks on the user.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 75
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "Taunt",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "leapingSlash",
+    "type": "active",
+    "name": "Leaping Slash",
+    "description": "Attack a single enemy. Grants the user +1 AP if the attack is critical. Grants the user -30% Critical Rate. (Effect stacks)",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "WasCritical",
+            "comparator": "EqualTo",
+            "value": true
+          }
+        ]
+      },
+      {
+        "kind": "Debuff",
+        "stat": "CRT",
+        "value": -30,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
   }
 ]

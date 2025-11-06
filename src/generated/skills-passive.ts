@@ -2579,6 +2579,43 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'artenieStrike',
+    type: 'passive',
+    name: 'Artenie Strike',
+    description:
+      'Activates at the start of a battle. Attack a single enemy with a first strike. Grants the user +2 PP if the target is defeated.',
+    pp: 1,
+    skillCategories: ['Damage'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 'True',
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 2,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'TargetDefeated',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

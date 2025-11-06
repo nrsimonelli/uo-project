@@ -19,6 +19,7 @@ export interface ConditionEvaluationContext {
   hitResult?: boolean
   targetDefeated?: boolean
   firstHitGuarded?: boolean
+  wasCritical?: boolean
 }
 
 /**
@@ -61,6 +62,9 @@ export const evaluateCondition = (
   }
   if (condition.kind === 'FirstHitGuarded') {
     return evaluateFirstHitGuardedCondition(condition, context)
+  }
+  if (condition.kind === 'WasCritical') {
+    return evaluateWasCriticalCondition(condition, context)
   }
   if (condition.kind === 'IsNightCycle') {
     return evaluateNightCycleCondition(condition, context)
@@ -290,6 +294,21 @@ const evaluateFirstHitGuardedCondition = (
   const firstHitGuarded = context.firstHitGuarded ?? false
   return applyEqualityComparator(
     firstHitGuarded,
+    condition.comparator,
+    condition.value
+  )
+}
+
+/**
+ * Evaluate was critical conditions (e.g., "attack was critical")
+ */
+const evaluateWasCriticalCondition = (
+  condition: Extract<Condition, { kind: 'WasCritical' }>,
+  context: ConditionEvaluationContext
+) => {
+  const wasCritical = context.wasCritical ?? false
+  return applyEqualityComparator(
+    wasCritical,
     condition.comparator,
     condition.value
   )
