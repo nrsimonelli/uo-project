@@ -53,6 +53,7 @@ export interface EffectProcessingResult {
   sacrificePercentage: number // Original percentage requested
 
   ownHPBasedDamage: null | number // Damage based on own HP
+  targetHPBasedDamage: null | number // Additional damage based on target's HP
 
   // Damage modifications
   potencyModifiers: {
@@ -222,6 +223,7 @@ export const processEffects = (
     sacrificeAmount: 0,
     sacrificePercentage: 0,
     ownHPBasedDamage: null,
+    targetHPBasedDamage: null,
     potencyModifiers: { physical: 0, magical: 0 },
     defenseIgnoreFraction: 0,
     grantedFlags: [],
@@ -398,6 +400,23 @@ export const processEffects = (
           : missingHP * factor
 
       result.ownHPBasedDamage = Math.max(0, Math.round(rawDamage))
+      return
+    }
+
+    if (effect.kind === 'TargetHPBasedDamage') {
+      const targetCurrentHP = context.target.currentHP
+      const targetMaxHP = context.target.combatStats.HP
+      const targetMissingHP = targetMaxHP - targetCurrentHP
+      const factor = effect.amount / 100
+
+      const rawDamage =
+        effect.type === 'percentCurrent'
+          ? targetCurrentHP * factor
+          : effect.type === 'percentMax'
+            ? targetMaxHP * factor
+            : targetMissingHP * factor
+
+      result.targetHPBasedDamage = Math.max(0, Math.round(rawDamage))
       return
     }
 

@@ -60,6 +60,7 @@ export interface DamageResult {
     afterCrit: number
     afterGuard: number
     afterEffectiveness: number
+    targetHPBasedDamage?: number // Additional damage based on target's HP (added after effectiveness)
     afterDmgReduction: number
   }
 }
@@ -1045,23 +1046,44 @@ export const calculateSkillDamage = (
     effectiveness,
     effectivenessRule,
     afterEffectiveness,
-    finalDamage,
     dmgReductionPercent,
   } = modifiers
+
+  // Add target HP-based damage as additional damage (after effectiveness, before damage reduction)
+  let damageWithTargetHP = afterEffectiveness
+  if (typeof effectResults?.targetHPBasedDamage === 'number') {
+    damageWithTargetHP = afterEffectiveness + effectResults.targetHPBasedDamage
+    logCombat(
+      `💥 Target HP-based damage: +${effectResults.targetHPBasedDamage} (added to ${afterEffectiveness} = ${damageWithTargetHP})`
+    )
+  }
+
+  // Apply damage reduction to the combined total (including target HP-based damage)
+  const finalDamage = applyDamageReduction(
+    damageWithTargetHP,
+    dmgReductionPercent
+  )
+
+  // Build damage breakdown string with target HP-based damage if present
+  const targetHPBonus =
+    typeof effectResults?.targetHPBasedDamage === 'number'
+      ? ` + ${effectResults.targetHPBasedDamage} (target HP)`
+      : ''
+  const damageBreakdownString =
+    context.hasPhysical && context.hasMagical
+      ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
+      : context.hasPhysical || context.hasMagical
+        ? `${physicalDamage + magicalDamage} ${context.hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+        : conferralDamage > 0
+          ? `${conferralDamage} conferral × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+          : `${totalDamage} × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
 
   logCombat('🎲 Damage Calculation Complete', {
     attacker: attacker.unit.name,
     target: target.unit.name,
     attackType: `${context.attackType} Attack`,
     damageType: `${context.damageType} Damage`,
-    damageBreakdown:
-      context.hasPhysical && context.hasMagical
-        ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
-        : context.hasPhysical || context.hasMagical
-          ? `${physicalDamage + magicalDamage} ${context.hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
-          : conferralDamage > 0
-            ? `${conferralDamage} conferral × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
-            : `${totalDamage} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`,
+    damageBreakdown: damageBreakdownString,
     hitChance: `${hitChance.toFixed(1)}%`,
     result: finalHit ? 'HIT' : wasDodged ? 'DODGED' : 'MISS',
     damage: finalHit ? `${finalDamage} damage` : '0 damage (missed)',
@@ -1081,6 +1103,10 @@ export const calculateSkillDamage = (
           physicalDamage: context.hasPhysical ? physicalDamage : 0,
           magicalDamage: context.hasMagical ? magicalDamage : 0,
           conferralDamage: conferralDamage,
+          targetHPBasedDamage:
+            typeof effectResults?.targetHPBasedDamage === 'number'
+              ? effectResults.targetHPBasedDamage
+              : 0,
           subtotal: totalDamage,
           effectiveness: `×${effectiveness}`,
           critResult: wasCritical ? `CRIT ×${critMultiplier}` : 'no crit',
@@ -1109,6 +1135,10 @@ export const calculateSkillDamage = (
       afterCrit: afterCritDamage, // After crit multiplier
       afterGuard: totalDamage, // After guard (physical only) - this is what we have
       afterEffectiveness: afterEffectiveness,
+      targetHPBasedDamage:
+        typeof effectResults?.targetHPBasedDamage === 'number'
+          ? effectResults.targetHPBasedDamage
+          : 0,
       afterDmgReduction: finalDamage,
     },
   }

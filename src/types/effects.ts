@@ -234,6 +234,13 @@ export interface OwnHPBasedDamageEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface TargetHPBasedDamageEffect {
+  kind: 'TargetHPBasedDamage'
+  type: 'percentCurrent' | 'percentMax' | 'percentMissing'
+  amount: number // Percentage (e.g., 25 for 25%)
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -257,3 +264,4 @@ export type Effect =
   | DebuffAmplificationEffect
   | ConferralEffect
   | OwnHPBasedDamageEffect
+  | TargetHPBasedDamageEffect
