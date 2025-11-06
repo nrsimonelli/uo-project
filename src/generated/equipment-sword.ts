@@ -240,7 +240,7 @@ export const EquipmentSword = [
     type: 'Sword',
     stats: {
       PATK: 22,
-      followUpPotency: 20,
+      PursuitPotency: 20,
       CRT: 10,
     },
     skillId: null,

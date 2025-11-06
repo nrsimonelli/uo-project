@@ -35,24 +35,24 @@
     "nullifications": []
   },
   {
-    "id": "blackIronAxe",
-    "name": "Black Iron Axe",
-    "type": "Axe",
-    "stats": {
-      "PATK": 17,
-      "CRT": 5
-    },
-    "skillId": null,
-    "nullifications": [],
-    "classRestrictions": []
-  },
-  {
     "id": "baroqueAxe",
     "name": "Baroque Axe",
     "type": "Axe",
     "stats": {
       "PATK": 13,
       "ACC": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "blackIronAxe",
+    "name": "Black Iron Axe",
+    "type": "Axe",
+    "stats": {
+      "PATK": 17,
+      "CRT": 5
     },
     "skillId": null,
     "nullifications": [],
@@ -218,6 +218,19 @@
     "classRestrictions": []
   },
   {
+    "id": "helleborusAxe",
+    "name": "Helleborus Axe",
+    "type": "Axe",
+    "stats": {
+      "PATK": 25,
+      "PP": 1,
+      "HPRecovery": 30
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
     "id": "hoarfrostAxe",
     "name": "Hoarfrost Axe",
     "type": "Axe",
@@ -225,6 +238,19 @@
       "PATK": 13
     },
     "skillId": "icyBlow",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "huntersHalberd",
+    "name": "Hunter's Halberd",
+    "type": "Axe",
+    "stats": {
+      "PATK": 21,
+      "PursuitPotency": 20,
+      "CRT": 10
+    },
+    "skillId": null,
     "nullifications": [],
     "classRestrictions": []
   },
@@ -271,6 +297,20 @@
     "stats": {
       "PATK": 20,
       "AllStats": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "knotOfRuin",
+    "name": "Knot of Ruin",
+    "type": "Axe",
+    "stats": {
+      "PATK": 22,
+      "AP": 1,
+      "MaxHP": -30,
+      "INIT": -10
     },
     "skillId": null,
     "nullifications": [],

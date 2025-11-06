@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-06T04:24:46.274Z_
+_Generated: 2025-11-06T17:47:12.369Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 182
 - **Total Skills Referenced**: 401
-- **Active Skills Defined**: 126
+- **Active Skills Defined**: 137
 - **Passive Skills Defined**: 93
-- **Total Skills Defined**: 219
+- **Total Skills Defined**: 230
 - **Activation Windows Referenced**: 31
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **182 missing skills:**
+❌ **171 missing skills:**
 
 - `activeHeal`
 - `advanceCover`
@@ -28,9 +28,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `arrowRain`
 - `astralBlade`
 - `banishingPursuit`
-- `banishingSmite`
 - `bearsDen`
-- `beastslayer`
 - `bestralGuard`
 - `blindCure`
 - `blizzard`
@@ -44,7 +42,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `checkmate`
 - `circleHeal`
 - `counter`
-- `crush`
 - `curingCall`
 - `curingHeal`
 - `curseStrike`
@@ -56,7 +53,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `dawnHorn`
 - `deadlyRush`
 - `deathSpin`
-- `desperation`
 - `dispelAll`
 - `diurnalImpetus`
 - `divineBlessing`
@@ -68,7 +64,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `enduringCover`
 - `enduringGuard`
 - `evilCover`
-- `execution`
 - `eyeOfTheWarriorPrincess`
 - `faerieHeal`
 - `fireBurst`
@@ -83,7 +78,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `grantEvade`
 - `graveImpetus`
 - `gravity`
-- `groundStrike`
 - `guardCure`
 - `guardHunter`
 - `guardingFighter`
@@ -102,8 +96,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `heavyAlignment`
 - `holyLight`
 - `holySmite`
-- `icyBlow`
-- `icyCrush`
 - `impetusStance`
 - `inferno`
 - `innocentRay`
@@ -126,7 +118,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `omegaShatter`
 - `ominousWall`
 - `painbringer`
-- `painfulSmash`
 - `partingDeath`
 - `partyAid`
 - `passiveCure`
@@ -142,7 +133,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `poisonCure`
 - `poisonCurse`
 - `powerfulCall`
-- `powerfulImpact`
 - `primusEdge`
 - `protection`
 - `provokingCrush`
@@ -178,7 +168,6 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `sonicShaft`
 - `sorcerousBlow`
 - `sorcerousConnection`
-- `spikedBlow`
 - `spikedBolt`
 - `strengthShatter`
 - `strengthShatterII`
@@ -655,7 +644,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (126)
+### Active Skills Defined (137)
 
 - `activeShatter`
 - `activeSteal`
@@ -664,18 +653,22 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `assaultingBlow`
 - `assaultingLance`
 - `auroraVeil`
+- `banishingSmite`
 - `banishingStab`
 - `bastardsCross`
 - `bearCrush`
+- `beastslayer`
 - `brandish`
 - `cavalrySlayer`
 - `compoundingCurse`
+- `crush`
 - `darkFlame`
 - `decimate`
 - `defender`
 - `defensiveCurse`
 - `defensiveOrder`
 - `delayingShot`
+- `desperation`
 - `divineCross`
 - `divingThrust`
 - `doubleBlast`
@@ -683,6 +676,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `dualShot`
 - `earthshaker`
 - `elfslayer`
+- `execution`
 - `extraHeal`
 - `fatalDive`
 - `finishingStab`
@@ -694,6 +688,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `greatshield`
 - `grislyFire`
 - `grislyPoison`
+- `groundStrike`
 - `hache`
 - `heal`
 - `heavyBolt`
@@ -708,6 +703,8 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `icebolt`
 - `icicleArrow`
 - `icicleDart`
+- `icyBlow`
+- `icyCrush`
 - `impale`
 - `impulse`
 - `ironCrusher`
@@ -732,6 +729,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `offensiveCurse`
 - `offensiveOrder`
 - `overheal`
+- `painfulSmash`
 - `passiveCurse`
 - `passiveHold`
 - `passiveShatter`
@@ -742,6 +740,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `pileThrust`
 - `poisonSlash`
 - `powerBolt`
+- `powerfulImpact`
 - `provokingSlash`
 - `rampage`
 - `rollingAxe`
@@ -763,6 +762,7 @@ _Generated: 2025-11-06T04:24:46.274Z_
 - `slice`
 - `smash`
 - `sonicBlast`
+- `spikedBlow`
 - `spinningEdge`
 - `spiralSword`
 - `sting`

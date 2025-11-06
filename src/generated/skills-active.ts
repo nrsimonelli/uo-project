@@ -4397,6 +4397,398 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'beastslayer',
+    type: 'active',
+    name: 'Beastslayer',
+    description:
+      'Attack a row of enemies. Inflicts -1 AP, -1 PP and -50% Defense to Bestral targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'AP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Debuff',
+        stat: 'Defense',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'banishingSmite',
+    type: 'active',
+    name: 'Banishing Smite',
+    description: "Attack a row of enemies. Remove all of the target's buffs.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Buffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'painfulSmash',
+    type: 'active',
+    name: 'Painful Smash',
+    description:
+      "Attack a single enemy. Deals 25% of target's HP in additional damage.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'TargetHPBasedDamage',
+        type: 'percentCurrent',
+        amount: 25,
+      },
+    ],
+  },
+  {
+    id: 'heavySmash',
+    type: 'active',
+    name: 'Heavy Smash',
+    description: 'Attack a row enemies. Inflicts Stun.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'powerfulImpact',
+    type: 'active',
+    name: 'Powerful Impact',
+    description: 'Attack a single enemy.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 200,
+        },
+        hitRate: 25,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'icyCrush',
+    type: 'active',
+    name: 'Icy Crush',
+    description:
+      'Attack a single enemy. Inflicts Freeze. +100 potency vs frozen targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Affliction',
+            affliction: 'Freeze',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'desperation',
+    type: 'active',
+    name: 'Desperation',
+    description:
+      "Attack a single enemy. Deals damage based on user's missing HP.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable', 'NoCrit'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {},
+        hitRate: 'True',
+        hitCount: 1,
+      },
+      {
+        kind: 'OwnHPBasedDamage',
+        type: 'percentMissing',
+        amount: 100,
+      },
+    ],
+  },
+  {
+    id: 'groundStrike',
+    type: 'active',
+    name: 'Ground Strike',
+    description:
+      'Attack a single enemy. Ignores 100% Defense vs Cavalry targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable', 'GroundBased'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 1,
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'execution',
+    type: 'active',
+    name: 'Execution',
+    description:
+      'Attack a single enemy. Inflicts Passive Seal. Inflicts Deathblow if target is at 25% HP or less.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 75,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'PassiveSeal',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Deathblow',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Enemy',
+            stat: 'HP',
+            comparator: 'LessOrEqual',
+            value: 25,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'icyBlow',
+    type: 'active',
+    name: 'Icy Blow',
+    description: 'Attack a single enemy. Inflicts Freeze.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'spikedBlow',
+    type: 'active',
+    name: 'Spiked Blow',
+    description: 'Attack a single enemy.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+    ],
+  },
+  {
+    id: 'crush',
+    type: 'active',
+    name: 'Crush',
+    description: 'Attack a single enemy. Inflicts Stun.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']
