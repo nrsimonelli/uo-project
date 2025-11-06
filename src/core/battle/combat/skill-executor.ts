@@ -118,6 +118,7 @@ const applyAttackerSelfBuffs = (
       scaling: buff.scaling,
       source: attacker.unit.id,
       skillId: buff.skillId,
+      conditionalOnTarget: buff.conditionalOnTarget,
     }
 
     applyBuff(attacker, buffToApply, buff.stacks)

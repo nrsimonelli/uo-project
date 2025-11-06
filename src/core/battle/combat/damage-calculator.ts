@@ -6,6 +6,7 @@ import {
 } from './affliction-manager'
 import { logCombat, getSkillName } from './combat-utils'
 import type { EffectProcessingResult } from './effect-processor'
+import { getEffectiveStatsForTarget } from './status-effects'
 import { removeExpiredConferrals, recalculateStats } from './status-effects'
 
 import {
@@ -210,6 +211,7 @@ const hasFlagOrBuff = (
  * Special cases:
  * - If hitRate is "True" or TrueStrike flag is present, always hits
  * - Flying units get 50% evasion bonus against melee attacks
+ * Uses effective stats that include conditional buffs based on target
  */
 export const calculateHitChance = (
   attacker: BattleContext,
@@ -233,8 +235,9 @@ export const calculateHitChance = (
     return 100
   }
 
-  // Calculate base hit chance
-  const accuracy = attacker.combatStats.ACC
+  // Get effective stats that include conditional buffs for this target
+  const effectiveStats = getEffectiveStatsForTarget(attacker, target)
+  const accuracy = effectiveStats.ACC
   const evasion = target.combatStats.EVA
   const skillHitRate = damageEffect.hitRate
 
@@ -263,6 +266,7 @@ export const rollHit = (rng: RandomNumberGeneratorType, hitChance: number) => {
  * Calculate base damage before modifiers
  * Formula: (attack - defense) * potency / 100
  * Applies potency bonuses and defense ignore modifiers from effects
+ * Uses effective stats that include conditional buffs based on target
  */
 export const calculateBaseDamage = (
   attacker: BattleContext,
@@ -271,9 +275,9 @@ export const calculateBaseDamage = (
   isPhysical: boolean,
   effectResults?: EffectProcessingResult
 ) => {
-  const attack = isPhysical
-    ? attacker.combatStats.PATK
-    : attacker.combatStats.MATK
+  // Get effective stats that include conditional buffs for this target
+  const effectiveStats = getEffectiveStatsForTarget(attacker, target)
+  const attack = isPhysical ? effectiveStats.PATK : effectiveStats.MATK
 
   let defense = isPhysical ? target.combatStats.PDEF : target.combatStats.MDEF
 
@@ -919,8 +923,11 @@ export const calculateSkillDamage = (
 
   const { hit, hitChance, wasDodged, finalHit } = hitResolution
 
+  // Get effective stats that include conditional buffs for this target
+  const effectiveStats = getEffectiveStatsForTarget(attacker, target)
+
   // Roll shared modifiers once
-  const critRate = attacker.combatStats.CRT
+  const critRate = effectiveStats.CRT
 
   // Check for Crit Seal - this overrides TrueCritical as well
   const canLandCrit = canCrit(attacker)

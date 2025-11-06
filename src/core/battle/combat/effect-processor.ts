@@ -4,6 +4,7 @@ import {
 } from '../evaluation/condition-evaluator'
 
 import type { AfflictionType } from '@/types/conditions'
+import type { CombatantType } from '@/types/core'
 import type { Effect, DamageEffect, Flag } from '@/types/effects'
 
 /**
@@ -151,6 +152,9 @@ export interface EffectProcessingResult {
       | 'UntilDebuffed'
     skillId: string
     stacks: boolean
+    conditionalOnTarget?: {
+      combatantType?: CombatantType
+    }
   }>
   debuffsToApply: Array<{
     stat: string
@@ -308,6 +312,7 @@ export const processEffects = (
         duration: effect.duration,
         skillId,
         stacks: effect.stacks || false,
+        conditionalOnTarget: effect.conditionalOnTarget,
       })
       return
     }

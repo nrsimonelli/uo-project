@@ -116,6 +116,14 @@ export interface Buff {
   scaling: 'flat' | 'percent'
   source: string
   skillId: string
+  /**
+   * Optional condition that must be met on the target for this buff to apply.
+   * If specified, the buff only applies when the attacker is targeting a unit
+   * that matches the condition (e.g., only when attacking Cavalry units).
+   */
+  conditionalOnTarget?: {
+    combatantType?: CombatantType
+  }
 }
 
 /**

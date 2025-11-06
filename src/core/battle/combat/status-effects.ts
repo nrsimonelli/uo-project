@@ -158,6 +158,7 @@ const applyBuffsAndDebuffs = (
       scaling: buffToApply.scaling,
       source: attacker.unit.id,
       skillId: buffToApply.skillId,
+      conditionalOnTarget: buffToApply.conditionalOnTarget,
     }
 
     applyBuff(targetUnit, buff, buffToApply.stacks)
@@ -678,11 +679,45 @@ export const getDebuffsForStat = (
 }
 
 /**
+ * Check if a conditional buff should apply based on target
+ */
+const shouldApplyConditionalBuff = (
+  buff: Buff,
+  target: BattleContext | null
+): boolean => {
+  // If buff has no condition, always apply
+  if (!buff.conditionalOnTarget) {
+    return true
+  }
+
+  // If no target provided, don't apply conditional buffs
+  if (!target) {
+    return false
+  }
+
+  // Check combatantType condition
+  if (buff.conditionalOnTarget.combatantType) {
+    return target.combatantTypes.includes(
+      buff.conditionalOnTarget.combatantType
+    )
+  }
+
+  // If condition exists but no specific check, don't apply (safety)
+  return false
+}
+
+/**
  * Calculate the total modifier for a stat from all active buffs and debuffs
+ * @param unit - The unit whose stats are being calculated
+ * @param stat - The stat to calculate modifiers for
+ * @param target - Optional target for conditional buff evaluation. If provided,
+ *                 conditional buffs will be included if the target matches the condition.
+ *                 If not provided, conditional buffs are excluded (for normal recalculation).
  */
 export const calculateStatModifier = (
   unit: BattleContext,
-  stat: StatKey | ExtraStats
+  stat: StatKey | ExtraStats,
+  target?: BattleContext | null
 ): {
   flatModifier: number
   percentModifier: number
@@ -703,7 +738,13 @@ export const calculateStatModifier = (
   let percentModifier = 0
 
   // Apply buffs (no amplification for buffs)
+  // Filter conditional buffs based on target
   buffs.forEach(buff => {
+    // Skip conditional buffs if target doesn't match
+    if (!shouldApplyConditionalBuff(buff, target ?? null)) {
+      return
+    }
+
     if (buff.scaling === 'flat') {
       flatModifier += buff.value
     } else if (buff.scaling === 'percent') {
@@ -794,6 +835,7 @@ export const initializeStatFoundation = (unit: BattleContext): void => {
 /**
  * Recalculate a unit's combat stats by applying buffs/debuffs to the stored foundation
  * Uses additive percentage scaling: multiple percentage modifiers are summed together
+ * Note: Conditional buffs are excluded during normal recalculation (no target provided)
  */
 export const recalculateStats = (unit: BattleContext): void => {
   // Get the stored foundation (base + equipment)
@@ -815,6 +857,7 @@ export const recalculateStats = (unit: BattleContext): void => {
 
   for (const statKey of statKeys) {
     const foundationValue = foundation[statKey]
+    // No target provided = exclude conditional buffs
     const modifiers = calculateStatModifier(unit, statKey)
 
     // Apply flat modifier first
@@ -842,4 +885,57 @@ export const recalculateStats = (unit: BattleContext): void => {
     0,
     foundation.DmgReductionPercent + dmgReductionModifiers.flatModifier
   )
+}
+
+/**
+ * Get effective stats for a unit when attacking a specific target.
+ * This includes conditional buffs that only apply when targeting specific unit types.
+ * Use this in damage calculations instead of directly accessing combatStats.
+ */
+export const getEffectiveStatsForTarget = (
+  attacker: BattleContext,
+  target: BattleContext
+): BattleContext['combatStats'] => {
+  const foundation = attacker.statFoundation
+
+  // Apply modifiers to each stat (with target for conditional buffs)
+  const statKeys = [
+    'HP',
+    'PATK',
+    'PDEF',
+    'MATK',
+    'MDEF',
+    'ACC',
+    'EVA',
+    'CRT',
+    'GRD',
+    'INIT',
+  ] as const
+
+  const effectiveStats: BattleContext['combatStats'] = {
+    ...attacker.combatStats,
+  }
+
+  for (const statKey of statKeys) {
+    const foundationValue = foundation[statKey]
+    // Include conditional buffs when target matches
+    const modifiers = calculateStatModifier(attacker, statKey, target)
+
+    // Apply flat modifier first
+    const afterFlat = foundationValue + modifiers.flatModifier
+
+    // Apply percentage modifier (additive: 15% + 30% - 20% = 25% total)
+    const percentMultiplier = 1 + modifiers.percentModifier / 100
+    const final = Math.round(afterFlat * percentMultiplier)
+
+    // HP has minimum of 1, all other stats can go to 0
+    const minimum = statKey === 'HP' ? 1 : 0
+    effectiveStats[statKey] = Math.max(final, minimum)
+  }
+
+  // GuardEff and DmgReductionPercent don't change with target
+  effectiveStats.GuardEff = attacker.combatStats.GuardEff
+  effectiveStats.DmgReductionPercent = attacker.combatStats.DmgReductionPercent
+
+  return effectiveStats
 }
