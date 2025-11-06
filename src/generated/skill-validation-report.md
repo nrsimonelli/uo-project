@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-06T17:47:12.369Z_
+_Generated: 2025-11-06T19:31:52.884Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 182
-- **Total Skills Referenced**: 401
-- **Active Skills Defined**: 137
-- **Passive Skills Defined**: 93
-- **Total Skills Defined**: 230
-- **Activation Windows Referenced**: 31
+- **Equipment Skills Referenced**: 184
+- **Total Skills Referenced**: 403
+- **Active Skills Defined**: 139
+- **Passive Skills Defined**: 95
+- **Total Skills Defined**: 234
+- **Activation Windows Referenced**: 32
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **171 missing skills:**
+❌ **169 missing skills:**
 
 - `activeHeal`
 - `advanceCover`
@@ -123,8 +123,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `passiveCure`
 - `passiveGift`
 - `passiveMiracle`
-- `penetrate`
-- `phalanxShift`
+- `passiveShatter`
 - `phantomCounter`
 - `phantomStep`
 - `phantomVeil`
@@ -162,7 +161,6 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `scornfulDead`
 - `selfCare`
 - `shadowArrow`
-- `shatteringPursuit`
 - `skywardThrust`
 - `snowWhiteStrike`
 - `sonicShaft`
@@ -199,9 +197,8 @@ _Generated: 2025-11-06T17:47:12.369Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **8 unused activation windows:**
+⚠️ **7 unused activation windows:**
 
-- `afterAllyAttackedActive`
 - `afterAllyHealed`
 - `afterBeingAttacked`
 - `afterEnemyGuards`
@@ -459,7 +456,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (182)
+### From Equipment Data (184)
 
 - `activeHeal`
 - `activeShatter`
@@ -514,6 +511,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `flameConferral`
 - `flameJavelin`
 - `freezeCure`
+- `freezingThrust`
 - `frostConferral`
 - `grantEvade`
 - `graveImpetus`
@@ -574,6 +572,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `passiveCure`
 - `passiveGift`
 - `passiveShatter`
+- `passiveShatterSpear`
 - `penetrate`
 - `phalanxShift`
 - `phantomAttack`
@@ -644,7 +643,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (137)
+### Active Skills Defined (139)
 
 - `activeShatter`
 - `activeSteal`
@@ -684,6 +683,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `fireSlash`
 - `fireball`
 - `flameJavelin`
+- `freezingThrust`
 - `grandSmash`
 - `greatshield`
 - `grislyFire`
@@ -732,8 +732,9 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `painfulSmash`
 - `passiveCurse`
 - `passiveHold`
-- `passiveShatter`
+- `passiveShatterSpear`
 - `passiveSteal`
+- `penetrate`
 - `phantomAttack`
 - `photonArrow`
 - `piercingLance`
@@ -784,7 +785,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (93)
+### Passive Skills Defined (95)
 
 - `accelerate`
 - `activeGift`
@@ -847,6 +848,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `parry`
 - `partingBlow`
 - `partingResurrection`
+- `phalanxShift`
 - `preemptiveHeal`
 - `provoke`
 - `pureField`
@@ -868,6 +870,7 @@ _Generated: 2025-11-06T17:47:12.369Z_
 - `sanguineArts`
 - `selflessHeal`
 - `shadowPursuit`
+- `shatteringPursuit`
 - `shiningLight`
 - `sneakingEdge`
 - `snipingOrder`
@@ -882,9 +885,10 @@ _Generated: 2025-11-06T17:47:12.369Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (31)
+### Referenced in Passive Skills (32)
 
 - `afterAllyActiveSkill`
+- `afterAllyAttackedActive`
 - `afterAllyAttacksActive`
 - `afterAllyDebuffed`
 - `afterAllyHit`

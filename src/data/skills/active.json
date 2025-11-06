@@ -507,9 +507,9 @@
     ]
   },
   {
-    "id": "passiveShatter",
+    "id": "passiveShatterSpear",
     "type": "active",
-    "name": "Passive Shatter",
+    "name": "Passive Shatter (Spear)",
     "description": "Attack a column of enemies. Inflicts -1 PP.",
     "ap": 1,
     "skillCategories": ["Damage"],
@@ -804,6 +804,50 @@
             "target": "Enemy",
             "combatantType": "Elven",
             "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "freezingThrust",
+    "type": "active",
+    "name": "Freezing Thrust",
+    "description": "Attack a single enemy. Inflicts Freeze. +25 potency if the user has summoned faeries.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100,
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 25,
+          "magical": 25
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterThan",
+            "value": 0
           }
         ]
       }
@@ -4700,6 +4744,36 @@
       {
         "kind": "Affliction",
         "affliction": "Stun",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "penetrate",
+    "type": "active",
+    "name": "Penetrate",
+    "description": "Attack a column of enemies with a piercing strike. Inflicts Phys. Defense -30%.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "skillFlags": ["Unguardable", "Piercing"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -30,
+        "scaling": "percent",
         "applyTo": "Target"
       }
     ]

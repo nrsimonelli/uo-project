@@ -126,7 +126,7 @@ export const EquipmentLance = [
     stats: {
       PATK: 20,
       AP: -1,
-      MaxHP: -50,
+      HP: -50,
     },
     skillId: 'lethalVenom',
     nullifications: [],
@@ -232,19 +232,6 @@ export const EquipmentLance = [
     classRestrictions: [],
   },
   {
-    id: 'huntersHalberd',
-    name: "Hunter's Halberd",
-    type: 'Lance',
-    stats: {
-      PATK: 21,
-      PursuitPotency: 20,
-      CRT: 10,
-    },
-    skillId: null,
-    nullifications: [],
-    classRestrictions: [],
-  },
-  {
     id: 'icefallSpear',
     name: 'Icefall Spear',
     type: 'Lance',
@@ -304,6 +291,19 @@ export const EquipmentLance = [
     },
     skillId: 'eagleEye',
     nullifications: ['Blind'],
+    classRestrictions: [],
+  },
+  {
+    id: 'orchisSpear',
+    name: 'Orchis Spear',
+    type: 'Lance',
+    stats: {
+      PATK: 25,
+      PP: 1,
+      HPRecovery: 30,
+    },
+    skillId: null,
+    nullifications: [],
     classRestrictions: [],
   },
   {
@@ -429,6 +429,18 @@ export const EquipmentLance = [
     classRestrictions: [],
   },
   {
+    id: 'testarossa',
+    name: 'Testarossa',
+    type: 'Lance',
+    stats: {
+      PATK: 24,
+      CritDmg: 30,
+    },
+    skillId: null,
+    nullifications: ['Stun'],
+    classRestrictions: [],
+  },
+  {
     id: 'thornSpear',
     name: 'Thorn Spear',
     type: 'Lance',
@@ -442,8 +454,22 @@ export const EquipmentLance = [
     classRestrictions: [],
   },
   {
-    id: 'twinnedBough',
-    name: 'Twinned Bough',
+    id: 'twinnedBoughIce',
+    name: 'Twinned Bough (Ice)',
+    type: 'Lance',
+    stats: {
+      PATK: 8,
+      MATK: 16,
+      MDEF: 5,
+      INIT: 5,
+    },
+    skillId: 'freezingThrust',
+    nullifications: [],
+    classRestrictions: [],
+  },
+  {
+    id: 'twinnedBoughLightning',
+    name: 'Twinned Bough (Lightning)',
     type: 'Lance',
     stats: {
       PATK: 8,
@@ -461,6 +487,7 @@ export const EquipmentLance = [
     type: 'Lance',
     stats: {
       PATK: 12,
+      ACC: 10,
     },
     skillId: 'trueThrust',
     nullifications: [],
@@ -474,7 +501,7 @@ export const EquipmentLance = [
       PATK: 14,
       INIT: 5,
     },
-    skillId: 'passiveShatter',
+    skillId: 'passiveShatterSpear',
     nullifications: [],
     classRestrictions: [],
   },

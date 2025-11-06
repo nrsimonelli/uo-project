@@ -2526,5 +2526,71 @@
         ]
       }
     ]
+  },
+  {
+    "id": "shatteringPursuit",
+    "type": "passive",
+    "name": "Shattering Pursuit",
+    "description": "Activates after an ally attacks (Active). Follow-up attack a column of enemies with a piercing strike. Inflicts Phys. Defense -25%.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "activationWindow": "afterAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Column"
+    },
+    "skillFlags": ["Piercing"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 75
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -25,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "phalanxShift",
+    "type": "passive",
+    "name": "Phalanx Shift",
+    "description": "Activates after an ally is attacked with an active skill. Buff a row of allies. Grants +20% Attack and +40% Critical Rate vs Cavalry targets.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyAttackedActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditionalOnTarget": {
+          "combatantType": "Cavalry"
+        }
+      },
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 40,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditionalOnTarget": {
+          "combatantType": "Cavalry"
+        }
+      }
+    ]
   }
 ]
