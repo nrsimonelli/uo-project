@@ -31,6 +31,33 @@ import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 
 /**
+ * Buff stat name constants
+ */
+const BUFF_STATS = {
+  NEGATE_MAGIC_DAMAGE: 'NegateMagicDamage',
+  TRUE_STRIKE: 'TrueStrike',
+  TRUE_CRITICAL: 'TrueCritical',
+  UNGUARDABLE: 'Unguardable',
+} as const
+
+/**
+ * Combat logging utility
+ * Only logs in development mode
+ */
+const logCombat = (message: string, data?: unknown): void => {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV !== 'production'
+  ) {
+    if (data !== undefined) {
+      console.log(message, data)
+    } else {
+      console.log(message)
+    }
+  }
+}
+
+/**
  * Result of a damage calculation attempt
  */
 export interface DamageResult {
@@ -58,26 +85,61 @@ export interface DamageResult {
 }
 
 /**
+ * Consumable buff stat types that can be checked and consumed
+ */
+type ConsumableBuffStat =
+  | typeof BUFF_STATS.NEGATE_MAGIC_DAMAGE
+  | typeof BUFF_STATS.TRUE_STRIKE
+  | typeof BUFF_STATS.TRUE_CRITICAL
+  | typeof BUFF_STATS.UNGUARDABLE
+
+/**
+ * Generic function to check and consume buffs
+ * Returns true if the buff was found (and consumed if applicable)
+ */
+const checkAndConsumeBuff = (
+  unit: BattleContext,
+  stat: ConsumableBuffStat,
+  options?: {
+    consumeOnUse?: (buff: import('@/types/battle-engine').Buff) => boolean
+    logMessage?: (unitName: string, buffName: string) => string
+  }
+): boolean => {
+  const buffIndex = unit.buffs.findIndex(buff => buff.stat === stat)
+  if (buffIndex === -1) return false
+
+  const buff = unit.buffs[buffIndex]
+
+  // Determine if we should consume this buff
+  const shouldConsume =
+    options?.consumeOnUse !== undefined
+      ? options.consumeOnUse(buff)
+      : // Default: Unguardable only consumes if it has a duration (not Indefinite)
+        stat === BUFF_STATS.UNGUARDABLE
+        ? buff.duration !== 'Indefinite'
+        : true
+
+  if (shouldConsume) {
+    unit.buffs.splice(buffIndex, 1)
+    const logMsg =
+      options?.logMessage?.(unit.unit.name, buff.name) ||
+      `${unit.unit.name}'s ${buff.name} buff consumed`
+    logCombat(logMsg)
+    recalculateStats(unit)
+  }
+
+  return true
+}
+
+/**
  * Check if a unit has NegateMagicDamage buff and consume it if present
  * Returns true if magic damage should be negated
  */
 const checkAndConsumeNegateMagicDamage = (target: BattleContext): boolean => {
-  const negateBuffIndex = target.buffs.findIndex(
-    buff => buff.stat === 'NegateMagicDamage'
-  )
-
-  if (negateBuffIndex !== -1) {
-    // Remove the buff (it's consumed)
-    const consumedBuff = target.buffs[negateBuffIndex]
-    target.buffs.splice(negateBuffIndex, 1)
-    console.log(
-      `🛡️ ${target.unit.name}'s ${consumedBuff.name} buff consumed (negated magic damage)`
-    )
-    recalculateStats(target)
-    return true
-  }
-
-  return false
+  return checkAndConsumeBuff(target, BUFF_STATS.NEGATE_MAGIC_DAMAGE, {
+    logMessage: (name, buffName) =>
+      `🛡️ ${name}'s ${buffName} buff consumed (negated magic damage)`,
+  })
 }
 
 /**
@@ -85,22 +147,10 @@ const checkAndConsumeNegateMagicDamage = (target: BattleContext): boolean => {
  * Returns true if the attack should always hit
  */
 const checkAndConsumeTrueStrike = (attacker: BattleContext): boolean => {
-  const trueStrikeBuffIndex = attacker.buffs.findIndex(
-    buff => buff.stat === 'TrueStrike'
-  )
-
-  if (trueStrikeBuffIndex !== -1) {
-    // Remove the buff (it's consumed)
-    const consumedBuff = attacker.buffs[trueStrikeBuffIndex]
-    attacker.buffs.splice(trueStrikeBuffIndex, 1)
-    console.log(
-      `🎯 ${attacker.unit.name}'s ${consumedBuff.name} buff consumed (guaranteed hit)`
-    )
-    recalculateStats(attacker)
-    return true
-  }
-
-  return false
+  return checkAndConsumeBuff(attacker, BUFF_STATS.TRUE_STRIKE, {
+    logMessage: (name, buffName) =>
+      `🎯 ${name}'s ${buffName} buff consumed (guaranteed hit)`,
+  })
 }
 
 /**
@@ -108,22 +158,10 @@ const checkAndConsumeTrueStrike = (attacker: BattleContext): boolean => {
  * Returns true if the attack should always crit
  */
 const checkAndConsumeTrueCritical = (attacker: BattleContext): boolean => {
-  const trueCriticalBuffIndex = attacker.buffs.findIndex(
-    buff => buff.stat === 'TrueCritical'
-  )
-
-  if (trueCriticalBuffIndex !== -1) {
-    // Remove the buff (it's consumed)
-    const consumedBuff = attacker.buffs[trueCriticalBuffIndex]
-    attacker.buffs.splice(trueCriticalBuffIndex, 1)
-    console.log(
-      `✨ ${attacker.unit.name}'s ${consumedBuff.name} buff consumed (guaranteed crit)`
-    )
-    recalculateStats(attacker)
-    return true
-  }
-
-  return false
+  return checkAndConsumeBuff(attacker, BUFF_STATS.TRUE_CRITICAL, {
+    logMessage: (name, buffName) =>
+      `✨ ${name}'s ${buffName} buff consumed (guaranteed crit)`,
+  })
 }
 
 /**
@@ -131,29 +169,57 @@ const checkAndConsumeTrueCritical = (attacker: BattleContext): boolean => {
  * Returns true if the attack cannot be guarded
  */
 const checkAndConsumeUnguardable = (attacker: BattleContext): boolean => {
-  const unguardableBuffIndex = attacker.buffs.findIndex(
-    buff => buff.stat === 'Unguardable'
-  )
+  return checkAndConsumeBuff(attacker, BUFF_STATS.UNGUARDABLE, {
+    consumeOnUse: buff => buff.duration !== 'Indefinite',
+    logMessage: (name, buffName) =>
+      `⚡ ${name}'s ${buffName} buff consumed (guard bypassed)`,
+  })
+}
 
-  if (unguardableBuffIndex !== -1) {
-    // Note: Unguardable might not be consumed on use (could be indefinite)
-    // For now, we'll check if it has a duration and consume accordingly
-    const buff = attacker.buffs[unguardableBuffIndex]
+/**
+ * Helper: Create a miss result with optional hit chance and dodge status
+ */
+const createMissResult = (
+  hitChance: number = 0,
+  wasDodged: boolean = false
+): DamageResult => ({
+  hit: false,
+  damage: 0,
+  wasCritical: false,
+  wasGuarded: false,
+  wasDodged,
+  hitChance,
+  breakdown: {
+    baseDamage: 0,
+    afterPotency: 0,
+    afterCrit: 0,
+    afterGuard: 0,
+    afterEffectiveness: 0,
+    afterDmgReduction: 0,
+  },
+})
 
-    // If it's a consumable buff (has duration), consume it
-    // If it's indefinite (warHorn), don't consume
-    if (buff.duration) {
-      attacker.buffs.splice(unguardableBuffIndex, 1)
-      console.log(
-        `⚡ ${attacker.unit.name}'s ${buff.name} buff consumed (guard bypassed)`
-      )
-      recalculateStats(attacker)
-    }
+/**
+ * Helper: Apply damage reduction from DmgReductionPercent stat
+ */
+const applyDamageReduction = (
+  damage: number,
+  dmgReductionPercent: number
+): number => {
+  const multiplier = (100 - dmgReductionPercent) / 100
+  return Math.max(1, Math.round(damage * multiplier))
+}
 
-    return true
-  }
-
-  return false
+/**
+ * Helper: Check if a unit has a flag or buff with the given stat
+ */
+const hasFlagOrBuff = (
+  flags: Flag[],
+  buffs: BattleContext['buffs'],
+  flagName: Flag,
+  buffStat: string
+): boolean => {
+  return flags.includes(flagName) || buffs.some(buff => buff.stat === buffStat)
 }
 
 /**
@@ -173,9 +239,9 @@ export const calculateHitChance = (
 ) => {
   // Check for always-hit conditions
   // Check both flag (from GrantFlag) and buff (from Buff effect)
-  const hasTrueStrikeFlag = flags.includes('TrueStrike')
+  const hasTrueStrikeFlag = flags.includes(BUFF_STATS.TRUE_STRIKE as Flag)
   const hasTrueStrikeBuff = attacker.buffs.some(
-    buff => buff.stat === 'TrueStrike'
+    buff => buff.stat === BUFF_STATS.TRUE_STRIKE
   )
 
   if (
@@ -290,24 +356,28 @@ export const calculateSkillGuardMultiplier = (guardLevel: GuardLevel) => {
 /**
  * Calculate effectiveness multiplier based on class/movement type matchups
  * Uses data-driven effectiveness rules for maintainable and extensible combat bonuses
+ * Returns both the multiplier and the rule (for logging)
  */
 export const calculateEffectiveness = (
   attacker: BattleContext,
   target: BattleContext,
   isPhysical: boolean
-) => {
+): {
+  multiplier: number
+  rule: ReturnType<typeof findEffectivenessRule> | null
+} => {
   void isPhysical
   const attackerClassData = CLASS_DATA[attacker.unit.classKey]
   const targetClassData = CLASS_DATA[target.unit.classKey]
 
   if (!attackerClassData || !targetClassData) {
-    console.warn(`Missing class data for effectiveness calculation:`, {
+    logCombat(`Missing class data for effectiveness calculation:`, {
       attackerClass: attacker.unit.classKey,
       targetClass: target.unit.classKey,
       attackerClassData: !!attackerClassData,
       targetClassData: !!targetClassData,
     })
-    return 1.0
+    return { multiplier: 1.0, rule: null }
   }
 
   // Find applicable effectiveness rule
@@ -320,7 +390,10 @@ export const calculateEffectiveness = (
     targetClassData.trait
   )
 
-  return effectivenessRule ? effectivenessRule.multiplier : 1.0
+  return {
+    multiplier: effectivenessRule ? effectivenessRule.multiplier : 1.0,
+    rule: effectivenessRule,
+  }
 }
 
 /**
@@ -431,7 +504,7 @@ export const checkAndConsumeEvade = (
   // Priority 1: entireAttack - consumes all evades
   if (evadeByType.entireAttack.length > 0) {
     const consumedEvades = consumeAllEvades(target.evades)
-    console.log(
+    logCombat(
       `💨 ${target.unit.name} evaded entire attack using ${getSkillName(evadeByType.entireAttack[0].skillId)}`
     )
     return { dodged: true, consumedEvades, twoHitsRemaining: 0 }
@@ -450,7 +523,7 @@ export const checkAndConsumeEvade = (
       if (consumed) consumedEvades.push(consumed)
     }
 
-    console.log(
+    logCombat(
       `💨 ${target.unit.name} evaded hit using ${getSkillName(evade.skillId)} (twoHits: ${2 - newRemaining}/2 used)`
     )
     return { dodged: true, consumedEvades, twoHitsRemaining: newRemaining }
@@ -464,7 +537,7 @@ export const checkAndConsumeEvade = (
       const consumed = consumeEvade(target.evades, evadeToConsume)
       if (consumed) consumedEvades.push(consumed)
     }
-    console.log(
+    logCombat(
       `💨 ${target.unit.name} evaded hit using ${getSkillName(evadeToConsume.skillId)} (singleHit)`
     )
     return { dodged: true, consumedEvades, twoHitsRemaining: 0 }
@@ -474,22 +547,23 @@ export const checkAndConsumeEvade = (
 }
 
 /**
- * Main damage calculation function
- * Handles hit chance, damage calculation, crit, guard, and effectiveness
+ * Prepare attack context: flags, attack type, damage type
  */
-export const calculateSkillDamage = (
+interface AttackContext {
+  combinedFlags: Flag[]
+  attackType: 'Melee' | 'Ranged' | 'Magical'
+  damageType: string
+  hasPhysical: boolean
+  hasMagical: boolean
+}
+
+const prepareAttackContext = (
   damageEffect: DamageEffect,
-  skillFlags: readonly Flag[] | Flag[] = [],
-  skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
+  skillFlags: readonly Flag[] | Flag[],
   attacker: BattleContext,
-  target: BattleContext,
-  rng: RandomNumberGeneratorType,
   innateAttackType?: 'Magical' | 'Ranged',
-  effectResults?: EffectProcessingResult,
-  twoHitsRemaining?: number,
-  magicNegatedOverride?: boolean // Optional override for multi-hit attacks
-): DamageResult => {
-  void skillCategories
+  effectResults?: EffectProcessingResult
+): AttackContext => {
   // Combine skill-level, damage effect flags, and granted flags from effects
   const combinedFlags = getCombinedFlags(
     skillFlags,
@@ -497,7 +571,7 @@ export const calculateSkillDamage = (
   )
 
   if (effectResults?.grantedFlags && effectResults.grantedFlags.length > 0) {
-    console.log('🚩 Granted Flags Applied:', {
+    logCombat('🚩 Granted Flags Applied:', {
       grantedFlags: effectResults?.grantedFlags,
       allCombinedFlags: combinedFlags,
     })
@@ -515,72 +589,68 @@ export const calculateSkillDamage = (
     damageEffect.potency.magical !== undefined &&
     damageEffect.potency.magical > 0
 
-  // Log combat stats for verification
-  console.log('⚔️ Combat Stats:', {
-    attacker: {
-      name: attacker.unit.name,
-      class: attacker.unit.classKey,
-      attackType,
-      stats: attacker.combatStats,
-    },
-    target: {
-      name: target.unit.name,
-      class: target.unit.classKey,
-      hp: target.currentHP,
-      stats: target.combatStats,
-    },
-    skill: {
-      potency: damageEffect.potency,
-      type: damageType,
-      flags: combinedFlags,
-    },
-  })
+  return {
+    combinedFlags,
+    attackType,
+    damageType,
+    hasPhysical,
+    hasMagical,
+  }
+}
 
+/**
+ * Resolve hit determination: blind, true strike, hit chance, evade
+ * Returns hit result or null if attack should continue
+ */
+interface HitResolution {
+  hit: boolean
+  hitChance: number
+  wasDodged: boolean
+  finalHit: boolean
+}
+
+const resolveHit = (
+  attacker: BattleContext,
+  target: BattleContext,
+  damageEffect: DamageEffect,
+  context: AttackContext,
+  rng: RandomNumberGeneratorType,
+  twoHitsRemaining?: number
+): HitResolution | null => {
   // Check for Blind - this overrides all hit calculations including TrueStrike
   const blindMiss = checkAndConsumeBlind(attacker)
   if (blindMiss) {
-    return {
-      hit: false,
-      damage: 0,
-      wasCritical: false,
-      wasGuarded: false,
-      hitChance: 0, // Blind guarantees miss
-      wasDodged: false,
-      breakdown: {
-        baseDamage: 0,
-        afterPotency: 0,
-        afterCrit: 0,
-        afterGuard: 0,
-        afterEffectiveness: 0,
-        afterDmgReduction: 0,
-      },
-    }
+    return null // Signal to return early with miss result
   }
 
   // Check for TrueStrike from flags (GrantFlag) or buffs (Buff effect)
   // Note: We check buffs here but don't consume yet - calculateHitChance also checks
-  const isTrueStrikeFlag = combinedFlags.includes('TrueStrike')
-  const hasTrueStrikeBuff = attacker.buffs.some(
-    buff => buff.stat === 'TrueStrike'
+  const isTrueStrike = hasFlagOrBuff(
+    context.combinedFlags,
+    attacker.buffs,
+    BUFF_STATS.TRUE_STRIKE as Flag,
+    BUFF_STATS.TRUE_STRIKE
   )
-  const isTrueStrike = isTrueStrikeFlag || hasTrueStrikeBuff
 
   // Calculate hit chance (will check for TrueStrike buff internally)
   const hitChance = calculateHitChance(
     attacker,
     target,
     damageEffect,
-    combinedFlags,
-    attackType
+    context.combinedFlags,
+    context.attackType
   )
 
   // Consume TrueStrike buff if present (after hit chance calculation)
+  const hasTrueStrikeBuff = attacker.buffs.some(
+    buff => buff.stat === BUFF_STATS.TRUE_STRIKE
+  )
   if (hasTrueStrikeBuff) {
     checkAndConsumeTrueStrike(attacker)
   }
 
   if (isTrueStrike) {
-    console.log('🎯 TrueStrike Active - guaranteed hit')
+    logCombat('🎯 TrueStrike Active - guaranteed hit')
   }
 
   // Roll for hit
@@ -606,25 +676,267 @@ export const calculateSkillDamage = (
     processAfflictionsOnHit(target)
   }
 
-  // If miss or dodged, return early
-  if (!finalHit) {
+  return {
+    hit,
+    hitChance,
+    wasDodged,
+    finalHit,
+  }
+}
+
+/**
+ * Calculate damage components: physical, magical, and conferral damage
+ */
+interface DamageComponents {
+  physicalDamage: number
+  magicalDamage: number
+  conferralDamage: number
+  totalDamage: number
+  baseDamage: number // Sum of base damages before crit/guard
+  afterCritDamage: number // Sum after crit but before guard
+}
+
+const calculateDamageComponents = (
+  attacker: BattleContext,
+  target: BattleContext,
+  damageEffect: DamageEffect,
+  context: AttackContext,
+  critMultiplier: number,
+  guardMultiplier: number,
+  effectResults?: EffectProcessingResult,
+  magicNegated?: boolean
+): DamageComponents => {
+  let totalDamage = 0
+  let physicalDamage = 0
+  let magicalDamage = 0
+  let conferralDamage = 0
+  let baseDamage = 0 // Sum of base damages (after potency)
+  let afterCritDamage = 0 // Sum after crit but before guard
+
+  /**
+   * Calculate a single damage component (physical or magical)
+   * Returns damage and intermediate values for breakdown tracking
+   */
+  const calculateDamageComponent = (
+    potency: number,
+    isPhysical: boolean,
+    isNegated: boolean,
+    negateMessage: string
+  ): { damage: number; base: number; afterCrit: number } => {
+    if (isNegated) {
+      logCombat(negateMessage)
+      return { damage: 0, base: 0, afterCrit: 0 }
+    }
+
+    // Handle parry for physical melee attacks
+    if (isPhysical && context.attackType === 'Melee' && target.incomingParry) {
+      target.incomingParry = false
+      return { damage: 0, base: 0, afterCrit: 0 }
+    }
+
+    const componentBase = calculateBaseDamage(
+      attacker,
+      target,
+      potency,
+      isPhysical,
+      effectResults
+    )
+    const componentAfterCrit = componentBase * critMultiplier
+    const componentAfterGuard = isPhysical
+      ? componentAfterCrit * guardMultiplier
+      : componentAfterCrit
     return {
-      hit: false,
-      damage: 0,
-      wasCritical: false,
-      wasGuarded: false,
-      wasDodged,
-      hitChance,
-      breakdown: {
-        baseDamage: 0,
-        afterPotency: 0,
-        afterCrit: 0,
-        afterGuard: 0,
-        afterEffectiveness: 0,
-        afterDmgReduction: 0,
-      },
+      damage: Math.max(1, Math.round(componentAfterGuard)),
+      base: componentBase,
+      afterCrit: componentAfterCrit,
     }
   }
+
+  // Calculate physical damage component (before effectiveness)
+  if (context.hasPhysical) {
+    const physicalResult = calculateDamageComponent(
+      damageEffect.potency.physical!,
+      true,
+      false, // Physical cannot be negated by magic negation
+      '' // No message needed
+    )
+    physicalDamage = physicalResult.damage
+    baseDamage += physicalResult.base
+    afterCritDamage += Math.round(physicalResult.afterCrit)
+    totalDamage += physicalDamage
+  }
+
+  // Calculate magical damage component (before effectiveness)
+  if (context.hasMagical) {
+    const magicalResult = calculateDamageComponent(
+      damageEffect.potency.magical!,
+      false,
+      magicNegated ?? false,
+      `🛡️ ${target.unit.name} negated magic damage`
+    )
+    magicalDamage = magicalResult.damage
+    baseDamage += magicalResult.base
+    afterCritDamage += Math.round(magicalResult.afterCrit)
+    totalDamage += magicalDamage
+  }
+
+  // Apply conferral magical damage (if attacker has active conferrals)
+  // NegateMagicDamage also negates conferral magical damage
+  if (attacker.conferrals && attacker.conferrals.length > 0) {
+    if (magicNegated) {
+      logCombat(`🛡️ ${target.unit.name} negated conferral magic damage`)
+      conferralDamage = 0
+    } else {
+      attacker.conferrals.forEach(conferral => {
+        // Calculate magical damage using the stored caster's MATK
+        const conferralBaseDamage =
+          ((conferral.casterMATK - target.combatStats.MDEF) *
+            conferral.potency) /
+          100
+        const conferralAfterCrit = conferralBaseDamage * critMultiplier
+        // No guard multiplier for conferral magical damage
+        const conferralFinal = Math.max(1, Math.round(conferralAfterCrit))
+        conferralDamage += conferralFinal
+        baseDamage += conferralBaseDamage
+        afterCritDamage += Math.round(conferralAfterCrit)
+      })
+    }
+    totalDamage += conferralDamage
+
+    logCombat('🪄 Conferral Effects Applied:', {
+      conferralCount: attacker.conferrals.length,
+      conferralDamage,
+      conferrals: attacker.conferrals.map(c => ({
+        skillId: c.skillId,
+        potency: c.potency,
+        casterMATK: c.casterMATK,
+      })),
+    })
+
+    // Remove conferrals that expire when this unit attacks
+    removeExpiredConferrals(attacker, 'attacks')
+  }
+
+  return {
+    physicalDamage,
+    magicalDamage,
+    conferralDamage,
+    totalDamage,
+    baseDamage: Math.round(baseDamage),
+    afterCritDamage: Math.round(afterCritDamage),
+  }
+}
+
+/**
+ * Apply damage modifiers: effectiveness and damage reduction
+ */
+interface DamageModifiers {
+  effectiveness: number
+  effectivenessRule: ReturnType<typeof findEffectivenessRule> | null
+  afterEffectiveness: number
+  finalDamage: number
+  dmgReductionPercent: number
+}
+
+const applyDamageModifiers = (
+  attacker: BattleContext,
+  target: BattleContext,
+  totalDamage: number
+): DamageModifiers => {
+  // Calculate effectiveness once and apply to total damage
+  // Use the dedicated calculateEffectiveness function (isPhysical parameter doesn't affect result)
+  const { multiplier: effectiveness, rule: effectivenessRule } =
+    calculateEffectiveness(attacker, target, true)
+  const afterEffectiveness = Math.max(
+    1,
+    Math.round(totalDamage * effectiveness)
+  )
+
+  // Apply damage reduction from DmgReductionPercent stat
+  const dmgReductionPercent = target.combatStats.DmgReductionPercent ?? 0
+  const finalDamage = applyDamageReduction(
+    afterEffectiveness,
+    dmgReductionPercent
+  )
+
+  return {
+    effectiveness,
+    effectivenessRule,
+    afterEffectiveness,
+    finalDamage,
+    dmgReductionPercent,
+  }
+}
+
+/**
+ * Main damage calculation function
+ * Handles hit chance, damage calculation, crit, guard, and effectiveness
+ */
+export const calculateSkillDamage = (
+  damageEffect: DamageEffect,
+  skillFlags: readonly Flag[] | Flag[] = [],
+  skillCategories: readonly SkillCategory[] | SkillCategory[] = [],
+  attacker: BattleContext,
+  target: BattleContext,
+  rng: RandomNumberGeneratorType,
+  innateAttackType?: 'Magical' | 'Ranged',
+  effectResults?: EffectProcessingResult,
+  twoHitsRemaining?: number,
+  magicNegatedOverride?: boolean // Optional override for multi-hit attacks
+): DamageResult => {
+  void skillCategories
+
+  // Prepare attack context
+  const context = prepareAttackContext(
+    damageEffect,
+    skillFlags,
+    attacker,
+    innateAttackType,
+    effectResults
+  )
+
+  // Log combat stats for verification
+  logCombat('⚔️ Combat Stats:', {
+    attacker: {
+      name: attacker.unit.name,
+      class: attacker.unit.classKey,
+      attackType: context.attackType,
+      stats: attacker.combatStats,
+    },
+    target: {
+      name: target.unit.name,
+      class: target.unit.classKey,
+      hp: target.currentHP,
+      stats: target.combatStats,
+    },
+    skill: {
+      potency: damageEffect.potency,
+      type: context.damageType,
+      flags: context.combinedFlags,
+    },
+  })
+
+  // Resolve hit determination
+  const hitResolution = resolveHit(
+    attacker,
+    target,
+    damageEffect,
+    context,
+    rng,
+    twoHitsRemaining
+  )
+
+  // Handle blind miss (early return)
+  if (hitResolution === null) {
+    return createMissResult(0, false) // Blind guarantees miss
+  }
+
+  // If miss or dodged, return early
+  if (!hitResolution.finalHit) {
+    return createMissResult(hitResolution.hitChance, hitResolution.wasDodged)
+  }
+
+  const { hit, hitChance, wasDodged, finalHit } = hitResolution
 
   // Roll shared modifiers once
   const critRate = attacker.combatStats.CRT
@@ -632,26 +944,37 @@ export const calculateSkillDamage = (
   // Check for Crit Seal - this overrides TrueCritical as well
   const canLandCrit = canCrit(attacker)
   // Check for TrueCritical from flags (GrantFlag) or buffs (Buff effect)
-  const hasTrueCriticalFlag = combinedFlags.includes('TrueCritical')
   const hasTrueCriticalBuff = checkAndConsumeTrueCritical(attacker)
-  const hasTrueCritical = hasTrueCriticalFlag || hasTrueCriticalBuff
+  const hasTrueCritical =
+    hasFlagOrBuff(
+      context.combinedFlags,
+      attacker.buffs,
+      BUFF_STATS.TRUE_CRITICAL as Flag,
+      BUFF_STATS.TRUE_CRITICAL
+    ) || hasTrueCriticalBuff
   const wasCritical =
     canLandCrit && (hasTrueCritical || rollCrit(rng, critRate))
   const critMultiplier = getCritMultiplier(wasCritical)
   if (hasTrueCritical) {
-    console.log('✨ TrueCritical Active - guaranteed crit applied')
+    logCombat('✨ TrueCritical Active - guaranteed crit applied')
   }
 
   // Roll for guard (only affects physical damage)
   // Check for Unguardable from flags (GrantFlag) or buffs (Buff effect)
-  const isUnguardableFlag = combinedFlags.includes('Unguardable')
   const isUnguardableBuff = checkAndConsumeUnguardable(attacker)
-  const isUnguardable = isUnguardableFlag || isUnguardableBuff
-  const canGuardAttack = hasPhysical && !isUnguardable && canGuard(target)
+  const isUnguardable =
+    hasFlagOrBuff(
+      context.combinedFlags,
+      attacker.buffs,
+      BUFF_STATS.UNGUARDABLE as Flag,
+      BUFF_STATS.UNGUARDABLE
+    ) || isUnguardableBuff
+  const canGuardAttack =
+    context.hasPhysical && !isUnguardable && canGuard(target)
   const guardRate = canGuardAttack ? target.combatStats.GRD : 0
   let wasGuarded = canGuardAttack && rollGuard(rng, guardRate)
   if (isUnguardable) {
-    console.log('⚡ Unguardable Active - guard bypassed')
+    logCombat('⚡ Unguardable Active - guard bypassed')
   }
   const equipmentGuardEff = target.combatStats.GuardEff || 0
   let guardMultiplier = calculateNaturalGuardMultiplier(
@@ -660,7 +983,7 @@ export const calculateSkillDamage = (
   )
 
   // Skill Guard overrides natural guard for this attack instance (physical only)
-  if (hasPhysical && target.incomingGuard) {
+  if (context.hasPhysical && target.incomingGuard) {
     const override =
       target.incomingGuard === 'full'
         ? 0
@@ -668,11 +991,6 @@ export const calculateSkillDamage = (
     guardMultiplier = override
     wasGuarded = true
   }
-
-  let totalDamage = 0
-  let physicalDamage = 0
-  let magicalDamage = 0
-  let conferralDamage = 0
 
   // Check for NegateMagicDamage buff (consumed on use, negates all magic damage)
   // If magicNegatedOverride is provided (from multi-hit), use it; otherwise check and consume
@@ -684,7 +1002,7 @@ export const calculateSkillDamage = (
   // For HP-based damage: Apply damage reduction but skip other modifiers
   if (typeof effectResults?.ownHPBasedDamage === 'number') {
     // Still consume parry if it's a melee attack (but damage is not reduced)
-    if (attackType === 'Melee' && target.incomingParry) {
+    if (context.attackType === 'Melee' && target.incomingParry) {
       target.incomingParry = false
     }
 
@@ -696,14 +1014,14 @@ export const calculateSkillDamage = (
 
     // Apply damage reduction from DmgReductionPercent stat (only modifier that affects OwnHPBasedDamage)
     const dmgReductionPercent = target.combatStats.DmgReductionPercent ?? 0
-    const dmgReductionMultiplier = (100 - dmgReductionPercent) / 100
+    const multiplier = (100 - dmgReductionPercent) / 100
     const finalDamage = Math.max(
       0,
-      Math.round(effectResults.ownHPBasedDamage * dmgReductionMultiplier)
+      Math.round(effectResults.ownHPBasedDamage * multiplier)
     )
 
     return {
-      hit,
+      hit: finalHit,
       damage: finalDamage,
       wasCritical: false,
       wasGuarded: false,
@@ -720,126 +1038,47 @@ export const calculateSkillDamage = (
     }
   }
 
-  // Calculate physical damage component (before effectiveness)
-  if (hasPhysical) {
-    let physicalBaseDamage = 0
-    let parried = false
-
-    // Parry: negate melee physical damage for one hit
-    if (attackType === 'Melee' && target.incomingParry) {
-      parried = true
-      physicalBaseDamage = 0
-      // consume one parry charge
-      target.incomingParry = false
-    } else {
-      physicalBaseDamage = calculateBaseDamage(
-        attacker,
-        target,
-        damageEffect.potency.physical!,
-        true,
-        effectResults
-      )
-    }
-
-    const afterCrit = physicalBaseDamage * critMultiplier
-    const afterGuard = afterCrit * guardMultiplier // Guard only affects physical
-    physicalDamage = parried ? 0 : Math.max(1, Math.round(afterGuard))
-    totalDamage += physicalDamage
-  }
-
-  // Calculate magical damage component (before effectiveness)
-  if (hasMagical) {
-    if (magicNegated) {
-      magicalDamage = 0
-      console.log(`🛡️ ${target.unit.name} negated magic damage`)
-    } else {
-      const magicalBaseDamage = calculateBaseDamage(
-        attacker,
-        target,
-        damageEffect.potency.magical!,
-        false,
-        effectResults
-      )
-      const afterCrit = magicalBaseDamage * critMultiplier
-      // No guard multiplier for magical damage
-      magicalDamage = Math.max(1, Math.round(afterCrit))
-    }
-    totalDamage += magicalDamage
-  }
-
-  // Apply conferral magical damage (if attacker has active conferrals)
-  // NegateMagicDamage also negates conferral magical damage
-  if (attacker.conferrals && attacker.conferrals.length > 0) {
-    if (magicNegated) {
-      console.log(`🛡️ ${target.unit.name} negated conferral magic damage`)
-      conferralDamage = 0
-    } else {
-      attacker.conferrals.forEach(conferral => {
-        // Calculate magical damage using the stored caster's MATK
-        const conferralBaseDamage =
-          ((conferral.casterMATK - target.combatStats.MDEF) *
-            conferral.potency) /
-          100
-        const conferralAfterCrit = conferralBaseDamage * critMultiplier
-        // No guard multiplier for conferral magical damage
-        conferralDamage += Math.max(1, Math.round(conferralAfterCrit))
-      })
-    }
-    totalDamage += conferralDamage
-
-    console.log('🪄 Conferral Effects Applied:', {
-      conferralCount: attacker.conferrals.length,
-      conferralDamage,
-      conferrals: attacker.conferrals.map(c => ({
-        skillId: c.skillId,
-        potency: c.potency,
-        casterMATK: c.casterMATK,
-      })),
-    })
-
-    // Remove conferrals that expire when this unit attacks
-    removeExpiredConferrals(attacker, 'attacks')
-  }
-
-  // Calculate effectiveness once and apply to total damage
-  // Use physical=true as default, but effectiveness is class-based anyway
-  const attackerClassData = CLASS_DATA[attacker.unit.classKey]
-  const targetClassData = CLASS_DATA[target.unit.classKey]
-  const effectivenessRule =
-    attackerClassData && targetClassData
-      ? findEffectivenessRule(
-          attacker.unit.classKey,
-          attackerClassData.movementType,
-          attackerClassData.trait,
-          target.unit.classKey,
-          targetClassData.movementType,
-          targetClassData.trait
-        )
-      : null
-  const effectiveness = effectivenessRule ? effectivenessRule.multiplier : 1.0
-  const afterEffectiveness = Math.max(
-    1,
-    Math.round(totalDamage * effectiveness)
+  // Calculate damage components
+  const damageComponents = calculateDamageComponents(
+    attacker,
+    target,
+    damageEffect,
+    context,
+    critMultiplier,
+    guardMultiplier,
+    effectResults,
+    magicNegated
   )
 
-  // Apply damage reduction from DmgReductionPercent stat
-  const dmgReductionPercent = target.combatStats.DmgReductionPercent ?? 0
-  const dmgReductionMultiplier = (100 - dmgReductionPercent) / 100
-  const finalDamage = Math.max(
-    1,
-    Math.round(afterEffectiveness * dmgReductionMultiplier)
-  )
+  const {
+    physicalDamage,
+    magicalDamage,
+    conferralDamage,
+    totalDamage,
+    baseDamage,
+    afterCritDamage,
+  } = damageComponents
 
-  console.log('🎲 Damage Calculation Complete', {
+  // Apply damage modifiers
+  const modifiers = applyDamageModifiers(attacker, target, totalDamage)
+  const {
+    effectiveness,
+    effectivenessRule,
+    afterEffectiveness,
+    finalDamage,
+    dmgReductionPercent,
+  } = modifiers
+
+  logCombat('🎲 Damage Calculation Complete', {
     attacker: attacker.unit.name,
     target: target.unit.name,
-    attackType: `${attackType} Attack`,
-    damageType: `${damageType} Damage`,
+    attackType: `${context.attackType} Attack`,
+    damageType: `${context.damageType} Damage`,
     damageBreakdown:
-      hasPhysical && hasMagical
+      context.hasPhysical && context.hasMagical
         ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
-        : hasPhysical || hasMagical
-          ? `${physicalDamage + magicalDamage} ${hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+        : context.hasPhysical || context.hasMagical
+          ? `${physicalDamage + magicalDamage} ${context.hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
           : conferralDamage > 0
             ? `${conferralDamage} conferral × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
             : `${totalDamage} × ${effectiveness}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`,
@@ -859,8 +1098,8 @@ export const calculateSkillDamage = (
       : null,
     breakdown: hit
       ? {
-          physicalDamage: hasPhysical ? physicalDamage : 0,
-          magicalDamage: hasMagical ? magicalDamage : 0,
+          physicalDamage: context.hasPhysical ? physicalDamage : 0,
+          magicalDamage: context.hasMagical ? magicalDamage : 0,
           conferralDamage: conferralDamage,
           subtotal: totalDamage,
           effectiveness: `×${effectiveness}`,
@@ -885,11 +1124,10 @@ export const calculateSkillDamage = (
     wasDodged,
     hitChance,
     breakdown: {
-      baseDamage:
-        (hasPhysical ? physicalDamage : 0) + (hasMagical ? magicalDamage : 0),
-      afterPotency: totalDamage,
-      afterCrit: totalDamage,
-      afterGuard: totalDamage,
+      baseDamage: baseDamage, // Base damage after potency
+      afterPotency: baseDamage, // Same as baseDamage (potency applied in calculateBaseDamage)
+      afterCrit: afterCritDamage, // After crit multiplier
+      afterGuard: totalDamage, // After guard (physical only) - this is what we have
       afterEffectiveness: afterEffectiveness,
       afterDmgReduction: finalDamage,
     },
