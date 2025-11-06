@@ -112,6 +112,18 @@ export const EquipmentSword = [
     classRestrictions: [],
   },
   {
+    id: 'dancersDelight',
+    name: "Dancer's Delight",
+    type: 'Sword',
+    stats: {
+      PATK: 16,
+      CRT: 10,
+    },
+    skillId: 'leapingSlash',
+    nullifications: [],
+    classRestrictions: [],
+  },
+  {
     id: 'dragonboneBlade',
     name: 'Dragonbone Blade',
     type: 'Sword',
@@ -353,6 +365,19 @@ export const EquipmentSword = [
       PATK: 14,
       INIT: 3,
       ACC: 10,
+    },
+    skillId: null,
+    nullifications: [],
+    classRestrictions: [],
+  },
+  {
+    id: 'rosularisSword',
+    name: 'Rosularis Sword',
+    type: 'Sword',
+    stats: {
+      PATK: 25,
+      PP: 1,
+      HPRecovery: 30,
     },
     skillId: null,
     nullifications: [],
