@@ -212,7 +212,6 @@ export const ActiveSkills = [
       {
         kind: 'IgnoreDefense',
         fraction: 0.5,
-        applyTo: 'Target',
       },
       {
         kind: 'ResourceGain',

@@ -650,7 +650,6 @@ export const PassiveSkills = [
         kind: 'GrantFlag',
         flag: 'InflictGuardSeal',
         applyTo: 'User',
-        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -740,7 +739,6 @@ export const PassiveSkills = [
         kind: 'GrantFlag',
         flag: 'TrueStrike',
         applyTo: 'User',
-        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -870,7 +868,7 @@ export const PassiveSkills = [
     name: 'Aid Cover',
     description:
       'Activates before an ally is attacked. Cover an ally with medium guard and restore 25% HP to that ally.',
-    pp: 2,
+    pp: 1,
     skillCategories: ['Cover', 'Heal'],
     activationWindow: 'beforeAllyAttacked',
     targeting: {

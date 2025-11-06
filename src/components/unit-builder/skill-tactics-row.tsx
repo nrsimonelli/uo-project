@@ -13,10 +13,10 @@ import {
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import { cn } from '@/lib/utils'
-import { isSkillValidForUnit } from '@/utils/skill-availability'
 import type { SkillSlot } from '@/types/skills'
 import type { TacticalCondition } from '@/types/tactics'
 import type { Unit } from '@/types/team'
+import { isSkillValidForUnit } from '@/utils/skill-availability'
 
 interface SkillTacticsRowProps {
   skillSlot: SkillSlot
@@ -70,7 +70,7 @@ export function SkillTacticsRow({
       className={cn(
         'grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors',
         isDragging && 'opacity-75',
-        !isValid && 'bg-red-50 dark:bg-red-950/20'
+        !isValid && 'bg-destructive/10 dark:bg-destructive/20'
       )}
     >
       <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
@@ -95,7 +95,7 @@ export function SkillTacticsRow({
                 <span
                   className={cn(
                     'text-sm cursor-help',
-                    !isValid && 'text-red-600 dark:text-red-400 font-medium'
+                    !isValid && 'text-destructive font-medium'
                   )}
                 >
                   {skill.name}
@@ -106,7 +106,7 @@ export function SkillTacticsRow({
                   <p className="font-medium">{skill.name}</p>
                   <p className="text-sm">{skill.description}</p>
                   {!isValid && (
-                    <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+                    <p className="text-sm text-destructive font-medium">
                       This skill is not valid for the unit's current level
                     </p>
                   )}
