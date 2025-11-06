@@ -1,5 +1,6 @@
 import type { ConditionEvaluationContext } from '../evaluation/condition-evaluator'
 
+import { getSkillName } from './combat-utils'
 import type { DamageResult } from './damage-calculator'
 import {
   calculateSkillDamage,
@@ -17,7 +18,6 @@ import {
   removeExpiredBuffs,
   removeExpiredDebuffs,
   recalculateStats,
-  getSkillName,
   applyBuff,
 } from './status-effects'
 

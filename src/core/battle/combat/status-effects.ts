@@ -3,12 +3,11 @@ import {
   removeAffliction,
   clearAllAfflictions,
 } from './affliction-manager'
+import { logCombat, getSkillName } from './combat-utils'
 import type { EffectProcessingResult } from './effect-processor'
 
 import { calculateBaseStats } from '@/core/calculations/base-stats'
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
-import { ActiveSkillsMap } from '@/generated/skills-active'
-import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { StatKey } from '@/types/base-stats'
 import type {
   BattleContext,
@@ -17,80 +16,139 @@ import type {
   ConferralStatus,
   EvadeStatus,
 } from '@/types/battle-engine'
+import type { AfflictionType } from '@/types/conditions'
 import type { ExtraStats } from '@/types/equipment'
 
 /**
- * Get skill name from skillId for both active and passive skills
+ * Cleanse target type constants
  */
-export const getSkillName = (skillId: string): string => {
-  const activeSkill = ActiveSkillsMap[skillId as keyof typeof ActiveSkillsMap]
-  if (activeSkill) return activeSkill.name
+const CLEANSE_TARGETS = {
+  BUFFS: 'Buffs',
+  DEBUFFS: 'Debuffs',
+  AFFLICTIONS: 'Afflictions',
+} as const
 
-  const passiveSkill =
-    PassiveSkillsMap[skillId as keyof typeof PassiveSkillsMap]
-  if (passiveSkill) return passiveSkill.name
-
-  return skillId // Fallback to skillId if skill not found
+/**
+ * Resolve the target unit for an effect based on its target type
+ * Returns null if the effect should be skipped (target-directed effect on miss)
+ */
+const resolveEffectTarget = (
+  effectTarget: 'User' | 'Target',
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean
+): BattleContext | null => {
+  // Skip target-directed effects if attack missed
+  if (!attackHit && effectTarget === 'Target') {
+    return null
+  }
+  return effectTarget === 'User' ? attacker : targets[0]
 }
 
 /**
- * Apply processed effects from skill execution to battle contexts
- * If attackHit -> false, target-directed effects won't be applied (for dodge scenarios)
+ * Generic helper to remove expired status effects based on trigger
  */
-export const applyStatusEffects = (
-  effectResults: EffectProcessingResult,
+const removeExpiredStatus = <T extends { duration: string }>(
+  statusArray: T[],
+  trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
+): T[] => {
+  const durationMap = {
+    attacks: 'UntilNextAttack',
+    attacked: 'UntilAttacked',
+    debuffed: 'UntilDebuffed',
+    action: 'UntilNextAction',
+  } as const
+
+  const expiredDuration = durationMap[trigger]
+  return statusArray.filter(status => status.duration !== expiredDuration)
+}
+
+/**
+ * Generic helper to apply a status effect to an array
+ * Handles finding existing by skillId and replacing or stacking
+ */
+const applyStatusEffect = <T extends { skillId: string }>(
+  effectArray: T[],
+  newEffect: T,
+  allowStacks: boolean
+): void => {
+  const existingIndex = effectArray.findIndex(
+    existing => existing.skillId === newEffect.skillId
+  )
+
+  if (existingIndex !== -1 && !allowStacks) {
+    effectArray[existingIndex] = newEffect
+  } else {
+    effectArray.push(newEffect)
+  }
+}
+
+/**
+ * Apply cleanse effects (remove buffs/debuffs/afflictions)
+ */
+const applyCleanses = (
+  cleansesToApply: EffectProcessingResult['cleansesToApply'],
   attacker: BattleContext,
   targets: BattleContext[],
-  attackHit = true
-) => {
-  const unitsToRecalculate = new Set<BattleContext>()
-
-  // Sacrifice is now handled as an upfront skill cost in executeSkill
-
-  // Apply cleanses (remove buffs/debuffs/afflictions) before applying new effects
-  effectResults.cleansesToApply.forEach(cleanse => {
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  cleansesToApply.forEach(cleanse => {
     const skillName = getSkillName(cleanse.skillId)
-    const targetUnit = cleanse.applyTo === 'User' ? attacker : targets[0]
+    const targetUnit = resolveEffectTarget(
+      cleanse.applyTo,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
-    // Skip if target-directed effect missed
-    if (!attackHit && cleanse.applyTo === 'Target') {
-      return
-    }
+    // Handle cleanse based on target type
+    const cleanseTarget = cleanse.target
 
-    if (cleanse.target === 'Buffs') {
+    if (cleanseTarget === CLEANSE_TARGETS.BUFFS) {
       if (targetUnit.buffs.length > 0) {
         targetUnit.buffs = []
-        console.log(`✨ ${targetUnit.unit.name} buffs removed by ${skillName}`)
+        logCombat(`✨ ${targetUnit.unit.name} buffs removed by ${skillName}`)
         unitsToRecalculate.add(targetUnit)
       }
-    } else if (cleanse.target === 'Debuffs') {
+    } else if (cleanseTarget === CLEANSE_TARGETS.DEBUFFS) {
       if (targetUnit.debuffs.length > 0) {
         targetUnit.debuffs = []
-        console.log(
-          `✨ ${targetUnit.unit.name} debuffs removed by ${skillName}`
-        )
+        logCombat(`✨ ${targetUnit.unit.name} debuffs removed by ${skillName}`)
         unitsToRecalculate.add(targetUnit)
       }
-    } else if (cleanse.target === 'Afflictions') {
+    } else if (cleanseTarget === CLEANSE_TARGETS.AFFLICTIONS) {
       clearAllAfflictions(targetUnit)
       unitsToRecalculate.add(targetUnit)
     } else {
       // Specific affliction type
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      removeAffliction(targetUnit, cleanse.target as any)
+      removeAffliction(targetUnit, cleanseTarget as AfflictionType)
       unitsToRecalculate.add(targetUnit)
     }
   })
+}
 
+/**
+ * Apply buffs and debuffs to appropriate targets
+ */
+const applyBuffsAndDebuffs = (
+  effectResults: EffectProcessingResult,
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
   // Apply buffs to appropriate targets
   effectResults.buffsToApply.forEach(buffToApply => {
     const skillName = getSkillName(buffToApply.skillId)
-    const targetUnit = buffToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && buffToApply.target === 'Target') {
-      return
-    }
+    const targetUnit = resolveEffectTarget(
+      buffToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     const buff: Buff = {
       name: `${skillName} (+${buffToApply.stat})`,
@@ -105,7 +163,7 @@ export const applyStatusEffects = (
     applyBuff(targetUnit, buff, buffToApply.stacks)
     unitsToRecalculate.add(targetUnit)
 
-    console.log(
+    logCombat(
       `✅ Buff Applied: ${targetUnit.unit.name} +${buffToApply.value}${buffToApply.scaling === 'percent' ? '%' : ''} ${buffToApply.stat} (${buff.duration})`,
       { skillName, buffValue: buffToApply.value, scaling: buffToApply.scaling }
     )
@@ -114,12 +172,13 @@ export const applyStatusEffects = (
   // Apply debuffs to appropriate targets
   effectResults.debuffsToApply.forEach(debuffToApply => {
     const skillName = getSkillName(debuffToApply.skillId)
-    const targetUnit = debuffToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && debuffToApply.target === 'Target') {
-      return
-    }
+    const targetUnit = resolveEffectTarget(
+      debuffToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     const debuff: Debuff = {
       name: `${skillName} (-${debuffToApply.stat})`,
@@ -137,7 +196,7 @@ export const applyStatusEffects = (
     applyDebuff(targetUnit, debuff, debuffToApply.stacks)
     unitsToRecalculate.add(targetUnit)
 
-    console.log(
+    logCombat(
       `❌ Debuff Applied: ${targetUnit.unit.name} -${debuffToApply.value}${debuffToApply.scaling === 'percent' ? '%' : ''} ${debuffToApply.stat} (${debuff.duration})`,
       {
         skillName,
@@ -150,13 +209,13 @@ export const applyStatusEffects = (
   // Apply debuff amplifications as special debuffs
   effectResults.debuffAmplificationsToApply.forEach(amplificationToApply => {
     const skillName = getSkillName(amplificationToApply.skillId)
-    const targetUnit =
-      amplificationToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && amplificationToApply.target === 'Target') {
-      return
-    }
+    const targetUnit = resolveEffectTarget(
+      amplificationToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     const amplificationDebuff: Debuff = {
       name: `${skillName} (Debuff Amplification)`,
@@ -171,16 +230,25 @@ export const applyStatusEffects = (
     applyDebuff(targetUnit, amplificationDebuff, false) // Don't allow stacking of amplification
     unitsToRecalculate.add(targetUnit)
   })
+}
 
-  // Apply conferral effects to appropriate targets
-  effectResults.conferralsToApply.forEach(conferralToApply => {
-    const targetUnit =
-      conferralToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && conferralToApply.target === 'Target') {
-      return
-    }
+/**
+ * Apply conferral effects to appropriate targets
+ */
+const applyConferrals = (
+  conferralsToApply: EffectProcessingResult['conferralsToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean
+): void => {
+  conferralsToApply.forEach(conferralToApply => {
+    const targetUnit = resolveEffectTarget(
+      conferralToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     const conferral: ConferralStatus = {
       skillId: conferralToApply.skillId,
@@ -191,15 +259,26 @@ export const applyStatusEffects = (
 
     applyConferral(targetUnit, conferral)
   })
+}
 
-  // Apply evade effects to appropriate targets
-  effectResults.evadesToApply.forEach(evadeToApply => {
-    const targetUnit = evadeToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && evadeToApply.target === 'Target') {
-      return
-    }
+/**
+ * Apply evade effects to appropriate targets
+ */
+const applyEvades = (
+  evadesToApply: EffectProcessingResult['evadesToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  evadesToApply.forEach(evadeToApply => {
+    const targetUnit = resolveEffectTarget(
+      evadeToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     const evade: EvadeStatus = {
       skillId: evadeToApply.skillId,
@@ -211,20 +290,30 @@ export const applyStatusEffects = (
     applyEvade(targetUnit, evade)
     unitsToRecalculate.add(targetUnit)
 
-    console.log(
+    logCombat(
       `✅ Evade Applied: ${targetUnit.unit.name} ${evadeToApply.evadeType} evade (${evade.duration})`,
       { skillName: getSkillName(evadeToApply.skillId) }
     )
   })
+}
 
-  // Apply resurrect effects to restore defeated units
-  effectResults.resurrectsToApply.forEach(resurrect => {
-    const targetUnit = resurrect.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && resurrect.target === 'Target') {
-      return
-    }
+/**
+ * Apply resurrect effects to restore defeated units
+ */
+const applyResurrects = (
+  resurrectsToApply: EffectProcessingResult['resurrectsToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean
+): void => {
+  resurrectsToApply.forEach(resurrect => {
+    const targetUnit = resolveEffectTarget(
+      resurrect.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     // Only resurrect dead units
     if (targetUnit.currentHP <= 0) {
@@ -241,21 +330,29 @@ export const applyStatusEffects = (
       targetUnit.currentHP = healAmount
       targetUnit.isPassiveResponsive = true // Re-enable passive skills
 
-      console.log(
-        `✨ ${targetUnit.unit.name} resurrected with ${healAmount} HP`
-      )
+      logCombat(`✨ ${targetUnit.unit.name} resurrected with ${healAmount} HP`)
     }
   })
+}
 
-  // Apply afflictions to appropriate targets
-  effectResults.afflictionsToApply.forEach(afflictionToApply => {
-    const targetUnit =
-      afflictionToApply.target === 'User' ? attacker : targets[0]
-
-    // Skip if target-directed effect missed
-    if (!attackHit && afflictionToApply.target === 'Target') {
-      return
-    }
+/**
+ * Apply afflictions to appropriate targets
+ */
+const applyAfflictions = (
+  afflictionsToApply: EffectProcessingResult['afflictionsToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  afflictionsToApply.forEach(afflictionToApply => {
+    const targetUnit = resolveEffectTarget(
+      afflictionToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
 
     applyAffliction(
       targetUnit,
@@ -273,6 +370,63 @@ export const applyStatusEffects = (
       unitsToRecalculate.add(targetUnit)
     }
   })
+}
+
+/**
+ * Apply processed effects from skill execution to battle contexts
+ * If attackHit -> false, target-directed effects won't be applied (for dodge scenarios)
+ */
+export const applyStatusEffects = (
+  effectResults: EffectProcessingResult,
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit = true
+) => {
+  const unitsToRecalculate = new Set<BattleContext>()
+
+  // Sacrifice is now handled as an upfront skill cost in executeSkill
+
+  // Apply cleanses (remove buffs/debuffs/afflictions) before applying new effects
+  applyCleanses(
+    effectResults.cleansesToApply,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
+
+  // Apply buffs and debuffs to appropriate targets
+  applyBuffsAndDebuffs(
+    effectResults,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
+
+  // Apply conferral effects to appropriate targets
+  applyConferrals(effectResults.conferralsToApply, attacker, targets, attackHit)
+
+  // Apply evade effects to appropriate targets
+  applyEvades(
+    effectResults.evadesToApply,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
+
+  // Apply resurrect effects to restore defeated units
+  applyResurrects(effectResults.resurrectsToApply, attacker, targets, attackHit)
+
+  // Apply afflictions to appropriate targets
+  applyAfflictions(
+    effectResults.afflictionsToApply,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
 
   // Recalculate stats for all affected units
   unitsToRecalculate.forEach(unit => {
@@ -288,18 +442,7 @@ export const applyBuff = (
   newBuff: Buff,
   allowStacks: boolean
 ) => {
-  // Check for existing effect with same skillId
-  const existingIndex = unit.buffs.findIndex(
-    existing => existing.skillId === newBuff.skillId
-  )
-
-  if (existingIndex !== -1 && !allowStacks) {
-    // Replace existing buff from same skill (no stacking)
-    unit.buffs[existingIndex] = newBuff
-  } else {
-    // Add new buff (either no existing buff or stacking is allowed)
-    unit.buffs.push(newBuff)
-  }
+  applyStatusEffect(unit.buffs, newBuff, allowStacks)
 }
 
 /**
@@ -312,42 +455,20 @@ const applyDebuff = (
 ) => {
   // Check immunity before applying
   if (isImmuneToDebuff(unit)) {
-    console.log(`${unit.unit.name} is immune to ${newDebuff.name}`)
+    logCombat(`${unit.unit.name} is immune to ${newDebuff.name}`)
     return
   }
 
-  // Check for existing effect with same skillId
-  const existingIndex = unit.debuffs.findIndex(
-    existing => existing.skillId === newDebuff.skillId
-  )
-
-  if (existingIndex !== -1 && !allowStacks) {
-    // Replace existing debuff from same skill (no stacking)
-    unit.debuffs[existingIndex] = newDebuff
-  } else {
-    // Add new debuff (either no existing debuff or stacking is allowed)
-    unit.debuffs.push(newDebuff)
-  }
+  applyStatusEffect(unit.debuffs, newDebuff, allowStacks)
 }
 
 /**
  * Apply a conferral effect to a unit
  */
 const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
-  // Check for existing conferral with same skillId (replace if found)
-  const existingIndex = unit.conferrals.findIndex(
-    existing => existing.skillId === newConferral.skillId
-  )
+  applyStatusEffect(unit.conferrals, newConferral, false)
 
-  if (existingIndex !== -1) {
-    // Replace existing conferral from same skill
-    unit.conferrals[existingIndex] = newConferral
-  } else {
-    // Add new conferral
-    unit.conferrals.push(newConferral)
-  }
-
-  console.log(
+  logCombat(
     `${unit.unit.name} received conferral: +${newConferral.potency} magical potency from caster MATK ${newConferral.casterMATK}`
   )
 }
@@ -356,18 +477,7 @@ const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
  * Apply an evade effect to a unit
  */
 const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
-  // Check for existing evade with same skillId (replace if found)
-  const existingIndex = unit.evades.findIndex(
-    existing => existing.skillId === newEvade.skillId
-  )
-
-  if (existingIndex !== -1) {
-    // Replace existing evade from same skill
-    unit.evades[existingIndex] = newEvade
-  } else {
-    // Add new evade
-    unit.evades.push(newEvade)
-  }
+  applyStatusEffect(unit.evades, newEvade, false)
 }
 
 /**
@@ -390,7 +500,7 @@ export const checkAndConsumeSurviveLethal = (
     // Remove the buff (it's consumed)
     const consumedBuff = unit.buffs[surviveLethalBuffIndex]
     unit.buffs.splice(surviveLethalBuffIndex, 1)
-    console.log(
+    logCombat(
       `💚 ${unit.unit.name}'s ${consumedBuff.name} buff consumed (survived lethal blow)`
     )
     recalculateStats(unit)
@@ -422,7 +532,7 @@ const isImmuneToDebuff = (unit: BattleContext) => {
     // Remove the immunity buff (it's consumed)
     const consumedBuff = unit.buffs[immunityBuffIndex]
     unit.buffs.splice(immunityBuffIndex, 1)
-    console.log(
+    logCombat(
       `🛡️ ${unit.unit.name}'s ${consumedBuff.name} buff consumed (blocked debuff)`
     )
     recalculateStats(unit)
@@ -446,56 +556,27 @@ export const removeExpiredBuffs = (
 ) => {
   const initialBuffCount = unit.buffs.length
   const expiredBuffs: Buff[] = []
+  const durationMap = {
+    attacks: 'UntilNextAttack',
+    attacked: 'UntilAttacked',
+    debuffed: 'UntilDebuffed',
+    action: 'UntilNextAction',
+  } as const
+  const expiredDuration = durationMap[trigger]
 
-  if (trigger === 'attacks') {
-    expiredBuffs.push(
-      ...unit.buffs.filter(buff => buff.duration === 'UntilNextAttack')
-    )
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAttack')
-  } else if (trigger === 'attacked') {
-    expiredBuffs.push(
-      ...unit.buffs.filter(buff => buff.duration === 'UntilAttacked')
-    )
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilAttacked')
-  } else if (trigger === 'debuffed') {
-    expiredBuffs.push(
-      ...unit.buffs.filter(buff => buff.duration === 'UntilDebuffed')
-    )
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilDebuffed')
-  } else if (trigger === 'action') {
-    expiredBuffs.push(
-      ...unit.buffs.filter(buff => buff.duration === 'UntilNextAction')
-    )
-    unit.buffs = unit.buffs.filter(buff => buff.duration !== 'UntilNextAction')
-  }
+  // Collect expired buffs before removing
+  expiredBuffs.push(
+    ...unit.buffs.filter(buff => buff.duration === expiredDuration)
+  )
+  unit.buffs = removeExpiredStatus(unit.buffs, trigger)
 
   // Also remove expired conferrals and evades
   const initialConferralCount = unit.conferrals.length
   const initialEvadeCount = unit.evades.length
 
-  if (trigger === 'attacks') {
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilNextAttack'
-    )
-    unit.evades = unit.evades.filter(
-      evade => evade.duration !== 'UntilNextAttack'
-    )
-  } else if (trigger === 'attacked') {
-    // Conferrals and evades with UntilAttacked are consumed when used, not expired
-    // But handle other cases just in case
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilAttacked'
-    )
-    unit.evades = unit.evades.filter(
-      evade => evade.duration !== 'UntilAttacked'
-    )
-  } else if (trigger === 'action') {
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilNextAction'
-    )
-    unit.evades = unit.evades.filter(
-      evade => evade.duration !== 'UntilNextAction'
-    )
+  if (trigger === 'attacks' || trigger === 'attacked' || trigger === 'action') {
+    unit.conferrals = removeExpiredStatus(unit.conferrals, trigger)
+    unit.evades = removeExpiredStatus(unit.evades, trigger)
   }
 
   // Recalculate stats if any buffs were removed
@@ -504,7 +585,7 @@ export const removeExpiredBuffs = (
   const evadesChanged = unit.evades.length !== initialEvadeCount
 
   if (buffsChanged || conferralsChanged || evadesChanged) {
-    console.log(
+    logCombat(
       `🔄 Status Expired for ${unit.unit.name} (trigger: ${trigger}):`,
       {
         expiredBuffs: expiredBuffs.map(b => ({
@@ -532,27 +613,20 @@ export const removeExpiredDebuffs = (
   trigger: 'attacks' | 'action'
 ) => {
   const initialCount = unit.debuffs.length
-  const expiredDebuffs: Debuff[] = []
+  const durationMap = {
+    attacks: 'UntilNextAttack',
+    action: 'UntilNextAction',
+  } as const
+  const expiredDuration = durationMap[trigger]
+  const expiredDebuffs: Debuff[] = unit.debuffs.filter(
+    debuff => debuff.duration === expiredDuration
+  )
 
-  if (trigger === 'attacks') {
-    expiredDebuffs.push(
-      ...unit.debuffs.filter(debuff => debuff.duration === 'UntilNextAttack')
-    )
-    unit.debuffs = unit.debuffs.filter(
-      debuff => debuff.duration !== 'UntilNextAttack'
-    )
-  } else if (trigger === 'action') {
-    expiredDebuffs.push(
-      ...unit.debuffs.filter(debuff => debuff.duration === 'UntilNextAction')
-    )
-    unit.debuffs = unit.debuffs.filter(
-      debuff => debuff.duration !== 'UntilNextAction'
-    )
-  }
+  unit.debuffs = removeExpiredStatus(unit.debuffs, trigger)
 
   // Recalculate stats if any debuffs were removed
   if (unit.debuffs.length !== initialCount) {
-    console.log(
+    logCombat(
       `🔄 Debuffs Expired for ${unit.unit.name} (trigger: ${trigger}):`,
       {
         expiredDebuffs: expiredDebuffs.map(d => ({
@@ -576,23 +650,10 @@ export const removeExpiredConferrals = (
   trigger: 'attacks' | 'attacked' | 'action'
 ) => {
   const initialCount = unit.conferrals.length
-
-  if (trigger === 'attacks') {
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilNextAttack'
-    )
-  } else if (trigger === 'attacked') {
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilAttacked'
-    )
-  } else if (trigger === 'action') {
-    unit.conferrals = unit.conferrals.filter(
-      conferral => conferral.duration !== 'UntilNextAction'
-    )
-  }
+  unit.conferrals = removeExpiredStatus(unit.conferrals, trigger)
 
   if (unit.conferrals.length !== initialCount) {
-    console.log(`${unit.unit.name} conferrals expired (${trigger})`)
+    logCombat(`${unit.unit.name} conferrals expired (${trigger})`)
   }
 }
 

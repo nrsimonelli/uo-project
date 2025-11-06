@@ -4,12 +4,9 @@ import {
   canGuard,
   processAfflictionsOnHit,
 } from './affliction-manager'
+import { logCombat, getSkillName } from './combat-utils'
 import type { EffectProcessingResult } from './effect-processor'
-import {
-  removeExpiredConferrals,
-  getSkillName,
-  recalculateStats,
-} from './status-effects'
+import { removeExpiredConferrals, recalculateStats } from './status-effects'
 
 import {
   getAttackType,
@@ -26,7 +23,7 @@ import { findEffectivenessRule } from '@/core/effectiveness-rules'
 import type { RandomNumberGeneratorType } from '@/core/random'
 import { CLASS_DATA } from '@/data/units/class-data'
 import { clamp } from '@/lib/utils'
-import type { BattleContext, EvadeStatus } from '@/types/battle-engine'
+import type { BattleContext, Buff, EvadeStatus } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 
@@ -39,23 +36,6 @@ const BUFF_STATS = {
   TRUE_CRITICAL: 'TrueCritical',
   UNGUARDABLE: 'Unguardable',
 } as const
-
-/**
- * Combat logging utility
- * Only logs in development mode
- */
-const logCombat = (message: string, data?: unknown): void => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.NODE_ENV !== 'production'
-  ) {
-    if (data !== undefined) {
-      console.log(message, data)
-    } else {
-      console.log(message)
-    }
-  }
-}
 
 /**
  * Result of a damage calculation attempt
@@ -101,7 +81,7 @@ const checkAndConsumeBuff = (
   unit: BattleContext,
   stat: ConsumableBuffStat,
   options?: {
-    consumeOnUse?: (buff: import('@/types/battle-engine').Buff) => boolean
+    consumeOnUse?: (buff: Buff) => boolean
     logMessage?: (unitName: string, buffName: string) => string
   }
 ): boolean => {
