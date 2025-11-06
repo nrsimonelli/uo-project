@@ -103,6 +103,7 @@ const ignoredStats = [
   'PursuitPotency',
   'CounterAttackPotency',
   'CritDmg',
+  'CurrentHPPercent', // Handled separately - affects currentHP, not max HP
 ]
 
 /**
@@ -165,7 +166,12 @@ export const processEquipmentItem = (
     ([, value]) => typeof value === 'number'
   )
   validStats.forEach(([statKey, value]) => {
-    processStatValue(statKey, value as number, result, baseStats)
+    // Handle CurrentHPPercent separately (affects currentHP, not max HP)
+    if (statKey === 'CurrentHPPercent' && 'CurrentHPPercent' in result) {
+      result.CurrentHPPercent += value as number
+    } else {
+      processStatValue(statKey, value as number, result, baseStats)
+    }
   })
 }
 
@@ -176,6 +182,7 @@ export const calculateEquipmentBonus = (
 ) => {
   const result = {
     ...initialEquipmentData,
+    CurrentHPPercent: 0, // Percentage modifier for current HP (affects currentHP, not max HP)
   }
 
   // Handle special dual equipment classes
@@ -206,7 +213,12 @@ export const calculateEquipmentBonus = (
     )
 
     validStats.forEach(([statKey, value]) => {
-      processStatValue(statKey, value as number, result, baseStats)
+      // Handle CurrentHPPercent separately (affects currentHP, not max HP)
+      if (statKey === 'CurrentHPPercent') {
+        result.CurrentHPPercent += value as number
+      } else {
+        processStatValue(statKey, value as number, result, baseStats)
+      }
     })
   })
 
@@ -224,6 +236,7 @@ const calculateDualEquipmentBonusInline = (
 ) => {
   const result = {
     ...initialEquipmentData,
+    CurrentHPPercent: 0, // Percentage modifier for current HP (affects currentHP, not max HP)
   }
 
   // Separate equipment by type for dual equipment processing
@@ -315,7 +328,12 @@ const processDualSwordsInline = (
       const isValidStat =
         typeof value === 'number' && statKey !== 'PATK' && statKey !== 'MATK'
       if (isValidStat) {
-        processStatValue(statKey, value, result, baseStats)
+        // Handle CurrentHPPercent separately (affects currentHP, not max HP)
+        if (statKey === 'CurrentHPPercent') {
+          result.CurrentHPPercent += value as number
+        } else {
+          processStatValue(statKey, value, result, baseStats)
+        }
       }
     })
   })
@@ -364,7 +382,12 @@ const processDualShieldsInline = (
         statKey !== 'GRD' &&
         statKey !== 'GuardEff'
       if (isValidStat) {
-        processStatValue(statKey, value, result, baseStats)
+        // Handle CurrentHPPercent separately (affects currentHP, not max HP)
+        if (statKey === 'CurrentHPPercent') {
+          result.CurrentHPPercent += value as number
+        } else {
+          processStatValue(statKey, value, result, baseStats)
+        }
       }
     })
   })

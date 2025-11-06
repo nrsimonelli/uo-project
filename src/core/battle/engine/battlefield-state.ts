@@ -91,6 +91,15 @@ export const createBattleContext = (
   // Initialize the stat foundation for efficient recalculation
   initializeStatFoundation(battleContext)
 
+  // Apply CurrentHPPercent modifier (reduces currentHP by percentage)
+  if (equipmentBonus.CurrentHPPercent !== 0) {
+    const reductionPercent = equipmentBonus.CurrentHPPercent
+    const currentMaxHP = battleContext.combatStats.HP
+    // Reduce currentHP by the percentage (negative value = reduction)
+    const reduction = Math.round((currentMaxHP * reductionPercent) / 100)
+    battleContext.currentHP = Math.max(1, battleContext.currentHP + reduction) // + because reductionPercent is negative
+  }
+
   return battleContext
 }
 

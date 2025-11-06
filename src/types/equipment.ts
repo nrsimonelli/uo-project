@@ -29,6 +29,7 @@ export type ExtraStats =
   | 'MATKPercent'
   | 'MDEFPercent'
   | 'MaxHPPercent'
+  | 'CurrentHPPercent'
   | 'OnActiveHealPercent'
   | 'DmgReductionPercent'
   | 'GuardEff'
