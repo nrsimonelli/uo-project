@@ -6,10 +6,45 @@ import type {
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { CombatantType } from '@/types/core'
 import type { ActiveSkill } from '@/types/skills'
+import type { Unit } from '@/types/team'
 
 /**
  * Test utilities for tactical targeting - easily create mock objects and test individual tactics
  */
+
+// ============================================================================
+// SHARED STAT PRESETS
+// ============================================================================
+
+export const DEFAULT_STATS = {
+  HP: 100,
+  PATK: 50,
+  PDEF: 30,
+  MATK: 20,
+  MDEF: 25,
+  ACC: 80,
+  EVA: 60,
+  CRT: 10,
+  GRD: 15,
+  INIT: 70,
+  GuardEff: 0,
+  DmgReductionPercent: 0,
+}
+
+export const TARGET_STATS = {
+  HP: 100,
+  PATK: 40,
+  PDEF: 25,
+  MATK: 15,
+  MDEF: 20,
+  ACC: 70,
+  EVA: 50,
+  CRT: 8,
+  GRD: 12,
+  INIT: 60,
+  GuardEff: 0,
+  DmgReductionPercent: 0,
+}
 
 // ============================================================================
 // MOCK FACTORIES
@@ -37,34 +72,8 @@ export const createMockBattleContext = (
     currentHP: 100,
     currentAP: 2,
     currentPP: 1,
-    statFoundation: {
-      HP: 100,
-      PATK: 50,
-      PDEF: 30,
-      MATK: 20,
-      MDEF: 25,
-      ACC: 80,
-      EVA: 60,
-      CRT: 10,
-      GRD: 15,
-      INIT: 70,
-      GuardEff: 0,
-      DmgReductionPercent: 0,
-    },
-    combatStats: {
-      HP: 100,
-      PATK: 50,
-      PDEF: 30,
-      MATK: 20,
-      MDEF: 25,
-      ACC: 80,
-      EVA: 60,
-      CRT: 10,
-      GRD: 15,
-      INIT: 70,
-      GuardEff: 0,
-      DmgReductionPercent: 0,
-    },
+    statFoundation: DEFAULT_STATS,
+    combatStats: DEFAULT_STATS,
     combatantTypes: ['Infantry'],
     buffs: [],
     debuffs: [],
@@ -117,6 +126,69 @@ export const createMockBattlefield = (
     ...overrides,
   }
 }
+
+/**
+ * Create a unit with synced statFoundation and combatStats
+ */
+export const createUnitWithStats = (
+  unitOverrides: Partial<Unit> = {},
+  stats = DEFAULT_STATS
+): BattleContext => {
+  return createMockBattleContext({
+    unit: {
+      id: 'test-unit',
+      name: 'Test Unit',
+      level: 10,
+      growths: ['Hardy', 'Hardy'],
+      classKey: 'Fighter',
+      equipment: [],
+      skillSlots: [],
+      ...unitOverrides,
+    },
+    statFoundation: stats,
+    combatStats: stats,
+  })
+}
+
+/**
+ * Create a standard attacker unit for testing
+ */
+export const createStandardAttacker = (
+  overrides: Partial<BattleContext> = {}
+): BattleContext => {
+  return createMockBattleContext({
+    statFoundation: DEFAULT_STATS,
+    combatStats: DEFAULT_STATS,
+    ...overrides,
+  })
+}
+
+/**
+ * Create a standard target unit for testing
+ */
+export const createStandardTarget = (
+  overrides: Partial<BattleContext> = {}
+): BattleContext => {
+  return createMockBattleContext({
+    team: 'away-team',
+    statFoundation: TARGET_STATS,
+    combatStats: TARGET_STATS,
+    ...overrides,
+  })
+}
+
+/**
+ * Create a damage effect with sensible defaults
+ */
+export const createDamageEffect = (
+  overrides?: Partial<import('@/types/effects').DamageEffect>
+): import('@/types/effects').DamageEffect => ({
+  kind: 'Damage',
+  potency: { physical: 100 },
+  hitRate: 100,
+  hitCount: 1,
+  ...overrides,
+})
 
 /**
  * Create a mock ActiveSkill for testing

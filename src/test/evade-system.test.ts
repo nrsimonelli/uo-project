@@ -5,9 +5,12 @@ import {
   calculateMultiHitDamage,
 } from '@/core/battle/combat/damage-calculator'
 import { mockRngPresets } from '@/test/utils/mock-rng'
-import { createMockBattleContext } from '@/test/utils/tactical-test-utils'
+import {
+  createStandardAttacker,
+  createStandardTarget,
+  createDamageEffect,
+} from '@/test/utils/tactical-test-utils'
 import type { BattleContext, EvadeStatus } from '@/types/battle-engine'
-import type { DamageEffect } from '@/types/effects'
 
 /**
  * Comprehensive tests for the Evade system
@@ -30,7 +33,7 @@ describe('Evade System', () => {
   let target: BattleContext
 
   beforeEach(() => {
-    attacker = createMockBattleContext({
+    attacker = createStandardAttacker({
       unit: {
         id: 'attacker',
         name: 'Attacker',
@@ -40,22 +43,10 @@ describe('Evade System', () => {
         equipment: [],
         skillSlots: [],
       },
-      combatStats: {
-        HP: 100,
-        PATK: 50,
-        PDEF: 30,
-        MATK: 40,
-        MDEF: 25,
-        ACC: 100,
-        EVA: 50,
-        CRT: 10,
-        GRD: 15,
-        INIT: 50,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
     })
-    target = createMockBattleContext({
+    attacker.combatStats.ACC = 100
+    attacker.combatStats.MATK = 40
+    target = createStandardTarget({
       unit: {
         id: 'target',
         name: 'Target',
@@ -65,20 +56,6 @@ describe('Evade System', () => {
         equipment: [],
         skillSlots: [],
       },
-      combatStats: {
-        HP: 100,
-        PATK: 30,
-        PDEF: 25,
-        MATK: 20,
-        MDEF: 20,
-        ACC: 70,
-        EVA: 40,
-        CRT: 5,
-        GRD: 10,
-        INIT: 40,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
     })
   })
 
@@ -86,12 +63,7 @@ describe('Evade System', () => {
     it('should dodge the first successful hit of a single-hit attack', () => {
       target.evades = [createEvadeStatus('singleHit')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 1,
-      }
+      const damageEffect = createDamageEffect()
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -117,12 +89,9 @@ describe('Evade System', () => {
       attacker.combatStats.ACC = 20
       target.combatStats.EVA = 100
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
+      const damageEffect = createDamageEffect({
         hitRate: 50, // Lower hit rate to ensure miss with alwaysMiss RNG
-        hitCount: 1,
-      }
+      })
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -142,12 +111,7 @@ describe('Evade System', () => {
     it('should protect first successful hit in multi-hit attack', () => {
       target.evades = [createEvadeStatus('singleHit')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 3,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 3 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -176,12 +140,9 @@ describe('Evade System', () => {
     it('should not waste evade on natural misses', () => {
       target.evades = [createEvadeStatus('singleHit')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
+      const damageEffect = createDamageEffect({
         hitRate: 0, // Guaranteed miss
-        hitCount: 1,
-      }
+      })
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -203,12 +164,7 @@ describe('Evade System', () => {
     it('should protect up to 2 successful hits', () => {
       target.evades = [createEvadeStatus('twoHits')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 3,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 3 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -234,12 +190,7 @@ describe('Evade System', () => {
     it('should track remaining uses correctly', () => {
       target.evades = [createEvadeStatus('twoHits')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 2,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 2 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -258,12 +209,7 @@ describe('Evade System', () => {
     it('should only protect successful hits, not misses', () => {
       target.evades = [createEvadeStatus('twoHits')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 4,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 4 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -292,12 +238,7 @@ describe('Evade System', () => {
     it('should dodge entire single-hit attack', () => {
       target.evades = [createEvadeStatus('entireAttack')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 1,
-      }
+      const damageEffect = createDamageEffect()
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -317,12 +258,7 @@ describe('Evade System', () => {
     it('should dodge entire multi-hit attack', () => {
       target.evades = [createEvadeStatus('entireAttack')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 5,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 5 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -348,12 +284,7 @@ describe('Evade System', () => {
         createEvadeStatus('twoHits', 'skill3'),
       ]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 1,
-      }
+      const damageEffect = createDamageEffect()
 
       calculateSkillDamage(
         damageEffect,
@@ -377,12 +308,7 @@ describe('Evade System', () => {
         createEvadeStatus('entireAttack', 'entire-skill'),
       ]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 3,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 3 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -406,12 +332,7 @@ describe('Evade System', () => {
         createEvadeStatus('twoHits', 'two-skill'),
       ]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 3,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 3 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -435,12 +356,9 @@ describe('Evade System', () => {
     it('should bypass evade but still consume UntilAttacked evades', () => {
       target.evades = [createEvadeStatus('singleHit')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
+      const damageEffect = createDamageEffect({
         hitRate: 0, // Would normally miss
-        hitCount: 1,
-      }
+      })
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -460,12 +378,7 @@ describe('Evade System', () => {
     it('should bypass entireAttack evade', () => {
       target.evades = [createEvadeStatus('entireAttack')]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 3,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 3 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -490,12 +403,7 @@ describe('Evade System', () => {
       target.evades = [createEvadeStatus('singleHit')]
       attacker.afflictions = [{ type: 'Blind', name: 'Blind', source: 'test' }]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 1,
-      }
+      const damageEffect = createDamageEffect()
 
       const result = calculateSkillDamage(
         damageEffect,
@@ -519,12 +427,7 @@ describe('Evade System', () => {
         createEvadeStatus('singleHit', 'skill2'),
       ]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 2,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 2 })
 
       const results = calculateMultiHitDamage(
         attacker,
@@ -547,12 +450,7 @@ describe('Evade System', () => {
         createEvadeStatus('singleHit', 'single-skill'),
       ]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100,
-        hitCount: 4,
-      }
+      const damageEffect = createDamageEffect({ hitCount: 4 })
 
       const results = calculateMultiHitDamage(
         attacker,

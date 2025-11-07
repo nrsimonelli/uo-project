@@ -72,9 +72,20 @@ const applyStatusEffect = <T extends { skillId: string }>(
   newEffect: T,
   allowStacks: boolean
 ): void => {
-  const existingIndex = effectArray.findIndex(
-    existing => existing.skillId === newEffect.skillId
-  )
+  // For buffs/debuffs, also check stat to allow multiple effects from same skill with different stats
+  const isBuffOrDebuff = 'stat' in newEffect
+  const existingIndex = effectArray.findIndex(existing => {
+    if (isBuffOrDebuff && 'stat' in existing) {
+      // For buffs/debuffs: match on both skillId AND stat
+      return (
+        existing.skillId === newEffect.skillId &&
+        (existing as { stat: unknown }).stat ===
+          (newEffect as { stat: unknown }).stat
+      )
+    }
+    // For other effects: match on skillId only
+    return existing.skillId === newEffect.skillId
+  })
 
   if (existingIndex !== -1 && !allowStacks) {
     effectArray[existingIndex] = newEffect
@@ -833,6 +844,26 @@ export const initializeStatFoundation = (unit: BattleContext): void => {
 }
 
 /**
+ * Stat keys that are recalculated with buff/debuff modifiers (flat + percent)
+ * These match the keys in statFoundation/combatStats that support buff/debuff modifiers
+ */
+const RECALCULATED_STAT_KEYS: Array<
+  keyof Pick<
+    BattleContext['statFoundation'],
+    | 'HP'
+    | 'PATK'
+    | 'PDEF'
+    | 'MATK'
+    | 'MDEF'
+    | 'ACC'
+    | 'EVA'
+    | 'CRT'
+    | 'GRD'
+    | 'INIT'
+  >
+> = ['HP', 'PATK', 'PDEF', 'MATK', 'MDEF', 'ACC', 'EVA', 'CRT', 'GRD', 'INIT']
+
+/**
  * Recalculate a unit's combat stats by applying buffs/debuffs to the stored foundation
  * Uses additive percentage scaling: multiple percentage modifiers are summed together
  * Note: Conditional buffs are excluded during normal recalculation (no target provided)
@@ -841,30 +872,40 @@ export const recalculateStats = (unit: BattleContext): void => {
   // Get the stored foundation (base + equipment)
   const foundation = unit.statFoundation
 
-  // Apply modifiers to each stat
-  const statKeys = [
-    'HP',
-    'PATK',
-    'PDEF',
-    'MATK',
-    'MDEF',
-    'ACC',
-    'EVA',
-    'CRT',
-    'GRD',
-    'INIT',
-  ] as const
+  // Handle "Attack" stat buffs/debuffs (affects both PATK and MATK)
+  // No target provided = exclude conditional buffs
+  const attackModifiers = calculateStatModifier(unit, 'Attack' as ExtraStats)
 
-  for (const statKey of statKeys) {
+  // Handle "Defense" stat buffs/debuffs (affects both PDEF and MDEF)
+  // No target provided = exclude conditional buffs
+  const defenseModifiers = calculateStatModifier(unit, 'Defense' as ExtraStats)
+
+  // Recalculate stats that support buff/debuff modifiers
+  for (const statKey of RECALCULATED_STAT_KEYS) {
     const foundationValue = foundation[statKey]
     // No target provided = exclude conditional buffs
     const modifiers = calculateStatModifier(unit, statKey)
 
-    // Apply flat modifier first
-    const afterFlat = foundationValue + modifiers.flatModifier
+    // Apply Attack stat modifiers to both PATK and MATK
+    // Apply Defense stat modifiers to both PDEF and MDEF
+    let finalFlatModifier = modifiers.flatModifier
+    let finalPercentModifier = modifiers.percentModifier
 
-    // Apply percentage modifier (additive: 15% + 30% - 20% = 25% total)
-    const percentMultiplier = 1 + modifiers.percentModifier / 100
+    if (statKey === 'PATK' || statKey === 'MATK') {
+      finalFlatModifier += attackModifiers.flatModifier
+      finalPercentModifier += attackModifiers.percentModifier
+    }
+
+    if (statKey === 'PDEF' || statKey === 'MDEF') {
+      finalFlatModifier += defenseModifiers.flatModifier
+      finalPercentModifier += defenseModifiers.percentModifier
+    }
+
+    // Apply flat modifier first
+    const afterFlat = foundationValue + finalFlatModifier
+
+    // Apply percentage modifier multiplicatively
+    const percentMultiplier = 1 + finalPercentModifier / 100
     const final = Math.round(afterFlat * percentMultiplier)
 
     // HP has minimum of 1, all other stats can go to 0
@@ -898,34 +939,50 @@ export const getEffectiveStatsForTarget = (
 ): BattleContext['combatStats'] => {
   const foundation = attacker.statFoundation
 
-  // Apply modifiers to each stat (with target for conditional buffs)
-  const statKeys = [
-    'HP',
-    'PATK',
-    'PDEF',
-    'MATK',
-    'MDEF',
-    'ACC',
-    'EVA',
-    'CRT',
-    'GRD',
-    'INIT',
-  ] as const
-
   const effectiveStats: BattleContext['combatStats'] = {
     ...attacker.combatStats,
   }
 
-  for (const statKey of statKeys) {
+  // Handle "Attack" stat buffs/debuffs (affects both PATK and MATK)
+  const attackModifiers = calculateStatModifier(
+    attacker,
+    'Attack' as ExtraStats,
+    target
+  )
+
+  // Handle "Defense" stat buffs/debuffs (affects both PDEF and MDEF)
+  const defenseModifiers = calculateStatModifier(
+    attacker,
+    'Defense' as ExtraStats,
+    target
+  )
+
+  // Recalculate stats that support buff/debuff modifiers (with target for conditional buffs)
+  for (const statKey of RECALCULATED_STAT_KEYS) {
     const foundationValue = foundation[statKey]
     // Include conditional buffs when target matches
     const modifiers = calculateStatModifier(attacker, statKey, target)
 
-    // Apply flat modifier first
-    const afterFlat = foundationValue + modifiers.flatModifier
+    // Apply Attack stat modifiers to both PATK and MATK
+    // Apply Defense stat modifiers to both PDEF and MDEF
+    let finalFlatModifier = modifiers.flatModifier
+    let finalPercentModifier = modifiers.percentModifier
 
-    // Apply percentage modifier (additive: 15% + 30% - 20% = 25% total)
-    const percentMultiplier = 1 + modifiers.percentModifier / 100
+    if (statKey === 'PATK' || statKey === 'MATK') {
+      finalFlatModifier += attackModifiers.flatModifier
+      finalPercentModifier += attackModifiers.percentModifier
+    }
+
+    if (statKey === 'PDEF' || statKey === 'MDEF') {
+      finalFlatModifier += defenseModifiers.flatModifier
+      finalPercentModifier += defenseModifiers.percentModifier
+    }
+
+    // Apply flat modifier first
+    const afterFlat = foundationValue + finalFlatModifier
+
+    // Apply percentage modifier multiplicatively
+    const percentMultiplier = 1 + finalPercentModifier / 100
     const final = Math.round(afterFlat * percentMultiplier)
 
     // HP has minimum of 1, all other stats can go to 0

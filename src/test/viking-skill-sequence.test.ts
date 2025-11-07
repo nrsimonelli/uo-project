@@ -3,97 +3,72 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { executeSkill } from '../core/battle/combat/skill-executor'
 
 import { mockRngPresets } from './utils/mock-rng'
-import { createMockBattleContext } from './utils/tactical-test-utils'
+import {
+  createUnitWithStats,
+  createMockBattleContext,
+} from './utils/tactical-test-utils'
 
 import { ActiveSkillsMap } from '@/generated/skills-active'
 
+// Custom stats for Viking test
+const VIKING_STATS = {
+  HP: 150,
+  PATK: 120,
+  PDEF: 80,
+  MATK: 40,
+  MDEF: 60,
+  ACC: 85,
+  EVA: 20,
+  CRT: 30,
+  GRD: 35,
+  INIT: 75,
+  GuardEff: 0,
+  DmgReductionPercent: 0,
+} as const
+
+const ENEMY_STATS = {
+  HP: 500,
+  PATK: 100,
+  PDEF: 70,
+  MATK: 50,
+  MDEF: 55,
+  ACC: 80,
+  EVA: 15,
+  CRT: 15,
+  GRD: 20,
+  INIT: 60,
+  GuardEff: 0,
+  DmgReductionPercent: 0,
+} as const
+
 describe('Viking Skill Sequences', () => {
-  let viking: ReturnType<typeof createMockBattleContext>
-  let target: ReturnType<typeof createMockBattleContext>
+  let viking: ReturnType<typeof createUnitWithStats>
+  let target: ReturnType<typeof createUnitWithStats>
 
   beforeEach(() => {
-    // Create a Viking attacker with consistent stats
-    viking = createMockBattleContext({
-      unit: {
+    viking = createUnitWithStats(
+      {
         id: 'viking-1',
         name: 'Viking',
         classKey: 'Warrior',
         level: 10,
-        equipment: [],
         growths: ['Precise', 'Precise'],
-        skillSlots: [],
       },
-      combatStats: {
-        HP: 150,
-        PATK: 120,
-        PDEF: 80,
-        MATK: 40,
-        MDEF: 60,
-        ACC: 85,
-        EVA: 20,
-        CRT: 30,
-        GRD: 35,
-        INIT: 75,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
-      statFoundation: {
-        HP: 150,
-        PATK: 120,
-        PDEF: 80,
-        MATK: 40,
-        MDEF: 60,
-        ACC: 85,
-        EVA: 20,
-        CRT: 30,
-        GRD: 35,
-        INIT: 75,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
-    })
+      VIKING_STATS
+    )
 
-    // Create a target with plenty of HP for multi-turn test
-    target = createMockBattleContext({
-      unit: {
+    target = createUnitWithStats(
+      {
         id: 'enemy-1',
         name: 'Enemy',
         classKey: 'Soldier',
         level: 8,
-        equipment: [],
         growths: ['Precise', 'Precise'],
-        skillSlots: [],
       },
-      combatStats: {
-        HP: 500,
-        PATK: 100,
-        PDEF: 70,
-        MATK: 50,
-        MDEF: 55,
-        ACC: 80,
-        EVA: 15,
-        CRT: 15,
-        GRD: 20,
-        INIT: 60,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
-      statFoundation: {
-        HP: 500,
-        PATK: 100,
-        PDEF: 70,
-        MATK: 50,
-        MDEF: 55,
-        ACC: 80,
-        EVA: 15,
-        CRT: 15,
-        GRD: 20,
-        INIT: 60,
-        GuardEff: 0,
-        DmgReductionPercent: 0,
-      },
-      currentHP: 500,
-    })
+      ENEMY_STATS
+    )
+    target.team = 'away-team'
+    target.currentHP = 500
   })
 
   describe('Rolling Axe → Wide Breaker sequence', () => {

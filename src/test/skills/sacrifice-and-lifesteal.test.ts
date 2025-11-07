@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 
 import {
-  createMockBattleContext,
+  createUnitWithStats,
+  DEFAULT_STATS,
   createMockBattlefield,
 } from '../utils/tactical-test-utils'
 
@@ -34,18 +35,19 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
   }
 
   it('darkFlame applies sacrifice (30% HP) once per skill use regardless of targets', () => {
-    const baseStats = createMockBattleContext().combatStats
-
-    const user = createMockBattleContext({
-      combatStats: { ...baseStats, HP: 100 },
-      statFoundation: { ...createMockBattleContext().statFoundation, HP: 100 },
-      currentHP: 100,
-    })
-    user.unit.id = 'user-1'
+    const user = createUnitWithStats(
+      { id: 'user-1', name: 'User', classKey: 'Fighter' },
+      { ...DEFAULT_STATS, HP: 100 }
+    )
+    user.currentHP = 100
 
     const targets = [1, 2, 3].map(i => {
-      const t = createMockBattleContext({ currentHP: 100 })
-      t.unit.id = `target-1-${i}`
+      const t = createUnitWithStats(
+        { id: `target-1-${i}`, name: 'Target', classKey: 'Fighter' },
+        DEFAULT_STATS
+      )
+      t.currentHP = 100
+      t.team = 'away-team'
       return t
     })
     const skill = ActiveSkillsMap['darkFlame']
@@ -57,56 +59,74 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
     expect(battlefield.units['user-1'].currentHP).toBe(70)
 
     // Test single target - create new attacker since each skill execution is separate
-    const user2 = createMockBattleContext({
-      combatStats: { ...baseStats, HP: 100 },
-      statFoundation: { ...createMockBattleContext().statFoundation, HP: 100 },
-      currentHP: 100,
-    })
-    user2.unit.id = 'user-2'
-    const singleTarget = createMockBattleContext({ currentHP: 100 })
-    singleTarget.unit.id = 'target-single'
+    const user2 = createUnitWithStats(
+      { id: 'user-2', name: 'User', classKey: 'Fighter' },
+      { ...DEFAULT_STATS, HP: 100 }
+    )
+    user2.currentHP = 100
+    const singleTarget = createUnitWithStats(
+      { id: 'target-single', name: 'Target', classKey: 'Fighter' },
+      DEFAULT_STATS
+    )
+    singleTarget.currentHP = 100
+    singleTarget.team = 'away-team'
     const bf2 = exec(user2, singleTarget, skill)
     expect(bf2.units['user-2'].currentHP).toBe(70) // 70% of max HP after sacrifice
 
     // Test row target - create new attacker
-    const user3 = createMockBattleContext({
-      combatStats: { ...baseStats, HP: 100 },
-      statFoundation: { ...createMockBattleContext().statFoundation, HP: 100 },
-      currentHP: 100,
-    })
-    user3.unit.id = 'user-3'
+    const user3 = createUnitWithStats(
+      { id: 'user-3', name: 'User', classKey: 'Fighter' },
+      { ...DEFAULT_STATS, HP: 100 }
+    )
+    user3.currentHP = 100
     const rowTargets = [1, 2].map(i => {
-      const t = createMockBattleContext({ currentHP: 100 })
-      t.unit.id = `target-row-${i}`
+      const t = createUnitWithStats(
+        { id: `target-row-${i}`, name: 'Target', classKey: 'Fighter' },
+        DEFAULT_STATS
+      )
+      t.currentHP = 100
+      t.team = 'away-team'
       return t
     })
     const bf3 = exec(user3, rowTargets, skill)
     expect(bf3.units['user-3'].currentHP).toBe(70) // 70% of max HP after sacrifice
 
     // Now test lethal edge: user with very low HP should not be killed by sacrifice
-    const lowHpUser = createMockBattleContext({ currentHP: 2 })
-    lowHpUser.unit.id = 'user-low'
-    const lowTargets = [createMockBattleContext()]
-    lowTargets[0].unit.id = 'target-2'
+    const lowHpUser = createUnitWithStats(
+      { id: 'user-low', name: 'User', classKey: 'Fighter' },
+      DEFAULT_STATS
+    )
+    lowHpUser.currentHP = 2
+    const lowTargets = [
+      createUnitWithStats(
+        { id: 'target-2', name: 'Target', classKey: 'Fighter' },
+        DEFAULT_STATS
+      ),
+    ]
+    lowTargets[0].team = 'away-team'
     const bf4 = exec(lowHpUser, lowTargets, skill)
     // 30% of 2 rounds to 1, user must be left at minimum 1 HP
     expect(bf4.units['user-low'].currentHP).toBeGreaterThanOrEqual(1)
   })
 
   it('sanguineAttack heals the user for 50% of damage dealt', () => {
-    const user = createMockBattleContext({ currentHP: 20 })
-    user.unit.id = 'user-3'
-    const target = createMockBattleContext({
-      currentHP: 100,
-      combatStats: { ...createMockBattleContext().combatStats, HP: 100 },
-    })
-    target.unit.id = 'target-3'
+    const user = createUnitWithStats(
+      { id: 'user-3', name: 'User', classKey: 'Fighter' },
+      DEFAULT_STATS
+    )
+    user.currentHP = 20
+    const target = createUnitWithStats(
+      { id: 'target', name: 'Target', classKey: 'Fighter' },
+      DEFAULT_STATS
+    )
+    target.currentHP = 100
+    target.team = 'away-team'
     const skill = ActiveSkillsMap['sanguineAttack']
 
     const battlefield = exec(user, target, skill)
 
     const finalUser = battlefield.units['user-3']
-    const finalTarget = battlefield.units['target-3']
+    const finalTarget = battlefield.units['target']
 
     const damageDealt = Math.max(0, 100 - finalTarget.currentHP)
     const expectedHeal = Math.round(damageDealt * 0.5)
@@ -117,27 +137,29 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
   })
 
   it('sanguineAttack is increased by DrainEff buffs (adds to percent)', () => {
-    const user = createMockBattleContext({
-      currentHP: 20,
-      buffs: [
-        {
-          name: 'DrainEffBuff',
-          stat: 'DrainEff',
-          value: 20,
-          duration: 'Indefinite',
-          scaling: 'flat',
-          source: 'test',
-          skillId: '',
-        },
-      ],
-    })
-    user.unit.id = 'user-4'
+    const user = createUnitWithStats(
+      { id: 'user-4', name: 'User', classKey: 'Fighter' },
+      DEFAULT_STATS
+    )
+    user.currentHP = 20
+    user.buffs = [
+      {
+        name: 'DrainEffBuff',
+        stat: 'DrainEff',
+        value: 20,
+        duration: 'Indefinite',
+        scaling: 'flat',
+        source: 'test',
+        skillId: '',
+      },
+    ]
 
-    const target = createMockBattleContext({
-      currentHP: 100,
-      combatStats: { ...createMockBattleContext().combatStats, HP: 100 },
-    })
-    target.unit.id = 'target-4'
+    const target = createUnitWithStats(
+      { id: 'target-4', name: 'Target', classKey: 'Fighter' },
+      { ...DEFAULT_STATS, HP: 100 }
+    )
+    target.currentHP = 100
+    target.team = 'away-team'
     const skill = ActiveSkillsMap['sanguineAttack']
 
     const battlefield = exec(user, target, skill)

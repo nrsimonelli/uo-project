@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 import {
-  createMockBattleContext,
+  createUnitWithStats,
+  DEFAULT_STATS,
   createMockBattlefield,
 } from './utils/tactical-test-utils'
 
@@ -48,27 +49,19 @@ describe('OnActiveHealPercent with HPRecovery Buffs/Debuffs', () => {
       classRestrictions: [],
     })
 
-    return createMockBattleContext({
-      unit: {
+    const unit = createUnitWithStats(
+      {
         id: `test-unit-${onActiveHealPercent}`,
         name: 'Test Unit',
         level: 1,
         classKey: 'Fighter',
         growths: ['Hardy', 'Hardy'],
         equipment: [equipmentItem],
-        skillSlots: [],
       },
-      combatStats: {
-        ...createMockBattleContext().combatStats,
-        HP: maxHP,
-      },
-      statFoundation: {
-        ...createMockBattleContext().statFoundation,
-        HP: maxHP,
-      },
-      currentHP: 50, // Start at 50 HP to see healing
-      ...overrides,
-    })
+      { ...DEFAULT_STATS, HP: maxHP }
+    )
+    unit.currentHP = 50 // Start at 50 HP to see healing
+    return Object.assign(unit, overrides)
   }
 
   beforeEach(() => {
@@ -292,18 +285,18 @@ describe('OnActiveHealPercent with HPRecovery Buffs/Debuffs', () => {
     })
 
     it('should return state unchanged if OnActiveHealPercent is 0', () => {
-      const unit = createMockBattleContext({
-        unit: {
+      const unit = createUnitWithStats(
+        {
           id: 'test-unit-no-heal',
           name: 'Test Unit',
           level: 1,
           classKey: 'Fighter',
           growths: ['Hardy', 'Hardy'],
           equipment: [], // No equipment
-          skillSlots: [],
         },
-        currentHP: 50,
-      })
+        DEFAULT_STATS
+      )
+      unit.currentHP = 50
 
       const battlefield = createMockBattlefield({
         units: {

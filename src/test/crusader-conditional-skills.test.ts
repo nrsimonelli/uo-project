@@ -3,94 +3,53 @@ import { describe, it, expect } from 'vitest'
 import { executeSkill } from '../core/battle/combat/skill-executor'
 
 import { mockRngPresets } from './utils/mock-rng'
-import { createMockBattleContext } from './utils/tactical-test-utils'
+import { createUnitWithStats } from './utils/tactical-test-utils'
 
 import { ActiveSkillsMap } from '@/generated/skills-active'
+
+// Low stats for Crusader test
+const LOW_STATS = {
+  HP: 100,
+  PATK: 20,
+  PDEF: 10,
+  MATK: 10,
+  MDEF: 10,
+  ACC: 80,
+  EVA: 60,
+  CRT: 0,
+  GRD: 0,
+  INIT: 70,
+  GuardEff: 0,
+  DmgReductionPercent: 0,
+} as const
 
 describe('Crusader Conditional Effects', () => {
   describe('Vertical Edge', () => {
     it('vs Flying: applies TrueStrike flag, +50 potency, and 50% defense ignore', () => {
-      const crusader = createMockBattleContext({
-        unit: {
+      const crusader = createUnitWithStats(
+        {
           id: 'crusader-1',
           name: 'Crusader',
           classKey: 'Crusader',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        LOW_STATS
+      )
+      crusader.combatantTypes = ['Infantry']
 
-      const wyvernKnight = createMockBattleContext({
-        unit: {
+      const wyvernKnight = createUnitWithStats(
+        {
           id: 'wyvern-1',
           name: 'Wyvern Knight',
           classKey: 'Wyvern Knight',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Flying'],
-      })
+        { ...LOW_STATS, PATK: 10 }
+      )
+      wyvernKnight.team = 'away-team'
+      wyvernKnight.combatantTypes = ['Flying']
 
       const result = executeSkill(
         ActiveSkillsMap['verticalEdge'],
@@ -119,87 +78,30 @@ describe('Crusader Conditional Effects', () => {
     })
 
     it('vs Infantry: no conditional bonuses applied', () => {
-      const crusader = createMockBattleContext({
-        unit: {
+      const crusader = createUnitWithStats(
+        {
           id: 'crusader-1',
           name: 'Crusader',
           classKey: 'Crusader',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        LOW_STATS
+      )
+      crusader.combatantTypes = ['Infantry']
 
-      const soldier = createMockBattleContext({
-        unit: {
+      const soldier = createUnitWithStats(
+        {
           id: 'soldier-1',
           name: 'Soldier',
           classKey: 'Soldier',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        { ...LOW_STATS, PATK: 10 }
+      )
+      soldier.team = 'away-team'
+      soldier.combatantTypes = ['Infantry']
 
       const result = executeSkill(
         ActiveSkillsMap['verticalEdge'],
@@ -225,87 +127,30 @@ describe('Crusader Conditional Effects', () => {
 
   describe('Iron Crusher', () => {
     it('vs Armored: applies Unguardable flag, +50 potency, and 50% defense ignore', () => {
-      const crusader = createMockBattleContext({
-        unit: {
+      const crusader = createUnitWithStats(
+        {
           id: 'crusader-1',
           name: 'Crusader',
           classKey: 'Crusader',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        LOW_STATS
+      )
+      crusader.combatantTypes = ['Infantry']
 
-      const vanguard = createMockBattleContext({
-        unit: {
+      const vanguard = createUnitWithStats(
+        {
           id: 'vanguard-1',
           name: 'Vanguard',
           classKey: 'Vanguard',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 100,
-          INIT: 70,
-          GuardEff: 50,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 100,
-          INIT: 70,
-          GuardEff: 50,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Armored'],
-      })
+        { ...LOW_STATS, PATK: 10, GRD: 100, GuardEff: 50 }
+      )
+      vanguard.team = 'away-team'
+      vanguard.combatantTypes = ['Armored']
 
       const result = executeSkill(
         ActiveSkillsMap['ironCrusher'],
@@ -335,87 +180,30 @@ describe('Crusader Conditional Effects', () => {
     })
 
     it('vs Infantry: no conditional bonuses applied, can guard', () => {
-      const crusader = createMockBattleContext({
-        unit: {
+      const crusader = createUnitWithStats(
+        {
           id: 'crusader-1',
           name: 'Crusader',
           classKey: 'Crusader',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 20,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 0,
-          INIT: 70,
-          GuardEff: 0,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        LOW_STATS
+      )
+      crusader.combatantTypes = ['Infantry']
 
-      const soldier = createMockBattleContext({
-        unit: {
+      const soldier = createUnitWithStats(
+        {
           id: 'soldier-1',
           name: 'Soldier',
           classKey: 'Soldier',
           level: 1,
           growths: ['Hardy', 'Hardy'],
-          equipment: [],
-          skillSlots: [],
         },
-        combatStats: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 100,
-          INIT: 70,
-          GuardEff: 50,
-          DmgReductionPercent: 0,
-        },
-        statFoundation: {
-          HP: 100,
-          PATK: 10,
-          PDEF: 10,
-          MATK: 10,
-          MDEF: 10,
-          ACC: 80,
-          EVA: 60,
-          CRT: 0,
-          GRD: 100,
-          INIT: 70,
-          GuardEff: 50,
-          DmgReductionPercent: 0,
-        },
-        combatantTypes: ['Infantry'],
-      })
+        { ...LOW_STATS, PATK: 10, GRD: 100, GuardEff: 50 }
+      )
+      soldier.team = 'away-team'
+      soldier.combatantTypes = ['Infantry']
 
       const result = executeSkill(
         ActiveSkillsMap['ironCrusher'],

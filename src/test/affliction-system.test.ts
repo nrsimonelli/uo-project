@@ -18,52 +18,29 @@ import {
 } from '@/core/battle/combat/affliction-manager'
 import { calculateSkillDamage } from '@/core/battle/combat/damage-calculator'
 import { rng } from '@/core/random'
-import { createMockBattleContext } from '@/test/utils/tactical-test-utils'
+import {
+  createUnitWithStats,
+  DEFAULT_STATS,
+  createDamageEffect,
+} from '@/test/utils/tactical-test-utils'
 import type { BattleContext } from '@/types/battle-engine'
 import type { DamageEffect } from '@/types/effects'
 
 // Helper to create mock unit with custom HP
-const createMockUnit = (name: string, hp = 100): BattleContext =>
-  createMockBattleContext({
-    unit: {
+const createMockUnit = (name: string, hp = 100): BattleContext => {
+  const unit = createUnitWithStats(
+    {
       id: `unit-${name}`,
       name,
       classKey: 'Fighter',
       level: 10,
       growths: ['Hardy', 'Hardy'],
-      equipment: [],
-      skillSlots: [],
     },
-    currentHP: hp,
-    statFoundation: {
-      HP: hp,
-      PATK: 50,
-      PDEF: 30,
-      MATK: 40,
-      MDEF: 25,
-      ACC: 70,
-      EVA: 60,
-      CRT: 15,
-      GRD: 20,
-      INIT: 50,
-      GuardEff: 0,
-      DmgReductionPercent: 0,
-    },
-    combatStats: {
-      HP: hp,
-      PATK: 50,
-      PDEF: 30,
-      MATK: 40,
-      MDEF: 25,
-      ACC: 70,
-      EVA: 60,
-      CRT: 15,
-      GRD: 20,
-      INIT: 50,
-      GuardEff: 0,
-      DmgReductionPercent: 0,
-    },
-  })
+    { ...DEFAULT_STATS, HP: hp }
+  )
+  unit.currentHP = hp
+  return unit
+}
 
 describe('Affliction System', () => {
   let unit: BattleContext
@@ -333,12 +310,7 @@ describe('Affliction System', () => {
       const testRng = rng('test-seed')
       attacker.afflictions = [{ type: 'Blind', name: 'Blind', source: 'test' }]
 
-      const damageEffect: DamageEffect = {
-        kind: 'Damage',
-        potency: { physical: 100 },
-        hitRate: 100, // Should always hit normally
-        hitCount: 1,
-      }
+      const damageEffect = createDamageEffect()
 
       const result = calculateSkillDamage(
         damageEffect,

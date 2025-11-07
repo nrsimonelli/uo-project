@@ -2676,7 +2676,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'CRT',
         value: 40,
-        scaling: 'percent',
+        scaling: 'flat',
         applyTo: 'Target',
         conditionalOnTarget: {
           combatantType: 'Cavalry',
@@ -2712,7 +2712,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'CRT',
         value: 40,
-        scaling: 'percent',
+        scaling: 'flat',
         applyTo: 'Target',
         conditionalOnTarget: {
           combatantType: 'Flying',
