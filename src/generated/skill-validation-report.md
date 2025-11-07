@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-06T19:31:52.884Z_
+_Generated: 2025-11-07T03:58:26.707Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 184
-- **Total Skills Referenced**: 403
-- **Active Skills Defined**: 139
-- **Passive Skills Defined**: 95
-- **Total Skills Defined**: 234
-- **Activation Windows Referenced**: 32
+- **Equipment Skills Referenced**: 185
+- **Total Skills Referenced**: 404
+- **Active Skills Defined**: 152
+- **Passive Skills Defined**: 98
+- **Total Skills Defined**: 250
+- **Activation Windows Referenced**: 33
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **169 missing skills:**
+❌ **154 missing skills:**
 
 - `activeHeal`
 - `advanceCover`
@@ -23,9 +23,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `aerialGuard`
 - `aerialWing`
 - `aquaVenom`
-- `armorShatter`
-- `armorShatterII`
-- `arrowRain`
 - `astralBlade`
 - `banishingPursuit`
 - `bearsDen`
@@ -39,7 +36,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `carnage`
 - `cavalryGuard`
 - `celestialLight`
-- `checkmate`
 - `circleHeal`
 - `counter`
 - `curingCall`
@@ -69,7 +65,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `fireBurst`
 - `fireCure`
 - `fireCurse`
-- `flameArrow`
 - `flameConferral`
 - `flameThrust`
 - `freezeCure`
@@ -82,7 +77,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `guardHunter`
 - `guardingFighter`
 - `guardingImpetus`
-- `harpoonBolt`
 - `hastenedAction`
 - `hastenedCast`
 - `hastenedCharge`
@@ -90,7 +84,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `hastenedCurse`
 - `hastenedShatter`
 - `hawkEye`
-- `healingHunter`
 - `healingPursuit`
 - `healingWind`
 - `heavyAlignment`
@@ -105,7 +98,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `lifeshare`
 - `maelstrom`
 - `magicBurst`
-- `magicShatter`
 - `magicShell`
 - `magicWall`
 - `maidensHammer`
@@ -123,11 +115,9 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `passiveCure`
 - `passiveGift`
 - `passiveMiracle`
-- `passiveShatter`
 - `phantomCounter`
 - `phantomStep`
 - `phantomVeil`
-- `poisonArrow`
 - `poisonBurst`
 - `poisonCure`
 - `poisonCurse`
@@ -143,7 +133,6 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `radiantCover`
 - `radiantHeal`
 - `rageOfTheFaeries`
-- `rapidShot`
 - `recast`
 - `reflectMagic`
 - `reheal`
@@ -166,16 +155,12 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `sonicShaft`
 - `sorcerousBlow`
 - `sorcerousConnection`
-- `spikedBolt`
-- `strengthShatter`
-- `strengthShatterII`
 - `stunCure`
 - `sylphicWind`
 - `thunderousConferral`
 - `toughness`
 - `trinityRain`
 - `tripleCounter`
-- `tripleShatter`
 - `undyingWill`
 - `unitedFront`
 - `vanitas`
@@ -197,12 +182,11 @@ _Generated: 2025-11-06T19:31:52.884Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **7 unused activation windows:**
+⚠️ **6 unused activation windows:**
 
 - `afterAllyHealed`
 - `afterBeingAttacked`
 - `afterEnemyGuards`
-- `afterEnemyHeals`
 - `afterReceivingAllyPassive`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
@@ -456,12 +440,13 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (184)
+### From Equipment Data (185)
 
 - `activeHeal`
 - `activeShatter`
 - `aerialAlignment`
 - `aerialGuard`
+- `aerialShift`
 - `aerialWing`
 - `armorShatter`
 - `armorShatterII`
@@ -643,11 +628,14 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (139)
+### Active Skills Defined (152)
 
 - `activeShatter`
 - `activeSteal`
 - `aerialSmite`
+- `armorShatter`
+- `armorShatterII`
+- `arrowRain`
 - `assassinsNail`
 - `assaultingBlow`
 - `assaultingLance`
@@ -659,6 +647,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `beastslayer`
 - `brandish`
 - `cavalrySlayer`
+- `checkmate`
 - `compoundingCurse`
 - `crush`
 - `darkFlame`
@@ -682,6 +671,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `fireBreath`
 - `fireSlash`
 - `fireball`
+- `flameArrow`
 - `flameJavelin`
 - `freezingThrust`
 - `grandSmash`
@@ -690,6 +680,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `grislyPoison`
 - `groundStrike`
 - `hache`
+- `harpoonBolt`
 - `heal`
 - `heavyBolt`
 - `heavySlash`
@@ -719,6 +710,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `longThrust`
 - `magicAttack`
 - `magicMissile`
+- `magicShatter`
 - `meteorSlash`
 - `mirageStab`
 - `mountingCharge`
@@ -732,6 +724,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `painfulSmash`
 - `passiveCurse`
 - `passiveHold`
+- `passiveShatter`
 - `passiveShatterSpear`
 - `passiveSteal`
 - `penetrate`
@@ -739,6 +732,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `photonArrow`
 - `piercingLance`
 - `pileThrust`
+- `poisonArrow`
 - `poisonSlash`
 - `powerBolt`
 - `powerfulImpact`
@@ -764,14 +758,18 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `smash`
 - `sonicBlast`
 - `spikedBlow`
+- `spikedBolt`
 - `spinningEdge`
 - `spiralSword`
 - `sting`
+- `strengthShatter`
+- `strengthShatterII`
 - `tempestDive`
 - `thunderousStrike`
 - `thunderousThrust`
 - `toxicBolt`
 - `toxicThrow`
+- `tripleShatter`
 - `trueThrust`
 - `vengefulAxe`
 - `venomAxe`
@@ -785,11 +783,12 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (95)
+### Passive Skills Defined (98)
 
 - `accelerate`
 - `activeGift`
 - `aerialPursuit`
+- `aerialShift`
 - `aerialSnipe`
 - `aidCover`
 - `arrowCover`
@@ -824,6 +823,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `guardian`
 - `hastenedHeal`
 - `hastenedStrike`
+- `healingHunter`
 - `heavyCounter`
 - `heavyCover`
 - `heavyGuard`
@@ -861,6 +861,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `quickHeal`
 - `quickReload`
 - `rapidOrder`
+- `rapidShot`
 - `refresh`
 - `removeWeakness`
 - `restore`
@@ -885,7 +886,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (32)
+### Referenced in Passive Skills (33)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -901,6 +902,7 @@ _Generated: 2025-11-06T19:31:52.884Z_
 - `afterEnemyAttacksActive`
 - `afterEnemyBuff`
 - `afterEnemyDebuff`
+- `afterEnemyHeals`
 - `afterEvade`
 - `afterFlyingAllyAttacksActive`
 - `afterHealed`

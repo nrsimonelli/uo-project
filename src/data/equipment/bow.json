@@ -171,6 +171,18 @@
     "classRestrictions": ["Arbalist", "Shieldshooter"]
   },
   {
+    "id": "generalsLongbow",
+    "name": "General's Longbow",
+    "type": "Bow",
+    "stats": {
+      "PATK": 17,
+      "PP": 1
+    },
+    "skillId": "aerialShift",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
     "id": "greatwoodBow",
     "name": "Greatwood Bow",
     "type": "Bow",
@@ -178,6 +190,19 @@
       "PATK": 8,
       "MATK": 16,
       "MDEF": 3
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "greatwoodSpiritbow",
+    "name": "Greatwood Spiritbow",
+    "type": "Bow",
+    "stats": {
+      "PATK": 10,
+      "MATK": 16,
+      "MDEF": 5
     },
     "skillId": null,
     "nullifications": [],
@@ -271,6 +296,29 @@
     "classRestrictions": []
   },
   {
+    "id": "phantomKnightsBow",
+    "name": "Phantom Knight's Bow",
+    "type": "Bow",
+    "stats": {
+      "MATK": 16,
+      "MDEF": 5
+    },
+    "skillId": "phantomAttack",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "pheasantBow",
+    "name": "Pheasant Bow",
+    "type": "Bow",
+    "stats": {
+      "PATK": 13
+    },
+    "skillId": "passiveShatter",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
     "id": "piercingBow",
     "name": "Piercing Bow",
     "type": "Bow",
@@ -295,25 +343,15 @@
     "classRestrictions": []
   },
   {
-    "id": "phantomKnightsBow",
-    "name": "Phantom Knight's Bow",
+    "id": "quinceBow",
+    "name": "Quince Bow",
     "type": "Bow",
     "stats": {
-      "MATK": 16,
-      "MDEF": 5
+      "PATK": 25,
+      "PP": 1,
+      "HPRecovery": 30
     },
-    "skillId": "phantomAttack",
-    "nullifications": [],
-    "classRestrictions": []
-  },
-  {
-    "id": "pheasantBow",
-    "name": "Pheasant Bow",
-    "type": "Bow",
-    "stats": {
-      "PATK": 13
-    },
-    "skillId": "passiveShatter",
+    "skillId": null,
     "nullifications": [],
     "classRestrictions": []
   },

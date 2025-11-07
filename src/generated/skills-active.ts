@@ -4865,6 +4865,392 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'spikedBolt',
+    type: 'active',
+    name: 'Spiked Bolt',
+    description: 'Attack a single enemy with multiple hits.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 4,
+      },
+    ],
+  },
+  {
+    id: 'harpoonBolt',
+    type: 'active',
+    name: 'Harpoon Bolt',
+    description: 'Attack a column of enemies with a piercing strike.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    skillFlags: ['Unguardable'],
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'checkmate',
+    type: 'active',
+    name: 'Checkmate',
+    description:
+      "Attack a single enemy. Inflicts Passive Seal. +100 potency if the target's HP is 50% or less.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    skillFlags: ['Unguardable'],
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'PassiveSeal',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Enemy',
+            stat: 'HP',
+            comparator: 'LessOrEqual',
+            value: 50,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'arrowRain',
+    type: 'active',
+    name: 'Arrow Rain',
+    description:
+      'Attack all enemies. (User cannot evade or use passive skills while charging.)',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    skillFlags: ['Charge'],
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 60,
+        },
+        hitRate: 80,
+        hitCount: 3,
+      },
+    ],
+  },
+  {
+    id: 'tripleShatter',
+    type: 'active',
+    name: 'Triple Shatter',
+    description:
+      'Attack three enemies. Inflicts Phys. Attack -50% and Mag. Attack -50%.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Three',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PATK',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Debuff',
+        stat: 'MATK',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'magicShatter',
+    type: 'active',
+    name: 'Magic Shatter',
+    description: 'Attack a row of enemies. Inflicts Mag. Attack -50%.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'MATK',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'armorShatterII',
+    type: 'active',
+    name: 'Armor Shatter II',
+    description: 'Attack a single enemy. Inflicts Phys. Defense -50%.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PDEF',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'strengthShatterII',
+    type: 'active',
+    name: 'Strength Shatter II',
+    description: 'Attack a single enemy. Inflicts Phys. Attack -75%.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PATK',
+        value: -75,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'flameArrow',
+    type: 'active',
+    name: 'Flame Arrow',
+    description: 'Attack a single enemy. Inflicts Burn.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'poisonArrow',
+    type: 'active',
+    name: 'Poison Arrow',
+    description: 'Attack a single enemy. Inflicts Poison.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Poison',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'passiveShatter',
+    type: 'active',
+    name: 'Passive Shatter',
+    description: 'Attack a single enemy. Inflicts -1 PP.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 50,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PP',
+        value: -1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'armorShatter',
+    type: 'active',
+    name: 'Armor Shatter',
+    description: 'Attack a single enemy. Inflicts Phys. Defense -30%.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PDEF',
+        value: -30,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'strengthShatter',
+    type: 'active',
+    name: 'Strength Shatter',
+    description: 'Attack a single enemy. Inflicts Phys. Attack -40%.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Debuff',
+        stat: 'PATK',
+        value: -40,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

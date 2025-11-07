@@ -2592,5 +2592,97 @@
         }
       }
     ]
+  },
+  {
+    "id": "aerialShift",
+    "type": "passive",
+    "name": "Aerial Shift",
+    "description": "Activates after an ally is attacked with an active skill. Buff a row of allies. Grants +20% Attack and +40% Critical Rate vs Flying targets.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyAttackedActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditionalOnTarget": {
+          "combatantType": "Flying"
+        }
+      },
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 40,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditionalOnTarget": {
+          "combatantType": "Flying"
+        }
+      }
+    ]
+  },
+  {
+    "id": "healingHunter",
+    "type": "passive",
+    "name": "Healing Hunter",
+    "description": "Activates after an enemy uses healing magic. Attack a single enemy. Ignores 30% of the target's Defense.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "activationWindow": "afterEnemyHeals",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "skillFlags": ["Unguardable"],
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.3
+      }
+    ]
+  },
+  {
+    "id": "rapidShot",
+    "type": "passive",
+    "name": "Rapid Shot",
+    "description": "Activates at the start of a battle. Attack a single enemy with a first strike. Inflicts Stun.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun",
+        "applyTo": "Target"
+      }
+    ]
   }
 ]

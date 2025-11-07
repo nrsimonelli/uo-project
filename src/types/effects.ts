@@ -1,5 +1,6 @@
 import type { StatKey } from './base-stats'
 import type { Condition, AfflictionType } from './conditions'
+import type { CombatantType } from './core'
 import type { ExtraStats } from './equipment'
 
 export const FLAGS = [
@@ -118,6 +119,14 @@ interface BaseEffect {
 export interface BuffEffect extends BaseEffect {
   kind: 'Buff'
   stacks?: boolean
+  /**
+   * Optional condition that must be met on the target for this buff to apply.
+   * If specified, the buff only applies when the attacker is targeting a unit
+   * that matches the condition (e.g., only when attacking Cavalry units).
+   */
+  conditionalOnTarget?: {
+    combatantType?: CombatantType
+  }
 }
 
 export interface DebuffEffect extends BaseEffect {
