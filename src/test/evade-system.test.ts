@@ -108,6 +108,9 @@ describe('Evade System', () => {
 
     it('should protect first successful hit in multi-hit attack', () => {
       target.evades = [createEvadeStatus('singleHit')]
+      // Set deterministic stats: no crit, no guard
+      attacker.combatStats.CRT = 0
+      target.combatStats.GRD = 0
 
       const damageEffect = createDamageEffect({ hitCount: 3 })
 
@@ -123,14 +126,15 @@ describe('Evade System', () => {
       expect(results[0].hit).toBe(false)
       expect(results[0].damage).toBe(0)
 
-      // Remaining hits should land
+      // Remaining hits should land with exact damage
+      // Base: (50 - 25) * 100 / 100 = 25, no crit, no guard, effectiveness 1.0, no reduction = 25
       expect(results[1].wasDodged).toBe(false)
       expect(results[1].hit).toBe(true)
-      expect(results[1].damage).toBeGreaterThan(0)
+      expect(results[1].damage).toBe(25)
 
       expect(results[2].wasDodged).toBe(false)
       expect(results[2].hit).toBe(true)
-      expect(results[2].damage).toBeGreaterThan(0)
+      expect(results[2].damage).toBe(25)
 
       expect(target.evades).toHaveLength(0) // Evade consumed
     })
@@ -178,9 +182,10 @@ describe('Evade System', () => {
       expect(results[1].hit).toBe(false)
 
       // Third hit should land (evade exhausted)
+      // Base: (50 - 25) * 100 / 100 = 25, no crit, no guard, effectiveness 1.0, no reduction = 25
       expect(results[2].wasDodged).toBe(false)
       expect(results[2].hit).toBe(true)
-      expect(results[2].damage).toBeGreaterThan(0)
+      expect(results[2].damage).toBe(25)
 
       expect(target.evades).toHaveLength(0) // Evade consumed after 2 uses
     })
@@ -369,7 +374,8 @@ describe('Evade System', () => {
 
       expect(result.hit).toBe(true) // TrueStrike bypasses miss
       expect(result.wasDodged).toBe(false) // TrueStrike bypasses evade
-      expect(result.damage).toBeGreaterThan(0)
+      // Base: (50 - 25) * 100 / 100 = 25, no crit, no guard, effectiveness 1.0, no reduction = 25
+      expect(result.damage).toBe(25)
       expect(target.evades).toHaveLength(0) // Evade still consumed
     })
 

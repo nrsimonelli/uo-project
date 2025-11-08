@@ -134,7 +134,7 @@ export const createDodgedResult = (): DamageResult => ({
   wasDodged: true,
   hitChance: 0,
   breakdown: {
-    baseDamage: 0,
+    rawBaseDamage: 0,
     afterPotency: 0,
     afterCrit: 0,
     afterGuard: 0,

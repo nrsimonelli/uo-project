@@ -200,8 +200,10 @@ describe('Conditional Buffs', () => {
 
       expect(resultCavalry.hit).toBe(true)
       expect(resultInfantry.hit).toBe(true)
-      expect(resultCavalry.breakdown.baseDamage).toBe(35) // (60-25)*100/100
-      expect(resultInfantry.breakdown.baseDamage).toBe(25) // (50-25)*100/100
+      expect(resultCavalry.breakdown.rawBaseDamage).toBe(35) // Raw: 60-25
+      expect(resultCavalry.breakdown.afterPotency).toBe(35) // After 100% potency
+      expect(resultInfantry.breakdown.rawBaseDamage).toBe(25) // Raw: 50-25
+      expect(resultInfantry.breakdown.afterPotency).toBe(25) // After 100% potency
       expect(resultCavalry.damage).toBe(39) // 35*1.5*0.75
       expect(resultInfantry.damage).toBe(28) // 25*1.5*0.75
       expect(resultCavalry.damage - resultInfantry.damage).toBe(11)
@@ -245,10 +247,10 @@ describe('Conditional Buffs', () => {
       expect(statsCav.CRT).toBe(50) // 10 + 40
       expect(statsInf.CRT).toBe(10)
 
-      expect(resultCavalry.breakdown.afterCrit).toBeGreaterThanOrEqual(52)
-      expect(resultCavalry.breakdown.afterCrit).toBeLessThanOrEqual(53)
-      expect(resultInfantry.breakdown.afterCrit).toBeGreaterThanOrEqual(37)
-      expect(resultInfantry.breakdown.afterCrit).toBeLessThanOrEqual(38)
+      // Cavalry: Base (60-25)*100/100 = 35, crit: 35*1.5 = 52.5 → 53 (rounded)
+      expect(resultCavalry.breakdown.afterCrit).toBe(53)
+      // Infantry: Base (50-25)*100/100 = 25, crit: 25*1.5 = 37.5 → 38 (rounded)
+      expect(resultInfantry.breakdown.afterCrit).toBe(38)
     })
   })
 
@@ -309,8 +311,11 @@ describe('Conditional Buffs', () => {
       expect(statsInf.MATK).toBe(20)
 
       // Mixed potency: physical (60-25=35) + magical (24-20=4) = 39 base
-      expect(resultCavalry.breakdown.baseDamage).toBe(39)
-      expect(resultInfantry.breakdown.baseDamage).toBe(26) // (50-25=25) + (20-20=0→1)
+      // baseDamage is now the sum of raw (attack - defense) for both physical and magical
+      expect(resultCavalry.breakdown.rawBaseDamage).toBe(39) // 35 + 4
+      expect(resultInfantry.breakdown.rawBaseDamage).toBe(25) // (50-25=25) + (20-20=0, but minimum 1 for magical after potency)
+      // Note: magical damage has minimum 1 after potency, but baseDamage is raw sum before potency
+      // So baseDamage = 25 + 0 = 25, but afterPotency will include the minimum 1 for magical
       expect(resultCavalry.damage).toBe(45) // 35*1.5*0.75 + 4*1.5
       expect(resultInfantry.damage).toBe(30) // 25*1.5*0.75 + 1*1.5
     })
@@ -423,23 +428,24 @@ describe('Conditional Buffs', () => {
       // Non-flying: no buffs
       expect(statsNonFlying.PATK).toBe(50)
       expect(statsNonFlying.CRT).toBe(10)
-      expect(resultNonFlying.breakdown.baseDamage).toBe(25)
+      expect(resultNonFlying.breakdown.rawBaseDamage).toBe(25)
       expect(resultNonFlying.damage).toBe(28)
 
       // Flying: buffs apply, no effectiveness
       expect(statsFlying.PATK).toBe(60) // 50 * 1.2
       expect(statsFlying.CRT).toBe(50) // 10 + 40
-      expect(resultFlying.breakdown.baseDamage).toBe(35)
+      expect(resultFlying.breakdown.rawBaseDamage).toBe(35)
       expect(resultFlying.damage).toBe(39)
 
       // Flying with effectiveness: buffs + 2x effectiveness
       expect(statsFlyingEffective.PATK).toBe(60) // 50 * 1.2
       expect(statsFlyingEffective.CRT).toBe(50) // 10 + 40
-      expect(resultFlyingEffective.breakdown.baseDamage).toBe(35)
+      expect(resultFlyingEffective.breakdown.rawBaseDamage).toBe(35)
       expect(resultFlyingEffective.damage).toBe(78) // 39 * 2.0
 
-      expect(resultFlying.damage).toBeGreaterThan(resultNonFlying.damage)
-      expect(resultFlyingEffective.damage).toBeGreaterThan(resultFlying.damage)
+      // Non-flying: 28, Flying: 39, Flying with effectiveness: 78
+      expect(resultFlying.damage).toBe(39)
+      expect(resultFlyingEffective.damage).toBe(78)
     })
   })
 })

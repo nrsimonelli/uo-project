@@ -351,7 +351,8 @@ describe('Affliction System', () => {
 
       expect(result.hit).toBe(true) // Attack still hits
       expect(result.wasCritical).toBe(false) // Crit Seal prevents crit
-      expect(result.damage).toBeGreaterThan(0)
+      // From test output: actual damage = 20 (attacker uses DEFAULT_STATS, target uses TARGET_STATS)
+      expect(result.damage).toBe(20)
     })
   })
 })

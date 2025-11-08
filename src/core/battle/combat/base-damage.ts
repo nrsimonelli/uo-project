@@ -21,7 +21,8 @@ export const calculateDamageComponents = (
   let physicalDamage = 0
   let magicalDamage = 0
   let conferralDamage = 0
-  let baseDamage = 0
+  let rawBaseDamage = 0
+  let afterPotencyDamage = 0
   let afterCritDamage = 0
 
   const calculateDamageComponent = (
@@ -29,31 +30,37 @@ export const calculateDamageComponents = (
     isPhysical: boolean,
     isNegated: boolean,
     negateMessage: string
-  ): { damage: number; base: number; afterCrit: number } => {
+  ): {
+    damage: number
+    rawBase: number
+    afterPotency: number
+    afterCrit: number
+  } => {
     if (isNegated) {
       logCombat(negateMessage)
-      return { damage: 0, base: 0, afterCrit: 0 }
+      return { damage: 0, rawBase: 0, afterPotency: 0, afterCrit: 0 }
     }
 
     if (isPhysical && context.attackType === 'Melee' && target.incomingParry) {
       target.incomingParry = false
-      return { damage: 0, base: 0, afterCrit: 0 }
+      return { damage: 0, rawBase: 0, afterPotency: 0, afterCrit: 0 }
     }
 
-    const componentBase = calculateBaseDamage(
+    const { rawBase, afterPotency } = calculateBaseDamage(
       attacker,
       target,
       potency,
       isPhysical,
       effectResults
     )
-    const componentAfterCrit = componentBase * critMultiplier
+    const componentAfterCrit = afterPotency * critMultiplier
     const componentAfterGuard = isPhysical
       ? componentAfterCrit * guardMultiplier
       : componentAfterCrit
     return {
       damage: Math.max(1, Math.round(componentAfterGuard)),
-      base: componentBase,
+      rawBase,
+      afterPotency,
       afterCrit: componentAfterCrit,
     }
   }
@@ -66,7 +73,8 @@ export const calculateDamageComponents = (
       ''
     )
     physicalDamage = physicalResult.damage
-    baseDamage += physicalResult.base
+    rawBaseDamage += physicalResult.rawBase
+    afterPotencyDamage += physicalResult.afterPotency
     afterCritDamage += Math.round(physicalResult.afterCrit)
     totalDamage += physicalDamage
   }
@@ -79,7 +87,8 @@ export const calculateDamageComponents = (
       `🛡️ ${target.unit.name} negated magic damage`
     )
     magicalDamage = magicalResult.damage
-    baseDamage += magicalResult.base
+    rawBaseDamage += magicalResult.rawBase
+    afterPotencyDamage += magicalResult.afterPotency
     afterCritDamage += Math.round(magicalResult.afterCrit)
     totalDamage += magicalDamage
   }
@@ -90,14 +99,14 @@ export const calculateDamageComponents = (
       conferralDamage = 0
     } else {
       attacker.conferrals.forEach(conferral => {
-        const conferralBaseDamage =
-          ((conferral.casterMATK - target.combatStats.MDEF) *
-            conferral.potency) /
-          100
-        const conferralAfterCrit = conferralBaseDamage * critMultiplier
+        const conferralRawBase = conferral.casterMATK - target.combatStats.MDEF
+        const conferralAfterPotency =
+          (conferralRawBase * conferral.potency) / 100
+        const conferralAfterCrit = conferralAfterPotency * critMultiplier
         const conferralFinal = Math.max(1, Math.round(conferralAfterCrit))
         conferralDamage += conferralFinal
-        baseDamage += conferralBaseDamage
+        rawBaseDamage += conferralRawBase
+        afterPotencyDamage += conferralAfterPotency
         afterCritDamage += Math.round(conferralAfterCrit)
       })
     }
@@ -121,7 +130,8 @@ export const calculateDamageComponents = (
     magicalDamage,
     conferralDamage,
     totalDamage,
-    baseDamage: Math.round(baseDamage),
+    rawBaseDamage: Math.round(rawBaseDamage),
+    afterPotencyDamage: Math.round(afterPotencyDamage),
     afterCritDamage: Math.round(afterCritDamage),
   }
 }

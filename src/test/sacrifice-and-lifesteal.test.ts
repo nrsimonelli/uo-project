@@ -4,7 +4,7 @@ import {
   createUnitWithStats,
   DEFAULT_STATS,
   createMockBattlefield,
-} from '../utils/tactical-test-utils'
+} from './utils/tactical-test-utils'
 
 import { executeSkill } from '@/core/battle/combat/skill-executor'
 import { rng } from '@/core/random'
@@ -130,10 +130,15 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
 
     const damageDealt = Math.max(0, 100 - finalTarget.currentHP)
     const expectedHeal = Math.round(damageDealt * 0.5)
-
-    expect(finalUser.currentHP).toBe(
-      Math.min(user.currentHP + expectedHeal, finalUser.combatStats.HP)
+    const expectedHP = Math.min(
+      user.currentHP + expectedHeal,
+      finalUser.combatStats.HP
     )
+
+    // Verify exact HP after lifesteal
+    expect(finalUser.currentHP).toBe(expectedHP)
+    // Verify damage was actually dealt (damageDealt should match the calculation)
+    expect(damageDealt).toBe(100 - finalTarget.currentHP)
   })
 
   it('sanguineAttack is increased by DrainEff buffs (adds to percent)', () => {
@@ -169,9 +174,14 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
     const damageDealt = Math.max(0, 100 - finalTarget.currentHP)
     // expected effective lifesteal = 50 + 20 = 70%
     const expectedHeal = Math.round(damageDealt * 0.7)
-
-    expect(finalUser.currentHP).toBe(
-      Math.min(user.currentHP + expectedHeal, finalUser.combatStats.HP)
+    const expectedHP = Math.min(
+      user.currentHP + expectedHeal,
+      finalUser.combatStats.HP
     )
+
+    // Verify exact HP after lifesteal with DrainEff buff
+    expect(finalUser.currentHP).toBe(expectedHP)
+    // Verify damage was actually dealt (damageDealt should match the calculation)
+    expect(damageDealt).toBe(100 - finalTarget.currentHP)
   })
 })

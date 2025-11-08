@@ -69,8 +69,9 @@ describe('Battle Logic Integration', () => {
     const homeUnit = battleContexts['home-h1']
     expect(homeUnit.unit.classKey).toBe('Fighter')
     expect(homeUnit.team).toBe('home-team')
-    expect(homeUnit.currentHP).toBeGreaterThan(0)
-    expect(homeUnit.combatStats.HP).toBeGreaterThan(0)
+    // Units should be created with currentHP equal to max HP
+    expect(homeUnit.currentHP).toBe(homeUnit.combatStats.HP)
+    expect(homeUnit.combatStats.HP).toBeGreaterThan(0) // Sanity check that HP is calculated
   })
 
   it('should execute skills between real battle contexts', () => {
@@ -85,13 +86,43 @@ describe('Battle Logic Integration', () => {
     expect(skill).toBeDefined()
     expect(skill.targeting).toBeDefined()
 
+    // Set deterministic stats for exact damage calculation
+    attacker.combatStats.CRT = 0
+    target.combatStats.GRD = 0
     const result = executeSkill(skill, attacker, [target], rng('test-seed'))
 
     // Since we're testing with a single target, this should be SingleTargetSkillResult
     const singleResult = result as SingleTargetSkillResult
-    expect(singleResult.totalDamage).toBeGreaterThan(0)
     expect(singleResult.damageResults).toHaveLength(1)
     expect(singleResult.damageResults[0].hit).toBe(true)
+    // heavySlash has 150% physical potency
+    // Verify damage breakdown is consistent
+    const damageResult = singleResult.damageResults[0]
+    // baseDamage is now raw (attack - defense) which can be negative, so check afterPotency instead
+    expect(damageResult.breakdown.afterPotency).toBeGreaterThan(0)
+    // Verify final damage matches the breakdown
+    expect(singleResult.totalDamage).toBe(damageResult.damage)
+    // Verify damage is calculated correctly through all steps
+    expect(damageResult.breakdown.afterDmgReduction).toBe(
+      singleResult.totalDamage
+    )
+    // Verify all breakdown steps are present and consistent
+    // baseDamage is raw (attack - defense), afterPotency is after potency
+    // For heavySlash with 150% potency, afterPotency should be 1.5x baseDamage (if baseDamage is positive)
+    if (damageResult.breakdown.rawBaseDamage > 0) {
+      expect(damageResult.breakdown.afterPotency).toBeGreaterThanOrEqual(
+        damageResult.breakdown.rawBaseDamage
+      )
+    }
+    expect(damageResult.breakdown.afterCrit).toBeGreaterThanOrEqual(
+      damageResult.breakdown.rawBaseDamage
+    )
+    expect(damageResult.breakdown.afterGuard).toBeGreaterThanOrEqual(
+      damageResult.breakdown.afterCrit
+    )
+    expect(damageResult.breakdown.afterEffectiveness).toBeGreaterThanOrEqual(
+      damageResult.breakdown.afterGuard
+    )
   })
 
   it('should handle different class stat differences', () => {
@@ -111,8 +142,15 @@ describe('Battle Logic Integration', () => {
     const warriorContext = battleContexts['home-warrior']
 
     // Both should have different stat profiles based on their class
+    // Units should start at full HP
+    expect(fighterContext.currentHP).toBe(fighterContext.combatStats.HP)
+    expect(warriorContext.currentHP).toBe(warriorContext.combatStats.HP)
+    // Fighter and Warrior should have different HP values (Fighter: 90 base, Warrior: 100 base at level 10)
     expect(fighterContext.combatStats.HP).toBeGreaterThan(0)
     expect(warriorContext.combatStats.HP).toBeGreaterThan(0)
+    expect(fighterContext.combatStats.HP).not.toBe(
+      warriorContext.combatStats.HP
+    ) // Different classes = different stats
     expect(fighterContext.unit.classKey).toBe('Fighter')
     expect(warriorContext.unit.classKey).toBe('Warrior')
   })
@@ -133,8 +171,11 @@ describe('Battle Logic Integration', () => {
     const warriorContext = battleContexts['home-warrior']
 
     // Both should have combatant types based on their class
-    expect(fighterContext.combatantTypes).toContain('Armored')
+    expect(fighterContext.combatantTypes).toContain('Armored') // Fighter has Armored trait
     expect(warriorContext.combatantTypes).toBeDefined()
-    expect(warriorContext.combatantTypes.length).toBeGreaterThan(0)
+    // Warrior should have at least one combatant type (Infantry movement type)
+    expect(warriorContext.combatantTypes.length).toBeGreaterThanOrEqual(1)
+    // Verify they have the expected movement type
+    expect(warriorContext.combatantTypes).toContain('Infantry')
   })
 })

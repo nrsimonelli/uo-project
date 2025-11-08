@@ -44,7 +44,7 @@ const createMissResult = (
   wasDodged,
   hitChance,
   breakdown: {
-    baseDamage: 0,
+    rawBaseDamage: 0,
     afterPotency: 0,
     afterCrit: 0,
     afterGuard: 0,
@@ -207,7 +207,7 @@ export const calculateSkillDamage = (
       wasDodged: false,
       hitChance,
       breakdown: {
-        baseDamage: effectResults.ownHPBasedDamage,
+        rawBaseDamage: effectResults.ownHPBasedDamage,
         afterPotency: effectResults.ownHPBasedDamage,
         afterCrit: effectResults.ownHPBasedDamage,
         afterGuard: effectResults.ownHPBasedDamage,
@@ -233,7 +233,8 @@ export const calculateSkillDamage = (
     magicalDamage,
     conferralDamage,
     totalDamage,
-    baseDamage,
+    rawBaseDamage,
+    afterPotencyDamage,
     afterCritDamage,
   } = damageComponents
 
@@ -334,8 +335,8 @@ export const calculateSkillDamage = (
     wasDodged,
     hitChance,
     breakdown: {
-      baseDamage: baseDamage,
-      afterPotency: baseDamage,
+      rawBaseDamage: rawBaseDamage,
+      afterPotency: afterPotencyDamage,
       afterCrit: afterCritDamage,
       afterGuard: totalDamage,
       afterEffectiveness: afterEffectiveness,

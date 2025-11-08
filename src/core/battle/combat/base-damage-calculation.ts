@@ -9,7 +9,7 @@ export const calculateBaseDamage = (
   potency: number,
   isPhysical: boolean,
   effectResults?: EffectProcessingResult
-) => {
+): { rawBase: number; afterPotency: number } => {
   const effectiveStats = getEffectiveStatsForTarget(attacker, target)
   const attack = isPhysical ? effectiveStats.PATK : effectiveStats.MATK
 
@@ -27,9 +27,8 @@ export const calculateBaseDamage = (
     defense *= 1 - effectResults.defenseIgnoreFraction
   }
 
-  const baseDamage = attack - defense
-  const afterPotency = (baseDamage * adjustedPotency) / 100
-  const finalDamage = Math.max(1, afterPotency)
+  const rawBase = attack - defense
+  const afterPotency = Math.max(1, (rawBase * adjustedPotency) / 100)
 
-  return finalDamage
+  return { rawBase, afterPotency }
 }

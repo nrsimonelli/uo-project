@@ -18,8 +18,8 @@ export interface DamageResult {
   wasDodged: boolean
   hitChance: number
   breakdown: {
-    baseDamage: number
-    afterPotency: number
+    rawBaseDamage: number // Raw (attack - defense) before potency
+    afterPotency: number // After potency multiplier is applied
     afterCrit: number
     afterGuard: number
     afterEffectiveness: number
@@ -48,7 +48,8 @@ export interface DamageComponents {
   magicalDamage: number
   conferralDamage: number
   totalDamage: number
-  baseDamage: number
+  rawBaseDamage: number
+  afterPotencyDamage: number
   afterCritDamage: number
 }
 

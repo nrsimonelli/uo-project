@@ -219,7 +219,11 @@ describe('Targeting Patterns: Conditions vs Default', () => {
       )
 
       expect(result.shouldUseSkill).toBe(true)
-      expect(result.targets.length).toBeGreaterThan(0) // Uses default targeting
+      // heavySlash targets Single Enemy, should return exactly 1 target (the enemy in context)
+      expect(result.targets.length).toBe(1)
+      // Verify it's the enemy from the context (ID may vary based on mock setup)
+      expect(result.targets[0].team).toBe('away-team')
+      expect(result.targets[0].unit.id).toBeDefined()
     })
   })
 

@@ -39,7 +39,7 @@ export const calculateMultiHitDamage = (
         wasDodged: false,
         hitChance: 100,
         breakdown: {
-          baseDamage: 0,
+          rawBaseDamage: 0,
           afterPotency: 0,
           afterCrit: 0,
           afterGuard: 0,

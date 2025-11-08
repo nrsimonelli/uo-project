@@ -106,10 +106,7 @@ const getTargetContext = (
   if (target === 'Ally') {
     // If we have a target in context and it's an ally (same team as attacker), use it
     // Otherwise, default to attacker (for self-targeting conditions)
-    if (
-      context.target &&
-      context.target.team === context.attacker.team
-    ) {
+    if (context.target && context.target.team === context.attacker.team) {
       return context.target
     }
     return context.attacker

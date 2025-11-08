@@ -300,6 +300,9 @@ describe('Resurrection and Damage Immunity', () => {
       expect(target.damageImmunities).toHaveLength(0)
 
       // Second attack - should deal damage
+      // Set deterministic stats: no crit, no guard
+      attacker.combatStats.CRT = 0
+      target.combatStats.GRD = 0
       const secondResult = calculateSkillDamage(
         damageEffect,
         [],
@@ -309,7 +312,8 @@ describe('Resurrection and Damage Immunity', () => {
         mockRngPresets.alwaysHit()
       )
 
-      expect(secondResult.damage).toBeGreaterThan(0)
+      // From test output: actual damage = 20 (attacker uses createStandardTarget stats, target uses createStandardAttacker stats)
+      expect(secondResult.damage).toBe(20)
     })
   })
 

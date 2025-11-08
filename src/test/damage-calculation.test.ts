@@ -44,15 +44,16 @@ describe('Damage Calculation', () => {
         { ...TARGET_STATS, PDEF: 30 }
       )
 
-      const baseDamage = calculateBaseDamage(
+      const { rawBase, afterPotency } = calculateBaseDamage(
         attacker,
         target,
         100, // 100% potency
         true // physical
       )
 
-      // Expected: (50 - 30) * 100 / 100 = 20
-      expect(baseDamage).toBe(20)
+      // Expected: rawBase = 50 - 30 = 20, afterPotency = 20 * 100 / 100 = 20
+      expect(rawBase).toBe(20)
+      expect(afterPotency).toBe(20)
     })
 
     it('should apply potency percentage correctly', () => {
@@ -65,15 +66,16 @@ describe('Damage Calculation', () => {
         { ...TARGET_STATS, PDEF: 30 }
       )
 
-      const baseDamage = calculateBaseDamage(
+      const { rawBase, afterPotency } = calculateBaseDamage(
         attacker,
         target,
         150, // 150% potency
         true
       )
 
-      // Expected: (50 - 30) * 150 / 100 = 30
-      expect(baseDamage).toBe(30)
+      // Expected: rawBase = 50 - 30 = 20, afterPotency = 20 * 150 / 100 = 30
+      expect(rawBase).toBe(20)
+      expect(afterPotency).toBe(30)
     })
 
     it('should enforce minimum damage of 1', () => {
@@ -87,10 +89,16 @@ describe('Damage Calculation', () => {
         { ...TARGET_STATS, PDEF: 50 }
       )
 
-      const baseDamage = calculateBaseDamage(attacker, target, 100, true)
+      const { rawBase, afterPotency } = calculateBaseDamage(
+        attacker,
+        target,
+        100,
+        true
+      )
 
-      // Expected: (10 - 50) * 100 / 100 = -40, but minimum is 1
-      expect(baseDamage).toBe(1)
+      // Expected: rawBase = 10 - 50 = -40, afterPotency = max(1, -40 * 100 / 100) = 1
+      expect(rawBase).toBe(-40)
+      expect(afterPotency).toBe(1)
     })
 
     it('should calculate magical damage using MATK and MDEF', () => {
@@ -103,15 +111,16 @@ describe('Damage Calculation', () => {
         { ...TARGET_STATS, MDEF: 20 }
       )
 
-      const baseDamage = calculateBaseDamage(
+      const { rawBase, afterPotency } = calculateBaseDamage(
         attacker,
         target,
         100,
         false // magical
       )
 
-      // Expected: (40 - 20) * 100 / 100 = 20
-      expect(baseDamage).toBe(20)
+      // Expected: rawBase = 40 - 20 = 20, afterPotency = 20 * 100 / 100 = 20
+      expect(rawBase).toBe(20)
+      expect(afterPotency).toBe(20)
     })
 
     it('should handle defense ignore from effect results', () => {
@@ -149,7 +158,7 @@ describe('Damage Calculation', () => {
         lifeStealsToApply: [],
       }
 
-      const baseDamage = calculateBaseDamage(
+      const { rawBase, afterPotency } = calculateBaseDamage(
         attacker,
         target,
         100,
@@ -157,8 +166,9 @@ describe('Damage Calculation', () => {
         effectResults
       )
 
-      // Expected: (50 - (30 * 0.5)) * 100 / 100 = (50 - 15) = 35
-      expect(baseDamage).toBe(35)
+      // Expected: rawBase = 50 - 15 = 35 (30 * 0.5 = 15 defense after ignore), afterPotency = 35 * 100 / 100 = 35
+      expect(rawBase).toBe(35)
+      expect(afterPotency).toBe(35)
     })
   })
 
@@ -210,7 +220,7 @@ describe('Damage Calculation', () => {
       expect(result.wasCritical).toBe(true)
       // Base damage: (50 - 30) * 100 / 100 = 20
       // After crit: 20 * 1.5 = 30
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(30)
       expect(result.breakdown.afterGuard).toBe(30) // No guard
       expect(result.breakdown.afterEffectiveness).toBe(30) // No effectiveness
@@ -246,7 +256,7 @@ describe('Damage Calculation', () => {
       expect(result.hit).toBe(true)
       expect(result.wasCritical).toBe(false)
       // Base damage: 20, no crit multiplier
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(20)
       expect(result.breakdown.afterGuard).toBe(20)
       expect(result.breakdown.afterEffectiveness).toBe(20)
@@ -311,7 +321,7 @@ describe('Damage Calculation', () => {
 
       // Physical: Base 20, no crit, guard applies: 20 * 0.75 = 15
       expect(physicalResult.wasGuarded).toBe(true)
-      expect(physicalResult.breakdown.baseDamage).toBe(20)
+      expect(physicalResult.breakdown.rawBaseDamage).toBe(20)
       expect(physicalResult.breakdown.afterCrit).toBe(20)
       expect(physicalResult.breakdown.afterGuard).toBe(15)
       expect(physicalResult.breakdown.afterEffectiveness).toBe(15)
@@ -320,7 +330,7 @@ describe('Damage Calculation', () => {
 
       // Magical: Base 20, no crit, no guard: 20
       expect(magicalResult.wasGuarded).toBe(false)
-      expect(magicalResult.breakdown.baseDamage).toBe(20)
+      expect(magicalResult.breakdown.rawBaseDamage).toBe(20)
       expect(magicalResult.breakdown.afterCrit).toBe(20)
       expect(magicalResult.breakdown.afterGuard).toBe(20)
       expect(magicalResult.breakdown.afterEffectiveness).toBe(20)
@@ -363,7 +373,7 @@ describe('Damage Calculation', () => {
 
       // Base: 20, no crit: 20, guard: 20 * 0.75 = 15
       expect(result.wasGuarded).toBe(true)
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(20)
       expect(result.breakdown.afterGuard).toBe(15)
       expect(result.breakdown.afterEffectiveness).toBe(15)
@@ -397,7 +407,7 @@ describe('Damage Calculation', () => {
       )
 
       expect(result.wasGuarded).toBe(false)
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(20)
       expect(result.breakdown.afterGuard).toBe(20)
       expect(result.breakdown.afterEffectiveness).toBe(20)
@@ -444,7 +454,7 @@ describe('Damage Calculation', () => {
       )
 
       // Base: 20, no crit: 20, no guard: 20, effectiveness 1.0x: 20
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(20)
       expect(result.breakdown.afterGuard).toBe(20)
       expect(result.breakdown.afterEffectiveness).toBe(20)
@@ -475,7 +485,7 @@ describe('Damage Calculation', () => {
       )
 
       // Base: 20, no crit: 20, no guard: 20, effectiveness 1.0x: 20, reduction 20%: 20 * 0.8 = 16
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(20)
       expect(result.breakdown.afterGuard).toBe(20)
       expect(result.breakdown.afterEffectiveness).toBe(20)
@@ -503,8 +513,11 @@ describe('Damage Calculation', () => {
         mockRngPresets.alwaysHit()
       )
 
-      // Base: 1 (min), no crit: 1, no guard: 1, effectiveness 1.0x: 1, reduction 99%: 1 * 0.01 = 0.01 → 1 (min)
-      expect(result.breakdown.baseDamage).toBe(1)
+      // baseDamage is raw (attack - defense) = 10 - 50 = -20
+      // afterPotency applies minimum of 1, so afterPotency = 1
+      // After all steps, final damage = 1 (minimum enforced)
+      expect(result.breakdown.rawBaseDamage).toBe(-20) // Raw (attack - defense)
+      expect(result.breakdown.afterPotency).toBe(1) // Minimum enforced
       expect(result.breakdown.afterCrit).toBe(1)
       expect(result.breakdown.afterGuard).toBe(1)
       expect(result.breakdown.afterEffectiveness).toBe(1)
@@ -543,7 +556,7 @@ describe('Damage Calculation', () => {
       // After guard: 30 * 0.75 = 22.5 → 23 (rounded)
       // After effectiveness: 23 * 1.0 = 23
       // After reduction: 23 * 1.0 = 23
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterPotency).toBe(20)
       expect(result.breakdown.afterCrit).toBe(30)
       expect(result.breakdown.afterGuard).toBe(23)
@@ -565,7 +578,7 @@ describe('Damage Calculation', () => {
 
       expect(result.hit).toBe(false)
       expect(result.damage).toBe(0)
-      expect(result.breakdown.baseDamage).toBe(0)
+      expect(result.breakdown.rawBaseDamage).toBe(0)
       expect(result.breakdown.afterPotency).toBe(0)
       expect(result.breakdown.afterCrit).toBe(0)
       expect(result.breakdown.afterGuard).toBe(0)
@@ -601,7 +614,7 @@ describe('Damage Calculation', () => {
       // Physical: Base (50-30)*100/100 = 20, guard: 20*0.75 = 15
       // Magical: Base (40-20)*100/100 = 20, no guard: 20
       // Total: 15 + 20 = 35
-      expect(result.breakdown.baseDamage).toBe(40) // 20 physical + 20 magical
+      expect(result.breakdown.rawBaseDamage).toBe(40) // 20 physical + 20 magical
       expect(result.breakdown.afterCrit).toBe(40) // No crit
       expect(result.breakdown.afterGuard).toBe(35) // Physical guarded, magical not
       expect(result.breakdown.afterEffectiveness).toBe(35) // No effectiveness
@@ -638,7 +651,7 @@ describe('Damage Calculation', () => {
       // After guard: 30 * 0.75 = 22.5 → 23 (rounded)
       // After effectiveness: 23 * 1.0 = 23
       // After reduction: 23 * 0.8 = 18.4 → 18 (rounded)
-      expect(result.breakdown.baseDamage).toBe(20)
+      expect(result.breakdown.rawBaseDamage).toBe(20)
       expect(result.breakdown.afterCrit).toBe(30)
       expect(result.breakdown.afterGuard).toBe(23)
       expect(result.breakdown.afterEffectiveness).toBe(23)
