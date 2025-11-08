@@ -3040,7 +3040,7 @@ export const PassiveSkills = [
           {
             kind: 'Affliction',
             target: 'Enemy',
-            affliction: 'Fire',
+            affliction: 'Burn',
             comparator: 'EqualTo',
           },
         ],
