@@ -19,6 +19,7 @@ export const FLAGS = [
   'Piercing', // Can target back-row units even if melee (bypasses front-row blocking)
   'NoCrit',
   'Overheal',
+  'ExcludeSelf', // Excludes the acting unit from ally targeting
 ] as const
 export type Flag = (typeof FLAGS)[number]
 
@@ -173,6 +174,15 @@ export interface EvadeEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface DamageImmunityEffect {
+  kind: 'DamageImmunity'
+  immunityType: 'entireAttack' | 'singleHit' | 'multipleHits'
+  hitCount?: number // Required when immunityType === 'multipleHits'
+  applyTo?: 'User' | 'Target'
+  duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export interface AfflictionEffect {
   kind: 'Affliction'
   affliction: AfflictionType
@@ -264,6 +274,7 @@ export type Effect =
   | GuardEffect
   | ParryEffect
   | EvadeEffect
+  | DamageImmunityEffect
   | AfflictionEffect
   | LifeStealEffect
   | ResourceStealEffect

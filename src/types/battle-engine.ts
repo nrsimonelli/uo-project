@@ -167,6 +167,19 @@ export interface EvadeStatus {
 }
 
 /**
+ * Damage immunity status effect (temporary damage blocking protection)
+ */
+export interface DamageImmunityStatus {
+  skillId: string
+  immunityType: 'entireAttack' | 'singleHit' | 'multipleHits'
+  hitCount?: number // For multipleHits: number of hits to block
+  duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  source: string // unit ID that applied this
+  // For multipleHits: tracks remaining hits that this immunity will block
+  remainingImmunityHits?: number
+}
+
+/**
  * Battle context for a unit with all tracking data
  */
 export interface BattleContext {
@@ -187,6 +200,7 @@ export interface BattleContext {
   debuffs: Debuff[]
   conferrals: ConferralStatus[]
   evades: EvadeStatus[]
+  damageImmunities: DamageImmunityStatus[]
 
   // Stat foundation (base + equipment) - stored once for efficient recalculation
   statFoundation: {

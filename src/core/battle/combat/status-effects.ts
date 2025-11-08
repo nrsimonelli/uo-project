@@ -15,6 +15,7 @@ import type {
   Debuff,
   ConferralStatus,
   EvadeStatus,
+  DamageImmunityStatus,
 } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
 import type { ExtraStats } from '@/types/equipment'
@@ -310,6 +311,52 @@ const applyEvades = (
 }
 
 /**
+ * Apply damage immunity effects to appropriate targets
+ */
+const applyDamageImmunities = (
+  damageImmunitiesToApply: EffectProcessingResult['damageImmunitiesToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  damageImmunitiesToApply.forEach(immunityToApply => {
+    const targetUnit = resolveEffectTarget(
+      immunityToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
+
+    const immunity: DamageImmunityStatus = {
+      skillId: immunityToApply.skillId,
+      immunityType: immunityToApply.immunityType,
+      hitCount: immunityToApply.hitCount,
+      duration: immunityToApply.duration || 'UntilAttacked',
+      source: attacker.unit.id,
+    }
+
+    // Initialize remaining hits for multipleHits type
+    if (immunity.immunityType === 'multipleHits' && immunity.hitCount) {
+      immunity.remainingImmunityHits = immunity.hitCount
+    }
+
+    applyStatusEffect(targetUnit.damageImmunities, immunity, false)
+    unitsToRecalculate.add(targetUnit)
+
+    const hitCountText =
+      immunity.immunityType === 'multipleHits'
+        ? ` (${immunity.hitCount} hits)`
+        : ''
+    logCombat(
+      `✅ Damage Immunity Applied: ${targetUnit.unit.name} ${immunityToApply.immunityType} immunity${hitCountText} (${immunity.duration})`,
+      { skillName: getSkillName(immunityToApply.skillId) }
+    )
+  })
+}
+
+/**
  * Apply resurrect effects to restore defeated units
  */
 const applyResurrects = (
@@ -422,6 +469,15 @@ export const applyStatusEffects = (
   // Apply evade effects to appropriate targets
   applyEvades(
     effectResults.evadesToApply,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
+
+  // Apply damage immunity effects to appropriate targets
+  applyDamageImmunities(
+    effectResults.damageImmunitiesToApply,
     attacker,
     targets,
     attackHit,
@@ -582,21 +638,30 @@ export const removeExpiredBuffs = (
   )
   unit.buffs = removeExpiredStatus(unit.buffs, trigger)
 
-  // Also remove expired conferrals and evades
-  const initialConferralCount = unit.conferrals.length
-  const initialEvadeCount = unit.evades.length
+  // Also remove expired conferrals, evades, and damage immunities
+  const initialConferralCount = (unit.conferrals || []).length
+  const initialEvadeCount = (unit.evades || []).length
+  const initialDamageImmunityCount = (unit.damageImmunities || []).length
 
   if (trigger === 'attacks' || trigger === 'attacked' || trigger === 'action') {
-    unit.conferrals = removeExpiredStatus(unit.conferrals, trigger)
-    unit.evades = removeExpiredStatus(unit.evades, trigger)
+    unit.conferrals = removeExpiredStatus(unit.conferrals || [], trigger)
+    unit.evades = removeExpiredStatus(unit.evades || [], trigger)
+    unit.damageImmunities = removeExpiredStatus(unit.damageImmunities || [], trigger)
   }
 
   // Recalculate stats if any buffs were removed
   const buffsChanged = unit.buffs.length !== initialBuffCount
-  const conferralsChanged = unit.conferrals.length !== initialConferralCount
-  const evadesChanged = unit.evades.length !== initialEvadeCount
+  const conferralsChanged = (unit.conferrals || []).length !== initialConferralCount
+  const evadesChanged = (unit.evades || []).length !== initialEvadeCount
+  const damageImmunitiesChanged =
+    (unit.damageImmunities || []).length !== initialDamageImmunityCount
 
-  if (buffsChanged || conferralsChanged || evadesChanged) {
+  if (
+    buffsChanged ||
+    conferralsChanged ||
+    evadesChanged ||
+    damageImmunitiesChanged
+  ) {
     logCombat(
       `🔄 Status Expired for ${unit.unit.name} (trigger: ${trigger}):`,
       {
@@ -606,8 +671,8 @@ export const removeExpiredBuffs = (
           value: b.value,
         })),
         remainingBuffs: unit.buffs.length,
-        remainingConferrals: unit.conferrals.length,
-        remainingEvades: unit.evades.length,
+        remainingConferrals: (unit.conferrals || []).length,
+        remainingEvades: (unit.evades || []).length,
         statAfterRecalc: unit.combatStats,
       }
     )
@@ -661,10 +726,10 @@ export const removeExpiredConferrals = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'action'
 ) => {
-  const initialCount = unit.conferrals.length
-  unit.conferrals = removeExpiredStatus(unit.conferrals, trigger)
+  const initialCount = (unit.conferrals || []).length
+  unit.conferrals = removeExpiredStatus(unit.conferrals || [], trigger)
 
-  if (unit.conferrals.length !== initialCount) {
+  if ((unit.conferrals || []).length !== initialCount) {
     logCombat(`${unit.unit.name} conferrals expired (${trigger})`)
   }
 }
@@ -788,7 +853,7 @@ export const calculateStatModifier = (
 export const hasBuffs = (unit: BattleContext): boolean => {
   return (
     unit.buffs.length > 0 ||
-    unit.conferrals.length > 0 ||
+    (unit.conferrals || []).length > 0 ||
     (unit.evades?.length ?? 0) > 0
   )
 }
