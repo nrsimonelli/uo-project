@@ -83,7 +83,7 @@ export const evaluateCondition = (
  * Returns true only if ALL conditions are met
  */
 export const evaluateAllConditions = (
-  conditions: Condition[] = [],
+  conditions: readonly Condition[] | Condition[] = [],
   context: ConditionEvaluationContext
 ) => {
   if (conditions.length === 0) {
@@ -104,7 +104,15 @@ const getTargetContext = (
     return context.attacker
   }
   if (target === 'Ally') {
-    return context.attacker // For now, treat as self (could be enhanced for ally targeting)
+    // If we have a target in context and it's an ally (same team as attacker), use it
+    // Otherwise, default to attacker (for self-targeting conditions)
+    if (
+      context.target &&
+      context.target.team === context.attacker.team
+    ) {
+      return context.target
+    }
+    return context.attacker
   }
   if (target === 'Enemy') {
     return context.target

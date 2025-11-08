@@ -109,6 +109,15 @@ export interface EffectProcessingResult {
     skillId: string
   }>
 
+  // Damage immunity effects to apply
+  damageImmunitiesToApply: Array<{
+    immunityType: 'entireAttack' | 'singleHit' | 'multipleHits'
+    hitCount?: number // Required when immunityType === 'multipleHits'
+    target: 'User' | 'Target'
+    duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+    skillId: string
+  }>
+
   // Afflictions to apply
   afflictionsToApply: Array<{
     afflictionType: AfflictionType
@@ -241,6 +250,7 @@ export const processEffects = (
     debuffAmplificationsToApply: [],
     conferralsToApply: [],
     evadesToApply: [],
+    damageImmunitiesToApply: [],
     afflictionsToApply: [],
     cleansesToApply: [],
     resurrectsToApply: [],
@@ -449,6 +459,17 @@ export const processEffects = (
         healAmount: effect.value,
         healType: effect.scaling,
         target: effect.applyTo || 'Target',
+        skillId,
+      })
+      return
+    }
+
+    if (effect.kind === 'DamageImmunity') {
+      result.damageImmunitiesToApply.push({
+        immunityType: effect.immunityType,
+        hitCount: effect.hitCount,
+        target: effect.applyTo || 'Target',
+        duration: effect.duration || 'UntilAttacked',
         skillId,
       })
       return

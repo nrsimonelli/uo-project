@@ -80,6 +80,7 @@ export const createMockBattleContext = (
     afflictions: [],
     conferrals: [],
     evades: [],
+    damageImmunities: [],
     flags: [],
     lastPassiveResponse: 0,
     isPassiveResponsive: true,

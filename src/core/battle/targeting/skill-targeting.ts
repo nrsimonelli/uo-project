@@ -1,4 +1,8 @@
 import { getAttackType, isDamageSkill } from '@/core/attack-types'
+import {
+  evaluateAllConditions,
+  type ConditionEvaluationContext,
+} from '@/core/battle/evaluation/condition-evaluator'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
@@ -160,15 +164,15 @@ const targetingPatternHandlers = {
 
   All: (
     targets: BattleContext[],
-    _actingUnit: BattleContext,
-    _skill: ActiveSkill | PassiveSkill,
-    _battlefield?: BattlefieldState,
+    actingUnit: BattleContext,
+    skill: ActiveSkill | PassiveSkill,
+    battlefield?: BattlefieldState,
     options?: { useDefaultTieBreaker?: boolean; preFiltered?: boolean }
   ) => {
     void options
-    void _actingUnit
-    void _skill
-    void _battlefield
+    void actingUnit
+    void skill
+    void battlefield
     return targets
   },
 
@@ -228,7 +232,7 @@ const targetingPatternHandlers = {
 
     // Return all targets in the same row as the primary target
     return targets.filter(
-      target => target.position.row === primaryTarget.position.row
+      target => target.position.row === primaryTarget?.position.row
     )
   },
 
@@ -261,7 +265,7 @@ const targetingPatternHandlers = {
 
     // Return all targets in the same column as the primary target
     return targets.filter(
-      target => target.position.col === primaryTarget.position.col
+      target => target.position.col === primaryTarget?.position.col
     )
   },
 
@@ -315,10 +319,48 @@ export const getDefaultTargets = (
   useDefaultTieBreaker = false
 ): BattleContext[] => {
   const { targeting } = skill
-  const { group, pattern } = targeting
+  const { group, pattern, conditionalPattern } = targeting
+
+  // Check if any condition depends on the target (e.g., checking if target has an affliction)
+  const hasTargetDependentCondition =
+    conditionalPattern?.conditions.some(
+      condition => 'target' in condition && condition.target === 'Enemy'
+    ) ?? false
+
+  // Determine which pattern to use based on conditional pattern evaluation
+  let effectivePattern = pattern
+  if (conditionalPattern) {
+    // For target-dependent conditions, we need to select a target first, then check the condition
+    if (hasTargetDependentCondition && pattern === 'Single') {
+      // We'll handle this after initial target selection
+      // For now, keep the base pattern
+      effectivePattern = pattern
+    } else {
+      // Build condition evaluation context for non-target-dependent conditions
+      // (e.g., time of day, battlefield state)
+      const conditionContext: ConditionEvaluationContext = {
+        attacker: actingUnit,
+        target: actingUnit, // Default to self for targeting pattern conditions
+        isNight: battlefield.isNight,
+        alliesLiving: Object.values(battlefield.units).filter(
+          unit => unit.team === actingUnit.team && unit.currentHP > 0
+        ).length,
+        enemiesLiving: Object.values(battlefield.units).filter(
+          unit => unit.team !== actingUnit.team && unit.currentHP > 0
+        ).length,
+      }
+
+      // Evaluate conditions - if all conditions are met, use the conditional pattern
+      if (
+        evaluateAllConditions(conditionalPattern.conditions, conditionContext)
+      ) {
+        effectivePattern = conditionalPattern.pattern
+      }
+    }
+  }
 
   // Handle Self pattern directly (doesn't use group)
-  if (pattern === 'Self') {
+  if (effectivePattern === 'Self') {
     const selfHandler = targetingPatternHandlers.Self
     return selfHandler([], actingUnit, skill, battlefield)
   }
@@ -328,13 +370,36 @@ export const getDefaultTargets = (
   if (preFilteredTargets) {
     potentialTargets = preFilteredTargets
   } else {
-    const groupHandler =
-      targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
-    if (!groupHandler) {
-      console.warn(`Unknown targeting group: ${group}`)
-      return []
+    // Special case: When group is "Self" and pattern is "Row" or "All", we want to get all allies
+    // For "Row": get all allies in the same row as the acting unit
+    // For "All": get all allies (since Self + All means target all allies)
+    if (
+      group === 'Self' &&
+      (effectivePattern === 'Row' || effectivePattern === 'All')
+    ) {
+      if (effectivePattern === 'Row') {
+        potentialTargets = targetingGroupHandlers.Ally(actingUnit, battlefield)
+      } else {
+        // For "All" pattern with "Self" group, get all allies
+        potentialTargets = targetingGroupHandlers.Ally(actingUnit, battlefield)
+      }
+    } else {
+      const groupHandler =
+        targetingGroupHandlers[group as keyof typeof targetingGroupHandlers]
+      if (!groupHandler) {
+        console.warn(`Unknown targeting group: ${group}`)
+        return []
+      }
+      potentialTargets = groupHandler(actingUnit, battlefield)
     }
-    potentialTargets = groupHandler(actingUnit, battlefield)
+  }
+
+  // EXCLUDE SELF: Filter out the acting unit if ExcludeSelf flag is present and targeting allies
+  const hasExcludeSelfFlag = skill.skillFlags?.includes('ExcludeSelf') ?? false
+  if (hasExcludeSelfFlag && group === 'Ally') {
+    potentialTargets = potentialTargets.filter(
+      target => target.unit.id !== actingUnit.unit.id
+    )
   }
 
   // FRONT-ROW BLOCKING: Apply to melee attacks without Piercing flag
@@ -410,12 +475,84 @@ export const getDefaultTargets = (
     // Piercing and non-melee attacks can freely target any units chosen by tactics
   }
 
-  // Apply pattern-based selection
+  // Handle target-dependent conditional patterns (e.g., poison burst)
+  // For these, we need to select a target first, then check if condition is met
+  if (
+    hasTargetDependentCondition &&
+    conditionalPattern &&
+    pattern === 'Single'
+  ) {
+    // First, select a single target using the base pattern
+    const singleHandler = targetingPatternHandlers.Single
+    const initialTargets = singleHandler(
+      potentialTargets,
+      actingUnit,
+      skill,
+      battlefield,
+      {
+        useDefaultTieBreaker,
+        preFiltered: Boolean(preFilteredTargets),
+      } as unknown as Record<string, unknown>
+    )
+
+    if (initialTargets.length === 0) {
+      return []
+    }
+
+    // Get the selected target
+    const selectedTarget = initialTargets[0]
+    if (!selectedTarget) {
+      return []
+    }
+
+    // Build condition evaluation context with the selected target
+    const conditionContext: ConditionEvaluationContext = {
+      attacker: actingUnit,
+      target: selectedTarget,
+      isNight: battlefield.isNight,
+      alliesLiving: Object.values(battlefield.units).filter(
+        unit => unit.team === actingUnit.team && unit.currentHP > 0
+      ).length,
+      enemiesLiving: Object.values(battlefield.units).filter(
+        unit => unit.team !== actingUnit.team && unit.currentHP > 0
+      ).length,
+    }
+
+    // Evaluate conditions with the selected target
+    if (
+      evaluateAllConditions(conditionalPattern.conditions, conditionContext)
+    ) {
+      // Condition met - use the conditional pattern (e.g., All)
+      const conditionalPatternHandler =
+        targetingPatternHandlers[
+          conditionalPattern.pattern as keyof typeof targetingPatternHandlers
+        ]
+      if (conditionalPatternHandler) {
+        return conditionalPatternHandler(
+          potentialTargets,
+          actingUnit,
+          skill,
+          battlefield,
+          {
+            useDefaultTieBreaker,
+            preFiltered: Boolean(preFilteredTargets),
+          } as unknown as Record<string, unknown>
+        )
+      }
+    }
+
+    // Condition not met - return the single target
+    return initialTargets
+  }
+
+  // Apply pattern-based selection using the effective pattern
   const patternHandler =
-    targetingPatternHandlers[pattern as keyof typeof targetingPatternHandlers]
+    targetingPatternHandlers[
+      effectivePattern as keyof typeof targetingPatternHandlers
+    ]
   if (!patternHandler) {
     console.warn(
-      `Unsupported targeting pattern: ${pattern}, falling back to Single`
+      `Unsupported targeting pattern: ${effectivePattern}, falling back to Single`
     )
     const fallbackTarget = findClosestTarget(
       actingUnit,

@@ -1,3 +1,5 @@
+import type { Condition } from './conditions'
+
 import type { COMBATANT_TYPES } from '@/data/constants'
 
 export const TargetGroups = ['Enemy', 'Ally', 'Self'] as const
@@ -7,7 +9,7 @@ export type Target = 'Self' | 'Ally' | 'Enemy'
 export const TargetPatterns = [
   'Single',
   'Two', // Target exactly 2 different enemies (e.g., Dual Shot)
-  'Three', // Target exactly 3 different enemies (e.g., Triple Shot)
+  'Three', // Target exactly 3 different enemies (e.g., Triple shatter)
   'Column',
   'Row', // TODO: For Row Protection - need "SameRow" pattern to target only allies in user's row
   'All',
@@ -18,6 +20,14 @@ export type TargetPattern = (typeof TargetPatterns)[number]
 export interface Targeting {
   group: TargetGroup
   pattern: TargetPattern
+  /**
+   * Optional conditional pattern that overrides the base pattern when conditions are met.
+   * If conditions are met, the conditionalPattern will be used instead of the base pattern.
+   */
+  conditionalPattern?: {
+    pattern: TargetPattern
+    conditions: readonly Condition[] | Condition[]
+  }
 }
 
 export const AttackTypes = ['Melee', 'Ranged', 'Magical'] as const

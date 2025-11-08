@@ -1,11 +1,8 @@
 import type { ConditionEvaluationContext } from '../evaluation/condition-evaluator'
 
 import { getSkillName } from './combat-utils'
-import type { DamageResult } from './damage-calculator'
-import {
-  calculateSkillDamage,
-  calculateMultiHitDamage,
-} from './damage-calculator'
+import { calculateSkillDamage } from './damage-calculator'
+import type { DamageResult } from './damage-calculator-types'
 import {
   processEffects,
   getDamageEffects,
@@ -13,6 +10,7 @@ import {
   processSacrificeEffects,
   type EffectProcessingResult,
 } from './effect-processor'
+import { calculateMultiHitDamage } from './multi-hit-damage'
 import {
   applyStatusEffects,
   removeExpiredBuffs,

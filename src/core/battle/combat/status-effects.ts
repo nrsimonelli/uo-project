@@ -646,12 +646,16 @@ export const removeExpiredBuffs = (
   if (trigger === 'attacks' || trigger === 'attacked' || trigger === 'action') {
     unit.conferrals = removeExpiredStatus(unit.conferrals || [], trigger)
     unit.evades = removeExpiredStatus(unit.evades || [], trigger)
-    unit.damageImmunities = removeExpiredStatus(unit.damageImmunities || [], trigger)
+    unit.damageImmunities = removeExpiredStatus(
+      unit.damageImmunities || [],
+      trigger
+    )
   }
 
   // Recalculate stats if any buffs were removed
   const buffsChanged = unit.buffs.length !== initialBuffCount
-  const conferralsChanged = (unit.conferrals || []).length !== initialConferralCount
+  const conferralsChanged =
+    (unit.conferrals || []).length !== initialConferralCount
   const evadesChanged = (unit.evades || []).length !== initialEvadeCount
   const damageImmunitiesChanged =
     (unit.damageImmunities || []).length !== initialDamageImmunityCount

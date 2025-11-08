@@ -57,6 +57,7 @@
 - [ ] Need Reflect Magic...
 - [ ] Need Mirror Weakness
 - [ ] skill effect implementation audit
+- [ ] Consider gravity no crit and magic
 
 ### Code Quality & Development ✅
 
