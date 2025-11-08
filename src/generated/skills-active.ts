@@ -3866,6 +3866,16 @@ export const ActiveSkills = [
     targeting: {
       group: 'Self',
       pattern: 'Row',
+      conditionalPattern: {
+        pattern: 'All',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'NotEqualTo',
+            value: true,
+          },
+        ],
+      },
     },
     effects: [
       {
@@ -5247,6 +5257,610 @@ export const ActiveSkills = [
         stat: 'PATK',
         value: -40,
         scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'reincarnation',
+    type: 'active',
+    name: 'Reincarnation',
+    description:
+      'Revive one ally, restoring them to 1 HP. Grants target immunity to damage for one attack.',
+    ap: 3,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Resurrect',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Ally',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 0,
+            percent: true,
+          },
+        ],
+      },
+      {
+        kind: 'DamageImmunity',
+        immunityType: 'entireAttack',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'radiantHeal',
+    type: 'active',
+    name: 'Radiant Heal',
+    description:
+      'Restore major HP to all allies. Grants the ability to survive one lethal blow. (User cannot evade or use passive skills while charging.)',
+    ap: 3,
+    skillCategories: ['Heal'],
+    skillFlags: ['Charge'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 150,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'sandstorm',
+    type: 'active',
+    name: 'Sandstorm',
+    description: 'Inflicts Blindness on all enemies.',
+    ap: 3,
+    skillCategories: ['Sabotage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Affliction',
+        affliction: 'Blind',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'trinityRain',
+    type: 'active',
+    name: 'Trinity Rain',
+    description:
+      'Attack all enemies with Magic. (User cannot evade or use passive skills while charging.)',
+    ap: 3,
+    skillCategories: ['Damage'],
+    skillFlags: ['Charge'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+    ],
+  },
+  {
+    id: 'earthquake',
+    type: 'active',
+    name: 'Earthquake',
+    description: 'Attack all enemies with Magic. Inflicts Stun.',
+    ap: 3,
+    skillCategories: ['Damage'],
+    skillFlags: ['GroundBased'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'phantomVeil',
+    type: 'active',
+    name: 'Phantom Veil',
+    description: 'Grants a row of allies the ability to evade a single attack.',
+    ap: 2,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        evadeType: 'entireAttack',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'resurrection',
+    type: 'active',
+    name: 'Resurrection',
+    description: 'Revive one ally, restoring them to 1 HP.',
+    ap: 2,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Resurrect',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Ally',
+            stat: 'HP',
+            comparator: 'EqualTo',
+            value: 0,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'limitedHeal',
+    type: 'active',
+    name: 'Limited Heal',
+    description:
+      'Restore minor HP to all allies above their limits. Potency increases with fewer allies. (Max: +200) (Can heal up to 150% above maximum HP.)',
+    ap: 2,
+    skillCategories: ['Heal'],
+    skillFlags: ['Overheal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 50,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Ally',
+            comparator: 'LessOrEqual',
+            value: 4,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Ally',
+            comparator: 'LessOrEqual',
+            value: 3,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Ally',
+            comparator: 'LessOrEqual',
+            value: 2,
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'UnitSize',
+            target: 'Ally',
+            comparator: 'EqualTo',
+            value: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'activeHeal',
+    type: 'active',
+    name: 'Active Heal',
+    description:
+      'Restore moderate HP to one ally. Grants the target +1 AP. Cannot target self.',
+    ap: 2,
+    skillCategories: ['Heal'],
+    skillFlags: ['ExcludeSelf'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 100,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'circleHeal',
+    type: 'active',
+    name: 'Circle Heal',
+    description:
+      "Restore major HP to all allies. Removes all of target's debuffs. (User cannot evade or use passive skills while charging.)",
+    ap: 2,
+    skillCategories: ['Heal'],
+    skillFlags: ['Charge'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 150,
+        },
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'liberatorsStaff',
+    type: 'active',
+    name: "Liberator's Staff",
+    description: 'Remove all buffs from all enemies.',
+    ap: 2,
+    skillCategories: ['Sabotage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Cleanse',
+        target: 'Buffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'gleamingMace',
+    type: 'active',
+    name: 'Gleaming Mace',
+    description: "Attack a single enemy. Removes all of the target's buffs.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 200,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Buffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'cursedStrike',
+    type: 'active',
+    name: 'Cursed Strike',
+    description:
+      'Attack a single enemy. Ignores 50% Defense and +100 potency vs debuffed targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+        conditions: [
+          {
+            kind: 'AnyDebuff',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'AnyDebuff',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'quartzRod',
+    type: 'active',
+    name: 'Quartz Rod',
+    description:
+      "Attack all enemies. Deals damage equal to 50% of each target's HP.",
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Magical',
+    skillFlags: ['Charge', 'NoCrit'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {},
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'TargetHPBasedDamage',
+        type: 'percentCurrent',
+        amount: 50,
+      },
+    ],
+  },
+  {
+    id: 'blizzard',
+    type: 'active',
+    name: 'Blizzard',
+    description: 'Attack all enemies with magic. Inflicts Freeze.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Charge'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 50,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'skywardThrust',
+    type: 'active',
+    name: 'Skyward Thrust',
+    description:
+      'Attack three enemies with magic. +50 potency vs flying targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Three',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 50,
+        },
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'sanguineDarts',
+    type: 'active',
+    name: 'Sanguine Darts',
+    description:
+      'Attack a column of enemies with piercing magic. Recover HP equal to 50% of damage dealt.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'LifeSteal',
+        percentage: 50,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'doubleHeal',
+    type: 'active',
+    name: 'Double Heal',
+    description: 'Restore minor HP to two allies.',
+    ap: 1,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Two',
+    },
+    effects: [
+      {
+        kind: 'Heal',
+        potency: {
+          magical: 60,
+        },
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'fireCurse',
+    type: 'active',
+    name: 'Fire Curse',
+    description: 'Inflicts Burn on a row of enemies.',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'poisonCurse',
+    type: 'active',
+    name: 'Poison Curse',
+    description: 'Inflicts Poison on a row of enemies.',
+    ap: 1,
+    skillCategories: ['Sabotage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Affliction',
+        affliction: 'Poison',
         applyTo: 'Target',
       },
     ],

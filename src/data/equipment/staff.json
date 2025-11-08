@@ -60,7 +60,14 @@
     },
     "skillId": "holyCradle",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "carnatRod",
@@ -125,7 +132,14 @@
     },
     "skillId": "protection",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "defendersMace",
@@ -137,7 +151,14 @@
     },
     "skillId": "quickBarrier",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "dragonboneStaff",
@@ -250,7 +271,14 @@
     },
     "skillId": "reheal",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "icefallStaff",
@@ -315,7 +343,14 @@
     },
     "skillId": "reincarnation",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "liberatorsStaff",
@@ -338,7 +373,27 @@
     },
     "skillId": "resurrection",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
+  },
+  {
+    "id": "lupinusStaff",
+    "name": "Lupinus Staff",
+    "type": "Staff",
+    "stats": {
+      "MATK": 25,
+      "PP": 1,
+      "HPRecovery": 30
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
   },
   {
     "id": "lyricalWand",
@@ -350,7 +405,14 @@
     },
     "skillId": "activeHeal",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "meteoriteRod",
@@ -392,7 +454,14 @@
     },
     "skillId": "partingResurrection",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "papalCrosier",
@@ -405,7 +474,14 @@
     },
     "skillId": null,
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "pestilentStaff",
@@ -446,7 +522,14 @@
     },
     "skillId": "radiantHeal",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "poisonHexStaff",
@@ -460,6 +543,24 @@
     "classRestrictions": ["Shaman", "Druid"]
   },
   {
+    "id": "preciousRod",
+    "name": "Precious Rod",
+    "type": "Staff",
+    "stats": {
+      "MATK": 20
+    },
+    "skillId": "limitedHeal",
+    "nullifications": [],
+    "classRestrictions": [
+      "Cleric",
+      "Bishop",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
+  },
+  {
     "id": "purifier",
     "name": "Purifier",
     "type": "Staff",
@@ -468,7 +569,14 @@
     },
     "skillId": "sacredCure",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "quartzRod",
@@ -509,7 +617,14 @@
     },
     "skillId": null,
     "nullifications": ["PassiveSeal"],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "ringedStaff",
@@ -521,7 +636,14 @@
     },
     "skillId": "circleHeal",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "sacralRod",
@@ -578,7 +700,14 @@
     },
     "skillId": "doubleHeal",
     "nullifications": [],
-    "classRestrictions": ["Bishop", "Cleric", "High Priestess", "Priestess"]
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "High Priestess",
+      "Priestess",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "steelStaff",

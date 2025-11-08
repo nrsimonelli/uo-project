@@ -2684,5 +2684,274 @@
         "applyTo": "Target"
       }
     ]
+  },
+  {
+    "id": "magicBurst",
+    "type": "passive",
+    "name": "Magic Burst",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack all enemies with magic. Inflicts Initiative -10.",
+    "pp": 3,
+    "skillCategories": ["Damage", "Counter"],
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -10,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "protection",
+    "type": "passive",
+    "name": "Protection",
+    "description": "Activates before an ally is attacked. Reduce the damage taken by a row of allies by 50% for one attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "DmgReductionPercent",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      }
+    ]
+  },
+  {
+    "id": "quickBarrier",
+    "type": "passive",
+    "name": "Quick Barrier",
+    "description": "Activates before an ally is attacked. Reduce the damage taken by an ally by 50% for one attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "DmgReductionPercent",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      }
+    ]
+  },
+  {
+    "id": "sacredCure",
+    "type": "passive",
+    "name": "Sacred Cure",
+    "description": "Activates after an ally is debuffed. Remove all debuffs from a row of allies. Grants targets immunity to one debuff.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Debuffs",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "DebuffImmunity",
+        "value": 1,
+        "applyTo": "Target",
+        "scaling": "flat",
+        "duration": "UntilDebuffed"
+      }
+    ]
+  },
+  {
+    "id": "reheal",
+    "type": "passive",
+    "name": "Reheal",
+    "description": "Activates at the start of a battle. Grants a row of allies HP Regeneration.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "OnActiveHealPercent",
+        "value": 25,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "magicShell",
+    "type": "passive",
+    "name": "Magic Shell",
+    "description": "Activates at the start of a battle. Complete negate attacks up to three hits.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "DamageImmunity",
+        "immunityType": "multipleHits",
+        "hitCount": 3,
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "hastenedCurse",
+    "type": "passive",
+    "name": "Hastened Curse",
+    "description": "Activates at the start of a battle. Inflicts -30 Initiative on a single enemy.",
+    "pp": 1,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -30,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "guardHunter",
+    "type": "passive",
+    "name": "Guard Hunter",
+    "description": "Activates after an enemy guards an attack. Attack a single enemy with magic. Ignores 30% of the target's Defense.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "activationWindow": "afterEnemyGuards",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "IgnoreDefense",
+        "fraction": 0.3
+      }
+    ]
+  },
+  {
+    "id": "poisonBurst",
+    "type": "passive",
+    "name": "Poison Burst",
+    "description": "Activates at the end of a battle. Attack a single enemy with magic. Hits all enemies if target is poisoned.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single",
+      "conditionalPattern": {
+        "pattern": "All",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "fireBurst",
+    "type": "passive",
+    "name": "Fire Burst",
+    "description": "Activates at the end of a battle. Attack a single enemy with magic. Hits all enemies if target is poisoned.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single",
+      "conditionalPattern": {
+        "pattern": "All",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Fire",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
   }
 ]

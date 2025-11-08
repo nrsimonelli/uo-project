@@ -1,23 +1,22 @@
 # Skill Validation Report
 
-_Generated: 2025-11-07T04:27:37.125Z_
+_Generated: 2025-11-08T00:42:15.069Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 185
-- **Total Skills Referenced**: 404
-- **Active Skills Defined**: 152
-- **Passive Skills Defined**: 98
-- **Total Skills Defined**: 250
-- **Activation Windows Referenced**: 33
+- **Equipment Skills Referenced**: 186
+- **Total Skills Referenced**: 405
+- **Active Skills Defined**: 172
+- **Passive Skills Defined**: 108
+- **Total Skills Defined**: 280
+- **Activation Windows Referenced**: 34
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **154 missing skills:**
+❌ **129 missing skills:**
 
-- `activeHeal`
 - `advanceCover`
 - `aerialAlignment`
 - `aerialGuard`
@@ -28,7 +27,6 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `bearsDen`
 - `bestralGuard`
 - `blindCure`
-- `blizzard`
 - `boonOfTheFaeries`
 - `bulwark`
 - `bunkerStance`
@@ -36,7 +34,6 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `carnage`
 - `cavalryGuard`
 - `celestialLight`
-- `circleHeal`
 - `counter`
 - `curingCall`
 - `curingHeal`
@@ -52,9 +49,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `dispelAll`
 - `diurnalImpetus`
 - `divineBlessing`
-- `doubleHeal`
 - `dynamicGlide`
-- `earthquake`
 - `elementalImpetus`
 - `elementalRoar`
 - `enduringCover`
@@ -62,9 +57,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `evilCover`
 - `eyeOfTheWarriorPrincess`
 - `faerieHeal`
-- `fireBurst`
 - `fireCure`
-- `fireCurse`
 - `flameConferral`
 - `flameThrust`
 - `freezeCure`
@@ -74,14 +67,12 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `graveImpetus`
 - `gravity`
 - `guardCure`
-- `guardHunter`
 - `guardingFighter`
 - `guardingImpetus`
 - `hastenedAction`
 - `hastenedCast`
 - `hastenedCharge`
 - `hastenedCover`
-- `hastenedCurse`
 - `hastenedShatter`
 - `hawkEye`
 - `healingPursuit`
@@ -97,8 +88,6 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `ironVeil`
 - `lifeshare`
 - `maelstrom`
-- `magicBurst`
-- `magicShell`
 - `magicWall`
 - `maidensHammer`
 - `mightyShield`
@@ -117,40 +106,27 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `passiveMiracle`
 - `phantomCounter`
 - `phantomStep`
-- `phantomVeil`
-- `poisonBurst`
 - `poisonCure`
-- `poisonCurse`
 - `powerfulCall`
 - `primusEdge`
-- `protection`
 - `provokingCrush`
 - `provokingWall`
 - `quickAction`
-- `quickBarrier`
 - `quickCover`
 - `quickImpetus`
 - `radiantCover`
-- `radiantHeal`
 - `rageOfTheFaeries`
 - `recast`
 - `reflectMagic`
-- `reheal`
-- `reincarnation`
 - `reinforce`
 - `relicHeal`
-- `resurrection`
 - `royalGuard`
-- `sacredCure`
 - `saintsBarrier`
-- `sandstorm`
 - `sanguineConferral`
-- `sanguineDarts`
 - `sanguinePursuit`
 - `scornfulDead`
 - `selfCare`
 - `shadowArrow`
-- `skywardThrust`
 - `snowWhiteStrike`
 - `sonicShaft`
 - `sorcerousBlow`
@@ -159,7 +135,6 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `sylphicWind`
 - `thunderousConferral`
 - `toughness`
-- `trinityRain`
 - `tripleCounter`
 - `undyingWill`
 - `unitedFront`
@@ -174,7 +149,12 @@ _Generated: 2025-11-07T04:27:37.125Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-✅ **No unused skills found!**
+⚠️ **4 unused skills:**
+
+- `cursedStrike`
+- `gleamingMace`
+- `liberatorsStaff`
+- `quartzRod`
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
@@ -182,11 +162,10 @@ _Generated: 2025-11-07T04:27:37.125Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **6 unused activation windows:**
+⚠️ **5 unused activation windows:**
 
 - `afterAllyHealed`
 - `afterBeingAttacked`
-- `afterEnemyGuards`
 - `afterReceivingAllyPassive`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
@@ -440,7 +419,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (185)
+### From Equipment Data (186)
 
 - `activeHeal`
 - `activeShatter`
@@ -537,6 +516,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `lethalVenom`
 - `lifeshare`
 - `lightningShaker`
+- `limitedHeal`
 - `magicAttack`
 - `magicBarrier`
 - `magicBurst`
@@ -628,8 +608,9 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (152)
+### Active Skills Defined (172)
 
+- `activeHeal`
 - `activeShatter`
 - `activeSteal`
 - `aerialSmite`
@@ -645,11 +626,14 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `bastardsCross`
 - `bearCrush`
 - `beastslayer`
+- `blizzard`
 - `brandish`
 - `cavalrySlayer`
 - `checkmate`
+- `circleHeal`
 - `compoundingCurse`
 - `crush`
+- `cursedStrike`
 - `darkFlame`
 - `decimate`
 - `defender`
@@ -660,8 +644,10 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `divineCross`
 - `divingThrust`
 - `doubleBlast`
+- `doubleHeal`
 - `dragoonDive`
 - `dualShot`
+- `earthquake`
 - `earthshaker`
 - `elfslayer`
 - `execution`
@@ -669,11 +655,13 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `fatalDive`
 - `finishingStab`
 - `fireBreath`
+- `fireCurse`
 - `fireSlash`
 - `fireball`
 - `flameArrow`
 - `flameJavelin`
 - `freezingThrust`
+- `gleamingMace`
 - `grandSmash`
 - `greatshield`
 - `grislyFire`
@@ -705,8 +693,10 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `leanEdge`
 - `leapingSlash`
 - `lethalVenom`
+- `liberatorsStaff`
 - `lightningBlade`
 - `lightningShaker`
+- `limitedHeal`
 - `longThrust`
 - `magicAttack`
 - `magicMissile`
@@ -729,15 +719,21 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `passiveSteal`
 - `penetrate`
 - `phantomAttack`
+- `phantomVeil`
 - `photonArrow`
 - `piercingLance`
 - `pileThrust`
 - `poisonArrow`
+- `poisonCurse`
 - `poisonSlash`
 - `powerBolt`
 - `powerfulImpact`
 - `provokingSlash`
+- `quartzRod`
+- `radiantHeal`
 - `rampage`
+- `reincarnation`
+- `resurrection`
 - `rollingAxe`
 - `roundSwing`
 - `rowHeal`
@@ -748,12 +744,15 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `sacredHeal`
 - `saintsBlade`
 - `saintsShot`
+- `sandstorm`
 - `sanguineAttack`
+- `sanguineDarts`
 - `shadowThrust`
 - `shadowbite`
 - `shieldBash`
 - `shieldSmite`
 - `singleShot`
+- `skywardThrust`
 - `slice`
 - `smash`
 - `sonicBlast`
@@ -769,6 +768,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `thunderousThrust`
 - `toxicBolt`
 - `toxicThrow`
+- `trinityRain`
 - `tripleShatter`
 - `trueThrust`
 - `vengefulAxe`
@@ -783,7 +783,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (98)
+### Passive Skills Defined (108)
 
 - `accelerate`
 - `activeGift`
@@ -813,14 +813,17 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `evade`
 - `evasiveImpetus`
 - `feathering`
+- `fireBurst`
 - `firstAid`
 - `focusSight`
 - `followingSlash`
 - `frenziedStrike`
 - `groundCounter`
 - `gryphonGlide`
+- `guardHunter`
 - `guardOrder`
 - `guardian`
+- `hastenedCurse`
 - `hastenedHeal`
 - `hastenedStrike`
 - `healingHunter`
@@ -837,9 +840,11 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `lifesaver`
 - `luminousCover`
 - `magicBarrier`
+- `magicBurst`
 - `magicConferral`
 - `magicCounter`
 - `magicPursuit`
+- `magicShell`
 - `medicalAid`
 - `nobleGuard`
 - `nocturnalEvade`
@@ -849,10 +854,13 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `partingBlow`
 - `partingResurrection`
 - `phalanxShift`
+- `poisonBurst`
 - `preemptiveHeal`
+- `protection`
 - `provoke`
 - `pureField`
 - `pursuit`
+- `quickBarrier`
 - `quickCast`
 - `quickCure`
 - `quickCurse`
@@ -863,10 +871,12 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `rapidOrder`
 - `rapidShot`
 - `refresh`
+- `reheal`
 - `removeWeakness`
 - `restore`
 - `rowBarrier`
 - `rowCover`
+- `sacredCure`
 - `sacrifice`
 - `sanguineArts`
 - `selflessHeal`
@@ -886,7 +896,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (33)
+### Referenced in Passive Skills (34)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -902,6 +912,7 @@ _Generated: 2025-11-07T04:27:37.125Z_
 - `afterEnemyAttacksActive`
 - `afterEnemyBuff`
 - `afterEnemyDebuff`
+- `afterEnemyGuards`
 - `afterEnemyHeals`
 - `afterEvade`
 - `afterFlyingAllyAttacksActive`
