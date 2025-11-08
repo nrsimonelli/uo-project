@@ -1,9 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import {
-  calculateSkillDamage,
-  calculateMultiHitDamage,
-} from '@/core/battle/combat/damage-calculator'
+import { calculateSkillDamage } from '@/core/battle/combat/damage-calculator'
+import { calculateMultiHitDamage } from '@/core/battle/combat/multi-hit-damage'
 import { mockRngPresets } from '@/test/utils/mock-rng'
 import {
   createStandardAttacker,
