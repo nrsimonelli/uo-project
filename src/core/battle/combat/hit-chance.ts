@@ -1,4 +1,3 @@
-import { BUFF_STATS } from './damage-calculator-types'
 import { getEffectiveStatsForTarget } from './status-effects'
 
 import type { RandomNumberGeneratorType } from '@/core/random'
@@ -13,9 +12,9 @@ export const calculateHitChance = (
   flags: Flag[] = [],
   attackType?: 'Melee' | 'Ranged' | 'Magical'
 ) => {
-  const hasTrueStrikeFlag = flags.includes(BUFF_STATS.TRUE_STRIKE as Flag)
+  const hasTrueStrikeFlag = flags.includes('TrueStrike')
   const hasTrueStrikeBuff = attacker.buffs.some(
-    buff => buff.stat === BUFF_STATS.TRUE_STRIKE
+    buff => buff.stat === 'TrueStrike'
   )
 
   if (

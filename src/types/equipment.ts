@@ -46,6 +46,7 @@ export type ExtraStats =
   | 'HPRecovery'
   | 'TrueStrike'
   | 'NegateMagicDamage'
+  | 'NegatePhysicalDamage'
   | 'AfflictionImmunity'
   | 'TrueCritical'
   | 'Unguardable'

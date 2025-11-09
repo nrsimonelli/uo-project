@@ -15,7 +15,8 @@ export const calculateDamageComponents = (
   critMultiplier: number,
   guardMultiplier: number,
   effectResults?: EffectProcessingResult,
-  magicNegated?: boolean
+  magicNegated?: boolean,
+  physicalNegated?: boolean
 ): DamageComponents => {
   let totalDamage = 0
   let physicalDamage = 0
@@ -69,8 +70,8 @@ export const calculateDamageComponents = (
     const physicalResult = calculateDamageComponent(
       damageEffect.potency.physical!,
       true,
-      false,
-      ''
+      physicalNegated ?? false,
+      `🛡️ ${target.unit.name} negated physical damage`
     )
     physicalDamage = physicalResult.damage
     rawBaseDamage += physicalResult.rawBase

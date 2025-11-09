@@ -180,6 +180,16 @@ export interface DamageImmunityStatus {
 }
 
 /**
+ * Debuff amplification status effect (increases effectiveness of debuffs)
+ */
+export interface DebuffAmplificationStatus {
+  skillId: string
+  multiplier: number // 1.5 for 150% effectiveness
+  duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  source: string // unit ID that applied this
+}
+
+/**
  * Battle context for a unit with all tracking data
  */
 export interface BattleContext {
@@ -201,6 +211,7 @@ export interface BattleContext {
   conferrals: ConferralStatus[]
   evades: EvadeStatus[]
   damageImmunities: DamageImmunityStatus[]
+  debuffAmplifications: DebuffAmplificationStatus[]
 
   // Stat foundation (base + equipment) - stored once for efficient recalculation
   statFoundation: {

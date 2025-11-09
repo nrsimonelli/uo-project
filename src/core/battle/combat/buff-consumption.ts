@@ -1,5 +1,5 @@
 import { logCombat } from './combat-utils'
-import { BUFF_STATS, type ConsumableBuffStat } from './damage-calculator-types'
+import type { ConsumableBuffStat } from './damage-calculator-types'
 import { recalculateStats } from './status-effects'
 
 import type { BattleContext, Buff } from '@/types/battle-engine'
@@ -10,7 +10,7 @@ export const hasFlagOrBuff = (
   buffs: BattleContext['buffs'],
   flagName: Flag,
   buffStat: string
-): boolean => {
+) => {
   return flags.includes(flagName) || buffs.some(buff => buff.stat === buffStat)
 }
 
@@ -21,7 +21,7 @@ const checkAndConsumeBuff = (
     consumeOnUse?: (buff: Buff) => boolean
     logMessage?: (unitName: string, buffName: string) => string
   }
-): boolean => {
+) => {
   const buffIndex = unit.buffs.findIndex(buff => buff.stat === stat)
   if (buffIndex === -1) return false
 
@@ -30,7 +30,7 @@ const checkAndConsumeBuff = (
   const shouldConsume =
     options?.consumeOnUse !== undefined
       ? options.consumeOnUse(buff)
-      : stat === BUFF_STATS.UNGUARDABLE
+      : stat === 'Unguardable'
         ? buff.duration !== 'Indefinite'
         : true
 
@@ -46,35 +46,36 @@ const checkAndConsumeBuff = (
   return true
 }
 
-export const checkAndConsumeNegateMagicDamage = (
-  target: BattleContext
-): boolean => {
-  return checkAndConsumeBuff(target, BUFF_STATS.NEGATE_MAGIC_DAMAGE, {
+export const checkAndConsumeNegateMagicDamage = (target: BattleContext) => {
+  return checkAndConsumeBuff(target, 'NegateMagicDamage', {
     logMessage: (name, buffName) =>
       `🛡️ ${name}'s ${buffName} buff consumed (negated magic damage)`,
   })
 }
 
-export const checkAndConsumeTrueStrike = (attacker: BattleContext): boolean => {
-  return checkAndConsumeBuff(attacker, BUFF_STATS.TRUE_STRIKE, {
+export const checkAndConsumeNegatePhysicalDamage = (target: BattleContext) => {
+  return checkAndConsumeBuff(target, 'NegatePhysicalDamage', {
+    logMessage: (name, buffName) =>
+      `🛡️ ${name}'s ${buffName} buff consumed (negated physical damage)`,
+  })
+}
+
+export const checkAndConsumeTrueStrike = (attacker: BattleContext) => {
+  return checkAndConsumeBuff(attacker, 'TrueStrike', {
     logMessage: (name, buffName) =>
       `🎯 ${name}'s ${buffName} buff consumed (guaranteed hit)`,
   })
 }
 
-export const checkAndConsumeTrueCritical = (
-  attacker: BattleContext
-): boolean => {
-  return checkAndConsumeBuff(attacker, BUFF_STATS.TRUE_CRITICAL, {
+export const checkAndConsumeTrueCritical = (attacker: BattleContext) => {
+  return checkAndConsumeBuff(attacker, 'TrueCritical', {
     logMessage: (name, buffName) =>
       `✨ ${name}'s ${buffName} buff consumed (guaranteed crit)`,
   })
 }
 
-export const checkAndConsumeUnguardable = (
-  attacker: BattleContext
-): boolean => {
-  return checkAndConsumeBuff(attacker, BUFF_STATS.UNGUARDABLE, {
+export const checkAndConsumeUnguardable = (attacker: BattleContext) => {
+  return checkAndConsumeBuff(attacker, 'Unguardable', {
     consumeOnUse: buff => buff.duration !== 'Indefinite',
     logMessage: (name, buffName) =>
       `⚡ ${name}'s ${buffName} buff consumed (guard bypassed)`,

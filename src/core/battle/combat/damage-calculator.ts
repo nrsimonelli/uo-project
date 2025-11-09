@@ -3,12 +3,12 @@ import { prepareAttackContext } from './attack-context'
 import { calculateDamageComponents } from './base-damage'
 import {
   checkAndConsumeNegateMagicDamage,
+  checkAndConsumeNegatePhysicalDamage,
   checkAndConsumeTrueCritical,
   checkAndConsumeUnguardable,
   hasFlagOrBuff,
 } from './buff-consumption'
 import { logCombat } from './combat-utils'
-import { BUFF_STATS } from './damage-calculator-types'
 import type { DamageResult } from './damage-calculator-types'
 import { checkAndConsumeDamageImmunity } from './damage-immunity'
 import { applyDamageModifiers, applyDamageReduction } from './damage-modifiers'
@@ -64,6 +64,7 @@ export const calculateSkillDamage = (
   effectResults?: EffectProcessingResult,
   twoHitsRemaining?: number,
   magicNegatedOverride?: boolean,
+  physicalNegatedOverride?: boolean,
   remainingImmunityHits?: number
 ): DamageResult => {
   void skillCategories
@@ -125,8 +126,8 @@ export const calculateSkillDamage = (
     hasFlagOrBuff(
       context.combinedFlags,
       attacker.buffs,
-      BUFF_STATS.TRUE_CRITICAL as Flag,
-      BUFF_STATS.TRUE_CRITICAL
+      'TrueCritical' as Flag,
+      'TrueCritical'
     ) || hasTrueCriticalBuff
   const wasCritical =
     canLandCrit && (hasTrueCritical || rollCrit(rng, critRate))
@@ -140,8 +141,8 @@ export const calculateSkillDamage = (
     hasFlagOrBuff(
       context.combinedFlags,
       attacker.buffs,
-      BUFF_STATS.UNGUARDABLE as Flag,
-      BUFF_STATS.UNGUARDABLE
+      'Unguardable' as Flag,
+      'Unguardable'
     ) || isUnguardableBuff
   const canGuardAttack =
     context.hasPhysical && !isUnguardable && canGuard(target)
@@ -169,6 +170,11 @@ export const calculateSkillDamage = (
     magicNegatedOverride !== undefined
       ? magicNegatedOverride
       : checkAndConsumeNegateMagicDamage(target)
+
+  const physicalNegated =
+    physicalNegatedOverride !== undefined
+      ? physicalNegatedOverride
+      : checkAndConsumeNegatePhysicalDamage(target)
 
   if (typeof effectResults?.ownHPBasedDamage === 'number') {
     if (context.attackType === 'Melee' && target.incomingParry) {
@@ -225,7 +231,8 @@ export const calculateSkillDamage = (
     critMultiplier,
     guardMultiplier,
     effectResults,
-    magicNegated
+    magicNegated,
+    physicalNegated
   )
 
   const {

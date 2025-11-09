@@ -16,6 +16,7 @@ import type {
   ConferralStatus,
   EvadeStatus,
   DamageImmunityStatus,
+  DebuffAmplificationStatus,
 } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
 import type { ExtraStats } from '@/types/equipment'
@@ -218,31 +219,6 @@ const applyBuffsAndDebuffs = (
       }
     )
   })
-
-  // Apply debuff amplifications as special debuffs
-  effectResults.debuffAmplificationsToApply.forEach(amplificationToApply => {
-    const skillName = getSkillName(amplificationToApply.skillId)
-    const targetUnit = resolveEffectTarget(
-      amplificationToApply.target,
-      attacker,
-      targets,
-      attackHit
-    )
-    if (!targetUnit) return
-
-    const amplificationDebuff: Debuff = {
-      name: `${skillName} (Debuff Amplification)`,
-      stat: 'DebuffAmplification' as StatKey, // Special reserved stat
-      value: amplificationToApply.multiplier,
-      duration: amplificationToApply.duration ?? 'Indefinite',
-      scaling: 'flat', // Store the raw multiplier value
-      source: attacker.unit.id,
-      skillId: amplificationToApply.skillId,
-    }
-
-    applyDebuff(targetUnit, amplificationDebuff, false) // Don't allow stacking of amplification
-    unitsToRecalculate.add(targetUnit)
-  })
 }
 
 /**
@@ -271,6 +247,43 @@ const applyConferrals = (
     }
 
     applyConferral(targetUnit, conferral)
+  })
+}
+
+/**
+ * Apply debuff amplification effects to appropriate targets
+ */
+const applyDebuffAmplifications = (
+  amplificationsToApply: EffectProcessingResult['debuffAmplificationsToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  amplificationsToApply.forEach(amplificationToApply => {
+    const skillName = getSkillName(amplificationToApply.skillId)
+    const targetUnit = resolveEffectTarget(
+      amplificationToApply.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
+
+    const amplification: DebuffAmplificationStatus = {
+      skillId: amplificationToApply.skillId,
+      multiplier: amplificationToApply.multiplier,
+      duration: amplificationToApply.duration || 'UntilNextAttack',
+      source: attacker.unit.id,
+    }
+
+    applyDebuffAmplification(targetUnit, amplification)
+    unitsToRecalculate.add(targetUnit)
+
+    logCombat(
+      `🔊 Debuff Amplification Applied: ${targetUnit.unit.name} ${amplification.multiplier}x debuff effectiveness (${amplification.duration})`,
+      { skillName }
+    )
   })
 }
 
@@ -466,6 +479,15 @@ export const applyStatusEffects = (
   // Apply conferral effects to appropriate targets
   applyConferrals(effectResults.conferralsToApply, attacker, targets, attackHit)
 
+  // Apply debuff amplification effects to appropriate targets
+  applyDebuffAmplifications(
+    effectResults.debuffAmplificationsToApply,
+    attacker,
+    targets,
+    attackHit,
+    unitsToRecalculate
+  )
+
   // Apply evade effects to appropriate targets
   applyEvades(
     effectResults.evadesToApply,
@@ -542,6 +564,16 @@ const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
 }
 
 /**
+ * Apply a debuff amplification effect to a unit
+ */
+const applyDebuffAmplification = (
+  unit: BattleContext,
+  newAmplification: DebuffAmplificationStatus
+) => {
+  applyStatusEffect(unit.debuffAmplifications, newAmplification, false)
+}
+
+/**
  * Apply an evade effect to a unit
  */
 const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
@@ -555,13 +587,13 @@ const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
 export const checkAndConsumeSurviveLethal = (
   unit: BattleContext,
   newHP: number
-): number => {
+) => {
   // If damage wouldn't be lethal, no need to check
   if (newHP > 0) return newHP
 
   // Check for SurviveLethal buff
   const surviveLethalBuffIndex = unit.buffs.findIndex(
-    buff => buff.stat === ('SurviveLethal' as StatKey)
+    buff => buff.stat === 'SurviveLethal'
   )
 
   if (surviveLethalBuffIndex !== -1) {
@@ -585,10 +617,7 @@ export const checkAndConsumeSurviveLethal = (
 const isImmuneToDebuff = (unit: BattleContext) => {
   // Check permanent immunities first (not consumed)
   const hasPermanentImmunity = unit.immunities.some(immunity => {
-    if (immunity === 'Debuff') {
-      return true
-    }
-    return false
+    return immunity === 'Debuff'
   })
 
   // Check for DebuffImmunity buff (consumed on use)
@@ -638,16 +667,22 @@ export const removeExpiredBuffs = (
   )
   unit.buffs = removeExpiredStatus(unit.buffs, trigger)
 
-  // Also remove expired conferrals, evades, and damage immunities
+  // Also remove expired conferrals, evades, damage immunities, and debuff amplifications
   const initialConferralCount = (unit.conferrals || []).length
   const initialEvadeCount = (unit.evades || []).length
   const initialDamageImmunityCount = (unit.damageImmunities || []).length
+  const initialDebuffAmplificationCount = (unit.debuffAmplifications || [])
+    .length
 
   if (trigger === 'attacks' || trigger === 'attacked' || trigger === 'action') {
     unit.conferrals = removeExpiredStatus(unit.conferrals || [], trigger)
     unit.evades = removeExpiredStatus(unit.evades || [], trigger)
     unit.damageImmunities = removeExpiredStatus(
       unit.damageImmunities || [],
+      trigger
+    )
+    unit.debuffAmplifications = removeExpiredStatus(
+      unit.debuffAmplifications || [],
       trigger
     )
   }
@@ -659,12 +694,15 @@ export const removeExpiredBuffs = (
   const evadesChanged = (unit.evades || []).length !== initialEvadeCount
   const damageImmunitiesChanged =
     (unit.damageImmunities || []).length !== initialDamageImmunityCount
+  const debuffAmplificationsChanged =
+    (unit.debuffAmplifications || []).length !== initialDebuffAmplificationCount
 
   if (
     buffsChanged ||
     conferralsChanged ||
     evadesChanged ||
-    damageImmunitiesChanged
+    damageImmunitiesChanged ||
+    debuffAmplificationsChanged
   ) {
     logCombat(
       `🔄 Status Expired for ${unit.unit.name} (trigger: ${trigger}):`,
@@ -764,7 +802,7 @@ export const getDebuffsForStat = (
 const shouldApplyConditionalBuff = (
   buff: Buff,
   target: BattleContext | null
-): boolean => {
+) => {
   // If buff has no condition, always apply
   if (!buff.conditionalOnTarget) {
     return true
@@ -798,20 +836,14 @@ export const calculateStatModifier = (
   unit: BattleContext,
   stat: StatKey | ExtraStats,
   target?: BattleContext | null
-): {
-  flatModifier: number
-  percentModifier: number
-} => {
+) => {
   const buffs = getBuffsForStat(unit, stat)
   const debuffs = getDebuffsForStat(unit, stat)
 
   // Get debuff amplification multiplier
-  const amplificationDebuffs = unit.debuffs.filter(
-    debuff => debuff.stat === ('DebuffAmplification' as StatKey)
-  )
   const amplificationMultiplier =
-    amplificationDebuffs.length > 0
-      ? amplificationDebuffs[0].value // Use the first/most recent amplification
+    unit.debuffAmplifications.length > 0
+      ? unit.debuffAmplifications[0].multiplier // Use the first/most recent amplification
       : 1.0 // No amplification
 
   let flatModifier = 0
@@ -834,11 +866,6 @@ export const calculateStatModifier = (
 
   // Apply debuffs (debuff values are already negative, so add them directly)
   debuffs.forEach(debuff => {
-    // Skip the amplification debuffs themselves
-    if (debuff.stat === ('DebuffAmplification' as StatKey)) {
-      return
-    }
-
     const amplifiedValue = debuff.value * amplificationMultiplier
     if (debuff.scaling === 'flat') {
       flatModifier += amplifiedValue // Values are already negative
@@ -854,7 +881,7 @@ export const calculateStatModifier = (
  * Check if a unit has any buffs
  * Includes regular buffs, conferrals, and evades
  */
-export const hasBuffs = (unit: BattleContext): boolean => {
+export const hasBuffs = (unit: BattleContext) => {
   return (
     unit.buffs.length > 0 ||
     (unit.conferrals || []).length > 0 ||
@@ -865,7 +892,7 @@ export const hasBuffs = (unit: BattleContext): boolean => {
 /**
  * Check if a unit has any debuffs
  */
-export const hasDebuffs = (unit: BattleContext): boolean => {
+export const hasDebuffs = (unit: BattleContext) => {
   return unit.debuffs.length > 0
 }
 
@@ -880,7 +907,7 @@ export const hasAffliction = (unit: BattleContext, afflictionType: string) => {
  * Store the base + equipment stats foundation on the unit for efficient recalculation
  * This should be called once when the BattleContext is created
  */
-export const initializeStatFoundation = (unit: BattleContext): void => {
+export const initializeStatFoundation = (unit: BattleContext) => {
   const baseStats = calculateBaseStats(
     unit.unit.level,
     unit.unit.classKey,
@@ -937,7 +964,7 @@ const RECALCULATED_STAT_KEYS: Array<
  * Uses additive percentage scaling: multiple percentage modifiers are summed together
  * Note: Conditional buffs are excluded during normal recalculation (no target provided)
  */
-export const recalculateStats = (unit: BattleContext): void => {
+export const recalculateStats = (unit: BattleContext) => {
   // Get the stored foundation (base + equipment)
   const foundation = unit.statFoundation
 

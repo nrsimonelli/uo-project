@@ -81,6 +81,7 @@ export const createMockBattleContext = (
     conferrals: [],
     evades: [],
     damageImmunities: [],
+    debuffAmplifications: [],
     flags: [],
     lastPassiveResponse: 0,
     isPassiveResponsive: true,

@@ -26,6 +26,8 @@ export function deepCopyUnits(
         debuffs: [...u.debuffs],
         conferrals: [...u.conferrals],
         evades: [...u.evades],
+        damageImmunities: [...(u.damageImmunities || [])],
+        debuffAmplifications: [...(u.debuffAmplifications || [])],
       } as BattleContext,
     ])
   )
@@ -41,5 +43,7 @@ export function cloneContext(ctx: BattleContext): BattleContext {
     debuffs: [...ctx.debuffs],
     conferrals: [...ctx.conferrals],
     evades: [...ctx.evades],
+    damageImmunities: [...(ctx.damageImmunities || [])],
+    debuffAmplifications: [...(ctx.debuffAmplifications || [])],
   }
 }

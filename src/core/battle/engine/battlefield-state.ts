@@ -81,6 +81,8 @@ export const createBattleContext = (
     afflictions: [],
     conferrals: [],
     evades: [],
+    damageImmunities: [],
+    debuffAmplifications: [],
     flags: [],
     lastPassiveResponse: 0,
     isPassiveResponsive: true,

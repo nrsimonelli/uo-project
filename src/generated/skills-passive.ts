@@ -3436,7 +3436,14 @@ export const PassiveSkills = [
       group: 'Self',
       pattern: 'Single',
     },
-    effects: [{}],
+    effects: [
+      {
+        kind: 'DamageImmunity',
+        immunityType: 'entireAttack',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+    ],
   },
   {
     id: 'provokingWall',

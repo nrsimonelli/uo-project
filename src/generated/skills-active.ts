@@ -5877,7 +5877,24 @@ export const ActiveSkills = [
       group: 'Self',
       pattern: 'Single',
     },
-    effects: [{}],
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'NegateMagicDamage',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+      {
+        kind: 'Buff',
+        stat: 'AfflictionImmunity',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+    ],
   },
   {
     id: 'wall',
@@ -5890,7 +5907,16 @@ export const ActiveSkills = [
       group: 'Self',
       pattern: 'Single',
     },
-    effects: [{}],
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'NegatePhysicalDamage',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+    ],
   },
   {
     id: 'bulwark',

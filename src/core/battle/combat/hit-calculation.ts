@@ -4,7 +4,6 @@ import {
 } from './affliction-manager'
 import { checkAndConsumeTrueStrike, hasFlagOrBuff } from './buff-consumption'
 import { logCombat } from './combat-utils'
-import { BUFF_STATS } from './damage-calculator-types'
 import type { AttackContext, HitResolution } from './damage-calculator-types'
 import { checkAndConsumeEvade } from './evade-system'
 import { calculateHitChance, rollHit } from './hit-chance'
@@ -29,8 +28,8 @@ export const resolveHit = (
   const isTrueStrike = hasFlagOrBuff(
     context.combinedFlags,
     attacker.buffs,
-    BUFF_STATS.TRUE_STRIKE as Flag,
-    BUFF_STATS.TRUE_STRIKE
+    'TrueStrike' as Flag,
+    'TrueStrike'
   )
 
   const hitChance = calculateHitChance(
@@ -42,7 +41,7 @@ export const resolveHit = (
   )
 
   const hasTrueStrikeBuff = attacker.buffs.some(
-    buff => buff.stat === BUFF_STATS.TRUE_STRIKE
+    buff => buff.stat === 'TrueStrike'
   )
   if (hasTrueStrikeBuff) {
     checkAndConsumeTrueStrike(attacker)

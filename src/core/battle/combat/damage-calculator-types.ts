@@ -3,6 +3,7 @@ import type { Flag } from '@/types/effects'
 
 export const BUFF_STATS = {
   NEGATE_MAGIC_DAMAGE: 'NegateMagicDamage',
+  NEGATE_PHYSICAL_DAMAGE: 'NegatePhysicalDamage',
   TRUE_STRIKE: 'TrueStrike',
   TRUE_CRITICAL: 'TrueCritical',
   UNGUARDABLE: 'Unguardable',

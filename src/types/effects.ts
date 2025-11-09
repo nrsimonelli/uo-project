@@ -11,6 +11,7 @@ export const FLAGS = [
   'TrueCritical',
   'InflictGuardSeal', // Next attack inflicts Guard Seal affliction
   'NegateMagicDamage', // Negates magic damage
+  'NegatePhysicalDamage', // Negates physical damage
   'AfflictionImmunity', // Immune to afflictions
   'DebuffImmunity', // Immune to debuffs
   // Skill properties
@@ -107,6 +108,7 @@ interface BaseEffect {
  * - 'SurviveLethal': Prevents one lethal blow, consumed when triggered
  * - 'DebuffImmunity': Blocks next debuff/affliction/resource steal, consumed when triggered
  * - 'NegateMagicDamage': Negates all incoming magic damage, consumed when triggered
+ * - 'NegatePhysicalDamage': Negates all incoming physical damage, consumed when triggered
  * - 'AfflictionImmunity': Blocks next affliction, consumed when triggered
  * - 'TrueStrike': Guarantees next attack hits, consumed when used
  *

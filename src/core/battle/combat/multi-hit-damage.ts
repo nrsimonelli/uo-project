@@ -1,4 +1,7 @@
-import { checkAndConsumeNegateMagicDamage } from './buff-consumption'
+import {
+  checkAndConsumeNegateMagicDamage,
+  checkAndConsumeNegatePhysicalDamage,
+} from './buff-consumption'
 import { calculateSkillDamage } from './damage-calculator'
 import type { DamageResult } from './damage-calculator-types'
 import { checkAndConsumeDamageImmunity } from './damage-immunity'
@@ -23,6 +26,7 @@ export const calculateMultiHitDamage = (
 ): DamageResult[] => {
   void effectFlags
   const magicNegated = checkAndConsumeNegateMagicDamage(target)
+  const physicalNegated = checkAndConsumeNegatePhysicalDamage(target)
 
   const initialEntireAttackImmunity = (target.damageImmunities || []).find(
     immunity => immunity.immunityType === 'entireAttack'
@@ -94,6 +98,7 @@ export const calculateMultiHitDamage = (
       effectResults,
       twoHitsRemaining,
       magicNegated,
+      physicalNegated,
       remainingImmunityHits
     )
 

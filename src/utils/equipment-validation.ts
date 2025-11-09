@@ -26,7 +26,7 @@ export const findEquipmentById = (itemId: string) => {
   return ALL_EQUIPMENT.find(item => item.id === itemId) || null
 }
 
-export const validateEquipmentReference = (itemId: string): boolean => {
+export const validateEquipmentReference = (itemId: string) => {
   return ALL_EQUIPMENT.some(item => item.id === itemId)
 }
 
