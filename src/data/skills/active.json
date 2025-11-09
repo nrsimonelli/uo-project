@@ -5493,9 +5493,9 @@
     ]
   },
   {
-    "id": "liberatorsStaff",
+    "id": "dispelAll",
     "type": "active",
-    "name": "Liberator's Staff",
+    "name": "Dispel All",
     "description": "Remove all buffs from all enemies.",
     "ap": 2,
     "skillCategories": ["Sabotage"],
@@ -5513,9 +5513,9 @@
     ]
   },
   {
-    "id": "gleamingMace",
+    "id": "holySmite",
     "type": "active",
-    "name": "Gleaming Mace",
+    "name": "Holy Smite",
     "description": "Attack a single enemy. Removes all of the target's buffs.",
     "ap": 2,
     "skillCategories": ["Damage"],
@@ -5586,9 +5586,9 @@
     ]
   },
   {
-    "id": "quartzRod",
+    "id": "gravity",
     "type": "active",
-    "name": "Quartz Rod",
+    "name": "Gravity",
     "description": "Attack all enemies. Deals damage equal to 50% of each target's HP.",
     "ap": 2,
     "skillCategories": ["Damage"],
@@ -5788,6 +5788,19 @@
     "targeting": {
       "group": "Self",
       "pattern": "Single"
+    },
+    "effects": [{}]
+  },
+  {
+    "id": "bulwark",
+    "type": "active",
+    "name": "Bulwark",
+    "description": "Grants a row of allies a buff that negates one physical attack.",
+    "ap": 2,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
     },
     "effects": [{}]
   }

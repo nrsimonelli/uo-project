@@ -204,6 +204,19 @@
     "classRestrictions": []
   },
   {
+    "id": "heavensMirrorGreatshield",
+    "name": "Heaven's Mirror Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 6,
+      "GRD": 10,
+      "GuardEff": 50
+    },
+    "skillId": "reflectMagic",
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
     "id": "herosGreatshield",
     "name": "Hero's Greatshield",
     "type": "Greatshield",
@@ -307,6 +320,19 @@
       "EVA": 50
     },
     "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "moonlightGreatshield",
+    "name": "Moonlight Greatshield",
+    "type": "Greatshield",
+    "stats": {
+      "PDEF": 13,
+      "GRD": 35,
+      "GuardEff": 50
+    },
+    "skillId": "nocturnalGuard",
     "nullifications": [],
     "classRestrictions": []
   },

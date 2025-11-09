@@ -3058,6 +3058,448 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'hastenedCover',
+    type: 'passive',
+    name: 'Hastened Cover',
+    description:
+      'Activates before an ally is attacked. Cover an ally with a medium guard. Grants that ally max initiative for their next action.',
+    pp: 2,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'medium',
+      },
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 999,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAction',
+      },
+    ],
+  },
+  {
+    id: 'enduringGuard',
+    type: 'passive',
+    name: 'Enduring Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a heavy guard. Grants the user a buff to endure one lethal blow.',
+    pp: 2,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'heavy',
+      },
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'radiantCover',
+    type: 'passive',
+    name: 'Radiant Cover',
+    description:
+      "Activates before an ally is attacked. Cover an ally with a medium guard. Makes that ally's next attack truestrike.",
+    pp: 1,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'medium',
+      },
+      {
+        kind: 'Buff',
+        stat: 'TrueStrike',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
+      },
+    ],
+  },
+  {
+    id: 'quickCover',
+    type: 'passive',
+    name: 'Quick Cover',
+    description:
+      'Activates before an ally is attacked. Cover an ally with a medium guard.',
+    pp: 1,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'medium',
+      },
+    ],
+  },
+  {
+    id: 'nocturnalGuard',
+    type: 'passive',
+    name: 'Nocturnal Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. Grants the user +1 PP at Night.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'royalGuard',
+    type: 'passive',
+    name: 'Royal Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. User recovers 25% HP.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+      },
+      {
+        kind: 'HealPercent',
+        value: 25,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'bestralGuard',
+    type: 'passive',
+    name: 'Bestral Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. Becomes a heavy guard and grants the user +1 PP if the enemy is a bestral.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'NotEqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Guard',
+        guard: 'heavy',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Bestral',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'aerialGuard',
+    type: 'passive',
+    name: 'Aerial Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. Becomes a heavy guard and grants the user +1 PP if the enemy is a flying.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'NotEqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Guard',
+        guard: 'heavy',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Flying',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'cavalryGuard',
+    type: 'passive',
+    name: 'Cavalry Guard',
+    description:
+      'Activates before being hit by a physical attack. Block an enemy attack with a medium guard. Becomes a heavy guard and grants the user +1 PP if the enemy is a cavalry.',
+    pp: 1,
+    skillCategories: ['Guard'],
+    activationWindow: 'beforeBeingHitPhys',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Guard',
+        guard: 'medium',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'NotEqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'Guard',
+        guard: 'heavy',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'CombatantType',
+            target: 'Enemy',
+            combatantType: 'Cavalry',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'lifeshare',
+    type: 'passive',
+    name: 'Lifeshare',
+    description:
+      "Activates after an ally is hit by an attack. Share HP with an ally (50% of the user's HP).",
+    pp: 1,
+    skillCategories: ['Heal'],
+    activationWindow: 'afterAllyHit',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [{}],
+  },
+  {
+    id: 'enduringCover',
+    type: 'passive',
+    name: 'Enduring Cover',
+    description:
+      'Activates before an ally is attacked. Cover an ally with a heavy guard. Grants the user a buff to endure one lethal blow.',
+    pp: 2,
+    skillCategories: ['Cover'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Cover',
+        guard: 'heavy',
+      },
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'invincible',
+    type: 'passive',
+    name: 'Invincible',
+    description:
+      'Activates before being attacked. Completely negate the next attack received.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingAttacked',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [{}],
+  },
+  {
+    id: 'provokingWall',
+    type: 'passive',
+    name: 'Provoking Wall',
+    description:
+      'Activates at the start of a battle. Force a row of enemies to focus attacks on the user. User will negate one physical attack.',
+    pp: 2,
+    skillCategories: ['Sabotage'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'Taunt',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {},
+    ],
+  },
+  {
+    id: 'bunkerStance',
+    type: 'passive',
+    name: 'Bunker Stance',
+    description:
+      'Activates at the start of a battle. Grants the user -30 Initiative, +40% Phys. Defense, and +40% Guard Rate.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Debuff',
+        stat: 'INIT',
+        value: -30,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'PDEF',
+        value: 40,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'GRD',
+        value: 40,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

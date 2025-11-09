@@ -667,7 +667,7 @@ export const EquipmentStaff = [
     stats: {
       PATK: 18,
     },
-    skillId: 'curseStrike',
+    skillId: 'cursedStrike',
     nullifications: [],
     classRestrictions: ['Shaman', 'Druid'],
   },

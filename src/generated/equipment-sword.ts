@@ -577,8 +577,8 @@ export const EquipmentSword = [
     classRestrictions: [],
   },
   {
-    id: 'zenoriranSword',
-    name: 'Zenoriran Sword',
+    id: 'zenoiranSword',
+    name: 'Zenoiran Sword',
     type: 'Sword',
     stats: {
       PATK: 14,
@@ -591,8 +591,8 @@ export const EquipmentSword = [
     classRestrictions: [],
   },
   {
-    id: 'zenorianKnightsSword',
-    name: "Zenorian Knight's Sword",
+    id: 'zenoiranKnightsSword',
+    name: "Zenoiran Knight's Sword",
     type: 'Sword',
     stats: {
       PATK: 20,

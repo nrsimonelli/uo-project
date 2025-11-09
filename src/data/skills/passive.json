@@ -3281,5 +3281,105 @@
       "pattern": "Single"
     },
     "effects": [{}]
+  },
+  {
+    "id": "enduringCover",
+    "type": "passive",
+    "name": "Enduring Cover",
+    "description": "Activates before an ally is attacked. Cover an ally with a heavy guard. Grants the user a buff to endure one lethal blow.",
+    "pp": 2,
+    "skillCategories": ["Cover"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cover",
+        "guard": "heavy"
+      },
+      {
+        "kind": "Buff",
+        "stat": "SurviveLethal",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "invincible",
+    "type": "passive",
+    "name": "Invincible",
+    "description": "Activates before being attacked. Completely negate the next attack received.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [{}]
+  },
+  {
+    "id": "provokingWall",
+    "type": "passive",
+    "name": "Provoking Wall",
+    "description": "Activates at the start of a battle. Force a row of enemies to focus attacks on the user. User will negate one physical attack.",
+    "pp": 2,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "Taunt",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {}
+    ]
+  },
+  {
+    "id": "bunkerStance",
+    "type": "passive",
+    "name": "Bunker Stance",
+    "description": "Activates at the start of a battle. Grants the user -30 Initiative, +40% Phys. Defense, and +40% Guard Rate.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -30,
+        "scaling": "flat",
+        "applyTo": "User"
+      },
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 40,
+        "scaling": "percent",
+        "applyTo": "User"
+      },
+      {
+        "kind": "Buff",
+        "stat": "GRD",
+        "value": 40,
+        "scaling": "flat",
+        "applyTo": "User"
+      }
+    ]
   }
 ]

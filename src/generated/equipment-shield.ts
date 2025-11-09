@@ -561,6 +561,19 @@ export const EquipmentShield = [
     classRestrictions: [],
   },
   {
+    id: 'twinDragonShield',
+    name: 'Twin Dragon Shield',
+    type: 'Shield',
+    stats: {
+      PDEF: 6,
+      GRD: 25,
+      GuardEff: 25,
+    },
+    skillId: null,
+    nullifications: ['Burn', 'Freeze'],
+    classRestrictions: [],
+  },
+  {
     id: 'unfetteredShield',
     name: 'Unfettered Shield',
     type: 'Shield',
@@ -684,8 +697,8 @@ export const EquipmentShield = [
     classRestrictions: [],
   },
   {
-    id: 'zenoiranKnightShield',
-    name: 'Zenoiran Knight Shield',
+    id: 'zenoiranKnightsShield',
+    name: "Zenoiran Knight's Shield",
     type: 'Shield',
     stats: {
       PDEF: 6,

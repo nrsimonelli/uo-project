@@ -5589,9 +5589,9 @@ export const ActiveSkills = [
     ],
   },
   {
-    id: 'liberatorsStaff',
+    id: 'dispelAll',
     type: 'active',
-    name: "Liberator's Staff",
+    name: 'Dispel All',
     description: 'Remove all buffs from all enemies.',
     ap: 2,
     skillCategories: ['Sabotage'],
@@ -5609,9 +5609,9 @@ export const ActiveSkills = [
     ],
   },
   {
-    id: 'gleamingMace',
+    id: 'holySmite',
     type: 'active',
-    name: 'Gleaming Mace',
+    name: 'Holy Smite',
     description: "Attack a single enemy. Removes all of the target's buffs.",
     ap: 2,
     skillCategories: ['Damage'],
@@ -5683,9 +5683,9 @@ export const ActiveSkills = [
     ],
   },
   {
-    id: 'quartzRod',
+    id: 'gravity',
     type: 'active',
-    name: 'Quartz Rod',
+    name: 'Gravity',
     description:
       "Attack all enemies. Deals damage equal to 50% of each target's HP.",
     ap: 2,
@@ -5864,6 +5864,47 @@ export const ActiveSkills = [
         applyTo: 'Target',
       },
     ],
+  },
+  {
+    id: 'magicWall',
+    type: 'active',
+    name: 'Magic Wall',
+    description:
+      'Grants the user a buff that negates one magic attack or one affliction.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [{}],
+  },
+  {
+    id: 'wall',
+    type: 'active',
+    name: 'Wall',
+    description: 'Grants the user a buff that negates one physical attack.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [{}],
+  },
+  {
+    id: 'bulwark',
+    type: 'active',
+    name: 'Bulwark',
+    description:
+      'Grants a row of allies a buff that negates one physical attack.',
+    ap: 2,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [{}],
   },
 ] as const satisfies readonly ActiveSkill[]
 
