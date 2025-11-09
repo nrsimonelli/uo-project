@@ -5764,5 +5764,31 @@
         "applyTo": "Target"
       }
     ]
+  },
+  {
+    "id": "magicWall",
+    "type": "active",
+    "name": "Magic Wall",
+    "description": "Grants the user a buff that negates one magic attack or one affliction.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [{}]
+  },
+  {
+    "id": "wall",
+    "type": "active",
+    "name": "Wall",
+    "description": "Grants the user a buff that negates one physical attack.",
+    "ap": 1,
+    "skillCategories": ["Utility"],
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [{}]
   }
 ]

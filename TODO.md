@@ -58,6 +58,9 @@
 - [ ] Need Mirror Weakness
 - [ ] skill effect implementation audit
 - [ ] Consider gravity no crit and magic
+- [ ] Effect for Magic Wall & Wall
+- [ ] Bestral guard conditional
+- [ ] lifeshare logic
 
 ### Code Quality & Development ✅
 
