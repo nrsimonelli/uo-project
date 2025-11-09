@@ -262,6 +262,13 @@ export interface TargetHPBasedDamageEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface LifeshareEffect {
+  kind: 'Lifeshare'
+  percentage: number // Percentage of current HP to sacrifice (e.g., 50 for 50%)
+  applyTo?: 'Target' // Who receives the heal (always Target for lifeshare)
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -287,3 +294,4 @@ export type Effect =
   | ConferralEffect
   | OwnHPBasedDamageEffect
   | TargetHPBasedDamageEffect
+  | LifeshareEffect

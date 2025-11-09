@@ -148,6 +148,13 @@ export interface EffectProcessingResult {
     skillId: string
   }>
 
+  // Lifeshare entries - sacrifice user's current HP and heal target for that amount
+  lifeshareToApply: Array<{
+    percentage: number
+    target: 'User' | 'Target'
+    skillId: string
+  }>
+
   // Buffs/debuffs to apply
   buffsToApply: Array<{
     stat: string
@@ -255,6 +262,7 @@ export const processEffects = (
     cleansesToApply: [],
     resurrectsToApply: [],
     lifeStealsToApply: [],
+    lifeshareToApply: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -449,6 +457,15 @@ export const processEffects = (
       result.lifeStealsToApply.push({
         percentage: effect.percentage,
         target: effect.applyTo || 'User',
+        skillId,
+      })
+      return
+    }
+
+    if (effect.kind === 'Lifeshare') {
+      result.lifeshareToApply.push({
+        percentage: effect.percentage,
+        target: effect.applyTo || 'Target',
         skillId,
       })
       return

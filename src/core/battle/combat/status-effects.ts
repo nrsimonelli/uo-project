@@ -408,6 +408,80 @@ const applyResurrects = (
 }
 
 /**
+ * Apply lifeshare effects - sacrifice user's current HP and heal target for that amount
+ */
+const applyLifeshare = (
+  lifeshareToApply: EffectProcessingResult['lifeshareToApply'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  effectResults: EffectProcessingResult,
+  unitsToRecalculate: Set<BattleContext>
+) => {
+  // Don't execute if attacker is defeated
+  if (attacker.currentHP <= 0) {
+    return
+  }
+
+  lifeshareToApply.forEach(lifeshare => {
+    const targetUnit = resolveEffectTarget(
+      lifeshare.target,
+      attacker,
+      targets,
+      attackHit
+    )
+    if (!targetUnit) return
+
+    const skillName = getSkillName(lifeshare.skillId)
+
+    // Calculate sacrifice amount from current HP
+    const sacrificeAmount = Math.floor(
+      (attacker.currentHP * lifeshare.percentage) / 100
+    )
+
+    // Ensure user stays at minimum 1 HP
+    const safeSacrifice = Math.min(sacrificeAmount, attacker.currentHP - 1)
+
+    if (safeSacrifice > 0) {
+      // Deduct HP from attacker
+      attacker.currentHP -= safeSacrifice
+      unitsToRecalculate.add(attacker)
+
+      logCombat(
+        `💔 ${attacker.unit.name} sacrificed ${safeSacrifice} HP (${lifeshare.percentage}% of current HP) via ${skillName}`
+      )
+
+      // Heal target for exact sacrificed amount
+      const allowOverheal = effectResults.grantedFlags?.includes('Overheal')
+      const newHP = targetUnit.currentHP + safeSacrifice
+      const cappedHP = allowOverheal
+        ? newHP
+        : Math.min(newHP, targetUnit.combatStats.HP)
+
+      const actualHeal = cappedHP - targetUnit.currentHP
+      if (actualHeal > 0) {
+        targetUnit.currentHP = cappedHP
+        unitsToRecalculate.add(targetUnit)
+
+        logCombat(
+          `💚 ${targetUnit.unit.name} healed for ${actualHeal} HP via ${skillName}`
+        )
+      } else if (safeSacrifice > 0) {
+        // Target was already at max HP (or overhealed), log that heal was capped
+        logCombat(
+          `💚 ${targetUnit.unit.name} would have been healed for ${safeSacrifice} HP via ${skillName}, but was already at max HP`
+        )
+      }
+    } else {
+      // User has 1 HP or less, cannot sacrifice
+      logCombat(
+        `💔 ${attacker.unit.name} cannot sacrifice HP via ${skillName} (at minimum HP)`
+      )
+    }
+  })
+}
+
+/**
  * Apply afflictions to appropriate targets
  */
 const applyAfflictions = (
@@ -508,6 +582,16 @@ export const applyStatusEffects = (
 
   // Apply resurrect effects to restore defeated units
   applyResurrects(effectResults.resurrectsToApply, attacker, targets, attackHit)
+
+  // Apply lifeshare effects - sacrifice user HP and heal target
+  applyLifeshare(
+    effectResults.lifeshareToApply,
+    attacker,
+    targets,
+    attackHit,
+    effectResults,
+    unitsToRecalculate
+  )
 
   // Apply afflictions to appropriate targets
   applyAfflictions(

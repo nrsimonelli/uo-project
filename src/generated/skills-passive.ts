@@ -3394,7 +3394,13 @@ export const PassiveSkills = [
       group: 'Ally',
       pattern: 'Single',
     },
-    effects: [{}],
+    effects: [
+      {
+        kind: 'Lifeshare',
+        percentage: 50,
+        applyTo: 'Target',
+      },
+    ],
   },
   {
     id: 'enduringCover',
