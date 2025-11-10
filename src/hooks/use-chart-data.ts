@@ -61,10 +61,10 @@ export const useChartData = (
       }
     }
 
-    const { classKey, level, growths, equipment } = unit
+    const { classKey, level, growths, dews, equipment } = unit
 
     const growthValues = COMBINED_CLASS_GROWTH_TABLE[classKey]
-    const baseCombatStats = calculateBaseStats(level, classKey, growths)
+    const baseCombatStats = calculateBaseStats(level, classKey, growths, dews)
     const baseAPPP = calculateBaseAPPP(classKey)
     const baseStats = { ...baseCombatStats, ...baseAPPP, GuardEff: 0 }
     const growthRanks = calculateGrowthRanks(classKey)

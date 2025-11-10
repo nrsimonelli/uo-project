@@ -51,7 +51,18 @@ export function processClassData(
     if (!classData) {
       console.warn(`Missing class data for ${classValue}`)
     } else {
-      const stats = calculateBaseStats(level, classValue, [growthA, growthB])
+      const stats = calculateBaseStats(level, classValue, [growthA, growthB], {
+        HP: 0,
+        PATK: 0,
+        PDEF: 0,
+        MATK: 0,
+        MDEF: 0,
+        ACC: 0,
+        EVA: 0,
+        CRT: 0,
+        GRD: 0,
+        INIT: 0,
+      })
 
       // Apply nighttime bonus for Bestral units (x1.2 to all stats except HP)
       if (isNighttime && classData.race === 'Bestral') {
@@ -62,7 +73,7 @@ export function processClassData(
         stats.GRD = Math.round(stats.GRD * 1.2)
         stats.CRT = Math.round(stats.CRT * 1.2)
         stats.EVA = Math.round(stats.EVA * 1.2)
-        stats.ACC = Math.round(stats.ACC * 1.2) // 1.2x multiplier for nighttime
+        stats.ACC = Math.round(stats.ACC * 1.2)
         stats.INIT = Math.round(stats.INIT * 1.2)
       }
 

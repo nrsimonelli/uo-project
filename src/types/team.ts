@@ -1,4 +1,4 @@
-import type { AllClassType, GrowthTuple } from './base-stats'
+import type { AllClassType, GrowthTuple, StatKey } from './base-stats'
 import type { EquippedItem } from './equipment'
 import type { SkillSlot } from './skills'
 
@@ -12,6 +12,11 @@ export interface Position {
   col: Col
 }
 
+type ValidDewCount = 0 | 1 | 2 | 3 | 4 | 5
+export type DewCount = Record<
+  Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>,
+  ValidDewCount
+>
 export interface Unit {
   id: string
   name: string
@@ -20,6 +25,7 @@ export interface Unit {
   growths: GrowthTuple
   equipment: EquippedItem[]
   skillSlots: SkillSlot[]
+  dews: DewCount
   // Used for team building/editor convenience
   position?: Position
 }

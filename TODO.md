@@ -21,6 +21,7 @@
 - [x] Build **unit search modal** with filtering
 - [x] Implement **editable team names**
 - [x] Add **isometric formation display**
+- [ ] Integrate dews
 
 ### Unit Builder ✅
 

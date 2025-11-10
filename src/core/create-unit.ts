@@ -19,10 +19,22 @@ export const createUnit = (
     id: id,
     classKey: className,
     name: className,
-    level: 1,
+    level: 35,
     growths: ['All-Rounder', 'All-Rounder'] as GrowthTuple,
     equipment,
     skillSlots: [],
+    dews: {
+      HP: 0,
+      PATK: 0,
+      PDEF: 0,
+      MATK: 0,
+      MDEF: 0,
+      ACC: 0,
+      EVA: 0,
+      CRT: 0,
+      GRD: 0,
+      INIT: 0,
+    },
     position,
   }
 }

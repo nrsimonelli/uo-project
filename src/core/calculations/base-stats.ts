@@ -6,6 +6,7 @@ import {
 } from '@/data/units/growth-correction-table'
 import { UNIVERSAL_STAT_TABLE } from '@/data/units/universal-stat-table'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
+import type { DewCount } from '@/types/team'
 
 type ValidLevel = keyof typeof UNIVERSAL_STAT_TABLE
 
@@ -22,10 +23,24 @@ const initialStatData = {
   INIT: 0,
 }
 
+const dewMultiplier = {
+  HP: 2,
+  PATK: 1,
+  PDEF: 1,
+  MATK: 1,
+  MDEF: 1,
+  ACC: 2,
+  EVA: 2,
+  CRT: 1,
+  GRD: 1,
+  INIT: 1,
+}
+
 export const calculateBaseStats = (
   level: ValidLevel,
   classKey: AllClassType,
-  growthType: [GrowthType, GrowthType]
+  growthType: [GrowthType, GrowthType],
+  dews: DewCount
 ) => {
   const baseStats = { ...initialStatData }
   const universalBaseStats = UNIVERSAL_STAT_TABLE[level]
@@ -34,10 +49,13 @@ export const calculateBaseStats = (
 
   for (const stat in baseStats) {
     const key = stat as keyof typeof baseStats
-    baseStats[key] = Math.round(
-      (universalBaseStats[key] / 100) * growthCorrectionA[key] +
-        growthCorrectionB[key]
-    )
+    const dewBonus = dews[key] * dewMultiplier[key]
+
+    baseStats[key] =
+      Math.round(
+        (universalBaseStats[key] / 100) * growthCorrectionA[key] +
+          growthCorrectionB[key]
+      ) + dewBonus
   }
 
   return baseStats
@@ -80,16 +98,6 @@ const calculateGrowthCorrectionB = (growthType: [GrowthType, GrowthType]) => {
   return finalGrowthCorrectionB
 }
 
-export const calculateFinalStats = (
-  level: ValidLevel,
-  classKey: AllClassType,
-  growthType: [GrowthType, GrowthType]
-) => {
-  // base + equipment + dews + rapports
-  const result = calculateBaseStats(level, classKey, growthType)
-  return result
-}
-
 export const calculateGrowthRanks = (classKey: AllClassType) => {
   const result = {
     HP: '',
@@ -128,7 +136,6 @@ const getGrowthRank = (value: number) => {
  * Calculate base AP/PP values based on class type
  * Base classes: AP = 1, PP = 1
  * Advanced classes: AP = 2, PP = 2
- * Maximum AP/PP is capped at 4
  */
 export const calculateBaseAPPP = (classKey: AllClassType) => {
   // Check if this is an advanced class
