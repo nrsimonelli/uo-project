@@ -260,10 +260,7 @@ export const getClassSkillRequiredLevel = (
  * - The skill was from equipment but equipment is no longer equipped
  * - The skill is from class but unit's level is too low
  */
-export const isSkillValidForUnit = (
-  unit: Unit,
-  skillSlot: SkillSlot
-): boolean => {
+export const isSkillValidForUnit = (unit: Unit, skillSlot: SkillSlot) => {
   if (!skillSlot.skillId) return true // Empty slot is valid
 
   // Check if skill is currently available from equipment

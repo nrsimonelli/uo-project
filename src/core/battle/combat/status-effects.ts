@@ -21,19 +21,12 @@ import type {
 import type { AfflictionType } from '@/types/conditions'
 import type { ExtraStats } from '@/types/equipment'
 
-/**
- * Cleanse target type constants
- */
 const CLEANSE_TARGETS = {
   BUFFS: 'Buffs',
   DEBUFFS: 'Debuffs',
   AFFLICTIONS: 'Afflictions',
 } as const
 
-/**
- * Resolve the target unit for an effect based on its target type
- * Returns null if the effect should be skipped (target-directed effect on miss)
- */
 const resolveEffectTarget = (
   effectTarget: 'User' | 'Target',
   attacker: BattleContext,
@@ -47,9 +40,6 @@ const resolveEffectTarget = (
   return effectTarget === 'User' ? attacker : targets[0]
 }
 
-/**
- * Generic helper to remove expired status effects based on trigger
- */
 const removeExpiredStatus = <T extends { duration: string }>(
   statusArray: T[],
   trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
@@ -78,14 +68,12 @@ const applyStatusEffect = <T extends { skillId: string }>(
   const isBuffOrDebuff = 'stat' in newEffect
   const existingIndex = effectArray.findIndex(existing => {
     if (isBuffOrDebuff && 'stat' in existing) {
-      // For buffs/debuffs: match on both skillId AND stat
       return (
         existing.skillId === newEffect.skillId &&
         (existing as { stat: unknown }).stat ===
           (newEffect as { stat: unknown }).stat
       )
     }
-    // For other effects: match on skillId only
     return existing.skillId === newEffect.skillId
   })
 
@@ -96,9 +84,6 @@ const applyStatusEffect = <T extends { skillId: string }>(
   }
 }
 
-/**
- * Apply cleanse effects (remove buffs/debuffs/afflictions)
- */
 const applyCleanses = (
   cleansesToApply: EffectProcessingResult['cleansesToApply'],
   attacker: BattleContext,
@@ -116,7 +101,6 @@ const applyCleanses = (
     )
     if (!targetUnit) return
 
-    // Handle cleanse based on target type
     const cleanseTarget = cleanse.target
 
     if (cleanseTarget === CLEANSE_TARGETS.BUFFS) {
@@ -135,16 +119,12 @@ const applyCleanses = (
       clearAllAfflictions(targetUnit)
       unitsToRecalculate.add(targetUnit)
     } else {
-      // Specific affliction type
       removeAffliction(targetUnit, cleanseTarget as AfflictionType)
       unitsToRecalculate.add(targetUnit)
     }
   })
 }
 
-/**
- * Apply buffs and debuffs to appropriate targets
- */
 const applyBuffsAndDebuffs = (
   effectResults: EffectProcessingResult,
   attacker: BattleContext,
@@ -152,7 +132,6 @@ const applyBuffsAndDebuffs = (
   attackHit: boolean,
   unitsToRecalculate: Set<BattleContext>
 ): void => {
-  // Apply buffs to appropriate targets
   effectResults.buffsToApply.forEach(buffToApply => {
     const skillName = getSkillName(buffToApply.skillId)
     const targetUnit = resolveEffectTarget(
@@ -183,7 +162,6 @@ const applyBuffsAndDebuffs = (
     )
   })
 
-  // Apply debuffs to appropriate targets
   effectResults.debuffsToApply.forEach(debuffToApply => {
     const skillName = getSkillName(debuffToApply.skillId)
     const targetUnit = resolveEffectTarget(
@@ -221,9 +199,6 @@ const applyBuffsAndDebuffs = (
   })
 }
 
-/**
- * Apply conferral effects to appropriate targets
- */
 const applyConferrals = (
   conferralsToApply: EffectProcessingResult['conferralsToApply'],
   attacker: BattleContext,
@@ -250,9 +225,6 @@ const applyConferrals = (
   })
 }
 
-/**
- * Apply debuff amplification effects to appropriate targets
- */
 const applyDebuffAmplifications = (
   amplificationsToApply: EffectProcessingResult['debuffAmplificationsToApply'],
   attacker: BattleContext,
@@ -287,9 +259,6 @@ const applyDebuffAmplifications = (
   })
 }
 
-/**
- * Apply evade effects to appropriate targets
- */
 const applyEvades = (
   evadesToApply: EffectProcessingResult['evadesToApply'],
   attacker: BattleContext,
@@ -323,9 +292,6 @@ const applyEvades = (
   })
 }
 
-/**
- * Apply damage immunity effects to appropriate targets
- */
 const applyDamageImmunities = (
   damageImmunitiesToApply: EffectProcessingResult['damageImmunitiesToApply'],
   attacker: BattleContext,
@@ -369,9 +335,6 @@ const applyDamageImmunities = (
   })
 }
 
-/**
- * Apply resurrect effects to restore defeated units
- */
 const applyResurrects = (
   resurrectsToApply: EffectProcessingResult['resurrectsToApply'],
   attacker: BattleContext,
@@ -387,20 +350,17 @@ const applyResurrects = (
     )
     if (!targetUnit) return
 
-    // Only resurrect dead units
     if (targetUnit.currentHP <= 0) {
-      // Calculate heal amount
       const healAmount =
         resurrect.healType === 'percent'
           ? Math.round((targetUnit.combatStats.HP * resurrect.healAmount) / 100)
           : resurrect.healAmount
 
-      // Reset target's state
-      targetUnit.afflictions = [] // Clear all afflictions
-      targetUnit.buffs = [] // Clear all buffs
-      targetUnit.debuffs = [] // Clear all debuffs
+      targetUnit.afflictions = []
+      targetUnit.buffs = []
+      targetUnit.debuffs = []
       targetUnit.currentHP = healAmount
-      targetUnit.isPassiveResponsive = true // Re-enable passive skills
+      targetUnit.isPassiveResponsive = true
 
       logCombat(`✨ ${targetUnit.unit.name} resurrected with ${healAmount} HP`)
     }
@@ -418,7 +378,6 @@ const applyLifeshare = (
   effectResults: EffectProcessingResult,
   unitsToRecalculate: Set<BattleContext>
 ) => {
-  // Don't execute if attacker is defeated
   if (attacker.currentHP <= 0) {
     return
   }
@@ -434,7 +393,6 @@ const applyLifeshare = (
 
     const skillName = getSkillName(lifeshare.skillId)
 
-    // Calculate sacrifice amount from current HP
     const sacrificeAmount = Math.floor(
       (attacker.currentHP * lifeshare.percentage) / 100
     )
@@ -443,7 +401,6 @@ const applyLifeshare = (
     const safeSacrifice = Math.min(sacrificeAmount, attacker.currentHP - 1)
 
     if (safeSacrifice > 0) {
-      // Deduct HP from attacker
       attacker.currentHP -= safeSacrifice
       unitsToRecalculate.add(attacker)
 
@@ -451,7 +408,6 @@ const applyLifeshare = (
         `💔 ${attacker.unit.name} sacrificed ${safeSacrifice} HP (${lifeshare.percentage}% of current HP) via ${skillName}`
       )
 
-      // Heal target for exact sacrificed amount
       const allowOverheal = effectResults.grantedFlags?.includes('Overheal')
       const newHP = targetUnit.currentHP + safeSacrifice
       const cappedHP = allowOverheal
@@ -467,13 +423,11 @@ const applyLifeshare = (
           `💚 ${targetUnit.unit.name} healed for ${actualHeal} HP via ${skillName}`
         )
       } else if (safeSacrifice > 0) {
-        // Target was already at max HP (or overhealed), log that heal was capped
         logCombat(
           `💚 ${targetUnit.unit.name} would have been healed for ${safeSacrifice} HP via ${skillName}, but was already at max HP`
         )
       }
     } else {
-      // User has 1 HP or less, cannot sacrifice
       logCombat(
         `💔 ${attacker.unit.name} cannot sacrifice HP via ${skillName} (at minimum HP)`
       )
@@ -481,9 +435,6 @@ const applyLifeshare = (
   })
 }
 
-/**
- * Apply afflictions to appropriate targets
- */
 const applyAfflictions = (
   afflictionsToApply: EffectProcessingResult['afflictionsToApply'],
   attacker: BattleContext,
@@ -532,7 +483,7 @@ export const applyStatusEffects = (
 
   // Sacrifice is now handled as an upfront skill cost in executeSkill
 
-  // Apply cleanses (remove buffs/debuffs/afflictions) before applying new effects
+  // Apply cleanses before applying new effects
   applyCleanses(
     effectResults.cleansesToApply,
     attacker,
@@ -541,7 +492,6 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply buffs and debuffs to appropriate targets
   applyBuffsAndDebuffs(
     effectResults,
     attacker,
@@ -550,10 +500,8 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply conferral effects to appropriate targets
   applyConferrals(effectResults.conferralsToApply, attacker, targets, attackHit)
 
-  // Apply debuff amplification effects to appropriate targets
   applyDebuffAmplifications(
     effectResults.debuffAmplificationsToApply,
     attacker,
@@ -562,7 +510,6 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply evade effects to appropriate targets
   applyEvades(
     effectResults.evadesToApply,
     attacker,
@@ -571,7 +518,6 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply damage immunity effects to appropriate targets
   applyDamageImmunities(
     effectResults.damageImmunitiesToApply,
     attacker,
@@ -580,10 +526,8 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply resurrect effects to restore defeated units
   applyResurrects(effectResults.resurrectsToApply, attacker, targets, attackHit)
 
-  // Apply lifeshare effects - sacrifice user HP and heal target
   applyLifeshare(
     effectResults.lifeshareToApply,
     attacker,
@@ -593,7 +537,6 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Apply afflictions to appropriate targets
   applyAfflictions(
     effectResults.afflictionsToApply,
     attacker,
@@ -602,15 +545,11 @@ export const applyStatusEffects = (
     unitsToRecalculate
   )
 
-  // Recalculate stats for all affected units
   unitsToRecalculate.forEach(unit => {
     recalculateStats(unit)
   })
 }
 
-/**
- * Apply a buff to a unit with stacking logic
- */
 export const applyBuff = (
   unit: BattleContext,
   newBuff: Buff,
@@ -619,15 +558,11 @@ export const applyBuff = (
   applyStatusEffect(unit.buffs, newBuff, allowStacks)
 }
 
-/**
- * Apply a debuff to a unit with stacking logic
- */
 const applyDebuff = (
   unit: BattleContext,
   newDebuff: Debuff,
   allowStacks: boolean
 ) => {
-  // Check immunity before applying
   if (isImmuneToDebuff(unit)) {
     logCombat(`${unit.unit.name} is immune to ${newDebuff.name}`)
     return
@@ -636,9 +571,6 @@ const applyDebuff = (
   applyStatusEffect(unit.debuffs, newDebuff, allowStacks)
 }
 
-/**
- * Apply a conferral effect to a unit
- */
 const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
   applyStatusEffect(unit.conferrals, newConferral, false)
 
@@ -647,9 +579,6 @@ const applyConferral = (unit: BattleContext, newConferral: ConferralStatus) => {
   )
 }
 
-/**
- * Apply a debuff amplification effect to a unit
- */
 const applyDebuffAmplification = (
   unit: BattleContext,
   newAmplification: DebuffAmplificationStatus
@@ -657,9 +586,6 @@ const applyDebuffAmplification = (
   applyStatusEffect(unit.debuffAmplifications, newAmplification, false)
 }
 
-/**
- * Apply an evade effect to a unit
- */
 const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
   applyStatusEffect(unit.evades, newEvade, false)
 }
@@ -672,26 +598,23 @@ export const checkAndConsumeSurviveLethal = (
   unit: BattleContext,
   newHP: number
 ) => {
-  // If damage wouldn't be lethal, no need to check
   if (newHP > 0) return newHP
 
-  // Check for SurviveLethal buff
   const surviveLethalBuffIndex = unit.buffs.findIndex(
     buff => buff.stat === 'SurviveLethal'
   )
 
   if (surviveLethalBuffIndex !== -1) {
-    // Remove the buff (it's consumed)
     const consumedBuff = unit.buffs[surviveLethalBuffIndex]
     unit.buffs.splice(surviveLethalBuffIndex, 1)
     logCombat(
       `💚 ${unit.unit.name}'s ${consumedBuff.name} buff consumed (survived lethal blow)`
     )
     recalculateStats(unit)
-    return 1 // Survive with 1 HP
+    return 1
   }
 
-  return 0 // No buff, unit is defeated
+  return 0
 }
 
 /**
@@ -710,7 +633,6 @@ const isImmuneToDebuff = (unit: BattleContext) => {
   )
 
   if (immunityBuffIndex !== -1) {
-    // Remove the immunity buff (it's consumed)
     const consumedBuff = unit.buffs[immunityBuffIndex]
     unit.buffs.splice(immunityBuffIndex, 1)
     logCombat(
@@ -745,7 +667,6 @@ export const removeExpiredBuffs = (
   } as const
   const expiredDuration = durationMap[trigger]
 
-  // Collect expired buffs before removing
   expiredBuffs.push(
     ...unit.buffs.filter(buff => buff.duration === expiredDuration)
   )
@@ -771,7 +692,6 @@ export const removeExpiredBuffs = (
     )
   }
 
-  // Recalculate stats if any buffs were removed
   const buffsChanged = unit.buffs.length !== initialBuffCount
   const conferralsChanged =
     (unit.conferrals || []).length !== initialConferralCount
@@ -808,9 +728,6 @@ export const removeExpiredBuffs = (
   }
 }
 
-/**
- * Remove expired debuffs from a unit based on trigger conditions
- */
 export const removeExpiredDebuffs = (
   unit: BattleContext,
   trigger: 'attacks' | 'action'
@@ -827,7 +744,6 @@ export const removeExpiredDebuffs = (
 
   unit.debuffs = removeExpiredStatus(unit.debuffs, trigger)
 
-  // Recalculate stats if any debuffs were removed
   if (unit.debuffs.length !== initialCount) {
     logCombat(
       `🔄 Debuffs Expired for ${unit.unit.name} (trigger: ${trigger}):`,
@@ -845,9 +761,6 @@ export const removeExpiredDebuffs = (
   }
 }
 
-/**
- * Remove expired conferrals from a unit based on trigger conditions
- */
 export const removeExpiredConferrals = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'action'
@@ -860,9 +773,6 @@ export const removeExpiredConferrals = (
   }
 }
 
-/**
- * Get all buffs affecting a specific stat
- */
 export const getBuffsForStat = (
   unit: BattleContext,
   stat: StatKey | ExtraStats
@@ -870,9 +780,6 @@ export const getBuffsForStat = (
   return unit.buffs.filter(buff => buff.stat === stat)
 }
 
-/**
- * Get all debuffs affecting a specific stat
- */
 export const getDebuffsForStat = (
   unit: BattleContext,
   stat: StatKey | ExtraStats
@@ -880,24 +787,18 @@ export const getDebuffsForStat = (
   return unit.debuffs.filter(debuff => debuff.stat === stat)
 }
 
-/**
- * Check if a conditional buff should apply based on target
- */
 const shouldApplyConditionalBuff = (
   buff: Buff,
   target: BattleContext | null
 ) => {
-  // If buff has no condition, always apply
   if (!buff.conditionalOnTarget) {
     return true
   }
 
-  // If no target provided, don't apply conditional buffs
   if (!target) {
     return false
   }
 
-  // Check combatantType condition
   if (buff.conditionalOnTarget.combatantType) {
     return target.combatantTypes.includes(
       buff.conditionalOnTarget.combatantType
@@ -924,19 +825,16 @@ export const calculateStatModifier = (
   const buffs = getBuffsForStat(unit, stat)
   const debuffs = getDebuffsForStat(unit, stat)
 
-  // Get debuff amplification multiplier
   const amplificationMultiplier =
     unit.debuffAmplifications.length > 0
-      ? unit.debuffAmplifications[0].multiplier // Use the first/most recent amplification
-      : 1.0 // No amplification
+      ? unit.debuffAmplifications[0].multiplier
+      : 1.0
 
   let flatModifier = 0
   let percentModifier = 0
 
   // Apply buffs (no amplification for buffs)
-  // Filter conditional buffs based on target
   buffs.forEach(buff => {
-    // Skip conditional buffs if target doesn't match
     if (!shouldApplyConditionalBuff(buff, target ?? null)) {
       return
     }
@@ -952,9 +850,9 @@ export const calculateStatModifier = (
   debuffs.forEach(debuff => {
     const amplifiedValue = debuff.value * amplificationMultiplier
     if (debuff.scaling === 'flat') {
-      flatModifier += amplifiedValue // Values are already negative
+      flatModifier += amplifiedValue
     } else if (debuff.scaling === 'percent') {
-      percentModifier += amplifiedValue // Values are already negative
+      percentModifier += amplifiedValue
     }
   })
 
@@ -973,16 +871,10 @@ export const hasBuffs = (unit: BattleContext) => {
   )
 }
 
-/**
- * Check if a unit has any debuffs
- */
 export const hasDebuffs = (unit: BattleContext) => {
   return unit.debuffs.length > 0
 }
 
-/**
- * Check if a unit has a specific affliction
- */
 export const hasAffliction = (unit: BattleContext, afflictionType: string) => {
   return unit.afflictions.some(affliction => affliction.type === afflictionType)
 }
@@ -1003,7 +895,6 @@ export const initializeStatFoundation = (unit: BattleContext) => {
     unit.unit.classKey
   )
 
-  // Store the foundation (base + equipment) for efficient recalculation
   unit.statFoundation = {
     HP: baseStats.HP + (equipmentBonus.HP ?? 0),
     PATK: baseStats.PATK + (equipmentBonus.PATK ?? 0),
@@ -1019,7 +910,6 @@ export const initializeStatFoundation = (unit: BattleContext) => {
     DmgReductionPercent: equipmentBonus.DmgReductionPercent ?? 0,
   }
 
-  // Initialize combatStats to foundation values
   recalculateStats(unit)
 }
 
@@ -1049,7 +939,6 @@ const RECALCULATED_STAT_KEYS: Array<
  * Note: Conditional buffs are excluded during normal recalculation (no target provided)
  */
 export const recalculateStats = (unit: BattleContext) => {
-  // Get the stored foundation (base + equipment)
   const foundation = unit.statFoundation
 
   // Handle "Attack" stat buffs/debuffs (affects both PATK and MATK)
@@ -1060,14 +949,11 @@ export const recalculateStats = (unit: BattleContext) => {
   // No target provided = exclude conditional buffs
   const defenseModifiers = calculateStatModifier(unit, 'Defense' as ExtraStats)
 
-  // Recalculate stats that support buff/debuff modifiers
   for (const statKey of RECALCULATED_STAT_KEYS) {
     const foundationValue = foundation[statKey]
     // No target provided = exclude conditional buffs
     const modifiers = calculateStatModifier(unit, statKey)
 
-    // Apply Attack stat modifiers to both PATK and MATK
-    // Apply Defense stat modifiers to both PDEF and MDEF
     let finalFlatModifier = modifiers.flatModifier
     let finalPercentModifier = modifiers.percentModifier
 
@@ -1081,10 +967,8 @@ export const recalculateStats = (unit: BattleContext) => {
       finalPercentModifier += defenseModifiers.percentModifier
     }
 
-    // Apply flat modifier first
     const afterFlat = foundationValue + finalFlatModifier
 
-    // Apply percentage modifier multiplicatively
     const percentMultiplier = 1 + finalPercentModifier / 100
     const final = Math.round(afterFlat * percentMultiplier)
 
@@ -1101,7 +985,6 @@ export const recalculateStats = (unit: BattleContext) => {
     unit,
     'DmgReductionPercent'
   )
-  // DmgReductionPercent only uses flat modifiers (all buffs/debuffs add/subtract flat values)
   unit.combatStats.DmgReductionPercent = Math.max(
     0,
     foundation.DmgReductionPercent + dmgReductionModifiers.flatModifier
@@ -1143,8 +1026,6 @@ export const getEffectiveStatsForTarget = (
     // Include conditional buffs when target matches
     const modifiers = calculateStatModifier(attacker, statKey, target)
 
-    // Apply Attack stat modifiers to both PATK and MATK
-    // Apply Defense stat modifiers to both PDEF and MDEF
     let finalFlatModifier = modifiers.flatModifier
     let finalPercentModifier = modifiers.percentModifier
 
@@ -1158,10 +1039,8 @@ export const getEffectiveStatsForTarget = (
       finalPercentModifier += defenseModifiers.percentModifier
     }
 
-    // Apply flat modifier first
     const afterFlat = foundationValue + finalFlatModifier
 
-    // Apply percentage modifier multiplicatively
     const percentMultiplier = 1 + finalPercentModifier / 100
     const final = Math.round(afterFlat * percentMultiplier)
 
