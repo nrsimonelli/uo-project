@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2025-11-09T22:59:00.519Z_
+_Generated: 2025-11-10T03:05:22.670Z_
 
 ## Summary
 
@@ -8,14 +8,14 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
 - **Active Skills Defined**: 175
-- **Passive Skills Defined**: 122
-- **Total Skills Defined**: 297
+- **Passive Skills Defined**: 125
+- **Total Skills Defined**: 300
 - **Activation Windows Referenced**: 34
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **108 missing skills:**
+❌ **105 missing skills:**
 
 - `advanceCover`
 - `aerialAlignment`
@@ -72,9 +72,7 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `inferno`
 - `innocentRay`
 - `inspiration`
-- `ironVeil`
 - `maelstrom`
-- `maidensHammer`
 - `mightyShield`
 - `mirrorWeakness`
 - `mysticArrow`
@@ -116,7 +114,6 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `thunderousConferral`
 - `toughness`
 - `tripleCounter`
-- `undyingWill`
 - `unitedFront`
 - `vanitas`
 - `vengefulImpetus`
@@ -761,7 +758,7 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (122)
+### Passive Skills Defined (125)
 
 - `accelerate`
 - `activeGift`
@@ -819,6 +816,7 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `holyBreath`
 - `holyGuard`
 - `invincible`
+- `ironVeil`
 - `keenCall`
 - `killingPursuit`
 - `knightsPursuit`
@@ -832,6 +830,7 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `magicCounter`
 - `magicPursuit`
 - `magicShell`
+- `maidensHammer`
 - `medicalAid`
 - `nobleGuard`
 - `nocturnalEvade`
@@ -879,6 +878,7 @@ _Generated: 2025-11-09T22:59:00.519Z_
 - `snipingOrder`
 - `sylphicBarrier`
 - `tailwind`
+- `undyingWill`
 - `vengeance`
 - `vengefulGuard`
 - `warHorn`

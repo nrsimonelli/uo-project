@@ -51,7 +51,7 @@
 - [x] Add **skill type filtering** (Active/Passive)
 - [x] Fatal Dive, Life Blow, and Desperation Damage Calculations
 - [ ] Need a post calculation damage reduction check for shackles as well as skills like protection. This should also apply to true damage skills^^
-- [ ] Scaling for Bastards Cross, WildFang, Berserker, and Werebear scaling skills
+- [ ] Scaling for Maidens Hammer, Undying will, Bastards Cross, WildFang, Berserker, and Werebear scaling skills
 - [ ] Custom effect for Discharge
 - [ ] Need variable targeting for Row Resistance
 - [ ] Need Reflect Magic...
@@ -60,7 +60,7 @@
 - [ ] Consider gravity no crit and magic
 - [ ] Effect for Magic Wall & Wall
 - [ ] Bestral guard conditional
-- [ ] lifeshare logic
+- [x] lifeshare logic
 
 ### Code Quality & Development ✅
 

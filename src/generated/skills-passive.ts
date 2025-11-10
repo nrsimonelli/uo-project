@@ -3513,6 +3513,115 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'maidensHammer',
+    type: 'passive',
+    name: 'Maidens Hammer',
+    description:
+      'Activates after an enemy attacks ith an active skill. Counterattack a single enemy. Potency increases the less HP the user has. (Maximum increase: +100)',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+        },
+        hitRate: 'True',
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'LessThan',
+            value: 25,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'ironVeil',
+    type: 'passive',
+    name: 'Iron Veil',
+    description:
+      'Activates at the start of a battle. Grants +50% Guard Rate and +30% Phys. Defense to all allies.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'GRD',
+        value: 50,
+        scaling: 'flat',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Buff',
+        stat: 'PDEF',
+        value: 30,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'undyingWill',
+    type: 'passive',
+    name: 'Undying Will',
+    description:
+      'Activates before attacking with an active skill. Attack potency increases as HP decreases. (Max: +100) Grants the ability to survive one lethal blow.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'LessThan',
+            value: 25,
+            percent: true,
+          },
+        ],
+      },
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']
