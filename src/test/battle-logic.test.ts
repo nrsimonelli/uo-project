@@ -26,6 +26,18 @@ describe('Battle Logic Integration', () => {
       classKey,
       level: 10,
       growths: ['Hardy', 'Hardy'],
+      dews: {
+        HP: 0,
+        PATK: 0,
+        PDEF: 0,
+        MATK: 0,
+        MDEF: 0,
+        ACC: 0,
+        EVA: 0,
+        CRT: 0,
+        GRD: 0,
+        INIT: 0,
+      },
       equipment: [],
       skillSlots: [
         {

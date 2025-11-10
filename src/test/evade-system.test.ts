@@ -7,6 +7,7 @@ import {
   createStandardAttacker,
   createStandardTarget,
   createDamageEffect,
+  DEFAULT_DEWS,
 } from '@/test/utils/tactical-test-utils'
 import type { BattleContext, EvadeStatus } from '@/types/battle-engine'
 
@@ -38,6 +39,7 @@ describe('Evade System', () => {
         classKey: 'Fighter',
         level: 10,
         growths: ['Hardy', 'Hardy'],
+        dews: DEFAULT_DEWS,
         equipment: [],
         skillSlots: [],
       },
@@ -51,6 +53,7 @@ describe('Evade System', () => {
         classKey: 'Fighter',
         level: 10,
         growths: ['Hardy', 'Hardy'],
+        dews: DEFAULT_DEWS,
         equipment: [],
         skillSlots: [],
       },

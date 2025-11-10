@@ -2,7 +2,7 @@ import { getEquipmentById } from '@/core/equipment-lookup'
 import type { EquippedItem } from '@/types/equipment'
 
 // Separate object for equipment bonuses that includes AP/PP
-const initialEquipmentData = {
+export const initialEquipmentData = {
   HP: 0,
   PATK: 0,
   PDEF: 0,
@@ -392,5 +392,3 @@ const processDualShieldsInline = (
     })
   })
 }
-
-export { initialEquipmentData }

@@ -20,7 +20,12 @@ export const createBattleContext = (
   position: { row: number; col: number }
 ): BattleContext => {
   // Calculate combat stats from base stats + equipment (temporary for initial HP)
-  const baseStats = calculateBaseStats(unit.level, unit.classKey, unit.growths)
+  const baseStats = calculateBaseStats(
+    unit.level,
+    unit.classKey,
+    unit.growths,
+    unit.dews
+  )
   const equipmentBonus = calculateEquipmentBonus(
     unit.equipment,
     baseStats,

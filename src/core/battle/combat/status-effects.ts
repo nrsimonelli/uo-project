@@ -887,7 +887,8 @@ export const initializeStatFoundation = (unit: BattleContext) => {
   const baseStats = calculateBaseStats(
     unit.unit.level,
     unit.unit.classKey,
-    unit.unit.growths
+    unit.unit.growths,
+    unit.unit.dews
   )
   const equipmentBonus = calculateEquipmentBonus(
     unit.unit.equipment,

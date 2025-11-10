@@ -5,6 +5,7 @@ import {
   createStandardAttacker,
   createStandardTarget,
   createDamageEffect,
+  DEFAULT_DEWS,
 } from './utils/tactical-test-utils'
 
 import { calculateSkillDamage } from '@/core/battle/combat/damage-calculator'
@@ -28,6 +29,7 @@ describe('Resurrection and Damage Immunity', () => {
         classKey: 'Fighter',
         level: 10,
         growths: ['Hardy', 'Hardy'],
+        dews: DEFAULT_DEWS,
         equipment: [],
         skillSlots: [],
       },
@@ -40,6 +42,7 @@ describe('Resurrection and Damage Immunity', () => {
         classKey: 'Fighter',
         level: 10,
         growths: ['Hardy', 'Hardy'],
+        dews: DEFAULT_DEWS,
         equipment: [],
         skillSlots: [],
       },
@@ -62,6 +65,7 @@ describe('Resurrection and Damage Immunity', () => {
         classKey: 'Fighter',
         level: 10,
         growths: ['Hardy', 'Hardy'],
+        dews: DEFAULT_DEWS,
         equipment: [],
         skillSlots: [],
       },
@@ -113,6 +117,7 @@ describe('Resurrection and Damage Immunity', () => {
           classKey: 'Fighter',
           level: 10,
           growths: ['Hardy', 'Hardy'],
+          dews: DEFAULT_DEWS,
           equipment: [],
           skillSlots: [],
         },
