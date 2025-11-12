@@ -84,7 +84,6 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
             <div className="flex items-center gap-2 mb-3">
               <p className="text-lg font-medium">Equipment</p>
               <CostSymbols cost={AP} type="active" symbolClassName="w-2 h-2" />
-
               <CostSymbols cost={PP} type="passive" symbolClassName="w-2 h-2" />
             </div>
             <div className="grid grid-cols-1 gap-2">
@@ -105,7 +104,9 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
         <div className="flex-col flex-1 basis-xs space-y-3">
           <RadarGraph chartData={chartData} />
           {/* Stat List */}
+          {/* TODO:  will want this to be its own component */}
           <div className="flex flex-col space-y-3">
+            {/* dew of illusion by stat header? */}
             <p className="text-lg font-medium">Stats</p>
             <div className="space-y-1">
               {chartData.map(stat => (

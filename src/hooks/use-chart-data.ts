@@ -8,6 +8,7 @@ import {
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
 import type { StatKey } from '@/types/base-stats'
+import type { ExtraStats } from '@/types/equipment'
 import type { Unit } from '@/types/team'
 
 export type ChartDatum = {
@@ -19,21 +20,16 @@ export type ChartDatum = {
 }
 
 type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
+type OtherStat = 'AP' | 'PP' | 'GuardEff'
+type StatDataKey = CombatStat | OtherStat
+type StatData = Record<StatDataKey, number>
 
 export const useChartData = (
   unit: Unit | null
 ): {
   chartData: ChartDatum[]
-  baseStats: Record<CombatStat, number> & {
-    AP: number
-    PP: number
-    GuardEff: number
-  }
-  totalStats: Record<CombatStat, number> & {
-    AP: number
-    PP: number
-    GuardEff: number
-  }
+  baseStats: StatData
+  totalStats: StatData
   equipmentBonus: { AP: number; PP: number; GuardEff: number } & Record<
     string,
     number
@@ -43,21 +39,9 @@ export const useChartData = (
     if (!unit) {
       return {
         chartData: [],
-        baseStats: {} as Record<CombatStat, number> & {
-          AP: number
-          PP: number
-          GuardEff: number
-        },
-        totalStats: {} as Record<CombatStat, number> & {
-          AP: number
-          PP: number
-          GuardEff: number
-        },
-        equipmentBonus: {} as {
-          AP: number
-          PP: number
-          GuardEff: number
-        } & Record<string, number>,
+        baseStats: {} as StatData,
+        totalStats: {} as StatData,
+        equipmentBonus: {} as StatData & Record<ExtraStats, number>,
       }
     }
 
@@ -74,11 +58,15 @@ export const useChartData = (
       classKey
     )
 
+    // TODO: consider adding 100 for ACC?
+    //  + (stat === 'ACC' ? 100 : 0)
     const totalStats = Object.keys(baseStats).reduce(
       (acc, stat) => {
-        acc[stat as keyof typeof baseStats] =
-          baseStats[stat as keyof typeof baseStats] +
-          (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0)
+        acc[stat as StatDataKey] = Math.max(
+          baseStats[stat as StatDataKey] +
+            (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0),
+          0
+        )
         return acc
       },
       {} as typeof baseStats
@@ -88,10 +76,10 @@ export const useChartData = (
     const chartData: ChartDatum[] = Object.entries(baseCombatStats).map(
       ([statKey, value]) => ({
         stat: statKey, // Raw stat key for axis (MDEF, PATK, etc.)
-        growth: growthValues[statKey as keyof typeof growthValues],
-        total: totalStats[statKey as keyof typeof totalStats],
+        growth: growthValues[statKey as CombatStat],
+        total: totalStats[statKey as CombatStat],
         base: value,
-        rank: growthRanks[statKey as keyof typeof growthRanks],
+        rank: growthRanks[statKey as CombatStat],
       })
     )
 

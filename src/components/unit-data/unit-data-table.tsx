@@ -19,7 +19,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { UnitIcon } from '@/components/unit-icon'
-import { useUnitDataTable, type SortField } from '@/hooks/useUnitDataTable'
+import { useUnitDataTable, type SortField } from '@/hooks/use-unit-data-table'
 import { cn } from '@/lib/utils'
 import type { ClassTableRow } from '@/utils/class-data-processor'
 
