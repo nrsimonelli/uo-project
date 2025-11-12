@@ -6,8 +6,16 @@ import type { Unit } from '@/types/team'
 
 export const UnitStatDisplay = ({ unit }: { unit: Unit }) => {
   const { chartData } = useChartData(unit)
+  // TODO: Dew UI needed, WIP logic below
+  // const { updateUnit } = useTeam()
 
-  // const onUpdateUnitDews = (stat, value) => {}
+  // const incrementDewValue = (stat: CombatStat) => {
+  //   updateUnit(unit.id, { dews: { ...unit.dews, [stat]: unit.dews[stat] + 1 } })
+  // }
+
+  // const decrementDewValue = (stat: CombatStat) => {
+  //   updateUnit(unit.id, { dews: { ...unit.dews, [stat]: unit.dews[stat] - 1 } })
+  // }
 
   if (!chartData) {
     return null

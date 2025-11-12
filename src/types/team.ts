@@ -1,6 +1,8 @@
-import type { AllClassType, GrowthTuple, StatKey } from './base-stats'
+import type { AllClassType, GrowthTuple } from './base-stats'
 import type { EquippedItem } from './equipment'
 import type { SkillSlot } from './skills'
+
+import type { CombatStat } from '@/hooks/use-chart-data'
 
 export const COLS = [0, 1, 2] as const
 
@@ -13,10 +15,7 @@ export interface Position {
 }
 
 type ValidDewCount = 0 | 1 | 2 | 3 | 4 | 5
-export type DewCount = Record<
-  Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>,
-  ValidDewCount
->
+export type DewCount = Record<CombatStat, ValidDewCount>
 export interface Unit {
   id: string
   name: string

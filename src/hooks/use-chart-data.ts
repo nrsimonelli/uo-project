@@ -19,7 +19,7 @@ export type ChartDatum = {
   rank: string
 }
 
-type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
+export type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
 type OtherStat = 'AP' | 'PP' | 'GuardEff'
 type StatDataKey = CombatStat | OtherStat
 type StatData = Record<StatDataKey, number>
