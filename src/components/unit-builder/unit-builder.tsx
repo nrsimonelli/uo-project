@@ -1,12 +1,11 @@
-import { AnimatedStatBar } from '../animated-stat-bar'
 import { CostSymbols } from '../cost-symbols'
 import { EquipmentSearchModal } from '../equipment-builder/equipment-search-modal'
-import { RadarGraph } from '../radar-graph'
 import { Card } from '../ui/card'
 import { UnitIcon } from '../unit-icon'
 
 import { SkillTacticsSection } from './skill-tactics-section'
 import { GrowthSelect, LevelSelect } from './unit-select'
+import { UnitStatDisplay } from './unit-stat-display'
 
 import { calculateFinalAPPP } from '@/core/calculations/base-stats'
 import { getEquipmentSlots } from '@/core/helpers'
@@ -35,18 +34,13 @@ const UnitImage = ({
 
 export function UnitBuilder({ unit }: { unit: Unit }) {
   const { updateUnit } = useTeam()
-  const { chartData, equipmentBonus } = useChartData(unit)
 
   const [growthA, growthB] = unit.growths
 
   const unitEquipmentSlotTypes = getEquipmentSlots(unit.classKey)
 
-  // Calculate final AP/PP for display - no duplicate calculations!
+  const { equipmentBonus } = useChartData(unit)
   const { AP, PP } = calculateFinalAPPP(unit.classKey, equipmentBonus)
-
-  if (!chartData) {
-    return null
-  }
 
   return (
     <Card className="p-4 space-y-6">
@@ -101,22 +95,8 @@ export function UnitBuilder({ unit }: { unit: Unit }) {
           </div>
         </div>
         {/* column 2 */}
-        <div className="flex-col flex-1 basis-xs space-y-3">
-          <RadarGraph chartData={chartData} />
-          {/* Stat List */}
-          {/* TODO:  will want this to be its own component */}
-          <div className="flex flex-col space-y-3">
-            {/* dew of illusion by stat header? */}
-            <p className="text-lg font-medium">Stats</p>
-            <div className="space-y-1">
-              {chartData.map(stat => (
-                <AnimatedStatBar key={`${unit.id}-${stat.stat}`} data={stat} />
-              ))}
-            </div>
-          </div>
-        </div>
+        <UnitStatDisplay unit={unit} />
       </div>
-
       {/* Full width Skills & Tactics section */}
       <SkillTacticsSection
         unit={unit}

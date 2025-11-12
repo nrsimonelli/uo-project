@@ -59,12 +59,12 @@ export const useChartData = (
     )
 
     // TODO: consider adding 100 for ACC?
-    //  + (stat === 'ACC' ? 100 : 0)
     const totalStats = Object.keys(baseStats).reduce(
       (acc, stat) => {
         acc[stat as StatDataKey] = Math.max(
           baseStats[stat as StatDataKey] +
-            (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0),
+            (equipmentBonus[stat as keyof typeof equipmentBonus] ?? 0) +
+            (stat === 'ACC' ? 100 : 0),
           0
         )
         return acc
