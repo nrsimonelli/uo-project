@@ -16,7 +16,26 @@ export const useTeam = () => {
 export const useCurrentTeam = () => {
   const { teams, currentTeamId } = useTeam()
   const team = teams[currentTeamId]
-  if (!team) throw new Error(`No team found with id "${currentTeamId}"`)
+
+  // Fallback to first available team if currentTeamId doesn't exist
+  if (!team) {
+    const firstTeamId = Object.keys(teams)[0]
+    if (firstTeamId) {
+      console.warn(
+        `Team "${currentTeamId}" not found, falling back to "${firstTeamId}"`
+      )
+      return teams[firstTeamId]
+    }
+
+    // If no teams exist, return a default team structure
+    console.warn('No teams available, returning default team structure')
+    return {
+      id: 'default',
+      name: 'Default Team',
+      formation: Array(6).fill(null),
+    }
+  }
+
   return team
 }
 
