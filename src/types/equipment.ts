@@ -15,6 +15,12 @@ export type EquipmentSlotType =
   | WeaponSlotType
   | (typeof EQUIPMENT_SLOTS)[number]
 
+// All valid equipment slot types
+export const ALL_EQUIPMENT_SLOTS: readonly EquipmentSlotType[] = [
+  ...WEAPONS,
+  ...EQUIPMENT_SLOTS,
+] as const
+
 // Work in progress...
 export type ExtraStats =
   | 'MaxHP'

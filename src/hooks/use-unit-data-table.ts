@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 
-import { STATS } from '@/data/constants'
+import { COMBAT_STATS } from '@/hooks/use-chart-data'
 import type { GrowthTuple } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'
 import {
@@ -38,9 +38,7 @@ export function useUnitDataTable() {
 
   // Computed values
   const filteredStatKeys = useMemo(() => {
-    return Object.keys(STATS).filter(
-      statKey => !['MOV', 'LV', 'EXP'].includes(statKey)
-    )
+    return COMBAT_STATS
   }, [])
 
   const allData = useMemo(

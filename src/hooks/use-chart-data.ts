@@ -6,6 +6,7 @@ import {
   calculateGrowthRanks,
 } from '@/core/calculations/base-stats'
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
+import { STATS } from '@/data/constants'
 import { COMBINED_CLASS_GROWTH_TABLE } from '@/data/units/class-growth-table'
 import type { StatKey } from '@/types/base-stats'
 import type { ExtraStats } from '@/types/equipment'
@@ -20,6 +21,10 @@ export type ChartDatum = {
 }
 
 export type CombatStat = Exclude<StatKey, 'EXP' | 'LV' | 'MOV'>
+
+export const COMBAT_STATS = Object.keys(STATS).filter(
+  stat => stat !== 'EXP' && stat !== 'LV' && stat !== 'MOV'
+) as CombatStat[]
 type OtherStat = 'AP' | 'PP' | 'GuardEff'
 type StatDataKey = CombatStat | OtherStat
 type StatData = Record<StatDataKey, number>

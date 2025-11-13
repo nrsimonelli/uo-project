@@ -1,4 +1,4 @@
-import type {
+import {
   GROWTHS,
   GROWTH_RANKS,
   STATS,
@@ -9,6 +9,8 @@ import type {
 export type GrowthKey = keyof typeof GROWTHS
 export type GrowthType = (typeof GROWTHS)[GrowthKey]
 export type GrowthTuple = [GrowthType, GrowthType]
+
+export const GROWTH_VALUES = Object.values(GROWTHS)
 
 export type GrowthRank = keyof typeof GROWTH_RANKS
 

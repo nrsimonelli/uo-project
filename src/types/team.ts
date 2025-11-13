@@ -14,8 +14,10 @@ export interface Position {
   col: Col
 }
 
-type ValidDewCount = 0 | 1 | 2 | 3 | 4 | 5
+export const VALID_DEW_COUNTS = [0, 1, 2, 3, 4, 5] as const
+export type ValidDewCount = (typeof VALID_DEW_COUNTS)[number]
 export type DewCount = Record<CombatStat, ValidDewCount>
+
 export interface Unit {
   id: string
   name: string

@@ -7,7 +7,7 @@ import {
   SelectItem,
 } from '@/components/ui/select'
 import { filterUnits } from '@/core/unit-filter'
-import { GROWTHS } from '@/data/constants'
+import { GROWTH_VALUES } from '@/types/base-stats'
 import type { AllClassType, GrowthType } from '@/types/base-stats'
 import type { Team } from '@/types/team'
 
@@ -86,7 +86,7 @@ interface GrowthSelectProps {
 }
 
 export function GrowthSelect({ label, growth, onChange }: GrowthSelectProps) {
-  const growthOptions = Object.values(GROWTHS).map(growth => ({
+  const growthOptions = GROWTH_VALUES.map(growth => ({
     label: growth,
     value: growth,
   }))
