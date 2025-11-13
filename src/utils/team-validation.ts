@@ -1,0 +1,484 @@
+import {
+  validateEquipmentForUnit,
+  validateEquipmentReference,
+} from './equipment-validation'
+import { isSkillValidForUnit } from './skill-availability'
+import { validateSkillReference } from './skill-validation'
+import {
+  VALID_COMBAT_STATS,
+  VALID_DEW_COUNT,
+  VALID_EQUIPMENT_SLOTS,
+  VALID_GROWTH_VALUES,
+  type ValidDewCount,
+} from './validation-constants'
+
+import { getEquipmentById } from '@/core/equipment-lookup'
+import { getEquipmentSlots, isValidClass } from '@/core/helpers'
+import { GROWTHS } from '@/data/constants'
+import type { CombatStat } from '@/hooks/use-chart-data'
+import type { AllClassType } from '@/types/base-stats'
+import type { Team, Unit } from '@/types/team'
+
+export interface ValidationError {
+  path: string
+  message: string
+}
+
+export interface ValidationResult {
+  isValid: boolean
+  errors: ValidationError[]
+}
+
+/**
+ * Validates team data structure loaded from localStorage
+ */
+export function validateTeamData(
+  data: unknown
+): ValidationResult & { data?: Record<string, Team> } {
+  const errors: ValidationError[] = []
+
+  // Check if data is an object
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    return {
+      isValid: false,
+      errors: [
+        {
+          path: 'root',
+          message: 'Team data must be an object (Record<string, Team>)',
+        },
+      ],
+    }
+  }
+
+  const teams = data as Record<string, unknown>
+
+  // Validate each team
+  for (const [teamId, team] of Object.entries(teams)) {
+    const teamPath = `teams.${teamId}`
+
+    if (!team || typeof team !== 'object' || Array.isArray(team)) {
+      errors.push({
+        path: teamPath,
+        message: 'Team must be an object',
+      })
+      continue
+    }
+
+    const teamObj = team as Record<string, unknown>
+
+    // Check required team fields
+    if (typeof teamObj.id !== 'string') {
+      errors.push({
+        path: `${teamPath}.id`,
+        message: 'Team id must be a string',
+      })
+    }
+
+    if (typeof teamObj.name !== 'string') {
+      errors.push({
+        path: `${teamPath}.name`,
+        message: 'Team name must be a string',
+      })
+    }
+
+    // Validate formation
+    if (!Array.isArray(teamObj.formation)) {
+      errors.push({
+        path: `${teamPath}.formation`,
+        message: 'Team formation must be an array',
+      })
+    } else {
+      const formation = teamObj.formation as unknown[]
+      if (formation.length !== 6) {
+        errors.push({
+          path: `${teamPath}.formation`,
+          message: `Team formation must have exactly 6 slots, found ${formation.length}`,
+        })
+      }
+
+      // Validate each unit in formation
+      formation.forEach((unit, index) => {
+        if (unit === null) return
+
+        const unitPath = `${teamPath}.formation[${index}]`
+        const unitErrors = validateUnit(unit, unitPath)
+        errors.push(...unitErrors)
+      })
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    data: errors.length === 0 ? (data as Record<string, Team>) : undefined,
+  }
+}
+
+/**
+ * Checks if a team has any units with invalid skills
+ * Returns true if team is ready for battle, false if it has invalid skills
+ */
+export function hasInvalidSkills(team: Team): boolean {
+  for (const unit of team.formation) {
+    if (!unit) continue
+
+    for (const skillSlot of unit.skillSlots) {
+      if (skillSlot.skillId && !isSkillValidForUnit(unit, skillSlot)) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+/**
+ * Validates a single unit object
+ */
+function validateUnit(unit: unknown, path: string): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  if (!unit || typeof unit !== 'object' || Array.isArray(unit)) {
+    return [
+      {
+        path,
+        message: 'Unit must be an object or null',
+      },
+    ]
+  }
+
+  const unitObj = unit as Record<string, unknown>
+
+  // Required string fields
+  const stringFields: Array<keyof Unit> = ['id', 'name']
+  for (const field of stringFields) {
+    if (typeof unitObj[field] !== 'string') {
+      errors.push({
+        path: `${path}.${field}`,
+        message: `Unit ${field} must be a string`,
+      })
+    }
+  }
+
+  // Validate classKey - must be a valid AllClassType
+  if (typeof unitObj.classKey !== 'string') {
+    errors.push({
+      path: `${path}.classKey`,
+      message: 'Unit classKey must be a string',
+    })
+  } else if (!isValidClass(unitObj.classKey)) {
+    errors.push({
+      path: `${path}.classKey`,
+      message: `Unit classKey "${unitObj.classKey}" is not a valid class type`,
+    })
+  }
+
+  // level must be a number between 1 and 50
+  if (
+    typeof unitObj.level !== 'number' ||
+    unitObj.level < 1 ||
+    unitObj.level > 50 ||
+    !Number.isInteger(unitObj.level)
+  ) {
+    errors.push({
+      path: `${path}.level`,
+      message: 'Unit level must be an integer between 1 and 50',
+    })
+  }
+
+  // Validate growths - must be array of 2 valid GrowthType values
+  if (!Array.isArray(unitObj.growths) || unitObj.growths.length !== 2) {
+    errors.push({
+      path: `${path}.growths`,
+      message: 'Unit growths must be an array of exactly 2 elements',
+    })
+  } else {
+    unitObj.growths.forEach((growth, index) => {
+      if (
+        typeof growth !== 'string' ||
+        !VALID_GROWTH_VALUES.includes(
+          growth as (typeof GROWTHS)[keyof typeof GROWTHS]
+        )
+      ) {
+        errors.push({
+          path: `${path}.growths[${index}]`,
+          message: `Growth[${index}] must be a valid GrowthType (one of: ${VALID_GROWTH_VALUES.join(', ')})`,
+        })
+      }
+    })
+  }
+
+  // Validate equipment array
+  if (!Array.isArray(unitObj.equipment)) {
+    errors.push({
+      path: `${path}.equipment`,
+      message: 'Unit equipment must be an array',
+    })
+  } else {
+    // Validate equipment slots match class requirements
+    if (isValidClass(unitObj.classKey as string)) {
+      const expectedSlots = getEquipmentSlots(unitObj.classKey as AllClassType)
+      const actualSlots = unitObj.equipment.map(
+        (item: unknown) =>
+          (item as Record<string, unknown> | null)?.slot as string | undefined
+      )
+
+      // Check count
+      if (actualSlots.length !== expectedSlots.length) {
+        errors.push({
+          path: `${path}.equipment`,
+          message: `Unit class "${unitObj.classKey}" requires exactly ${expectedSlots.length} equipment slots, but found ${actualSlots.length}. Expected slots: ${expectedSlots.join(', ')}`,
+        })
+      }
+
+      // Check slot types match (order matters)
+      for (
+        let i = 0;
+        i < Math.min(actualSlots.length, expectedSlots.length);
+        i++
+      ) {
+        if (actualSlots[i] !== expectedSlots[i]) {
+          errors.push({
+            path: `${path}.equipment[${i}]`,
+            message: `Equipment slot[${i}] should be "${expectedSlots[i]}" but found "${actualSlots[i] || 'undefined'}"`,
+          })
+        }
+      }
+    }
+
+    // Check for duplicate equipment IDs
+    const equipmentIds = new Map<string, number[]>() // itemId -> array of indices where it appears
+    unitObj.equipment.forEach((item, index) => {
+      if (item && typeof item === 'object' && !Array.isArray(item)) {
+        const itemObj = item as Record<string, unknown>
+        const itemId = itemObj.itemId
+        if (typeof itemId === 'string' && itemId) {
+          if (!equipmentIds.has(itemId)) {
+            equipmentIds.set(itemId, [])
+          }
+          equipmentIds.get(itemId)?.push(index)
+        }
+      }
+    })
+
+    // Report duplicate equipment IDs
+    for (const [itemId, indices] of equipmentIds.entries()) {
+      if (indices.length > 1) {
+        errors.push({
+          path: `${path}.equipment`,
+          message: `Duplicate equipment "${itemId}" found at slots ${indices.join(', ')}. Each unit can only equip one of each item.`,
+        })
+      }
+    }
+
+    unitObj.equipment.forEach((item, index) => {
+      const itemPath = `${path}.equipment[${index}]`
+      const itemErrors = validateEquippedItem(
+        item,
+        itemPath,
+        unitObj.classKey as AllClassType | undefined
+      )
+      errors.push(...itemErrors)
+    })
+  }
+
+  // Validate skillSlots array
+  if (!Array.isArray(unitObj.skillSlots)) {
+    errors.push({
+      path: `${path}.skillSlots`,
+      message: 'Unit skillSlots must be an array',
+    })
+  } else {
+    unitObj.skillSlots.forEach((slot, index) => {
+      const slotPath = `${path}.skillSlots[${index}]`
+      const slotErrors = validateSkillSlot(slot, slotPath)
+      errors.push(...slotErrors)
+    })
+  }
+
+  // Validate dews - must be Record<CombatStat, ValidDewCount>
+  if (
+    !unitObj.dews ||
+    typeof unitObj.dews !== 'object' ||
+    Array.isArray(unitObj.dews)
+  ) {
+    errors.push({
+      path: `${path}.dews`,
+      message: 'Unit dews must be an object',
+    })
+  } else {
+    const dewsObj = unitObj.dews as Record<string, unknown>
+    // Check all required CombatStat keys exist
+    for (const stat of VALID_COMBAT_STATS) {
+      const dewValue = dewsObj[stat]
+      if (
+        typeof dewValue !== 'number' ||
+        !VALID_DEW_COUNT.has(dewValue as ValidDewCount)
+      ) {
+        errors.push({
+          path: `${path}.dews.${stat}`,
+          message: `Dew value for ${stat} must be a number between 0 and 5`,
+        })
+      }
+    }
+    // Check for extra keys
+    const validCombatStatsSet = new Set(VALID_COMBAT_STATS)
+    for (const key of Object.keys(dewsObj)) {
+      if (!validCombatStatsSet.has(key as CombatStat)) {
+        errors.push({
+          path: `${path}.dews.${key}`,
+          message: `Invalid dew key "${key}". Must be one of: ${VALID_COMBAT_STATS.join(', ')}`,
+        })
+      }
+    }
+  }
+
+  return errors
+}
+
+/**
+ * Validates an equipped item
+ */
+function validateEquippedItem(
+  item: unknown,
+  path: string,
+  unitClassKey?: AllClassType
+): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    return [
+      {
+        path,
+        message: 'Equipment item must be an object',
+      },
+    ]
+  }
+
+  const itemObj = item as Record<string, unknown>
+
+  // Validate slot type
+  if (typeof itemObj.slot !== 'string') {
+    errors.push({
+      path: `${path}.slot`,
+      message: 'Equipment slot must be a string',
+    })
+  } else if (!VALID_EQUIPMENT_SLOTS.has(itemObj.slot)) {
+    errors.push({
+      path: `${path}.slot`,
+      message: `Invalid equipment slot "${itemObj.slot}". Must be one of: ${Array.from(VALID_EQUIPMENT_SLOTS).join(', ')}`,
+    })
+  }
+
+  // Validate itemId
+  if (itemObj.itemId !== null && typeof itemObj.itemId !== 'string') {
+    errors.push({
+      path: `${path}.itemId`,
+      message: 'Equipment itemId must be a string or null',
+    })
+  } else if (typeof itemObj.itemId === 'string' && itemObj.itemId) {
+    // Validate equipment reference exists
+    if (!validateEquipmentReference(itemObj.itemId)) {
+      errors.push({
+        path: `${path}.itemId`,
+        message: `Equipment item "${itemObj.itemId}" does not exist`,
+      })
+    } else if (unitClassKey) {
+      // Validate equipment type matches slot
+      const equipment = getEquipmentById(itemObj.itemId)
+      if (equipment && equipment.type !== itemObj.slot) {
+        errors.push({
+          path: `${path}.itemId`,
+          message: `Equipment "${itemObj.itemId}" type "${equipment.type}" does not match slot "${itemObj.slot}"`,
+        })
+      }
+
+      // Validate unit can equip this item
+      if (!validateEquipmentForUnit(itemObj.itemId, unitClassKey)) {
+        errors.push({
+          path: `${path}.itemId`,
+          message: `Unit class "${unitClassKey}" cannot equip item "${itemObj.itemId}"`,
+        })
+      }
+    }
+  }
+
+  return errors
+}
+
+/**
+ * Validates a skill slot
+ */
+function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  if (!slot || typeof slot !== 'object' || Array.isArray(slot)) {
+    return [
+      {
+        path,
+        message: 'Skill slot must be an object',
+      },
+    ]
+  }
+
+  const slotObj = slot as Record<string, unknown>
+
+  // Validate id
+  if (typeof slotObj.id !== 'string') {
+    errors.push({
+      path: `${path}.id`,
+      message: 'Skill slot id must be a string',
+    })
+  }
+
+  // Validate order
+  if (typeof slotObj.order !== 'number' || !Number.isInteger(slotObj.order)) {
+    errors.push({
+      path: `${path}.order`,
+      message: 'Skill slot order must be an integer',
+    })
+  }
+
+  // Validate tactics array
+  if (!Array.isArray(slotObj.tactics) || slotObj.tactics.length !== 2) {
+    errors.push({
+      path: `${path}.tactics`,
+      message: 'Skill slot tactics must be an array of exactly 2 elements',
+    })
+  }
+
+  // Validate skillType and skillId combination
+  const skillType = slotObj.skillType
+  const skillId = slotObj.skillId
+
+  if (skillType === null && skillId !== null) {
+    errors.push({
+      path: `${path}.skillType`,
+      message: 'Skill slot skillType cannot be null when skillId is not null',
+    })
+  }
+
+  if (skillType === 'active' && typeof skillId === 'string') {
+    // Validate it's a valid active skill
+    if (!validateSkillReference(skillId)) {
+      errors.push({
+        path: `${path}.skillId`,
+        message: `Active skill "${skillId}" does not exist`,
+      })
+    }
+  } else if (skillType === 'passive' && typeof skillId === 'string') {
+    // Validate it's a valid passive skill
+    if (!validateSkillReference(skillId)) {
+      errors.push({
+        path: `${path}.skillId`,
+        message: `Passive skill "${skillId}" does not exist`,
+      })
+    }
+  } else if (skillType !== null && skillId === null) {
+    errors.push({
+      path: `${path}.skillId`,
+      message: 'Skill slot skillId cannot be null when skillType is not null',
+    })
+  }
+
+  return errors
+}

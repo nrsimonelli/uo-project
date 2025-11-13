@@ -1,3 +1,4 @@
+import { AlertTriangle } from 'lucide-react'
 import { useState, useEffect, useRef, useMemo } from 'react'
 
 import { BattleEventCard } from '@/components/battle/battle-event-card'
@@ -19,6 +20,7 @@ import { useBattleEngine } from '@/hooks/use-battle-engine'
 import { useTeam } from '@/hooks/use-team'
 import { cn } from '@/lib/utils'
 import type { Team } from '@/types/team'
+import { hasInvalidSkills } from '@/utils/team-validation'
 
 export function MockBattle() {
   const { teams } = useTeam()
@@ -54,22 +56,35 @@ export function MockBattle() {
 
   const handleAllyTeamSelect = (teamId: string) => {
     const team = teams[teamId]
-    if (team) {
+    if (team && !hasInvalidSkills(team)) {
       setSelectedAllyTeam(team)
     }
+    // Don't select teams with invalid skills
   }
 
   const handleEnemyTeamSelect = (teamId: string) => {
     const team = teams[teamId]
-    if (team) {
+    if (team && !hasInvalidSkills(team)) {
       setSelectedEnemyTeam(team)
     }
+    // Don't select teams with invalid skills
   }
 
-  const canStartBattle = selectedAllyTeam && selectedEnemyTeam
+  const allyTeamHasInvalidSkills = selectedAllyTeam
+    ? hasInvalidSkills(selectedAllyTeam)
+    : false
+  const enemyTeamHasInvalidSkills = selectedEnemyTeam
+    ? hasInvalidSkills(selectedEnemyTeam)
+    : false
+
+  const canStartBattle =
+    selectedAllyTeam &&
+    selectedEnemyTeam &&
+    !allyTeamHasInvalidSkills &&
+    !enemyTeamHasInvalidSkills
 
   const handleStartBattle = () => {
-    if (selectedAllyTeam && selectedEnemyTeam) {
+    if (selectedAllyTeam && selectedEnemyTeam && canStartBattle) {
       executeBattle(selectedAllyTeam, selectedEnemyTeam)
     }
   }
@@ -119,17 +134,36 @@ export function MockBattle() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Home Team</label>
-                  <Select onValueChange={handleAllyTeamSelect}>
+                  <Select
+                    value={selectedAllyTeam?.id}
+                    onValueChange={handleAllyTeamSelect}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a team..." />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableAllyTeams.map(team => (
-                        <SelectItem key={team.id} value={team.id}>
-                          {team.name} (
-                          {team.formation.filter(u => u !== null).length} units)
-                        </SelectItem>
-                      ))}
+                      {availableAllyTeams.map(team => {
+                        const hasInvalid = hasInvalidSkills(team)
+                        return (
+                          <SelectItem
+                            key={team.id}
+                            value={team.id}
+                            disabled={hasInvalid}
+                            className={hasInvalid ? 'opacity-50' : ''}
+                          >
+                            <div className="flex items-center gap-2">
+                              {hasInvalid && (
+                                <AlertTriangle className="h-4 w-4 text-destructive" />
+                              )}
+                              <span>
+                                {team.name} (
+                                {team.formation.filter(u => u !== null).length}{' '}
+                                units)
+                              </span>
+                            </div>
+                          </SelectItem>
+                        )
+                      })}
                     </SelectContent>
                   </Select>
                 </div>
@@ -149,17 +183,36 @@ export function MockBattle() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Away Team</label>
-                  <Select onValueChange={handleEnemyTeamSelect}>
+                  <Select
+                    value={selectedEnemyTeam?.id}
+                    onValueChange={handleEnemyTeamSelect}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a team..." />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableEnemyTeams.map(team => (
-                        <SelectItem key={team.id} value={team.id}>
-                          {team.name} (
-                          {team.formation.filter(u => u !== null).length} units)
-                        </SelectItem>
-                      ))}
+                      {availableEnemyTeams.map(team => {
+                        const hasInvalid = hasInvalidSkills(team)
+                        return (
+                          <SelectItem
+                            key={team.id}
+                            value={team.id}
+                            disabled={hasInvalid}
+                            className={hasInvalid ? 'opacity-50' : ''}
+                          >
+                            <div className="flex items-center gap-2">
+                              {hasInvalid && (
+                                <AlertTriangle className="h-4 w-4 text-destructive" />
+                              )}
+                              <span>
+                                {team.name} (
+                                {team.formation.filter(u => u !== null).length}{' '}
+                                units)
+                              </span>
+                            </div>
+                          </SelectItem>
+                        )
+                      })}
                     </SelectContent>
                   </Select>
                 </div>
@@ -180,6 +233,21 @@ export function MockBattle() {
             {error && (
               <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md text-destructive text-sm">
                 <strong>Battle Error:</strong> {error}
+              </div>
+            )}
+
+            {/* Invalid Skills Warning */}
+            {(allyTeamHasInvalidSkills || enemyTeamHasInvalidSkills) && (
+              <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-md text-yellow-600 dark:text-yellow-400 text-sm">
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  <div>
+                    <strong>Invalid Skills Detected:</strong> One or both teams
+                    have units with skills that are not valid for their current
+                    level or equipment. Please fix these issues in the Team
+                    Builder before starting a battle.
+                  </div>
+                </div>
               </div>
             )}
 

@@ -1,4 +1,6 @@
-import { useState, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
+
+import { TeamErrorProvider } from './team-error-context'
 
 import { getEquipmentById } from '@/core/equipment-lookup'
 import { useLocalStorage } from '@/hooks/use-local-storage'
@@ -9,6 +11,8 @@ import {
   getEquipmentSkills,
   insertSkill,
 } from '@/utils/skill-availability'
+import { createDefaultTeams, getDefaultTeamId } from '@/utils/team-repair'
+import { validateTeamData } from '@/utils/team-validation'
 
 export interface TeamContextValue {
   teams: Record<string, Team>
@@ -28,25 +32,48 @@ export interface TeamContextValue {
 }
 
 // Initialize 6 default teams
-const createDefaultTeams = (): Record<string, Team> => {
-  const teams: Record<string, Team> = {}
-  for (let i = 1; i <= 6; i++) {
-    teams[`team-${i}`] = {
-      id: `team-${i}`,
-      name: `Team ${i}`,
-      formation: Array(6).fill(null),
-    }
-  }
-  return teams
+const getDefaultTeams = (): Record<string, Team> => createDefaultTeams()
+
+interface TeamProviderInnerProps {
+  children: ReactNode
+  teams: Record<string, Team>
+  setTeams: (
+    teams:
+      | Record<string, Team>
+      | ((prev: Record<string, Team>) => Record<string, Team>)
+  ) => void
 }
 
-export function TeamProvider({ children }: { children: ReactNode }) {
-  const [teams, setTeams] = useLocalStorage<Record<string, Team>>(
-    'team-data',
-    createDefaultTeams()
-  )
+function TeamProviderInner({
+  children,
+  teams,
+  setTeams,
+}: TeamProviderInnerProps) {
+  const [currentTeamId, setCurrentTeamId] = useState(() => {
+    // Try to get current team ID from localStorage, fallback to default
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = window.localStorage.getItem('active-team-id')
+        if (stored && teams[stored]) {
+          return stored
+        }
+      } catch {
+        // Ignore errors
+      }
+    }
+    return getDefaultTeamId()
+  })
 
-  const [currentTeamId, setCurrentTeamId] = useState('team-1')
+  // Ensure currentTeamId exists in teams, fallback if not
+  useEffect(() => {
+    if (!teams[currentTeamId]) {
+      const firstTeamId = Object.keys(teams)[0] || getDefaultTeamId()
+      setCurrentTeamId(firstTeamId)
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('active-team-id', firstTeamId)
+      }
+    }
+  }, [teams, currentTeamId])
 
   const ensureSkillSlots = (unit: Unit): Unit => {
     if (!unit.skillSlots) {
@@ -288,12 +315,19 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const handleSetCurrentTeam = (id: string) => {
+    setCurrentTeamId(id)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('active-team-id', id)
+    }
+  }
+
   return (
     <TeamContext.Provider
       value={{
         teams,
         currentTeamId,
-        setCurrentTeam: setCurrentTeamId,
+        setCurrentTeam: handleSetCurrentTeam,
         updateTeamName,
         importTeam,
         addUnit,
@@ -306,5 +340,49 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </TeamContext.Provider>
+  )
+}
+
+export function TeamProvider({ children }: { children: ReactNode }) {
+  const defaultTeams = getDefaultTeams()
+  const [teams, setTeamsState, validationError] = useLocalStorage<
+    Record<string, Team>
+  >('team-data', defaultTeams, validateTeamData)
+
+  const handleReset = () => {
+    setTeamsState(defaultTeams)
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('team-data')
+      window.localStorage.setItem('active-team-id', getDefaultTeamId())
+    }
+  }
+
+  const handleRepair = (repairedTeams: Record<string, Team>) => {
+    setTeamsState(repairedTeams)
+  }
+
+  // Wrapper to ensure setTeams always updates localStorage
+  const setTeamsWithStorage = (
+    value:
+      | Record<string, Team>
+      | ((prev: Record<string, Team>) => Record<string, Team>)
+  ) => {
+    const updated = typeof value === 'function' ? value(teams) : value
+    setTeamsState(updated)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('team-data', JSON.stringify(updated))
+    }
+  }
+
+  return (
+    <TeamErrorProvider
+      validationError={validationError}
+      onReset={handleReset}
+      onRepair={handleRepair}
+    >
+      <TeamProviderInner teams={teams} setTeams={setTeamsWithStorage}>
+        {children}
+      </TeamProviderInner>
+    </TeamErrorProvider>
   )
 }
