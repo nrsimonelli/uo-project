@@ -306,20 +306,23 @@ const hasTrueTie = (
 ) => {
   if (targets.length < 2) return false
 
-  // Compare first target with second target using all sort conditions
   const [first, second] = targets
 
   for (const tactic of sortTactics) {
-    if (!tactic) continue
-
-    const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
-    if (!metadata || metadata.type !== 'sort') continue
-
-    // Pass the original condition key in the metadata for compare evaluators
-    const extendedMetadata = { ...metadata, conditionKey: tactic.key }
-    const comparison = compareTargets(first, second, extendedMetadata, context)
-    if (comparison !== 0) {
-      return false // No tie - clear winner
+    if (tactic) {
+      const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
+      if (metadata && metadata.type === 'sort') {
+        const extendedMetadata = { ...metadata, conditionKey: tactic.key }
+        const comparison = compareTargets(
+          first,
+          second,
+          extendedMetadata,
+          context
+        )
+        if (comparison !== 0) {
+          return false
+        }
+      }
     }
   }
 

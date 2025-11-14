@@ -193,12 +193,12 @@ function applyLifeStealEffects(
 export function getOnActiveHealPercent(unit: BattleContext): number {
   let total = 0
 
-  // Get from equipment
   for (const equippedItem of unit.unit.equipment) {
-    if (!equippedItem.itemId) continue
-    const equipment = getEquipmentById(equippedItem.itemId)
-    if (equipment?.stats?.OnActiveHealPercent) {
-      total += equipment.stats.OnActiveHealPercent
+    if (equippedItem.itemId) {
+      const equipment = getEquipmentById(equippedItem.itemId)
+      if (equipment?.stats?.OnActiveHealPercent) {
+        total += equipment.stats.OnActiveHealPercent
+      }
     }
   }
 

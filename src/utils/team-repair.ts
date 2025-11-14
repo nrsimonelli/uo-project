@@ -106,41 +106,43 @@ function repairUnit(
     }> = []
 
     for (const item of unitObj.equipment) {
-      if (!item || typeof item !== 'object' || Array.isArray(item)) continue
-
-      const itemObj = item as Record<string, unknown>
-      const slot = itemObj.slot
-      if (typeof slot !== 'string') continue
-
-      equipmentItems.push({
-        slot,
-        itemId: typeof itemObj.itemId === 'string' ? itemObj.itemId : null,
-      })
+      if (item && typeof item === 'object' && !Array.isArray(item)) {
+        const itemObj = item as Record<string, unknown>
+        const slot = itemObj.slot
+        if (typeof slot === 'string') {
+          equipmentItems.push({
+            slot,
+            itemId: typeof itemObj.itemId === 'string' ? itemObj.itemId : null,
+          })
+        }
+      }
     }
 
     const usedEquipmentIds: string[] = []
 
     equipment = expectedSlots.map((expectedSlot, index) => {
       for (const item of equipmentItems) {
-        if (item.slot !== expectedSlot) continue
-        if (!item.itemId) continue
-        if (usedEquipmentIds.includes(item.itemId)) continue
-
-        const validation = validateEquipmentForSlot(
-          item.itemId,
-          expectedSlot,
-          classKey
-        )
-
-        if (!validation.isValid) {
-          repairs.push(
-            `${unitPath}.equipment[${index}]: ${validation.reason || 'Invalid equipment'} in slot "${expectedSlot}", clearing`
+        if (
+          item.slot === expectedSlot &&
+          item.itemId &&
+          !usedEquipmentIds.includes(item.itemId)
+        ) {
+          const validation = validateEquipmentForSlot(
+            item.itemId,
+            expectedSlot,
+            classKey
           )
-          return { slot: expectedSlot, itemId: null }
-        }
 
-        usedEquipmentIds.push(item.itemId)
-        return { slot: expectedSlot, itemId: item.itemId }
+          if (!validation.isValid) {
+            repairs.push(
+              `${unitPath}.equipment[${index}]: ${validation.reason || 'Invalid equipment'} in slot "${expectedSlot}", clearing`
+            )
+            return { slot: expectedSlot, itemId: null }
+          }
+
+          usedEquipmentIds.push(item.itemId)
+          return { slot: expectedSlot, itemId: item.itemId }
+        }
       }
 
       return { slot: expectedSlot, itemId: null }
