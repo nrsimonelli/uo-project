@@ -34,9 +34,11 @@ It combines tactical depth, automated battles, and community-driven events into 
    This generates TypeScript types from JSON data files for skills, equipment, and other game content.
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    ```
+
    The application will be available at `http://localhost:5173`
 
 ### Available Scripts
@@ -218,7 +220,9 @@ src/
 
 ## 🔧 Development
 
-### Code Quality & Formatting
+### Code Style & Standards
+
+**See [CODE_STYLE.md](./CODE_STYLE.md) for comprehensive coding standards and patterns.**
 
 This project uses ESLint and Prettier to maintain consistent code quality and formatting:
 
@@ -230,8 +234,6 @@ This project uses ESLint and Prettier to maintain consistent code quality and fo
   - Core utilities (`@/core/*`)
   - Hooks (`@/hooks/*`)
   - Types (`@/types/*`)
-- **TypeScript Configuration:** Modernized without deprecated features
-
 - **Automatic Formatting:** Code is formatted on save with Prettier
 - **Lint Rules:** ESLint enforces code quality and catches common issues
 

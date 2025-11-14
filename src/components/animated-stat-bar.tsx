@@ -40,6 +40,9 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
       </div>
 
       <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+        {/* Inline styles required: width is a dynamic percentage computed at runtime from animatedPercentage.
+            Tailwind cannot generate classes for dynamic runtime values, and CSS variables would still require
+            inline style setting. transformOrigin uses 'left center' which Tailwind doesn't support directly. */}
         <div
           className="h-full bg-gradient-to-r from-chart-4 to-chart-5 rounded-full transition-all duration-300 ease-out"
           style={{

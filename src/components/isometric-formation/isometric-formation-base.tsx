@@ -36,6 +36,8 @@ export function IsometricFormationBase({
     <div
       className="relative"
       style={{
+        // Inline styles required: container dimensions are calculated dynamically based on scale prop.
+        // Tailwind cannot generate classes for runtime-calculated pixel values.
         width: containerWidth,
         height: containerHeight,
       }}
@@ -56,6 +58,9 @@ export function IsometricFormationBase({
             key={idx}
             className="absolute"
             style={{
+              // Inline styles required: positioning (left, top) is calculated using isometric grid math
+              // at runtime based on x/y coordinates and orientation. Width/height are scaled dynamically.
+              // Tailwind cannot generate classes for runtime-calculated pixel values.
               left: xScreen,
               top: yScreen,
               width: SCALED_WIDTH,
@@ -68,6 +73,8 @@ export function IsometricFormationBase({
               }
             }}
           >
+            {/* Inline style required: clipPath uses a complex polygon that Tailwind doesn't support
+                as a utility class. This creates the diamond/hexagonal tile shape for the isometric grid. */}
             <div
               className={cn(
                 'absolute w-full h-full transition-colors duration-200',
@@ -82,7 +89,11 @@ export function IsometricFormationBase({
             {slot && (
               <div
                 className="absolute left-1/2 transform -translate-x-1/2"
-                style={{ bottom: SCALED_HEIGHT * 0.3 }}
+                style={{
+                  // Inline style required: bottom position is calculated dynamically based on scaled height.
+                  // Tailwind cannot generate classes for runtime-calculated pixel values.
+                  bottom: SCALED_HEIGHT * 0.3,
+                }}
               >
                 <img
                   src={SPRITES[slot.classKey]}
