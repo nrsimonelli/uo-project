@@ -78,6 +78,7 @@ export function TeamBuilder() {
 
   const handleImportTeam = (team: Team) => {
     importTeam(team)
+    // The imported team now replaces the current team, so we stay on the same team
     const firstUnit = team.formation.find(unit => unit !== null)
     setSelectedUnitId(firstUnit?.id)
   }

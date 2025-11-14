@@ -103,16 +103,15 @@ function TeamProviderInner({
 
   const importTeam = (importedTeam: Team) => {
     setTeams(prev => {
-      // Generate a new unique ID for the imported team to avoid conflicts
-      const newTeamId = generateRandomId()
+      // Replace the current team with the imported team
       const team = {
         ...importedTeam,
-        id: newTeamId,
+        id: currentTeamId,
         formation: importedTeam.formation.map(unit =>
           unit ? ensureSkillSlots(unit) : null
         ),
       }
-      return { ...prev, [newTeamId]: team }
+      return { ...prev, [currentTeamId]: team }
     })
   }
 

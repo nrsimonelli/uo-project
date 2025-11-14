@@ -253,6 +253,16 @@ export function TeamImportExport({
                 </AlertDescription>
               </Alert>
 
+              {hasUnits && (
+                <Alert variant={'destructive'}>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    Importing will overwrite "{team.name}". All units in the
+                    current team will be replaced.
+                  </AlertDescription>
+                </Alert>
+              )}
+
               <div className="space-y-2">
                 <p className="text-sm font-medium">Team Details:</p>
                 <div className="text-sm text-muted-foreground space-y-1">
