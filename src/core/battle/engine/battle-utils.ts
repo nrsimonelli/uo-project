@@ -84,9 +84,6 @@ export const determineBattleWinner = (state: BattlefieldState) => {
   }
 }
 
-/**
- * Create a battle start event
- */
 export const createBattleStartEvent = (
   homeTeamName: string,
   awayTeamName: string

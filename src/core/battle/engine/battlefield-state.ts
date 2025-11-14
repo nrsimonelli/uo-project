@@ -110,9 +110,6 @@ export const createBattleContext = (
   return battleContext
 }
 
-/**
- * Create battle contexts for all units in both teams
- */
 export const createAllBattleContexts = (
   homeTeam: Team,
   awayTeam: Team
@@ -146,10 +143,6 @@ export const createAllBattleContexts = (
   return allBattleContexts
 }
 
-/**
- * Create formation arrays from battle contexts for battlefield state
- * Always creates proper 2x3 grids (2 rows, 3 columns) with null for empty positions
- */
 export const createFormationArrays = (
   allBattleContexts: Record<string, BattleContext>
 ): { allies: (string | null)[][]; enemies: (string | null)[][] } => {
@@ -185,9 +178,6 @@ export const createFormationArrays = (
   }
 }
 
-/**
- * Create the initial battlefield state for battle execution
- */
 export const createInitialBattlefieldState = (
   allBattleContexts: Record<string, BattleContext>,
   turnOrder: string[],

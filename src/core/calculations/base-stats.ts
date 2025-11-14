@@ -132,11 +132,6 @@ const getGrowthRank = (value: number) => {
   return 'S'
 }
 
-/**
- * Calculate base AP/PP values based on class type
- * Base classes: AP = 1, PP = 1
- * Advanced classes: AP = 2, PP = 2
- */
 export const calculateBaseAPPP = (classKey: AllClassType) => {
   // Check if this is an advanced class
   const isAdvancedClass = (
@@ -149,9 +144,6 @@ export const calculateBaseAPPP = (classKey: AllClassType) => {
   }
 }
 
-/**
- * Calculate final AP/PP values with equipment bonuses and cap at 4
- */
 export const calculateFinalAPPP = (
   classKey: AllClassType,
   equipmentBonus: { AP?: number; PP?: number }

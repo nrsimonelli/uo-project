@@ -28,9 +28,6 @@ import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Effect, Flag } from '@/types/effects'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
-/**
- * Result of executing a skill on a single target
- */
 export interface SingleTargetSkillResult {
   damageResults: readonly DamageResult[]
   effectResults: EffectProcessingResult
@@ -40,18 +37,12 @@ export interface SingleTargetSkillResult {
   attackerId: string
 }
 
-/**
- * Summary statistics for multi-target skill execution
- */
 export interface SkillExecutionSummary {
   totalDamage: number
   targetsHit: number
   criticalHits: number
 }
 
-/**
- * Result of executing a skill on multiple targets
- */
 export interface MultiTargetSkillResult {
   results: readonly SingleTargetSkillResult[]
   summary: SkillExecutionSummary
@@ -260,9 +251,6 @@ const executeDamageSkill = (
   }
 }
 
-/**
- * Calculate summary statistics for multiple skill execution results
- */
 const calculateSkillSummary = (
   results: readonly SingleTargetSkillResult[]
 ): SkillExecutionSummary => {
@@ -278,9 +266,6 @@ const calculateSkillSummary = (
   )
 }
 
-/**
- * Create a condition evaluation context for a skill effect
- */
 const createConditionContext = (
   attacker: BattleContext,
   target: BattleContext,
@@ -331,9 +316,6 @@ const processSkillCosts = (
   }
 }
 
-/**
- * Execute a skill against one or more targets
- */
 export const executeSkill = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,
@@ -434,9 +416,6 @@ export const executeSkill = (
   return { results, summary }
 }
 
-/**
- * Execute a skill on a single target (preserving existing logic)
- */
 const executeSingleTarget = (
   skill: ActiveSkill | PassiveSkill,
   attacker: BattleContext,

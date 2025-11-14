@@ -226,10 +226,6 @@ export const removeSkill = (slots: SkillSlot[], skillSlotId: string) => {
   }))
 }
 
-/**
- * Get the required level for a class skill
- * Returns undefined if the skill is not from class data
- */
 export const getClassSkillRequiredLevel = (
   unit: Unit,
   skillId: string
@@ -251,15 +247,6 @@ export const getClassSkillRequiredLevel = (
   return undefined
 }
 
-/**
- * Check if a skill in a skillSlot is valid for the unit
- * Returns true if:
- * - The skill is currently available from equipment, OR
- * - The skill is from class and the unit's level meets the requirement
- * Returns false if:
- * - The skill was from equipment but equipment is no longer equipped
- * - The skill is from class but unit's level is too low
- */
 export const isSkillValidForUnit = (unit: Unit, skillSlot: SkillSlot) => {
   if (!skillSlot.skillId) return true // Empty slot is valid
 

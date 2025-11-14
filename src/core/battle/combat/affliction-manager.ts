@@ -96,9 +96,6 @@ export const applyAffliction = (
   return true
 }
 
-/**
- * Remove a specific affliction from a unit
- */
 export const removeAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType
@@ -114,9 +111,6 @@ export const removeAffliction = (
   return wasRemoved
 }
 
-/**
- * Check if a unit has a specific affliction
- */
 export const hasAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType
@@ -228,9 +222,6 @@ export const canUseActiveSkills = (unit: BattleContext) => {
   return !hasAffliction(unit, 'Freeze')
 }
 
-/**
- * Check if a unit can use passive skills
- */
 export const canUsePassiveSkills = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
   if (unit.currentPP <= 0) return false
@@ -243,9 +234,6 @@ export const canUsePassiveSkills = (unit: BattleContext) => {
   )
 }
 
-/**
- * Check if a unit can guard attacks
- */
 export const canGuard = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
 
@@ -257,9 +245,6 @@ export const canGuard = (unit: BattleContext) => {
   )
 }
 
-/**
- * Check if a unit can evade attacks
- */
 export const canEvade = (unit: BattleContext) => {
   if (unit.currentHP <= 0) return false
 
@@ -267,9 +252,6 @@ export const canEvade = (unit: BattleContext) => {
   return !(hasAffliction(unit, 'Stun') || hasAffliction(unit, 'Freeze'))
 }
 
-/**
- * Check if a unit can land critical hits
- */
 export const canCrit = (unit: BattleContext) => {
   return !hasAffliction(unit, 'CritSeal')
 }
@@ -310,9 +292,6 @@ export const clearAllAfflictions = (unit: BattleContext) => {
   }
 }
 
-/**
- * Get a summary of all active afflictions on a unit
- */
 export const getAfflictionSummary = (unit: BattleContext) => {
   return unit.afflictions.map(aff => {
     if (aff.type === 'Burn' && aff.level && aff.level > 1) {

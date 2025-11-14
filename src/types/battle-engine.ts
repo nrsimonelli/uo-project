@@ -7,9 +7,6 @@ import type { AfflictionType } from '@/types/conditions'
 import type { CombatantType } from '@/types/core'
 import type { Unit } from '@/types/team'
 
-/**
- * Battle event type for hook interface
- */
 export interface BattleEvent {
   id: string
   type: string
@@ -79,9 +76,6 @@ export interface BattleEvent {
   }
 }
 
-/**
- * Battle result summary for hook interface
- */
 export interface BattleResultSummary {
   winner: string | null
   endReason: string | null
@@ -90,9 +84,6 @@ export interface BattleResultSummary {
   teamHpPercentages: { [teamId: string]: number }
 }
 
-/**
- * Affliction status effect (no set duration - cleared by specific conditions)
- */
 export interface Affliction {
   type: AfflictionType
   name: string
@@ -100,9 +91,6 @@ export interface Affliction {
   source: string // unit ID that applied this
 }
 
-/**
- * Buff status effect (indefinite or next attack duration)
- */
 export interface Buff {
   name: string
   stat: StatKey | ExtraStats
@@ -126,9 +114,6 @@ export interface Buff {
   }
 }
 
-/**
- * Debuff status effect (indefinite or next attack duration)
- */
 export interface Debuff {
   name: string
   stat: StatKey | ExtraStats
@@ -144,9 +129,6 @@ export interface Debuff {
   skillId: string
 }
 
-/**
- * Conferral status effect (temporary magical damage boost)
- */
 export interface ConferralStatus {
   skillId: string
   potency: number
@@ -154,9 +136,6 @@ export interface ConferralStatus {
   duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
 }
 
-/**
- * Evade status effect (temporary damage avoidance protection)
- */
 export interface EvadeStatus {
   skillId: string
   evadeType: 'entireAttack' | 'singleHit' | 'twoHits'
@@ -166,9 +145,6 @@ export interface EvadeStatus {
   _remainingUses?: number
 }
 
-/**
- * Damage immunity status effect (temporary damage blocking protection)
- */
 export interface DamageImmunityStatus {
   skillId: string
   immunityType: 'entireAttack' | 'singleHit' | 'multipleHits'
@@ -179,9 +155,6 @@ export interface DamageImmunityStatus {
   remainingImmunityHits?: number
 }
 
-/**
- * Debuff amplification status effect (increases effectiveness of debuffs)
- */
 export interface DebuffAmplificationStatus {
   skillId: string
   multiplier: number // 1.5 for 150% effectiveness
@@ -189,9 +162,6 @@ export interface DebuffAmplificationStatus {
   source: string // unit ID that applied this
 }
 
-/**
- * Battle context for a unit with all tracking data
- */
 export interface BattleContext {
   unit: Unit
   currentHP: number

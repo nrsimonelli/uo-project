@@ -367,9 +367,6 @@ const applyResurrects = (
   })
 }
 
-/**
- * Apply lifeshare effects - sacrifice user's current HP and heal target for that amount
- */
 const applyLifeshare = (
   lifeshareToApply: EffectProcessingResult['lifeshareToApply'],
   attacker: BattleContext,
@@ -469,10 +466,6 @@ const applyAfflictions = (
   })
 }
 
-/**
- * Apply processed effects from skill execution to battle contexts
- * If attackHit -> false, target-directed effects won't be applied (for dodge scenarios)
- */
 export const applyStatusEffects = (
   effectResults: EffectProcessingResult,
   attacker: BattleContext,
@@ -590,10 +583,6 @@ const applyEvade = (unit: BattleContext, newEvade: EvadeStatus) => {
   applyStatusEffect(unit.evades, newEvade, false)
 }
 
-/**
- * Check if a unit has SurviveLethal buff and consume it if lethal damage would occur
- * Returns the HP to set (1 if buff was consumed, 0 if no buff)
- */
 export const checkAndConsumeSurviveLethal = (
   unit: BattleContext,
   newHP: number
@@ -617,10 +606,6 @@ export const checkAndConsumeSurviveLethal = (
   return 0
 }
 
-/**
- * Check if a unit is immune to debuffs and consume the immunity buff if present
- * Returns true if the debuff should be blocked
- */
 const isImmuneToDebuff = (unit: BattleContext) => {
   // Check permanent immunities first (not consumed)
   const hasPermanentImmunity = unit.immunities.some(immunity => {
@@ -649,10 +634,6 @@ const isImmuneToDebuff = (unit: BattleContext) => {
   return false
 }
 
-/**
- * Remove expired buffs from a unit based on trigger conditions
- * Also handles evades and conferrals expiration
- */
 export const removeExpiredBuffs = (
   unit: BattleContext,
   trigger: 'attacks' | 'attacked' | 'debuffed' | 'action'
@@ -809,14 +790,6 @@ const shouldApplyConditionalBuff = (
   return false
 }
 
-/**
- * Calculate the total modifier for a stat from all active buffs and debuffs
- * @param unit - The unit whose stats are being calculated
- * @param stat - The stat to calculate modifiers for
- * @param target - Optional target for conditional buff evaluation. If provided,
- *                 conditional buffs will be included if the target matches the condition.
- *                 If not provided, conditional buffs are excluded (for normal recalculation).
- */
 export const calculateStatModifier = (
   unit: BattleContext,
   stat: StatKey | ExtraStats,
@@ -859,10 +832,6 @@ export const calculateStatModifier = (
   return { flatModifier, percentModifier }
 }
 
-/**
- * Check if a unit has any buffs
- * Includes regular buffs, conferrals, and evades
- */
 export const hasBuffs = (unit: BattleContext) => {
   return (
     unit.buffs.length > 0 ||
@@ -879,10 +848,6 @@ export const hasAffliction = (unit: BattleContext, afflictionType: string) => {
   return unit.afflictions.some(affliction => affliction.type === afflictionType)
 }
 
-/**
- * Store the base + equipment stats foundation on the unit for efficient recalculation
- * This should be called once when the BattleContext is created
- */
 export const initializeStatFoundation = (unit: BattleContext) => {
   const baseStats = calculateBaseStats(
     unit.unit.level,
@@ -934,11 +899,6 @@ const RECALCULATED_STAT_KEYS: Array<
   >
 > = ['HP', 'PATK', 'PDEF', 'MATK', 'MDEF', 'ACC', 'EVA', 'CRT', 'GRD', 'INIT']
 
-/**
- * Recalculate a unit's combat stats by applying buffs/debuffs to the stored foundation
- * Uses additive percentage scaling: multiple percentage modifiers are summed together
- * Note: Conditional buffs are excluded during normal recalculation (no target provided)
- */
 export const recalculateStats = (unit: BattleContext) => {
   const foundation = unit.statFoundation
 
@@ -992,11 +952,6 @@ export const recalculateStats = (unit: BattleContext) => {
   )
 }
 
-/**
- * Get effective stats for a unit when attacking a specific target.
- * This includes conditional buffs that only apply when targeting specific unit types.
- * Use this in damage calculations instead of directly accessing combatStats.
- */
 export const getEffectiveStatsForTarget = (
   attacker: BattleContext,
   target: BattleContext

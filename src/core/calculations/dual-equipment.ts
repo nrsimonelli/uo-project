@@ -7,11 +7,6 @@ import {
 import { getEquipmentById } from '@/core/equipment-lookup'
 import type { EquippedItem } from '@/types/equipment'
 
-/**
- * Calculate equipment bonuses for classes with dual sword or dual shield configurations
- * Swordmaster: 100% of highest PATK/MATK + 50% of lower, all other stats 100%
- * Crusader/Valkyria: 100% of highest PDEF/GRD + 50% of lower, all other stats 100%. May only gain 25% GuardEff total from shields.
- */
 export const calculateDualEquipmentBonus = (
   equipment: EquippedItem[],
   baseStats?: Record<string, number>,
@@ -75,9 +70,6 @@ export const calculateDualEquipmentBonus = (
   return result
 }
 
-/**
- * Process dual swords for Swordmaster (100% highest PATK/MATK + 50% lower)
- */
 const processDualSwords = (
   swords: EquippedItem[],
   result: typeof initialEquipmentData,
@@ -126,9 +118,6 @@ const processDualSwords = (
   })
 }
 
-/**
- * Process dual shields for Crusader/Valkyria (100% highest PDEF/GRD + 50% lower, highest GuardEff only)
- */
 const processDualShields = (
   shields: EquippedItem[],
   result: typeof initialEquipmentData,

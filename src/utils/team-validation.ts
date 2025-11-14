@@ -26,15 +26,11 @@ export interface ValidationResult {
   errors: ValidationError[]
 }
 
-/**
- * Validates team data structure loaded from localStorage
- */
 export function validateTeamData(
   data: unknown
 ): ValidationResult & { data?: Record<string, Team> } {
   const errors: ValidationError[] = []
 
-  // Check if data is an object
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     return {
       isValid: false,
@@ -49,7 +45,6 @@ export function validateTeamData(
 
   const teams = data as Record<string, unknown>
 
-  // Validate each team
   for (const [teamId, team] of Object.entries(teams)) {
     const teamPath = `teams.${teamId}`
 
@@ -61,7 +56,6 @@ export function validateTeamData(
     } else {
       const teamObj = team as Record<string, unknown>
 
-      // Check required team fields
       if (typeof teamObj.id !== 'string') {
         errors.push({
           path: `${teamPath}.id`,
@@ -76,7 +70,6 @@ export function validateTeamData(
         })
       }
 
-      // Validate formation
       if (!Array.isArray(teamObj.formation)) {
         errors.push({
           path: `${teamPath}.formation`,
@@ -91,7 +84,6 @@ export function validateTeamData(
           })
         }
 
-        // Validate each unit in formation
         formation.forEach((unit, index) => {
           if (unit === null) return
 
@@ -110,10 +102,6 @@ export function validateTeamData(
   }
 }
 
-/**
- * Checks if a team has any units with invalid skills
- * Returns true if team is ready for battle, false if it has invalid skills
- */
 export function hasInvalidSkills(team: Team): boolean {
   for (const unit of team.formation) {
     if (unit) {
@@ -127,9 +115,6 @@ export function hasInvalidSkills(team: Team): boolean {
   return false
 }
 
-/**
- * Validates a single unit object
- */
 function validateUnit(unit: unknown, path: string): ValidationError[] {
   const errors: ValidationError[] = []
 
@@ -144,7 +129,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
 
   const unitObj = unit as Record<string, unknown>
 
-  // Required string fields
   const stringFields: Array<keyof Unit> = ['id', 'name']
   for (const field of stringFields) {
     if (typeof unitObj[field] !== 'string') {
@@ -155,7 +139,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     }
   }
 
-  // Validate classKey - must be a valid AllClassType
   if (typeof unitObj.classKey !== 'string') {
     errors.push({
       path: `${path}.classKey`,
@@ -168,7 +151,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   }
 
-  // level must be a number between 1 and 50
   if (
     typeof unitObj.level !== 'number' ||
     unitObj.level < 1 ||
@@ -181,7 +163,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate growths - must be array of 2 valid GrowthType values
   if (!Array.isArray(unitObj.growths) || unitObj.growths.length !== 2) {
     errors.push({
       path: `${path}.growths`,
@@ -201,14 +182,12 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate equipment array
   if (!Array.isArray(unitObj.equipment)) {
     errors.push({
       path: `${path}.equipment`,
       message: 'Unit equipment must be an array',
     })
   } else {
-    // Validate equipment slots match class requirements
     if (isValidClass(unitObj.classKey as string)) {
       const expectedSlots = getEquipmentSlots(unitObj.classKey as AllClassType)
       const actualSlots = unitObj.equipment.map(
@@ -216,7 +195,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
           (item as Record<string, unknown> | null)?.slot as string | undefined
       )
 
-      // Check count
       if (actualSlots.length !== expectedSlots.length) {
         errors.push({
           path: `${path}.equipment`,
@@ -224,7 +202,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
         })
       }
 
-      // Check slot types match (order matters)
       for (
         let i = 0;
         i < Math.min(actualSlots.length, expectedSlots.length);
@@ -239,7 +216,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
       }
     }
 
-    // Check for duplicate equipment IDs
     const duplicates = findDuplicateEquipmentIds(unitObj.equipment)
     for (const [itemId, indices] of Object.entries(duplicates)) {
       errors.push({
@@ -259,7 +235,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate skillSlots array
   if (!Array.isArray(unitObj.skillSlots)) {
     errors.push({
       path: `${path}.skillSlots`,
@@ -273,7 +248,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate dews - must be Record<CombatStat, ValidDewCount>
   if (
     !unitObj.dews ||
     typeof unitObj.dews !== 'object' ||
@@ -285,7 +259,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
     })
   } else {
     const dewsObj = unitObj.dews as Record<string, unknown>
-    // Check all required CombatStat keys exist
     for (const stat of COMBAT_STATS) {
       const dewValue = dewsObj[stat]
       if (
@@ -298,7 +271,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
         })
       }
     }
-    // Check for extra keys
     for (const key of Object.keys(dewsObj)) {
       if (!COMBAT_STATS.includes(key as CombatStat)) {
         errors.push({
@@ -312,9 +284,6 @@ function validateUnit(unit: unknown, path: string): ValidationError[] {
   return errors
 }
 
-/**
- * Validates an equipped item
- */
 function validateEquippedItem(
   item: unknown,
   path: string,
@@ -333,7 +302,6 @@ function validateEquippedItem(
 
   const itemObj = item as Record<string, unknown>
 
-  // Validate slot type
   if (typeof itemObj.slot !== 'string') {
     errors.push({
       path: `${path}.slot`,
@@ -346,7 +314,6 @@ function validateEquippedItem(
     })
   }
 
-  // Validate itemId
   if (itemObj.itemId !== null && typeof itemObj.itemId !== 'string') {
     errors.push({
       path: `${path}.itemId`,
@@ -366,7 +333,6 @@ function validateEquippedItem(
         })
       }
     } else {
-      // If no class key, just check if equipment exists
       if (!validateEquipmentReference(itemObj.itemId)) {
         errors.push({
           path: `${path}.itemId`,
@@ -379,9 +345,6 @@ function validateEquippedItem(
   return errors
 }
 
-/**
- * Validates a skill slot
- */
 function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
   const errors: ValidationError[] = []
 
@@ -396,7 +359,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
 
   const slotObj = slot as Record<string, unknown>
 
-  // Validate id
   if (typeof slotObj.id !== 'string') {
     errors.push({
       path: `${path}.id`,
@@ -404,7 +366,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate order
   if (typeof slotObj.order !== 'number' || !Number.isInteger(slotObj.order)) {
     errors.push({
       path: `${path}.order`,
@@ -412,7 +373,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate tactics array
   if (!Array.isArray(slotObj.tactics) || slotObj.tactics.length !== 2) {
     errors.push({
       path: `${path}.tactics`,
@@ -420,7 +380,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
     })
   }
 
-  // Validate skillType and skillId combination
   const skillType = slotObj.skillType
   const skillId = slotObj.skillId
 
@@ -432,7 +391,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
   }
 
   if (skillType === 'active' && typeof skillId === 'string') {
-    // Validate it's a valid active skill
     if (!validateSkillReference(skillId)) {
       errors.push({
         path: `${path}.skillId`,
@@ -440,7 +398,6 @@ function validateSkillSlot(slot: unknown, path: string): ValidationError[] {
       })
     }
   } else if (skillType === 'passive' && typeof skillId === 'string') {
-    // Validate it's a valid passive skill
     if (!validateSkillReference(skillId)) {
       errors.push({
         path: `${path}.skillId`,

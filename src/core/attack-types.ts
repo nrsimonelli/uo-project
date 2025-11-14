@@ -3,19 +3,6 @@ import type { AllClassType } from '@/types/base-stats'
 import type { SkillCategory } from '@/types/core'
 import type { DamageEffect, Flag } from '@/types/effects'
 
-/**
- * Determine the final attack type for a skill based on innateAttackType and attacker class
- *
- * Logic:
- * 1. If innateAttackType is provided -> use that (highest priority)
- * 2. If unit's movement type is Flying or trait is Archer -> Ranged
- * 3. Otherwise -> Melee
- *
- * Important constraints:
- * - This function should only be called for damage skills
- * - Only Damage skills can acquire the Melee attack type
- * - Non-damage skills should not call this function
- */
 export const getAttackType = (
   attackerClass: AllClassType,
   innateAttackType?: 'Magical' | 'Ranged'

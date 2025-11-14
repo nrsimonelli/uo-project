@@ -1,8 +1,5 @@
 import type { BattleContext } from '@/types/battle-engine'
 
-/**
- * Utility functions for tactical evaluators using lookup tables instead of switch statements
- */
 
 // Operator lookup table
 const OPERATORS = {

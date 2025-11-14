@@ -22,18 +22,12 @@ export const isDebuffTypeEffect = (effect: Effect) => {
   )
 }
 
-/**
- * Check if a unit is immune to debuff-type effects
- */
 export const hasDebuffImmunity = (
   unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[]
 ) => {
   return unitImmunities.includes('Debuff')
 }
 
-/**
- * Check if a unit is immune to a specific affliction
- */
 export const hasAfflictionImmunity = (
   unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[],
   affliction: AfflictionType

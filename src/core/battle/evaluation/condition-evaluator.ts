@@ -6,9 +6,6 @@ import type {
   NumericComparator,
 } from '@/types/conditions'
 
-/**
- * Context for evaluating conditions during battle
- */
 export interface ConditionEvaluationContext {
   attacker: BattleContext
   target: BattleContext
@@ -22,10 +19,6 @@ export interface ConditionEvaluationContext {
   wasCritical?: boolean
 }
 
-/**
- * Main condition evaluation function
- * Returns true if the condition is met, false otherwise
- */
 export const evaluateCondition = (
   condition: Condition,
   context: ConditionEvaluationContext
@@ -78,10 +71,6 @@ export const evaluateCondition = (
   return false
 }
 
-/**
- * Evaluate all conditions in an array (AND logic)
- * Returns true only if ALL conditions are met
- */
 export const evaluateAllConditions = (
   conditions: readonly Condition[] | Condition[] = [],
   context: ConditionEvaluationContext
@@ -93,9 +82,6 @@ export const evaluateAllConditions = (
   return conditions.every(condition => evaluateCondition(condition, context))
 }
 
-/**
- * Get the battle context for a specific target
- */
 const getTargetContext = (
   target: 'Self' | 'Ally' | 'Enemy',
   context: ConditionEvaluationContext

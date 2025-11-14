@@ -1,10 +1,6 @@
 import type { BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill } from '@/types/skills'
 
-/**
- * Track skill usage during battle
- * This should be called after each unit action
- */
 export const trackSkillUsage = (
   state: BattlefieldState,
   skill: ActiveSkill

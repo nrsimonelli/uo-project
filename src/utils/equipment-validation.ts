@@ -40,7 +40,6 @@ export const validateEquipmentForUnit = (
   // If no class restrictions, anyone can equip it
   if (equipment.classRestrictions.length === 0) return true
 
-  // Check if unit's class is in the allowed list
   return (equipment.classRestrictions as readonly AllClassType[]).includes(
     unitClassKey
   )

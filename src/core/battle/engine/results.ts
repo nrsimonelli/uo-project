@@ -190,12 +190,6 @@ function applyLifeStealEffects(
   return state
 }
 
-/**
- * Get OnActiveHealPercent from unit's equipment and buffs
- * OnActiveHealPercent can come from:
- * 1. Equipment stats (ExtraStats)
- * 2. Buffs (skills like hastenedHeal grant OnActiveHealPercent as a buff)
- */
 export function getOnActiveHealPercent(unit: BattleContext): number {
   let total = 0
 
@@ -218,10 +212,6 @@ export function getOnActiveHealPercent(unit: BattleContext): number {
   return total
 }
 
-/**
- * Calculate OnActiveHealPercent heal amount without mutating state
- * Returns the heal amount that should be applied
- */
 export function calculateOnActiveHealAmount(unit: BattleContext): number {
   // Get OnActiveHealPercent from equipment and buffs
   const onActiveHealPercent = getOnActiveHealPercent(unit)
@@ -243,11 +233,6 @@ export function calculateOnActiveHealAmount(unit: BattleContext): number {
   return finalHeal
 }
 
-/**
- * Apply OnActiveHealPercent healing to a unit in state
- * Similar to applyLifeStealEffects but uses maxHP and OnActiveHealPercent
- * Preserves overheal: if unit is already above maxHP, cap is pre-heal currentHP
- */
 export function applyOnActiveHealPercent(
   state: BattlefieldState,
   unitId: string

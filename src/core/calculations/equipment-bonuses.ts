@@ -106,9 +106,6 @@ const ignoredStats = [
   'CurrentHPPercent', // Handled separately - affects currentHP, not max HP
 ]
 
-/**
- * Process a single stat value using the existing stat processors
- */
 export const processStatValue = (
   statKey: string,
   value: number,
@@ -145,9 +142,6 @@ export const processStatValue = (
   console.warn(`Unknown equipment stat: ${statKey}`)
 }
 
-/**
- * Process a single equipment item with normal logic
- */
 export const processEquipmentItem = (
   equippedItem: EquippedItem,
   result: typeof initialEquipmentData,

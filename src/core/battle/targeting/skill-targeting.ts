@@ -6,9 +6,6 @@ import {
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type { ActiveSkill, PassiveSkill } from '@/types/skills'
 
-/**
- * Calculate distance between two positions (Manhattan distance)
- */
 const calculateDistance = (
   pos1: { row: number; col: number },
   pos2: { row: number; col: number }
@@ -16,10 +13,6 @@ const calculateDistance = (
   return Math.abs(pos1.row - pos2.row) + Math.abs(pos1.col - pos2.col)
 }
 
-/**
- * Select multiple closest targets with no overlap
- * Returns up to 'count' targets, prioritizing closest ones
- */
 const selectClosestTargets = (
   targets: BattleContext[],
   actingUnit: BattleContext,
@@ -60,11 +53,6 @@ const selectClosestTargets = (
   return selectedTargets
 }
 
-/**
- * Find the closest target using default targeting rules
- * DEFAULT TARGETING RULE: Closest unit in front row first, then closest unit in back row
- * This applies to ALL skills (melee, ranged, healing, etc.) when using default targeting
- */
 const findClosestTarget = (
   actingUnit: BattleContext,
   potentialTargets: BattleContext[],
@@ -304,10 +292,6 @@ const targetingPatternHandlers = {
   },
 } as const
 
-/**
- * Get default targets for a skill based on its targeting pattern
- * @param preFilteredTargets Optional pre-filtered list of targets to select from (used by tactical system)
- */
 export const getDefaultTargets = (
   skill: ActiveSkill | PassiveSkill,
   actingUnit: BattleContext,

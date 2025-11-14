@@ -3,9 +3,6 @@ import type { TacticalCondition } from './tactics'
 
 import type { ActivationWindowId } from '@/data/activation-windows'
 
-/**
- * Activation window for passive skills
- */
 export interface ActivationWindow {
   id: string
   type: ActivationWindowId

@@ -12,11 +12,6 @@ interface SkillSelection {
   targets: BattleContext[] // All targets that should be affected by the skill
 }
 
-/**
- * Find the first affordable active skill from a unit's skill slots and its valid targets
- * Skills are checked in slot order priority
- * Returns both the selected skill and all targets that should be affected based on the skill's targeting pattern
- */
 export const selectActiveSkill = (
   unit: BattleContext,
   battlefield: BattlefieldState

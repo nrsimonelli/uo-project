@@ -22,16 +22,8 @@ export const isUnitAfflicted = (
 export const isUnitActionableActive = canUseActiveSkills
 export const isUnitActionablePassive = canUsePassiveSkills
 
-/**
- * Process afflictions at the start of a unit's turn
- * Returns result with action capability and events for battle log
- */
 export const processUnitTurnStart = processAfflictionsAtTurnStart
 
-/**
- * Remove current unit from active skill queue
- * Returns new state with updated queue
- */
 export const removeCurrentUnitFromQueue = (state: BattlefieldState) => {
   const currentIndex = state.activeSkillQueue.indexOf(state.activeUnitId)
 
@@ -48,10 +40,6 @@ export const removeCurrentUnitFromQueue = (state: BattlefieldState) => {
   return state // No changes needed
 }
 
-/**
- * Remove ineligible units from front of queue
- * Returns new state with cleaned queue
- */
 export const cleanIneligibleUnits = (state: BattlefieldState) => {
   const newQueue = [...state.activeSkillQueue]
 
@@ -74,10 +62,6 @@ export const cleanIneligibleUnits = (state: BattlefieldState) => {
   }
 }
 
-/**
- * Set the next active unit (first in queue)
- * Returns new state with updated activeUnitId
- */
 export const setNextActiveUnit = (state: BattlefieldState) => {
   const activeUnitId =
     state.activeSkillQueue.length > 0 ? state.activeSkillQueue[0] : ''
@@ -88,10 +72,6 @@ export const setNextActiveUnit = (state: BattlefieldState) => {
   }
 }
 
-/**
- * Advance to the next unit in turn order
- * Returns new battlefield state with updated turn order
- */
 export const advanceToNextUnit = (state: BattlefieldState) => {
   // Step 1: Remove current unit from queue
   let newState = removeCurrentUnitFromQueue(state)
@@ -110,11 +90,6 @@ export const advanceToNextUnit = (state: BattlefieldState) => {
   return newState
 }
 
-/**
- * Handle when the active skill queue is empty
- * RULE 6: When queue contains only inactive units, the round is over and queue is repopulated
- * Returns new state either starting new round or ending battle
- */
 export const handleEmptyQueue = (state: BattlefieldState) => {
   // Check if any units can still act this round
   const actionableUnits = Object.values(state.units).filter(
@@ -261,10 +236,6 @@ export const reorderRemainingUnits = (state: BattlefieldState) => {
     activeSkillQueue: newQueue,
   }
 }
-/**
- * Check if the battle should continue
- * Returns false if one team is eliminated, all units are out of AP, stalemate, or round limit
- */
 export const shouldContinueBattle = (state: BattlefieldState) => {
   // Get living units and actionable units
   const livingUnits = Object.values(state.units).filter(
