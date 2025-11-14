@@ -155,14 +155,12 @@ function TeamProviderInner({
         // Track skill slots to update
         let updatedSkillSlots = [...updatedUnit.skillSlots]
         const maxSkills = 10
-        const currentSkillIds = new Set(
-          updatedSkillSlots
-            .map(skillSlot => skillSlot.skillId)
-            .filter(
-              (skillId): skillId is NonNullable<typeof skillId> =>
-                skillId !== null
-            )
-        )
+        const currentSkillIds = updatedSkillSlots
+          .map(skillSlot => skillSlot.skillId)
+          .filter(
+            (skillId): skillId is NonNullable<typeof skillId> =>
+              skillId !== null
+          )
 
         // Check if level increased - add new class skills
         if (updates.level !== undefined && updates.level > unit.level) {
@@ -171,7 +169,7 @@ function TeamProviderInner({
           // Find skills that are now available but not in skillSlots yet
           const newSkillsToAdd = availableClassSkills.filter(
             availableSkill =>
-              !currentSkillIds.has(availableSkill.skill.id) &&
+              !currentSkillIds.includes(availableSkill.skill.id) &&
               updatedSkillSlots.length < maxSkills
           )
 
@@ -183,7 +181,9 @@ function TeamProviderInner({
                   updatedSkillSlots,
                   newClassSkill
                 )
-                currentSkillIds.add(newClassSkill.skill.id)
+                if (!currentSkillIds.includes(newClassSkill.skill.id)) {
+                  currentSkillIds.push(newClassSkill.skill.id)
+                }
               }
             })
           }
@@ -193,26 +193,22 @@ function TeamProviderInner({
         // Note: Equipment removal is handled automatically by isSkillValidForUnit
         // which will invalidate skills from removed equipment (highlighting them in red)
         if (updates.equipment !== undefined) {
-          const oldEquipmentIds = new Set(
-            unit.equipment
-              .map(equippedItem => equippedItem.itemId)
-              .filter(
-                (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
-                  equipmentId !== null
-              )
-          )
-          const newEquipmentIds = new Set(
-            updatedUnit.equipment
-              .map(equippedItem => equippedItem.itemId)
-              .filter(
-                (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
-                  equipmentId !== null
-              )
-          )
+          const oldEquipmentIds = unit.equipment
+            .map(equippedItem => equippedItem.itemId)
+            .filter(
+              (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
+                equipmentId !== null
+            )
+          const newEquipmentIds = updatedUnit.equipment
+            .map(equippedItem => equippedItem.itemId)
+            .filter(
+              (equipmentId): equipmentId is NonNullable<typeof equipmentId> =>
+                equipmentId !== null
+            )
 
           // Find equipment that was added
-          const addedEquipmentIds = Array.from(newEquipmentIds).filter(
-            equipmentId => !oldEquipmentIds.has(equipmentId)
+          const addedEquipmentIds = newEquipmentIds.filter(
+            equipmentId => !oldEquipmentIds.includes(equipmentId)
           )
 
           // For each newly added equipment, check if it provides a skill
@@ -221,7 +217,7 @@ function TeamProviderInner({
             if (equipment?.skillId) {
               const equipmentSkillId = equipment.skillId
               // Check if skill is already in slots (using string comparison)
-              const alreadyHasSkill = Array.from(currentSkillIds).some(
+              const alreadyHasSkill = currentSkillIds.some(
                 skillIdInSlot =>
                   String(skillIdInSlot) === String(equipmentSkillId)
               )
@@ -238,7 +234,9 @@ function TeamProviderInner({
                     updatedSkillSlots,
                     newEquipmentSkill
                   )
-                  currentSkillIds.add(newEquipmentSkill.skill.id)
+                  if (!currentSkillIds.includes(newEquipmentSkill.skill.id)) {
+                    currentSkillIds.push(newEquipmentSkill.skill.id)
+                  }
                 }
               }
             }

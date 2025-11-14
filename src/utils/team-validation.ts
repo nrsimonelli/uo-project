@@ -102,7 +102,7 @@ export function validateTeamData(
   }
 }
 
-export function hasInvalidSkills(team: Team): boolean {
+export function hasInvalidSkills(team: Team) {
   for (const unit of team.formation) {
     if (unit) {
       for (const skillSlot of unit.skillSlots) {

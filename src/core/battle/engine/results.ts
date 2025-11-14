@@ -92,7 +92,7 @@ export function buildPostAttackSets(
   const attackedIds = targets.map(getStateIdForContext)
 
   // Determine which targets were actually hit
-  let hitIds: string[] = []
+  const hitIds: string[] = []
   let anyGuarded = false
 
   if ('results' in result) {
@@ -114,7 +114,10 @@ export function buildPostAttackSets(
   } else {
     // Single-target case: Only check the one result
     if (result.anyHit && targets[0]) {
-      hitIds = [getStateIdForContext(targets[0])]
+      const sid = getStateIdForContext(targets[0])
+      if (!hitIds.includes(sid)) {
+        hitIds.push(sid)
+      }
     }
 
     // Check for guarded hits
@@ -190,7 +193,7 @@ function applyLifeStealEffects(
   return state
 }
 
-export function getOnActiveHealPercent(unit: BattleContext): number {
+export function getOnActiveHealPercent(unit: BattleContext) {
   let total = 0
 
   for (const equippedItem of unit.unit.equipment) {
@@ -212,7 +215,7 @@ export function getOnActiveHealPercent(unit: BattleContext): number {
   return total
 }
 
-export function calculateOnActiveHealAmount(unit: BattleContext): number {
+export function calculateOnActiveHealAmount(unit: BattleContext) {
   // Get OnActiveHealPercent from equipment and buffs
   const onActiveHealPercent = getOnActiveHealPercent(unit)
   if (onActiveHealPercent === 0) return 0

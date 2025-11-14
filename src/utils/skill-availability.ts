@@ -26,7 +26,7 @@ export interface AvailableSkill {
 
 const inheritanceCache: Record<string, AllClassType[]> = {}
 
-function getInheritanceChain(className: AllClassType): AllClassType[] {
+function getInheritanceChain(className: AllClassType) {
   if (inheritanceCache[className]) {
     return inheritanceCache[className]
   }

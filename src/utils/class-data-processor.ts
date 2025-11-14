@@ -100,7 +100,7 @@ export function processClassData(
   return results.sort((a, b) => a.id.localeCompare(b.id))
 }
 
-export function getUniqueEquipmentSlots(): EquipmentSlotType[] {
+export function getUniqueEquipmentSlots() {
   const allSlots: EquipmentSlotType[] = []
 
   for (const classData of Object.values(CLASS_DATA)) {
@@ -114,7 +114,7 @@ export function getUniqueEquipmentSlots(): EquipmentSlotType[] {
   return uniqueSlots.sort()
 }
 
-export function getUniqueRaces(): string[] {
+export function getUniqueRaces() {
   const allRaces: string[] = []
 
   for (const classData of Object.values(CLASS_DATA)) {
@@ -130,7 +130,7 @@ export function getUniqueRaces(): string[] {
   return uniqueRaces.sort()
 }
 
-export function getUniqueTraits(): string[] {
+export function getUniqueTraits() {
   const allTraits: string[] = []
 
   for (const classData of Object.values(CLASS_DATA)) {
@@ -146,7 +146,7 @@ export function getUniqueTraits(): string[] {
   return uniqueTraits.sort()
 }
 
-export function getUniqueMovementTypes(): string[] {
+export function getUniqueMovementTypes() {
   const allMovementTypes: string[] = []
 
   for (const classData of Object.values(CLASS_DATA)) {

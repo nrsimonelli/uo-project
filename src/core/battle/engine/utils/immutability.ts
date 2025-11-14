@@ -3,11 +3,11 @@ import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 export const MAX_AP = 4
 export const MAX_PP = 4
 
-export function clampAP(value: number): number {
+export function clampAP(value: number) {
   return Math.min(MAX_AP, Math.max(0, value))
 }
 
-export function clampPP(value: number): number {
+export function clampPP(value: number) {
   return Math.min(MAX_PP, Math.max(0, value))
 }
 

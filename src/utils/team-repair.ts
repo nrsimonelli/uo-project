@@ -11,7 +11,7 @@ import type { SkillSlot } from '@/types/skills'
 import { VALID_DEW_COUNTS, type ValidDewCount } from '@/types/team'
 import type { Team, Unit, FormationSlots } from '@/types/team'
 
-export function createDefaultTeams(): Record<string, Team> {
+export function createDefaultTeams() {
   const teams: Record<string, Team> = {}
   for (let i = 1; i <= 6; i++) {
     teams[`team-${i}`] = {
@@ -421,6 +421,6 @@ export function repairTeamData(
   }
 }
 
-export function getDefaultTeamId(): string {
+export function getDefaultTeamId() {
   return 'team-1'
 }
