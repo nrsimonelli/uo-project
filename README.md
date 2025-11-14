@@ -128,7 +128,7 @@ src/
 ### Team Builder
 
 - **Unit Management** — Add, remove, and position units in a 2x3 formation
-- **Multiple Teams** — Manage up to 6 different team configurations
+- **Multiple Teams** — Manage up to 10 different team configurations
 - **Import/Export** — Share team configurations via JSON
 
 ### Unit Customization

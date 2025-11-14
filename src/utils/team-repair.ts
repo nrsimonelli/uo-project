@@ -13,7 +13,7 @@ import type { Team, Unit, FormationSlots } from '@/types/team'
 
 export function createDefaultTeams() {
   const teams: Record<string, Team> = {}
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 10; i++) {
     teams[`team-${i}`] = {
       id: `team-${i}`,
       name: `Team ${i}`,
@@ -403,7 +403,7 @@ export function repairTeamData(
     }
   }
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 10; i++) {
     const teamKey = `team-${i}`
     if (!repaired[teamKey]) {
       repairs.push(`Team ${teamKey} was missing, creating default`)

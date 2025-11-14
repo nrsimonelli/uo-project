@@ -31,7 +31,7 @@ export interface TeamContextValue {
   swapUnits: (from: Position, to: Position) => void
 }
 
-// Initialize 6 default teams
+// Initialize 10 default teams
 const getDefaultTeams = (): Record<string, Team> => createDefaultTeams()
 
 interface TeamProviderInnerProps {

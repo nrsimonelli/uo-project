@@ -84,7 +84,7 @@ export function transformSkillResults(
   }
 }
 
-export function buildPostAttackSets(
+export function getPostAttackIds(
   result: SingleTargetSkillResult | MultiTargetSkillResult,
   targets: BattleContext[]
 ): { attackedIds: string[]; hitIds: string[]; anyGuarded: boolean } {
