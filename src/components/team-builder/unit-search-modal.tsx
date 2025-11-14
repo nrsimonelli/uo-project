@@ -55,10 +55,15 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
     closeModal()
   }
 
+  const isTeamEmpty = !team.formation.some(unit => unit !== null)
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="flex flex-1">
+        <Button
+          variant={isTeamEmpty ? 'default' : 'ghost'}
+          className="flex flex-1"
+        >
           <PlusIcon className="w-4 h-4" />
           Add Unit
         </Button>

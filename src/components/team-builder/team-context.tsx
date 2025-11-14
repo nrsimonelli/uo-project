@@ -3,6 +3,7 @@ import { useState, useEffect, type ReactNode } from 'react'
 import { TeamErrorProvider } from './team-error-context'
 
 import { getEquipmentById } from '@/core/equipment-lookup'
+import { generateRandomId } from '@/core/helpers'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { TeamContext } from '@/hooks/use-team'
 import { COLS, type Position, type Team, type Unit } from '@/types/team'
@@ -19,7 +20,7 @@ export interface TeamContextValue {
   currentTeamId: string
   setCurrentTeam: (id: string) => void
   updateTeamName: (id: string, name: string) => void
-  importTeam: (teamId: string, team: Team) => void
+  importTeam: (team: Team) => void
 
   addUnit: (unit: Unit, position: Position) => void
   updateUnit: (id: string, updates: Partial<Unit>) => void
@@ -61,13 +62,13 @@ function TeamProviderInner({
         // Ignore errors
       }
     }
-    return getDefaultTeamId()
+    return getDefaultTeamId(teams)
   })
 
   // Ensure currentTeamId exists in teams, fallback if not
   useEffect(() => {
     if (!teams[currentTeamId]) {
-      const firstTeamId = Object.keys(teams)[0] || getDefaultTeamId()
+      const firstTeamId = Object.keys(teams)[0] || getDefaultTeamId(teams)
       setCurrentTeamId(firstTeamId)
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('active-team-id', firstTeamId)
@@ -100,16 +101,18 @@ function TeamProviderInner({
     })
   }
 
-  const importTeam = (teamId: string, importedTeam: Team) => {
+  const importTeam = (importedTeam: Team) => {
     setTeams(prev => {
+      // Generate a new unique ID for the imported team to avoid conflicts
+      const newTeamId = generateRandomId()
       const team = {
         ...importedTeam,
-        id: teamId,
+        id: newTeamId,
         formation: importedTeam.formation.map(unit =>
           unit ? ensureSkillSlots(unit) : null
         ),
       }
-      return { ...prev, [teamId]: team }
+      return { ...prev, [newTeamId]: team }
     })
   }
 
@@ -351,7 +354,8 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     setTeamsState(defaultTeams)
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem('team-data')
-      window.localStorage.setItem('active-team-id', getDefaultTeamId())
+      const firstTeamId = Object.keys(defaultTeams)[0] || generateRandomId()
+      window.localStorage.setItem('active-team-id', firstTeamId)
     }
   }
 

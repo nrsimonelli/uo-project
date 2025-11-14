@@ -1,7 +1,11 @@
 import { validateEquipmentForSlot } from './equipment-validation-utils'
 import { validateSkillReference } from './skill-validation'
 
-import { getEquipmentSlots, isValidClass } from '@/core/helpers'
+import {
+  generateRandomId,
+  getEquipmentSlots,
+  isValidClass,
+} from '@/core/helpers'
 import { COMBAT_STATS } from '@/hooks/use-chart-data'
 import type { CombatStat } from '@/hooks/use-chart-data'
 import { GROWTH_VALUES } from '@/types/base-stats'
@@ -14,8 +18,9 @@ import type { Team, Unit, FormationSlots } from '@/types/team'
 export function createDefaultTeams() {
   const teams: Record<string, Team> = {}
   for (let i = 1; i <= 10; i++) {
-    teams[`team-${i}`] = {
-      id: `team-${i}`,
+    const uniqueId = generateRandomId()
+    teams[uniqueId] = {
+      id: uniqueId,
       name: `Team ${i}`,
       formation: Array(6).fill(null),
     }
@@ -403,14 +408,22 @@ export function repairTeamData(
     }
   }
 
-  for (let i = 1; i <= 10; i++) {
-    const teamKey = `team-${i}`
-    if (!repaired[teamKey]) {
-      repairs.push(`Team ${teamKey} was missing, creating default`)
-      repaired[teamKey] = {
-        id: teamKey,
-        name: `Team ${i}`,
-        formation: Array(6).fill(null),
+  // Ensure at least 10 teams exist (with unique IDs)
+  const currentTeamCount = Object.keys(repaired).length
+  if (currentTeamCount < 10) {
+    const teamsToAdd = 10 - currentTeamCount
+    repairs.push(
+      `Only ${currentTeamCount} teams found, creating ${teamsToAdd} additional default teams`
+    )
+    for (let i = 0; i < teamsToAdd; i++) {
+      const uniqueId = generateRandomId()
+      // Ensure we don't create duplicate IDs (extremely unlikely but safe)
+      if (!repaired[uniqueId]) {
+        repaired[uniqueId] = {
+          id: uniqueId,
+          name: `Team ${currentTeamCount + i + 1}`,
+          formation: Array(6).fill(null),
+        }
       }
     }
   }
@@ -421,6 +434,15 @@ export function repairTeamData(
   }
 }
 
-export function getDefaultTeamId() {
-  return 'team-1'
+/**
+ * Get the first team ID from the teams object, or generate a new one if teams is empty.
+ * Since teams now use unique IDs, we can't return a predictable default.
+ */
+export function getDefaultTeamId(teams?: Record<string, Team>): string {
+  if (teams && Object.keys(teams).length > 0) {
+    return Object.keys(teams)[0]
+  }
+  // If no teams provided or empty, generate a new ID
+  // This will be used to create a new team if needed
+  return generateRandomId()
 }

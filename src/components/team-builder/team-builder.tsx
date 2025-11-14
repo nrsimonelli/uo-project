@@ -77,7 +77,7 @@ export function TeamBuilder() {
   }
 
   const handleImportTeam = (team: Team) => {
-    importTeam(currentTeamId, team)
+    importTeam(team)
     const firstUnit = team.formation.find(unit => unit !== null)
     setSelectedUnitId(firstUnit?.id)
   }
@@ -122,7 +122,7 @@ export function TeamBuilder() {
                   onImportTeam={handleImportTeam}
                 />
                 <ScrollArea className="max-h-[300px] pr-1">
-                  <div className="space-y-4 pt-2 px-2 ">
+                  <div className="space-y-4 py-2 px-2 ">
                     {orderedTeams.map(([key, team]) => {
                       const isEmpty = team.formation.every(
                         unit => unit === null

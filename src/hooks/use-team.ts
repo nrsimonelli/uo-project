@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 
 import type { TeamContextValue } from '@/components/team-builder/team-context'
+import { generateRandomId } from '@/core/helpers'
 import type { Position } from '@/types/team'
 
 export const TeamContext = createContext<TeamContextValue | undefined>(
@@ -27,10 +28,10 @@ export const useCurrentTeam = () => {
       return teams[firstTeamId]
     }
 
-    // If no teams exist, return a default team structure
+    // If no teams exist, return a default team structure with unique ID
     console.warn('No teams available, returning default team structure')
     return {
-      id: 'default',
+      id: generateRandomId(),
       name: 'Default Team',
       formation: Array(6).fill(null),
     }
