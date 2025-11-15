@@ -2,6 +2,7 @@ import { Copy, Upload, AlertCircle, CheckCircle, Clipboard } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+import { IsometricFormationBase } from '@/components/isometric-formation/isometric-formation-base'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,6 +15,243 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { useTeamImportExport } from '@/hooks/use-team-import-export'
 import type { Team } from '@/types/team'
+
+interface RepairAlertProps {
+  repairs: string[]
+}
+
+function RepairAlert({ repairs }: RepairAlertProps) {
+  if (repairs.length === 0) return null
+
+  return (
+    <Alert>
+      <AlertCircle className="h-4 w-4" />
+      <AlertDescription>
+        <p className="font-medium mb-2">Team was automatically repaired</p>
+        <div className="text-sm space-y-1 mt-2">
+          <p className="font-medium">Repairs made:</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            {repairs.map((repair, idx) => (
+              <li key={idx} className="text-xs">
+                {repair}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+interface ValidationErrorsAlertProps {
+  errors: Array<{ path: string; message: string }>
+}
+
+function ValidationErrorsAlert({ errors }: ValidationErrorsAlertProps) {
+  if (errors.length === 0) return null
+
+  return (
+    <Alert variant="destructive">
+      <AlertCircle className="h-4 w-4" />
+      <AlertDescription>
+        <p className="font-medium mb-2">Validation errors ({errors.length}):</p>
+        <div className="text-sm space-y-1 max-h-32 overflow-y-auto">
+          {errors.slice(0, 10).map((error, idx) => (
+            <div key={idx} className="text-xs">
+              <span className="font-mono text-xs">{error.path}:</span>{' '}
+              {error.message}
+            </div>
+          ))}
+          {errors.length > 10 && (
+            <p className="text-xs text-muted-foreground">
+              ... and {errors.length - 10} more errors
+            </p>
+          )}
+        </div>
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+function SuccessAlert({ teamName }: { teamName: string }) {
+  return (
+    <Alert>
+      <AlertDescription className="inline-flex items-center gap-2">
+        <CheckCircle className="h-4 w-4" />
+        <p>Team "{teamName}" is ready to import.</p>
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+function OverwriteWarning({ currentTeamName }: { currentTeamName: string }) {
+  return (
+    <Alert variant="destructive">
+      <AlertDescription className="inline-flex items-center gap-2">
+        <AlertCircle className="h-4 w-4 shrink-0" />
+        <p>
+          Importing will overwrite "{currentTeamName}". All units in the current
+          team will be replaced.
+        </p>
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+interface TeamDetailsProps {
+  team: Team
+  exportDate: string
+  version: string
+}
+
+function TeamDetails({ team, exportDate, version }: TeamDetailsProps) {
+  const unitCount = team.formation.filter(u => u !== null).length
+
+  return (
+    <div className="grid grid-cols-[1fr,auto] gap-4 items-start">
+      <div className="space-y-2">
+        <p className="text-sm font-medium">Team Details:</p>
+        <div className="text-sm text-muted-foreground space-y-1">
+          <p>Name: {team.name}</p>
+          <p>Units: {unitCount}/5</p>
+          <p>Exported: {new Date(exportDate).toLocaleDateString()}</p>
+          <p>Version: {version}</p>
+        </div>
+      </div>
+      <div className="flex items-center justify-center">
+        <IsometricFormationBase
+          formation={team.formation}
+          orientation="left-facing"
+          scale={0.5}
+        />
+      </div>
+    </div>
+  )
+}
+
+interface ImportInputStepProps {
+  inputJson: string
+  error?: string
+  onInputChange: (value: string) => void
+  onParse: () => void
+  onCancel: () => void
+}
+
+function ImportInputStep({
+  inputJson,
+  error,
+  onInputChange,
+  onParse,
+  onCancel,
+}: ImportInputStepProps) {
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <label htmlFor="import-json" className="text-sm font-medium">
+          Team JSON Data
+        </label>
+        <Textarea
+          id="import-json"
+          value={inputJson}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            onInputChange(e.target.value)
+          }
+          placeholder="Paste team JSON data here..."
+          className="min-h-[300px] font-mono text-sm"
+        />
+      </div>
+
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription className="inline-flex items-center gap-2">
+            <AlertCircle className="h-4 w-4" />
+            <p>{error}</p>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="flex gap-2 justify-end">
+        <Button variant="outline" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button onClick={onParse} disabled={!inputJson.trim()}>
+          <Upload className="h-4 w-4 mr-1" />
+          Parse & Preview
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+interface ImportPreviewStepProps {
+  data: {
+    version: string
+    exportDate: string
+    teamName: string
+    team: Team
+  }
+  validation?: {
+    isValid: boolean
+    errors: Array<{ path: string; message: string }>
+  }
+  repairs?: string[]
+  wasRepaired?: boolean
+  currentTeamName: string
+  hasUnits: boolean
+  onBack: () => void
+  onCancel: () => void
+  onConfirm: () => void
+}
+
+function ImportPreviewStep({
+  data,
+  validation,
+  repairs = [],
+  wasRepaired = false,
+  currentTeamName,
+  hasUnits,
+  onBack,
+  onCancel,
+  onConfirm,
+}: ImportPreviewStepProps) {
+  const showValidationErrors =
+    validation &&
+    !validation.isValid &&
+    validation.errors.length > 0 &&
+    !wasRepaired
+
+  return (
+    <div className="space-y-4">
+      {wasRepaired ? (
+        <RepairAlert repairs={repairs} />
+      ) : (
+        <SuccessAlert teamName={data.teamName} />
+      )}
+
+      {showValidationErrors && (
+        <ValidationErrorsAlert errors={validation.errors} />
+      )}
+
+      {hasUnits && <OverwriteWarning currentTeamName={currentTeamName} />}
+
+      <TeamDetails
+        team={data.team}
+        exportDate={data.exportDate}
+        version={data.version}
+      />
+
+      <div className="flex gap-2 justify-end">
+        <Button variant="outline" onClick={onBack}>
+          Back
+        </Button>
+        <Button variant="outline" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button onClick={onConfirm}>Import Team</Button>
+      </div>
+    </div>
+  )
+}
 
 interface TeamImportExportProps {
   team: Team
@@ -257,152 +495,29 @@ export function TeamImportExport({
             </DialogDescription>
           </DialogHeader>
 
-          {importDialog.step === 'input' ? (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="import-json" className="text-sm font-medium">
-                  Team JSON Data
-                </label>
-                <Textarea
-                  id="import-json"
-                  value={importDialog.inputJson}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    handleImportJsonChange(e.target.value)
-                  }
-                  placeholder="Paste team JSON data here..."
-                  className="min-h-[300px] font-mono text-sm"
-                />
-              </div>
+          {importDialog.step === 'input' && (
+            <ImportInputStep
+              inputJson={importDialog.inputJson}
+              error={importDialog.error}
+              onInputChange={handleImportJsonChange}
+              onParse={handleParseJson}
+              onCancel={handleCancelImport}
+            />
+          )}
 
-              {importDialog.error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{importDialog.error}</AlertDescription>
-                </Alert>
-              )}
-
-              <div className="flex gap-2 justify-end">
-                <Button variant="outline" onClick={handleCancelImport}>
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleParseJson}
-                  disabled={!importDialog.inputJson.trim()}
-                >
-                  <Upload className="h-4 w-4 mr-1" />
-                  Parse & Preview
-                </Button>
-              </div>
-            </div>
-          ) : importDialog.data ? (
-            <div className="space-y-4">
-              {importDialog.wasRepaired ? (
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    <p className="font-medium mb-2">
-                      Team was automatically repaired
-                    </p>
-                    {importDialog.repairs &&
-                      importDialog.repairs.length > 0 && (
-                        <div className="text-sm space-y-1 mt-2">
-                          <p className="font-medium">Repairs made:</p>
-                          <ul className="list-disc list-inside space-y-1 ml-2">
-                            {importDialog.repairs.map((repair, idx) => (
-                              <li key={idx} className="text-xs">
-                                {repair}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                  </AlertDescription>
-                </Alert>
-              ) : (
-                <Alert>
-                  <CheckCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    Team "{importDialog.data.teamName}" is ready to import.
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              {importDialog.validation &&
-                !importDialog.validation.isValid &&
-                importDialog.validation.errors.length > 0 &&
-                !importDialog.wasRepaired && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      <p className="font-medium mb-2">
-                        Validation errors (
-                        {importDialog.validation.errors.length}):
-                      </p>
-                      <div className="text-sm space-y-1 max-h-32 overflow-y-auto">
-                        {importDialog.validation.errors
-                          .slice(0, 10)
-                          .map((error, idx) => (
-                            <div key={idx} className="text-xs">
-                              <span className="font-mono text-xs">
-                                {error.path}:
-                              </span>{' '}
-                              {error.message}
-                            </div>
-                          ))}
-                        {importDialog.validation.errors.length > 10 && (
-                          <p className="text-xs text-muted-foreground">
-                            ... and {importDialog.validation.errors.length - 10}{' '}
-                            more errors
-                          </p>
-                        )}
-                      </div>
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-              {hasUnits && (
-                <Alert variant={'destructive'}>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    Importing will overwrite "{team.name}". All units in the
-                    current team will be replaced.
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Team Details:</p>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>Name: {importDialog.data.team.name}</p>
-                  <p>
-                    Units:{' '}
-                    {
-                      importDialog.data.team.formation.filter(u => u !== null)
-                        .length
-                    }
-                    /5
-                  </p>
-                  <p>
-                    Exported:{' '}
-                    {new Date(
-                      importDialog.data.exportDate
-                    ).toLocaleDateString()}
-                  </p>
-                  <p>Version: {importDialog.data.version}</p>
-                </div>
-              </div>
-
-              <div className="flex gap-2 justify-end">
-                <Button variant="outline" onClick={handleBackToInput}>
-                  Back
-                </Button>
-                <Button variant="outline" onClick={handleCancelImport}>
-                  Cancel
-                </Button>
-                <Button onClick={handleConfirmImport}>Import Team</Button>
-              </div>
-            </div>
-          ) : null}
+          {importDialog.step === 'preview' && importDialog.data && (
+            <ImportPreviewStep
+              data={importDialog.data}
+              validation={importDialog.validation}
+              repairs={importDialog.repairs}
+              wasRepaired={importDialog.wasRepaired}
+              currentTeamName={team.name}
+              hasUnits={hasUnits}
+              onBack={handleBackToInput}
+              onCancel={handleCancelImport}
+              onConfirm={handleConfirmImport}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </>

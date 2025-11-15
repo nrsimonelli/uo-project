@@ -41,7 +41,20 @@ export const useLocalStorage = <T>(
       return { value: parsed, validationError: null }
     } catch (error) {
       console.error('Error loading from localStorage:', error)
-      return { value: initialValue, validationError: null }
+      // Create a validation error for JSON parse failures
+      const parseError: ValidationResult = {
+        isValid: false,
+        errors: [
+          {
+            path: 'root',
+            message:
+              error instanceof SyntaxError
+                ? `Invalid JSON format in localStorage: ${error.message}`
+                : `Error loading data from localStorage: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          },
+        ],
+      }
+      return { value: initialValue, validationError: parseError }
     }
   })
 

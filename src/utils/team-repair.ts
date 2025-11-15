@@ -317,6 +317,21 @@ export function repairTeamData(
   const repairs: string[] = []
   const repaired: Record<string, Team> = {}
 
+  // If data is a string, try to parse it (might be raw JSON from localStorage)
+  if (typeof data === 'string') {
+    try {
+      const parsed = JSON.parse(data)
+      // Recursively call with parsed data
+      return repairTeamData(parsed)
+    } catch {
+      repairs.push('JSON string could not be parsed, using default teams')
+      return {
+        repaired: createDefaultTeams(),
+        repairs,
+      }
+    }
+  }
+
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     repairs.push('Data was not a valid object, using default teams')
     return {

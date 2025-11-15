@@ -21,11 +21,21 @@ export function TeamDataError() {
   }
 
   // Get corrupted data from localStorage for repair attempt
+  // Returns the raw string if JSON parsing fails, so repair can attempt to fix it
   const getCorruptedData = (): unknown => {
     if (typeof window === 'undefined') return null
     try {
       const item = window.localStorage.getItem('team-data')
-      return item ? JSON.parse(item) : null
+      if (!item) return null
+      // Try to parse, but if it fails, return the raw string
+      // The repair function can try to handle malformed JSON
+      try {
+        return JSON.parse(item)
+      } catch {
+        // Return raw string so repair can attempt to fix it
+        // repairTeamData will handle this appropriately
+        return item
+      }
     } catch {
       return null
     }
