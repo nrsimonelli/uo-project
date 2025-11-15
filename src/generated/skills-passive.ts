@@ -3853,6 +3853,75 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'tripleCounter',
+    type: 'passive',
+    name: 'Triple Counter',
+    description:
+      'Activates after an enemy attacks with an active skill. Counterattack three enemies.',
+    pp: 1,
+    skillCategories: ['Damage', 'Counter'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Three',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+    ],
+  },
+  {
+    id: 'snowWhiteStrike',
+    type: 'passive',
+    name: 'Snow-white Strike',
+    description:
+      'Activates after an ally attacks (Active). Follow-up attack a single enemy. Inflicts Freeze. +100 potency vs frozen targets.',
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterEnemyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Freeze',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 100,
+        },
+        conditions: [
+          {
+            kind: 'Affliction',
+            affliction: 'Freeze',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

@@ -6157,5 +6157,101 @@
         "stacks": true
       }
     ]
+  },
+  {
+    "id": "mysticArrow",
+    "type": "active",
+    "name": "Mystic Arrow",
+    "description": "Attack a single enemy. Deals additional magic attack of 100 potency to armored targets.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1,
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Armored",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sonicShaft",
+    "type": "active",
+    "name": "Sonic Shaft",
+    "description": "Attack a single enemy. Deals 100% of target's Initiative in additional damage.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "TargetStatBasedDamage",
+        "stat": "INIT",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "glacialRain",
+    "type": "active",
+    "name": "Glacial Rain",
+    "description": "Attack all enemies. Inflicts Freeze.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "skillFlags": ["Charge"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 60
+        },
+        "hitRate": 80,
+        "hitCount": 3
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Freeze",
+        "applyTo": "Target"
+      }
+    ]
   }
 ]

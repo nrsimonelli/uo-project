@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-15T22:28:25.974Z_
+_Generated: 2025-11-15T23:18:02.920Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 182
-- **Passive Skills Defined**: 132
-- **Total Skills Defined**: 314
+- **Active Skills Defined**: 185
+- **Passive Skills Defined**: 134
+- **Total Skills Defined**: 319
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **91 missing skills:**
+❌ **86 missing skills:**
 
 - `advanceCover`
 - `aerialAlignment`
@@ -46,7 +46,6 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `flameThrust`
 - `freezeCure`
 - `frostConferral`
-- `glacialRain`
 - `grantEvade`
 - `graveImpetus`
 - `guardCure`
@@ -66,7 +65,6 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `maelstrom`
 - `mightyShield`
 - `mirrorWeakness`
-- `mysticArrow`
 - `nimbleFighter`
 - `nocturnalImpetus`
 - `omegaShatter`
@@ -92,14 +90,11 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `scornfulDead`
 - `selfCare`
 - `shadowArrow`
-- `snowWhiteStrike`
-- `sonicShaft`
 - `sorcerousBlow`
 - `sorcerousConnection`
 - `stunCure`
 - `thunderousConferral`
 - `toughness`
-- `tripleCounter`
 - `unitedFront`
 - `vanitas`
 - `vengefulImpetus`
@@ -565,7 +560,7 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (182)
+### Active Skills Defined (185)
 
 - `activeHeal`
 - `activeShatter`
@@ -623,6 +618,7 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `flameArrow`
 - `flameJavelin`
 - `freezingThrust`
+- `glacialRain`
 - `grandSmash`
 - `gravity`
 - `greatshield`
@@ -669,6 +665,7 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `meteorSlash`
 - `mirageStab`
 - `mountingCharge`
+- `mysticArrow`
 - `mysticConferral`
 - `mysticShield`
 - `naturesWrath`
@@ -721,6 +718,7 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `slice`
 - `smash`
 - `sonicBlast`
+- `sonicShaft`
 - `spikedBlow`
 - `spikedBolt`
 - `spinningEdge`
@@ -750,7 +748,7 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (132)
+### Passive Skills Defined (134)
 
 - `accelerate`
 - `activeGift`
@@ -875,8 +873,10 @@ _Generated: 2025-11-15T22:28:25.974Z_
 - `shiningLight`
 - `sneakingEdge`
 - `snipingOrder`
+- `snowWhiteStrike`
 - `sylphicBarrier`
 - `tailwind`
+- `tripleCounter`
 - `undyingWill`
 - `vengeance`
 - `vengefulGuard`
