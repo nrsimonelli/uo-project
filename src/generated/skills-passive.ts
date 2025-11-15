@@ -3473,7 +3473,14 @@ export const PassiveSkills = [
         scaling: 'flat',
         applyTo: 'Target',
       },
-      {},
+      {
+        kind: 'Buff',
+        stat: 'NegatePhysicalDamage',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
     ],
   },
   {
