@@ -24,6 +24,8 @@ import {
   type Team,
 } from '@/types/team'
 
+const NO_UNIT_ID = 'empty-team-ui'
+
 export function TeamBuilder() {
   const currentTeam = useCurrentTeam()
   const {
@@ -36,10 +38,11 @@ export function TeamBuilder() {
     swapUnits,
   } = useTeam()
 
-  const firstUnit = currentTeam.formation.find(unit => unit !== null)
+  const firstUnitId =
+    currentTeam.formation.find(unit => unit !== null)?.id ?? NO_UNIT_ID
 
   const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>(
-    () => firstUnit?.id
+    () => firstUnitId
   )
 
   const filteredTeamFormation = currentTeam.formation.filter(
@@ -63,15 +66,16 @@ export function TeamBuilder() {
   }
 
   const handleRemoveUnit = (unitId: string) => {
-    const nextUnitId = filteredTeamFormation.filter(
-      unit => unit.id !== unitId
-    )[0]?.id
+    const nextUnitId =
+      filteredTeamFormation.filter(unit => unit.id !== unitId)[0]?.id ??
+      NO_UNIT_ID
     removeUnit(unitId)
     setSelectedUnitId(nextUnitId)
   }
 
   const handleSelectTeam = (key: string) => {
-    const nextUnitId = teams[key]?.formation.find(unit => unit !== null)?.id
+    const nextUnitId =
+      teams[key]?.formation.find(unit => unit !== null)?.id ?? NO_UNIT_ID
     setCurrentTeam(key)
     setSelectedUnitId(nextUnitId)
   }
@@ -79,8 +83,9 @@ export function TeamBuilder() {
   const handleImportTeam = (team: Team) => {
     importTeam(team)
     // The imported team now replaces the current team, so we stay on the same team
-    const firstUnit = team.formation.find(unit => unit !== null)
-    setSelectedUnitId(firstUnit?.id)
+    const firstUnitId =
+      team.formation.find(unit => unit !== null)?.id ?? NO_UNIT_ID
+    setSelectedUnitId(firstUnitId)
   }
 
   const shouldShowAddUnit = filteredTeamFormation.length < 5
@@ -185,6 +190,16 @@ export function TeamBuilder() {
                   </TeamSlot>
                 </TabsContent>
               ))}
+              <TabsContent value={NO_UNIT_ID}>
+                <Card className="p-4 space-y-6">
+                  <div className="flex flex-col space-y-2">
+                    <p className="text-lg font-medium">No units yet</p>
+                    <p className="text-sm text-muted-foreground">
+                      Add your first unit to start building your team.
+                    </p>
+                  </div>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
         </Card>
