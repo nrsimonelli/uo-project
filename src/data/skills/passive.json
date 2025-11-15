@@ -3500,5 +3500,222 @@
         "applyTo": "User"
       }
     ]
+  },
+  {
+    "id": "passiveMiracle",
+    "type": "passive",
+    "name": "Passive Miracle",
+    "description": "Activates after receiving an ally's passive skill. Restore minor HP and grant +1 PP to an ally.",
+    "pp": 1,
+    "skillCategories": ["Heal"],
+    "activationWindow": "afterReceivingAllyPassive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 50
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "saintsBarrier",
+    "type": "passive",
+    "name": "Saints Barrier",
+    "description": "Activates before an ally is attacked. Reduce damage taken by an ally by 50% for one attack. Also prevents them from being debuffed.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "DmgReductionPercent",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      },
+      {
+        "kind": "Buff",
+        "stat": "DebuffImmunity",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      }
+    ]
+  },
+  {
+    "id": "divineBlessing",
+    "type": "passive",
+    "name": "Divine Blessing",
+    "description": "Activates at the start of a battle. Grants all allies HP regeneration and +10% Defense.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "OnActiveHealPercent",
+        "value": 25,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Defense",
+        "value": 10,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "curingHeal",
+    "type": "passive",
+    "name": "Curing Heal",
+    "description": "Activates after an ally is hit by an attack. Restore minor HP to an ally. Remove all of their debuffs.",
+    "pp": 1,
+    "skillCategories": ["Heal"],
+    "activationWindow": "afterAllyHit",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 50
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Debuffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "rageOfTheFaeries",
+    "type": "passive",
+    "name": "Rage of the Faeries",
+    "description": "Activates at the start of a battle. Attack a row of enemies with a magic first strike. Inflicts Stun. Grants the user +1 summoned faeries.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "elementalImpetus",
+    "type": "passive",
+    "name": "Elemental Impetus",
+    "description": "Activates after using an active skill. Grants the user +1 AP and +1 summoned faeries.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterUsingActiveSkill",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
+  },
+  {
+    "id": "boonOfTheFaeries",
+    "type": "passive",
+    "name": "Boon of the Faeries",
+    "description": "Activates at the start of a battle. Restore moderate HP to a row of allies. Grants a buff that negates a single debuff. Grants the user +1 summoned faeries.",
+    "pp": 1,
+    "skillCategories": ["Heal"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 100
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "DebuffImmunity",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilDebuffed"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User"
+      }
+    ]
   }
 ]

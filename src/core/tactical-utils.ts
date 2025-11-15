@@ -1,6 +1,5 @@
 import type { BattleContext } from '@/types/battle-engine'
 
-
 // Operator lookup table
 const OPERATORS = {
   gt: (value: number, threshold: number) => value > threshold,

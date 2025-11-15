@@ -6,9 +6,9 @@ import {
 import { logCombat, getSkillName } from './combat-utils'
 import type { EffectProcessingResult } from './effect-processor'
 
-import { AFFLICTIONS } from '@/data/constants'
 import { calculateBaseStats } from '@/core/calculations/base-stats'
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
+import { AFFLICTIONS } from '@/data/constants'
 import type { StatKey } from '@/types/base-stats'
 import type {
   BattleContext,
@@ -127,7 +127,9 @@ const applyCleanses = (
       // Target is a specific buff stat (StatKey | ExtraStats)
       const statTarget = cleanseTarget as StatKey | ExtraStats
       const initialBuffCount = targetUnit.buffs.length
-      targetUnit.buffs = targetUnit.buffs.filter(buff => buff.stat !== statTarget)
+      targetUnit.buffs = targetUnit.buffs.filter(
+        buff => buff.stat !== statTarget
+      )
       const removedCount = initialBuffCount - targetUnit.buffs.length
       if (removedCount > 0) {
         logCombat(
@@ -1025,4 +1027,3 @@ export const getEffectiveStatsForTarget = (
 
   return effectiveStats
 }
-

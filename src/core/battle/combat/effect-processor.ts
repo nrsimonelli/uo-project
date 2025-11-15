@@ -6,8 +6,8 @@ import {
 import type { StatKey } from '@/types/base-stats'
 import type { AfflictionType } from '@/types/conditions'
 import type { CombatantType } from '@/types/core'
-import type { ExtraStats } from '@/types/equipment'
 import type { Effect, DamageEffect, Flag } from '@/types/effects'
+import type { ExtraStats } from '@/types/equipment'
 
 /**
  * Check if an effect is classified as a debuff for immunity purposes
@@ -124,7 +124,13 @@ export interface EffectProcessingResult {
 
   // Cleanses to apply (remove buffs/debuffs/afflictions)
   cleansesToApply: Array<{
-    target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType | StatKey | ExtraStats
+    target:
+      | 'Buffs'
+      | 'Debuffs'
+      | 'Afflictions'
+      | AfflictionType
+      | StatKey
+      | ExtraStats
     applyTo: 'User' | 'Target'
     skillId: string
   }>

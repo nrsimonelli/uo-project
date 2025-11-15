@@ -5829,5 +5829,333 @@
       "pattern": "Row"
     },
     "effects": [{}]
+  },
+  {
+    "id": "holyLight",
+    "type": "active",
+    "name": "Holy Light",
+    "description": "Attack a single enemy with magic. Removes all of target's buffs.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "curingCall",
+    "type": "active",
+    "name": "Curing Call",
+    "description": "Restore minor HP to row of allies. Removes all of target's debuffs.",
+    "ap": 1,
+    "skillCategories": ["Heal"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 50
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Debuffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "innocentRay",
+    "type": "active",
+    "name": "Innocent Ray",
+    "description": "Attack a row of enemies with magic. Removes all of target's buffs.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "primusEdge",
+    "type": "active",
+    "name": "Primus Edge",
+    "description": "Attack a single enemy. If the user is at 100% HP, grants the user +1 PP and +1 summoned faeries.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 50,
+          "magical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "EqualTo",
+            "value": 100,
+            "percent": true
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true,
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "HP",
+            "comparator": "EqualTo",
+            "value": 100,
+            "percent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sylphicWind",
+    "type": "active",
+    "name": "Sylphic Wind",
+    "description": "Attack a row of enemies with magic. +20 potency vs flying targets. Grants the user +1 summoned faeries.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "innateAttackType": "Magical",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 40
+        },
+        "hitRate": 100,
+        "hitCount": 3
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 20
+        },
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Enemy",
+            "combatantType": "Flying",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
+  },
+  {
+    "id": "elementalRoar",
+    "type": "active",
+    "name": "Elemental Roar",
+    "description": "Attack all enemies. Potency increases with faerie count (+30 per faerie). This dismisses all summoned faeries.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 70,
+          "physical": 70
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Faeries",
+        "applyTo": "User"
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 30,
+          "physical": 30
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterOrEqual",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 30,
+          "physical": 30
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterOrEqual",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 30,
+          "physical": 30
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterOrEqual",
+            "value": 3
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 30,
+          "physical": 30
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterOrEqual",
+            "value": 4
+          }
+        ]
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "magical": 30,
+          "physical": 30
+        },
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Self",
+            "stat": "Faeries",
+            "comparator": "GreaterOrEqual",
+            "value": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "faerieHeal",
+    "type": "active",
+    "name": "Faerie Heal",
+    "description": "Restore moderate HP to a row of allies. Grants targets immunity to damage for one attack. Grants the user +1 summoned faeries.",
+    "ap": 2,
+    "skillCategories": ["Heal"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 100
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "DamageImmunity",
+        "immunityType": "entireAttack",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Faeries",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
   }
 ]

@@ -219,7 +219,13 @@ export interface SacrificeEffect {
 
 export interface CleanseEffect {
   kind: 'Cleanse'
-  target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType | StatKey | ExtraStats
+  target:
+    | 'Buffs'
+    | 'Debuffs'
+    | 'Afflictions'
+    | AfflictionType
+    | StatKey
+    | ExtraStats
   applyTo?: 'User' | 'Target'
   conditions?: Condition[] | readonly Condition[]
 }

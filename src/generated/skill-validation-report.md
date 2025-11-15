@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-10T03:05:22.670Z_
+_Generated: 2025-11-15T22:19:07.557Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 175
-- **Passive Skills Defined**: 125
-- **Total Skills Defined**: 300
-- **Activation Windows Referenced**: 34
+- **Active Skills Defined**: 182
+- **Passive Skills Defined**: 132
+- **Total Skills Defined**: 314
+- **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **105 missing skills:**
+❌ **91 missing skills:**
 
 - `advanceCover`
 - `aerialAlignment`
@@ -25,13 +25,10 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `banishingPursuit`
 - `bearsDen`
 - `blindCure`
-- `boonOfTheFaeries`
 - `burningEdge`
 - `carnage`
 - `celestialLight`
 - `counter`
-- `curingCall`
-- `curingHeal`
 - `cursedGaol`
 - `cursedImpetus`
 - `darkConferral`
@@ -41,13 +38,9 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `deadlyRush`
 - `deathSpin`
 - `diurnalImpetus`
-- `divineBlessing`
 - `dynamicGlide`
-- `elementalImpetus`
-- `elementalRoar`
 - `evilCover`
 - `eyeOfTheWarriorPrincess`
-- `faerieHeal`
 - `fireCure`
 - `flameConferral`
 - `flameThrust`
@@ -67,10 +60,8 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `healingPursuit`
 - `healingWind`
 - `heavyAlignment`
-- `holyLight`
 - `impetusStance`
 - `inferno`
-- `innocentRay`
 - `inspiration`
 - `maelstrom`
 - `mightyShield`
@@ -85,21 +76,17 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `partyAid`
 - `passiveCure`
 - `passiveGift`
-- `passiveMiracle`
 - `phantomCounter`
 - `phantomStep`
 - `poisonCure`
 - `powerfulCall`
-- `primusEdge`
 - `provokingCrush`
 - `quickAction`
 - `quickImpetus`
-- `rageOfTheFaeries`
 - `recast`
 - `reflectMagic`
 - `reinforce`
 - `relicHeal`
-- `saintsBarrier`
 - `sanguineConferral`
 - `sanguinePursuit`
 - `scornfulDead`
@@ -110,7 +97,6 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `sorcerousBlow`
 - `sorcerousConnection`
 - `stunCure`
-- `sylphicWind`
 - `thunderousConferral`
 - `toughness`
 - `tripleCounter`
@@ -133,11 +119,10 @@ _Generated: 2025-11-10T03:05:22.670Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **5 unused activation windows:**
+⚠️ **4 unused activation windows:**
 
 - `afterAllyHealed`
 - `afterBeingAttacked`
-- `afterReceivingAllyPassive`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
 
@@ -580,7 +565,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (175)
+### Active Skills Defined (182)
 
 - `activeHeal`
 - `activeShatter`
@@ -606,6 +591,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `circleHeal`
 - `compoundingCurse`
 - `crush`
+- `curingCall`
 - `cursedStrike`
 - `darkFlame`
 - `decimate`
@@ -623,9 +609,11 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `dualShot`
 - `earthquake`
 - `earthshaker`
+- `elementalRoar`
 - `elfslayer`
 - `execution`
 - `extraHeal`
+- `faerieHeal`
 - `fatalDive`
 - `finishingStab`
 - `fireBreath`
@@ -649,6 +637,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `heavySmash`
 - `highSwing`
 - `holyCradle`
+- `holyLight`
 - `holySmite`
 - `honedHealing`
 - `honedSlash`
@@ -661,6 +650,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `icyCrush`
 - `impale`
 - `impulse`
+- `innocentRay`
 - `ironCrusher`
 - `javelin`
 - `keenEdge`
@@ -703,6 +693,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `poisonSlash`
 - `powerBolt`
 - `powerfulImpact`
+- `primusEdge`
 - `provokingSlash`
 - `radiantHeal`
 - `rampage`
@@ -737,6 +728,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `sting`
 - `strengthShatter`
 - `strengthShatterII`
+- `sylphicWind`
 - `tempestDive`
 - `thunderousStrike`
 - `thunderousThrust`
@@ -758,7 +750,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (125)
+### Passive Skills Defined (132)
 
 - `accelerate`
 - `activeGift`
@@ -773,6 +765,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `bestralGuard`
 - `bestralHowl`
 - `bindingGuard`
+- `boonOfTheFaeries`
 - `bulkUp`
 - `bullForce`
 - `bunkerStance`
@@ -781,13 +774,16 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `chargedImpetus`
 - `circleBarrier`
 - `concentrate`
+- `curingHeal`
 - `cursedSwamp`
 - `deflect`
 - `demonicPact`
 - `discharge`
 - `diurnalGuard`
+- `divineBlessing`
 - `dragonsRoar`
 - `eagleEye`
+- `elementalImpetus`
 - `enduringCover`
 - `enduringGuard`
 - `enrage`
@@ -840,6 +836,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `parry`
 - `partingBlow`
 - `partingResurrection`
+- `passiveMiracle`
 - `phalanxShift`
 - `poisonBurst`
 - `preemptiveHeal`
@@ -858,6 +855,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `quickHeal`
 - `quickReload`
 - `radiantCover`
+- `rageOfTheFaeries`
 - `rapidOrder`
 - `rapidShot`
 - `refresh`
@@ -869,6 +867,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `royalGuard`
 - `sacredCure`
 - `sacrifice`
+- `saintsBarrier`
 - `sanguineArts`
 - `selflessHeal`
 - `shadowPursuit`
@@ -888,7 +887,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (34)
+### Referenced in Passive Skills (35)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -909,6 +908,7 @@ _Generated: 2025-11-10T03:05:22.670Z_
 - `afterEvade`
 - `afterFlyingAllyAttacksActive`
 - `afterHealed`
+- `afterReceivingAllyPassive`
 - `afterUserDebuff`
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`
