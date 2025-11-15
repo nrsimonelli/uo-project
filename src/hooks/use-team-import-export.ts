@@ -1,7 +1,11 @@
 import { useCallback } from 'react'
 
 import type { Team } from '@/types/team'
-import { cleanUnitData } from '@/utils/unit-validation'
+import { repairSingleTeam } from '@/utils/team-repair'
+import {
+  validateSingleTeam,
+  type ValidationResult,
+} from '@/utils/team-validation'
 
 interface TeamExportData {
   version: string
@@ -10,51 +14,100 @@ interface TeamExportData {
   team: Team
 }
 
-// Simplified validation - just check structure and clean data
-const validateImportData = (data: unknown): TeamExportData => {
+export interface ImportResult {
+  data?: TeamExportData
+  validation?: ValidationResult
+  repaired?: Team
+  repairs?: string[]
+  error?: string
+}
+
+// Comprehensive validation with repair option
+const validateImportData = (
+  data: unknown,
+  attemptRepair: boolean = true
+): ImportResult => {
   if (!data || typeof data !== 'object') {
-    throw new Error('Invalid data format')
+    return {
+      error: 'Invalid data format',
+    }
   }
 
   const obj = data as Record<string, unknown>
 
   // Handle both current and legacy formats
-  const team = (obj.team as Team) || {
+  const rawTeam = (obj.team as Team) || {
     id: 'imported',
     name: (obj.teamName as string) || 'Imported Team',
     formation: (obj.formation as Team['formation']) || Array(6).fill(null),
   }
 
-  if (!team.formation || !Array.isArray(team.formation)) {
-    throw new Error('Invalid formation data')
+  if (!rawTeam.formation || !Array.isArray(rawTeam.formation)) {
+    return {
+      error: 'Invalid formation data',
+    }
   }
 
   // Ensure exactly 6 formation slots
-  const formation = [...team.formation]
+  const formation = [...rawTeam.formation]
   while (formation.length < 6) formation.push(null)
   if (formation.length > 6) formation.splice(6)
 
-  const unitCount = formation.filter(unit => unit !== null).length
-  if (unitCount > 5) {
-    console.warn(
-      `Team has ${unitCount} units, but maximum is 5. Some units may need to be removed.`
-    )
+  const team = {
+    ...rawTeam,
+    formation,
   }
 
-  // Clean up invalid skill and equipment references
-  const cleanedFormation = formation.map(unit => {
-    if (!unit) return null
-    return cleanUnitData(unit)
-  })
+  // Validate the team using comprehensive validation
+  const validation = validateSingleTeam(team)
 
+  // If validation passes, return the validated team
+  if (validation.isValid && validation.data) {
+    return {
+      data: {
+        version: (obj.version as string) || '1.0',
+        exportDate: (obj.exportDate as string) || new Date().toISOString(),
+        teamName: (obj.teamName as string) || validation.data.name,
+        team: validation.data,
+      },
+      validation,
+    }
+  }
+
+  // If validation fails, attempt repair if requested
+  if (attemptRepair) {
+    const repairResult = repairSingleTeam(team)
+    if (repairResult.repaired) {
+      // Validate the repaired team
+      const repairedValidation = validateSingleTeam(repairResult.repaired)
+      if (repairedValidation.isValid && repairedValidation.data) {
+        return {
+          data: {
+            version: (obj.version as string) || '1.0',
+            exportDate: (obj.exportDate as string) || new Date().toISOString(),
+            teamName: (obj.teamName as string) || repairedValidation.data.name,
+            team: repairedValidation.data,
+          },
+          validation: repairedValidation,
+          repaired: repairedValidation.data,
+          repairs: repairResult.repairs,
+        }
+      }
+    }
+
+    // Repair failed or repaired team still invalid
+    return {
+      validation,
+      repaired: repairResult.repaired || undefined,
+      repairs: repairResult.repairs,
+      error: 'Team data has validation errors and could not be fully repaired',
+    }
+  }
+
+  // No repair attempted, return validation errors
   return {
-    version: (obj.version as string) || '1.0',
-    exportDate: (obj.exportDate as string) || new Date().toISOString(),
-    teamName: (obj.teamName as string) || team.name,
-    team: {
-      ...team,
-      formation: cleanedFormation,
-    },
+    validation,
+    error: 'Team data has validation errors',
   }
 }
 
@@ -90,19 +143,24 @@ export const useTeamImportExport = () => {
     return { jsonString, exportData }
   }, [])
 
-  const importTeam = useCallback((jsonString: string): TeamExportData => {
-    try {
-      const rawData = JSON.parse(jsonString)
-      return validateImportData(rawData)
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        throw new Error('Invalid JSON format. Please check your input.')
+  const importTeam = useCallback(
+    (jsonString: string, attemptRepair: boolean = true): ImportResult => {
+      try {
+        const rawData = JSON.parse(jsonString)
+        return validateImportData(rawData, attemptRepair)
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          return {
+            error: 'Invalid JSON format. Please check your input.',
+          }
+        }
+        return {
+          error: `Import failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        }
       }
-      throw new Error(
-        `Import failed: ${error instanceof Error ? error.message : 'Unknown error'}`
-      )
-    }
-  }, [])
+    },
+    []
+  )
 
   return {
     exportTeam,

@@ -434,10 +434,45 @@ export function repairTeamData(
   }
 }
 
-/**
- * Get the first team ID from the teams object, or generate a new one if teams is empty.
- * Since teams now use unique IDs, we can't return a predictable default.
- */
+// Wraps repairTeamData to work with a single Team object
+export function repairSingleTeam(team: unknown): {
+  repaired: Team | null
+  repairs: string[]
+} {
+  if (!team || typeof team !== 'object' || Array.isArray(team)) {
+    return {
+      repaired: null,
+      repairs: ['Team is not a valid object'],
+    }
+  }
+
+  // Wrap single team in a Record format for repairTeamData
+  const wrappedData = {
+    imported: team,
+  }
+
+  const result = repairTeamData(wrappedData)
+
+  if (!result || !result.repaired.imported) {
+    return {
+      repaired: null,
+      repairs: result?.repairs || ['Unable to repair team'],
+    }
+  }
+
+  // Map repair messages to remove "Team imported" prefix
+  const mappedRepairs = result.repairs.map(repair =>
+    repair.replace(/^Team imported\.?/, '').trim()
+  )
+
+  return {
+    repaired: result.repaired.imported,
+    repairs: mappedRepairs,
+  }
+}
+
+// Get the first team ID from the teams object, or generate a new one if teams is empty.
+// Since teams now use unique IDs, we can't return a predictable default.
 export function getDefaultTeamId(teams?: Record<string, Team>): string {
   if (teams && Object.keys(teams).length > 0) {
     return Object.keys(teams)[0]

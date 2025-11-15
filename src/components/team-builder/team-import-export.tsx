@@ -39,6 +39,12 @@ export function TeamImportExport({
       teamName: string
       team: Team
     }
+    validation?: {
+      isValid: boolean
+      errors: Array<{ path: string; message: string }>
+    }
+    repairs?: string[]
+    wasRepaired?: boolean
     error?: string
   }>({ open: false, step: 'input', inputJson: '' })
 
@@ -72,6 +78,9 @@ export function TeamImportExport({
       step: 'input',
       inputJson: '',
       data: undefined,
+      validation: undefined,
+      repairs: undefined,
+      wasRepaired: undefined,
       error: undefined,
     })
   }
@@ -93,18 +102,35 @@ export function TeamImportExport({
       return
     }
 
-    try {
-      const importData = await importTeam(importDialog.inputJson)
+    const result = importTeam(importDialog.inputJson, true)
+
+    if (result.error) {
+      setImportDialog(prev => ({
+        ...prev,
+        error: result.error,
+        validation: result.validation,
+        repairs: result.repairs,
+      }))
+      return
+    }
+
+    if (result.data) {
       setImportDialog(prev => ({
         ...prev,
         step: 'preview',
-        data: importData,
+        data: result.data,
+        validation: result.validation,
+        repairs: result.repairs,
+        wasRepaired: !!result.repaired,
         error: undefined,
       }))
-    } catch (error) {
+    } else {
+      // Validation failed and repair didn't produce valid data
       setImportDialog(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Import failed',
+        error: result.error || 'Team data has validation errors',
+        validation: result.validation,
+        repairs: result.repairs,
       }))
     }
   }
@@ -112,9 +138,21 @@ export function TeamImportExport({
   const handleConfirmImport = () => {
     if (importDialog.data?.team) {
       onImportTeam(importDialog.data.team)
-      setImportDialog({ open: false, step: 'input', inputJson: '' })
+      const wasRepaired = importDialog.wasRepaired
+      setImportDialog({
+        open: false,
+        step: 'input',
+        inputJson: '',
+        data: undefined,
+        validation: undefined,
+        repairs: undefined,
+        wasRepaired: undefined,
+        error: undefined,
+      })
       toast.success('Team imported successfully!', {
-        description: `"${importDialog.data.team.name}" has been loaded`,
+        description: wasRepaired
+          ? `"${importDialog.data.team.name}" has been loaded (repaired)`
+          : `"${importDialog.data.team.name}" has been loaded`,
       })
     }
   }
@@ -124,12 +162,24 @@ export function TeamImportExport({
       ...prev,
       step: 'input',
       data: undefined,
+      validation: undefined,
+      repairs: undefined,
+      wasRepaired: undefined,
       error: undefined,
     }))
   }
 
   const handleCancelImport = () => {
-    setImportDialog({ open: false, step: 'input', inputJson: '' })
+    setImportDialog({
+      open: false,
+      step: 'input',
+      inputJson: '',
+      data: undefined,
+      validation: undefined,
+      repairs: undefined,
+      wasRepaired: undefined,
+      error: undefined,
+    })
   }
 
   const hasUnits = team.formation.some(unit => unit !== null)
@@ -246,12 +296,69 @@ export function TeamImportExport({
             </div>
           ) : importDialog.data ? (
             <div className="space-y-4">
-              <Alert>
-                <CheckCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Team "{importDialog.data.teamName}" is ready to import.
-                </AlertDescription>
-              </Alert>
+              {importDialog.wasRepaired ? (
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    <p className="font-medium mb-2">
+                      Team was automatically repaired
+                    </p>
+                    {importDialog.repairs &&
+                      importDialog.repairs.length > 0 && (
+                        <div className="text-sm space-y-1 mt-2">
+                          <p className="font-medium">Repairs made:</p>
+                          <ul className="list-disc list-inside space-y-1 ml-2">
+                            {importDialog.repairs.map((repair, idx) => (
+                              <li key={idx} className="text-xs">
+                                {repair}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                  </AlertDescription>
+                </Alert>
+              ) : (
+                <Alert>
+                  <CheckCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    Team "{importDialog.data.teamName}" is ready to import.
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {importDialog.validation &&
+                !importDialog.validation.isValid &&
+                importDialog.validation.errors.length > 0 &&
+                !importDialog.wasRepaired && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <p className="font-medium mb-2">
+                        Validation errors (
+                        {importDialog.validation.errors.length}):
+                      </p>
+                      <div className="text-sm space-y-1 max-h-32 overflow-y-auto">
+                        {importDialog.validation.errors
+                          .slice(0, 10)
+                          .map((error, idx) => (
+                            <div key={idx} className="text-xs">
+                              <span className="font-mono text-xs">
+                                {error.path}:
+                              </span>{' '}
+                              {error.message}
+                            </div>
+                          ))}
+                        {importDialog.validation.errors.length > 10 && (
+                          <p className="text-xs text-muted-foreground">
+                            ... and {importDialog.validation.errors.length - 10}{' '}
+                            more errors
+                          </p>
+                        )}
+                      </div>
+                    </AlertDescription>
+                  </Alert>
+                )}
 
               {hasUnits && (
                 <Alert variant={'destructive'}>

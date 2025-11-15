@@ -102,6 +102,51 @@ export function validateTeamData(
   }
 }
 
+// Wraps validateTeamData to work with a single Team object
+export function validateSingleTeam(
+  team: unknown
+): ValidationResult & { data?: Team } {
+  if (!team || typeof team !== 'object' || Array.isArray(team)) {
+    return {
+      isValid: false,
+      errors: [
+        {
+          path: 'root',
+          message: 'Team must be an object',
+        },
+      ],
+    }
+  }
+
+  // Wrap single team in a Record format for validateTeamData
+  const teamObj = team as Record<string, unknown>
+  const wrappedData = {
+    imported: teamObj,
+  }
+
+  const result = validateTeamData(wrappedData)
+
+  // Extract the single team from the result
+  if (result.isValid && result.data) {
+    return {
+      isValid: true,
+      errors: [],
+      data: result.data.imported,
+    }
+  }
+
+  // Map error paths from teams.imported.* to just the field path
+  const mappedErrors = result.errors.map(error => ({
+    ...error,
+    path: error.path.replace(/^teams\.imported\./, ''),
+  }))
+
+  return {
+    isValid: false,
+    errors: mappedErrors,
+  }
+}
+
 export function hasInvalidSkills(team: Team) {
   for (const unit of team.formation) {
     if (unit) {
