@@ -6,6 +6,7 @@ import {
 import { logCombat, getSkillName } from './combat-utils'
 import type { EffectProcessingResult } from './effect-processor'
 
+import { AFFLICTIONS } from '@/data/constants'
 import { calculateBaseStats } from '@/core/calculations/base-stats'
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
 import type { StatKey } from '@/types/base-stats'
@@ -118,9 +119,22 @@ const applyCleanses = (
     } else if (cleanseTarget === CLEANSE_TARGETS.AFFLICTIONS) {
       clearAllAfflictions(targetUnit)
       unitsToRecalculate.add(targetUnit)
-    } else {
+    } else if (AFFLICTIONS.includes(cleanseTarget as AfflictionType)) {
+      // Target is a specific affliction type
       removeAffliction(targetUnit, cleanseTarget as AfflictionType)
       unitsToRecalculate.add(targetUnit)
+    } else {
+      // Target is a specific buff stat (StatKey | ExtraStats)
+      const statTarget = cleanseTarget as StatKey | ExtraStats
+      const initialBuffCount = targetUnit.buffs.length
+      targetUnit.buffs = targetUnit.buffs.filter(buff => buff.stat !== statTarget)
+      const removedCount = initialBuffCount - targetUnit.buffs.length
+      if (removedCount > 0) {
+        logCombat(
+          `✨ ${targetUnit.unit.name} ${removedCount} ${statTarget} buff${removedCount > 1 ? 's' : ''} removed by ${skillName}`
+        )
+        unitsToRecalculate.add(targetUnit)
+      }
     }
   })
 }
@@ -1011,3 +1025,4 @@ export const getEffectiveStatsForTarget = (
 
   return effectiveStats
 }
+

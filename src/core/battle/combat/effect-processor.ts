@@ -3,8 +3,10 @@ import {
   evaluateAllConditions,
 } from '../evaluation/condition-evaluator'
 
+import type { StatKey } from '@/types/base-stats'
 import type { AfflictionType } from '@/types/conditions'
 import type { CombatantType } from '@/types/core'
+import type { ExtraStats } from '@/types/equipment'
 import type { Effect, DamageEffect, Flag } from '@/types/effects'
 
 /**
@@ -122,7 +124,7 @@ export interface EffectProcessingResult {
 
   // Cleanses to apply (remove buffs/debuffs/afflictions)
   cleansesToApply: Array<{
-    target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType
+    target: 'Buffs' | 'Debuffs' | 'Afflictions' | AfflictionType | StatKey | ExtraStats
     applyTo: 'User' | 'Target'
     skillId: string
   }>
