@@ -6047,7 +6047,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'HP',
             comparator: 'EqualTo',
             value: 100,
@@ -6065,7 +6065,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'HP',
             comparator: 'EqualTo',
             value: 100,
@@ -6158,7 +6158,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'Faeries',
             comparator: 'GreaterOrEqual',
             value: 1,
@@ -6174,7 +6174,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'Faeries',
             comparator: 'GreaterOrEqual',
             value: 2,
@@ -6190,7 +6190,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'Faeries',
             comparator: 'GreaterOrEqual',
             value: 3,
@@ -6206,7 +6206,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'Faeries',
             comparator: 'GreaterOrEqual',
             value: 4,
@@ -6222,7 +6222,7 @@ export const ActiveSkills = [
         conditions: [
           {
             kind: 'Stat',
-            target: 'User',
+            target: 'Self',
             stat: 'Faeries',
             comparator: 'GreaterOrEqual',
             value: 5,
