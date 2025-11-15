@@ -12,11 +12,6 @@ import { ActiveSkillsMap } from '@/generated/skills-active'
 import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 
-/**
- * Tests for conditional targeting patterns
- * Tests skills that change their targeting pattern based on conditions
- */
-
 describe('Conditional Targeting Patterns', () => {
   let caster: BattleContext
   let battlefield: BattlefieldState

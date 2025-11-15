@@ -25,6 +25,7 @@ export interface DamageResult {
     afterGuard: number
     afterEffectiveness: number
     targetHPBasedDamage?: number
+    targetStatBasedDamage?: number
     afterDmgReduction: number
   }
 }

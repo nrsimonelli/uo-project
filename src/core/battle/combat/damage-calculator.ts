@@ -261,8 +261,17 @@ export const calculateSkillDamage = (
     )
   }
 
+  let damageWithStatBonus = damageWithTargetHP
+  if (typeof effectResults?.targetStatBasedDamage === 'number') {
+    damageWithStatBonus =
+      damageWithTargetHP + effectResults.targetStatBasedDamage
+    logCombat(
+      `💥 Target stat-based damage: +${effectResults.targetStatBasedDamage} (added to ${damageWithTargetHP} = ${damageWithStatBonus})`
+    )
+  }
+
   let finalDamage = applyDamageReduction(
-    damageWithTargetHP,
+    damageWithStatBonus,
     dmgReductionPercent
   )
 
@@ -281,14 +290,19 @@ export const calculateSkillDamage = (
     typeof effectResults?.targetHPBasedDamage === 'number'
       ? ` + ${effectResults.targetHPBasedDamage} (target HP)`
       : ''
+  const targetStatBonus =
+    typeof effectResults?.targetStatBasedDamage === 'number'
+      ? ` + ${effectResults.targetStatBasedDamage} (target stat)`
+      : ''
+  const statBonus = targetHPBonus + targetStatBonus
   const damageBreakdownString =
     context.hasPhysical && context.hasMagical
-      ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
+      ? `(${physicalDamage} physical + ${magicalDamage} magical${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''}) × ${effectiveness}${statBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} total`
       : context.hasPhysical || context.hasMagical
-        ? `${physicalDamage + magicalDamage} ${context.hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+        ? `${physicalDamage + magicalDamage} ${context.hasPhysical ? 'physical' : 'magical'}${conferralDamage > 0 ? ` + ${conferralDamage} conferral` : ''} × ${effectiveness}${statBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
         : conferralDamage > 0
-          ? `${conferralDamage} conferral × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
-          : `${totalDamage} × ${effectiveness}${targetHPBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+          ? `${conferralDamage} conferral × ${effectiveness}${statBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
+          : `${totalDamage} × ${effectiveness}${statBonus}${dmgReductionPercent > 0 ? ` × ${((100 - dmgReductionPercent) / 100).toFixed(2)}` : ''} = ${finalDamage} final`
 
   logCombat('🎲 Damage Calculation Complete', {
     attacker: attacker.unit.name,
@@ -318,6 +332,10 @@ export const calculateSkillDamage = (
           targetHPBasedDamage:
             typeof effectResults?.targetHPBasedDamage === 'number'
               ? effectResults.targetHPBasedDamage
+              : 0,
+          targetStatBasedDamage:
+            typeof effectResults?.targetStatBasedDamage === 'number'
+              ? effectResults.targetStatBasedDamage
               : 0,
           subtotal: totalDamage,
           effectiveness: `×${effectiveness}`,
@@ -350,6 +368,10 @@ export const calculateSkillDamage = (
       targetHPBasedDamage:
         typeof effectResults?.targetHPBasedDamage === 'number'
           ? effectResults.targetHPBasedDamage
+          : 0,
+      targetStatBasedDamage:
+        typeof effectResults?.targetStatBasedDamage === 'number'
+          ? effectResults.targetStatBasedDamage
           : 0,
       afterDmgReduction: finalDamage,
     },

@@ -2,11 +2,6 @@ import { describe, it, expect } from 'vitest'
 
 import { createMockTacticalContext } from './utils/tactical-test-utils'
 
-/**
- * Simple focused tests for key tactical mechanics
- * Replaces the overly complex 3000+ line tactical test files
- */
-
 describe('Tactical Basics', () => {
   describe('HP-based targeting', () => {
     it('should prioritize low HP units when configured', () => {

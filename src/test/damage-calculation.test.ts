@@ -138,6 +138,7 @@ describe('Damage Calculation', () => {
         sacrificePercentage: 0,
         ownHPBasedDamage: null,
         targetHPBasedDamage: null,
+        targetStatBasedDamage: null,
         potencyModifiers: { physical: 0, magical: 0 },
         defenseIgnoreFraction: 0.5, // 50% defense ignore
         grantedFlags: [],

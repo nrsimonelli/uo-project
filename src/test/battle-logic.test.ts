@@ -13,7 +13,6 @@ import type { Team, Unit } from '@/types/team'
  * Test that battle logic works with real team structures
  * This tests the actual integration between teams -> battle contexts -> skill execution
  */
-
 describe('Battle Logic Integration', () => {
   // Helper to create a simple real unit with actual structure
   function createTestUnit(

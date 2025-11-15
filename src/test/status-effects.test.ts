@@ -4,11 +4,6 @@ import { createMockBattleContext } from './utils/tactical-test-utils'
 
 import { hasBuffs, hasDebuffs } from '@/core/battle/combat/status-effects'
 
-/**
- * Simple status effects tests
- * Focuses on basic buff/debuff detection without complex stat recalculation
- */
-
 describe('Status Effects Basic', () => {
   it('should detect units with buffs', () => {
     const unit = createMockBattleContext({

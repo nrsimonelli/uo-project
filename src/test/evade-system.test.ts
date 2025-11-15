@@ -11,11 +11,6 @@ import {
 } from '@/test/utils/tactical-test-utils'
 import type { BattleContext, EvadeStatus } from '@/types/battle-engine'
 
-/**
- * Comprehensive tests for the Evade system
- * Tests singleHit, twoHits, and entireAttack evade functionality
- */
-
 const createEvadeStatus = (
   evadeType: 'entireAttack' | 'singleHit' | 'twoHits',
   skillId = 'test-evade-skill',

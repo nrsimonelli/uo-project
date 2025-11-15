@@ -3,6 +3,8 @@ import type { Condition, AfflictionType } from './conditions'
 import type { CombatantType } from './core'
 import type { ExtraStats } from './equipment'
 
+import type { CombatStat } from '@/hooks/use-chart-data'
+
 export const FLAGS = [
   // Combat modifiers
   'TrueStrike',
@@ -268,6 +270,13 @@ export interface TargetHPBasedDamageEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface TargetStatBasedDamageEffect {
+  kind: 'TargetStatBasedDamage'
+  stat: CombatStat
+  amount: number // Percentage multiplier (e.g., 100 for 100% of stat value)
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export interface LifeshareEffect {
   kind: 'Lifeshare'
   percentage: number // Percentage of current HP to sacrifice (e.g., 50 for 50%)
@@ -300,4 +309,5 @@ export type Effect =
   | ConferralEffect
   | OwnHPBasedDamageEffect
   | TargetHPBasedDamageEffect
+  | TargetStatBasedDamageEffect
   | LifeshareEffect

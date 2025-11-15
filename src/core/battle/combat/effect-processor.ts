@@ -51,6 +51,7 @@ export interface EffectProcessingResult {
 
   ownHPBasedDamage: null | number // Damage based on own HP
   targetHPBasedDamage: null | number // Additional damage based on target's HP
+  targetStatBasedDamage: null | number // Additional damage based on target's stat
 
   // Damage modifications
   potencyModifiers: {
@@ -246,6 +247,7 @@ export const processEffects = (
     sacrificePercentage: 0,
     ownHPBasedDamage: null,
     targetHPBasedDamage: null,
+    targetStatBasedDamage: null,
     potencyModifiers: { physical: 0, magical: 0 },
     defenseIgnoreFraction: 0,
     grantedFlags: [],
@@ -442,6 +444,15 @@ export const processEffects = (
             : targetMissingHP * factor
 
       result.targetHPBasedDamage = Math.max(0, Math.round(rawDamage))
+      return
+    }
+
+    if (effect.kind === 'TargetStatBasedDamage') {
+      const targetStatValue = context.target.combatStats[effect.stat]
+      const factor = effect.amount / 100
+      const rawDamage = targetStatValue * factor
+
+      result.targetStatBasedDamage = Math.max(0, Math.round(rawDamage))
       return
     }
 
