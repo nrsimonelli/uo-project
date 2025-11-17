@@ -3952,5 +3952,115 @@
         ]
       }
     ]
+  },
+  {
+    "id": "sanguinePursuit",
+    "type": "passive",
+    "name": "Sanguine Pursuit",
+    "description": "Activates after an ally attacks with an active skill. Follow-up attack a single enemy. User recovers HP equal to 50% of damage dealt. Grants the user +1 PP vs afflicted targets.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "skillFlags": ["LifeSteal"],
+    "activationWindow": "afterAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "LifeSteal",
+        "percentage": 50,
+        "applyTo": "User"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Enemy",
+            "affliction": "Any",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eyeOfTheWarriorPrincess",
+    "type": "passive",
+    "name": "Eye of the Warrior Princess",
+    "description": "Activates at the start of a battle. Inflicts Attack -20% and Initiative -10 on all enemies.",
+    "pp": 1,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "Attack",
+        "value": -20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "INIT",
+        "value": -10,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "painbringer",
+    "type": "passive",
+    "name": "Painbringer",
+    "description": "Activates before being attacked. Grants the user +1 AP, +20% Attack, and +10 Initiative. (Effect stacks.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      },
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "User",
+        "stacks": true
+      },
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 10,
+        "scaling": "flat",
+        "applyTo": "User",
+        "stacks": true
+      }
+    ]
   }
 ]

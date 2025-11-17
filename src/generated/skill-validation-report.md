@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-17T00:03:29.341Z_
+_Generated: 2025-11-17T22:08:14.846Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 189
-- **Passive Skills Defined**: 139
-- **Total Skills Defined**: 328
+- **Active Skills Defined**: 191
+- **Passive Skills Defined**: 142
+- **Total Skills Defined**: 333
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **77 missing skills:**
+❌ **72 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -24,7 +24,6 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `banishingPursuit`
 - `bearsDen`
 - `blindCure`
-- `carnage`
 - `celestialLight`
 - `counter`
 - `cursedGaol`
@@ -37,7 +36,6 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `diurnalImpetus`
 - `dynamicGlide`
 - `evilCover`
-- `eyeOfTheWarriorPrincess`
 - `fireCure`
 - `flameConferral`
 - `flameThrust`
@@ -63,7 +61,6 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `nimbleFighter`
 - `nocturnalImpetus`
 - `ominousWall`
-- `painbringer`
 - `partyAid`
 - `passiveCure`
 - `passiveGift`
@@ -78,7 +75,6 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `reinforce`
 - `relicHeal`
 - `sanguineConferral`
-- `sanguinePursuit`
 - `scornfulDead`
 - `selfCare`
 - `shadowArrow`
@@ -90,7 +86,6 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `unitedFront`
 - `vanitas`
 - `vengefulImpetus`
-- `viciousTorment`
 - `warCry`
 - `widePursuit`
 - `wolfPack`
@@ -551,7 +546,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (189)
+### Active Skills Defined (191)
 
 - `activeHeal`
 - `activeShatter`
@@ -573,6 +568,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `brandish`
 - `bulwark`
 - `burningEdge`
+- `carnage`
 - `cavalrySlayer`
 - `checkmate`
 - `circleHeal`
@@ -734,6 +730,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `venomAxe`
 - `venomThrust`
 - `verticalEdge`
+- `viciousTorment`
 - `volcano`
 - `wall`
 - `wardingSlash`
@@ -743,7 +740,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (139)
+### Passive Skills Defined (142)
 
 - `accelerate`
 - `activeGift`
@@ -783,6 +780,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `enrage`
 - `evade`
 - `evasiveImpetus`
+- `eyeOfTheWarriorPrincess`
 - `feathering`
 - `fireBurst`
 - `firstAid`
@@ -828,6 +826,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `nocturnalGuard`
 - `nocturnalRest`
 - `nocturnalStrike`
+- `painbringer`
 - `parry`
 - `partingBlow`
 - `partingDeath`
@@ -866,6 +865,7 @@ _Generated: 2025-11-17T00:03:29.341Z_
 - `sacrifice`
 - `saintsBarrier`
 - `sanguineArts`
+- `sanguinePursuit`
 - `selflessHeal`
 - `shadowPursuit`
 - `shatteringPursuit`

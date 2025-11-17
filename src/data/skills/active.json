@@ -6380,5 +6380,83 @@
         "applyTo": "User"
       }
     ]
+  },
+  {
+    "id": "carnage",
+    "type": "active",
+    "name": "Carnage",
+    "description": "Attack a single enemy. Inflicts -1 AP.",
+    "ap": 1,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "AP",
+        "value": -1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "viciousTorment",
+    "type": "active",
+    "name": "Vicious Torment",
+    "description": "Attack a single enemy. +75 potency vs afflicted targets. Grants the user +1 PP if the target is afflicted.",
+    "ap": 2,
+    "skillCategories": ["Damage"],
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 75
+        },
+        "hitRate": 100,
+        "hitCount": 2
+      },
+      {
+        "kind": "PotencyBoost",
+        "amount": {
+          "physical": 75
+        },
+        "conditions": [
+          {
+            "kind": "AnyAffliction",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "AnyAffliction",
+            "target": "Enemy",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
   }
 ]
