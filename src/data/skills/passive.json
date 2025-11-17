@@ -3791,5 +3791,166 @@
         ]
       }
     ]
+  },
+  {
+    "id": "wildKick",
+    "type": "passive",
+    "name": "Wild Kick",
+    "description": "Activates after an enemy guards against an ally's attack. Attack a single enemy. Inflicts Stun and Guard Seal.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Pursuit"],
+    "activationWindow": "afterEnemyGuards",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 50
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Stun",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "GuardSeal",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "hawkEye",
+    "type": "passive",
+    "name": "Hawk Eye",
+    "description": "Activates before attacking with an active skill. Makes the user's next attack a truestrike and a guaranteed critical.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAttackingActive",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "TrueStrike",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "duration": "UntilNextAttack"
+      },
+      {
+        "kind": "Buff",
+        "stat": "TrueCritical",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "duration": "UntilNextAttack"
+      }
+    ]
+  },
+  {
+    "id": "advanceCover",
+    "type": "passive",
+    "name": "Advance Cover",
+    "description": "Activates before an ally is attacked. Cover an ally with a medium guard. Grants the user +1 AP.",
+    "pp": 1,
+    "skillCategories": ["Cover"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cover",
+        "guard": "medium"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "phantomCounter",
+    "type": "passive",
+    "name": "Phantom Counter",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy. Inflicts Burn and removes all of target's Buffs.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Counter"],
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": "True",
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Burn",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "partingDeath",
+    "type": "passive",
+    "name": "Parting Death",
+    "description": "Activates at the end of a battle. Attack a single enemy. Inflicts Deathblow if the target has 50% HP or less.",
+    "pp": 1,
+    "skillCategories": ["Damage"],
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 100
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "Deathblow",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Enemy",
+            "stat": "HP",
+            "comparator": "LessThanOrEqualTo",
+            "value": 50,
+            "percent": true
+          }
+        ]
+      }
+    ]
   }
 ]

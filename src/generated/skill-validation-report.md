@@ -1,23 +1,22 @@
 # Skill Validation Report
 
-_Generated: 2025-11-15T23:18:02.920Z_
+_Generated: 2025-11-17T00:03:29.341Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 185
-- **Passive Skills Defined**: 134
-- **Total Skills Defined**: 319
+- **Active Skills Defined**: 189
+- **Passive Skills Defined**: 139
+- **Total Skills Defined**: 328
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **86 missing skills:**
+❌ **77 missing skills:**
 
-- `advanceCover`
 - `aerialAlignment`
 - `aerialWing`
 - `aquaVenom`
@@ -25,7 +24,6 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `banishingPursuit`
 - `bearsDen`
 - `blindCure`
-- `burningEdge`
 - `carnage`
 - `celestialLight`
 - `counter`
@@ -36,7 +34,6 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `darkStep`
 - `dawnHorn`
 - `deadlyRush`
-- `deathSpin`
 - `diurnalImpetus`
 - `dynamicGlide`
 - `evilCover`
@@ -55,26 +52,21 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `hastenedCast`
 - `hastenedCharge`
 - `hastenedShatter`
-- `hawkEye`
 - `healingPursuit`
 - `healingWind`
 - `heavyAlignment`
 - `impetusStance`
-- `inferno`
 - `inspiration`
 - `maelstrom`
 - `mightyShield`
 - `mirrorWeakness`
 - `nimbleFighter`
 - `nocturnalImpetus`
-- `omegaShatter`
 - `ominousWall`
 - `painbringer`
-- `partingDeath`
 - `partyAid`
 - `passiveCure`
 - `passiveGift`
-- `phantomCounter`
 - `phantomStep`
 - `poisonCure`
 - `powerfulCall`
@@ -101,7 +93,6 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `viciousTorment`
 - `warCry`
 - `widePursuit`
-- `wildKick`
 - `wolfPack`
 
 ## Unused Skills (Defined but Not Referenced)
@@ -560,7 +551,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (185)
+### Active Skills Defined (189)
 
 - `activeHeal`
 - `activeShatter`
@@ -581,6 +572,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `blizzard`
 - `brandish`
 - `bulwark`
+- `burningEdge`
 - `cavalrySlayer`
 - `checkmate`
 - `circleHeal`
@@ -589,6 +581,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `curingCall`
 - `cursedStrike`
 - `darkFlame`
+- `deathSpin`
 - `decimate`
 - `defender`
 - `defensiveCurse`
@@ -646,6 +639,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `icyCrush`
 - `impale`
 - `impulse`
+- `inferno`
 - `innocentRay`
 - `ironCrusher`
 - `javelin`
@@ -672,6 +666,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `nightVision`
 - `offensiveCurse`
 - `offensiveOrder`
+- `omegaShatter`
 - `overheal`
 - `painfulSmash`
 - `passiveCurse`
@@ -748,10 +743,11 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (134)
+### Passive Skills Defined (139)
 
 - `accelerate`
 - `activeGift`
+- `advanceCover`
 - `aerialGuard`
 - `aerialPursuit`
 - `aerialShift`
@@ -802,6 +798,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `hastenedCurse`
 - `hastenedHeal`
 - `hastenedStrike`
+- `hawkEye`
 - `healingHunter`
 - `heavyCounter`
 - `heavyCover`
@@ -833,9 +830,11 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `nocturnalStrike`
 - `parry`
 - `partingBlow`
+- `partingDeath`
 - `partingResurrection`
 - `passiveMiracle`
 - `phalanxShift`
+- `phantomCounter`
 - `poisonBurst`
 - `preemptiveHeal`
 - `protection`
@@ -883,6 +882,7 @@ _Generated: 2025-11-15T23:18:02.920Z_
 - `warHorn`
 - `weaknessHunter`
 - `wideCounter`
+- `wildKick`
 - `wingRest`
 
 ## Activation Windows

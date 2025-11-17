@@ -4850,7 +4850,7 @@ export const ActiveSkills = [
     name: 'Penetrate',
     description:
       'Attack a column of enemies with a piercing strike. Inflicts Phys. Defense -30%.',
-    ap: 1,
+    ap: 2,
     skillCategories: ['Damage'],
     targeting: {
       group: 'Enemy',
@@ -6362,6 +6362,136 @@ export const ActiveSkills = [
         kind: 'Affliction',
         affliction: 'Freeze',
         applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'omegaShatter',
+    type: 'active',
+    name: 'Omega Shatter',
+    description: 'Attack a single enemy.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    skillFlags: ['Unguardable'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 2,
+      },
+    ],
+  },
+  {
+    id: 'burningEdge',
+    type: 'active',
+    name: 'Burning Edge',
+    description:
+      'Attack a single enemy. Inflicts Burn. Grants the user +1 PP if the target is already burning.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 2,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'Affliction',
+            target: 'Enemy',
+            affliction: 'Burn',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'deathSpin',
+    type: 'active',
+    name: 'Death Spin',
+    description:
+      'Attack a row of enemies. Inflicts Stun. +75 potency vs afflicted targets.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          physical: 75,
+        },
+        conditions: [
+          {
+            kind: 'AnyAffliction',
+            target: 'Enemy',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'inferno',
+    type: 'active',
+    name: 'Inferno',
+    description:
+      'Attack a row of enemies. Ignores 50% Defense and Inflicts Burn. Grants the user +1 PP.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    innateAttackType: 'Ranged',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'IgnoreDefense',
+        fraction: 0.5,
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'User',
       },
     ],
   },
