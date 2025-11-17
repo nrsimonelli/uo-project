@@ -3945,7 +3945,7 @@
             "kind": "Stat",
             "target": "Enemy",
             "stat": "HP",
-            "comparator": "LessThanOrEqualTo",
+            "comparator": "LessOrEqual",
             "value": 50,
             "percent": true
           }
@@ -3960,7 +3960,6 @@
     "description": "Activates after an ally attacks with an active skill. Follow-up attack a single enemy. User recovers HP equal to 50% of damage dealt. Grants the user +1 PP vs afflicted targets.",
     "pp": 1,
     "skillCategories": ["Damage", "Pursuit"],
-    "skillFlags": ["LifeSteal"],
     "activationWindow": "afterAllyAttacksActive",
     "targeting": {
       "group": "Enemy",
@@ -3987,9 +3986,8 @@
         "applyTo": "User",
         "conditions": [
           {
-            "kind": "Affliction",
+            "kind": "AnyAffliction",
             "target": "Enemy",
-            "affliction": "Any",
             "comparator": "EqualTo"
           }
         ]
@@ -4060,6 +4058,103 @@
         "scaling": "flat",
         "applyTo": "User",
         "stacks": true
+      }
+    ]
+  },
+  {
+    "id": "scornfulDead",
+    "type": "passive",
+    "name": "Scornful Dead",
+    "description": "Activates at the start of a battle. Force all enemies to focus attacks on the user. User will evade attacks up to two hits.",
+    "pp": 1,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "All"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "Taunt",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Evade",
+        "evadeType": "twoHits",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
+      }
+    ]
+  },
+  {
+    "id": "evilCover",
+    "type": "passive",
+    "name": "Evil Cover",
+    "description": "Activates before an ally is attacked. Cover an ally with a medium guard. Steals 1 PP from that ally.",
+    "pp": 1,
+    "skillCategories": ["Cover"],
+    "activationWindow": "beforeAllyAttacked",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cover",
+        "guard": "medium"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 1,
+        "applyTo": "User",
+        "conditions": [
+          {
+            "kind": "Stat",
+            "target": "Ally",
+            "stat": "PP",
+            "comparator": "GreaterThan",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": -1,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "darkStep",
+    "type": "passive",
+    "name": "Dark Step",
+    "description": "Activates before being attacked. Evade a single hit. Grants the user +25 Evasion.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeBeingAttacked",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Evade",
+        "evadeType": "singleHit",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
+      },
+      {
+        "kind": "Buff",
+        "stat": "EVA",
+        "value": 25,
+        "scaling": "flat",
+        "applyTo": "User"
       }
     ]
   }

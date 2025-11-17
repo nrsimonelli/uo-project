@@ -6573,6 +6573,94 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'flameThrust',
+    type: 'active',
+    name: 'Flame Thrust',
+    description:
+      'Attack a column of enemies with a piercing strike. Inflicts burn.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Column',
+    },
+    skillFlags: ['Piercing'],
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'deadlyRush',
+    type: 'active',
+    name: 'Deadly Rush',
+    description: 'Attack a single enemy. Inflicts Stun and Burn.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 40,
+        },
+        hitRate: 100,
+        hitCount: 4,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Burn',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'darkMist',
+    type: 'active',
+    name: 'Dark Mist',
+    description: 'Grants the user +50 Evasion and +2 PP.',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'EVA',
+        value: 50,
+        scaling: 'flat',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 2,
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

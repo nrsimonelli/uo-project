@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-17T22:08:14.846Z_
+_Generated: 2025-11-17T22:43:49.130Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 191
-- **Passive Skills Defined**: 142
-- **Total Skills Defined**: 333
+- **Active Skills Defined**: 194
+- **Passive Skills Defined**: 145
+- **Total Skills Defined**: 339
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **72 missing skills:**
+❌ **66 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -29,16 +29,11 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `cursedGaol`
 - `cursedImpetus`
 - `darkConferral`
-- `darkMist`
-- `darkStep`
 - `dawnHorn`
-- `deadlyRush`
 - `diurnalImpetus`
 - `dynamicGlide`
-- `evilCover`
 - `fireCure`
 - `flameConferral`
-- `flameThrust`
 - `freezeCure`
 - `frostConferral`
 - `grantEvade`
@@ -75,7 +70,6 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `reinforce`
 - `relicHeal`
 - `sanguineConferral`
-- `scornfulDead`
 - `selfCare`
 - `shadowArrow`
 - `sorcerousBlow`
@@ -546,7 +540,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (191)
+### Active Skills Defined (194)
 
 - `activeHeal`
 - `activeShatter`
@@ -577,6 +571,8 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `curingCall`
 - `cursedStrike`
 - `darkFlame`
+- `darkMist`
+- `deadlyRush`
 - `deathSpin`
 - `decimate`
 - `defender`
@@ -606,6 +602,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `fireball`
 - `flameArrow`
 - `flameJavelin`
+- `flameThrust`
 - `freezingThrust`
 - `glacialRain`
 - `grandSmash`
@@ -740,7 +737,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (142)
+### Passive Skills Defined (145)
 
 - `accelerate`
 - `activeGift`
@@ -767,6 +764,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `concentrate`
 - `curingHeal`
 - `cursedSwamp`
+- `darkStep`
 - `deflect`
 - `demonicPact`
 - `discharge`
@@ -780,6 +778,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `enrage`
 - `evade`
 - `evasiveImpetus`
+- `evilCover`
 - `eyeOfTheWarriorPrincess`
 - `feathering`
 - `fireBurst`
@@ -866,6 +865,7 @@ _Generated: 2025-11-17T22:08:14.846Z_
 - `saintsBarrier`
 - `sanguineArts`
 - `sanguinePursuit`
+- `scornfulDead`
 - `selflessHeal`
 - `shadowPursuit`
 - `shatteringPursuit`
