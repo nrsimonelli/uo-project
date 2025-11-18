@@ -158,6 +158,7 @@ describe('Damage Calculation', () => {
         resurrectsToApply: [],
         lifeStealsToApply: [],
         lifeshareToApply: [],
+        ownHPBasedHeal: null,
       }
 
       const { rawBase, afterPotency } = calculateBaseDamage(

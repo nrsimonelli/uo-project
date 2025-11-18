@@ -27,6 +27,11 @@ const checkAndConsumeBuff = (
 
   const buff = unit.buffs[buffIndex]
 
+  // Permanent buffs cannot be consumed
+  if (buff.permanent) {
+    return true
+  }
+
   const shouldConsume =
     options?.consumeOnUse !== undefined
       ? options.consumeOnUse(buff)

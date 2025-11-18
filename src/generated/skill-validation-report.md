@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-18T18:15:37.713Z_
+_Generated: 2025-11-18T23:42:55.340Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 196
+- **Active Skills Defined**: 199
 - **Passive Skills Defined**: 148
-- **Total Skills Defined**: 344
+- **Total Skills Defined**: 347
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **61 missing skills:**
+❌ **59 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -43,7 +43,6 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `hastenedCharge`
 - `hastenedShatter`
 - `healingPursuit`
-- `healingWind`
 - `heavyAlignment`
 - `impetusStance`
 - `inspiration`
@@ -67,7 +66,6 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `sanguineConferral`
 - `selfCare`
 - `shadowArrow`
-- `sorcerousBlow`
 - `sorcerousConnection`
 - `stunCure`
 - `thunderousConferral`
@@ -81,7 +79,9 @@ _Generated: 2025-11-18T18:15:37.713Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-✅ **No unused skills found!**
+⚠️ **1 unused skills:**
+
+- `glowingLight`
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
@@ -535,7 +535,7 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (196)
+### Active Skills Defined (199)
 
 - `activeHeal`
 - `activeShatter`
@@ -601,6 +601,7 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `flameThrust`
 - `freezingThrust`
 - `glacialRain`
+- `glowingLight`
 - `grandSmash`
 - `gravity`
 - `greatshield`
@@ -610,6 +611,7 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `hache`
 - `harpoonBolt`
 - `heal`
+- `healingWind`
 - `heavyBolt`
 - `heavySlash`
 - `heavySmash`
@@ -704,6 +706,7 @@ _Generated: 2025-11-18T18:15:37.713Z_
 - `smash`
 - `sonicBlast`
 - `sonicShaft`
+- `sorcerousBlow`
 - `spikedBlow`
 - `spikedBolt`
 - `spinningEdge`

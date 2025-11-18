@@ -6736,6 +6736,85 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'healingWind',
+    type: 'active',
+    name: 'Healing Wind',
+    description:
+      "Resotre HP to a row of allies. Healing equal to the user's HP.",
+    ap: 2,
+    skillCategories: ['Heal'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'OwnHPBasedHeal',
+        type: 'current',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'sorcerousBlow',
+    type: 'active',
+    name: 'Sorcerous Blow',
+    description: 'Attack a single. Inflicts Stun.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 150,
+          magical: 150,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Stun',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'glowingLight',
+    type: 'active',
+    name: 'Glowing Light',
+    description:
+      'Grants all allies +30 Accuracy and immunity to Blindness. (This buff cannot be removed.)',
+    ap: 1,
+    skillCategories: ['Utility'],
+    targeting: {
+      group: 'Ally',
+      pattern: 'All',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'ACC',
+        value: 30,
+        scaling: 'flat',
+        applyTo: 'Target',
+        permanent: true,
+      },
+      {
+        kind: 'Buff',
+        stat: 'BlindnessImmunity',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'Target',
+        permanent: true,
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

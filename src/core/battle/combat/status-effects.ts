@@ -105,8 +105,11 @@ const applyCleanses = (
     const cleanseTarget = cleanse.target
 
     if (cleanseTarget === CLEANSE_TARGETS.BUFFS) {
-      if (targetUnit.buffs.length > 0) {
-        targetUnit.buffs = []
+      // Filter out permanent buffs - they cannot be removed
+      const permanentBuffs = targetUnit.buffs.filter(buff => buff.permanent)
+      const removableBuffs = targetUnit.buffs.filter(buff => !buff.permanent)
+      if (removableBuffs.length > 0) {
+        targetUnit.buffs = permanentBuffs
         logCombat(`✨ ${targetUnit.unit.name} buffs removed by ${skillName}`)
         unitsToRecalculate.add(targetUnit)
       }
@@ -127,8 +130,9 @@ const applyCleanses = (
       // Target is a specific buff stat (StatKey | ExtraStats)
       const statTarget = cleanseTarget as StatKey | ExtraStats
       const initialBuffCount = targetUnit.buffs.length
+      // Filter out buffs with matching stat, but preserve permanent buffs
       targetUnit.buffs = targetUnit.buffs.filter(
-        buff => buff.stat !== statTarget
+        buff => buff.stat !== statTarget || buff.permanent
       )
       const removedCount = initialBuffCount - targetUnit.buffs.length
       if (removedCount > 0) {
@@ -167,6 +171,7 @@ const applyBuffsAndDebuffs = (
       source: attacker.unit.id,
       skillId: buffToApply.skillId,
       conditionalOnTarget: buffToApply.conditionalOnTarget,
+      permanent: buffToApply.permanent || false,
     }
 
     applyBuff(targetUnit, buff, buffToApply.stacks)
@@ -721,10 +726,20 @@ export const removeExpiredBuffs = (
   } as const
   const expiredDuration = durationMap[trigger]
 
+  // Filter out permanent buffs before checking expiration - they never expire
+  const permanentBuffs = unit.buffs.filter(buff => buff.permanent)
+  const nonPermanentBuffs = unit.buffs.filter(buff => !buff.permanent)
+
   expiredBuffs.push(
-    ...unit.buffs.filter(buff => buff.duration === expiredDuration)
+    ...nonPermanentBuffs.filter(buff => buff.duration === expiredDuration)
   )
-  unit.buffs = removeExpiredStatus(unit.buffs, trigger)
+  const remainingNonPermanentBuffs = removeExpiredStatus(
+    nonPermanentBuffs,
+    trigger
+  )
+
+  // Combine permanent buffs (which never expire) with remaining non-permanent buffs
+  unit.buffs = [...permanentBuffs, ...remainingNonPermanentBuffs]
 
   // Also remove expired conferrals, evades, damage immunities, and debuff amplifications
   const initialConferralCount = (unit.conferrals || []).length

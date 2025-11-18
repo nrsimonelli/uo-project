@@ -112,6 +112,10 @@ export interface Buff {
   conditionalOnTarget?: {
     combatantType?: CombatantType
   }
+  /**
+   * Only used by glowing light skill.
+   */
+  permanent?: boolean
 }
 
 export interface Debuff {

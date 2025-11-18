@@ -182,6 +182,7 @@ export interface EffectProcessingResult {
     conditionalOnTarget?: {
       combatantType?: CombatantType
     }
+    permanent?: boolean
   }>
   debuffsToApply: Array<{
     stat: string
@@ -344,6 +345,7 @@ export const processEffects = (
         skillId,
         stacks: effect.stacks || false,
         conditionalOnTarget: effect.conditionalOnTarget,
+        permanent: effect.permanent || false,
       })
       return
     }
