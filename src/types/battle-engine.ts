@@ -134,6 +134,9 @@ export interface ConferralStatus {
   potency: number
   casterMATK: number
   duration: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
+  afflictions?: Array<{
+    affliction: AfflictionType
+  }> // Afflictions to apply to the target when the conferral is consumed
 }
 
 export interface EvadeStatus {

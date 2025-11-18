@@ -1,3 +1,4 @@
+import { applyAffliction } from './affliction-manager'
 import { calculateBaseDamage } from './base-damage-calculation'
 import { logCombat } from './combat-utils'
 import type { DamageComponents, AttackContext } from './damage-calculator-types'
@@ -109,6 +110,16 @@ export const calculateDamageComponents = (
         rawBaseDamage += conferralRawBase
         afterPotencyDamage += conferralAfterPotency
         afterCritDamage += Math.round(conferralAfterCrit)
+
+        // Apply afflictions from conferral to the target
+        if (conferral.afflictions && conferral.afflictions.length > 0) {
+          conferral.afflictions.forEach(afflictionData => {
+            applyAffliction(target, afflictionData.affliction, attacker.unit.id)
+            logCombat(
+              `🪄 Conferral affliction applied: ${target.unit.name} receives ${afflictionData.affliction} from conferral`
+            )
+          })
+        }
       })
     }
     totalDamage += conferralDamage
@@ -120,6 +131,7 @@ export const calculateDamageComponents = (
         skillId: c.skillId,
         potency: c.potency,
         casterMATK: c.casterMATK,
+        afflictions: c.afflictions,
       })),
     })
 

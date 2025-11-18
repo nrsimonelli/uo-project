@@ -245,6 +245,9 @@ export interface ConferralEffect {
   potency: number // Magic potency to add (e.g., 50)
   applyTo?: 'Target' // Who receives the conferral buff
   duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked' // When the effect expires
+  afflictions?: Array<{
+    affliction: AfflictionType
+  }> // Afflictions to apply to the target when the conferral is consumed
   conditions?: Condition[] | readonly Condition[]
 }
 

@@ -235,6 +235,7 @@ const applyConferrals = (
       potency: conferralToApply.potency,
       casterMATK: conferralToApply.casterMATK,
       duration: conferralToApply.duration || 'UntilNextAttack',
+      afflictions: conferralToApply.afflictions, // Store afflictions to apply when conferral is consumed
     }
 
     applyConferral(targetUnit, conferral)

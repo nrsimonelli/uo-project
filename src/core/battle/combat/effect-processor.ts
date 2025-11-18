@@ -96,6 +96,9 @@ export interface EffectProcessingResult {
     duration?: 'UntilNextAction' | 'UntilNextAttack' | 'UntilAttacked'
     skillId: string
     casterMATK: number // Store the caster's MATK when the effect is applied
+    afflictions?: Array<{
+      affliction: AfflictionType
+    }> // Afflictions to apply to the target when the conferral is consumed
   }>
 
   // Evade effects to apply
@@ -379,6 +382,7 @@ export const processEffects = (
         duration: effect.duration,
         skillId,
         casterMATK: casterMATK || 0, // Store caster's MATK at time of casting
+        afflictions: effect.afflictions, // Store afflictions to apply when conferral is consumed
       })
       return
     }
