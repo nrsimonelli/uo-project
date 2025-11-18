@@ -1418,7 +1418,12 @@
         "kind": "Conferral",
         "potency": 50,
         "applyTo": "Target",
-        "duration": "UntilNextAttack"
+        "duration": "UntilNextAttack",
+        "afflictions": [
+          {
+            "affliction": "Blind"
+          }
+        ]
       }
     ]
   },
@@ -4155,6 +4160,81 @@
         "value": 25,
         "scaling": "flat",
         "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "darkConferral",
+    "type": "passive",
+    "name": "Dark Conferral",
+    "description": "Activates before an ally attacks with a Physical Active skill. Add magical damage and Blindness to an ally's next attack. (50 potency)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksPhysicalActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Conferral",
+        "potency": 50,
+        "applyTo": "Target",
+        "duration": "UntilNextAttack",
+        "afflictions": [
+          {
+            "affliction": "Blind"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cursedGaol",
+    "type": "passive",
+    "name": "Cursed Gaol",
+    "description": "Activates before an enemy uses an active skill. Inflicts Attack -50% to a single enemy. Inflicts Critical Seal",
+    "pp": 1,
+    "skillCategories": ["Sabotage"],
+    "activationWindow": "beforeEnemyAttacks",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "innateAttackType": "Ranged",
+    "effects": [
+      {
+        "kind": "Debuff",
+        "stat": "Attack",
+        "value": -50,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Affliction",
+        "affliction": "CritSeal",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "ominousWall",
+    "type": "passive",
+    "name": "Ominous Wall",
+    "description": "Activates at the start of a battle. Grants all allies a buff that negates one attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "DamageImmunity",
+        "immunityType": "entireAttack",
+        "applyTo": "Target",
+        "duration": "UntilAttacked"
       }
     ]
   }

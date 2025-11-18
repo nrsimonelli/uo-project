@@ -6661,6 +6661,72 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'aquaVenom',
+    type: 'active',
+    name: 'Aqua Venom',
+    description: 'Attack a row of enemies with magic. Inflicts Poison.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Row',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Poison',
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'maelstrom',
+    type: 'active',
+    name: 'Maelstrom',
+    description:
+      'Attack all enemies with magic. +25 potency vs poisoned targets.',
+    ap: 2,
+    skillCategories: ['Damage'],
+    targeting: {
+      group: 'Enemy',
+      pattern: 'All',
+    },
+    innateAttackType: 'Magical',
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          magical: 25,
+        },
+        hitRate: 100,
+        hitCount: 3,
+      },
+      {
+        kind: 'PotencyBoost',
+        amount: {
+          magical: 25,
+        },
+        conditions: [
+          {
+            kind: 'Affliction',
+            target: 'Enemy',
+            affliction: 'Poison',
+            comparator: 'EqualTo',
+          },
+        ],
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

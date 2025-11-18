@@ -1,34 +1,31 @@
 # Skill Validation Report
 
-_Generated: 2025-11-17T22:43:49.130Z_
+_Generated: 2025-11-18T18:10:00.929Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 187
 - **Total Skills Referenced**: 405
-- **Active Skills Defined**: 194
-- **Passive Skills Defined**: 145
-- **Total Skills Defined**: 339
+- **Active Skills Defined**: 196
+- **Passive Skills Defined**: 148
+- **Total Skills Defined**: 344
 - **Activation Windows Referenced**: 35
 - **Activation Windows Defined**: 39
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **66 missing skills:**
+❌ **61 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
-- `aquaVenom`
 - `astralBlade`
 - `banishingPursuit`
 - `bearsDen`
 - `blindCure`
 - `celestialLight`
 - `counter`
-- `cursedGaol`
 - `cursedImpetus`
-- `darkConferral`
 - `dawnHorn`
 - `diurnalImpetus`
 - `dynamicGlide`
@@ -50,12 +47,10 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `heavyAlignment`
 - `impetusStance`
 - `inspiration`
-- `maelstrom`
 - `mightyShield`
 - `mirrorWeakness`
 - `nimbleFighter`
 - `nocturnalImpetus`
-- `ominousWall`
 - `partyAid`
 - `passiveCure`
 - `passiveGift`
@@ -540,12 +535,13 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (194)
+### Active Skills Defined (196)
 
 - `activeHeal`
 - `activeShatter`
 - `activeSteal`
 - `aerialSmite`
+- `aquaVenom`
 - `armorShatter`
 - `armorShatterII`
 - `arrowRain`
@@ -645,6 +641,7 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `lightningShaker`
 - `limitedHeal`
 - `longThrust`
+- `maelstrom`
 - `magicAttack`
 - `magicMissile`
 - `magicShatter`
@@ -737,7 +734,7 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (145)
+### Passive Skills Defined (148)
 
 - `accelerate`
 - `activeGift`
@@ -763,7 +760,9 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `circleBarrier`
 - `concentrate`
 - `curingHeal`
+- `cursedGaol`
 - `cursedSwamp`
+- `darkConferral`
 - `darkStep`
 - `deflect`
 - `demonicPact`
@@ -825,6 +824,7 @@ _Generated: 2025-11-17T22:43:49.130Z_
 - `nocturnalGuard`
 - `nocturnalRest`
 - `nocturnalStrike`
+- `ominousWall`
 - `painbringer`
 - `parry`
 - `partingBlow`
