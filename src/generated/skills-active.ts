@@ -5930,7 +5930,16 @@ export const ActiveSkills = [
       group: 'Ally',
       pattern: 'Row',
     },
-    effects: [{}],
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'NegatePhysicalDamage',
+        value: 1,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+    ],
   },
   {
     id: 'holyLight',
