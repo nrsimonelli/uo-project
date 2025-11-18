@@ -287,6 +287,14 @@ export interface LifeshareEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface OwnHPBasedHealEffect {
+  kind: 'OwnHPBasedHeal'
+  type: 'current' | 'percentCurrent' | 'percentMax' // Type of HP calculation
+  amount?: number // Percentage multiplier (only used for percentCurrent/percentMax, e.g., 100 for 100%)
+  applyTo?: 'User' | 'Target' // Who receives the heal
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -314,3 +322,4 @@ export type Effect =
   | TargetHPBasedDamageEffect
   | TargetStatBasedDamageEffect
   | LifeshareEffect
+  | OwnHPBasedHealEffect

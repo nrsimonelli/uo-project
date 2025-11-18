@@ -384,6 +384,53 @@ const applyResurrects = (
   })
 }
 
+const applyOwnHPBasedHeal = (
+  ownHPBasedHeal: EffectProcessingResult['ownHPBasedHeal'],
+  attacker: BattleContext,
+  targets: BattleContext[],
+  attackHit: boolean,
+  effectResults: EffectProcessingResult,
+  unitsToRecalculate: Set<BattleContext>
+) => {
+  if (!ownHPBasedHeal) {
+    return
+  }
+
+  const skillName = getSkillName(ownHPBasedHeal.skillId)
+  const healAmount = ownHPBasedHeal.amount
+
+  if (healAmount <= 0) {
+    return
+  }
+
+  // Determine which units to heal
+  const unitsToHeal =
+    ownHPBasedHeal.target === 'User' ? [attacker] : attackHit ? targets : []
+
+  const allowOverheal = effectResults.grantedFlags?.includes('Overheal')
+
+  unitsToHeal.forEach(targetUnit => {
+    const newHP = targetUnit.currentHP + healAmount
+    const cappedHP = allowOverheal
+      ? newHP
+      : Math.min(newHP, targetUnit.combatStats.HP)
+
+    const actualHeal = cappedHP - targetUnit.currentHP
+    if (actualHeal > 0) {
+      targetUnit.currentHP = cappedHP
+      unitsToRecalculate.add(targetUnit)
+
+      logCombat(
+        `💚 ${targetUnit.unit.name} healed for ${actualHeal} HP (based on ${attacker.unit.name}'s HP) via ${skillName}`
+      )
+    } else {
+      logCombat(
+        `💚 ${targetUnit.unit.name} would have been healed for ${healAmount} HP via ${skillName}, but was already at max HP`
+      )
+    }
+  })
+}
+
 const applyLifeshare = (
   lifeshareToApply: EffectProcessingResult['lifeshareToApply'],
   attacker: BattleContext,
@@ -540,6 +587,15 @@ export const applyStatusEffects = (
 
   applyLifeshare(
     effectResults.lifeshareToApply,
+    attacker,
+    targets,
+    attackHit,
+    effectResults,
+    unitsToRecalculate
+  )
+
+  applyOwnHPBasedHeal(
+    effectResults.ownHPBasedHeal,
     attacker,
     targets,
     attackHit,

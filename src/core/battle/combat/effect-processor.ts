@@ -69,6 +69,11 @@ export interface EffectProcessingResult {
     physical: number
     magical: number
   }
+  ownHPBasedHeal: null | {
+    amount: number // Healing amount
+    target: 'User' | 'Target' // Who receives the heal
+    skillId: string
+  }
 
   // Resource changes
   apGain: number
@@ -256,6 +261,7 @@ export const processEffects = (
     grantedFlags: [],
     healPercent: 0,
     healPotency: { physical: 0, magical: 0 },
+    ownHPBasedHeal: null,
     apGain: 0,
     ppGain: 0,
     buffsToApply: [],
@@ -485,6 +491,26 @@ export const processEffects = (
         target: effect.applyTo || 'Target',
         skillId,
       })
+      return
+    }
+
+    if (effect.kind === 'OwnHPBasedHeal') {
+      const currentHP = context.attacker.currentHP
+      const maxHP = context.attacker.combatStats.HP
+      const factor = effect.amount ? effect.amount / 100 : 1
+
+      const rawHeal =
+        effect.type === 'current'
+          ? currentHP
+          : effect.type === 'percentCurrent'
+            ? currentHP * factor
+            : maxHP * factor
+
+      result.ownHPBasedHeal = {
+        amount: Math.max(0, Math.round(rawHeal)),
+        target: effect.applyTo || 'Target',
+        skillId,
+      }
       return
     }
 
