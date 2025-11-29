@@ -842,11 +842,10 @@ export const PassiveSkills = [
     id: 'quickReload',
     type: 'passive',
     name: 'Quick Reload',
-    description:
-      'Activates after using an active skill. Follow-up attack a single enemy.',
+    description: 'Activates after attacking. Follow-up attack a single enemy.',
     pp: 1,
     skillCategories: ['Damage', 'Pursuit'],
-    activationWindow: 'afterUsingActiveSkill',
+    activationWindow: 'afterAttacking',
     targeting: {
       group: 'Enemy',
       pattern: 'Single',
@@ -1469,11 +1468,6 @@ export const PassiveSkills = [
         potency: 50,
         applyTo: 'Target',
         duration: 'UntilNextAttack',
-        afflictions: [
-          {
-            affliction: 'Blind',
-          },
-        ],
       },
     ],
   },
