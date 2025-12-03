@@ -1318,11 +1318,13 @@ export const PassiveSkills = [
         value: -20,
         scaling: 'percent',
         applyTo: 'Target',
+        duration: 'UntilNextAttack',
       },
       {
         kind: 'Affliction',
         affliction: 'CritSeal',
         applyTo: 'Target',
+        duration: 'UntilNextAttack',
       },
     ],
   },
@@ -4379,6 +4381,122 @@ export const PassiveSkills = [
         immunityType: 'entireAttack',
         applyTo: 'Target',
         duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'reinforce',
+    type: 'passive',
+    name: 'Reinforce',
+    description:
+      'Activates before an ally attacks (Active). Allow an ally to act once without consuming AP.',
+    pp: 4,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacksActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [],
+  },
+  {
+    id: 'quickImpetus',
+    type: 'passive',
+    name: 'Quick Impetus',
+    description:
+      'Activates after an ally uses an active skill. Allow an ally to act again. Grants the target +1 AP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyActiveSkill',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'Target',
+      },
+      {},
+    ],
+  },
+  {
+    id: 'recast',
+    type: 'passive',
+    name: 'Recast',
+    description:
+      'Activates after using a magical attack. Cast the same magic again.',
+    pp: 4,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAttackingMagical',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [],
+  },
+  {
+    id: 'hastenedCharge',
+    type: 'passive',
+    name: 'Hastened Charge',
+    description:
+      'Activates at the start of a battle. Immediately activate one charge attack.',
+    pp: 4,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [],
+  },
+  {
+    id: 'hastenedCast',
+    type: 'passive',
+    name: 'Hastened Cast',
+    description:
+      'Activates at the start of a battle. Grants the user max initiative for their next action.',
+    pp: 3,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 999,
+        scaling: 'flat',
+        applyTo: 'User',
+        duration: 'UntilNextAction',
+      },
+    ],
+  },
+  {
+    id: 'hastenedAction',
+    type: 'passive',
+    name: 'Hastened Action',
+    description:
+      'Activates at the start of a battle. Grants an ally max initiative for their next action. (Cannot target self)',
+    pp: 3,
+    skillCategories: ['Utility'],
+    activationWindow: 'startOfBattle',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'INIT',
+        value: 999,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAction',
       },
     ],
   },

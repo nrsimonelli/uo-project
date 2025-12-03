@@ -53,7 +53,8 @@
       "Priestess",
       "Radiant Knight",
       "Sainted Knight",
-      "Werewolf"
+      "Featherstaff",
+      "Wereowl"
     ]
   },
   {
@@ -200,7 +201,7 @@
       "Priestess",
       "High Priestess",
       "Elven Augur",
-      "Staff Dark Marquess"
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -322,23 +323,25 @@
     "skillId": "magicBarrier",
     "nullifications": [],
     "classRestrictions": [
-      "Bishop",
-      "Cleric",
-      "Druid",
-      "Elven Archer",
-      "Elven Augur",
-      "Elven Fencer",
-      "Elven Sibyl",
-      "High Priestess",
-      "Priestess",
       "Radiant Knight",
       "Sainted Knight",
-      "Shaman",
-      "Sorceress",
-      "Staff Dark Marquess",
+      "Cleric",
+      "Bishop",
+      "Wizard",
       "Warlock",
       "Witch",
-      "Wizard"
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -390,7 +393,8 @@
       "Priestess",
       "Radiant Knight",
       "Sainted Knight",
-      "Werewolf"
+      "Featherstaff",
+      "Wereowl"
     ]
   },
   {
@@ -489,8 +493,8 @@
     ]
   },
   {
-    "id": "coursersReigns",
-    "name": "Courser's Reigns",
+    "id": "coursersReins",
+    "name": "Courser's Reins",
     "type": "Accessory",
     "stats": {
       "PDEF": 1,
@@ -500,18 +504,18 @@
     "skillId": "dynamicGlide",
     "nullifications": [],
     "classRestrictions": [
-      "Dark Knight",
-      "Doom Knight",
-      "Great Knight",
       "High Lord",
       "Knight",
-      "Paladin",
+      "Great Knight",
       "Radiant Knight",
-      "Sainted Knight"
+      "Sainted Knight",
+      "Dark Knight",
+      "Doom Knight",
+      "Paladin"
     ]
   },
   {
-    "id": "crudeTasket",
+    "id": "crudeTasset",
     "name": "Crude Tasset",
     "type": "Accessory",
     "stats": {
@@ -609,7 +613,27 @@
     },
     "skillId": "quickBarrier",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
+    ]
   },
   {
     "id": "defrostingAmulet",
@@ -732,7 +756,27 @@
     "stats": {},
     "skillId": "sorcerousConnection",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
+    ]
   },
   {
     "id": "firebrandTome",
@@ -752,7 +796,7 @@
       "Priestess",
       "High Priestess",
       "Elven Augur",
-      "Staff Dark Marquess"
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -809,7 +853,7 @@
       "Priestess",
       "High Priestess",
       "Elven Augur",
-      "Staff Dark Marquess"
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -997,14 +1041,14 @@
     "skillId": "dynamicGlide",
     "nullifications": [],
     "classRestrictions": [
-      "Dark Knight",
-      "Doom Knight",
-      "Great Knight",
       "High Lord",
       "Knight",
-      "Paladin",
+      "Great Knight",
       "Radiant Knight",
-      "Sainted Knight"
+      "Sainted Knight",
+      "Dark Knight",
+      "Doom Knight",
+      "Paladin"
     ]
   },
   {
@@ -1020,13 +1064,8 @@
     "skillId": "aerialWing",
     "nullifications": [],
     "classRestrictions": [
-      "Featherbow",
-      "Feathershield",
-      "Featherstaff",
-      "Feathersword",
       "Gryphon Knight",
       "Gryphon Master",
-      "Wereowl",
       "Wyvern Knight",
       "Wyvern Master"
     ]
@@ -1274,7 +1313,27 @@
     },
     "skillId": "hastenedCast",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
+    ]
   },
   {
     "id": "magiaSoul",
@@ -1293,7 +1352,8 @@
       "Elven Fencer",
       "Priestess",
       "High Priestess",
-      "Staff Dark Marquess"
+      "Elven Augur",
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -1314,7 +1374,7 @@
       "Priestess",
       "High Priestess",
       "Elven Augur",
-      "Staff Dark Marquess"
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -1469,13 +1529,15 @@
       "Elven Augur",
       "Elven Fencer",
       "Elven Sibyl",
+      "Featherstaff",
+      "Wereowl",
       "High Priestess",
       "Priestess",
       "Radiant Knight",
       "Sainted Knight",
       "Shaman",
       "Sorceress",
-      "Staff Dark Marquess",
+      "Dark Marquess (Staff)",
       "Warlock",
       "Witch",
       "Wizard"
@@ -1558,14 +1620,16 @@
     "skillId": "reincarnation",
     "nullifications": [],
     "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
       "Bishop",
       "Cleric",
       "Elven Archer",
-      "Elven Sibyl",
-      "High Priestess",
+      "Wereowl",
+      "Featherstaff",
       "Priestess",
-      "Radiant Knight",
-      "Sainted Knight"
+      "High Priestess",
+      "Elven Sibyl"
     ]
   },
   {
@@ -1800,7 +1864,18 @@
     },
     "skillId": "quickHeal",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Bishop",
+      "Cleric",
+      "Elven Archer",
+      "Elven Sibyl",
+      "High Priestess",
+      "Priestess",
+      "Radiant Knight",
+      "Sainted Knight",
+      "Featherstaff",
+      "Wereowl"
+    ]
   },
   {
     "id": "selfAidKit",
@@ -1957,7 +2032,7 @@
     },
     "skillId": "sorcerousBlow",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": ["Wizard", "Warlock"]
   },
   {
     "id": "sorcerersMedallion",
@@ -1990,7 +2065,55 @@
     "stats": {},
     "skillId": "hastenedShatter",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Berserker",
+      "Breaker",
+      "Crusader",
+      "Dark Knight",
+      "Dark Marquess (Axe)",
+      "Dark Marquess (Lance)",
+      "Dark Marquess (Sword)",
+      "Doom Knight",
+      "Dreadnought",
+      "Elven Augur",
+      "Elven Fencer",
+      "Elven Sibyl",
+      "Feathershield",
+      "Feathersword",
+      "Fighter",
+      "Gladiator",
+      "Great Knight",
+      "Gryphon Knight",
+      "Gryphon Master",
+      "High Lord",
+      "Hoplite",
+      "Housecarl",
+      "Knight",
+      "Landsknecht",
+      "Legionnaire",
+      "Lord",
+      "Paladin",
+      "Prince",
+      "Radiant Knight",
+      "Rogue",
+      "Sainted Knight",
+      "Sellsword",
+      "Sergeant",
+      "Soldier",
+      "Swordfighter",
+      "Swordmaster",
+      "Thief",
+      "Valkyria",
+      "Vanguard",
+      "Viking",
+      "Warrior",
+      "Werebear",
+      "Werefox",
+      "Werelion",
+      "Werewolf",
+      "Wyvern Knight",
+      "Wyvern Master"
+    ]
   },
   {
     "id": "tailwindCape",
@@ -2040,7 +2163,7 @@
       "Priestess",
       "High Priestess",
       "Elven Augur",
-      "Staff Dark Marquess"
+      "Dark Marquess (Staff)"
     ]
   },
   {
@@ -2213,15 +2336,54 @@
     "skillId": "aerialWing",
     "nullifications": [],
     "classRestrictions": [
-      "Featherbow",
-      "Feathershield",
-      "Featherstaff",
-      "Feathersword",
       "Gryphon Knight",
       "Gryphon Master",
-      "Wereowl",
       "Wyvern Knight",
       "Wyvern Master"
+    ]
+  },
+  {
+    "id": "lamplightRing",
+    "name": "Lamplight Ring",
+    "type": "Accessory",
+    "stats": {
+      "MDEF": 1,
+      "OnActiveHealPercent": 10
+    },
+    "skillId": "glowingLight",
+    "nullifications": ["Blind"],
+    "classRestrictions": []
+  },
+  {
+    "id": "oldWitchsRing",
+    "name": "Old Witch's Ring",
+    "type": "Accessory",
+    "stats": {
+      "MDEF": 3,
+      "MATK": 2
+    },
+    "skillId": "magicConversion",
+    "nullifications": [],
+    "classRestrictions": [
+      "Radiant Knight",
+      "Sainted Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
     ]
   }
 ]
