@@ -1324,7 +1324,6 @@ export const PassiveSkills = [
         kind: 'Affliction',
         affliction: 'CritSeal',
         applyTo: 'Target',
-        duration: 'UntilNextAttack',
       },
     ],
   },

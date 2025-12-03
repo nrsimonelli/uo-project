@@ -34,7 +34,8 @@ export const applyAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType,
   source: string,
-  level?: number
+  level?: number,
+  skillId?: string
 ) => {
   // Check permanent immunities first (not consumed)
   if (hasAfflictionImmunity(unit.immunities, afflictionType)) {
@@ -81,6 +82,7 @@ export const applyAffliction = (
     name: afflictionType,
     level: afflictionType === 'Burn' ? level || 1 : undefined,
     source,
+    skillId,
   }
 
   if (existingIndex !== -1) {

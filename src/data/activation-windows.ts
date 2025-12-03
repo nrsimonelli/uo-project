@@ -89,6 +89,11 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates after attacking',
     limited: false,
   },
+  AFTER_ATTACKING_MAGICAL: {
+    id: 'afterAttackingMagical',
+    description: 'Activates after using a magical attack',
+    limited: false,
+  },
   AFTER_USER_DEBUFF: {
     id: 'afterUserDebuff',
     description: 'Activates after the user is debuffed',

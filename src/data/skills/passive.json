@@ -1277,8 +1277,7 @@
       {
         "kind": "Affliction",
         "affliction": "CritSeal",
-        "applyTo": "Target",
-        "duration": "UntilNextAttack"
+        "applyTo": "Target"
       }
     ]
   },
