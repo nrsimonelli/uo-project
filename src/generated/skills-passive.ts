@@ -4484,6 +4484,7 @@ export const PassiveSkills = [
     pp: 3,
     skillCategories: ['Utility'],
     activationWindow: 'startOfBattle',
+    skillFlags: ['ExcludeSelf'],
     targeting: {
       group: 'Ally',
       pattern: 'Single',

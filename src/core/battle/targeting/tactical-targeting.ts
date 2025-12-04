@@ -237,15 +237,24 @@ const getInitialTargetPool = (
   }
 
   // Get base target group
+  let targets: BattleContext[] = []
   if (targeting.group === 'Ally') {
-    return context.allAllies
+    targets = context.allAllies
   } else if (targeting.group === 'Enemy') {
     return context.allEnemies
   } else if (targeting.group === 'Self') {
     return [context.actingUnit]
   }
 
-  return []
+  // EXCLUDE SELF: Filter out the acting unit if ExcludeSelf flag is present and targeting allies
+  const hasExcludeSelfFlag = skill.skillFlags?.includes('ExcludeSelf') ?? false
+  if (hasExcludeSelfFlag && targeting.group === 'Ally') {
+    targets = targets.filter(
+      target => target.unit.id !== context.actingUnit.unit.id
+    )
+  }
+
+  return targets
 }
 
 const shouldSkipSkillForTactic = (
