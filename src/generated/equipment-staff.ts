@@ -40,7 +40,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -122,7 +122,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -248,7 +248,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -311,7 +311,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -444,7 +444,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -500,7 +500,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -595,7 +595,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -737,7 +737,7 @@ export const EquipmentStaff = [
       'Sorceress',
       'Wizard',
       'Warlock',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -767,7 +767,7 @@ export const EquipmentStaff = [
       'Warlock',
       'Witch',
       'Sorceress',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {
@@ -825,7 +825,7 @@ export const EquipmentStaff = [
       'Sorceress',
       'Wizard',
       'Warlock',
-      'Staff Dark Marquess',
+      'Dark Marquess (Staff)',
     ],
   },
   {

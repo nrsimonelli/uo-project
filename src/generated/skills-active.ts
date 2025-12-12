@@ -6807,7 +6807,7 @@ export const ActiveSkills = [
       },
       {
         kind: 'Buff',
-        stat: 'BlindnessImmunity',
+        stat: 'GlowingLight',
         value: 1,
         scaling: 'flat',
         applyTo: 'Target',

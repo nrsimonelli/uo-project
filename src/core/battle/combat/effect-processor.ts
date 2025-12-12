@@ -34,6 +34,24 @@ export const hasAfflictionImmunity = (
   unitImmunities: (AfflictionType | 'Affliction' | 'Debuff')[],
   affliction: AfflictionType
 ) => {
+  // Check for specific affliction immunity (e.g., GlowingLight for Blind)
+  if (affliction === 'Blind') {
+    // Type assertion needed since GlowingLight is not yet in the union type
+    // but may be added in the future for permanent immunities
+    if (
+      (
+        unitImmunities as (
+          | AfflictionType
+          | 'Affliction'
+          | 'Debuff'
+          | 'GlowingLight'
+        )[]
+      ).includes('GlowingLight')
+    ) {
+      return true
+    }
+  }
+
   return (
     unitImmunities.includes('Affliction') ||
     unitImmunities.includes('Debuff') ||

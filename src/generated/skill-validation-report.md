@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2025-11-29T23:45:14.281Z_
+_Generated: 2025-12-04T23:43:55.577Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 187
-- **Total Skills Referenced**: 405
+- **Equipment Skills Referenced**: 189
+- **Total Skills Referenced**: 407
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 148
-- **Total Skills Defined**: 347
-- **Activation Windows Referenced**: 35
-- **Activation Windows Defined**: 39
+- **Passive Skills Defined**: 154
+- **Total Skills Defined**: 353
+- **Activation Windows Referenced**: 36
+- **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **59 missing skills:**
+❌ **54 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -38,14 +38,12 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `guardCure`
 - `guardingFighter`
 - `guardingImpetus`
-- `hastenedAction`
-- `hastenedCast`
-- `hastenedCharge`
 - `hastenedShatter`
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
 - `inspiration`
+- `magicConversion`
 - `mightyShield`
 - `mirrorWeakness`
 - `nimbleFighter`
@@ -58,10 +56,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `powerfulCall`
 - `provokingCrush`
 - `quickAction`
-- `quickImpetus`
-- `recast`
 - `reflectMagic`
-- `reinforce`
 - `relicHeal`
 - `sanguineConferral`
 - `selfCare`
@@ -79,9 +74,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-⚠️ **1 unused skills:**
-
-- `glowingLight`
+✅ **No unused skills found!**
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
@@ -345,7 +338,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (187)
+### From Equipment Data (189)
 
 - `activeHeal`
 - `activeShatter`
@@ -403,6 +396,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `freezeCure`
 - `freezingThrust`
 - `frostConferral`
+- `glowingLight`
 - `grantEvade`
 - `graveImpetus`
 - `gravity`
@@ -446,6 +440,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `magicAttack`
 - `magicBarrier`
 - `magicBurst`
+- `magicConversion`
 - `magicCounter`
 - `magicShatter`
 - `magicShell`
@@ -737,7 +732,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (148)
+### Passive Skills Defined (154)
 
 - `accelerate`
 - `activeGift`
@@ -793,6 +788,9 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `guardHunter`
 - `guardOrder`
 - `guardian`
+- `hastenedAction`
+- `hastenedCast`
+- `hastenedCharge`
 - `hastenedCover`
 - `hastenedCurse`
 - `hastenedHeal`
@@ -851,13 +849,16 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `quickDispel`
 - `quickGuard`
 - `quickHeal`
+- `quickImpetus`
 - `quickReload`
 - `radiantCover`
 - `rageOfTheFaeries`
 - `rapidOrder`
 - `rapidShot`
+- `recast`
 - `refresh`
 - `reheal`
+- `reinforce`
 - `removeWeakness`
 - `restore`
 - `rowBarrier`
@@ -890,7 +891,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (35)
+### Referenced in Passive Skills (36)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -900,6 +901,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `afterAllyMagicAttacksActive`
 - `afterAllyPassiveSkill`
 - `afterAttacking`
+- `afterAttackingMagical`
 - `afterBeingHit`
 - `afterBeingHitPhys`
 - `afterCavalryAllyAttacksActive`
@@ -928,7 +930,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `endOfBattle`
 - `startOfBattle`
 
-### Defined Activation Windows (39)
+### Defined Activation Windows (40)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -939,6 +941,7 @@ _Generated: 2025-11-29T23:45:14.281Z_
 - `afterAllyMagicAttacksActive`
 - `afterAllyPassiveSkill`
 - `afterAttacking`
+- `afterAttackingMagical`
 - `afterBeingAttacked`
 - `afterBeingHit`
 - `afterBeingHitPhys`

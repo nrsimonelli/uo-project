@@ -89,6 +89,7 @@ export interface Affliction {
   name: string
   level?: number // for burn only, damage per active turn would be 20 * level
   source: string // unit ID that applied this
+  skillId?: string // skill ID that applied this (for special case handling)
 }
 
 export interface Buff {

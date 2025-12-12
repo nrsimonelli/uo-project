@@ -5,10 +5,32 @@ import type { BattleContext, Affliction } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
 
 /**
- * Check if a unit has AfflictionImmunity buff and consume it if present
+ * Check if a unit has affliction immunity buff and consume it if present
  * Returns true if the affliction should be blocked
+ * Checks for specific immunity first (e.g., GlowingLight for Blind), then general AfflictionImmunity
  */
-const checkAndConsumeAfflictionImmunity = (unit: BattleContext) => {
+const checkAndConsumeAfflictionImmunity = (
+  unit: BattleContext,
+  afflictionType: AfflictionType
+) => {
+  // Check for specific immunity first (e.g., GlowingLight for Blind)
+  // GlowingLight is a permanent buff that cannot be consumed
+  if (afflictionType === 'Blind') {
+    const glowingLightIndex = unit.buffs.findIndex(
+      buff => buff.stat === 'GlowingLight'
+    )
+
+    if (glowingLightIndex !== -1) {
+      // GlowingLight is permanent and not consumed
+      const glowingLightBuff = unit.buffs[glowingLightIndex]
+      console.log(
+        `🛡️ ${unit.unit.name}'s ${glowingLightBuff.name} buff blocked ${afflictionType} (permanent, not consumed)`
+      )
+      return true
+    }
+  }
+
+  // Check for general AfflictionImmunity buff
   const immunityBuffIndex = unit.buffs.findIndex(
     buff => buff.stat === 'AfflictionImmunity'
   )
@@ -34,7 +56,8 @@ export const applyAffliction = (
   unit: BattleContext,
   afflictionType: AfflictionType,
   source: string,
-  level?: number
+  level?: number,
+  skillId?: string
 ) => {
   // Check permanent immunities first (not consumed)
   if (hasAfflictionImmunity(unit.immunities, afflictionType)) {
@@ -42,10 +65,10 @@ export const applyAffliction = (
     return false
   }
 
-  // Check for AfflictionImmunity buff (consumed on use)
-  if (checkAndConsumeAfflictionImmunity(unit)) {
+  // Check for affliction immunity buff (consumed on use)
+  if (checkAndConsumeAfflictionImmunity(unit, afflictionType)) {
     console.log(
-      `${unit.unit.name} blocked ${afflictionType} via AfflictionImmunity buff`
+      `${unit.unit.name} blocked ${afflictionType} via affliction immunity buff`
     )
     return false
   }
@@ -81,6 +104,7 @@ export const applyAffliction = (
     name: afflictionType,
     level: afflictionType === 'Burn' ? level || 1 : undefined,
     source,
+    skillId,
   }
 
   if (existingIndex !== -1) {

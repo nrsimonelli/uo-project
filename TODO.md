@@ -62,6 +62,7 @@
 - [ ] Effect for Magic Wall & Wall
 - [ ] Bestral guard conditional
 - [x] lifeshare logic
+- [ ] Reinforce, quick impetus, and action altering taking skills
 
 ### Code Quality & Development ✅
 

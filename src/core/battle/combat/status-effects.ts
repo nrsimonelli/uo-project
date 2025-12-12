@@ -521,7 +521,8 @@ const applyAfflictions = (
       targetUnit,
       afflictionToApply.afflictionType,
       attacker.unit.id,
-      afflictionToApply.level
+      afflictionToApply.level,
+      afflictionToApply.skillId
     )
 
     // If Deathblow was applied and unit was defeated, add to recalculation set

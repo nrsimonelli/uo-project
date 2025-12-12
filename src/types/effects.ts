@@ -111,8 +111,12 @@ interface BaseEffect {
  * - 'DebuffImmunity': Blocks next debuff/affliction/resource steal, consumed when triggered
  * - 'NegateMagicDamage': Negates all incoming magic damage, consumed when triggered
  * - 'NegatePhysicalDamage': Negates all incoming physical damage, consumed when triggered
- * - 'AfflictionImmunity': Blocks next affliction, consumed when triggered
+ * - 'AfflictionImmunity': Blocks next affliction (all afflictions), consumed when triggered
+ * - 'GlowingLight': Blocks Blind affliction specifically, permanent buff (not consumed)
  * - 'TrueStrike': Guarantees next attack hits, consumed when used
+ *
+ * Note: For immunity buffs, the 'value' property is ignored (they act as boolean flags).
+ * GlowingLight is a special permanent buff that cannot be removed or consumed.
  *
  * Use BuffEffect when:
  * - Effect must persist beyond the skill execution

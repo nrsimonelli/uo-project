@@ -235,6 +235,18 @@ const executeDamageSkill = (
   // Clean up debuffs with UntilNextAttack duration
   removeExpiredDebuffs(attacker, 'attacks')
 
+  // Special case: Remove CritSeal applied by quickCurse after attack
+  // (quickCurse applies temporary CritSeal that expires after target's next attack)
+  const initialAfflictionCount = attacker.afflictions.length
+  attacker.afflictions = attacker.afflictions.filter(
+    aff => !(aff.type === 'CritSeal' && aff.skillId === 'quickCurse')
+  )
+  if (attacker.afflictions.length < initialAfflictionCount) {
+    console.log(
+      `🔄 ${attacker.unit.name} CritSeal from quickCurse expired after attack`
+    )
+  }
+
   // Clean up buffs/debuffs with UntilAttacked duration for the target
   // These expire after the target is attacked
   if (anyHit) {
