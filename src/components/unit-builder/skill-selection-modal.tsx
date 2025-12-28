@@ -1,4 +1,3 @@
-import { DialogTrigger } from '@radix-ui/react-dialog'
 import { Plus } from 'lucide-react'
 
 import { SkillList } from './skill-list'
@@ -11,6 +10,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog'
 import { useModalState } from '@/hooks/use-modal-state'
 import { useSkillSelection } from '@/hooks/use-skill-selection'
