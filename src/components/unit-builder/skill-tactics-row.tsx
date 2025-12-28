@@ -13,6 +13,7 @@ import {
 import { ActiveSkills } from '@/generated/skills-active'
 import { PassiveSkills } from '@/generated/skills-passive'
 import { cn } from '@/lib/utils'
+import type { DamageEffect, HealPotencyEffect } from '@/types/effects'
 import type { SkillSlot } from '@/types/skills'
 import type { TacticalCondition } from '@/types/tactics'
 import type { Unit } from '@/types/team'
@@ -63,6 +64,38 @@ export function SkillTacticsRow({
     handleConditionSelect(skillSlot.id, idx, null)
   }
 
+  const getSkillDetails = (skill: {
+    skillCategories: readonly string[]
+    effects: ReadonlyArray<{ kind?: string; [key: string]: unknown }>
+  }) => {
+    const categories = new Set(skill.skillCategories)
+
+    if (categories.has('Sabotage')) return 'Hit Rate: True'
+
+    const effect = skill.effects.find(
+      e => e.kind === 'Damage' || e.kind === 'Heal'
+    ) as DamageEffect | HealPotencyEffect | undefined
+
+    if (!effect) return null
+
+    const details = [
+      'hitRate' in effect &&
+        effect.hitRate !== undefined &&
+        `Hit Rate: ${effect.hitRate === 'True' ? 'True' : `${effect.hitRate}%`}`,
+      effect.potency?.physical !== undefined &&
+        `Phys. Potency: ${effect.potency.physical}`,
+      effect.potency?.magical !== undefined &&
+        `Mag. Potency: ${effect.potency.magical}`,
+      effect.hitCount !== undefined &&
+        effect.hitCount > 1 &&
+        `Hit Count: ${effect.hitCount}`,
+    ].filter(Boolean) as string[]
+
+    return details.length > 0 ? details.join(', ') : null
+  }
+
+  const skillDetails = skill ? getSkillDetails(skill) : null
+
   return (
     <div
       ref={setNodeRef}
@@ -102,8 +135,13 @@ export function SkillTacticsRow({
                 </span>
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <p className="font-medium">{skill.name}</p>
+                  {skillDetails && (
+                    <p className="text-xs text-muted-foreground font-mono">
+                      {skillDetails}
+                    </p>
+                  )}
                   <p className="text-sm">{skill.description}</p>
                   {!isValid && (
                     <p className="text-sm text-destructive font-medium">
