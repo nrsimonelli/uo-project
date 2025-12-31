@@ -16,7 +16,7 @@ import type { Team, Unit } from '@/types/team'
  */
 export const createBattleContext = (
   unit: Unit,
-  team: 'home-team' | 'away-team',
+  team: 'defending-team' | 'attacking-team',
   position: { row: number; col: number }
 ): BattleContext => {
   // Calculate combat stats from base stats + equipment (temporary for initial HP)
@@ -111,32 +111,32 @@ export const createBattleContext = (
 }
 
 export const createAllBattleContexts = (
-  homeTeam: Team,
-  awayTeam: Team
+  defendingTeam: Team,
+  attackingTeam: Team
 ): Record<string, BattleContext> => {
   const allBattleContexts: Record<string, BattleContext> = {}
 
-  // Process home team units
-  homeTeam.formation.forEach(unit => {
+  // Process defending team units
+  defendingTeam.formation.forEach(unit => {
     if (unit && unit.position) {
       const battleContext = createBattleContext(
         unit,
-        'home-team',
+        'defending-team',
         unit.position
       )
-      allBattleContexts[`home-${unit.id}`] = battleContext
+      allBattleContexts[`defending-${unit.id}`] = battleContext
     }
   })
 
-  // Process away team units
-  awayTeam.formation.forEach(unit => {
+  // Process attacking team units
+  attackingTeam.formation.forEach(unit => {
     if (unit && unit.position) {
       const battleContext = createBattleContext(
         unit,
-        'away-team',
+        'attacking-team',
         unit.position
       )
-      allBattleContexts[`away-${unit.id}`] = battleContext
+      allBattleContexts[`attacking-${unit.id}`] = battleContext
     }
   })
 
@@ -159,7 +159,7 @@ export const createFormationArrays = (
   // Place units in their correct positions
   Object.entries(allBattleContexts).forEach(([unitId, context]) => {
     const formation =
-      context.team === 'home-team' ? homeFormation : awayFormation
+      context.team === 'defending-team' ? homeFormation : awayFormation
     const { row, col } = context.position
 
     // Validate position is within grid bounds

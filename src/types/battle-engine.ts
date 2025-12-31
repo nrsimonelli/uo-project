@@ -16,7 +16,7 @@ export interface BattleEvent {
     id: string
     name: string
     classKey: string
-    team: 'home-team' | 'away-team'
+    team: 'defending-team' | 'attacking-team'
   }
   targets?: string[]
   skillId?: string // Just store the skill ID, look up details in component
@@ -49,7 +49,7 @@ export interface BattleEvent {
   }
   // Team roster data for battle-end events
   teamRosters?: {
-    homeTeam: Array<{
+    defendingTeam: Array<{
       unitId: string
       name: string
       classKey: string
@@ -61,7 +61,7 @@ export interface BattleEvent {
       }
       afflictions: Affliction[]
     }>
-    awayTeam: Array<{
+    attackingTeam: Array<{
       unitId: string
       name: string
       classKey: string
@@ -175,7 +175,7 @@ export interface BattleContext {
   currentHP: number
   currentAP: number
   currentPP: number
-  team: 'home-team' | 'away-team' // switch to home v away
+  team: 'defending-team' | 'attacking-team'
   combatantTypes: CombatantType[] // Support multiple combatant types
   position: {
     row: number
@@ -257,7 +257,7 @@ export interface PassiveAction {
   windowId: ActivationWindowId
   groupId: string
   unitId: string
-  team: 'home-team' | 'away-team'
+  team: 'defending-team' | 'attacking-team'
   skillId: string
   createdAtActionId: number
   createdAtRound: number

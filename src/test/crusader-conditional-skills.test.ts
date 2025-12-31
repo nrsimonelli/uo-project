@@ -48,7 +48,7 @@ describe('Crusader Conditional Effects', () => {
         },
         { ...LOW_STATS, PATK: 10 }
       )
-      wyvernKnight.team = 'away-team'
+      wyvernKnight.team = 'attacking-team'
       wyvernKnight.combatantTypes = ['Flying']
 
       const result = executeSkill(
@@ -100,7 +100,7 @@ describe('Crusader Conditional Effects', () => {
         },
         { ...LOW_STATS, PATK: 10 }
       )
-      soldier.team = 'away-team'
+      soldier.team = 'attacking-team'
       soldier.combatantTypes = ['Infantry']
 
       const result = executeSkill(
@@ -149,7 +149,7 @@ describe('Crusader Conditional Effects', () => {
         },
         { ...LOW_STATS, PATK: 10, GRD: 100, GuardEff: 50 }
       )
-      vanguard.team = 'away-team'
+      vanguard.team = 'attacking-team'
       vanguard.combatantTypes = ['Armored']
 
       const result = executeSkill(
@@ -202,7 +202,7 @@ describe('Crusader Conditional Effects', () => {
         },
         { ...LOW_STATS, PATK: 10, GRD: 100, GuardEff: 50 }
       )
-      soldier.team = 'away-team'
+      soldier.team = 'attacking-team'
       soldier.combatantTypes = ['Infantry']
 
       const result = executeSkill(

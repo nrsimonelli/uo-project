@@ -85,6 +85,7 @@ export function MockBattle() {
 
   const handleStartBattle = () => {
     if (selectedAllyTeam && selectedEnemyTeam && canStartBattle) {
+      // Defending team (left) first, attacking team (right) second
       executeBattle(selectedAllyTeam, selectedEnemyTeam)
     }
   }
@@ -130,10 +131,10 @@ export function MockBattle() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Ally Team Selection */}
+              {/* Defending Team Selection */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Home Team</label>
+                  <label className="text-sm font-medium">Defending Team</label>
                   <Select
                     value={selectedAllyTeam?.id}
                     onValueChange={handleAllyTeamSelect}
@@ -179,10 +180,10 @@ export function MockBattle() {
                 )}
               </div>
 
-              {/* Enemy Team Selection */}
+              {/* Attacking Team Selection */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Away Team</label>
+                  <label className="text-sm font-medium">Attacking Team</label>
                   <Select
                     value={selectedEnemyTeam?.id}
                     onValueChange={handleEnemyTeamSelect}
@@ -298,20 +299,24 @@ export function MockBattle() {
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-lg font-semibold">Home Team HP</div>
-                      <div className="text-2xl font-bold text-home">
-                        {resultSummary.teamHpPercentages['home-team']?.toFixed(
-                          1
-                        ) || 0}
+                      <div className="text-lg font-semibold">
+                        Defending Team HP
+                      </div>
+                      <div className="text-2xl font-bold text-defending-team">
+                        {resultSummary.teamHpPercentages[
+                          'defending-team'
+                        ]?.toFixed(1) || 0}
                         %
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-lg font-semibold">Away Team HP</div>
-                      <div className="text-2xl font-bold text-away">
-                        {resultSummary.teamHpPercentages['away-team']?.toFixed(
-                          1
-                        ) || 0}
+                      <div className="text-lg font-semibold">
+                        Attacking Team HP
+                      </div>
+                      <div className="text-2xl font-bold text-attacking-team">
+                        {resultSummary.teamHpPercentages[
+                          'attacking-team'
+                        ]?.toFixed(1) || 0}
                         %
                       </div>
                     </div>
@@ -365,7 +370,7 @@ export function MockBattle() {
               ) : (
                 <div className="flex items-center justify-center h-32">
                   <p className="text-muted-foreground">
-                    Select both home and away teams to start a battle
+                    Select both defending and attacking teams to start a battle
                   </p>
                 </div>
               )}

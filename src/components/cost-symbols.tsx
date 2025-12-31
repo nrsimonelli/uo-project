@@ -22,7 +22,7 @@ export function CostSymbols({
           key={i}
           className={cn(
             'inline-block w-2 h-2 rounded-full',
-            isActive ? 'bg-home' : 'bg-away',
+            isActive ? 'bg-ap' : 'bg-pp',
             symbolClassName
           )}
         />
