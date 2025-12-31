@@ -3,15 +3,8 @@ import { Plus } from 'lucide-react'
 import { SkillList } from './skill-list'
 import { SkillTypeFilterComponent } from './skill-type-filter'
 
-import { SearchInput } from '@/components/search-input'
+import { SearchModal } from '@/components/search-modal'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
 import { useModalState } from '@/hooks/use-modal-state'
 import { useSkillSelection } from '@/hooks/use-skill-selection'
 import type { Unit } from '@/types/team'
@@ -56,44 +49,27 @@ export function SkillSelectionModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleModalClose}>
-      <DialogTrigger asChild>
+    <SearchModal
+      title="Select Skill"
+      trigger={
         <Button variant="default" size="sm" className="justify-start">
           <Plus className="size-4" />
           Add Skill
         </Button>
-      </DialogTrigger>
-      <DialogContent
-        className="max-w-2xl max-h-[80vh] flex flex-col"
-        aria-describedby={undefined}
-      >
-        <DialogHeader>
-          <DialogTitle>Select Skill</DialogTitle>
-        </DialogHeader>
-
-        <div className="flex flex-col gap-4 flex-1 min-h-0">
-          {/* Search Input */}
-          <SearchInput
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search skills..."
-          />
-
-          {/* Type Filter */}
-          <SkillTypeFilterComponent
-            value={skillTypeFilter}
-            onValueChange={setSkillTypeFilter}
-          />
-
-          {/* Skills List */}
-          <div className="flex-1 min-h-0">
-            <SkillList
-              skills={filteredSkills}
-              onSkillSelect={handleSkillSelect}
-            />
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+      }
+      searchValue={searchTerm}
+      onSearchChange={handleSearchChange}
+      searchPlaceholder="Search skills..."
+      filterComponent={
+        <SkillTypeFilterComponent
+          value={skillTypeFilter}
+          onValueChange={setSkillTypeFilter}
+        />
+      }
+      open={open}
+      onOpenChange={handleModalClose}
+    >
+      <SkillList skills={filteredSkills} onSkillSelect={handleSkillSelect} />
+    </SearchModal>
   )
 }
