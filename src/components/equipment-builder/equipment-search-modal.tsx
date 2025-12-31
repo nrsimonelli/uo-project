@@ -1,18 +1,15 @@
 import { X } from 'lucide-react'
+import { useState } from 'react'
 
 import { EquipmentItem } from './equipment-item'
 import { EquipmentSlotTrigger } from './equipment-slot-trigger'
-
-import { SearchInput } from '@/components/search-input'
-import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
+  EquipmentTypeFilterComponent,
+  type EquipmentTypeFilter,
+} from './equipment-type-filter'
+
+import { SearchModal } from '@/components/search-modal'
+import { Button } from '@/components/ui/button'
 import { useEquipmentManager } from '@/hooks/use-equipment-manager'
 import type { EquippedByInfo } from '@/hooks/use-equipment-manager'
 import { useModalState } from '@/hooks/use-modal-state'
@@ -37,6 +34,8 @@ export function EquipmentSearchModal({
 }: EquipmentSearchModalProps) {
   const { open, searchTerm, closeModal, updateSearchTerm, setOpen } =
     useModalState()
+  const [equipmentTypeFilter, setEquipmentTypeFilter] =
+    useState<EquipmentTypeFilter>('all')
 
   const {
     filteredItems,
@@ -52,6 +51,7 @@ export function EquipmentSearchModal({
     currentItemId: itemId,
     currentSlotIndex: idx,
     currentUnitId: unitId,
+    equipmentTypeFilter,
   })
 
   const handleItemSelect = (item: GeneratedEquipment) => {
@@ -65,42 +65,37 @@ export function EquipmentSearchModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <SearchModal
+      title={`Select ${slotType}`}
+      trigger={
         <EquipmentSlotTrigger slotType={slotType} currentItem={currentItem} />
-      </DialogTrigger>
-      <DialogContent
-        aria-describedby={undefined}
-        className="sm:max-w-md max-h-[80vh] h-full w-full overflow-hidden flex flex-col items-start"
-      >
-        <DialogHeader>
-          <DialogTitle>Select {slotType}</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
-          <SearchInput
-            value={searchTerm}
-            onChange={updateSearchTerm}
-            placeholder="Search equipment..."
-          />
-
-          <ScrollArea className="flex flex-col w-full overflow-y-auto">
-            {itemId && <UnequipButton onUnequip={handleUnequip} />}
-
-            <EquipmentList
-              items={filteredItems}
-              itemId={itemId}
-              onItemSelect={handleItemSelect}
-              isEquippedByCurrentUnit={isEquippedByCurrentUnit}
-              getEquippedBy={getEquippedBy}
-            />
-
-            {filteredItems.length === 0 && (
-              <EmptyState slotType={slotType} searchTerm={searchTerm} />
-            )}
-          </ScrollArea>
-        </div>
-      </DialogContent>
-    </Dialog>
+      }
+      searchValue={searchTerm}
+      onSearchChange={updateSearchTerm}
+      searchPlaceholder="Search equipment..."
+      filterComponent={
+        <EquipmentTypeFilterComponent
+          value={equipmentTypeFilter}
+          onValueChange={setEquipmentTypeFilter}
+        />
+      }
+      open={open}
+      onOpenChange={setOpen}
+      emptyState={
+        filteredItems.length === 0 ? (
+          <EmptyState slotType={slotType} searchTerm={searchTerm} />
+        ) : null
+      }
+    >
+      {itemId && <UnequipButton onUnequip={handleUnequip} />}
+      <EquipmentList
+        items={filteredItems}
+        itemId={itemId}
+        onItemSelect={handleItemSelect}
+        isEquippedByCurrentUnit={isEquippedByCurrentUnit}
+        getEquippedBy={getEquippedBy}
+      />
+    </SearchModal>
   )
 }
 
@@ -111,8 +106,8 @@ interface UnequipButtonProps {
 function UnequipButton({ onUnequip }: UnequipButtonProps) {
   return (
     <Button
-      variant="ghost"
-      className="justify-start w-full p-3 h-auto mb-2 border-b"
+      variant="outline"
+      className="w-full justify-start h-auto p-3 text-left mb-2"
       onClick={onUnequip}
     >
       <div className="flex items-center gap-2 w-full">
@@ -144,7 +139,7 @@ function EquipmentList({
   getEquippedBy,
 }: EquipmentListProps) {
   return (
-    <>
+    <div className="space-y-2">
       {items.map(item => {
         const equippedBy = getEquippedBy(item.id)
         const isCurrentlyEquipped = itemId === item.id
@@ -163,7 +158,7 @@ function EquipmentList({
           />
         )
       })}
-    </>
+    </div>
   )
 }
 

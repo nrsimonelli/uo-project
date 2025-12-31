@@ -33,13 +33,13 @@ export function EquipmentItem({
 
   return (
     <Button
-      variant="ghost"
-      className="justify-start w-full h-auto p-4 border-b border-border/50 last:border-b-0"
+      variant="outline"
+      className="w-full justify-start h-auto p-3 text-left"
       onClick={() => onSelect(item)}
       disabled={isDisabled}
     >
       <div className="flex items-start w-full gap-3">
-        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 rounded bg-muted">
+        <div className="flex items-center justify-center shrink-0 w-10 h-10 rounded bg-muted">
           <EquipmentSlotIcon
             // TODO: revisit later
             slotType={item.type as EquipmentSlotType}
@@ -79,7 +79,7 @@ function EquipmentStatusBadge({
 }: EquipmentStatusBadgeProps) {
   if (isCurrentlyEquipped || isEquippedByCurrentUnitElsewhere) {
     return (
-      <Badge variant="default" className="flex-shrink-0 text-xs">
+      <Badge variant="default" className="shrink-0 text-xs">
         Current
       </Badge>
     )
@@ -89,7 +89,7 @@ function EquipmentStatusBadge({
     return (
       <Badge
         variant="secondary"
-        className="flex items-center flex-shrink-0 gap-1 px-2 py-1 text-xs"
+        className="flex items-center shrink-0 gap-1 px-2 py-1 text-xs"
       >
         <img
           src={SPRITES[equippedBy.unitClass]}
@@ -135,12 +135,16 @@ function EquipmentSkill({ skillId }: EquipmentSkillProps) {
   const skill = [...ActiveSkills, ...PassiveSkills].find(s => s.id === skillId)
 
   if (!skill)
-    return <div className="text-xs text-primary">Skill: {skillId}</div>
+    return (
+      <div className="text-xs text-primary truncate w-full">
+        Skill: {skillId}
+      </div>
+    )
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="text-xs text-primary cursor-help">
+        <div className="text-xs text-primary cursor-help truncate w-full">
           Skill: {skill.name}
         </div>
       </TooltipTrigger>
@@ -173,7 +177,7 @@ function EquipmentRestrictions({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="text-xs text-warning cursor-help">
+        <div className="text-xs text-warning cursor-help truncate w-full">
           Restricted to: {displayText}
         </div>
       </TooltipTrigger>
