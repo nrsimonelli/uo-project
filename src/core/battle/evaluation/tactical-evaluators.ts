@@ -7,7 +7,10 @@ import {
   evaluateUserCondition,
   evaluateBasicFormation,
 } from '@/core/tactical-utils'
-import type { ConditionMetadata } from '@/data/tactics/tactic-condition-meta'
+import type {
+  ConditionMetadata,
+  ConditionMetadataWithKey,
+} from '@/data/tactics/tactic-condition-meta'
 import { ActiveSkillsMap } from '@/generated/skills-active'
 import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
@@ -58,6 +61,27 @@ export type CompareEvaluator = (
   a: BattleContext,
   b: BattleContext,
   metadata: ConditionMetadata,
+  context: TacticalContext
+) => number
+
+/**
+ * Function signature for sort evaluators that require conditionKey
+ * to determine sort direction from the key name
+ */
+export type SortEvaluatorWithKey = (
+  targets: BattleContext[],
+  metadata: ConditionMetadataWithKey,
+  context: TacticalContext
+) => BattleContext[]
+
+/**
+ * Function signature for compare evaluators that require conditionKey
+ * to determine comparison direction from the key name
+ */
+export type CompareEvaluatorWithKey = (
+  a: BattleContext,
+  b: BattleContext,
+  metadata: ConditionMetadataWithKey,
   context: TacticalContext
 ) => number
 
@@ -439,70 +463,54 @@ const filterAttackHistory: FilterEvaluator = (targets, metadata, context) => {
 // ============================================================================
 // SORT EVALUATORS (for sortTargets)
 // ============================================================================
-const sortHpRaw: SortEvaluator = (targets, metadata) => {
-  const conditionKey = metadata.conditionKey || ''
-  const statName = metadata.statName || ''
-  const isHighestHp =
-    conditionKey.includes('Highest') || statName.includes('Highest')
+const sortHpRaw: SortEvaluatorWithKey = (targets, metadata) => {
+  const isHighest = metadata.conditionKey === 'Highest HP'
 
   return [...targets].sort((a, b) => {
-    if (isHighestHp) {
+    if (isHighest) {
       return b.currentHP - a.currentHP // Descending (highest first)
-    } else {
-      return a.currentHP - b.currentHP // Ascending (lowest first)
     }
+    // TypeScript knows this must be 'Lowest HP'
+    return a.currentHP - b.currentHP // Ascending (lowest first)
   })
 }
 
-const sortHpPercent: SortEvaluator = (targets, metadata) => {
-  const conditionKey = metadata.conditionKey || ''
-  const statName = metadata.statName || ''
-  const isHighestHp =
-    conditionKey.includes('Highest') || statName.includes('Highest')
+const sortHpPercent: SortEvaluatorWithKey = (targets, metadata) => {
+  const isHighest = metadata.conditionKey === 'Highest % HP'
 
   return [...targets].sort((a, b) => {
     const aPercent = getHpPercent(a)
     const bPercent = getHpPercent(b)
 
-    if (isHighestHp) {
+    if (isHighest) {
       return bPercent - aPercent // Descending (highest first)
-    } else {
-      return aPercent - bPercent // Ascending (lowest first)
     }
+    // TypeScript knows this must be 'Lowest % HP'
+    return aPercent - bPercent // Ascending (lowest first)
   })
 }
 
-const sortAp: SortEvaluator = (targets, metadata) => {
-  const conditionKey = metadata.conditionKey || ''
-  const statName = metadata.statName || ''
-  const isMostAp = conditionKey.includes('Most') || statName.includes('Most')
-  const isLeastAp = conditionKey.includes('Least') || statName.includes('Least')
+const sortAp: SortEvaluatorWithKey = (targets, metadata) => {
+  const isMost = metadata.conditionKey === 'Most AP'
 
   return [...targets].sort((a, b) => {
-    if (isMostAp) {
+    if (isMost) {
       return b.currentAP - a.currentAP // Descending (most first)
-    } else if (isLeastAp) {
-      return a.currentAP - b.currentAP // Ascending (least first)
-    } else {
-      return a.currentAP - b.currentAP // Default to ascending
     }
+    // TypeScript knows this must be 'Least AP'
+    return a.currentAP - b.currentAP // Ascending (least first)
   })
 }
 
-const sortPp: SortEvaluator = (targets, metadata) => {
-  const conditionKey = metadata.conditionKey || ''
-  const statName = metadata.statName || ''
-  const isMostPp = conditionKey.includes('Most') || statName.includes('Most')
-  const isLeastPp = conditionKey.includes('Least') || statName.includes('Least')
+const sortPp: SortEvaluatorWithKey = (targets, metadata) => {
+  const isMost = metadata.conditionKey === 'Most PP'
 
   return [...targets].sort((a, b) => {
-    if (isMostPp) {
+    if (isMost) {
       return b.currentPP - a.currentPP // Descending (most first)
-    } else if (isLeastPp) {
-      return a.currentPP - b.currentPP // Ascending (least first)
-    } else {
-      return a.currentPP - b.currentPP // Default to ascending
     }
+    // TypeScript knows this must be 'Least PP'
+    return a.currentPP - b.currentPP // Ascending (least first)
   })
 }
 
@@ -629,35 +637,37 @@ const sortAttackHistory: SortEvaluator = (targets, metadata, context) => {
 // COMPARE EVALUATORS (for hasTrueTie comparison)
 // ============================================================================
 
-const compareHpPercent: CompareEvaluator = (a, b, metadata) => {
+const compareHpPercent: CompareEvaluatorWithKey = (a, b, metadata) => {
   const aPercent = getHpPercent(a)
   const bPercent = getHpPercent(b)
 
-  // Check the original condition key to determine comparison direction
-  const conditionKey = metadata.conditionKey || ''
-  const isHighestHp = conditionKey.includes('Highest')
+  const isHighest = metadata.conditionKey === 'Highest % HP'
 
-  if (isHighestHp) {
+  if (isHighest) {
     return bPercent - aPercent
-  } else {
-    return aPercent - bPercent
   }
+  // TypeScript knows this must be 'Lowest % HP'
+  return aPercent - bPercent
 }
 
-const compareAp: CompareEvaluator = (a, b, metadata) => {
-  if (metadata.statName?.includes('Most')) {
+const compareAp: CompareEvaluatorWithKey = (a, b, metadata) => {
+  const isMost = metadata.conditionKey === 'Most AP'
+
+  if (isMost) {
     return b.currentAP - a.currentAP
-  } else {
-    return a.currentAP - b.currentAP
   }
+  // TypeScript knows this must be 'Least AP'
+  return a.currentAP - b.currentAP
 }
 
-const comparePp: CompareEvaluator = (a, b, metadata) => {
-  if (metadata.statName?.includes('Most')) {
+const comparePp: CompareEvaluatorWithKey = (a, b, metadata) => {
+  const isMost = metadata.conditionKey === 'Most PP'
+
+  if (isMost) {
     return b.currentPP - a.currentPP
-  } else {
-    return a.currentPP - b.currentPP
   }
+  // TypeScript knows this must be 'Least PP'
+  return a.currentPP - b.currentPP
 }
 
 const compareCombatantType: CompareEvaluator = (a, b, metadata) => {
@@ -692,15 +702,14 @@ const compareStats: CompareEvaluator = (a, b, metadata) => {
   }
 }
 
-const compareHpRaw: CompareEvaluator = (a, b, metadata) => {
-  const conditionKey = metadata.conditionKey || ''
-  const isHighestHp = conditionKey.includes('Highest')
+const compareHpRaw: CompareEvaluatorWithKey = (a, b, metadata) => {
+  const isHighest = metadata.conditionKey === 'Highest HP'
 
-  if (isHighestHp) {
+  if (isHighest) {
     return b.currentHP - a.currentHP
-  } else {
-    return a.currentHP - b.currentHP
   }
+  // TypeScript knows this must be 'Lowest HP'
+  return a.currentHP - b.currentHP
 }
 
 const compareHpAverage: CompareEvaluator = (a, b, metadata, context) => {
@@ -808,7 +817,10 @@ export const FILTER_EVALUATORS: Record<string, FilterEvaluator> = {
   'enemy-presence': filterEnemyPresence,
 }
 
-export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
+export const SORT_EVALUATORS: Record<
+  string,
+  SortEvaluator | SortEvaluatorWithKey
+> = {
   'hp-raw': sortHpRaw,
   'hp-percent': sortHpPercent,
   ap: sortAp,
@@ -823,7 +835,10 @@ export const SORT_EVALUATORS: Record<string, SortEvaluator> = {
   'attack-history': sortAttackHistory,
 }
 
-export const COMPARE_EVALUATORS: Record<string, CompareEvaluator> = {
+export const COMPARE_EVALUATORS: Record<
+  string,
+  CompareEvaluator | CompareEvaluatorWithKey
+> = {
   'hp-raw': compareHpRaw,
   'hp-percent': compareHpPercent,
   'hp-average': compareHpAverage,

@@ -9,6 +9,7 @@ import {
 import { getDefaultTargets } from './skill-targeting'
 
 import { getAttackType, isDamageSkill } from '@/core/attack-types'
+import type { ConditionMetadataWithKey } from '@/data/tactics/tactic-condition-meta'
 import {
   COMPLETE_TACTIC_METADATA,
   type ConditionMetadata,
@@ -297,7 +298,7 @@ const applyTacticToTargets = (
     const sortEvaluator = SORT_EVALUATORS[metadata.valueType]
     if (sortEvaluator) {
       // Pass the original condition key in the metadata for sort evaluators
-      const extendedMetadata = {
+      const extendedMetadata: ConditionMetadataWithKey = {
         ...metadata,
         conditionKey: tactic.key,
       }
@@ -321,7 +322,10 @@ const hasTrueTie = (
     if (tactic) {
       const metadata = COMPLETE_TACTIC_METADATA[tactic.key]
       if (metadata && metadata.type === 'sort') {
-        const extendedMetadata = { ...metadata, conditionKey: tactic.key }
+        const extendedMetadata: ConditionMetadataWithKey = {
+          ...metadata,
+          conditionKey: tactic.key,
+        }
         const comparison = compareTargets(
           first,
           second,
@@ -341,7 +345,7 @@ const hasTrueTie = (
 const compareTargets = (
   a: BattleContext,
   b: BattleContext,
-  metadata: ConditionMetadata,
+  metadata: ConditionMetadataWithKey,
   context: TacticalContext
 ) => {
   const compareEvaluator = COMPARE_EVALUATORS[metadata.valueType]
@@ -396,7 +400,15 @@ export const testSortCondition = (
   context: TacticalContext
 ): BattleContext[] => {
   const evaluator = SORT_EVALUATORS[valueType]
-  return evaluator ? evaluator(targets, metadata, context) : targets
+  if (!evaluator) return targets
+
+  // For evaluators that need conditionKey, ensure it's present
+  const needsKey = ['hp-raw', 'hp-percent', 'ap', 'pp'].includes(valueType)
+  if (needsKey && !metadata.conditionKey) {
+    throw new Error(`conditionKey is required for sort evaluator: ${valueType}`)
+  }
+
+  return evaluator(targets, metadata, context)
 }
 
 export const testCompareCondition = (
@@ -407,5 +419,15 @@ export const testCompareCondition = (
   context: TacticalContext
 ) => {
   const evaluator = COMPARE_EVALUATORS[valueType]
-  return evaluator ? evaluator(a, b, metadata, context) : 0
+  if (!evaluator) return 0
+
+  // For evaluators that need conditionKey, ensure it's present
+  const needsKey = ['hp-raw', 'hp-percent', 'ap', 'pp'].includes(valueType)
+  if (needsKey && !metadata.conditionKey) {
+    throw new Error(
+      `conditionKey is required for compare evaluator: ${valueType}`
+    )
+  }
+
+  return evaluator(a, b, metadata, context)
 }

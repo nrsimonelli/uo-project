@@ -63,6 +63,23 @@ export interface ConditionMetadata {
 
 export type TacticConditionKey =
   (typeof TACTIC_CATEGORY_MAP)[TacticCategoryKey][number]
+
+/**
+ * Metadata with required conditionKey for evaluators that need to determine
+ * sort direction from the key name (e.g., "Highest" vs "Lowest", "Most" vs "Least")
+ */
+export interface ConditionMetadataWithKey extends ConditionMetadata {
+  conditionKey: string // Required, not optional
+}
+
+/**
+ * Type-safe key types for direction checking
+ */
+export type HpRawSortKey = 'Highest HP' | 'Lowest HP'
+export type HpPercentSortKey = 'Highest % HP' | 'Lowest % HP'
+export type ApSortKey = 'Most AP' | 'Least AP'
+export type PpSortKey = 'Most PP' | 'Least PP'
+
 export const COMPLETE_TACTIC_METADATA: Record<
   TacticConditionKey,
   ConditionMetadata
