@@ -1,17 +1,14 @@
 import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
 import { UnitItem } from './unit-item'
-
-import { SearchInput } from '@/components/search-input'
-import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
+  UnitTypeFilterComponent,
+  type UnitTypeFilter,
+} from './unit-type-filter'
+
+import { SearchModal } from '@/components/search-modal'
+import { Button } from '@/components/ui/button'
 import { createUnit } from '@/core/create-unit'
 import { generateRandomId } from '@/core/helpers'
 import { useFilteredUnits } from '@/hooks/use-filtered-units'
@@ -28,8 +25,9 @@ interface UnitSearchModalProps {
 export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
   const { open, searchTerm, closeModal, updateSearchTerm, setOpen } =
     useModalState()
+  const [unitTypeFilter, setUnitTypeFilter] = useState<UnitTypeFilter>('all')
   const { getNextOpenPosition, isTeamFull } = useTeamPositions(team.formation)
-  const filteredUnits = useFilteredUnits(searchTerm, team)
+  const filteredUnits = useFilteredUnits(searchTerm, team, unitTypeFilter)
   const { addUnit } = useTeam()
 
   const handleUnitSelect = (unitName: string) => {
@@ -58,8 +56,9 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
   const isTeamEmpty = !team.formation.some(unit => unit !== null)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <SearchModal
+      title="Select a unit"
+      trigger={
         <Button
           variant={isTeamEmpty ? 'default' : 'ghost'}
           className="flex flex-1"
@@ -67,29 +66,26 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
           <PlusIcon className="w-4 h-4" />
           Add Unit
         </Button>
-      </DialogTrigger>
-      <DialogContent
-        aria-describedby={undefined}
-        className="sm:max-w-md max-h-[80vh] h-full w-full overflow-hidden flex flex-col items-start"
-      >
-        <DialogHeader>
-          <DialogTitle>Select a unit</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4 items-start flex-col flex flex-1 w-full h-full justify-start pb-4">
-          <SearchInput
-            value={searchTerm}
-            onChange={updateSearchTerm}
-            placeholder="Search..."
-          />
-          <ScrollArea className="flex flex-col w-full overflow-y-auto">
-            <UnitList units={filteredUnits} onUnitSelect={handleUnitSelect} />
-            {filteredUnits.length === 0 && (
-              <EmptyState searchTerm={searchTerm} />
-            )}
-          </ScrollArea>
-        </div>
-      </DialogContent>
-    </Dialog>
+      }
+      searchValue={searchTerm}
+      onSearchChange={updateSearchTerm}
+      searchPlaceholder="Search..."
+      filterComponent={
+        <UnitTypeFilterComponent
+          value={unitTypeFilter}
+          onValueChange={setUnitTypeFilter}
+        />
+      }
+      open={open}
+      onOpenChange={setOpen}
+      emptyState={
+        filteredUnits.length === 0 ? (
+          <EmptyState searchTerm={searchTerm} />
+        ) : null
+      }
+    >
+      <UnitList units={filteredUnits} onUnitSelect={handleUnitSelect} />
+    </SearchModal>
   )
 }
 
@@ -100,11 +96,11 @@ interface UnitListProps {
 
 function UnitList({ units, onUnitSelect }: UnitListProps) {
   return (
-    <>
+    <div className="space-y-2">
       {units.map(unitName => (
         <UnitItem key={unitName} unitName={unitName} onSelect={onUnitSelect} />
       ))}
-    </>
+    </div>
   )
 }
 
