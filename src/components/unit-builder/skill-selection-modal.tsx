@@ -36,15 +36,17 @@ export function SkillSelectionModal({
   const handleSkillSelect = (skill: AvailableSkill) => {
     onSkillSelect(skill)
     setOpen(false)
-    // Clear search when closing
+    // Clear search and filter when closing
     setSearchTerm('')
+    setSkillTypeFilter('all')
   }
 
   const handleModalClose = (isOpen: boolean) => {
     setOpen(isOpen)
-    // Clear search when modal is closed
+    // Clear search and filter when modal is closed
     if (!isOpen) {
       setSearchTerm('')
+      setSkillTypeFilter('all')
     }
   }
 

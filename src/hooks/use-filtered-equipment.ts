@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import type { EquipmentTypeFilter } from '@/components/equipment-builder/equipment-type-filter'
 import { EquipmentAccessory } from '@/generated/equipment-accessory'
 import { EquipmentAxe } from '@/generated/equipment-axe'
 import { EquipmentBow } from '@/generated/equipment-bow'
@@ -25,12 +26,14 @@ const equipmentMap = {
 export const useFilteredEquipment = (
   slotType: EquipmentSlotType,
   unitClass: AllClassType | 'All',
-  searchTerm: string
+  searchTerm: string,
+  equipmentTypeFilter: EquipmentTypeFilter = 'all'
 ) => {
   return useMemo(() => {
     const items = equipmentMap[slotType] || []
 
     return items.filter(item => {
+      // Check search term filter
       if (
         searchTerm &&
         !item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,17 +41,32 @@ export const useFilteredEquipment = (
         return false
       }
 
+      // Check class restrictions filter
       if (item.classRestrictions.length > 0) {
-        if (unitClass === 'All') {
-          return true
+        if (unitClass !== 'All') {
+          const isAllowed = (
+            item.classRestrictions as readonly AllClassType[]
+          ).includes(unitClass)
+          if (!isAllowed) {
+            return false
+          }
         }
+        // If unitClass === 'All', allow items with any class restrictions
+      }
 
-        return (item.classRestrictions as readonly AllClassType[]).includes(
-          unitClass
-        )
+      // Apply equipment type filter
+      if (equipmentTypeFilter === 'skill') {
+        return item.skillId !== null
+      }
+
+      if (equipmentTypeFilter === 'appp') {
+        const stats = item.stats as Record<string, unknown>
+        const hasAP = typeof stats.AP === 'number' && stats.AP !== 0
+        const hasPP = typeof stats.PP === 'number' && stats.PP !== 0
+        return hasAP || hasPP
       }
 
       return true
     })
-  }, [slotType, unitClass, searchTerm])
+  }, [slotType, unitClass, searchTerm, equipmentTypeFilter])
 }

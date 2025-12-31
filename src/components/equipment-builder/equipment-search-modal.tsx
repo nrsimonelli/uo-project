@@ -64,6 +64,14 @@ export function EquipmentSearchModal({
     closeModal()
   }
 
+  const handleModalClose = (isOpen: boolean) => {
+    setOpen(isOpen)
+    if (!isOpen) {
+      updateSearchTerm('')
+      setEquipmentTypeFilter('all')
+    }
+  }
+
   return (
     <SearchModal
       title={`Select ${slotType}`}
@@ -80,7 +88,7 @@ export function EquipmentSearchModal({
         />
       }
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleModalClose}
       emptyState={
         filteredItems.length === 0 ? (
           <EmptyState slotType={slotType} searchTerm={searchTerm} />

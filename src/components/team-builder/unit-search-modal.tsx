@@ -53,6 +53,14 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
     closeModal()
   }
 
+  const handleModalClose = (isOpen: boolean) => {
+    setOpen(isOpen)
+    if (!isOpen) {
+      updateSearchTerm('')
+      setUnitTypeFilter('all')
+    }
+  }
+
   const isTeamEmpty = !team.formation.some(unit => unit !== null)
 
   return (
@@ -77,7 +85,7 @@ export function UnitSearchModal({ team, onUnitAdded }: UnitSearchModalProps) {
         />
       }
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleModalClose}
       emptyState={
         filteredUnits.length === 0 ? (
           <EmptyState searchTerm={searchTerm} />
