@@ -4,6 +4,10 @@ import {
   FILTER_EVALUATORS,
   SORT_EVALUATORS,
   COMPARE_EVALUATORS,
+  type SortEvaluator,
+  type SortEvaluatorWithKey,
+  type CompareEvaluator,
+  type CompareEvaluatorWithKey,
 } from '../evaluation/tactical-evaluators'
 
 import { getDefaultTargets } from './skill-targeting'
@@ -408,7 +412,20 @@ export const testSortCondition = (
     throw new Error(`conditionKey is required for sort evaluator: ${valueType}`)
   }
 
-  return evaluator(targets, metadata, context)
+  // When conditionKey is required and present, cast to ConditionMetadataWithKey
+  if (needsKey && metadata.conditionKey) {
+    const extendedMetadata: ConditionMetadataWithKey = {
+      ...metadata,
+      conditionKey: metadata.conditionKey,
+    }
+    return (evaluator as SortEvaluatorWithKey)(
+      targets,
+      extendedMetadata,
+      context
+    )
+  }
+
+  return (evaluator as SortEvaluator)(targets, metadata, context)
 }
 
 export const testCompareCondition = (
@@ -429,5 +446,19 @@ export const testCompareCondition = (
     )
   }
 
-  return evaluator(a, b, metadata, context)
+  // When conditionKey is required and present, cast to ConditionMetadataWithKey
+  if (needsKey && metadata.conditionKey) {
+    const extendedMetadata: ConditionMetadataWithKey = {
+      ...metadata,
+      conditionKey: metadata.conditionKey,
+    }
+    return (evaluator as CompareEvaluatorWithKey)(
+      a,
+      b,
+      extendedMetadata,
+      context
+    )
+  }
+
+  return (evaluator as CompareEvaluator)(a, b, metadata, context)
 }

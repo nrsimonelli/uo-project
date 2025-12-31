@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 import { BattleEventCard } from '@/components/battle/battle-event-card'
 import { BattleRosterDisplay } from '@/components/battle/battle-roster'
@@ -39,9 +39,6 @@ export function MockBattle() {
   // Simple animation state - just track if battle is complete
   const [showResults, setShowResults] = useState(false)
 
-  // Ref for scroll area
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
-
   // Filter out empty teams (teams with no units)
   const nonEmptyTeams = Object.values(teams).filter(team =>
     team.formation.some(unit => unit !== null)
@@ -54,7 +51,11 @@ export function MockBattle() {
     team => team.id !== selectedAllyTeam?.id
   )
 
-  const handleAllyTeamSelect = (teamId: string) => {
+  const handleAllyTeamSelect = (teamId: string | null) => {
+    if (!teamId) {
+      setSelectedAllyTeam(null)
+      return
+    }
     const team = teams[teamId]
     if (team && !hasInvalidSkills(team)) {
       setSelectedAllyTeam(team)
@@ -62,7 +63,11 @@ export function MockBattle() {
     // Don't select teams with invalid skills
   }
 
-  const handleEnemyTeamSelect = (teamId: string) => {
+  const handleEnemyTeamSelect = (teamId: string | null) => {
+    if (!teamId) {
+      setSelectedEnemyTeam(null)
+      return
+    }
     const team = teams[teamId]
     if (team && !hasInvalidSkills(team)) {
       setSelectedEnemyTeam(team)
@@ -140,7 +145,7 @@ export function MockBattle() {
                     onValueChange={handleAllyTeamSelect}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a team..." />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {availableAllyTeams.map(team => {
@@ -189,7 +194,7 @@ export function MockBattle() {
                     onValueChange={handleEnemyTeamSelect}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a team..." />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {availableEnemyTeams.map(team => {
@@ -342,7 +347,7 @@ export function MockBattle() {
             </CardHeader>
             <CardContent>
               {battleEvents.length > 0 ? (
-                <ScrollArea className="h-[500px] w-full" ref={scrollAreaRef}>
+                <ScrollArea className="h-[500px] w-full">
                   <div className="space-y-3">
                     {battleEvents.map(event => (
                       <BattleEventCard
