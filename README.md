@@ -1,6 +1,6 @@
-# UO Project
+# Salt Stone Project
 
-UO Project is a web-based **auto-battler tournament system** inspired by _Unicorn Overlord_.  
+Salt Stone is a web-based **auto-battler tournament system** inspired by _Unicorn Overlord_.  
 It combines tactical depth, automated battles, and community-driven events into one platform.
 
 ## 🚀 Getting Started
@@ -8,7 +8,7 @@ It combines tactical depth, automated battles, and community-driven events into 
 ### Prerequisites
 
 - **Node.js** (v18 or higher)
-- **npm** or **yarn**
+- **npm** or **yarn** or **pnpm**
 
 ### Installation
 
@@ -16,19 +16,19 @@ It combines tactical depth, automated battles, and community-driven events into 
 
    ```bash
    git clone <repository-url>
-   cd uo-project
+   cd salt-stone
    ```
 
 2. **Install dependencies**
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Generate types from data files**
 
    ```bash
-   npm run gen:types
+   pnpm run gen:types
    ```
 
    This generates TypeScript types from JSON data files for skills, equipment, and other game content.
@@ -36,21 +36,21 @@ It combines tactical depth, automated battles, and community-driven events into 
 4. **Start the development server**
 
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
    The application will be available at `http://localhost:5173`
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run lint` - Run ESLint to check code quality
-- `npm run lint:fix` - Fix ESLint issues automatically (including import ordering)
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check if code is properly formatted
-- `npm run gen:types` - Generate TypeScript types from JSON data
+- `pnpm run dev` - Start development server with hot reload
+- `pnpm run build` - Build for production
+- `pnpm run preview` - Preview production build locally
+- `pnpm run lint` - Run ESLint to check code quality
+- `pnpm run lint:fix` - Fix ESLint issues automatically (including import ordering)
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check if code is properly formatted
+- `pnpm run gen:types` - Generate TypeScript types from JSON data
 
 ### Tech Stack
 
@@ -92,7 +92,7 @@ It combines tactical depth, automated battles, and community-driven events into 
 
 ## 📁 Project Structure
 
-```
+```txt
 src/
 ├── assets/          # Static resources (sprites, images)
 ├── components/      # React components
@@ -249,16 +249,16 @@ For the best development experience, the project includes VS Code settings that:
 
 ```bash
 # Check for issues
-npm run lint
+pnpm run lint
 
 # Fix issues automatically
-npm run lint:fix
+pnpm run lint:fix
 
 # Format all code
-npm run format
+pnpm run format
 
 # Verify everything is clean
-npm run lint && npm run format:check
+pnpm run lint && pnpm run format:check
 ```
 
 ---

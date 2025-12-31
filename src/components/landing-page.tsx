@@ -18,12 +18,12 @@ export function LandingPage() {
       <section className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-            Welcome to the{' '}
-            <span className="text-primary">Unicorn Overlord</span> Project
+            Welcome to the <span className="text-primary">Salt Stone</span>{' '}
+            Project
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            Enjoy comprehensive tools to help you build, manage, and test your
-            teams against one another in battle.
+            An advanced mock battle simulator for the game{' '}
+            <span className="text-primary">Unicorn Overlord</span>.
           </p>
           <div className="flex items-center justify-center mt-10 gap-x-6">
             <Button size="lg" asChild>
@@ -88,7 +88,7 @@ export function LandingPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" asChild>
                   <Link to="/equipment">Unit Data</Link>
                 </Button>
               </CardContent>
@@ -103,7 +103,7 @@ export function LandingPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" asChild>
                   <Link to="/mock-battle">Battle</Link>
                 </Button>
               </CardContent>
