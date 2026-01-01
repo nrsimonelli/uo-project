@@ -106,7 +106,7 @@ export function TeamBuilder() {
         />
 
         <Card>
-          <div className="px-6">
+          <div className="px-4">
             <div className="flex flex-row justify-between gap-8">
               <div className="flex flex-col space-y-4 flex-1">
                 <EditableTeamName

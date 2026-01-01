@@ -104,7 +104,7 @@ export function SkillTacticsSection({
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="border rounded-sm overflow-hidden">
+          <div className="border overflow-hidden mb-0">
             <div className="grid grid-cols-[auto_1fr_1fr_1fr] bg-muted/50 border-b text-sm font-medium">
               <div className="p-3 border-r w-12 shrink-0"></div>
               <div className="p-3">Skill</div>

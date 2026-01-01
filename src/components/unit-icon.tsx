@@ -19,7 +19,7 @@ export function UnitIcon({ classKey }: UnitIconProps) {
       <Tooltip>
         {/* Movement Type - First */}
         <TooltipTrigger asChild>
-          <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
+          <div className="flex items-center justify-center w-6 h-6 rounded border cursor-help">
             {(() => {
               const MovementIcon = getIcon('movement', classData.movementType)
               return MovementIcon ? <MovementIcon className="w-4 h-4" /> : null
@@ -34,7 +34,7 @@ export function UnitIcon({ classKey }: UnitIconProps) {
       {classData.trait && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
+            <div className="flex items-center justify-center w-6 h-6 rounded border cursor-help">
               {(() => {
                 const TraitIcon = getIcon('trait', classData.trait)
                 return TraitIcon ? <TraitIcon className="w-4 h-4" /> : null
@@ -50,7 +50,7 @@ export function UnitIcon({ classKey }: UnitIconProps) {
       {classData.race && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex items-center justify-center w-6 h-6 rounded bg-muted cursor-help">
+            <div className="flex items-center justify-center w-6 h-6 rounded border cursor-help">
               {(() => {
                 const RaceIcon = getIcon('race', classData.race)
                 return RaceIcon ? <RaceIcon className="w-4 h-4" /> : null
