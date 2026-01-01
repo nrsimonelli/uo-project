@@ -33,9 +33,9 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
 
   return (
     <div className="flex items-center gap-2 py-1 px-2 rounded transition-colors duration-200">
-      <StatIcon iconKey={data.stat} className="h-4 w-4  flex-shrink-0" />
+      <StatIcon iconKey={data.stat} className="h-4 w-4  shrink-0" />
 
-      <div className="w-16 text-xs flex-shrink-0 transition-colors duration-200">
+      <div className="w-16 text-xs shrink-0 transition-colors duration-200">
         {STATS[data.stat as StatKey] || data.stat}
       </div>
 
@@ -44,7 +44,7 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
             Tailwind cannot generate classes for dynamic runtime values, and CSS variables would still require
             inline style setting. transformOrigin uses 'left center' which Tailwind doesn't support directly. */}
         <div
-          className="h-full bg-gradient-to-r from-chart-4 to-chart-5 rounded-full transition-all duration-300 ease-out"
+          className="h-full bg-linear-to-r from-chart-4 to-chart-5 rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${animatedPercentage}%`,
             transformOrigin: 'left center',
@@ -52,11 +52,11 @@ export function AnimatedStatBar({ data }: { data: ChartDatum }) {
         />
       </div>
 
-      <div className="w-8 text-xs font-mono font-semibold text-right flex-shrink-0 transition-colors duration-300">
+      <div className="w-8 text-xs font-mono font-semibold text-right shrink-0 transition-colors duration-300">
         {Math.round(animatedValue)}
       </div>
 
-      <div className="w-4 flex-shrink-0 leading-none text-lg">
+      <div className="w-4 shrink-0 leading-none text-lg">
         <span
           className={cn(
             'font-bold transition-colors duration-300',

@@ -126,7 +126,7 @@ export function UnitDataTable() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden border rounded-lg">
+      <div className="overflow-hidden border rounded-sm">
         <Table>
           <TableHeader>
             <TableRow>

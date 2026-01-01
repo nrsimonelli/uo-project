@@ -16,7 +16,7 @@ export function TopNav() {
 
   return (
     <div className="fixed top-0 w-full -translate-x-1/2 z-20 flex left-1/2 justify-center overscroll-contain pt-4 px-4">
-      <NavigationMenu className="px-8 py-4 backdrop-blur-sm bg-transparent bg-linear-to-br from-background/75 to-card/90 flex justify-between max-w-6xl rounded-xl border">
+      <NavigationMenu className="px-8 py-4 backdrop-blur-sm bg-transparent bg-linear-to-br from-background/75 to-card/90 flex justify-between max-w-6xl rounded-sm border">
         <div className="inline-flex space-x-1 items-center">
           <Stone className="h-8 w-8" />
           <p className="sm:block hidden">Salt Stone</p>

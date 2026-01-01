@@ -106,7 +106,7 @@ export function SkillTacticsRow({
         !isValid && 'bg-destructive/10 dark:bg-destructive/20'
       )}
     >
-      <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
+      <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 shrink-0">
         <button
           {...attributes}
           {...listeners}

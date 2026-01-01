@@ -237,14 +237,14 @@ export function MockBattle() {
 
             {/* Error Display */}
             {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md text-destructive text-sm">
+              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-sm text-destructive text-sm">
                 <strong>Battle Error:</strong> {error}
               </div>
             )}
 
             {/* Invalid Skills Warning */}
             {(allyTeamHasInvalidSkills || enemyTeamHasInvalidSkills) && (
-              <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-md text-yellow-600 dark:text-yellow-400 text-sm">
+              <div className="p-3 bg-warning/10 border border-warning/20 rounded-sm text-sm">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4" />
                   <div>

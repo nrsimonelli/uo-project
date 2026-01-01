@@ -93,9 +93,9 @@ export function EquipmentInventoryCard({
   }
 
   return (
-    <div className="flex items-center gap-4 p-3 transition-colors border rounded-lg hover:bg-accent/50">
+    <div className="flex items-center gap-4 p-3 transition-colors border rounded-sm hover:bg-accent/50">
       {/* Left: Icon */}
-      <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 rounded bg-muted">
+      <div className="flex items-center justify-center shrink-0 w-10 h-10 rounded bg-muted">
         <Icon className="w-6 h-6" />
       </div>
 
