@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { Badge } from '@/components/ui/badge'
 import type { EquipmentSlotType } from '@/types/equipment'
 
@@ -16,7 +18,7 @@ const BADGE_COLOR_MAP = {
   Shield: 'outline',
 } as const
 
-export function EquipmentBadges({ equipment }: EquipmentBadgesProps) {
+function EquipmentBadgesComponent({ equipment }: EquipmentBadgesProps) {
   const nonAccessorySlots = equipment.filter(slot => slot !== 'Accessory')
   // filter out doubles
   const uniqueNonAccessorySlots = nonAccessorySlots.filter(
@@ -37,3 +39,5 @@ export function EquipmentBadges({ equipment }: EquipmentBadgesProps) {
     </div>
   )
 }
+
+export const EquipmentBadges = memo(EquipmentBadgesComponent)

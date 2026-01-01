@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +13,7 @@ interface UnitIconProps {
   classKey: AllClassType
 }
 
-export function UnitIcon({ classKey }: UnitIconProps) {
+function UnitIconComponent({ classKey }: UnitIconProps) {
   const classData = CLASS_DATA[classKey]
 
   return (
@@ -65,3 +67,5 @@ export function UnitIcon({ classKey }: UnitIconProps) {
     </div>
   )
 }
+
+export const UnitIcon = memo(UnitIconComponent)
