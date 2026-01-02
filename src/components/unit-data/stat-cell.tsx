@@ -47,11 +47,10 @@ export const StatCell = memo(
 
     const tooltipContent = useMemo(() => {
       if (!isNighttime) return null
-      if (!isBestralStat) return 'No bonus'
       return `+${Math.round(
-        (isAcc ? Number(baseValue) - 100 : Number(baseValue)) * (1 / 6)
+        (isAcc ? Number(baseValue) - 100 : Number(baseValue)) * (1 / 5)
       )}`
-    }, [baseValue, isAcc, isBestralStat, isNighttime])
+    }, [baseValue, isAcc, isNighttime])
 
     const cellClassName = useMemo(
       () =>
