@@ -22,7 +22,7 @@ export function LandingPage() {
             Project
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            An advanced mock battle simulator for the game{' '}
+            An advanced team builder and mock battle simulator for the game{' '}
             <span className="text-primary">Unicorn Overlord</span>.
           </p>
           <div className="flex items-center justify-center mt-10 gap-x-6">

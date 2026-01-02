@@ -2,11 +2,11 @@ import {
   Sword,
   Axe,
   Slice,
-  Crosshair,
   Wand2,
   ShieldPlus,
-  ShieldMinus,
+  Shield,
   Torus,
+  BowArrow,
 } from 'lucide-react'
 
 import { type EquipmentSlotType } from '@/types/equipment'
@@ -16,10 +16,10 @@ const EQUIPMENT_ICONS = {
   Sword,
   Axe,
   Lance: Slice,
-  Bow: Crosshair,
+  Bow: BowArrow,
   Staff: Wand2,
-  Shield: ShieldPlus,
-  Greatshield: ShieldMinus,
+  Shield: Shield,
+  Greatshield: ShieldPlus,
   Accessory: Torus,
 } as const
 
