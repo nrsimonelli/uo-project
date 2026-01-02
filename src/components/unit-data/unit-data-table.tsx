@@ -1,12 +1,10 @@
 import { Search, X } from 'lucide-react'
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
-
-import { EquipmentBadges } from './equipment-badges'
 import { FilterPopover } from './filter-popover'
 import { NightBoostToggle } from './night-boost-toggle'
 import { SettingsPopover } from './settings-popover'
 import { SortableHeaderButton } from './sortable-header-button'
+import { TableRowData } from './table-row-data'
 
 import { SearchInput } from '@/components/search-input'
 import { Button } from '@/components/ui/button'
@@ -18,20 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { UnitIcon } from '@/components/unit-icon'
 import { useUnitDataTable, type SortField } from '@/hooks/use-unit-data-table'
-import { cn } from '@/lib/utils'
-import type { ClassTableRow } from '@/utils/class-data-processor'
 
 export function UnitDataTable() {
   const {
     // State
     searchTerm,
-    selectedEquipment,
-    selectedRaces,
-    selectedTraits,
-    selectedMovement,
-    selectedClassTypes,
     sortField,
     sortDirection,
     selectedLevel,
@@ -42,11 +32,8 @@ export function UnitDataTable() {
     // Computed values
     filteredStatKeys,
     sortedData,
-    equipmentSlots,
-    races,
-    traits,
-    movementTypes,
     totalActiveFilters,
+    filterConfig,
 
     // Setters
     setSearchTerm,
@@ -56,11 +43,6 @@ export function UnitDataTable() {
 
     // Handlers
     handleSort,
-    toggleEquipmentFilter,
-    toggleRaceFilter,
-    toggleTraitFilter,
-    toggleMovementFilter,
-    toggleClassTypeFilter,
     clearFilters,
   } = useUnitDataTable()
 
@@ -81,20 +63,7 @@ export function UnitDataTable() {
           {/* Filter Controls */}
           <div className="flex items-center gap-2">
             <FilterPopover
-              equipmentSlots={equipmentSlots}
-              races={races}
-              traits={traits}
-              movementTypes={movementTypes}
-              selectedEquipment={selectedEquipment}
-              selectedRaces={selectedRaces}
-              selectedTraits={selectedTraits}
-              selectedMovement={selectedMovement}
-              selectedClassTypes={selectedClassTypes}
-              onToggleEquipment={toggleEquipmentFilter}
-              onToggleRace={toggleRaceFilter}
-              onToggleTrait={toggleTraitFilter}
-              onToggleMovement={toggleMovementFilter}
-              onToggleClassType={toggleClassTypeFilter}
+              filters={filterConfig}
               totalActiveFilters={totalActiveFilters}
             />
 
@@ -194,42 +163,12 @@ export function UnitDataTable() {
               </TableRow>
             ) : (
               sortedData.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell className="font-medium">{row.id}</TableCell>
-                  <TableCell>
-                    <EquipmentBadges equipment={row.equipment} />
-                  </TableCell>
-                  <TableCell>
-                    <UnitIcon classKey={row.id} />
-                  </TableCell>
-                  {filteredStatKeys.map(statKey => {
-                    const value = row[statKey as keyof ClassTableRow]
-                    const isAcc = statKey === 'ACC'
-                    const isBestralStat =
-                      row.race === 'Bestral' && statKey !== 'HP'
-
-                    return (
-                      <TableCell
-                        key={`${row.id}-${statKey}`}
-                        className={cn(
-                          'text-foreground',
-                          isBestralStat && isNighttime && 'text-primary'
-                        )}
-                      >
-                        {isNighttime ? (
-                          <Tooltip>
-                            <TooltipTrigger>{value}</TooltipTrigger>
-                            <TooltipContent>
-                              {`+${Math.round((isAcc ? Number(value) - 100 : Number(value)) * (1 / 6))}`}
-                            </TooltipContent>
-                          </Tooltip>
-                        ) : (
-                          value
-                        )}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
+                <TableRowData
+                  key={row.id}
+                  row={row}
+                  filteredStatKeys={filteredStatKeys}
+                  isNighttime={isNighttime}
+                />
               ))
             )}
           </TableBody>
