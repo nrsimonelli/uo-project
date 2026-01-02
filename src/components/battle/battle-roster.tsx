@@ -209,23 +209,36 @@ interface TugOfWarProgressProps {
   }>
 }
 
-function TugOfWarProgress({ defendingTeam, attackingTeam }: TugOfWarProgressProps) {
+function TugOfWarProgress({
+  defendingTeam,
+  attackingTeam,
+}: TugOfWarProgressProps) {
   const [animatedProgress, setAnimatedProgress] = useState(50)
   const [animatedHomeHP, setAnimatedHomeHP] = useState(100)
   const [animatedAwayHP, setAnimatedAwayHP] = useState(100)
 
   // Calculate team HP percentages
-  const defendingCurrentHP = defendingTeam.reduce((sum, u) => sum + u.currentHP, 0)
+  const defendingCurrentHP = defendingTeam.reduce(
+    (sum, u) => sum + u.currentHP,
+    0
+  )
   const defendingMaxHP = defendingTeam.reduce((sum, u) => sum + u.maxHP, 0)
-  const defendingHpPercentage = defendingMaxHP > 0 ? (defendingCurrentHP / defendingMaxHP) * 100 : 0
+  const defendingHpPercentage =
+    defendingMaxHP > 0 ? (defendingCurrentHP / defendingMaxHP) * 100 : 0
 
-  const attackingCurrentHP = attackingTeam.reduce((sum, u) => sum + u.currentHP, 0)
+  const attackingCurrentHP = attackingTeam.reduce(
+    (sum, u) => sum + u.currentHP,
+    0
+  )
   const attackingMaxHP = attackingTeam.reduce((sum, u) => sum + u.maxHP, 0)
-  const attackingHpPercentage = attackingMaxHP > 0 ? (attackingCurrentHP / attackingMaxHP) * 100 : 0
+  const attackingHpPercentage =
+    attackingMaxHP > 0 ? (attackingCurrentHP / attackingMaxHP) * 100 : 0
 
   const totalHpPercentage = defendingHpPercentage + attackingHpPercentage
   const defendingShare =
-    totalHpPercentage > 0 ? (defendingHpPercentage / totalHpPercentage) * 100 : 50
+    totalHpPercentage > 0
+      ? (defendingHpPercentage / totalHpPercentage) * 100
+      : 50
 
   // Animate progress bar and HP percentages to final results
   useEffect(() => {
@@ -257,9 +270,11 @@ function TugOfWarProgress({ defendingTeam, attackingTeam }: TugOfWarProgressProp
 
         // Animate HP percentages (counting down from 100%)
         const currentDefendingHP =
-          defendingHPStartValue + (defendingHPEndValue - defendingHPStartValue) * easeInOut
+          defendingHPStartValue +
+          (defendingHPEndValue - defendingHPStartValue) * easeInOut
         const currentAttackingHP =
-          attackingHPStartValue + (attackingHPEndValue - attackingHPStartValue) * easeInOut
+          attackingHPStartValue +
+          (attackingHPEndValue - attackingHPStartValue) * easeInOut
         setAnimatedHomeHP(currentDefendingHP)
         setAnimatedAwayHP(currentAttackingHP)
 
@@ -279,11 +294,15 @@ function TugOfWarProgress({ defendingTeam, attackingTeam }: TugOfWarProgressProp
       {/* HP percentages with labels - animated */}
       <div className="flex justify-between items-center">
         <div className="text-center">
-          <div className="text-sm font-medium text-defending-team">Defending</div>
+          <div className="text-sm font-medium text-defending-team">
+            Defending
+          </div>
           <div className="text-lg font-bold">{animatedHomeHP.toFixed(0)}%</div>
         </div>
         <div className="text-center">
-          <div className="text-sm font-medium text-attacking-team">Attacking</div>
+          <div className="text-sm font-medium text-attacking-team">
+            Attacking
+          </div>
           <div className="text-lg font-bold">{animatedAwayHP.toFixed(0)}%</div>
         </div>
       </div>
@@ -308,7 +327,10 @@ export function BattleRosterDisplay({ teamRosters }: BattleRosterDisplayProps) {
 
   return (
     <div className="space-y-4">
-      <TugOfWarProgress defendingTeam={defendingTeam} attackingTeam={attackingTeam} />
+      <TugOfWarProgress
+        defendingTeam={defendingTeam}
+        attackingTeam={attackingTeam}
+      />
 
       <div className="grid grid-cols-2 gap-8">
         <TeamFormation units={defendingTeam} isAway={false} />
