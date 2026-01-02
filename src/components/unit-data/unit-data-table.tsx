@@ -110,24 +110,10 @@ export function UnitDataTable() {
                 </SortableHeaderButton>
               </TableHead>
               <TableHead>
-                <SortableHeaderButton
-                  field="equipment"
-                  currentSortField={sortField}
-                  sortDirection={sortDirection}
-                  onSort={handleSort}
-                >
-                  Equipment
-                </SortableHeaderButton>
+                <span>Equipment</span>
               </TableHead>
               <TableHead>
-                <SortableHeaderButton
-                  field="movementType"
-                  currentSortField={sortField}
-                  sortDirection={sortDirection}
-                  onSort={handleSort}
-                >
-                  Traits
-                </SortableHeaderButton>
+                <span>Traits</span>
               </TableHead>
               {filteredStatKeys.map(key => (
                 <TableHead key={key}>

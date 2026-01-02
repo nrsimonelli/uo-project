@@ -106,8 +106,8 @@ export function useUnitDataTable() {
   ])
 
   const sortedData = useMemo(
-    () => sortTableData(filteredData, sortField, sortDirection),
-    [filteredData, sortField, sortDirection]
+    () => sortTableData(filteredData, sortField, sortDirection, isNighttime),
+    [filteredData, sortField, sortDirection, isNighttime]
   )
 
   const totalActiveFilters =
