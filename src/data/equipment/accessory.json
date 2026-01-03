@@ -125,7 +125,27 @@
     },
     "skillId": "mightyShield",
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": [
+      "Sainted Knight",
+      "Radiant Knight",
+      "Cleric",
+      "Bishop",
+      "Wizard",
+      "Warlock",
+      "Witch",
+      "Sorceress",
+      "Shaman",
+      "Druid",
+      "Elven Fencer",
+      "Elven Archer",
+      "Wereowl",
+      "Featherstaff",
+      "Priestess",
+      "High Priestess",
+      "Elven Sibyl",
+      "Elven Augur",
+      "Dark Marquess (Staff)"
+    ]
   },
   {
     "id": "awakeningAmulet",
@@ -2385,5 +2405,17 @@
       "Elven Augur",
       "Dark Marquess (Staff)"
     ]
+  },
+  {
+    "id": "dirtyGamblersCoin",
+    "name": "Dirty Gambler's Coin",
+    "type": "Accessory",
+    "stats": {
+      "PDEF": 1,
+      "MDEF": 1
+    },
+    "skillId": "wideInspiration",
+    "nullifications": [],
+    "classRestrictions": []
   }
 ]

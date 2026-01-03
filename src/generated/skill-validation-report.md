@@ -1,21 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2026-01-03T20:26:20.236Z_
+_Generated: 2026-01-03T21:00:11.818Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 189
-- **Total Skills Referenced**: 407
+- **Equipment Skills Referenced**: 190
+- **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 158
-- **Total Skills Defined**: 357
+- **Passive Skills Defined**: 166
+- **Total Skills Defined**: 365
 - **Activation Windows Referenced**: 36
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **50 missing skills:**
+❌ **43 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -27,11 +27,8 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `counter`
 - `cursedImpetus`
 - `dawnHorn`
-- `diurnalImpetus`
-- `dynamicGlide`
 - `fireCure`
 - `freezeCure`
-- `grantEvade`
 - `graveImpetus`
 - `guardCure`
 - `guardingFighter`
@@ -42,14 +39,10 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `impetusStance`
 - `inspiration`
 - `magicConversion`
-- `mightyShield`
 - `mirrorWeakness`
 - `nimbleFighter`
-- `nocturnalImpetus`
 - `partyAid`
 - `passiveCure`
-- `passiveGift`
-- `phantomStep`
 - `poisonCure`
 - `powerfulCall`
 - `provokingCrush`
@@ -334,7 +327,7 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (189)
+### From Equipment Data (190)
 
 - `activeHeal`
 - `activeShatter`
@@ -522,6 +515,7 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `vengefulImpetus`
 - `wall`
 - `warCry`
+- `wideInspiration`
 - `widePursuit`
 - `wingRest`
 - `wolfPack`
@@ -728,7 +722,7 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (158)
+### Passive Skills Defined (166)
 
 - `accelerate`
 - `activeGift`
@@ -762,8 +756,10 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `demonicPact`
 - `discharge`
 - `diurnalGuard`
+- `diurnalImpetus`
 - `divineBlessing`
 - `dragonsRoar`
+- `dynamicGlide`
 - `eagleEye`
 - `elementalImpetus`
 - `enduringCover`
@@ -780,6 +776,7 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `focusSight`
 - `followingSlash`
 - `frenziedStrike`
+- `grantEvade`
 - `groundCounter`
 - `gryphonGlide`
 - `guardHunter`
@@ -818,9 +815,11 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `magicShell`
 - `maidensHammer`
 - `medicalAid`
+- `mightyShield`
 - `nobleGuard`
 - `nocturnalEvade`
 - `nocturnalGuard`
+- `nocturnalImpetus`
 - `nocturnalRest`
 - `nocturnalStrike`
 - `ominousWall`
@@ -829,9 +828,11 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `partingBlow`
 - `partingDeath`
 - `partingResurrection`
+- `passiveGift`
 - `passiveMiracle`
 - `phalanxShift`
 - `phantomCounter`
+- `phantomStep`
 - `poisonBurst`
 - `preemptiveHeal`
 - `protection`
@@ -886,6 +887,7 @@ _Generated: 2026-01-03T20:26:20.236Z_
 - `warHorn`
 - `weaknessHunter`
 - `wideCounter`
+- `wideInspiration`
 - `wildKick`
 - `wingRest`
 

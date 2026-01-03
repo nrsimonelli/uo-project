@@ -381,7 +381,7 @@ export const PassiveSkills = [
         kind: 'Buff',
         stat: 'CritDmg',
         value: 50,
-        scaling: 'percent',
+        scaling: 'flat',
         applyTo: 'User',
       },
     ],
@@ -4597,6 +4597,235 @@ export const PassiveSkills = [
         afflictions: [
           {
             affliction: 'Burn',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'dynamicGlide',
+    type: 'passive',
+    name: 'Dynamic Glide',
+    description:
+      'Activates before being attacked. Evade a single hit. Grants the user +20% Phys. Attack.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingAttacked',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        evadeType: 'singleHit',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'phantomStep',
+    type: 'passive',
+    name: 'Phantom Step',
+    description:
+      'Activates before being attacked. Evade the next attack received.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingAttacked',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        evadeType: 'entireAttack',
+        applyTo: 'User',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'mightyShield',
+    type: 'passive',
+    name: 'Mighty Shield',
+    description:
+      'Activates before an ally is attacked. Negate the next damage dealt to an ally.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'DamageImmunity',
+        immunityType: 'entireAttack',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'grantEvade',
+    type: 'passive',
+    name: 'Grant Evade',
+    description:
+      'Activates before an ally is attacked. Allow an ally to Evade one hit.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Evade',
+        evadeType: 'singleHit',
+        applyTo: 'Target',
+        duration: 'UntilAttacked',
+      },
+    ],
+  },
+  {
+    id: 'wideInspiration',
+    type: 'passive',
+    name: 'Wide Inspiration',
+    description:
+      'Activates before an ally attacks with an Active skill. Buff a row of allies for their next attack. Grants +30% Attack, +50% Critical Damage, and  -50 Accuracy.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacked',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Row',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'Attack',
+        value: 30,
+        scaling: 'percent',
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
+      },
+      {
+        kind: 'Buff',
+        stat: 'CritDmg',
+        value: 50,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
+      },
+      {
+        kind: 'Buff',
+        stat: 'ACC',
+        value: -50,
+        scaling: 'flat',
+        applyTo: 'Target',
+        duration: 'UntilNextAttack',
+      },
+    ],
+  },
+  {
+    id: 'passiveGift',
+    type: 'passive',
+    name: 'Passive Gift',
+    description:
+      'Activates after an ally uses a passive skill. grant an ally +1 PP.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyPassiveSkill',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'PP',
+        amount: 1,
+        applyTo: 'Target',
+      },
+    ],
+  },
+  {
+    id: 'nocturnalImpetus',
+    type: 'passive',
+    name: 'Nocturnal Impetus',
+    description:
+      'Activates after using an active skill. Grants the user +20% Mag. Attack. Grants the user +1 AP at night.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'diurnalImpetus',
+    type: 'passive',
+    name: 'Diurnal Impetus',
+    description:
+      'Activates after using an active skill. Grants the user +20% Mag. Attack. Grants the user +1 AP during the day.',
+    pp: 2,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'IsNightCycle',
+            comparator: 'EqualTo',
+            value: false,
           },
         ],
       },
