@@ -10,39 +10,23 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+export interface FilterConfig {
+  id: string
+  title: string
+  items: string[]
+  selectedItems: string[]
+  onToggle: (item: string) => void
+  idPrefix: string
+  transformItems?: (items: string[]) => string[]
+}
+
 interface FilterPopoverProps {
-  equipmentSlots: string[]
-  races: string[]
-  traits: string[]
-  movementTypes: string[]
-  selectedEquipment: string[]
-  selectedRaces: string[]
-  selectedTraits: string[]
-  selectedMovement: string[]
-  selectedClassTypes: string[]
-  onToggleEquipment: (slot: string) => void
-  onToggleRace: (race: string) => void
-  onToggleTrait: (trait: string) => void
-  onToggleMovement: (movement: string) => void
-  onToggleClassType: (classType: string) => void
+  filters: FilterConfig[]
   totalActiveFilters: number
 }
 
 export function FilterPopover({
-  equipmentSlots,
-  races,
-  traits,
-  movementTypes,
-  selectedEquipment,
-  selectedRaces,
-  selectedTraits,
-  selectedMovement,
-  selectedClassTypes,
-  onToggleEquipment,
-  onToggleRace,
-  onToggleTrait,
-  onToggleMovement,
-  onToggleClassType,
+  filters,
   totalActiveFilters,
 }: FilterPopoverProps) {
   return (
@@ -63,45 +47,22 @@ export function FilterPopover({
           <div className="text-sm font-medium">Filter Options</div>
 
           <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 auto-cols-min">
-            <FilterCheckboxGroup
-              title="Equipment"
-              items={equipmentSlots.filter(slot => slot !== 'Accessory')}
-              selectedItems={selectedEquipment}
-              onToggle={onToggleEquipment}
-              idPrefix="equipment"
-            />
+            {filters.map(filter => {
+              const items = filter.transformItems
+                ? filter.transformItems(filter.items)
+                : filter.items
 
-            <FilterCheckboxGroup
-              title="Races"
-              items={races}
-              selectedItems={selectedRaces}
-              onToggle={onToggleRace}
-              idPrefix="race"
-            />
-
-            <FilterCheckboxGroup
-              title="Traits"
-              items={traits}
-              selectedItems={selectedTraits}
-              onToggle={onToggleTrait}
-              idPrefix="trait"
-            />
-
-            <FilterCheckboxGroup
-              title="Movement"
-              items={movementTypes}
-              selectedItems={selectedMovement}
-              onToggle={onToggleMovement}
-              idPrefix="movement"
-            />
-
-            <FilterCheckboxGroup
-              title="Class Type"
-              items={['Base', 'Advanced']}
-              selectedItems={selectedClassTypes}
-              onToggle={onToggleClassType}
-              idPrefix="classtype"
-            />
+              return (
+                <FilterCheckboxGroup
+                  key={filter.id}
+                  title={filter.title}
+                  items={items}
+                  selectedItems={filter.selectedItems}
+                  onToggle={filter.onToggle}
+                  idPrefix={filter.idPrefix}
+                />
+              )
+            })}
           </div>
 
           {totalActiveFilters > 0 && (

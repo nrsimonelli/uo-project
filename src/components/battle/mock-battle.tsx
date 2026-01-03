@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 import { BattleEventCard } from '@/components/battle/battle-event-card'
 import { BattleRosterDisplay } from '@/components/battle/battle-roster'
@@ -39,9 +39,6 @@ export function MockBattle() {
   // Simple animation state - just track if battle is complete
   const [showResults, setShowResults] = useState(false)
 
-  // Ref for scroll area
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
-
   // Filter out empty teams (teams with no units)
   const nonEmptyTeams = Object.values(teams).filter(team =>
     team.formation.some(unit => unit !== null)
@@ -54,7 +51,11 @@ export function MockBattle() {
     team => team.id !== selectedAllyTeam?.id
   )
 
-  const handleAllyTeamSelect = (teamId: string) => {
+  const handleAllyTeamSelect = (teamId: string | null) => {
+    if (!teamId) {
+      setSelectedAllyTeam(null)
+      return
+    }
     const team = teams[teamId]
     if (team && !hasInvalidSkills(team)) {
       setSelectedAllyTeam(team)
@@ -62,7 +63,11 @@ export function MockBattle() {
     // Don't select teams with invalid skills
   }
 
-  const handleEnemyTeamSelect = (teamId: string) => {
+  const handleEnemyTeamSelect = (teamId: string | null) => {
+    if (!teamId) {
+      setSelectedEnemyTeam(null)
+      return
+    }
     const team = teams[teamId]
     if (team && !hasInvalidSkills(team)) {
       setSelectedEnemyTeam(team)
@@ -85,6 +90,7 @@ export function MockBattle() {
 
   const handleStartBattle = () => {
     if (selectedAllyTeam && selectedEnemyTeam && canStartBattle) {
+      // Defending team (left) first, attacking team (right) second
       executeBattle(selectedAllyTeam, selectedEnemyTeam)
     }
   }
@@ -130,16 +136,16 @@ export function MockBattle() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Ally Team Selection */}
+              {/* Defending Team Selection */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Home Team</label>
+                  <label className="text-sm font-medium">Defending Team</label>
                   <Select
                     value={selectedAllyTeam?.id}
                     onValueChange={handleAllyTeamSelect}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a team..." />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {availableAllyTeams.map(team => {
@@ -179,16 +185,16 @@ export function MockBattle() {
                 )}
               </div>
 
-              {/* Enemy Team Selection */}
+              {/* Attacking Team Selection */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Away Team</label>
+                  <label className="text-sm font-medium">Attacking Team</label>
                   <Select
                     value={selectedEnemyTeam?.id}
                     onValueChange={handleEnemyTeamSelect}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a team..." />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {availableEnemyTeams.map(team => {
@@ -231,14 +237,14 @@ export function MockBattle() {
 
             {/* Error Display */}
             {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md text-destructive text-sm">
+              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-sm text-destructive text-sm">
                 <strong>Battle Error:</strong> {error}
               </div>
             )}
 
             {/* Invalid Skills Warning */}
             {(allyTeamHasInvalidSkills || enemyTeamHasInvalidSkills) && (
-              <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-md text-yellow-600 dark:text-yellow-400 text-sm">
+              <div className="p-3 bg-warning/10 border border-warning/20 rounded-sm text-sm">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4" />
                   <div>
@@ -298,20 +304,24 @@ export function MockBattle() {
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-lg font-semibold">Home Team HP</div>
-                      <div className="text-2xl font-bold text-home">
-                        {resultSummary.teamHpPercentages['home-team']?.toFixed(
-                          1
-                        ) || 0}
+                      <div className="text-lg font-semibold">
+                        Defending Team HP
+                      </div>
+                      <div className="text-2xl font-bold text-defending-team">
+                        {resultSummary.teamHpPercentages[
+                          'defending-team'
+                        ]?.toFixed(1) || 0}
                         %
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-lg font-semibold">Away Team HP</div>
-                      <div className="text-2xl font-bold text-away">
-                        {resultSummary.teamHpPercentages['away-team']?.toFixed(
-                          1
-                        ) || 0}
+                      <div className="text-lg font-semibold">
+                        Attacking Team HP
+                      </div>
+                      <div className="text-2xl font-bold text-attacking-team">
+                        {resultSummary.teamHpPercentages[
+                          'attacking-team'
+                        ]?.toFixed(1) || 0}
                         %
                       </div>
                     </div>
@@ -337,7 +347,7 @@ export function MockBattle() {
             </CardHeader>
             <CardContent>
               {battleEvents.length > 0 ? (
-                <ScrollArea className="h-[500px] w-full" ref={scrollAreaRef}>
+                <ScrollArea className="h-[500px] w-full">
                   <div className="space-y-3">
                     {battleEvents.map(event => (
                       <BattleEventCard
@@ -365,7 +375,7 @@ export function MockBattle() {
               ) : (
                 <div className="flex items-center justify-center h-32">
                   <p className="text-muted-foreground">
-                    Select both home and away teams to start a battle
+                    Select both defending and attacking teams to start a battle
                   </p>
                 </div>
               )}

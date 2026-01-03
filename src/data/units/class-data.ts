@@ -898,7 +898,7 @@ export const CLASS_DATA: Record<AllClassType, ClassDefinition> = {
     id: ALL_CLASSES.DARK_MARQUESS_STAFF,
     allowedSlots: ['Staff', 'Greatshield', 'Accessory', 'Accessory'],
     race: null,
-    trait: null,
+    trait: 'Caster',
     movementType: 'Infantry',
     skills: [
       { skillId: 'passiveCurse', level: 1, skillType: 'active' },

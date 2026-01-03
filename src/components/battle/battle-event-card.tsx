@@ -20,10 +20,10 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
 
   // Team-based card styling with enhanced differentiation
   const teamCardStyles = {
-    'home-team':
-      'border-home/30 bg-home/10 dark:border-home/60 dark:bg-home/15 border-l-4 border-l-home',
-    'away-team':
-      'border-away/30 bg-away/10 dark:border-away/60 dark:bg-away/15 border-r-4 border-r-away',
+    'defending-team':
+      'border-defending-team/30 bg-defending-team/10 dark:border-defending-team/60 dark:bg-defending-team/15 border-l-4 border-l-defending-team',
+    'attacking-team':
+      'border-attacking-team/30 bg-attacking-team/10 dark:border-attacking-team/60 dark:bg-attacking-team/15 border-r-4 border-r-attacking-team',
   }
   const currentCardStyle = team ? teamCardStyles[team] : ''
 
@@ -34,8 +34,8 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
     const descMatch = event.description.match(
       /Battle begins between (.+) and (.+)/
     )
-    const homeTeam = descMatch?.[1] || 'Home Team'
-    const awayTeam = descMatch?.[2] || 'Away Team'
+    const defendingTeam = descMatch?.[1] || 'Defending Team'
+    const attackingTeam = descMatch?.[2] || 'Attacking Team'
 
     return (
       <Card className="w-full ">
@@ -43,8 +43,8 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
           <div className="text-center space-y-2">
             <div className="text-lg font-bold text-primary">Battle Begins</div>
             <div className="text-xl font-semibold">
-              {homeTeam} <span className="text-muted-foreground">vs</span>{' '}
-              {awayTeam}
+              {defendingTeam} <span className="text-muted-foreground">vs</span>{' '}
+              {attackingTeam}
             </div>
           </div>
         </CardContent>
@@ -81,17 +81,17 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
                 <div className="font-semibold">
                   {winner === 'Draw' ? (
                     <Badge variant="outline">Draw</Badge>
-                  ) : winner === 'Home Team' ? (
+                  ) : winner === 'Defending Team' ? (
                     <Badge
                       variant="default"
-                      className="bg-home text-home-foreground"
+                      className="bg-defending-team text-defending-team-foreground"
                     >
                       {winner} Wins
                     </Badge>
                   ) : (
                     <Badge
                       variant="default"
-                      className="bg-away text-away-foreground"
+                      className="bg-attacking-team text-attacking-team-foreground"
                     >
                       {winner} Wins
                     </Badge>
@@ -134,13 +134,13 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
       <CardContent className="p-3">
         <div className="flex items-start gap-3">
           {/* Left side - Turn badge and unit sprite */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <Badge
               variant={
-                team === 'home-team'
-                  ? 'home-team'
-                  : team === 'away-team'
-                    ? 'away-team'
+                team === 'defending-team'
+                  ? 'defending-team'
+                  : team === 'attacking-team'
+                    ? 'attacking-team'
                     : 'outline'
               }
               className="text-xs"
@@ -321,7 +321,7 @@ export function BattleEventCard({ event, totalEvents }: BattleEventCardProps) {
 
               {/* Unit name */}
               {actingUnit && (
-                <div className="text-xs text-muted-foreground text-right flex-shrink-0">
+                <div className="text-xs text-muted-foreground text-right shrink-0">
                   {actingUnit.name}
                 </div>
               )}

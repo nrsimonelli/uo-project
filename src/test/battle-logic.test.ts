@@ -66,32 +66,32 @@ describe('Battle Logic Integration', () => {
   }
 
   it('should create battle contexts from real team structures', () => {
-    const homeTeam = createTestTeam('home', ['h1', 'h2'])
-    const awayTeam = createTestTeam('away', ['a1', 'a2'])
+    const defendingTeam = createTestTeam('defending', ['h1', 'h2'])
+    const attackingTeam = createTestTeam('attacking', ['a1', 'a2'])
 
-    const battleContexts = createAllBattleContexts(homeTeam, awayTeam)
+    const battleContexts = createAllBattleContexts(defendingTeam, attackingTeam)
 
     // Should create contexts for all units with positions
     expect(Object.keys(battleContexts)).toHaveLength(4)
-    expect(battleContexts['home-h1']).toBeDefined()
-    expect(battleContexts['away-a1']).toBeDefined()
+    expect(battleContexts['defending-h1']).toBeDefined()
+    expect(battleContexts['attacking-a1']).toBeDefined()
 
     // Check battle context has correct structure
-    const homeUnit = battleContexts['home-h1']
-    expect(homeUnit.unit.classKey).toBe('Fighter')
-    expect(homeUnit.team).toBe('home-team')
+    const defendingUnit = battleContexts['defending-h1']
+    expect(defendingUnit.unit.classKey).toBe('Fighter')
+    expect(defendingUnit.team).toBe('defending-team')
     // Units should be created with currentHP equal to max HP
-    expect(homeUnit.currentHP).toBe(homeUnit.combatStats.HP)
-    expect(homeUnit.combatStats.HP).toBeGreaterThan(0) // Sanity check that HP is calculated
+    expect(defendingUnit.currentHP).toBe(defendingUnit.combatStats.HP)
+    expect(defendingUnit.combatStats.HP).toBeGreaterThan(0) // Sanity check that HP is calculated
   })
 
   it('should execute skills between real battle contexts', () => {
-    const homeTeam = createTestTeam('home', ['attacker'])
-    const awayTeam = createTestTeam('away', ['target'])
+    const defendingTeam = createTestTeam('defending', ['attacker'])
+    const attackingTeam = createTestTeam('attacking', ['target'])
 
-    const battleContexts = createAllBattleContexts(homeTeam, awayTeam)
-    const attacker = battleContexts['home-attacker']
-    const target = battleContexts['away-target']
+    const battleContexts = createAllBattleContexts(defendingTeam, attackingTeam)
+    const attacker = battleContexts['defending-attacker']
+    const target = battleContexts['attacking-target']
     const skill = ActiveSkillsMap['heavySlash']
 
     expect(skill).toBeDefined()
@@ -149,8 +149,8 @@ describe('Battle Logic Integration', () => {
     }
 
     const battleContexts = createAllBattleContexts(team, team)
-    const fighterContext = battleContexts['home-fighter']
-    const warriorContext = battleContexts['home-warrior']
+    const fighterContext = battleContexts['defending-fighter']
+    const warriorContext = battleContexts['defending-warrior']
 
     // Both should have different stat profiles based on their class
     // Units should start at full HP
@@ -178,8 +178,8 @@ describe('Battle Logic Integration', () => {
 
     const battleContexts = createAllBattleContexts(team, team)
 
-    const fighterContext = battleContexts['home-fighter']
-    const warriorContext = battleContexts['home-warrior']
+    const fighterContext = battleContexts['defending-fighter']
+    const warriorContext = battleContexts['defending-warrior']
 
     // Both should have combatant types based on their class
     expect(fighterContext.combatantTypes).toContain('Armored') // Fighter has Armored trait

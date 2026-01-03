@@ -121,7 +121,7 @@ describe('Targeting Patterns: Conditions vs Default', () => {
         createMockMetadata({
           type: 'sort',
           valueType: 'hp-percent',
-          conditionKey: 'LowestHP',
+          conditionKey: 'Lowest % HP',
         }),
         context
       )
@@ -198,8 +198,8 @@ describe('Targeting Patterns: Conditions vs Default', () => {
         battlefield: {
           ...baseContext.battlefield,
           units: {
-            'home-test-unit': baseContext.actingUnit,
-            'away-enemy-1': baseContext.allEnemies[0],
+            'defending-test-unit': baseContext.actingUnit,
+            'attacking-enemy-1': baseContext.allEnemies[0],
           },
         },
       })
@@ -222,7 +222,7 @@ describe('Targeting Patterns: Conditions vs Default', () => {
       // heavySlash targets Single Enemy, should return exactly 1 target (the enemy in context)
       expect(result.targets.length).toBe(1)
       // Verify it's the enemy from the context (ID may vary based on mock setup)
-      expect(result.targets[0].team).toBe('away-team')
+      expect(result.targets[0].team).toBe('attacking-team')
       expect(result.targets[0].unit.id).toBeDefined()
     })
   })

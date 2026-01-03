@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useFilteredEquipment } from './use-filtered-equipment'
 import { useTeam, useCurrentTeam } from './use-team'
 
+import type { EquipmentTypeFilter } from '@/components/equipment-builder/equipment-type-filter'
 import type { AllClassType } from '@/types/base-stats'
 import type { EquipmentSlotType, EquippedItem } from '@/types/equipment'
 import type { Unit } from '@/types/team'
@@ -21,6 +22,7 @@ export interface UseEquipmentManagerProps {
   currentItemId: string | null
   currentSlotIndex: number
   currentUnitId: string
+  equipmentTypeFilter?: EquipmentTypeFilter
 }
 
 export const useEquipmentManager = ({
@@ -30,16 +32,22 @@ export const useEquipmentManager = ({
   currentItemId,
   currentSlotIndex,
   currentUnitId,
+  equipmentTypeFilter = 'all',
 }: UseEquipmentManagerProps) => {
   const { updateUnit, updateMultipleUnits } = useTeam()
   const team = useCurrentTeam() // Always use fresh team state
-  const filteredItems = useFilteredEquipment(slotType, unitClass, searchTerm)
+  const filteredItems = useFilteredEquipment(
+    slotType,
+    unitClass,
+    searchTerm,
+    equipmentTypeFilter
+  )
 
   const equippedItems = useMemo(() => {
     const equipped: Record<string, EquippedByInfo> = {}
     team.formation.forEach(unit => {
       if (unit) {
-        unit.equipment.forEach(equippedItem => {
+        unit.equipment.forEach((equippedItem: EquippedItem) => {
           if (equippedItem.itemId) {
             equipped[equippedItem.itemId] = {
               unitId: unit.id,
@@ -59,11 +67,13 @@ export const useEquipmentManager = ({
     if (!currentUnit) return []
 
     const equippedInOtherSlots: string[] = []
-    currentUnit.equipment.forEach((equippedItem, index) => {
-      if (equippedItem.itemId && index !== currentSlotIndex) {
-        equippedInOtherSlots.push(equippedItem.itemId)
+    currentUnit.equipment.forEach(
+      (equippedItem: EquippedItem, index: number) => {
+        if (equippedItem.itemId && index !== currentSlotIndex) {
+          equippedInOtherSlots.push(equippedItem.itemId)
+        }
       }
-    })
+    )
     return equippedInOtherSlots
   }, [team, currentSlotIndex, currentUnitId])
 
@@ -123,7 +133,7 @@ export const useEquipmentManager = ({
         u =>
           u &&
           u.id !== currentUnitId &&
-          u.equipment.some(eq => eq.itemId === itemId)
+          u.equipment.some((eq: EquippedItem) => eq.itemId === itemId)
       )
     },
     [team, currentUnitId]

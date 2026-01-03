@@ -106,7 +106,7 @@ export function TeamBuilder() {
         />
 
         <Card>
-          <div className="px-6">
+          <div className="px-4">
             <div className="flex flex-row justify-between gap-8">
               <div className="flex flex-col space-y-4 flex-1">
                 <EditableTeamName
@@ -139,7 +139,7 @@ export function TeamBuilder() {
                         <div
                           key={`${key}-${team.id}`}
                           className={cn(
-                            'relative cursor-pointer transition-all duration-200 rounded-lg p-2 mx-auto max-w-fit',
+                            'relative cursor-pointer transition-all duration-200 rounded-sm p-2 mx-auto max-w-fit',
                             isEmpty ? 'opacity-60' : 'opacity-100',
                             isSelected
                               ? 'ring-2 ring-primary shadow-lg shadow-primary/25'
@@ -163,7 +163,7 @@ export function TeamBuilder() {
             </div>
 
             <Tabs value={selectedUnitId} onValueChange={setSelectedUnitId}>
-              <TabsList className="w-full flex-wrap h-auto">
+              <TabsList className="w-full">
                 {filteredTeamFormation.map(unit => (
                   <TabsTrigger key={unit.id} value={unit.id}>
                     {unit.classKey}

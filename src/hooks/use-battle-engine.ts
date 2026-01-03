@@ -53,7 +53,11 @@ interface UseBattleEngineReturn {
   resultSummary: BattleResultSummary
   isExecuting: boolean
   error: string | null
-  executeBattle: (homeTeam: Team, awayTeam: Team, seed?: string) => void
+  executeBattle: (
+    defendingTeam: Team,
+    attackingTeam: Team,
+    seed?: string
+  ) => void
   clearResults: () => void
   // Debug function to manually step through battle
   stepBattle: () => void
@@ -428,7 +432,11 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
    * Start a new battle between two teams
    * Initializes battlefield state and battle events
    */
-  const executeBattle = (homeTeam: Team, awayTeam: Team, seed?: string) => {
+  const executeBattle = (
+    defendingTeam: Team,
+    attackingTeam: Team,
+    seed?: string
+  ) => {
     // Initialize RNG and state
     const battleSeed = seed || `battle-${Date.now()}`
     const randomData = rng(battleSeed)
@@ -440,7 +448,10 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
     setIsExecuting(true)
 
     // Create initial battlefield state
-    const allBattleContexts = createAllBattleContexts(homeTeam, awayTeam)
+    const allBattleContexts = createAllBattleContexts(
+      defendingTeam,
+      attackingTeam
+    )
     const turnOrder = calculateTurnOrder(allBattleContexts, randomData)
     const initialState = createInitialBattlefieldState(
       allBattleContexts,
@@ -450,8 +461,8 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
 
     // Create and add battle start event
     const battleStartEvent = createBattleStartEvent(
-      homeTeam.name,
-      awayTeam.name
+      defendingTeam.name,
+      attackingTeam.name
     )
     setBattleEvents([battleStartEvent])
 

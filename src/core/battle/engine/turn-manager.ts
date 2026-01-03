@@ -154,7 +154,7 @@ export const startNewRound = (state: BattlefieldState) => {
   // Rebuild queue with ALL living units in initiative order
   const queueMap = Object.fromEntries(
     allLivingUnits.map(unit => [
-      `${unit.team === 'home-team' ? 'home' : 'away'}-${unit.unit.id}`,
+      `${unit.team === 'defending-team' ? 'defending' : 'attacking'}-${unit.unit.id}`,
       unit,
     ])
   )
@@ -221,7 +221,7 @@ export const reorderRemainingUnits = (state: BattlefieldState) => {
   const reorderedQueue = calculateTurnOrder(
     Object.fromEntries(
       remainingUnits.map(unit => [
-        `${unit.team === 'home-team' ? 'home' : 'away'}-${unit.unit.id}`,
+        `${unit.team === 'defending-team' ? 'defending' : 'attacking'}-${unit.unit.id}`,
         unit,
       ])
     ),
@@ -245,15 +245,19 @@ export const shouldContinueBattle = (state: BattlefieldState) => {
     unit => unit.currentHP > 0 && isUnitActionableActive(unit)
   )
 
-  const homeLiving = livingUnits.filter(unit => unit.team === 'home-team')
-  const awayLiving = livingUnits.filter(unit => unit.team === 'away-team')
+  const defendingLiving = livingUnits.filter(
+    unit => unit.team === 'defending-team'
+  )
+  const attackingLiving = livingUnits.filter(
+    unit => unit.team === 'attacking-team'
+  )
   // Check actionable units by team (for future use if needed)
-  // const homeActionable = actionableUnits.filter(unit => unit.team === 'home-team')
-  // const awayActionable = actionableUnits.filter(unit => unit.team === 'away-team')
+  // const defendingActionable = actionableUnits.filter(unit => unit.team === 'defending-team')
+  // const attackingActionable = actionableUnits.filter(unit => unit.team === 'attacking-team')
 
   // Battle ends if:
   // 1. One team is completely eliminated (HP = 0)
-  if (homeLiving.length === 0 || awayLiving.length === 0) {
+  if (defendingLiving.length === 0 || attackingLiving.length === 0) {
     console.log('💥 Battle ending: Team eliminated')
     return false
   }

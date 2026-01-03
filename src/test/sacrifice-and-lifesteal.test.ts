@@ -51,7 +51,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
         DEFAULT_STATS
       )
       t.currentHP = 100
-      t.team = 'away-team'
+      t.team = 'attacking-team'
       return t
     })
     const skill = ActiveSkillsMap['darkFlame']
@@ -73,7 +73,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
       DEFAULT_STATS
     )
     singleTarget.currentHP = 100
-    singleTarget.team = 'away-team'
+    singleTarget.team = 'attacking-team'
     const bf2 = exec(user2, singleTarget, skill)
     expect(bf2.units['user-2'].currentHP).toBe(70) // 70% of max HP after sacrifice
 
@@ -89,7 +89,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
         DEFAULT_STATS
       )
       t.currentHP = 100
-      t.team = 'away-team'
+      t.team = 'attacking-team'
       return t
     })
     const bf3 = exec(user3, rowTargets, skill)
@@ -107,7 +107,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
         DEFAULT_STATS
       ),
     ]
-    lowTargets[0].team = 'away-team'
+    lowTargets[0].team = 'attacking-team'
     const bf4 = exec(lowHpUser, lowTargets, skill)
     // 30% of 2 rounds to 1, user must be left at minimum 1 HP
     expect(bf4.units['user-low'].currentHP).toBeGreaterThanOrEqual(1)
@@ -124,7 +124,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
       DEFAULT_STATS
     )
     target.currentHP = 100
-    target.team = 'away-team'
+    target.team = 'attacking-team'
     const skill = ActiveSkillsMap['sanguineAttack']
 
     const battlefield = exec(user, target, skill)
@@ -168,7 +168,7 @@ describe('Sacrifice and LifeSteal Skills (integration)', () => {
       { ...DEFAULT_STATS, HP: 100 }
     )
     target.currentHP = 100
-    target.team = 'away-team'
+    target.team = 'attacking-team'
     const skill = ActiveSkillsMap['sanguineAttack']
 
     const battlefield = exec(user, target, skill)

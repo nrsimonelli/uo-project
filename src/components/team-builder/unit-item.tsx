@@ -9,17 +9,19 @@ interface UnitItemProps {
 export function UnitItem({ unitName, onSelect }: UnitItemProps) {
   return (
     <Button
-      variant="ghost"
-      className="inline-flex justify-start w-full py-8"
+      variant="outline"
+      className="w-full justify-start h-auto p-3 text-left"
       onClick={() => onSelect(unitName)}
     >
-      <img
-        src={SPRITES[unitName as keyof typeof SPRITES]}
-        height={32}
-        width={32}
-        alt={unitName}
-      />
-      <div>{unitName}</div>
+      <div className="flex items-center gap-3 w-full">
+        <img
+          src={SPRITES[unitName as keyof typeof SPRITES]}
+          height={32}
+          width={32}
+          alt={unitName}
+        />
+        <div className="font-medium">{unitName}</div>
+      </div>
     </Button>
   )
 }

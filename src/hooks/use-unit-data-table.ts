@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 
+import type { FilterConfig } from '@/components/unit-data/filter-popover'
 import { COMBAT_STATS } from '@/hooks/use-chart-data'
 import type { GrowthTuple } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'
@@ -9,11 +10,14 @@ import {
   getUniqueRaces,
   getUniqueTraits,
   getUniqueMovementTypes,
-  type ClassTableRow,
 } from '@/utils/class-data-processor'
+import {
+  sortTableData,
+  type SortField,
+  type SortDirection,
+} from '@/utils/table-sorting'
 
-export type SortField = keyof ClassTableRow | 'equipment'
-export type SortDirection = 'asc' | 'desc'
+export type { SortField, SortDirection }
 
 export function useUnitDataTable() {
   // Filter state
@@ -41,16 +45,18 @@ export function useUnitDataTable() {
     return COMBAT_STATS
   }, [])
 
+  // Base data - only recalculates when level/growth/classTypes change
+  // Nighttime multiplier is applied in the display layer for better performance
   const allData = useMemo(
     () =>
       processClassData(
         selectedLevel,
         growthA,
         growthB,
-        isNighttime,
+        false,
         selectedClassTypes
       ),
-    [selectedLevel, growthA, growthB, isNighttime, selectedClassTypes]
+    [selectedLevel, growthA, growthB, selectedClassTypes]
   )
 
   const equipmentSlots = useMemo(() => getUniqueEquipmentSlots(), [])
@@ -99,44 +105,10 @@ export function useUnitDataTable() {
     selectedMovement,
   ])
 
-  const sortedData = useMemo(() => {
-    return [...filteredData].sort((a, b) => {
-      // Handle special sorting cases
-      if (sortField === 'equipment') {
-        // Sort by first equipment item alphabetically
-        const aVal = a.equipment.length > 0 ? [...a.equipment].sort()[0] : ''
-        const bVal = b.equipment.length > 0 ? [...b.equipment].sort()[0] : ''
-        return sortDirection === 'asc'
-          ? aVal.localeCompare(bVal)
-          : bVal.localeCompare(aVal)
-      }
-
-      // Standard field access for all other columns
-      const fieldKey = sortField as keyof ClassTableRow
-      const aVal = a[fieldKey]
-      const bVal = b[fieldKey]
-
-      // Handle null/undefined values
-      if (aVal === null || aVal === undefined)
-        return sortDirection === 'asc' ? 1 : -1
-      if (bVal === null || bVal === undefined)
-        return sortDirection === 'asc' ? -1 : 1
-
-      // String comparison
-      if (typeof aVal === 'string' && typeof bVal === 'string') {
-        const result = aVal.localeCompare(bVal)
-        return sortDirection === 'asc' ? result : -result
-      }
-
-      // Number comparison
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        const result = aVal - bVal
-        return sortDirection === 'asc' ? result : -result
-      }
-
-      return 0
-    })
-  }, [filteredData, sortField, sortDirection])
+  const sortedData = useMemo(
+    () => sortTableData(filteredData, sortField, sortDirection, isNighttime),
+    [filteredData, sortField, sortDirection, isNighttime]
+  )
 
   const totalActiveFilters =
     selectedEquipment.length +
@@ -155,39 +127,39 @@ export function useUnitDataTable() {
     }
   }
 
-  const toggleEquipmentFilter = (slot: string) => {
+  const toggleEquipmentFilter = useCallback((slot: string) => {
     setSelectedEquipment(prev =>
       prev.includes(slot) ? prev.filter(s => s !== slot) : [...prev, slot]
     )
-  }
+  }, [])
 
-  const toggleRaceFilter = (race: string) => {
+  const toggleRaceFilter = useCallback((race: string) => {
     setSelectedRaces(prev =>
       prev.includes(race) ? prev.filter(r => r !== race) : [...prev, race]
     )
-  }
+  }, [])
 
-  const toggleTraitFilter = (trait: string) => {
+  const toggleTraitFilter = useCallback((trait: string) => {
     setSelectedTraits(prev =>
       prev.includes(trait) ? prev.filter(t => t !== trait) : [...prev, trait]
     )
-  }
+  }, [])
 
-  const toggleMovementFilter = (movement: string) => {
+  const toggleMovementFilter = useCallback((movement: string) => {
     setSelectedMovement(prev =>
       prev.includes(movement)
         ? prev.filter(m => m !== movement)
         : [...prev, movement]
     )
-  }
+  }, [])
 
-  const toggleClassTypeFilter = (classType: string) => {
+  const toggleClassTypeFilter = useCallback((classType: string) => {
     setSelectedClassTypes(prev =>
       prev.includes(classType)
         ? prev.filter(t => t !== classType)
         : [...prev, classType]
     )
-  }
+  }, [])
 
   const clearFilters = () => {
     setSearchTerm('')
@@ -197,6 +169,69 @@ export function useUnitDataTable() {
     setSelectedMovement([])
     setSelectedClassTypes([])
   }
+
+  // Filter configuration for FilterPopover (defined after toggle functions)
+  const filterConfig = useMemo<FilterConfig[]>(
+    () => [
+      {
+        id: 'equipment',
+        title: 'Equipment',
+        items: equipmentSlots,
+        selectedItems: selectedEquipment,
+        onToggle: toggleEquipmentFilter,
+        idPrefix: 'equipment',
+        transformItems: items => items.filter(slot => slot !== 'Accessory'),
+      },
+      {
+        id: 'races',
+        title: 'Races',
+        items: races,
+        selectedItems: selectedRaces,
+        onToggle: toggleRaceFilter,
+        idPrefix: 'race',
+      },
+      {
+        id: 'traits',
+        title: 'Traits',
+        items: traits,
+        selectedItems: selectedTraits,
+        onToggle: toggleTraitFilter,
+        idPrefix: 'trait',
+      },
+      {
+        id: 'movement',
+        title: 'Movement',
+        items: movementTypes,
+        selectedItems: selectedMovement,
+        onToggle: toggleMovementFilter,
+        idPrefix: 'movement',
+      },
+      {
+        id: 'classType',
+        title: 'Class Type',
+        items: ['Base', 'Advanced'],
+        selectedItems: selectedClassTypes,
+        onToggle: toggleClassTypeFilter,
+        idPrefix: 'classtype',
+      },
+    ],
+    [
+      equipmentSlots,
+      selectedEquipment,
+      toggleEquipmentFilter,
+      races,
+      selectedRaces,
+      toggleRaceFilter,
+      traits,
+      selectedTraits,
+      toggleTraitFilter,
+      movementTypes,
+      selectedMovement,
+      toggleMovementFilter,
+      selectedClassTypes,
+      toggleClassTypeFilter,
+    ]
+  )
 
   return {
     // State
@@ -222,6 +257,7 @@ export function useUnitDataTable() {
     traits,
     movementTypes,
     totalActiveFilters,
+    filterConfig,
 
     // Setters
     setSearchTerm,

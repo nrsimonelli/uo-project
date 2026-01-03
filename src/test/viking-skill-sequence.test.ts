@@ -69,7 +69,7 @@ describe('Viking Skill Sequences', () => {
       },
       ENEMY_STATS
     )
-    target.team = 'away-team'
+    target.team = 'attacking-team'
     target.currentHP = 500
   })
 

@@ -4,7 +4,7 @@ export function getStateIdFor(
   team: BattleContext['team'],
   unitId: string
 ): string {
-  return `${team === 'home-team' ? 'home' : 'away'}-${unitId}`
+  return `${team === 'defending-team' ? 'defending' : 'attacking'}-${unitId}`
 }
 
 export function getStateIdForContext(ctx: BattleContext): string {

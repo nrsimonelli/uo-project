@@ -29,7 +29,7 @@ All tactic conditions are organized into 12 categories:
 12. **High Stats** (13 conditions)
 13. **Low Stats** (13 conditions)
 
-**Total: 200 tactic conditions**
+Note: **Total: 200 tactic conditions**
 
 ## Implementation Status by ValueType
 
@@ -114,7 +114,7 @@ The system uses the following `ValueType` enums:
 | `enemy-presence` | ✅          | Pass-through (no-op)                                                    |
 | `attack-history` | ✅          | Implemented                                                             |
 
-**All sort evaluators are implemented**
+Note: **All sort evaluators are implemented**
 
 #### Compare Evaluators (for `hasTrueTie`)
 

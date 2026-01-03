@@ -81,7 +81,7 @@ export const createMockBattleContext = (
       skillSlots: [],
       ...overrides.unit,
     },
-    team: 'home-team',
+    team: 'defending-team',
     position: { row: 0, col: 0 },
     currentHP: 100,
     currentAP: 2,
@@ -198,7 +198,7 @@ export const createStandardTarget = (
   overrides: Partial<BattleContext> = {}
 ): BattleContext => {
   return createMockBattleContext({
-    team: 'away-team',
+    team: 'attacking-team',
     statFoundation: TARGET_STATS,
     combatStats: TARGET_STATS,
     ...overrides,
@@ -278,7 +278,7 @@ export const createMockTacticalContext = (
           equipment: [],
           skillSlots: [],
         },
-        team: 'away-team',
+        team: 'attacking-team',
         position: { row: 1, col: 1 },
       }),
     ],

@@ -4,10 +4,11 @@ import {
   Target,
   Eye,
   Shield,
-  ShieldBan,
   Heart,
   Sparkles,
   Wind,
+  ShieldEllipsis,
+  ShieldPlus,
 } from 'lucide-react'
 
 export const STAT_ICONS = {
@@ -15,11 +16,11 @@ export const STAT_ICONS = {
   PATK: Sword,
   PDEF: Shield,
   MATK: Sparkles,
-  MDEF: ShieldBan,
+  MDEF: ShieldEllipsis,
   ACC: Target,
   EVA: Eye,
   CRT: Zap,
-  GRD: Shield,
+  GRD: ShieldPlus,
   INIT: Wind,
 } as const
 

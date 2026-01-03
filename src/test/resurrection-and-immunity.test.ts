@@ -46,7 +46,7 @@ describe('Resurrection and Damage Immunity', () => {
         equipment: [],
         skillSlots: [],
       },
-      team: 'home-team',
+      team: 'defending-team',
       currentHP: 0, // Dead
       combatStats: {
         ...createStandardAttacker().combatStats,
@@ -121,7 +121,7 @@ describe('Resurrection and Damage Immunity', () => {
           equipment: [],
           skillSlots: [],
         },
-        team: 'home-team',
+        team: 'defending-team',
         currentHP: 50,
       })
 

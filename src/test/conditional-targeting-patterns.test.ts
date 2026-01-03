@@ -59,7 +59,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 0, col: 0 }, // Different row (back row)
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       const ally2 = createStandardAttacker({
@@ -74,7 +74,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 0, col: 1 }, // Different row
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       const ally3 = createStandardAttacker({
@@ -89,7 +89,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 1, col: 2 }, // Same row as caster
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       battlefield.units = {
@@ -128,7 +128,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 0, col: 0 }, // Different row
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       const ally2 = createStandardAttacker({
@@ -143,7 +143,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 0, col: 1 },
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       const ally3 = createStandardAttacker({
@@ -158,7 +158,7 @@ describe('Conditional Targeting Patterns', () => {
           skillSlots: [],
         },
         position: { row: 1, col: 2 },
-        team: 'home-team',
+        team: 'defending-team',
       })
 
       battlefield.units = {

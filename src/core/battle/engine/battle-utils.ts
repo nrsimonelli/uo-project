@@ -5,11 +5,11 @@ import type {
 } from '@/types/battle-engine'
 
 export const calculateTeamHpPercentages = (state: BattlefieldState) => {
-  const homeUnits = Object.values(state.units).filter(
-    u => u.team === 'home-team'
+  const defendingTeamUnits = Object.values(state.units).filter(
+    u => u.team === 'defending-team'
   )
-  const awayUnits = Object.values(state.units).filter(
-    u => u.team === 'away-team'
+  const attackingTeamUnits = Object.values(state.units).filter(
+    u => u.team === 'attacking-team'
   )
 
   const calcPercent = (units: BattleContext[]) => {
@@ -20,78 +20,80 @@ export const calculateTeamHpPercentages = (state: BattlefieldState) => {
   }
 
   return {
-    'home-team': calcPercent(homeUnits),
-    'away-team': calcPercent(awayUnits),
+    'defending-team': calcPercent(defendingTeamUnits),
+    'attacking-team': calcPercent(attackingTeamUnits),
   }
 }
 
 export const determineBattleWinner = (state: BattlefieldState) => {
   // Get all living units for each team
-  const homeTeamUnits = Object.values(state.units).filter(
-    unit => unit.team === 'home-team' && unit.currentHP > 0
+  const defendingTeamUnits = Object.values(state.units).filter(
+    unit => unit.team === 'defending-team' && unit.currentHP > 0
   )
-  const awayTeamUnits = Object.values(state.units).filter(
-    unit => unit.team === 'away-team' && unit.currentHP > 0
+  const attackingTeamUnits = Object.values(state.units).filter(
+    unit => unit.team === 'attacking-team' && unit.currentHP > 0
   )
 
   // Case 1: One or both teams eliminated
-  if (homeTeamUnits.length === 0 && awayTeamUnits.length === 0) {
+  if (defendingTeamUnits.length === 0 && attackingTeamUnits.length === 0) {
     console.error(
       'Something went wrong, it should not be possible for both teams to have zero units left standing.'
     )
     return 'Draw' // Both teams eliminated
   }
-  if (homeTeamUnits.length === 0) {
-    return 'Away Team' // Home team eliminated
+  if (defendingTeamUnits.length === 0) {
+    return 'Attacking Team' // Defending team eliminated
   }
-  if (awayTeamUnits.length === 0) {
-    return 'Home Team' // Away team eliminated
+  if (attackingTeamUnits.length === 0) {
+    return 'Defending Team' // Attacking team eliminated
   }
 
   // Case 2: Both teams have living units - compare HP percentages
-  const homeCurrentHp = homeTeamUnits.reduce(
+  const defendingCurrentHp = defendingTeamUnits.reduce(
     (sum, unit) => sum + unit.currentHP,
     0
   )
-  const homeMaxHp = homeTeamUnits.reduce(
+  const defendingMaxHp = defendingTeamUnits.reduce(
     (sum, unit) => sum + unit.combatStats.HP,
     0
   )
-  const homeHpPercentage = homeMaxHp > 0 ? (homeCurrentHp / homeMaxHp) * 100 : 0
+  const defendingHpPercentage =
+    defendingMaxHp > 0 ? (defendingCurrentHp / defendingMaxHp) * 100 : 0
 
-  const awayCurrentHp = awayTeamUnits.reduce(
+  const attackingCurrentHp = attackingTeamUnits.reduce(
     (sum, unit) => sum + unit.currentHP,
     0
   )
-  const awayMaxHp = awayTeamUnits.reduce(
+  const attackingMaxHp = attackingTeamUnits.reduce(
     (sum, unit) => sum + unit.combatStats.HP,
     0
   )
-  const awayHpPercentage = awayMaxHp > 0 ? (awayCurrentHp / awayMaxHp) * 100 : 0
+  const attackingHpPercentage =
+    attackingMaxHp > 0 ? (attackingCurrentHp / attackingMaxHp) * 100 : 0
 
   console.log('Battle end HP comparison:', {
-    homeHpPercentage: homeHpPercentage.toFixed(1) + '%',
-    awayHpPercentage: awayHpPercentage.toFixed(1) + '%',
+    defendingHpPercentage: defendingHpPercentage.toFixed(1) + '%',
+    attackingHpPercentage: attackingHpPercentage.toFixed(1) + '%',
   })
 
   // Compare HP percentages
-  if (homeHpPercentage > awayHpPercentage) {
-    return 'Home Team'
-  } else if (awayHpPercentage > homeHpPercentage) {
-    return 'Away Team'
+  if (defendingHpPercentage > attackingHpPercentage) {
+    return 'Defending Team'
+  } else if (attackingHpPercentage > defendingHpPercentage) {
+    return 'Attacking Team'
   } else {
     return 'Draw' // Same HP percentage
   }
 }
 
 export const createBattleStartEvent = (
-  homeTeamName: string,
-  awayTeamName: string
+  defendingTeamName: string,
+  attackingTeamName: string
 ): BattleEvent => ({
   id: `event-battle-start`,
   type: 'battle-start',
   turn: 0,
-  description: `Battle begins between ${homeTeamName} and ${awayTeamName}`,
+  description: `Battle begins between ${defendingTeamName} and ${attackingTeamName}`,
 })
 
 export const createBattleEndEvent = (
@@ -101,11 +103,15 @@ export const createBattleEndEvent = (
 ): BattleEvent => {
   // Extract roster data from final battlefield state
   const allUnits = Object.values(finalState.units)
-  const homeTeamUnits = allUnits.filter(unit => unit.team === 'home-team')
-  const awayTeamUnits = allUnits.filter(unit => unit.team === 'away-team')
+  const defendingTeamUnits = allUnits.filter(
+    unit => unit.team === 'defending-team'
+  )
+  const attackingTeamUnits = allUnits.filter(
+    unit => unit.team === 'attacking-team'
+  )
 
   const teamRosters = {
-    homeTeam: homeTeamUnits.map(unit => ({
+    defendingTeam: defendingTeamUnits.map(unit => ({
       unitId: unit.unit.id,
       name: unit.unit.name,
       classKey: unit.unit.classKey,
@@ -114,7 +120,7 @@ export const createBattleEndEvent = (
       position: unit.position,
       afflictions: unit.afflictions,
     })),
-    awayTeam: awayTeamUnits.map(unit => ({
+    attackingTeam: attackingTeamUnits.map(unit => ({
       unitId: unit.unit.id,
       name: unit.unit.name,
       classKey: unit.unit.classKey,

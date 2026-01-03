@@ -104,9 +104,9 @@ export function SkillTacticsSection({
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="border rounded-lg overflow-hidden">
+          <div className="border overflow-hidden mb-0">
             <div className="grid grid-cols-[auto_1fr_1fr_1fr] bg-muted/50 border-b text-sm font-medium">
-              <div className="p-3 border-r w-12 flex-shrink-0"></div>
+              <div className="p-3 border-r w-12 shrink-0"></div>
               <div className="p-3">Skill</div>
               <div className="p-3 border-l">Condition 1</div>
               <div className="p-3 border-l">Condition 2</div>
@@ -132,7 +132,7 @@ export function SkillTacticsSection({
             {activeSkill ? (
               <div className="min-w-[600px] border rounded-lg overflow-hidden shadow-2xl">
                 <div className="grid grid-cols-[auto_1fr_1fr_1fr] border-t hover:bg-muted/30 [&:hover_.remove-btn]:opacity-100 transition-colors">
-                  <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 flex-shrink-0">
+                  <div className="p-2 flex items-center justify-center min-h-[40px] border-r w-12 shrink-0">
                     <GripVertical className="size-4 text-muted-foreground" />
                   </div>
                   <div className="p-2 flex items-center gap-2 min-h-[40px] relative">
