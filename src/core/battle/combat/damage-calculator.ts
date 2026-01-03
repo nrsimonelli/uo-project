@@ -19,6 +19,8 @@ import {
 } from './guard-calculation'
 import { resolveHit } from './hit-calculation'
 import {
+  getBuffsForStat,
+  getDebuffsForStat,
   getEffectiveStatsForTarget,
   removeExpiredConferrals,
 } from './status-effects'
@@ -31,6 +33,7 @@ import {
 import type { RandomNumberGeneratorType } from '@/core/random'
 import type { BattleContext } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
+import type { ExtraStats } from '@/types/equipment'
 import type { DamageEffect, Flag } from '@/types/effects'
 
 const createMissResult = (
@@ -131,7 +134,33 @@ export const calculateSkillDamage = (
     ) || hasTrueCriticalBuff
   const wasCritical =
     canLandCrit && (hasTrueCritical || rollCrit(rng, critRate))
-  const critMultiplier = getCritMultiplier(wasCritical)
+
+  // Collect CritDmg buffs/debuffs and convert to bonus modifiers
+  const critDmgBuffs = getBuffsForStat(attacker, 'CritDmg' as ExtraStats)
+  const critDmgDebuffs = getDebuffsForStat(attacker, 'CritDmg' as ExtraStats)
+  const bonusModifiers: number[] = []
+
+  critDmgBuffs.forEach(buff => {
+    if (buff.scaling === 'flat') {
+      // Convert percentage value to multiplier bonus (50 -> 0.5)
+      bonusModifiers.push(buff.value / 100)
+    } else if (buff.scaling === 'percent') {
+      // Percent scaling: multiply base multiplier by (1 + value/100), then subtract base
+      // e.g., 50% of 1.5 = 0.75 bonus
+      bonusModifiers.push((1.5 * buff.value) / 100)
+    }
+  })
+
+  critDmgDebuffs.forEach(debuff => {
+    // Debuffs are already negative values
+    if (debuff.scaling === 'flat') {
+      bonusModifiers.push(debuff.value / 100)
+    } else if (debuff.scaling === 'percent') {
+      bonusModifiers.push((1.5 * debuff.value) / 100)
+    }
+  })
+
+  const critMultiplier = getCritMultiplier(wasCritical, 1.5, bonusModifiers)
   if (hasTrueCritical) {
     logCombat('✨ TrueCritical Active - guaranteed crit applied')
   }
