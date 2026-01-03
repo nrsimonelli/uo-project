@@ -4266,8 +4266,7 @@
         "resource": "AP",
         "amount": 1,
         "applyTo": "Target"
-      },
-      {}
+      }
     ]
   },
   {

@@ -4412,7 +4412,6 @@ export const PassiveSkills = [
         amount: 1,
         applyTo: 'Target',
       },
-      {},
     ],
   },
   {

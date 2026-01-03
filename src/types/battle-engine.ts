@@ -264,6 +264,33 @@ export interface PassiveAction {
 }
 
 /**
+ * Tracks window usage per active skill instance
+ * Ensures one passive per unit per window per active skill instance
+ */
+export interface WindowInstanceContext {
+  /** ID of the active skill that started this instance */
+  activeSkillId: string
+  /** Record of windowId -> array of unitIds that have used this window */
+  usedWindows: Record<string, string[]>
+  /** Queue of activation windows waiting to be processed */
+  windowQueue: ActivationWindowQueueItem[]
+}
+
+/**
+ * Represents an activation window that has been triggered and is waiting to be processed
+ */
+export interface ActivationWindowQueueItem {
+  /** The activation window ID */
+  windowId: ActivationWindowId
+  /** The battle event that triggered this window */
+  triggerEvent: BattleEvent
+  /** Priority for processing (lower = higher priority) */
+  priority: number
+  /** Unit IDs that are eligible to use this window */
+  eligibleUnits: string[]
+}
+
+/**
  * Complete battlefield state
  */
 export interface BattlefieldState {

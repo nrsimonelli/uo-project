@@ -126,7 +126,7 @@ export const ACTIVATION_WINDOWS = {
   },
   AFTER_ENEMY_GUARDS: {
     id: 'afterEnemyGuards',
-    description: "Activates after an enemy guards an allly's attack",
+    description: "Activates after an enemy guards an ally's attack",
     limited: false,
   },
   BEFORE_ATTACKING_ACTIVE: {
