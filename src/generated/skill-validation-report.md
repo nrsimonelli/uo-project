@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2025-12-04T23:43:55.577Z_
+_Generated: 2026-01-03T20:26:20.236Z_
 
 ## Summary
 
@@ -8,14 +8,14 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - **Equipment Skills Referenced**: 189
 - **Total Skills Referenced**: 407
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 154
-- **Total Skills Defined**: 353
+- **Passive Skills Defined**: 158
+- **Total Skills Defined**: 357
 - **Activation Windows Referenced**: 36
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **54 missing skills:**
+❌ **50 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -30,9 +30,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `diurnalImpetus`
 - `dynamicGlide`
 - `fireCure`
-- `flameConferral`
 - `freezeCure`
-- `frostConferral`
 - `grantEvade`
 - `graveImpetus`
 - `guardCure`
@@ -58,12 +56,10 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `quickAction`
 - `reflectMagic`
 - `relicHeal`
-- `sanguineConferral`
 - `selfCare`
 - `shadowArrow`
 - `sorcerousConnection`
 - `stunCure`
-- `thunderousConferral`
 - `toughness`
 - `unitedFront`
 - `vanitas`
@@ -395,7 +391,6 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `flameJavelin`
 - `freezeCure`
 - `freezingThrust`
-- `frostConferral`
 - `glowingLight`
 - `grantEvade`
 - `graveImpetus`
@@ -426,6 +421,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `holyCradle`
 - `holyGuard`
 - `holySmite`
+- `iceConferral`
 - `icicleDart`
 - `icyBlow`
 - `icyCrush`
@@ -732,7 +728,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (154)
+### Passive Skills Defined (158)
 
 - `accelerate`
 - `activeGift`
@@ -780,6 +776,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `feathering`
 - `fireBurst`
 - `firstAid`
+- `flameConferral`
 - `focusSight`
 - `followingSlash`
 - `frenziedStrike`
@@ -803,6 +800,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `holyBarrier`
 - `holyBreath`
 - `holyGuard`
+- `iceConferral`
 - `invincible`
 - `ironVeil`
 - `keenCall`
@@ -868,6 +866,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `sacrifice`
 - `saintsBarrier`
 - `sanguineArts`
+- `sanguineConferral`
 - `sanguinePursuit`
 - `scornfulDead`
 - `selflessHeal`
@@ -879,6 +878,7 @@ _Generated: 2025-12-04T23:43:55.577Z_
 - `snowWhiteStrike`
 - `sylphicBarrier`
 - `tailwind`
+- `thunderousConferral`
 - `tripleCounter`
 - `undyingWill`
 - `vengeance`

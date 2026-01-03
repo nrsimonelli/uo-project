@@ -4344,5 +4344,109 @@
         "duration": "UntilNextAction"
       }
     ]
+  },
+  {
+    "id": "sanguineConferral",
+    "type": "passive",
+    "name": "Sanguine Conferral",
+    "description": "Activates before an ally attacks with a Physical Active skill. Add magical damage to an ally's next attack. (50 potency.) User recovers HP equal to 50% of damage dealt.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksPhysicalActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Conferral",
+        "potency": 50,
+        "applyTo": "Target",
+        "duration": "UntilNextAttack"
+      },
+      {
+        "kind": "LifeSteal",
+        "percentage": 50,
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "thunderousConferral",
+    "type": "passive",
+    "name": "Thunderous Conferral",
+    "description": "Activates before an ally attacks with a Physical Active skill. Add magical damage and Stun to an ally's next attack. (50 potency)",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksPhysicalActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Conferral",
+        "potency": 50,
+        "applyTo": "Target",
+        "duration": "UntilNextAttack",
+        "afflictions": [
+          {
+            "affliction": "Stun"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "iceConferral",
+    "type": "passive",
+    "name": "Ice Conferral",
+    "description": "Activates before an ally attacks with a Physical Active skill. Add magical damage and Freeze to an ally's next attack. (50 potency)",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksPhysicalActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Conferral",
+        "potency": 50,
+        "applyTo": "Target",
+        "duration": "UntilNextAttack",
+        "afflictions": [
+          {
+            "affliction": "Freeze"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flameConferral",
+    "type": "passive",
+    "name": "Flame Conferral",
+    "description": "Activates before an ally attacks with a Physical Active skill. Add magical damage and Burn to an ally's next attack. (50 potency)",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksPhysicalActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Conferral",
+        "potency": 50,
+        "applyTo": "Target",
+        "duration": "UntilNextAttack",
+        "afflictions": [
+          {
+            "affliction": "Burn"
+          }
+        ]
+      }
+    ]
   }
 ]

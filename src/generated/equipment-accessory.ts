@@ -845,7 +845,7 @@ export const EquipmentAccessory = [
     stats: {
       MATK: 2,
     },
-    skillId: 'frostConferral',
+    skillId: 'iceConferral',
     nullifications: [],
     classRestrictions: [
       'Wizard',
@@ -1287,8 +1287,8 @@ export const EquipmentAccessory = [
     classRestrictions: [],
   },
   {
-    id: 'lipsRing',
-    name: "Lips' Ring",
+    id: 'lipssRing',
+    name: "Lips's Ring",
     type: 'Accessory',
     stats: {},
     skillId: 'hastenedAction',
