@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T21:06:09.440Z_
+_Generated: 2026-01-04T21:08:13.012Z_
 
 ## Summary
 
@@ -8,17 +8,16 @@ _Generated: 2026-01-04T21:06:09.440Z_
 - **Equipment Skills Referenced**: 192
 - **Total Skills Referenced**: 410
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 204
-- **Total Skills Defined**: 403
+- **Passive Skills Defined**: 205
+- **Total Skills Defined**: 404
 - **Activation Windows Referenced**: 42
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **7 missing skills:**
+❌ **6 missing skills:**
 
 - `astralBlade`
-- `banishingPursuit`
 - `celestialLight`
 - `mirrorWeakness`
 - `provokingCrush`
@@ -686,7 +685,7 @@ _Generated: 2026-01-04T21:06:09.440Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (204)
+### Passive Skills Defined (205)
 
 - `accelerate`
 - `activeGift`
@@ -701,6 +700,7 @@ _Generated: 2026-01-04T21:06:09.440Z_
 - `arrowCover`
 - `artenieStrike`
 - `banishingCounter`
+- `banishingPursuit`
 - `bearsDen`
 - `berserk`
 - `bestralGuard`

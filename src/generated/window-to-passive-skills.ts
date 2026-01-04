@@ -90,6 +90,7 @@ export const WindowToPassiveSkillIds: Record<
     'shatteringPursuit',
     'sanguinePursuit',
     'widePursuit',
+    'banishingPursuit',
   ],
   afterAllyAttackedActive: ['phalanxShift', 'aerialShift'],
   afterAllyMagicAttacksActive: ['magicPursuit'],

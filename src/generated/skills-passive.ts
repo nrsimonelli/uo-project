@@ -6030,6 +6030,35 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'banishingPursuit',
+    type: 'passive',
+    name: 'Banishing Pursuit',
+    description:
+      "Activates after an ally attacks (Active). Follow-up attack a single enemy. Removes all of target's buffs.",
+    pp: 1,
+    skillCategories: ['Damage', 'Pursuit'],
+    activationWindow: 'afterAllyAttacksActive',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 75,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Cleanse',
+        target: 'Buffs',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']
