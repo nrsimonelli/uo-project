@@ -13,8 +13,10 @@ const checkAndConsumeAfflictionImmunity = (
   unit: BattleContext,
   afflictionType: AfflictionType
 ) => {
-  // Check for specific immunity first (e.g., GlowingLight for Blind)
-  // GlowingLight is a permanent buff that cannot be consumed
+  // Check for specific immunity first (e.g., GlowingLight for Blind, StunImmunity for Stun)
+  // GlowingLight is permanent and cannot be consumed
+  // StunImmunity is not consumed when blocking Stun (but can be dispelled)
+  // Note: Duration is handled by the expiration system - if buff exists, it's active
   if (afflictionType === 'Blind') {
     const glowingLightIndex = unit.buffs.findIndex(
       buff => buff.stat === 'GlowingLight'
@@ -25,6 +27,22 @@ const checkAndConsumeAfflictionImmunity = (
       const glowingLightBuff = unit.buffs[glowingLightIndex]
       console.log(
         `🛡️ ${unit.unit.name}'s ${glowingLightBuff.name} buff blocked ${afflictionType} (permanent, not consumed)`
+      )
+      return true
+    }
+  }
+
+  if (afflictionType === 'Stun') {
+    const stunImmunityIndex = unit.buffs.findIndex(
+      buff => buff.stat === 'StunImmunity'
+    )
+
+    if (stunImmunityIndex !== -1) {
+      const stunImmunityBuff = unit.buffs[stunImmunityIndex]
+      // StunImmunity buffs are not consumed when blocking Stun (but can be dispelled)
+      // The buff's duration is handled by the expiration system - if it still exists, it's active
+      console.log(
+        `🛡️ ${unit.unit.name}'s ${stunImmunityBuff.name} buff blocked ${afflictionType} (duration: ${stunImmunityBuff.duration}, not consumed)`
       )
       return true
     }
