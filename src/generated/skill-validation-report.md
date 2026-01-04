@@ -1,12 +1,12 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T20:52:11.664Z_
+_Generated: 2026-01-04T21:06:09.440Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 191
-- **Total Skills Referenced**: 409
+- **Equipment Skills Referenced**: 192
+- **Total Skills Referenced**: 410
 - **Active Skills Defined**: 199
 - **Passive Skills Defined**: 204
 - **Total Skills Defined**: 403
@@ -27,9 +27,7 @@ _Generated: 2026-01-04T20:52:11.664Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-⚠️ **1 unused skills:**
-
-- `banishingCounter`
+✅ **No unused skills found!**
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
@@ -291,7 +289,7 @@ _Generated: 2026-01-04T20:52:11.664Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (191)
+### From Equipment Data (192)
 
 - `activeHeal`
 - `activeShatter`
@@ -305,6 +303,7 @@ _Generated: 2026-01-04T20:52:11.664Z_
 - `artenieStrike`
 - `assassinsNail`
 - `astralBlade`
+- `banishingCounter`
 - `banishingPursuit`
 - `banishingSmite`
 - `bearsDen`
