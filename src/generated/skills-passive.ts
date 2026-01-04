@@ -4701,7 +4701,7 @@ export const PassiveSkills = [
     type: 'passive',
     name: 'Wide Inspiration',
     description:
-      'Activates before an ally attacks with an Active skill. Buff a row of allies for their next attack. Grants +30% Attack, +50% Critical Damage, and  -50 Accuracy.',
+      'Activates before an ally attacks with an Active skill. Buff a row of allies for their next attack. Grants +30% Attack, +50% Critical damage, and  -50 Accuracy.',
     pp: 2,
     skillCategories: ['Utility'],
     activationWindow: 'beforeAllyAttacked',
@@ -5109,6 +5109,93 @@ export const PassiveSkills = [
         kind: 'ResourceGain',
         resource: 'AP',
         amount: 1,
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'guardingFighter',
+    type: 'passive',
+    name: 'Guarding Fighter',
+    description:
+      'Activates after guarding an attack. Grants the user +20% Phys. Attack and +30% Critical damage. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterGuarding',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+        stacks: true,
+      },
+      {
+        kind: 'Buff',
+        stat: 'CritDmg',
+        value: 30,
+        scaling: 'flat',
+        applyTo: 'User',
+        stacks: true,
+      },
+    ],
+  },
+  {
+    id: 'nimbleFighter',
+    type: 'passive',
+    name: 'Nimble Fighter',
+    description:
+      'Activates after evading an attack. Grants the user +20% Phys. Attack and +30% Critical damage. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterEvade',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+        stacks: true,
+      },
+      {
+        kind: 'Buff',
+        stat: 'CritDmg',
+        value: 30,
+        scaling: 'flat',
+        applyTo: 'User',
+        stacks: true,
+      },
+    ],
+  },
+  {
+    id: 'toughness',
+    type: 'passive',
+    name: 'Toughness',
+    description:
+      'Activates before being attacked. Grants the user a buff to endure one lethal blow.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeBeingAttacked',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'SurviveLethal',
+        value: 1,
+        scaling: 'flat',
         applyTo: 'User',
       },
     ],

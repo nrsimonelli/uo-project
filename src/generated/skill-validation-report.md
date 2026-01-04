@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T03:59:53.265Z_
+_Generated: 2026-01-04T04:09:45.297Z_
 
 ## Summary
 
@@ -8,14 +8,14 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 176
-- **Total Skills Defined**: 375
+- **Passive Skills Defined**: 179
+- **Total Skills Defined**: 378
 - **Activation Windows Referenced**: 39
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **33 missing skills:**
+❌ **30 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -29,13 +29,11 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `freezeCure`
 - `graveImpetus`
 - `guardCure`
-- `guardingFighter`
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
 - `inspiration`
 - `mirrorWeakness`
-- `nimbleFighter`
 - `passiveCure`
 - `poisonCure`
 - `powerfulCall`
@@ -46,7 +44,6 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `shadowArrow`
 - `sorcerousConnection`
 - `stunCure`
-- `toughness`
 - `unitedFront`
 - `vanitas`
 - `warCry`
@@ -714,7 +711,7 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (176)
+### Passive Skills Defined (179)
 
 - `accelerate`
 - `activeGift`
@@ -776,6 +773,7 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `guardHunter`
 - `guardOrder`
 - `guardian`
+- `guardingFighter`
 - `guardingImpetus`
 - `hastenedAction`
 - `hastenedCast`
@@ -813,6 +811,7 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `maidensHammer`
 - `medicalAid`
 - `mightyShield`
+- `nimbleFighter`
 - `nobleGuard`
 - `nocturnalEvade`
 - `nocturnalGuard`
@@ -879,6 +878,7 @@ _Generated: 2026-01-04T03:59:53.265Z_
 - `sylphicBarrier`
 - `tailwind`
 - `thunderousConferral`
+- `toughness`
 - `tripleCounter`
 - `undyingWill`
 - `vengeance`
