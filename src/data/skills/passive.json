@@ -5139,5 +5139,236 @@
         "applyTo": "User"
       }
     ]
+  },
+  {
+    "id": "passiveCure",
+    "type": "passive",
+    "name": "Passive Cure",
+    "description": "Activates after an ally is debuffed. Remove Passive Seal from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "PassiveSeal",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "PassiveSeal",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "guardCure",
+    "type": "passive",
+    "name": "Guard Cure",
+    "description": "Activates after an ally is debuffed. Remove Guard Seal from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "GuardSeal",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "GuardSeal",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "stunCure",
+    "type": "passive",
+    "name": "Stun Cure",
+    "description": "Activates after an ally is debuffed. Remove Stun from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Stun",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "Stun",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "blindCure",
+    "type": "passive",
+    "name": "Passive Cure",
+    "description": "Activates after an ally is debuffed. Remove Blindness from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Blind",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "Blind",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "freezeCure",
+    "type": "passive",
+    "name": "Freeze Cure",
+    "description": "Activates after an ally is debuffed. Remove Freeze from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Freeze",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "Freeze",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "poisonCure",
+    "type": "passive",
+    "name": "Poison Cure",
+    "description": "Activates after an ally is debuffed. Remove Poison from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Poison",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "Poison",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "fireCure",
+    "type": "passive",
+    "name": "Fire Cure",
+    "description": "Activates after an ally is debuffed. Remove Burn from an ally. Restores 10% of target's HP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterAllyDebuffed",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Burn",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "Affliction",
+            "target": "Ally",
+            "affliction": "Burn",
+            "comparator": "EqualTo"
+          }
+        ]
+      },
+      {
+        "kind": "HealPercent",
+        "value": 10,
+        "applyTo": "Target"
+      }
+    ]
   }
 ]

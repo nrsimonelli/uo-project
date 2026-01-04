@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T04:26:20.641Z_
+_Generated: 2026-01-04T04:49:49.307Z_
 
 ## Summary
 
@@ -8,38 +8,31 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 183
-- **Total Skills Defined**: 382
+- **Passive Skills Defined**: 190
+- **Total Skills Defined**: 389
 - **Activation Windows Referenced**: 40
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **26 missing skills:**
+❌ **19 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
 - `astralBlade`
 - `banishingPursuit`
-- `blindCure`
 - `celestialLight`
 - `counter`
-- `fireCure`
-- `freezeCure`
 - `graveImpetus`
-- `guardCure`
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
 - `mirrorWeakness`
-- `passiveCure`
-- `poisonCure`
 - `provokingCrush`
 - `quickAction`
 - `reflectMagic`
 - `selfCare`
 - `shadowArrow`
-- `stunCure`
 - `unitedFront`
 - `vanitas`
 - `warCry`
@@ -708,7 +701,7 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (183)
+### Passive Skills Defined (190)
 
 - `accelerate`
 - `activeGift`
@@ -725,6 +718,7 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - `bestralGuard`
 - `bestralHowl`
 - `bindingGuard`
+- `blindCure`
 - `boonOfTheFaeries`
 - `bulkUp`
 - `bullForce`
@@ -760,14 +754,17 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - `eyeOfTheWarriorPrincess`
 - `feathering`
 - `fireBurst`
+- `fireCure`
 - `firstAid`
 - `flameConferral`
 - `focusSight`
 - `followingSlash`
+- `freezeCure`
 - `frenziedStrike`
 - `grantEvade`
 - `groundCounter`
 - `gryphonGlide`
+- `guardCure`
 - `guardHunter`
 - `guardOrder`
 - `guardian`
@@ -824,12 +821,14 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - `partingDeath`
 - `partingResurrection`
 - `partyAid`
+- `passiveCure`
 - `passiveGift`
 - `passiveMiracle`
 - `phalanxShift`
 - `phantomCounter`
 - `phantomStep`
 - `poisonBurst`
+- `poisonCure`
 - `powerfulCall`
 - `preemptiveHeal`
 - `protection`
@@ -876,6 +875,7 @@ _Generated: 2026-01-04T04:26:20.641Z_
 - `snipingOrder`
 - `snowWhiteStrike`
 - `sorcerousConnection`
+- `stunCure`
 - `sylphicBarrier`
 - `tailwind`
 - `thunderousConferral`
