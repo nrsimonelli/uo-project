@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T04:49:49.307Z_
+_Generated: 2026-01-04T17:51:58.429Z_
 
 ## Summary
 
@@ -8,17 +8,16 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 190
-- **Total Skills Defined**: 389
+- **Passive Skills Defined**: 192
+- **Total Skills Defined**: 391
 - **Activation Windows Referenced**: 40
-- **Activation Windows Defined**: 40
+- **Activation Windows Defined**: 43
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **19 missing skills:**
+❌ **18 missing skills:**
 
 - `aerialAlignment`
-- `aerialWing`
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
@@ -39,15 +38,13 @@ _Generated: 2026-01-04T04:49:49.307Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-✅ **No unused skills found!**
+⚠️ **1 unused skills:**
+
+- `bladeDance`
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
-❌ **3 missing activation windows:**
-
-- `afterGuarding`
-- `beforeAllyAttacksMagicalActive`
-- `beforeBeingHitMagic`
+✅ **No missing activation windows found!**
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
@@ -701,7 +698,7 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (190)
+### Passive Skills Defined (192)
 
 - `accelerate`
 - `activeGift`
@@ -710,6 +707,7 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `aerialPursuit`
 - `aerialShift`
 - `aerialSnipe`
+- `aerialWing`
 - `aidCover`
 - `arrowCover`
 - `artenieStrike`
@@ -718,6 +716,7 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `bestralGuard`
 - `bestralHowl`
 - `bindingGuard`
+- `bladeDance`
 - `blindCure`
 - `boonOfTheFaeries`
 - `bulkUp`
@@ -939,7 +938,7 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `endOfBattle`
 - `startOfBattle`
 
-### Defined Activation Windows (40)
+### Defined Activation Windows (43)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -962,6 +961,7 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `afterEnemyHeals`
 - `afterEvade`
 - `afterFlyingAllyAttacksActive`
+- `afterGuarding`
 - `afterHealed`
 - `afterReceivingAllyPassive`
 - `afterUserDebuff`
@@ -969,11 +969,13 @@ _Generated: 2026-01-04T04:49:49.307Z_
 - `beforeAllyAttacked`
 - `beforeAllyAttackedRangedPhys`
 - `beforeAllyAttacksActive`
+- `beforeAllyAttacksMagicalActive`
 - `beforeAllyAttacksPhysicalActive`
 - `beforeAllyHitMagic`
 - `beforeAllyHitRangedPhys`
 - `beforeAttackingActive`
 - `beforeBeingAttacked`
+- `beforeBeingHitMagic`
 - `beforeBeingHitMelee`
 - `beforeBeingHitPhys`
 - `beforeBeingHitRanged`

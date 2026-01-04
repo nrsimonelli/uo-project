@@ -5553,6 +5553,76 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'aerialWing',
+    type: 'passive',
+    name: 'Aerial Wing',
+    description:
+      "Activates before attacking with an active skill. Makes the user's next attack a truestrike. Grants the user +20% Attack if the user is at 100% HP.",
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAttackingActive',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'GrantFlag',
+        flag: 'TrueStrike',
+        applyTo: 'User',
+      },
+      {
+        kind: 'Buff',
+        stat: 'PATK',
+        value: 20,
+        scaling: 'percent',
+        applyTo: 'User',
+        conditions: [
+          {
+            kind: 'Stat',
+            target: 'Self',
+            stat: 'HP',
+            comparator: 'GreaterOrEqual',
+            value: 100,
+            percent: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'bladeDance',
+    type: 'passive',
+    name: 'Blade Dance',
+    description:
+      'Activates after using an active skill. Grants the user +20% Critical Rate and +20% Critical damage. (Effect stacks.)',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUsingActiveSkill',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'CRT',
+        value: 20,
+        scaling: 'flat',
+        applyTo: 'User',
+        stacks: true,
+      },
+      {
+        kind: 'Buff',
+        stat: 'CritDmg',
+        value: 20,
+        scaling: 'flat',
+        applyTo: 'User',
+        stacks: true,
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']
