@@ -55,6 +55,7 @@ export type ExtraStats =
   | 'NegatePhysicalDamage'
   | 'AfflictionImmunity'
   | 'GlowingLight'
+  | 'StunImmunity'
   | 'TrueCritical'
   | 'Unguardable'
 export type EquipmentStatKey = StatKey | ExtraStats

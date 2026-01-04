@@ -4668,5 +4668,280 @@
         ]
       }
     ]
+  },
+  {
+    "id": "bearsDen",
+    "type": "passive",
+    "name": "Bear's Den",
+    "description": "Activates at the start of a battle. Grants +20% Phys. Defense to all allies. Grants +50% Guard Rate to Bestral targets.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PDEF",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "GRD",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Ally",
+            "combatantType": "Bestral",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wolfPack",
+    "type": "passive",
+    "name": "Wolf Pack",
+    "description": "Activates at the start of a battle. Grants +20% Phys. Attack to all allies. Grants +50% Critical Rate to Bestral targets.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PATK",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantType",
+            "target": "Ally",
+            "combatantType": "Bestral",
+            "comparator": "EqualTo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dawnHorn",
+    "type": "passive",
+    "name": "Dawn Horn",
+    "description": "Activates at the start of a battle. Grants all allies immunity to Stun and +20% Guard Rate.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "GRD",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "Target"
+      },
+      {
+        "kind": "Buff",
+        "stat": "StunImmunity",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "relicHeal",
+    "type": "passive",
+    "name": "Relic Heal",
+    "description": "Activates after an ally is hit by an attack. Restore moderate HP to an ally. Grants HP regeneration.",
+    "pp": 2,
+    "skillCategories": ["Heal"],
+    "activationWindow": "afterAllyHit",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 100
+        },
+        "hitCount": 1
+      },
+      {
+        "kind": "Buff",
+        "stat": "OnActiveHealPercent",
+        "value": 25,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "partyAid",
+    "type": "passive",
+    "name": "Party Aid",
+    "description": "Activates at the end of a battle. Restore 25% HP to all allies.",
+    "pp": 2,
+    "skillCategories": ["Heal"],
+    "activationWindow": "endOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "HealPercent",
+        "value": 25
+      }
+    ]
+  },
+  {
+    "id": "widePursuit",
+    "type": "passive",
+    "name": "Wide Pursuit",
+    "description": "Activates after an ally attacks with an active skill. Follow-up attack a row of enemies.",
+    "pp": 2,
+    "skillCategories": ["Damage", "Pursuit"],
+    "activationWindow": "afterAllyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 75
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "hastenedShatter",
+    "type": "passive",
+    "name": "Hastened Shatter",
+    "description": "Activates at the start of a battle. Attack a single enemy with a first strike. Inflicts Phys. Defense -50%.",
+    "pp": 2,
+    "skillCategories": ["Damage"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Debuff",
+        "stat": "PDEF",
+        "value": -50,
+        "scaling": "percent",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "magicConversion",
+    "type": "passive",
+    "name": "Magic Conversion",
+    "description": "Activates before being hit by a magic attack. Negate a single magic attack targeting the user. Grants the user +2 PP.",
+    "pp": 2,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeBeingHitMagic",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "NegateMagicDamage",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "User",
+        "duration": "UntilAttacked"
+      },
+      {
+        "kind": "ResourceGain",
+        "resource": "PP",
+        "amount": 2,
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "guardingImpetus",
+    "type": "passive",
+    "name": "Guarding Impetus",
+    "description": "Activates after guarding an attack. Grants the user +1 AP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterGuarding",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "vengefulImpetus",
+    "type": "passive",
+    "name": "Vengeful Impetus",
+    "description": "Activates after being attacked. Grants the user +1 AP.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterBeingAttacked",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      }
+    ]
   }
 ]

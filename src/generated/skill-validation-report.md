@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-03T21:59:22.513Z_
+_Generated: 2026-01-04T03:59:53.265Z_
 
 ## Summary
 
@@ -8,47 +8,40 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 166
-- **Total Skills Defined**: 365
-- **Activation Windows Referenced**: 36
+- **Passive Skills Defined**: 176
+- **Total Skills Defined**: 375
+- **Activation Windows Referenced**: 39
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **43 missing skills:**
+❌ **33 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
 - `astralBlade`
 - `banishingPursuit`
-- `bearsDen`
 - `blindCure`
 - `celestialLight`
 - `counter`
 - `cursedImpetus`
-- `dawnHorn`
 - `fireCure`
 - `freezeCure`
 - `graveImpetus`
 - `guardCure`
 - `guardingFighter`
-- `guardingImpetus`
-- `hastenedShatter`
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
 - `inspiration`
-- `magicConversion`
 - `mirrorWeakness`
 - `nimbleFighter`
-- `partyAid`
 - `passiveCure`
 - `poisonCure`
 - `powerfulCall`
 - `provokingCrush`
 - `quickAction`
 - `reflectMagic`
-- `relicHeal`
 - `selfCare`
 - `shadowArrow`
 - `sorcerousConnection`
@@ -56,10 +49,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `toughness`
 - `unitedFront`
 - `vanitas`
-- `vengefulImpetus`
 - `warCry`
-- `widePursuit`
-- `wolfPack`
 
 ## Unused Skills (Defined but Not Referenced)
 
@@ -67,14 +57,16 @@ _Generated: 2026-01-03T21:59:22.513Z_
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
-✅ **No missing activation windows found!**
+❌ **2 missing activation windows:**
+
+- `afterGuarding`
+- `beforeBeingHitMagic`
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **4 unused activation windows:**
+⚠️ **3 unused activation windows:**
 
 - `afterAllyHealed`
-- `afterBeingAttacked`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
 
@@ -722,7 +714,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (166)
+### Passive Skills Defined (176)
 
 - `accelerate`
 - `activeGift`
@@ -734,6 +726,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `aidCover`
 - `arrowCover`
 - `artenieStrike`
+- `bearsDen`
 - `berserk`
 - `bestralGuard`
 - `bestralHowl`
@@ -752,6 +745,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `cursedSwamp`
 - `darkConferral`
 - `darkStep`
+- `dawnHorn`
 - `deflect`
 - `demonicPact`
 - `discharge`
@@ -782,12 +776,14 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `guardHunter`
 - `guardOrder`
 - `guardian`
+- `guardingImpetus`
 - `hastenedAction`
 - `hastenedCast`
 - `hastenedCharge`
 - `hastenedCover`
 - `hastenedCurse`
 - `hastenedHeal`
+- `hastenedShatter`
 - `hastenedStrike`
 - `hawkEye`
 - `healingHunter`
@@ -810,6 +806,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `magicBarrier`
 - `magicBurst`
 - `magicConferral`
+- `magicConversion`
 - `magicCounter`
 - `magicPursuit`
 - `magicShell`
@@ -828,6 +825,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `partingBlow`
 - `partingDeath`
 - `partingResurrection`
+- `partyAid`
 - `passiveGift`
 - `passiveMiracle`
 - `phalanxShift`
@@ -858,6 +856,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `refresh`
 - `reheal`
 - `reinforce`
+- `relicHeal`
 - `removeWeakness`
 - `restore`
 - `rowBarrier`
@@ -884,16 +883,19 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `undyingWill`
 - `vengeance`
 - `vengefulGuard`
+- `vengefulImpetus`
 - `warHorn`
 - `weaknessHunter`
 - `wideCounter`
 - `wideInspiration`
+- `widePursuit`
 - `wildKick`
 - `wingRest`
+- `wolfPack`
 
 ## Activation Windows
 
-### Referenced in Passive Skills (36)
+### Referenced in Passive Skills (39)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -904,6 +906,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `afterAllyPassiveSkill`
 - `afterAttacking`
 - `afterAttackingMagical`
+- `afterBeingAttacked`
 - `afterBeingHit`
 - `afterBeingHitPhys`
 - `afterCavalryAllyAttacksActive`
@@ -914,6 +917,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `afterEnemyHeals`
 - `afterEvade`
 - `afterFlyingAllyAttacksActive`
+- `afterGuarding`
 - `afterHealed`
 - `afterReceivingAllyPassive`
 - `afterUserDebuff`
@@ -925,6 +929,7 @@ _Generated: 2026-01-03T21:59:22.513Z_
 - `beforeAllyHitRangedPhys`
 - `beforeAttackingActive`
 - `beforeBeingAttacked`
+- `beforeBeingHitMagic`
 - `beforeBeingHitMelee`
 - `beforeBeingHitPhys`
 - `beforeBeingHitRanged`
