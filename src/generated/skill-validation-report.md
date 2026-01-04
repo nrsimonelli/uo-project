@@ -1,12 +1,12 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T21:08:13.012Z_
+_Generated: 2026-01-04T21:22:49.473Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 192
-- **Total Skills Referenced**: 410
+- **Equipment Skills Referenced**: 190
+- **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
 - **Passive Skills Defined**: 205
 - **Total Skills Defined**: 404
@@ -15,10 +15,8 @@ _Generated: 2026-01-04T21:08:13.012Z_
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **6 missing skills:**
+❌ **4 missing skills:**
 
-- `astralBlade`
-- `celestialLight`
 - `mirrorWeakness`
 - `provokingCrush`
 - `reflectMagic`
@@ -288,7 +286,7 @@ _Generated: 2026-01-04T21:08:13.012Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (192)
+### From Equipment Data (190)
 
 - `activeHeal`
 - `activeShatter`
@@ -301,7 +299,6 @@ _Generated: 2026-01-04T21:08:13.012Z_
 - `arrowRain`
 - `artenieStrike`
 - `assassinsNail`
-- `astralBlade`
 - `banishingCounter`
 - `banishingPursuit`
 - `banishingSmite`
@@ -315,7 +312,6 @@ _Generated: 2026-01-04T21:08:13.012Z_
 - `bulwark`
 - `bunkerStance`
 - `cavalryGuard`
-- `celestialLight`
 - `checkmate`
 - `circleHeal`
 - `counter`

@@ -1197,8 +1197,8 @@
     "classRestrictions": []
   },
   {
-    "id": "leafBrooch",
-    "name": "Leaf Brooch",
+    "id": "leafBroach",
+    "name": "Leaf Broach",
     "type": "Accessory",
     "stats": {
       "PDEF": 1,
@@ -1795,7 +1795,7 @@
       "PP": 1,
       "AllStats": 5
     },
-    "skillId": "celestialLight",
+    "skillId": null,
     "nullifications": [],
     "classRestrictions": []
   },
@@ -1807,9 +1807,9 @@
       "AP": 1,
       "AllStats": 5
     },
-    "skillId": "astralBlade",
+    "skillId": null,
     "nullifications": [],
-    "classRestrictions": []
+    "classRestrictions": ["Lord", "High Lord"]
   },
   {
     "id": "rookieEgg",
@@ -2506,5 +2506,66 @@
       "Dark Marquess (Lance)",
       "Dark Marquess (Sword)"
     ]
+  },
+  {
+    "id": "onyxPendant",
+    "name": "Onyx Pendant",
+    "type": "Accessory",
+    "stats": {
+      "AP": 2,
+      "PP": 2,
+      "AllStats": -15
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "salamanderRing",
+    "name": "Salamander Ring",
+    "type": "Accessory",
+    "stats": {
+      "MaxHP": 5,
+      "MDEF": 8
+    },
+    "skillId": null,
+    "nullifications": ["Burn"],
+    "classRestrictions": []
+  },
+  {
+    "id": "thunderclapRing",
+    "name": "Thunderclap Ring",
+    "type": "Accessory",
+    "stats": {
+      "MaxHP": 5,
+      "MDEF": 8
+    },
+    "skillId": null,
+    "nullifications": ["Stun"],
+    "classRestrictions": []
+  },
+  {
+    "id": "dreamCrown",
+    "name": "Dream Crown",
+    "type": "Accessory",
+    "stats": {
+      "AP": 1,
+      "AllStats": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
+  },
+  {
+    "id": "ancientCrown",
+    "name": "Ancient Crown",
+    "type": "Accessory",
+    "stats": {
+      "PP": 1,
+      "AllStats": 5
+    },
+    "skillId": null,
+    "nullifications": [],
+    "classRestrictions": []
   }
 ]
