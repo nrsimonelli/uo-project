@@ -5715,5 +5715,48 @@
         "applyTo": "User"
       }
     ]
+  },
+  {
+    "id": "healingPursuit",
+    "type": "passive",
+    "name": "Healing Pursuit",
+    "description": "Activates after an ally is healed. Restore minor HP to one ally above their normal limits. (Can heal up to 150% above maximum HP.)",
+    "pp": 1,
+    "skillCategories": ["Heal", "Pursuit"],
+    "activationWindow": "afterAllyHealed",
+    "skillFlags": ["Overheal"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Heal",
+        "potency": {
+          "magical": 50
+        },
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "selfCare",
+    "type": "passive",
+    "name": "Self-Care",
+    "description": "Activates after the user is debuffed. Remove all debuffs from the user.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "afterUserDebuff",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Cleanse",
+        "target": "Debuffs",
+        "applyTo": "User"
+      }
+    ]
   }
 ]

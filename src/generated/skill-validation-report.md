@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T20:26:40.791Z_
+_Generated: 2026-01-04T20:36:54.197Z_
 
 ## Summary
 
@@ -8,24 +8,22 @@ _Generated: 2026-01-04T20:26:40.791Z_
 - **Equipment Skills Referenced**: 191
 - **Total Skills Referenced**: 409
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 199
-- **Total Skills Defined**: 398
-- **Activation Windows Referenced**: 41
+- **Passive Skills Defined**: 201
+- **Total Skills Defined**: 400
+- **Activation Windows Referenced**: 42
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **11 missing skills:**
+❌ **9 missing skills:**
 
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
 - `counter`
-- `healingPursuit`
 - `mirrorWeakness`
 - `provokingCrush`
 - `reflectMagic`
-- `selfCare`
 - `shadowArrow`
 - `vanitas`
 
@@ -39,9 +37,8 @@ _Generated: 2026-01-04T20:26:40.791Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **3 unused activation windows:**
+⚠️ **2 unused activation windows:**
 
-- `afterAllyHealed`
 - `beforeAllyAttackedRangedPhys`
 - `beforeEnemyAttacksMagic`
 
@@ -690,7 +687,7 @@ _Generated: 2026-01-04T20:26:40.791Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (199)
+### Passive Skills Defined (201)
 
 - `accelerate`
 - `activeGift`
@@ -773,6 +770,7 @@ _Generated: 2026-01-04T20:26:40.791Z_
 - `hastenedStrike`
 - `hawkEye`
 - `healingHunter`
+- `healingPursuit`
 - `heavyAlignment`
 - `heavyCounter`
 - `heavyCover`
@@ -863,6 +861,7 @@ _Generated: 2026-01-04T20:26:40.791Z_
 - `sanguineConferral`
 - `sanguinePursuit`
 - `scornfulDead`
+- `selfCare`
 - `selflessHeal`
 - `shadowPursuit`
 - `shatteringPursuit`
@@ -894,13 +893,14 @@ _Generated: 2026-01-04T20:26:40.791Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (41)
+### Referenced in Passive Skills (42)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
 - `afterAllyAttacksActive`
 - `afterAllyDebuffed`
 - `afterAllyDefeatedByAttack`
+- `afterAllyHealed`
 - `afterAllyHit`
 - `afterAllyMagicAttacksActive`
 - `afterAllyPassiveSkill`
