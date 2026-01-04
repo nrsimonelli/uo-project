@@ -5623,6 +5623,28 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'graveImpetus',
+    type: 'passive',
+    name: 'Grave Impetus',
+    description:
+      'Activates after an ally is defeated by an attack. Grants the user +1 AP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterAllyDefeatedByAttack',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

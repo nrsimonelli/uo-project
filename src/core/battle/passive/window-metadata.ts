@@ -83,6 +83,7 @@ export const WINDOW_PRIORITY_ORDER: readonly ActivationWindowId[] = [
   'afterBeingHitPhys',
   'afterBeingAttacked',
   'afterAllyHit',
+  'afterAllyDefeatedByAttack',
 
   // Special event windows
   'afterAllyHealed',
@@ -196,6 +197,7 @@ export const EVENT_TO_WINDOWS_MAP: ReadonlyMap<
       'afterAllyHit',
     ],
   ],
+  ['ally-defeated', ['afterAllyDefeatedByAttack']],
 
   // Special events
   ['heal', ['afterAllyHealed', 'afterHealed']],

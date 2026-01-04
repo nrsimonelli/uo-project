@@ -19,6 +19,11 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates after an ally is hit by an attack',
     limited: false,
   },
+  AFTER_ALLY_DEFEATED_BY_ATTACK: {
+    id: 'afterAllyDefeatedByAttack',
+    description: 'Activates after an ally is defeated by an attack',
+    limited: false,
+  },
   AFTER_ALLY_PASSIVE_SKILL: {
     id: 'afterAllyPassiveSkill',
     description: 'Activates after an ally uses a passive skill',

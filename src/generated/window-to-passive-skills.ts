@@ -62,6 +62,7 @@ export const WindowToPassiveSkillIds: Record<
     'curingHeal',
     'relicHeal',
   ],
+  afterAllyDefeatedByAttack: ['graveImpetus'],
   afterAllyPassiveSkill: ['restore', 'passiveGift'],
   afterAllyDebuffed: [
     'refresh',
