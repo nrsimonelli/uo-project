@@ -5264,6 +5264,57 @@ export const PassiveSkills = [
       },
     ],
   },
+  {
+    id: 'sorcerousConnection',
+    type: 'passive',
+    name: 'Sorcerous Connection',
+    description:
+      'Activates before an ally uses a magic attack (Active). Grants an ally +50% Mag. Attack. Grants the user -50% Mag. Attack.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'beforeAllyAttacksMagicalActive',
+    targeting: {
+      group: 'Ally',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Buff',
+        stat: 'MATK',
+        value: 50,
+        scaling: 'percent',
+        applyTo: 'Target',
+      },
+      {
+        kind: 'Debuff',
+        stat: 'MATK',
+        value: -50,
+        scaling: 'percent',
+        applyTo: 'User',
+      },
+    ],
+  },
+  {
+    id: 'cursedImpetus',
+    type: 'passive',
+    name: 'Cursed Impetus',
+    description: 'Activates after the user is debuffed. Grants the user +1 AP.',
+    pp: 1,
+    skillCategories: ['Utility'],
+    activationWindow: 'afterUserDebuff',
+    targeting: {
+      group: 'Self',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'ResourceGain',
+        resource: 'AP',
+        amount: 1,
+        applyTo: 'User',
+      },
+    ],
+  },
 ] as const satisfies readonly PassiveSkill[]
 
 export type PassiveSkillsId = (typeof PassiveSkills)[number]['id']

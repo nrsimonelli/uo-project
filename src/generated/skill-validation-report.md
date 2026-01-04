@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T04:17:31.758Z_
+_Generated: 2026-01-04T04:26:20.641Z_
 
 ## Summary
 
@@ -8,14 +8,14 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 181
-- **Total Skills Defined**: 380
-- **Activation Windows Referenced**: 39
+- **Passive Skills Defined**: 183
+- **Total Skills Defined**: 382
+- **Activation Windows Referenced**: 40
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **28 missing skills:**
+❌ **26 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -24,7 +24,6 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `blindCure`
 - `celestialLight`
 - `counter`
-- `cursedImpetus`
 - `fireCure`
 - `freezeCure`
 - `graveImpetus`
@@ -40,7 +39,6 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `reflectMagic`
 - `selfCare`
 - `shadowArrow`
-- `sorcerousConnection`
 - `stunCure`
 - `unitedFront`
 - `vanitas`
@@ -52,9 +50,10 @@ _Generated: 2026-01-04T04:17:31.758Z_
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
-❌ **2 missing activation windows:**
+❌ **3 missing activation windows:**
 
 - `afterGuarding`
+- `beforeAllyAttacksMagicalActive`
 - `beforeBeingHitMagic`
 
 ## Unused Activation Windows (Defined but Not Referenced)
@@ -709,7 +708,7 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (181)
+### Passive Skills Defined (183)
 
 - `accelerate`
 - `activeGift`
@@ -737,6 +736,7 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `concentrate`
 - `curingHeal`
 - `cursedGaol`
+- `cursedImpetus`
 - `cursedSwamp`
 - `darkConferral`
 - `darkStep`
@@ -875,6 +875,7 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `sneakingEdge`
 - `snipingOrder`
 - `snowWhiteStrike`
+- `sorcerousConnection`
 - `sylphicBarrier`
 - `tailwind`
 - `thunderousConferral`
@@ -895,7 +896,7 @@ _Generated: 2026-01-04T04:17:31.758Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (39)
+### Referenced in Passive Skills (40)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -924,6 +925,7 @@ _Generated: 2026-01-04T04:17:31.758Z_
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`
 - `beforeAllyAttacksActive`
+- `beforeAllyAttacksMagicalActive`
 - `beforeAllyAttacksPhysicalActive`
 - `beforeAllyHitMagic`
 - `beforeAllyHitRangedPhys`
