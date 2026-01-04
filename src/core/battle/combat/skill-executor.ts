@@ -70,7 +70,7 @@ const executeNonDamageSkill = (
 
   // Apply status effects (buffs/debuffs) to appropriate targets
   // Note: applyStatusEffects already handles recalculating combat stats
-  applyStatusEffects(effectResults, attacker, [target], true)
+  applyStatusEffects(effectResults, attacker, [target], true, battlefield)
 
   return {
     damageResults: [],
@@ -230,7 +230,7 @@ const executeDamageSkill = (
 
   // Apply remaining status effects (target buffs, debuffs, etc)
   // Only apply target-directed effects if the attack hit
-  applyStatusEffects(effectResults, attacker, [target], anyHit)
+  applyStatusEffects(effectResults, attacker, [target], anyHit, battlefield)
 
   // Clean up debuffs with UntilNextAttack duration
   removeExpiredDebuffs(attacker, 'attacks')

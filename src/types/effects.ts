@@ -305,6 +305,11 @@ export interface OwnHPBasedHealEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface TransferDebuffsToTriggeringEnemyEffect {
+  kind: 'TransferDebuffsToTriggeringEnemy'
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -333,3 +338,4 @@ export type Effect =
   | TargetStatBasedDamageEffect
   | LifeshareEffect
   | OwnHPBasedHealEffect
+  | TransferDebuffsToTriggeringEnemyEffect

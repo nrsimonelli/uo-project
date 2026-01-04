@@ -9,7 +9,9 @@ import type { EffectProcessingResult } from './effect-processor'
 import { calculateBaseStats } from '@/core/calculations/base-stats'
 import { calculateEquipmentBonus } from '@/core/calculations/equipment-bonuses'
 import { AFFLICTIONS } from '@/data/constants'
+import { PassiveSkillsMap } from '@/generated/skills-passive'
 import type { StatKey } from '@/types/base-stats'
+import type { BattlefieldState } from '@/types/battle-engine'
 import type {
   BattleContext,
   Buff,
@@ -90,7 +92,8 @@ const applyCleanses = (
   attacker: BattleContext,
   targets: BattleContext[],
   attackHit: boolean,
-  unitsToRecalculate: Set<BattleContext>
+  unitsToRecalculate: Set<BattleContext>,
+  effectResults: EffectProcessingResult
 ): void => {
   cleansesToApply.forEach(cleanse => {
     const skillName = getSkillName(cleanse.skillId)
@@ -104,6 +107,13 @@ const applyCleanses = (
 
     const cleanseTarget = cleanse.target
 
+    // Check if skill has TransferDebuffsToTriggeringEnemyEffect
+    const skill =
+      PassiveSkillsMap[cleanse.skillId as keyof typeof PassiveSkillsMap]
+    const hasTransferEffect =
+      skill?.effects.some(e => e.kind === 'TransferDebuffsToTriggeringEnemy') ??
+      false
+
     if (cleanseTarget === CLEANSE_TARGETS.BUFFS) {
       // Filter out permanent buffs - they cannot be removed
       const permanentBuffs = targetUnit.buffs.filter(buff => buff.permanent)
@@ -115,6 +125,29 @@ const applyCleanses = (
       }
     } else if (cleanseTarget === CLEANSE_TARGETS.DEBUFFS) {
       if (targetUnit.debuffs.length > 0) {
+        // If skill has transfer effect, capture debuffs before removing
+        if (hasTransferEffect) {
+          // Find the most recently applied debuff to determine the triggering enemy
+          // The most recent debuff is the one that triggered afterUserDebuff window
+          // All debuffs will be transferred to this enemy, not to their individual sources
+          const mostRecentDebuff =
+            targetUnit.debuffs[targetUnit.debuffs.length - 1]
+          const triggeringEnemyId = mostRecentDebuff?.source ?? attacker.unit.id
+
+          const debuffsToTransfer = targetUnit.debuffs.map(debuff => ({
+            debuff: {
+              name: debuff.name,
+              stat: debuff.stat,
+              value: debuff.value,
+              scaling: debuff.scaling,
+              duration: debuff.duration,
+              source: debuff.source,
+              skillId: debuff.skillId,
+            },
+            triggeringEnemyId, // ALL debuffs go to the same triggering enemy
+          }))
+          effectResults.transferredDebuffs.push(...debuffsToTransfer)
+        }
         targetUnit.debuffs = []
         logCombat(`✨ ${targetUnit.unit.name} debuffs removed by ${skillName}`)
         unitsToRecalculate.add(targetUnit)
@@ -142,6 +175,52 @@ const applyCleanses = (
         unitsToRecalculate.add(targetUnit)
       }
     }
+  })
+}
+
+const applyTransferredDebuffs = (
+  transferredDebuffs: EffectProcessingResult['transferredDebuffs'],
+  battlefield: BattlefieldState | undefined,
+  unitsToRecalculate: Set<BattleContext>
+): void => {
+  if (transferredDebuffs.length === 0 || !battlefield) return
+
+  // All debuffs have the same triggeringEnemyId (the enemy that triggered mirrorWeakness)
+  const triggeringEnemyId = transferredDebuffs[0]?.triggeringEnemyId
+  if (!triggeringEnemyId) return
+
+  const enemyUnit = battlefield.units[triggeringEnemyId]
+  if (!enemyUnit || enemyUnit.currentHP <= 0) {
+    // Enemy is defeated or doesn't exist, skip transfer
+    console.warn(
+      `This should not be possible: ${triggeringEnemyId} is defeated or missing from battlefield`
+    )
+    return
+  }
+
+  // Apply all debuffs to the triggering enemy
+  transferredDebuffs.forEach(item => {
+    const debuff: Debuff = {
+      name: item.debuff.name,
+      stat: item.debuff.stat as StatKey,
+      value: item.debuff.value,
+      duration: item.debuff.duration as
+        | 'UntilNextAction'
+        | 'UntilNextAttack'
+        | 'UntilAttacked'
+        | 'UntilDebuffed'
+        | 'Indefinite',
+      scaling: item.debuff.scaling as 'flat' | 'percent',
+      source: item.debuff.source,
+      skillId: item.debuff.skillId,
+    }
+
+    applyDebuff(enemyUnit, debuff, false)
+    unitsToRecalculate.add(enemyUnit)
+
+    logCombat(
+      `🔄 ${enemyUnit.unit.name} received transferred debuff: ${debuff.name} (-${debuff.value}${debuff.scaling === 'percent' ? '%' : ''} ${debuff.stat})`
+    )
   })
 }
 
@@ -540,7 +619,8 @@ export const applyStatusEffects = (
   effectResults: EffectProcessingResult,
   attacker: BattleContext,
   targets: BattleContext[],
-  attackHit = true
+  attackHit = true,
+  battlefield?: BattlefieldState
 ) => {
   const unitsToRecalculate = new Set<BattleContext>()
 
@@ -552,6 +632,14 @@ export const applyStatusEffects = (
     attacker,
     targets,
     attackHit,
+    unitsToRecalculate,
+    effectResults
+  )
+
+  // Apply transferred debuffs to triggering enemy (for mirrorWeakness)
+  applyTransferredDebuffs(
+    effectResults.transferredDebuffs,
+    battlefield,
     unitsToRecalculate
   )
 

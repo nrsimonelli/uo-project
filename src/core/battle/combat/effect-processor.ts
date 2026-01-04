@@ -215,6 +215,20 @@ export interface EffectProcessingResult {
     skillId: string
     stacks: boolean
   }>
+
+  // Debuffs to transfer to triggering enemy (for mirrorWeakness)
+  transferredDebuffs: Array<{
+    debuff: {
+      name: string
+      stat: string
+      value: number
+      scaling: 'flat' | 'percent'
+      duration: string
+      source: string
+      skillId: string
+    }
+    triggeringEnemyId: string
+  }>
 }
 
 /**
@@ -295,6 +309,7 @@ export const processEffects = (
     resurrectsToApply: [],
     lifeStealsToApply: [],
     lifeshareToApply: [],
+    transferredDebuffs: [],
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
