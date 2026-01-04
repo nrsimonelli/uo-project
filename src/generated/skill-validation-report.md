@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T04:09:45.297Z_
+_Generated: 2026-01-04T04:17:31.758Z_
 
 ## Summary
 
@@ -8,14 +8,14 @@ _Generated: 2026-01-04T04:09:45.297Z_
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 179
-- **Total Skills Defined**: 378
+- **Passive Skills Defined**: 181
+- **Total Skills Defined**: 380
 - **Activation Windows Referenced**: 39
 - **Activation Windows Defined**: 40
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **30 missing skills:**
+❌ **28 missing skills:**
 
 - `aerialAlignment`
 - `aerialWing`
@@ -32,11 +32,9 @@ _Generated: 2026-01-04T04:09:45.297Z_
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
-- `inspiration`
 - `mirrorWeakness`
 - `passiveCure`
 - `poisonCure`
-- `powerfulCall`
 - `provokingCrush`
 - `quickAction`
 - `reflectMagic`
@@ -711,7 +709,7 @@ _Generated: 2026-01-04T04:09:45.297Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (179)
+### Passive Skills Defined (181)
 
 - `accelerate`
 - `activeGift`
@@ -792,6 +790,7 @@ _Generated: 2026-01-04T04:09:45.297Z_
 - `holyBreath`
 - `holyGuard`
 - `iceConferral`
+- `inspiration`
 - `invincible`
 - `ironVeil`
 - `keenCall`
@@ -831,6 +830,7 @@ _Generated: 2026-01-04T04:09:45.297Z_
 - `phantomCounter`
 - `phantomStep`
 - `poisonBurst`
+- `powerfulCall`
 - `preemptiveHeal`
 - `protection`
 - `provoke`

@@ -4543,10 +4543,10 @@
     "id": "wideInspiration",
     "type": "passive",
     "name": "Wide Inspiration",
-    "description": "Activates before an ally attacks with an Active skill. Buff a row of allies for their next attack. Grants +30% Attack, +50% Critical damage, and  -50 Accuracy.",
+    "description": "Activates before an ally attacks with an Active skill. Buff a row of allies for their next attack. Grants +30% Attack, +50% Critical damage, and -50 Accuracy.",
     "pp": 2,
     "skillCategories": ["Utility"],
-    "activationWindow": "beforeAllyAttacked",
+    "activationWindow": "beforeAllyAttacksActive",
     "targeting": {
       "group": "Ally",
       "pattern": "Row"
@@ -5025,6 +5025,68 @@
         "value": 1,
         "scaling": "flat",
         "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "inspiration",
+    "type": "passive",
+    "name": "Inspiration",
+    "description": "Activates before an ally attacks with an Active skill. Buff an ally for their next attack. Grants +30% Attack, +50% Critical damage, and -50 Accuracy.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 30,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "duration": "UntilNextAttack"
+      },
+      {
+        "kind": "Buff",
+        "stat": "CritDmg",
+        "value": 50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilNextAttack"
+      },
+      {
+        "kind": "Buff",
+        "stat": "ACC",
+        "value": -50,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilNextAttack"
+      }
+    ]
+  },
+  {
+    "id": "powerfulCall",
+    "type": "passive",
+    "name": "Powerful Call",
+    "description": "Activates before an ally attacks with an Active skill. Grant an ally +30% Phys. Attack for an ally's next attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "beforeAllyAttacksActive",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PATK",
+        "value": 30,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "duration": "UntilNextAttack"
       }
     ]
   }
