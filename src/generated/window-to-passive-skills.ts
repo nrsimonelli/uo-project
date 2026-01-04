@@ -39,6 +39,9 @@ export const WindowToPassiveSkillIds: Record<
     'wolfPack',
     'dawnHorn',
     'hastenedShatter',
+    'unitedFront',
+    'aerialAlignment',
+    'heavyAlignment',
   ],
   afterAllyActiveSkill: ['activeGift', 'quickImpetus'],
   afterUsingActiveSkill: [

@@ -5459,5 +5459,187 @@
         "applyTo": "User"
       }
     ]
+  },
+  {
+    "id": "unitedFront",
+    "type": "passive",
+    "name": "United Front",
+    "description": "Activates at the start of a battle. Grants all allies buffs based on the number of enemies minus the number of allies. (1: Grants +30 Initiative. 2: Grants +50% Defense. 3: Negates attacks up to 5 hits.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "All"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 30,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "UnitCountDifference",
+            "comparator": "GreaterOrEqual",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "Defense",
+        "value": 50,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "UnitCountDifference",
+            "comparator": "GreaterOrEqual",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "kind": "DamageImmunity",
+        "immunityType": "multipleHits",
+        "hitCount": 5,
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "UnitCountDifference",
+            "comparator": "GreaterOrEqual",
+            "value": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aerialAlignment",
+    "type": "passive",
+    "name": "Aerial Alignment",
+    "description": "Activates at the start of a battle. Grants a row of allies buffs based on the number of flying allies in the row. (1: Grants +20% Critical Rate. 2: Grants +20 Accuracy. 3: Grants +20% Attack.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "CRT",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Flying",
+            "comparator": "GreaterOrEqual",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "ACC",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Flying",
+            "comparator": "GreaterOrEqual",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "Attack",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Flying",
+            "comparator": "EqualTo",
+            "value": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavyAlignment",
+    "type": "passive",
+    "name": "Heavy Alignment",
+    "description": "Activates at the start of a battle. Grants a row of allies buffs based on the number of armored allies in the row. (1: Grants +20% Guard Rate. 2: Grants Stun Immunity. 3: Grants +20% Defense.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Row"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "GRD",
+        "value": 20,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Armored",
+            "comparator": "GreaterOrEqual",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "StunImmunity",
+        "value": 1,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Armored",
+            "comparator": "GreaterOrEqual",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "kind": "Buff",
+        "stat": "Defense",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "Target",
+        "conditions": [
+          {
+            "kind": "CombatantTypeCountInRow",
+            "target": "Ally",
+            "combatantType": "Armored",
+            "comparator": "EqualTo",
+            "value": 3
+          }
+        ]
+      }
+    ]
   }
 ]

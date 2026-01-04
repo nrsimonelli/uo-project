@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T18:01:42.840Z_
+_Generated: 2026-01-04T20:15:44.716Z_
 
 ## Summary
 
@@ -8,22 +8,20 @@ _Generated: 2026-01-04T18:01:42.840Z_
 - **Equipment Skills Referenced**: 191
 - **Total Skills Referenced**: 409
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 193
-- **Total Skills Defined**: 392
+- **Passive Skills Defined**: 196
+- **Total Skills Defined**: 395
 - **Activation Windows Referenced**: 41
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **17 missing skills:**
+❌ **14 missing skills:**
 
-- `aerialAlignment`
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
 - `counter`
 - `healingPursuit`
-- `heavyAlignment`
 - `impetusStance`
 - `mirrorWeakness`
 - `provokingCrush`
@@ -31,7 +29,6 @@ _Generated: 2026-01-04T18:01:42.840Z_
 - `reflectMagic`
 - `selfCare`
 - `shadowArrow`
-- `unitedFront`
 - `vanitas`
 - `warCry`
 
@@ -696,11 +693,12 @@ _Generated: 2026-01-04T18:01:42.840Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (193)
+### Passive Skills Defined (196)
 
 - `accelerate`
 - `activeGift`
 - `advanceCover`
+- `aerialAlignment`
 - `aerialGuard`
 - `aerialPursuit`
 - `aerialShift`
@@ -778,6 +776,7 @@ _Generated: 2026-01-04T18:01:42.840Z_
 - `hastenedStrike`
 - `hawkEye`
 - `healingHunter`
+- `heavyAlignment`
 - `heavyCounter`
 - `heavyCover`
 - `heavyGuard`
@@ -880,6 +879,7 @@ _Generated: 2026-01-04T18:01:42.840Z_
 - `toughness`
 - `tripleCounter`
 - `undyingWill`
+- `unitedFront`
 - `vengeance`
 - `vengefulGuard`
 - `vengefulImpetus`
