@@ -443,6 +443,73 @@ export const ${exportName}Map: ${exportName}Map = Object.fromEntries(
   console.log(`✅ Generated: ${path.basename(outPath)}`)
 }
 
+// === Window to Passive Skills Mapping Generator ===
+function generateWindowToPassiveSkillsMapping() {
+  const passiveSkillsPath = path.resolve(
+    __dirname,
+    '../data/skills/passive.json'
+  )
+  const passiveSkillsRaw = fs.readFileSync(passiveSkillsPath, 'utf-8')
+  const passiveSkills: PassiveSkillItem[] = JSON.parse(passiveSkillsRaw)
+
+  const activationWindowsPath = path.resolve(
+    __dirname,
+    '../data/activation-windows.ts'
+  )
+  const activationWindowsContent = fs.readFileSync(
+    activationWindowsPath,
+    'utf-8'
+  )
+
+  // Extract all activation window IDs
+  const windowIdMatches = activationWindowsContent.match(/id: '([^']+)'/g) || []
+  const windowIds = windowIdMatches
+    .map(match => {
+      const result = match.match(/id: '([^']+)'/)
+      return result ? result[1] : ''
+    })
+    .filter(Boolean)
+
+  // Build mapping: windowId -> array of skill IDs
+  const windowToSkillsMap: Record<string, string[]> = {}
+
+  for (const windowId of windowIds) {
+    windowToSkillsMap[windowId] = []
+  }
+
+  for (const skill of passiveSkills) {
+    if (skill.activationWindow) {
+      if (!windowToSkillsMap[skill.activationWindow]) {
+        windowToSkillsMap[skill.activationWindow] = []
+      }
+      windowToSkillsMap[skill.activationWindow].push(skill.id)
+    }
+  }
+
+  // Generate TypeScript file
+  const outPath = path.resolve(
+    __dirname,
+    '../generated/window-to-passive-skills.ts'
+  )
+
+  const mapContent = JSON.stringify(windowToSkillsMap, null, 2)
+  const tsContent = `// AUTO-GENERATED FILE. DO NOT EDIT.
+// Source: passive.json + activation-windows.ts
+import type { ActivationWindowId } from '@/data/activation-windows'
+
+export const WindowToPassiveSkillIds: Record<ActivationWindowId, readonly string[]> = ${mapContent} as const
+
+export const getPassiveSkillIdsForWindow = (
+  windowId: ActivationWindowId
+): readonly string[] => {
+  return WindowToPassiveSkillIds[windowId] ?? []
+}
+`
+
+  fs.writeFileSync(outPath, tsContent, 'utf-8')
+  console.log(`✅ Generated: ${path.basename(outPath)}`)
+}
+
 // === Directories ===
 const skillsDir = path.resolve(__dirname, '../data/skills')
 const equipmentDir = path.resolve(__dirname, '../data/equipment')
@@ -475,6 +542,9 @@ for (const file of equipmentFiles) {
 
   generateEquipmentTsFile(path.join(equipmentDir, file), outPath, exportName)
 }
+
+// === Window to Passive Skills Mapping ===
+generateWindowToPassiveSkillsMapping()
 
 // === Skill Validation ===
 validateSkillReferences()
