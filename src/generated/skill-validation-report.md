@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T20:36:54.197Z_
+_Generated: 2026-01-04T20:52:11.664Z_
 
 ## Summary
 
@@ -8,28 +8,28 @@ _Generated: 2026-01-04T20:36:54.197Z_
 - **Equipment Skills Referenced**: 191
 - **Total Skills Referenced**: 409
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 201
-- **Total Skills Defined**: 400
+- **Passive Skills Defined**: 204
+- **Total Skills Defined**: 403
 - **Activation Windows Referenced**: 42
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **9 missing skills:**
+❌ **7 missing skills:**
 
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
-- `counter`
 - `mirrorWeakness`
 - `provokingCrush`
 - `reflectMagic`
 - `shadowArrow`
-- `vanitas`
 
 ## Unused Skills (Defined but Not Referenced)
 
-✅ **No unused skills found!**
+⚠️ **1 unused skills:**
+
+- `banishingCounter`
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
@@ -687,7 +687,7 @@ _Generated: 2026-01-04T20:36:54.197Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (201)
+### Passive Skills Defined (204)
 
 - `accelerate`
 - `activeGift`
@@ -701,6 +701,7 @@ _Generated: 2026-01-04T20:36:54.197Z_
 - `aidCover`
 - `arrowCover`
 - `artenieStrike`
+- `banishingCounter`
 - `bearsDen`
 - `berserk`
 - `bestralGuard`
@@ -717,6 +718,7 @@ _Generated: 2026-01-04T20:36:54.197Z_
 - `chargedImpetus`
 - `circleBarrier`
 - `concentrate`
+- `counter`
 - `curingHeal`
 - `cursedGaol`
 - `cursedImpetus`
@@ -878,6 +880,7 @@ _Generated: 2026-01-04T20:36:54.197Z_
 - `tripleCounter`
 - `undyingWill`
 - `unitedFront`
+- `vanitas`
 - `vengeance`
 - `vengefulGuard`
 - `vengefulImpetus`

@@ -3407,7 +3407,7 @@
     "id": "maidensHammer",
     "type": "passive",
     "name": "Maidens Hammer",
-    "description": "Activates after an enemy attacks ith an active skill. Counterattack a single enemy. Potency increases the less HP the user has. (Maximum increase: +100)",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy. Potency increases the less HP the user has. (Maximum increase: +100)",
     "pp": 1,
     "skillCategories": ["Damage", "Counter"],
     "activationWindow": "afterEnemyAttacksActive",
@@ -5756,6 +5756,81 @@
         "kind": "Cleanse",
         "target": "Debuffs",
         "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "banishingCounter",
+    "type": "passive",
+    "name": "Banishing Counter",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy. Removes all of target's buffs.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Counter"],
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      },
+      {
+        "kind": "Cleanse",
+        "target": "Buffs",
+        "applyTo": "Target"
+      }
+    ]
+  },
+  {
+    "id": "vanitas",
+    "type": "passive",
+    "name": "Vanitas",
+    "description": "Activates after an ally is hit by an attack. Counterattack a single enemy. Inflicts Blindness and Poison.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Counter"],
+    "activationWindow": "afterAllyHit",
+    "innateAttackType": "Ranged",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "magical": 50
+        },
+        "hitRate": 100,
+        "hitCount": 1
+      }
+    ]
+  },
+  {
+    "id": "counter",
+    "type": "passive",
+    "name": "Counter",
+    "description": "Activates after an enemy attacks with an active skill. Counterattack a single enemy.",
+    "pp": 1,
+    "skillCategories": ["Damage", "Counter"],
+    "activationWindow": "afterEnemyAttacksActive",
+    "targeting": {
+      "group": "Enemy",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Damage",
+        "potency": {
+          "physical": 150
+        },
+        "hitRate": 100,
+        "hitCount": 1
       }
     ]
   }
