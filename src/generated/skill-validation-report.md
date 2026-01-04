@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T20:15:44.716Z_
+_Generated: 2026-01-04T20:26:40.791Z_
 
 ## Summary
 
@@ -8,29 +8,26 @@ _Generated: 2026-01-04T20:15:44.716Z_
 - **Equipment Skills Referenced**: 191
 - **Total Skills Referenced**: 409
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 196
-- **Total Skills Defined**: 395
+- **Passive Skills Defined**: 199
+- **Total Skills Defined**: 398
 - **Activation Windows Referenced**: 41
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **14 missing skills:**
+❌ **11 missing skills:**
 
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
 - `counter`
 - `healingPursuit`
-- `impetusStance`
 - `mirrorWeakness`
 - `provokingCrush`
-- `quickAction`
 - `reflectMagic`
 - `selfCare`
 - `shadowArrow`
 - `vanitas`
-- `warCry`
 
 ## Unused Skills (Defined but Not Referenced)
 
@@ -693,7 +690,7 @@ _Generated: 2026-01-04T20:15:44.716Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (196)
+### Passive Skills Defined (199)
 
 - `accelerate`
 - `activeGift`
@@ -784,6 +781,7 @@ _Generated: 2026-01-04T20:15:44.716Z_
 - `holyBreath`
 - `holyGuard`
 - `iceConferral`
+- `impetusStance`
 - `inspiration`
 - `invincible`
 - `ironVeil`
@@ -833,6 +831,7 @@ _Generated: 2026-01-04T20:15:44.716Z_
 - `provokingWall`
 - `pureField`
 - `pursuit`
+- `quickAction`
 - `quickBarrier`
 - `quickCast`
 - `quickCover`
@@ -883,6 +882,7 @@ _Generated: 2026-01-04T20:15:44.716Z_
 - `vengeance`
 - `vengefulGuard`
 - `vengefulImpetus`
+- `warCry`
 - `warHorn`
 - `weaknessHunter`
 - `wideCounter`

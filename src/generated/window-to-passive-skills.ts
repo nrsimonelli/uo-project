@@ -42,6 +42,9 @@ export const WindowToPassiveSkillIds: Record<
     'unitedFront',
     'aerialAlignment',
     'heavyAlignment',
+    'quickAction',
+    'warCry',
+    'impetusStance',
   ],
   afterAllyActiveSkill: ['activeGift', 'quickImpetus'],
   afterUsingActiveSkill: [

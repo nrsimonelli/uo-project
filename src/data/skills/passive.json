@@ -5641,5 +5641,79 @@
         ]
       }
     ]
+  },
+  {
+    "id": "quickAction",
+    "type": "passive",
+    "name": "Quick Action",
+    "description": "Activates at the start of a battle. Grants an ally +15 Initiative for their next action. (Cannot target self.)",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "skillFlags": ["ExcludeSelf"],
+    "targeting": {
+      "group": "Ally",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "INIT",
+        "value": 15,
+        "scaling": "flat",
+        "applyTo": "Target",
+        "duration": "UntilNextAction"
+      }
+    ]
+  },
+  {
+    "id": "warCry",
+    "type": "passive",
+    "name": "War Cry",
+    "description": "Activates at the start of a battle. Grants the user +20% Phys. Attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "Buff",
+        "stat": "PATK",
+        "value": 20,
+        "scaling": "percent",
+        "applyTo": "User"
+      }
+    ]
+  },
+  {
+    "id": "impetusStance",
+    "type": "passive",
+    "name": "Impetus Stance",
+    "description": "Activates at the start of a battle. Grants the user +1 AP and -50% Attack.",
+    "pp": 1,
+    "skillCategories": ["Utility"],
+    "activationWindow": "startOfBattle",
+    "targeting": {
+      "group": "Self",
+      "pattern": "Single"
+    },
+    "effects": [
+      {
+        "kind": "ResourceGain",
+        "resource": "AP",
+        "amount": 1,
+        "applyTo": "User"
+      },
+      {
+        "kind": "Debuff",
+        "stat": "Attack",
+        "value": -50,
+        "scaling": "percent",
+        "applyTo": "User"
+      }
+    ]
   }
 ]
