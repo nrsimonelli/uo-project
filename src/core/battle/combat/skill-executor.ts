@@ -299,6 +299,7 @@ const createConditionContext = (
   hitResult: undefined,
   targetDefeated: undefined,
   wasCritical: undefined,
+  battlefield, // Pass battlefield for row-based counting
 })
 
 /**

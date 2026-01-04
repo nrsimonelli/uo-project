@@ -97,3 +97,15 @@ export type Condition =
       comparator: EqualityComparator
       value: boolean
     }
+  | {
+      kind: 'UnitCountDifference'
+      comparator: NumericComparator
+      value: number // The difference value (enemies - allies)
+    }
+  | {
+      kind: 'CombatantTypeCountInRow'
+      target: Target // 'Ally' or 'Enemy'
+      combatantType: CombatantType
+      comparator: NumericComparator
+      value: number // The count threshold
+    }

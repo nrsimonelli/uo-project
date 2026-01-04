@@ -1,5 +1,5 @@
 import { CLASS_DATA } from '@/data/units/class-data'
-import type { BattleContext } from '@/types/battle-engine'
+import type { BattleContext, BattlefieldState } from '@/types/battle-engine'
 import type {
   Condition,
   EqualityComparator,
@@ -9,7 +9,6 @@ import type {
 export interface ConditionEvaluationContext {
   attacker: BattleContext
   target: BattleContext
-  // Optional battlefield-derived context for conditional checks
   isNight?: boolean
   alliesLiving?: number
   enemiesLiving?: number
@@ -17,6 +16,7 @@ export interface ConditionEvaluationContext {
   targetDefeated?: boolean
   firstHitGuarded?: boolean
   wasCritical?: boolean
+  battlefield?: BattlefieldState
 }
 
 export const evaluateCondition = (
@@ -65,6 +65,12 @@ export const evaluateCondition = (
   if (condition.kind === 'UnitSize') {
     return evaluateUnitSizeCondition(condition, context)
   }
+  if (condition.kind === 'UnitCountDifference') {
+    return evaluateUnitCountDifferenceCondition(condition, context)
+  }
+  if (condition.kind === 'CombatantTypeCountInRow') {
+    return evaluateCombatantTypeCountInRowCondition(condition, context)
+  }
   // This case should be unreachable since we've handled all condition kinds
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   console.warn(`Unknown condition kind: ${(condition as any).kind}`)
@@ -76,7 +82,7 @@ export const evaluateAllConditions = (
   context: ConditionEvaluationContext
 ) => {
   if (conditions.length === 0) {
-    return true // No conditions = always true
+    return true
   }
 
   return conditions.every(condition => evaluateCondition(condition, context))
@@ -90,8 +96,6 @@ const getTargetContext = (
     return context.attacker
   }
   if (target === 'Ally') {
-    // If we have a target in context and it's an ally (same team as attacker), use it
-    // Otherwise, default to attacker (for self-targeting conditions)
     if (context.target && context.target.team === context.attacker.team) {
       return context.target
     }
@@ -103,9 +107,6 @@ const getTargetContext = (
   return context.target
 }
 
-/**
- * Evaluate combatant type conditions (e.g., "target is Armored")
- */
 const evaluateCombatantTypeCondition = (
   condition: Extract<Condition, { kind: 'CombatantType' }>,
   context: ConditionEvaluationContext
@@ -118,22 +119,17 @@ const evaluateCombatantTypeCondition = (
     return false
   }
 
-  // Check if the target has the specified combatant type
   const hasType = targetContext.combatantTypes.includes(condition.combatantType)
 
   return applyEqualityComparator(hasType, condition.comparator)
 }
 
-/**
- * Evaluate stat conditions (e.g., "target HP > 50%")
- */
 const evaluateStatCondition = (
   condition: Extract<Condition, { kind: 'Stat' }>,
   context: ConditionEvaluationContext
 ) => {
   const targetContext = getTargetContext(condition.target, context)
 
-  // Get current stat value
   let currentValue: number
   if (condition.stat === 'HP') {
     currentValue = condition.percent
@@ -144,7 +140,6 @@ const evaluateStatCondition = (
   } else if (condition.stat === 'PP') {
     currentValue = targetContext.currentPP
   } else {
-    // Other stats from combatStats
     currentValue = targetContext.combatStats[
       condition.stat as keyof typeof targetContext.combatStats
     ] as number
@@ -161,9 +156,6 @@ const evaluateStatCondition = (
   )
 }
 
-/**
- * Evaluate affliction conditions (e.g., "target is Poisoned")
- */
 const evaluateAfflictionCondition = (
   condition: Extract<Condition, { kind: 'Affliction' }>,
   context: ConditionEvaluationContext
@@ -176,9 +168,6 @@ const evaluateAfflictionCondition = (
   return applyEqualityComparator(hasAffliction, condition.comparator)
 }
 
-/**
- * Evaluate any affliction conditions (e.g., "target has any affliction")
- */
 const evaluateAnyAfflictionCondition = (
   condition: Extract<Condition, { kind: 'AnyAffliction' }>,
   context: ConditionEvaluationContext
@@ -189,9 +178,6 @@ const evaluateAnyAfflictionCondition = (
   return applyEqualityComparator(hasAnyAffliction, condition.comparator)
 }
 
-/**
- * Evaluate any buff conditions (e.g., "target has any buff")
- */
 const evaluateAnyBuffCondition = (
   condition: Extract<Condition, { kind: 'AnyBuff' }>,
   context: ConditionEvaluationContext
@@ -202,9 +188,6 @@ const evaluateAnyBuffCondition = (
   return applyEqualityComparator(hasAnyBuff, condition.comparator)
 }
 
-/**
- * Evaluate any debuff conditions (e.g., "target has any debuff")
- */
 const evaluateAnyDebuffCondition = (
   condition: Extract<Condition, { kind: 'AnyDebuff' }>,
   context: ConditionEvaluationContext
@@ -215,9 +198,6 @@ const evaluateAnyDebuffCondition = (
   return applyEqualityComparator(hasAnyDebuff, condition.comparator)
 }
 
-/**
- * Evaluate flag conditions (e.g., "has TrueStrike flag")
- */
 const evaluateFlagCondition = (
   condition: Extract<Condition, { kind: 'Flag' }>,
   context: ConditionEvaluationContext
@@ -228,9 +208,6 @@ const evaluateFlagCondition = (
   return applyEqualityComparator(hasFlag, condition.comparator)
 }
 
-/**
- * Evaluate hit check conditions (e.g., "attack hit")
- */
 const evaluateHitCheckCondition = (
   condition: Extract<Condition, { kind: 'HitCheck' }>,
   context: ConditionEvaluationContext
@@ -243,9 +220,6 @@ const evaluateHitCheckCondition = (
   )
 }
 
-/**
- * Evaluate target defeated conditions (e.g., "target was defeated")
- */
 const evaluateTargetDefeatedCondition = (
   condition: Extract<Condition, { kind: 'TargetDefeated' }>,
   context: ConditionEvaluationContext
@@ -258,9 +232,6 @@ const evaluateTargetDefeatedCondition = (
   )
 }
 
-/**
- * Evaluate position conditions (e.g., "user is in front row")
- */
 const evaluatePositionCondition = (
   condition: Extract<Condition, { kind: 'Position' }>,
   context: ConditionEvaluationContext
@@ -275,9 +246,6 @@ const evaluatePositionCondition = (
   )
 }
 
-/**
- * Evaluate first hit guarded conditions (e.g., "first hit was not guarded")
- */
 const evaluateFirstHitGuardedCondition = (
   condition: Extract<Condition, { kind: 'FirstHitGuarded' }>,
   context: ConditionEvaluationContext
@@ -290,9 +258,6 @@ const evaluateFirstHitGuardedCondition = (
   )
 }
 
-/**
- * Evaluate was critical conditions (e.g., "attack was critical")
- */
 const evaluateWasCriticalCondition = (
   condition: Extract<Condition, { kind: 'WasCritical' }>,
   context: ConditionEvaluationContext
@@ -305,7 +270,6 @@ const evaluateWasCriticalCondition = (
   )
 }
 
-// Day/Night Cycle
 const evaluateNightCycleCondition = (
   condition: Extract<Condition, { kind: 'IsNightCycle' }>,
   context: ConditionEvaluationContext
@@ -314,14 +278,10 @@ const evaluateNightCycleCondition = (
   return applyEqualityComparator(isNight, condition.comparator, condition.value)
 }
 
-// Unit size (number of living allies/enemies)
 const evaluateUnitSizeCondition = (
   condition: Extract<Condition, { kind: 'UnitSize' }>,
   context: ConditionEvaluationContext
 ) => {
-  // Choose which side to measure based on target
-  // Self/Ally -> alliesLiving (relative to attacker)
-  // Enemy -> enemiesLiving (relative to attacker)
   const isEnemyTarget = condition.target === 'Enemy'
   const count = isEnemyTarget
     ? (context.enemiesLiving ?? 0)
@@ -330,9 +290,49 @@ const evaluateUnitSizeCondition = (
   return applyNumericComparator(count, condition.value, condition.comparator)
 }
 
-/**
- * Apply equality comparator (EqualTo, NotEqualTo)
- */
+const evaluateUnitCountDifferenceCondition = (
+  condition: Extract<Condition, { kind: 'UnitCountDifference' }>,
+  context: ConditionEvaluationContext
+) => {
+  const enemiesCount = context.enemiesLiving ?? 0
+  const alliesCount = context.alliesLiving ?? 0
+  const difference = enemiesCount - alliesCount
+
+  return applyNumericComparator(
+    difference,
+    condition.value,
+    condition.comparator
+  )
+}
+
+const evaluateCombatantTypeCountInRowCondition = (
+  condition: Extract<Condition, { kind: 'CombatantTypeCountInRow' }>,
+  context: ConditionEvaluationContext
+) => {
+  if (!context.battlefield) {
+    console.warn(
+      'CombatantTypeCountInRow condition requires battlefield context'
+    )
+    return false
+  }
+
+  const referenceUnit = getTargetContext(condition.target, context)
+  const referenceRow = referenceUnit.position.row
+  const referenceTeam = referenceUnit.team
+
+  let count = 0
+  for (const unit of Object.values(context.battlefield.units)) {
+    if (unit.team !== referenceTeam) continue
+    if (unit.position.row !== referenceRow) continue
+    if (unit.currentHP <= 0) continue
+    if (unit.combatantTypes.includes(condition.combatantType)) {
+      count++
+    }
+  }
+
+  return applyNumericComparator(count, condition.value, condition.comparator)
+}
+
 const applyEqualityComparator = (
   actualValue: boolean,
   comparator: EqualityComparator,
@@ -350,9 +350,6 @@ const applyEqualityComparator = (
   return false
 }
 
-/**
- * Apply numeric comparator (GreaterThan, LessThan, etc.)
- */
 const applyNumericComparator = (
   actualValue: number,
   expectedValue: number,
