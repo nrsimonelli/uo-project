@@ -2421,6 +2421,15 @@ export const EquipmentAccessory = [
     nullifications: [],
     classRestrictions: [],
   },
+  {
+    id: 'dancersAnklet',
+    name: "Dancer's Anklet",
+    type: 'Accessory',
+    stats: {},
+    skillId: 'bladeDance',
+    nullifications: [],
+    classRestrictions: [],
+  },
 ] as const
 
 export type EquipmentAccessoryId = (typeof EquipmentAccessory)[number]['id']

@@ -1,28 +1,27 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T17:51:58.429Z_
+_Generated: 2026-01-04T17:59:15.403Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 190
-- **Total Skills Referenced**: 408
+- **Equipment Skills Referenced**: 191
+- **Total Skills Referenced**: 409
 - **Active Skills Defined**: 199
-- **Passive Skills Defined**: 192
-- **Total Skills Defined**: 391
-- **Activation Windows Referenced**: 40
+- **Passive Skills Defined**: 193
+- **Total Skills Defined**: 392
+- **Activation Windows Referenced**: 41
 - **Activation Windows Defined**: 43
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **18 missing skills:**
+❌ **17 missing skills:**
 
 - `aerialAlignment`
 - `astralBlade`
 - `banishingPursuit`
 - `celestialLight`
 - `counter`
-- `graveImpetus`
 - `healingPursuit`
 - `heavyAlignment`
 - `impetusStance`
@@ -38,13 +37,13 @@ _Generated: 2026-01-04T17:51:58.429Z_
 
 ## Unused Skills (Defined but Not Referenced)
 
-⚠️ **1 unused skills:**
-
-- `bladeDance`
+✅ **No unused skills found!**
 
 ## Missing Activation Windows (Referenced but Not Defined)
 
-✅ **No missing activation windows found!**
+❌ **1 missing activation windows:**
+
+- `afterAllyDefeatedByAttack`
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
@@ -303,7 +302,7 @@ _Generated: 2026-01-04T17:51:58.429Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (190)
+### From Equipment Data (191)
 
 - `activeHeal`
 - `activeShatter`
@@ -323,6 +322,7 @@ _Generated: 2026-01-04T17:51:58.429Z_
 - `beastslayer`
 - `bestralGuard`
 - `bindingGuard`
+- `bladeDance`
 - `blindCure`
 - `blizzard`
 - `bulwark`
@@ -698,7 +698,7 @@ _Generated: 2026-01-04T17:51:58.429Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (192)
+### Passive Skills Defined (193)
 
 - `accelerate`
 - `activeGift`
@@ -761,6 +761,7 @@ _Generated: 2026-01-04T17:51:58.429Z_
 - `freezeCure`
 - `frenziedStrike`
 - `grantEvade`
+- `graveImpetus`
 - `groundCounter`
 - `gryphonGlide`
 - `guardCure`
@@ -895,12 +896,13 @@ _Generated: 2026-01-04T17:51:58.429Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (40)
+### Referenced in Passive Skills (41)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
 - `afterAllyAttacksActive`
 - `afterAllyDebuffed`
+- `afterAllyDefeatedByAttack`
 - `afterAllyHit`
 - `afterAllyMagicAttacksActive`
 - `afterAllyPassiveSkill`

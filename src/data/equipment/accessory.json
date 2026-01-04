@@ -2417,5 +2417,14 @@
     "skillId": "wideInspiration",
     "nullifications": [],
     "classRestrictions": []
+  },
+  {
+    "id": "dancersAnklet",
+    "name": "Dancer's Anklet",
+    "type": "Accessory",
+    "stats": {},
+    "skillId": "bladeDance",
+    "nullifications": [],
+    "classRestrictions": []
   }
 ]
