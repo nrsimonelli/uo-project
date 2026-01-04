@@ -129,6 +129,11 @@ export const ACTIVATION_WINDOWS = {
     description: "Activates after an enemy guards an ally's attack",
     limited: false,
   },
+  AFTER_GUARDING: {
+    id: 'afterGuarding',
+    description: 'Activates after the user guards an attack',
+    limited: false,
+  },
   BEFORE_ATTACKING_ACTIVE: {
     id: 'beforeAttackingActive',
     description: 'Activates before attacking with an active skill',
@@ -143,6 +148,11 @@ export const ACTIVATION_WINDOWS = {
     id: 'beforeAllyAttacksPhysicalActive',
     description:
       'Activates before an ally attacks with a physical active skill',
+    limited: true,
+  },
+  BEFORE_ALLY_ATTACKS_MAGICAL_ACTIVE: {
+    id: 'beforeAllyAttacksMagicalActive',
+    description: 'Activates before an ally attacks with a magical active skill',
     limited: true,
   },
   BEFORE_BEING_ATTACKED: {
@@ -163,6 +173,11 @@ export const ACTIVATION_WINDOWS = {
   BEFORE_BEING_HIT_MELEE: {
     id: 'beforeBeingHitMelee',
     description: 'Activates before being hit by a melee attack',
+    limited: false,
+  },
+  BEFORE_BEING_HIT_MAGIC: {
+    id: 'beforeBeingHitMagic',
+    description: 'Activates before being hit by a magical attack',
     limited: false,
   },
   BEFORE_ALLY_ATTACKED: {

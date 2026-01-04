@@ -51,7 +51,7 @@
 - [x] Build **skill slot manager** for equipping/unequipping
 - [x] Add **skill type filtering** (Active/Passive)
 - [x] Fatal Dive, Life Blow, and Desperation Damage Calculations
-- [ ] Need a post calculation damage reduction check for shackles as well as skills like protection. This should also apply to true damage skills^^
+- [x] Need a post calculation damage reduction check for shackles as well as skills like protection. This should also apply to true damage skills^^
 - [ ] Scaling for Maidens Hammer, Undying will, Bastards Cross, WildFang, Berserker, and Werebear scaling skills
 - [ ] Custom effect for Discharge
 - [ ] Need variable targeting for Row Resistance
@@ -63,6 +63,20 @@
 - [ ] Bestral guard conditional
 - [x] lifeshare logic
 - [ ] Reinforce, quick impetus, and action altering taking skills
+
+### Passive Skill Implementation 🚧
+
+- [x] Activation window mapping (`window-metadata.ts` + generated `window-to-passive-skills.ts`)
+- [x] Window usage tracking (`window-tracker.ts`)
+- [x] Window queue management
+- [x] Window priority ordering
+- [x] Activation window audit and validation
+- [x] Fixed missing windows (`afterGuarding`, `beforeAllyAttacksMagicalActive`, `beforeBeingHitMagic`)
+- [ ] Window trigger detection (Phase 3)
+- [ ] Passive skill selection (Phase 4)
+- [ ] Window resolution (Phase 5)
+- [ ] Battle flow integration (Phase 6)
+- [ ] potentially need a conditions? array in the targeting property for skills.
 
 ### Code Quality & Development ✅
 

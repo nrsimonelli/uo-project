@@ -3,13 +3,26 @@ import {
   ActivationWindowById,
 } from '@/data/activation-windows'
 import type { ActivationWindowId } from '@/data/activation-windows'
-import { PassiveSkills } from '@/generated/skills-passive'
+import { PassiveSkillsMap } from '@/generated/skills-passive'
+import {
+  getPassiveSkillIdsForWindow,
+  WindowToPassiveSkillIds,
+} from '@/generated/window-to-passive-skills'
 import type { PassiveSkill } from '@/types/skills'
 
+// Lookup full skill objects from generated skill IDs
 export const getPassiveSkillsForWindow = (
   windowId: ActivationWindowId
 ): readonly PassiveSkill[] => {
-  return PassiveSkills.filter(skill => skill.activationWindow === windowId)
+  const skillIds = getPassiveSkillIdsForWindow(windowId)
+  const skills: PassiveSkill[] = []
+  for (const id of skillIds) {
+    const skill = PassiveSkillsMap[id as keyof typeof PassiveSkillsMap]
+    if (skill) {
+      skills.push(skill as PassiveSkill)
+    }
+  }
+  return skills
 }
 
 // Pre-computed at module load time for efficient lookup
@@ -17,9 +30,9 @@ export const WindowToPassiveSkillsMap: ReadonlyMap<
   ActivationWindowId,
   readonly PassiveSkill[]
 > = new Map(
-  Object.values(ACTIVATION_WINDOWS).map(window => [
-    window.id,
-    getPassiveSkillsForWindow(window.id),
+  Object.keys(WindowToPassiveSkillIds).map(windowId => [
+    windowId as ActivationWindowId,
+    getPassiveSkillsForWindow(windowId as ActivationWindowId),
   ])
 )
 
@@ -30,6 +43,8 @@ export const getPassiveSkillsForWindowCached = (
 }
 
 // Lower numbers = higher priority (processed first)
+// NOTE: Window priority will need specific rules later (e.g., counter, pursuit, impetus, limited v non-limited,
+// team-based ordering, etc.), but for now this is a simple sort
 export const WINDOW_PRIORITY_ORDER: readonly ActivationWindowId[] = [
   // Start of battle (highest priority)
   'startOfBattle',
@@ -37,6 +52,7 @@ export const WINDOW_PRIORITY_ORDER: readonly ActivationWindowId[] = [
   // Pre-attack windows (before active skill executes)
   'beforeAllyAttacksActive',
   'beforeAllyAttacksPhysicalActive',
+  'beforeAllyAttacksMagicalActive',
   'beforeAttackingActive',
   'beforeEnemyAttacks',
   'beforeEnemyAttacksMagic',
@@ -48,6 +64,7 @@ export const WINDOW_PRIORITY_ORDER: readonly ActivationWindowId[] = [
   'beforeBeingHitPhys',
   'beforeBeingHitMelee',
   'beforeBeingHitRanged',
+  'beforeBeingHitMagic',
 
   // Post-attack windows (after active skill executes)
   'afterAllyAttacksActive',
@@ -76,6 +93,7 @@ export const WINDOW_PRIORITY_ORDER: readonly ActivationWindowId[] = [
   'afterEnemyBuff',
   'afterEvade',
   'afterEnemyGuards',
+  'afterGuarding',
   'afterEnemyHeals',
   'afterAllyPassiveSkill',
   'afterReceivingAllyPassive',
@@ -114,6 +132,7 @@ export const EVENT_TO_WINDOWS_MAP: ReadonlyMap<
     [
       'beforeAllyAttacksActive',
       'beforeAllyAttacksPhysicalActive',
+      'beforeAllyAttacksMagicalActive',
       'beforeAttackingActive',
       'beforeEnemyAttacks',
       'beforeEnemyAttacksMagic',
@@ -123,7 +142,11 @@ export const EVENT_TO_WINDOWS_MAP: ReadonlyMap<
   // Pre-attack windows (before hit resolution)
   [
     'pre-attack-ally',
-    ['beforeAllyAttacksActive', 'beforeAllyAttacksPhysicalActive'],
+    [
+      'beforeAllyAttacksActive',
+      'beforeAllyAttacksPhysicalActive',
+      'beforeAllyAttacksMagicalActive',
+    ],
   ],
   [
     'pre-attack-enemy',
@@ -143,6 +166,7 @@ export const EVENT_TO_WINDOWS_MAP: ReadonlyMap<
       'beforeBeingHitPhys',
       'beforeBeingHitMelee',
       'beforeBeingHitRanged',
+      'beforeBeingHitMagic',
     ],
   ],
 
@@ -181,7 +205,7 @@ export const EVENT_TO_WINDOWS_MAP: ReadonlyMap<
   ],
   ['buff-applied', ['afterEnemyBuff']],
   ['evade', ['afterEvade']],
-  ['guard', ['afterEnemyGuards']],
+  ['guard', ['afterEnemyGuards', 'afterGuarding']],
   ['enemy-heal', ['afterEnemyHeals']],
   [
     'passive-skill-used',

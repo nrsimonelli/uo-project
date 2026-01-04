@@ -105,6 +105,7 @@ src/
 │   │   ├── engine/ # State management, turn management
 │   │   ├── combat/ # Damage calculation, skill execution
 │   │   ├── evaluation/ # Tactics, condition evaluation
+│   │   ├── passive/ # Passive skill system (activation windows, tracking)
 │   │   └── targeting/  # Skill and tactical targeting
 │   └── calculations/ # Modular stat calculation system
 │       ├── base-stats.ts      # Base stats, growth, AP/PP
@@ -151,6 +152,7 @@ src/
 - **Skill Selection & Execution** — Priority-based skill selection with tactical targeting
 - **Modular Architecture** — Organized battle system with specialized subsystems
 - **Deterministic Combat** — Repeatable battles with seeded RNG
+- **Passive Skill System** — Activation window metadata and tracking system (in progress)
 
 ---
 
@@ -198,6 +200,25 @@ src/
 - **Battle Analytics Integration** — Connect tactical decision logging to UI
 
 **Phase 2 Status:** 🚧 In Progress - Battle loop functional, refining tactical conditions
+
+---
+
+### Phase 2.5 — Passive Skill System Implementation 🚧
+
+- **Activation Window System** — Complete metadata system for 43 activation windows
+  - Window-to-skills mapping for efficient lookup (auto-generated from JSON)
+  - Window priority ordering system
+  - Event-to-window mapping framework
+- **Window Instance Tracking** — Per-active-skill-instance tracking system
+  - Enforces one passive per unit per window per active skill instance
+  - Queue management for cascading windows
+  - Reset functionality after active skill completion
+- **Activation Window Audit** — Comprehensive validation of all windows
+  - Fixed 1 typo in window descriptions
+  - Added 3 missing windows (`afterGuarding`, `beforeAllyAttacksMagicalActive`, `beforeBeingHitMagic`)
+  - Documented 3 unused windows for future use
+
+**Phase 2.5 Status:** 🚧 In Progress - Metadata and tracking complete, trigger detection next
 
 ---
 

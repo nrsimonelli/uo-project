@@ -33,8 +33,8 @@ import {
 import type { RandomNumberGeneratorType } from '@/core/random'
 import type { BattleContext } from '@/types/battle-engine'
 import type { SkillCategory } from '@/types/core'
-import type { ExtraStats } from '@/types/equipment'
 import type { DamageEffect, Flag } from '@/types/effects'
+import type { ExtraStats } from '@/types/equipment'
 
 const createMissResult = (
   hitChance: number = 0,
