@@ -6815,6 +6815,34 @@ export const ActiveSkills = [
       },
     ],
   },
+  {
+    id: 'shadowArrow',
+    type: 'active',
+    name: 'Shadow Arrow',
+    description: 'Attack a single enemy. Inflicts Blindness.',
+    ap: 1,
+    skillCategories: ['Damage'],
+    innateAttackType: 'Ranged',
+    targeting: {
+      group: 'Enemy',
+      pattern: 'Single',
+    },
+    effects: [
+      {
+        kind: 'Damage',
+        potency: {
+          physical: 100,
+        },
+        hitRate: 100,
+        hitCount: 1,
+      },
+      {
+        kind: 'Affliction',
+        affliction: 'Blind',
+        applyTo: 'Target',
+      },
+    ],
+  },
 ] as const satisfies readonly ActiveSkill[]
 
 export type ActiveSkillsId = (typeof ActiveSkills)[number]['id']

@@ -1,26 +1,25 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T21:22:49.473Z_
+_Generated: 2026-01-04T21:26:57.851Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
 - **Equipment Skills Referenced**: 190
 - **Total Skills Referenced**: 408
-- **Active Skills Defined**: 199
+- **Active Skills Defined**: 200
 - **Passive Skills Defined**: 205
-- **Total Skills Defined**: 404
+- **Total Skills Defined**: 405
 - **Activation Windows Referenced**: 42
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **4 missing skills:**
+❌ **3 missing skills:**
 
 - `mirrorWeakness`
 - `provokingCrush`
 - `reflectMagic`
-- `shadowArrow`
 
 ## Unused Skills (Defined but Not Referenced)
 
@@ -479,7 +478,7 @@ _Generated: 2026-01-04T21:22:49.473Z_
 - `wingRest`
 - `wolfPack`
 
-### Active Skills Defined (199)
+### Active Skills Defined (200)
 
 - `activeHeal`
 - `activeShatter`
@@ -640,6 +639,7 @@ _Generated: 2026-01-04T21:22:49.473Z_
 - `sandstorm`
 - `sanguineAttack`
 - `sanguineDarts`
+- `shadowArrow`
 - `shadowThrust`
 - `shadowbite`
 - `shieldBash`
