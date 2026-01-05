@@ -190,12 +190,6 @@ export const ACTIVATION_WINDOWS = {
     description: 'Activates before an ally is attacked',
     limited: true,
   },
-  BEFORE_ALLY_ATTACKED_RANGED_PHYS: {
-    id: 'beforeAllyAttackedRangedPhys',
-    description:
-      'Activates before an ally is attacked by a ranged physical attack',
-    limited: true,
-  },
   BEFORE_ALLY_HIT_RANGED_PHYS: {
     id: 'beforeAllyHitRangedPhys',
     description: 'Activates before an ally is hit by a ranged physical attack',
@@ -250,7 +244,6 @@ export const ACTIVATION_WINDOW_CATEGORIES: Record<
     'beforeEnemyAttacks',
     'beforeEnemyAttacksMagic',
     'beforeAllyAttacked',
-    'beforeAllyAttackedRangedPhys',
     'beforeAllyHitMagic',
     'beforeAllyHitRangedPhys',
   ],

@@ -212,7 +212,6 @@ export const WindowToPassiveSkillIds: Record<
     'mightyShield',
     'grantEvade',
   ],
-  beforeAllyAttackedRangedPhys: [],
   beforeAllyHitRangedPhys: ['arrowCover', 'sylphicBarrier'],
   beforeAllyHitMagic: ['magicBarrier', 'rowBarrier'],
   beforeEnemyAttacks: ['quickCurse', 'shiningLight', 'cursedGaol'],

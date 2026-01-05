@@ -1,6 +1,6 @@
 # Skill Validation Report
 
-_Generated: 2026-01-05T02:18:52.321Z_
+_Generated: 2026-01-05T02:21:54.746Z_
 
 ## Summary
 
@@ -11,7 +11,7 @@ _Generated: 2026-01-05T02:18:52.321Z_
 - **Passive Skills Defined**: 207
 - **Total Skills Defined**: 407
 - **Activation Windows Referenced**: 43
-- **Activation Windows Defined**: 44
+- **Activation Windows Defined**: 43
 
 ## Missing Skills (Referenced but Not Defined)
 
@@ -27,9 +27,7 @@ _Generated: 2026-01-05T02:18:52.321Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **1 unused activation windows:**
-
-- `beforeAllyAttackedRangedPhys`
+✅ **No unused activation windows found!**
 
 ## Skills by Source
 
@@ -933,7 +931,7 @@ _Generated: 2026-01-05T02:18:52.321Z_
 - `endOfBattle`
 - `startOfBattle`
 
-### Defined Activation Windows (44)
+### Defined Activation Windows (43)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -963,7 +961,6 @@ _Generated: 2026-01-05T02:18:52.321Z_
 - `afterUserDebuff`
 - `afterUsingActiveSkill`
 - `beforeAllyAttacked`
-- `beforeAllyAttackedRangedPhys`
 - `beforeAllyAttacksActive`
 - `beforeAllyAttacksMagicalActive`
 - `beforeAllyAttacksPhysicalActive`
