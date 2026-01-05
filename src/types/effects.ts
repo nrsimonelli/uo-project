@@ -310,6 +310,11 @@ export interface TransferDebuffsToTriggeringEnemyEffect {
   conditions?: Condition[] | readonly Condition[]
 }
 
+export interface ReflectMagicAttackEffect {
+  kind: 'ReflectMagicAttack'
+  conditions?: Condition[] | readonly Condition[]
+}
+
 export type Effect =
   | DamageEffect
   | HealPercentEffect
@@ -339,3 +344,4 @@ export type Effect =
   | LifeshareEffect
   | OwnHPBasedHealEffect
   | TransferDebuffsToTriggeringEnemyEffect
+  | ReflectMagicAttackEffect

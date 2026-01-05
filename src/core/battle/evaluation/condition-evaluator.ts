@@ -5,6 +5,7 @@ import type {
   EqualityComparator,
   NumericComparator,
 } from '@/types/conditions'
+import type { ActiveSkill } from '@/types/skills'
 
 export interface ConditionEvaluationContext {
   attacker: BattleContext
@@ -17,6 +18,11 @@ export interface ConditionEvaluationContext {
   firstHitGuarded?: boolean
   wasCritical?: boolean
   battlefield?: BattlefieldState
+  // For reflectMagic: the original attack context
+  originalAttack?: {
+    skill: ActiveSkill
+    targets: BattleContext[]
+  }
 }
 
 export const evaluateCondition = (

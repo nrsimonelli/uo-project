@@ -1,25 +1,21 @@
 # Skill Validation Report
 
-_Generated: 2026-01-04T21:26:57.851Z_
+_Generated: 2026-01-05T02:18:52.321Z_
 
 ## Summary
 
 - **Class Skills Referenced**: 244
-- **Equipment Skills Referenced**: 190
-- **Total Skills Referenced**: 408
+- **Equipment Skills Referenced**: 189
+- **Total Skills Referenced**: 407
 - **Active Skills Defined**: 200
-- **Passive Skills Defined**: 205
-- **Total Skills Defined**: 405
-- **Activation Windows Referenced**: 42
+- **Passive Skills Defined**: 207
+- **Total Skills Defined**: 407
+- **Activation Windows Referenced**: 43
 - **Activation Windows Defined**: 44
 
 ## Missing Skills (Referenced but Not Defined)
 
-❌ **3 missing skills:**
-
-- `mirrorWeakness`
-- `provokingCrush`
-- `reflectMagic`
+✅ **No missing skills found!**
 
 ## Unused Skills (Defined but Not Referenced)
 
@@ -31,10 +27,9 @@ _Generated: 2026-01-04T21:26:57.851Z_
 
 ## Unused Activation Windows (Defined but Not Referenced)
 
-⚠️ **2 unused activation windows:**
+⚠️ **1 unused activation windows:**
 
 - `beforeAllyAttackedRangedPhys`
-- `beforeEnemyAttacksMagic`
 
 ## Skills by Source
 
@@ -285,7 +280,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `windArrow`
 - `wingRest`
 
-### From Equipment Data (190)
+### From Equipment Data (189)
 
 - `activeHeal`
 - `activeShatter`
@@ -419,7 +414,6 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `powerfulCall`
 - `powerfulImpact`
 - `protection`
-- `provokingCrush`
 - `provokingSlash`
 - `provokingWall`
 - `pursuit`
@@ -681,7 +675,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `wildRush`
 - `windArrow`
 
-### Passive Skills Defined (205)
+### Passive Skills Defined (207)
 
 - `accelerate`
 - `activeGift`
@@ -797,6 +791,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `maidensHammer`
 - `medicalAid`
 - `mightyShield`
+- `mirrorWeakness`
 - `nimbleFighter`
 - `nobleGuard`
 - `nocturnalEvade`
@@ -842,6 +837,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `rapidOrder`
 - `rapidShot`
 - `recast`
+- `reflectMagic`
 - `refresh`
 - `reheal`
 - `reinforce`
@@ -891,7 +887,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 
 ## Activation Windows
 
-### Referenced in Passive Skills (42)
+### Referenced in Passive Skills (43)
 
 - `afterAllyActiveSkill`
 - `afterAllyAttackedActive`
@@ -933,6 +929,7 @@ _Generated: 2026-01-04T21:26:57.851Z_
 - `beforeBeingHitPhys`
 - `beforeBeingHitRanged`
 - `beforeEnemyAttacks`
+- `beforeEnemyAttacksMagic`
 - `endOfBattle`
 - `startOfBattle`
 

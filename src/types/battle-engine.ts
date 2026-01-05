@@ -320,6 +320,9 @@ export interface BattlefieldState {
   lastActionRound: number
   lastActiveSkillRound: number // Track when last non-standby skill was used
   consecutiveStandbyRounds: number // Count rounds with only standby actions
+
+  // Passive suppression (only set when needed, e.g., during reflectMagic)
+  suppressedPassiveUnits?: Record<string, boolean> // Unit ID -> true if suppressed
 }
 
 /**

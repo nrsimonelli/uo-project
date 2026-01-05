@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
+import { checkAndApplyReflectMagicRedirection } from '@/core/battle/combat/reflect-magic-handler'
 import { executeSkill } from '@/core/battle/combat/skill-executor'
 import {
   removeExpiredBuffs,
@@ -43,6 +44,7 @@ import type {
   BattlefieldState,
   BattleContext,
 } from '@/types/battle-engine'
+import type { ActiveSkill } from '@/types/skills'
 import type { Team } from '@/types/team'
 
 /**
@@ -186,12 +188,6 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         targetNames: skillSelection.targets.map(t => t.unit.name),
       })
 
-      // Apply Cover redirection to targets (entire attack instance)
-      const redirectedTargets: BattleContext[] = applyCoverRedirection(
-        battlefieldState,
-        skillSelection.targets
-      )
-
       // Apply OnActiveHealPercent healing BEFORE skill execution
       // This is the regen effect that happens when taking an action
       const unitStateId = getStateIdForContext(unit)
@@ -213,6 +209,41 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
         currentHP: healedHP,
       }
 
+      // Check for reflectMagic and redirect targets if reflection should occur
+      // TODO: Passive System Integration (Phase 3)
+      // When passive system is built, this will be handled automatically via beforeEnemyAttacksMagic window
+      const reflectionInfo = checkAndApplyReflectMagicRedirection(
+        unit,
+        skillSelection.skill as ActiveSkill,
+        skillSelection.targets,
+        battlefieldState
+      )
+
+      // Apply suppression if reflection occurred
+      if (reflectionInfo) {
+        setBattlefieldState(prev => {
+          if (!prev) return prev
+          return {
+            ...prev,
+            suppressedPassiveUnits: {
+              ...(prev.suppressedPassiveUnits ?? {}),
+              [reflectionInfo.suppressedUnitId]: true,
+            },
+          }
+        })
+      }
+
+      // Apply reflection redirection first (if applicable), then cover redirection
+      const targetsAfterReflection = reflectionInfo
+        ? reflectionInfo.redirectedTargets
+        : skillSelection.targets
+
+      // Apply Cover redirection to targets (entire attack instance)
+      const redirectedTargets: BattleContext[] = applyCoverRedirection(
+        battlefieldState,
+        targetsAfterReflection
+      )
+
       // Execute skill with the healed unit (healing already calculated)
       const result = executeSkill(
         skillSelection.skill,
@@ -233,7 +264,9 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
       const skillResults = transformSkillResults(result, redirectedTargets)
 
       // Create and add battle event (including any affliction processing from turn start)
-      let eventDescription = `${unit.unit.name} used ${skillSelection.skill.name}`
+      let eventDescription = reflectionInfo
+        ? `${unit.unit.name}'s ${skillSelection.skill.name} was reflected by ${reflectionInfo.reflectUser.unit.name}`
+        : `${unit.unit.name} used ${skillSelection.skill.name}`
       let afflictionData: BattleEvent['afflictionData'] | undefined
 
       // If there were affliction events this turn, update description and include data
@@ -243,7 +276,11 @@ export const useBattleEngine = (): UseBattleEngineReturn => {
           afflictionEvent.type === 'burn-damage' ||
           afflictionEvent.type === 'poison-damage'
         ) {
-          eventDescription = `${unit.unit.name} takes ${afflictionEvent.damage} ${afflictionEvent.afflictionType.toLowerCase()} damage, then used ${skillSelection.skill.name}`
+          if (reflectionInfo) {
+            eventDescription = `${unit.unit.name} takes ${afflictionEvent.damage} ${afflictionEvent.afflictionType.toLowerCase()} damage, then ${eventDescription}`
+          } else {
+            eventDescription = `${unit.unit.name} takes ${afflictionEvent.damage} ${afflictionEvent.afflictionType.toLowerCase()} damage, then used ${skillSelection.skill.name}`
+          }
           afflictionData = {
             afflictionType: afflictionEvent.afflictionType,
             damage: afflictionEvent.damage,

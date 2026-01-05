@@ -33,7 +33,7 @@ export const EquipmentAxe = [
     stats: {
       PATK: 13,
     },
-    skillId: 'provokingCrush',
+    skillId: 'provokingSlash',
     classRestrictions: [],
     nullifications: [],
   },

@@ -4,10 +4,12 @@ import {
 } from '../evaluation/condition-evaluator'
 
 import type { StatKey } from '@/types/base-stats'
+import type { BattleContext } from '@/types/battle-engine'
 import type { AfflictionType } from '@/types/conditions'
 import type { CombatantType } from '@/types/core'
 import type { Effect, DamageEffect, Flag } from '@/types/effects'
 import type { ExtraStats } from '@/types/equipment'
+import type { ActiveSkill } from '@/types/skills'
 
 /**
  * Check if an effect is classified as a debuff for immunity purposes
@@ -229,6 +231,13 @@ export interface EffectProcessingResult {
     }
     triggeringEnemyId: string
   }>
+
+  // Reflected attack data (for reflectMagic)
+  reflectedAttack?: {
+    originalAttacker: BattleContext
+    originalSkill: ActiveSkill
+    originalTargets: BattleContext[]
+  }
 }
 
 /**
@@ -310,6 +319,7 @@ export const processEffects = (
     lifeStealsToApply: [],
     lifeshareToApply: [],
     transferredDebuffs: [],
+    reflectedAttack: undefined,
   }
 
   const nonDamageEffects = effects.filter(effect => effect.kind !== 'Damage')
@@ -567,6 +577,37 @@ export const processEffects = (
         duration: effect.duration || 'UntilAttacked',
         skillId,
       })
+      return
+    }
+
+    if (effect.kind === 'ReflectMagicAttack') {
+      // For reflectMagic: context.attacker is the reflectMagic user,
+      // context.target is the enemy attacker about to use magic
+      // We need to get the enemy's skill from battlefield state
+      const enemyAttacker = context.target
+      const battlefield = context.battlefield
+
+      if (!battlefield || !enemyAttacker) {
+        console.warn(
+          'ReflectMagicAttack: Missing battlefield or enemy attacker context'
+        )
+        return
+      }
+
+      // Get the active unit (enemy attacker) and their selected skill
+      // The active unit should be the enemy attacker in beforeEnemyAttacksMagic window
+      const activeUnitId = battlefield.activeUnitId
+      const activeUnit = battlefield.units[activeUnitId]
+
+      if (!activeUnit || activeUnit.unit.id !== enemyAttacker.unit.id) {
+        console.warn('ReflectMagicAttack: Active unit mismatch')
+        return
+      }
+
+      // Get the enemy's skill from action history or we need to pass it in context
+      // For now, we'll need to extend the context to include the original skill
+      // This is a limitation until the passive system is fully built
+      // TODO: When passive system is built, pass original skill in context
       return
     }
 

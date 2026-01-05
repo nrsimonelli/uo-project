@@ -117,7 +117,12 @@ export const WindowToPassiveSkillIds: Record<
   afterBeingAttacked: ['vengefulImpetus'],
   afterAttacking: ['quickReload', 'nocturnalRest'],
   afterAttackingMagical: ['recast'],
-  afterUserDebuff: ['removeWeakness', 'cursedImpetus', 'selfCare'],
+  afterUserDebuff: [
+    'removeWeakness',
+    'mirrorWeakness',
+    'cursedImpetus',
+    'selfCare',
+  ],
   afterEvade: ['evasiveImpetus', 'nimbleFighter'],
   afterReceivingAllyPassive: ['passiveMiracle'],
   afterHealed: ['selflessHeal'],
@@ -211,7 +216,7 @@ export const WindowToPassiveSkillIds: Record<
   beforeAllyHitRangedPhys: ['arrowCover', 'sylphicBarrier'],
   beforeAllyHitMagic: ['magicBarrier', 'rowBarrier'],
   beforeEnemyAttacks: ['quickCurse', 'shiningLight', 'cursedGaol'],
-  beforeEnemyAttacksMagic: [],
+  beforeEnemyAttacksMagic: ['reflectMagic'],
   endOfBattle: [
     'firstAid',
     'partingBlow',

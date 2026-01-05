@@ -264,9 +264,22 @@ export const canUseActiveSkills = (unit: BattleContext) => {
   return !hasAffliction(unit, 'Freeze')
 }
 
-export const canUsePassiveSkills = (unit: BattleContext) => {
+export const canUsePassiveSkills = (
+  unit: BattleContext,
+  battlefield?: { suppressedPassiveUnits?: Record<string, boolean> }
+) => {
   if (unit.currentHP <= 0) return false
   if (unit.currentPP <= 0) return false
+
+  // TODO: Passive Suppression Integration
+  // When passive system is built, this will be called during passive execution
+  // to check if a unit's passives are suppressed (e.g., by reflectMagic).
+  // Entry point for passive suppression - prevents passives from triggering
+  // during reflected attacks or other suppression scenarios.
+  // This is already integrated and will work when passive execution system calls it.
+  if (battlefield?.suppressedPassiveUnits?.[unit.unit.id]) {
+    return false
+  }
 
   // Cannot use passives if stunned, frozen, or passive sealed
   return !(

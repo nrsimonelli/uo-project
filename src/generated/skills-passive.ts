@@ -2500,6 +2500,44 @@ export const PassiveSkills = [
     ],
   },
   {
+    id: 'reflectMagic',
+    type: 'passive',
+    name: 'Reflect Magic',
+    description:
+      "Activates before enemy uses a magic attack (Active). Reflect a magic attack. (Enemy's passive skills set to activate before or after an attack will not activate.)",
+    pp: 2,
+    skillCategories: ['Damage'],
+    activationWindow: 'beforeEnemyAttacksMagic',
+    innateAttackType: 'Magical',
+    targeting: {},
+    effects: [
+      {
+        kind: 'ReflectMagicAttack',
+      },
+    ],
+  },
+  {
+    id: 'mirrorWeakness',
+    type: 'passive',
+    name: 'Mirror Weakness',
+    description:
+      "Activates after the user is debuffed. Remove the user's debuffs. Inflict all removed debuffs on a target.",
+    pp: 1,
+    skillCategories: ['Sabotage'],
+    activationWindow: 'afterUserDebuff',
+    targeting: {},
+    effects: [
+      {
+        kind: 'Cleanse',
+        target: 'Debuffs',
+        applyTo: 'User',
+      },
+      {
+        kind: 'TransferDebuffsToTriggeringEnemy',
+      },
+    ],
+  },
+  {
     id: 'holyBarrier',
     type: 'passive',
     name: 'Holy Barrier',
