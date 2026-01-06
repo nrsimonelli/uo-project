@@ -11,6 +11,7 @@ import { EquipmentStaff } from '@/generated/equipment-staff'
 import { EquipmentSword } from '@/generated/equipment-sword'
 import type { AllClassType } from '@/types/base-stats'
 import type { EquipmentSlotType } from '@/types/equipment'
+import { getSkillDisplayName } from '@/utils/equipment-skills'
 
 const equipmentMap = {
   Sword: EquipmentSword,
@@ -34,11 +35,18 @@ export const useFilteredEquipment = (
 
     return items.filter(item => {
       // Check search term filter
-      if (
-        searchTerm &&
-        !item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      ) {
-        return false
+      if (searchTerm) {
+        const equipmentNameMatch = item.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+        const skillName = getSkillDisplayName(item.skillId)
+        const skillNameMatch = skillName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+
+        if (!equipmentNameMatch && !skillNameMatch) {
+          return false
+        }
       }
 
       // Check class restrictions filter
